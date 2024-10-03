@@ -24,7 +24,7 @@ function SocialButton({ href, icon: Icon, label }: SocialButtonProps) {
         href={
           href.startsWith('mailto:') || href.startsWith('tel:')
             ? href
-            : `${href}${href.includes('?') ? '&' : '?'}ref=selfso`
+            : `${href}${href.includes('?') ? '&' : '?'}ref=fudail.me`
         }
         aria-label={label}
         target="_blank"
@@ -95,11 +95,11 @@ export function Header({
   return (
     <header className="flex items-start md:items-center justify-between gap-4 ">
       <div className="flex-1 space-y-1.5">
-        <h1 className="text-2xl font-bold" id="resume-name">
+        <h1 className="text-3xl font-bold tracking-tighter sm:text-5xl xl:text-6xl/none" id="resume-name">
           {header.name}
         </h1>
         <p
-          className="max-w-md text-pretty font-mono text-sm text-design-resume print:text-[12px]"
+          className="max-w-[600px] text-pretty font-mono text-sm md:text-xl print:text-[12px]"
           aria-labelledby="resume-name"
         >
           {header.shortAbout}

@@ -27,7 +27,7 @@ export function Skills({ skills, className }: SkillsProps) {
         {skills.map((skill) => (
           <li key={skill}>
             <Badge
-              className="print:text-[10px] pointer-events-none"
+              className="print:text-[10px]"
               aria-label={`Skill: ${skill}`}
             >
               {skill}

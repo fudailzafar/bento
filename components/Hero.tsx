@@ -15,7 +15,7 @@ export function Hero() {
             <div className="w-full md:w-1/2 max-w-[378px] flex flex-col justify-center items-center md:items-start ">
               <div className="max-w-md text-center md:text-left">
                 <div className="inline-block font-mono gap-2.5 px-2.5 py-1.5 rounded bg-gray-100 text-sm mb-5 text-design-gray">
-                  100% free & open source
+                  100% free forever
                 </div>
 
                 <h1 className="text-[32px] font-bold mb-4 flex items-center justify-center md:justify-start gap-4 flex-wrap text-design-black font-mono leading-4">
