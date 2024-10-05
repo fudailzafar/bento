@@ -1,6 +1,7 @@
 import { ImageResponse } from 'next/og';
 import { NextRequest } from 'next/server';
 import { getUserData } from '../utils';
+import Image from 'next/image';
 
 export async function GET(request: NextRequest) {
   try {
@@ -49,7 +50,7 @@ export async function GET(request: NextRequest) {
             }}
           >
             <div style={{ display: 'flex', alignItems: 'center' }}>
-              <img
+              <Image
                 src="https://fudail.me/favicon.ico"
                 alt="Brand Logo"
                 style={{
@@ -122,7 +123,7 @@ export async function GET(request: NextRequest) {
                 justifyContent: 'center',
               }}
             >
-              <img
+              <Image
                 src={profileImageUrl || '/placeholder.svg'}
                 alt="Profile"
                 style={{

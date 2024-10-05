@@ -1,6 +1,8 @@
 import { Badge } from '@/components/ui/badge';
 import { Section } from '@/components/ui/section';
 import { cn } from '@/lib/utils';
+import BlurFade from '../magicui/blur-fade';
+const BLUR_FADE_DELAY = 0.04;
 
 type Skills = readonly string[];
 
@@ -16,22 +18,24 @@ interface SkillsProps {
 export function Skills({ skills, className }: SkillsProps) {
   return (
     <Section className={className}>
-      <h2 className="text-xl font-bold" id="skills-section">
-        Skills
-      </h2>
+      <BlurFade delay={BLUR_FADE_DELAY * 9} className='my-2'>
+        <h2 className="text-xl font-bold">Skills</h2>
+      </BlurFade> 
       <ul
-        className={cn('flex list-none flex-wrap gap-1 p-0')}
+        className={cn('flex list-none flex-wrap gap-1 p-0 gap-y-1')}
         aria-label="List of skills"
         aria-labelledby="skills-section"
       >
-        {skills.map((skill) => (
+        {skills.map((skill, id) => (
           <li key={skill}>
+            <BlurFade key={skill} delay={BLUR_FADE_DELAY * 10 + id * 0.05}>
             <Badge
               className="print:text-[10px]"
               aria-label={`Skill: ${skill}`}
             >
               {skill}
             </Badge>
+            </BlurFade>
           </li>
         ))}
       </ul>

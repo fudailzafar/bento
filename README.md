@@ -1,36 +1,46 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+<a href="https://www.fudail.me">
+  <img alt="Fudail" src="./public/og.png">
+  <h1 align="center">Fudail</h1>
+</a>
 
-## Getting Started
+<p align="center">
+  An open source personal site builder. Powered by Gemini.
+</p>
 
-First, run the development server:
+## Tech stack
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+- Together.ai for the LLM
+- Vercel's AI SDK as the LLM framework
+- Clerk for authentication
+- Next.js app router
+- Helicone for observability
+- S3 for object storage (PDFs)
+- Upstash redis for my DB
+- Vercel for hosting
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## How it works
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+1. Create an account on the site with Clerk
+2. Upload a PDF which gets uploaded to S3 and does a safety check with Llama Guard
+3. Send the PDF as context to Qwen 2.5 72B to extract out relevant information with structured outputs (JSON mode)
+4. Get all the information & put it on a dynamic route for the user to be able to view & publish their site
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Cloning & running
 
-## Learn More
+1. Fork or clone the repo
+2. Create an account at [Together AI](https://togetherai.link) for the LLM
+3. Create an account at [Upstash](https://upstash.com/) for the Redis DB
+4. Create an account at [AWS](https://aws.amazon.com/) for the S3 bucket
+5. Create a `.env` (use the `.example.env` for reference) and replace the API keys
+6. Run `pnpm install` and `pnpm run dev` to install dependencies and run locally
 
-To learn more about Next.js, take a look at the following resources:
+## Future tasks
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- [ ] Change llama 3.3 to Qwen 2.5 on the app
+- [ ] Add Helicone for observability
+- [ ] add error logging to make sure to fix any bugs
+- [ ] add ability to get to the "preview" page if you have a site already
+- [ ] ability to edit links in the site
+- [ ] ability to edit any section in the site
+- [ ] add themes that you can toggle on (start with ghibli)
+- [ ] Delete previously uploaded resume when we upload a new one

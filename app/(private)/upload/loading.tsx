@@ -1,5 +1,5 @@
-import LoadingFallback from "@/components/LoadingFallback";
+import LoadingFallback from '@/components/LoadingFallback';
 
-export default function Loading() {
+export default function LoadingUpload() {
   return <LoadingFallback message="" />;
 }

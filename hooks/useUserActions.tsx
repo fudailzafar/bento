@@ -69,7 +69,16 @@ export function useUserActions() {
 
     if (!response.ok) {
       const error = await response.json();
-      return Promise.reject(new Error(error));
+      // If error is an object, extract error.error and error.details
+      if (typeof error === 'object' && error !== null) {
+        return Promise.reject(
+          new Error(
+            (error.error || 'Unknown error') +
+              (error.details ? ': ' + JSON.stringify(error.details) : '')
+          )
+        );
+      }
+      return Promise.reject(new Error(String(error)));
     }
   };
 
@@ -99,6 +108,8 @@ export function useUserActions() {
         name: fileInfo.name,
         url: fileInfo.url,
         size: fileInfo.size,
+        key: '',
+        bucket: ''
       },
       resumeData: undefined,
       status: 'draft',
@@ -170,6 +181,13 @@ export function useUserActions() {
       const updatedResume: Resume = {
         ...resumeQuery.data.resume,
         resumeData: newResumeData,
+        file: resumeQuery.data.resume.file
+          ? {
+              ...resumeQuery.data.resume.file,
+              bucket: resumeQuery.data.resume.file.bucket || '',
+              key: resumeQuery.data.resume.file.key || '',
+            }
+          : undefined,
       };
 
       await internalResumeUpdate(updatedResume);

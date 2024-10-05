@@ -9,6 +9,7 @@ import { WorkExperienceField } from './WorkExperienceField';
 import { EducationField } from './EducationField';
 import { SkillField } from './SkillField';
 import { AddSkillDialog } from './AddSkillDialog';
+import { ProjectsField } from './ProjectsField';
 
 export const EditResume = ({
   resume,
@@ -34,6 +35,15 @@ export const EditResume = ({
     }
   };
 
+  // Helper to normalize projects so each has skills: []
+  const normalizeResume = (resume: ResumeData): ResumeData => ({
+    ...resume,
+    projects: (resume.projects || []).map((project) => ({
+      ...project,
+      skills: Array.isArray(project.skills) ? project.skills : [],
+    })),
+  });
+
   return (
     <section
       className="mx-auto w-full max-w-2xl space-y-8 bg-white my-8"
@@ -51,13 +61,13 @@ export const EditResume = ({
               id="name"
               value={resume?.header?.name || ''}
               onChange={(e) => {
-                onChangeResume({
+                onChangeResume(normalizeResume({
                   ...resume,
                   header: {
                     ...resume.header,
                     name: e.target.value,
                   },
-                });
+                }));
               }}
               placeholder="Your full name"
             />
@@ -75,13 +85,13 @@ export const EditResume = ({
               id="location"
               value={resume?.header?.location || ''}
               onChange={(e) => {
-                onChangeResume({
+                onChangeResume(normalizeResume({
                   ...resume,
                   header: {
                     ...resume.header,
                     location: e.target.value,
                   },
-                });
+                }));
               }}
               placeholder="Your location"
             />
@@ -95,16 +105,16 @@ export const EditResume = ({
               Short About
             </Label>
             <textarea
-              className="w-full p-2 border rounded-md font-mono text-sm"
+              className="w-full p-2 border rounded-md  text-sm"
               value={resume?.header?.shortAbout || ''}
               onChange={(e) => {
-                onChangeResume({
+                onChangeResume(normalizeResume({
                   ...resume,
                   header: {
                     ...resume.header,
                     shortAbout: e.target.value,
                   },
-                });
+                }));
               }}
               rows={4}
               placeholder="Brief description about yourself..."
@@ -124,7 +134,7 @@ export const EditResume = ({
                 id="email"
                 value={resume?.header?.contacts?.email || ''}
                 onChange={(e) => {
-                  onChangeResume({
+                  onChangeResume(normalizeResume({
                     ...resume,
                     header: {
                       ...resume.header,
@@ -133,7 +143,7 @@ export const EditResume = ({
                         email: e.target.value,
                       },
                     },
-                  });
+                  }));
                 }}
                 placeholder="Your email address"
               />
@@ -151,7 +161,7 @@ export const EditResume = ({
                 id="phone"
                 value={resume?.header?.contacts?.phone || ''}
                 onChange={(e) => {
-                  onChangeResume({
+                  onChangeResume(normalizeResume({
                     ...resume,
                     header: {
                       ...resume.header,
@@ -160,7 +170,7 @@ export const EditResume = ({
                         phone: e.target.value,
                       },
                     },
-                  });
+                  }));
                 }}
                 placeholder="Your phone number"
               />
@@ -221,7 +231,7 @@ export const EditResume = ({
                         ] || ''
                       }
                       onChange={(e) => {
-                        onChangeResume({
+                        onChangeResume(normalizeResume({
                           ...resume,
                           header: {
                             ...resume.header,
@@ -230,7 +240,7 @@ export const EditResume = ({
                               [key]: e.target.value,
                             },
                           },
-                        });
+                        }));
                       }}
                       placeholder={placeholder}
                     />
@@ -247,13 +257,13 @@ export const EditResume = ({
         <div className="space-y-2">
           <h2 className="text-xl font-bold">About</h2>
           <textarea
-            className="w-full p-2 border rounded-md font-mono text-sm"
+            className="w-full p-2 border rounded-md  text-sm"
             value={resume?.summary}
             onChange={(e) => {
-              onChangeResume({
+              onChangeResume(normalizeResume({
                 ...resume,
                 summary: e.target.value,
-              });
+              }));
             }}
             rows={4}
             placeholder="Enter your professional summary..."
@@ -272,18 +282,18 @@ export const EditResume = ({
                 onUpdate={(index, updatedWork) => {
                   const newWorkExperience = [...resume.workExperience];
                   newWorkExperience[index] = updatedWork;
-                  onChangeResume({
+                  onChangeResume(normalizeResume({
                     ...resume,
                     workExperience: newWorkExperience,
-                  });
+                  }));
                 }}
                 onDelete={(index) => {
                   const newWorkExperience = [...resume.workExperience];
                   newWorkExperience.splice(index, 1);
-                  onChangeResume({
+                  onChangeResume(normalizeResume({
                     ...resume,
                     workExperience: newWorkExperience,
-                  });
+                  }));
                 }}
               />
             ))}
@@ -322,18 +332,18 @@ export const EditResume = ({
                 onUpdate={(index, updatedEdu) => {
                   const newEducation = [...resume.education];
                   newEducation[index] = updatedEdu;
-                  onChangeResume({
+                  onChangeResume(normalizeResume({
                     ...resume,
                     education: newEducation,
-                  });
+                  }));
                 }}
                 onDelete={(index) => {
                   const newEducation = [...resume.education];
                   newEducation.splice(index, 1);
-                  onChangeResume({
+                  onChangeResume(normalizeResume({
                     ...resume,
                     education: newEducation,
-                  });
+                  }));
                 }}
               />
             ))}
@@ -364,24 +374,24 @@ export const EditResume = ({
                 onUpdate={(index, updatedSkill) => {
                   const newSkills = [...resume.header.skills];
                   newSkills[index] = updatedSkill;
-                  onChangeResume({
+                  onChangeResume(normalizeResume({
                     ...resume,
                     header: {
                       ...resume.header,
                       skills: newSkills,
                     },
-                  });
+                  }));
                 }}
                 onDelete={(index) => {
                   const newSkills = [...resume.header.skills];
                   newSkills.splice(index, 1);
-                  onChangeResume({
+                  onChangeResume(normalizeResume({
                     ...resume,
                     header: {
                       ...resume.header,
                       skills: newSkills,
                     },
-                  });
+                  }));
                 }}
               />
             ))}
@@ -394,6 +404,82 @@ export const EditResume = ({
             open={isAddSkillDialogOpen}
             onOpenChange={setIsAddSkillDialogOpen}
             onAddSkill={handleAddSkill}
+          />
+        </div>
+
+        {/* Projects Section */}
+        <div className="space-y-4">
+          <h2 className="text-xl font-bold">My Projects</h2>
+          <div className="space-y-4">
+            {resume?.projects?.map((project, index) => (
+              <div key={index} className="space-y-2">
+                <ProjectsField
+                  project={{
+                    ...project,
+                    skills: Array.isArray(project.skills) ? project.skills : [],
+                  }}
+                  index={index}
+                  onUpdate={(index, updatedWork) => {
+                    const newProject = [...resume.projects];
+                    newProject[index] = {
+                      ...updatedWork,
+                      skills:
+                        Array.isArray(updatedWork.skills)
+                          ? updatedWork.skills
+                          : resume.projects[index].skills ?? [],
+                    };
+                    onChangeResume(normalizeResume({
+                      ...resume,
+                      projects: newProject,
+                    }));
+                  }}
+                  onDelete={(index) => {
+                    const newProject = [...resume.projects];
+                    newProject.splice(index, 1);
+                    onChangeResume(normalizeResume({
+                      ...resume,
+                      projects: newProject,
+                    }));
+                  }}
+                />
+              </div>
+            ))}
+            <AddButton
+              label="Add Projects"
+              onClick={() => {
+                onChangeResume(normalizeResume({
+                  ...resume,
+                  projects: [
+                    ...(resume.projects || []),
+                    {
+                      title: '',
+                      description: '',
+                      githubLink: '',
+                      liveLink: '',
+                      start: '',
+                      skills: [],
+                    },
+                  ],
+                }));
+              }}
+            />
+          </div>
+        </div>
+
+        {/* Contact CTA Section */}
+        <div className="space-y-2">
+          <h2 className="text-xl font-bold">Contact</h2>
+          <textarea
+            className="w-full p-2 border rounded-md text-sm"
+            value={resume?.contact || ''}
+            onChange={(e) => {
+              onChangeResume(normalizeResume({
+                ...resume,
+                contact: e.target.value,
+              }));
+            }}
+            rows={2}
+            placeholder="Enter a catchy phrase for call-to-action..."
           />
         </div>
       </div>

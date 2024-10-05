@@ -183,7 +183,7 @@ export default function PreviewClient({ messageTip }: { messageTip?: string }) {
               if (newStatus === "draft") {
                 toast.warning("Your website has been unpublished");
               } else {
-                toast.custom((t) => <CustomLiveToast />);
+                toast.custom(() => <CustomLiveToast />);
               }
             }
           }}
