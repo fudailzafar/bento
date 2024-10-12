@@ -13,8 +13,8 @@ const fontSans = FontSans({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://fudail.me'),
-  title: 'fudail.me - Resume to Website',
+  metadataBase: new URL('https://portfolio.fudail.me'),
+  title: 'portfolio.fudail.me - Resume to Website',
   description:
     'LinkedIn to Portfolio in one click! Powered by Gemini and Fudail',
   openGraph: {
@@ -29,7 +29,7 @@ export default function RootLayout({
 }) {
   return (
     <ClerkProvider>
-      <PlausibleProvider domain="fudail.me">
+      <PlausibleProvider domain="portfolio.fudail.me">
         <ReactQueryClientProvider>
           <html lang="en">
             <head>

@@ -165,7 +165,7 @@ export default function UsernameEditorView({
   initialUsername,
   isOpen,
   onClose,
-  prefix = 'fudail.me/',
+  prefix = 'portfolio.fudail.me/',
 }: {
   initialUsername: string;
   isOpen: boolean;

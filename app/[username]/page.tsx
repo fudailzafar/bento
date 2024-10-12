@@ -78,34 +78,34 @@ export async function generateMetadata({
   const profilePicture = clerkUser?.imageUrl;
   if (!user_id) {
     return {
-      title: 'User Not Found | fudail.me',
-      description: 'This user profile could not be found on fudail.me',
+      title: 'User Not Found | portfolio.fudail.me',
+      description: 'This user profile could not be found on portfolio.fudail.me',
     };
   }
 
   if (!resume?.resumeData || resume.status !== 'live') {
     return {
-      title: 'Resume Not Found | fudail.me',
-      description: 'This resume could not be found on fudail.me',
+      title: 'Resume Not Found | portfoliofudail.me',
+      description: 'This resume could not be found on portfolio.fudail.me',
     };
   }
 
   return {
-    title: `${resume.resumeData.header.name}'s Resume | fudail.me`,
+    title: `${resume.resumeData.header.name}'s Portfolio | portfolio.fudail.me`,
     description: resume.resumeData.summary,
     icons: {
       icon: profilePicture,
       shortcut: profilePicture,
     },
     openGraph: {
-      title: `${resume.resumeData.header.name}'s Resume | fudail.me`,
+      title: `${resume.resumeData.header.name}'s Portfolio | portfolio.fudail.me`,
       description: resume.resumeData.summary,
       images: [
         {
-          url: `https://fudail.me/${username}/og`,
+          url: `https://portfolio.fudail.me/${username}/og`,
           width: 1200,
           height: 630,
-          alt: 'fudail.me Profile',
+          alt: 'portfolio.fudail.me Profile',
         },
       ],
     },
@@ -136,7 +136,7 @@ export default async function ProfilePage({
     jobTitle: header.shortAbout,
     description: resume.resumeData.summary,
     email: header.contacts.email && `mailto:${header.contacts.email}`,
-    url: `https://fudail.me/${username}`,
+    url: `https://portfolio.fudail.me/${username}`,
     skills: header.skills,
   };
 
@@ -153,7 +153,7 @@ export default async function ProfilePage({
         <Link href={`/?ref=${username}`} className="text-design-gray text-sm">
           Made with 💖 using{' '}
           <span className="text-design-black underline underline-offset-2">
-            fudail.me
+            portfolio.fudail.me
           </span>
         </Link>
       </div>

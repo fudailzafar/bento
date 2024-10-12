@@ -14,7 +14,7 @@ export function getDomainUrl(username: string) {
   const domain =
     process.env.NODE_ENV === "development"
       ? "http://localhost:3000"
-      : "https://fudail.me";
+      : "https://portfolio.fudail.me";
   return `${domain}/${username}`;
 }
 

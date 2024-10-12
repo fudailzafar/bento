@@ -1,6 +1,6 @@
-<a href="https://www.fudail.me">
+<a href="https://portfolio.fudail.me">
   <img alt="Fudail" src="./public/og.png">
-  <h1 align="center">Fudail</h1>
+  <h1 align="center">Portfoliofy</h1>
 </a>
 
 <p align="center">
