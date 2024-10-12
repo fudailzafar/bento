@@ -164,7 +164,7 @@ export default function UploadPageClient() {
             ) : (
               <>
                 <WandSparkles className="h-5 w-5 mr-2" />
-                Generate Website
+                Generate Portfolio
               </>
             )}
           </Button>

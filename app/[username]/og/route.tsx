@@ -1,4 +1,4 @@
-import { ImageResponse } from 'next/og';
+import { ImageResponse } from '@vercel/og';
 import { NextRequest } from 'next/server';
 import { getUserData } from '../utils';
 
@@ -50,7 +50,7 @@ export async function GET(request: NextRequest) {
           >
             <div style={{ display: 'flex', alignItems: 'center' }}>
               <img
-                src="https://portfolio.fudail.me/favicon.ico"
+                src="https://portfolio.fudail.me/logo.png"
                 alt="Brand Logo"
                 style={{
                   width: '144px',
