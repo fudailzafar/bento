@@ -14,13 +14,13 @@ const fontSans = FontSans({
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://portfolio.fudail.me'),
-  title: 'Portfoliofy - Your Personal Portfolio, but Rich and Beautiful',
+  title: 'Portfoliofy - Your Personal Portfolio, but Rich and Beautiful.',
   description:
-    'LinkedIn to Portfolio in one click! Powered by Gemini and Fudail',
+    'Create a beautiful personal portfolio to show your professional experience, education, and everything you are and create - in one place.',
   openGraph: {
-    title: "Portfoliofy - Your Personal Portfolio, but Rich and Beautiful",
+    title: "Portfoliofy - Your Personal Portfolio, but Rich and Beautiful.",
     description:
-      "LinkedIn to Portfolio in one click! Powered by Gemini and Fudail",
+      "Create a beautiful personal portfolio to show your professional experience, education, and everything you are and create - in one place.",
     url: "https://portfolio.fudail.me",
     siteName: "Consicio",
     images: [
