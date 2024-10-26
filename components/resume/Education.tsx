@@ -18,8 +18,18 @@ function EducationItem({
   const { school, start, end, degree } = education;
 
   // Skip rendering if required fields are missing
-  if (!school || !degree || !start) {
+  if (!school || !degree) {
     return null;
+  }
+
+  // Prepare period string
+  let period = '—';
+  if (start && end) {
+    period = `${getYear(start)} - ${getYear(end)}`;
+  } else if (start) {
+    period = `${getYear(start)} - Present`;
+  } else if (end) {
+    period = `Until ${getYear(end)}`;
   }
 
   return (
@@ -34,11 +44,9 @@ function EducationItem({
           </h3>
           <div
             className="text-sm tabular-nums text-gray-500"
-            aria-label={`Period: ${getYear(start)} to ${
-              end ? ` ${getYear(end)}` : 'Present'
-            }`}
+            aria-label={`Period: ${period}`}
           >
-            {getYear(start)} - {end ? `${getYear(end)}` : 'Present'}
+            {period}
           </div>
         </div>
       </CardHeader>
@@ -48,7 +56,7 @@ function EducationItem({
           .toLowerCase()
           .replace(/\s+/g, '-')}`}
       >
-        {degree}
+        {degree || ''}
       </CardContent>
     </Card>
   );
@@ -75,27 +83,24 @@ export function Education({
 
   return (
     <Section>
-        <BlurFade delay={BLUR_FADE_DELAY * 7}>
-          <h2 className="text-xl font-bold mb-2" id="education-section">
-            Education
-          </h2>
-        </BlurFade>
-        <div
-          className="space-y-4"
-          role="feed"
-          aria-labelledby="education-section"
-        >
-          {validEducations.map((item, idx) => (
-            <BlurFade
-              key={item.school}
-              delay={BLUR_FADE_DELAY * 8 + idx * 0.05}
-            >
-              <article key={idx} role="article">
-                <EducationItem education={item} />
-              </article>
-            </BlurFade>
-          ))}
-        </div>
+      <BlurFade delay={BLUR_FADE_DELAY * 7}>
+        <h2 className="text-xl font-bold mb-2" id="education-section">
+          Education
+        </h2>
+      </BlurFade>
+      <div
+        className="space-y-4"
+        role="feed"
+        aria-labelledby="education-section"
+      >
+        {validEducations.map((item, idx) => (
+          <BlurFade key={item.school} delay={BLUR_FADE_DELAY * 8 + idx * 0.05}>
+            <article key={idx} role="article">
+              <EducationItem education={item} />
+            </article>
+          </BlurFade>
+        ))}
+      </div>
     </Section>
   );
 }
