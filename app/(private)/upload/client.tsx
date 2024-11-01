@@ -71,7 +71,7 @@ export default function UploadPageClient() {
 
   return (
     <div className="flex flex-col items-center flex-1 px-4 py-12 gap-6">
-      <div className="w-full max-w-[438px] text-center font-mono">
+      <div className="w-full max-w-[438px] text-center">
         <h1 className="text-base text-center pb-6">
           Upload a PDF of your LinkedIn or your resume and generate your
           personal site
@@ -132,7 +132,7 @@ export default function UploadPageClient() {
           <DialogTrigger asChild>
             <Button
               variant="ghost"
-              className="mt-3 hover:bg-white border border-transparent hover:border-gray-200 font-mono text-center cursor-help flex flex-row gap-1.5 justify-center mx-auto"
+              className="mt-3 hover:bg-white border border-transparent hover:border-gray-200 text-center cursor-help flex flex-row gap-1.5 justify-center mx-auto"
             >
               <span className="ml-1 inline-block w-4 h-4 rounded-full border border-gray-300 items-center justify-center text-xs cursor-help">
                 i
@@ -142,15 +142,15 @@ export default function UploadPageClient() {
               </p>
             </Button>
           </DialogTrigger>
-          <DialogContent className="w-full max-w-[652px] text-center font-mono !p-0 gap-0">
-            <DialogTitle className="font-mono text-base text-center text-design-gray px-7 py-4">
+          <DialogContent className="w-full max-w-[652px] text-center !p-0 gap-0">
+            <DialogTitle className="text-base text-center text-design-gray px-7 py-4">
               Go to your profile → Click on “Resources” → Then “Save to PDF”
             </DialogTitle>
             <img src="/linkedin-save-to-pdf.png" className="h-auto w-full" />
           </DialogContent>
         </Dialog>
       </div>
-      <div className="font-mono">
+      <div>
         <div className="relative">
           <Button
             className="px-4 py-3 h-auto bg-black hover:bg-black/75 cursor-pointer"

@@ -33,20 +33,79 @@ async function LLMProcessing({ userId }: { userId: string }) {
           name:
             user?.fullName || user?.emailAddresses[0]?.emailAddress || 'user',
           shortAbout: 'This is a short description of your profile',
-          location: '',
-          contacts: {},
-          skills: ['Add your skills here'],
+          location: 'Your City, Your Country',
+          contacts: {
+            email: 'your@email.com',
+            phone: '+1 234 567 890',
+            website: 'your-portfolio.com',
+            linkedin: 'yourusername',
+            github: 'yourusername',
+            twitter: 'yourusername',
+          },
+          skills: [
+            'Add your skills here',
+            'More skills here',
+            'And even more skills here lol',
+          ],
         },
         summary: 'You should add a summary here',
-        workExperience: [],
-        education: [],
-        contact: 'Help taken from Safwaan bhai to fix this error',
-        projects: [],
+        workExperience: [
+          {
+            company: 'Your Company',
+            location: 'Your company location',
+            contract: 'Hybrid/On-site/Remote',
+            role: 'Your Job Title',
+            start: 'Jan 2023',
+            end: '',
+            description:
+              'Worked on exciting projects that improved product usability, performance, and customer happiness.',
+          },
+          {
+            company: 'Another Company',
+            role: 'Previous Job Title',
+            location: 'Your company location',
+            contract: 'Hybrid/On-site/Remote',
+            start: 'Jun 2021',
+            end: 'Dec 2022',
+            description:
+              'Contributed to feature development, collaborated with teammates, and helped ship products that matter.',
+          },
+        ],
+        education: [
+          {
+            school: 'Your University',
+            degree: 'Bachelor of Technology in Computer Science',
+            start: '2019',
+            end: '2023',
+          },
+          {
+            school: 'Your High School',
+            degree: 'High School Diploma',
+            start: '2017',
+            end: '2019',
+          },
+        ],
+        contact:
+          'Write some text here... maybe a catchy phrase for people to contact you? 👀',
+        projects: [
+          {
+            title: 'Cool Project 1',
+            githubLink: 'https://github.com/yourusername/project1',
+            description:
+              'A fun side project that shows off your creativity and technical skills.',
+          },
+          {
+            title: 'Cool Project 2',
+            githubLink: 'https://github.com/yourusername/project2',
+            description:
+              'Another project that solves a real problem and demonstrates your ability to deliver.',
+          },
+        ],
       };
     }
 
     await storeResume(userId, {
-      ...resume,
+    ...resume,
       resumeData: resumeObject,
     });
     resume.resumeData = resumeObject;
@@ -91,7 +150,7 @@ export default async function Preview() {
     <>
       <Suspense
         fallback={
-          <LoadingFallback message="Creating your personal website..." />
+          <LoadingFallback message="Creating your personal portfolio..." />
         }
       >
         <LLMProcessing userId={userId} />
