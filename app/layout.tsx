@@ -5,7 +5,7 @@ import './globals.css';
 import { Toaster } from '@/components/ui/sonner';
 import { ReactQueryClientProvider } from '@/components/ReactQueryClientProvider';
 import { Metadata } from 'next';
-import PlausibleProvider from 'next-plausible';
+import { GoogleAnalytics } from '@next/third-parties/google'
 
 const fontSans = FontSans({
   subsets: ["latin"],
@@ -43,7 +43,6 @@ export default function RootLayout({
 }) {
   return (
     <ClerkProvider>
-      <PlausibleProvider domain="portfolio.fudail.me">
         <ReactQueryClientProvider>
           <html lang="en">
             <head>
@@ -58,10 +57,10 @@ export default function RootLayout({
             <body className={`${fontSans.className} min-h-screen flex flex-col`}>
               <main className="flex-1 flex flex-col">{children}</main>
               <Toaster richColors position="bottom-center" />
+              <GoogleAnalytics gaId={process.env.GOOGLE_ANALYTICS_MEASUREMENT_ID ?? ''} />
             </body>
           </html>
         </ReactQueryClientProvider>
-      </PlausibleProvider>
     </ClerkProvider>
   );
 }
