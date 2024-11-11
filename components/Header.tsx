@@ -1,6 +1,6 @@
-import Link from "next/link";
-import { Button } from "@/components/ui/button";
-import { SignedIn, SignedOut, UserButton } from "@clerk/nextjs";
+import Link from 'next/link';
+import { Button } from '@/components/ui/button';
+import { SignedIn, SignedOut, UserButton } from '@clerk/nextjs';
 
 export function Header() {
   return (
@@ -16,32 +16,20 @@ export function Header() {
             <UserButton />
           </SignedIn>
           <SignedOut>
-            <div className="flex flex-row gap-3  ">
-              <a
-                href="https://github.com/fudailzafar"
-                target="_blank"
-                rel="noreferrer"
-              >
-                <Button
-                  variant="outline"
-                  className=" flex flex-row gap-1.5 py-2 px-4 border-gray-300 text-design-gray text-sm font-medium cursor-pointer"
-                >
-                  <img
-                    src="/github.svg"
-                    alt="Github Logo"
-                    className="size-[14px]"
-                  />
-                  <span>Github</span>
-                </Button>
-              </a>
+            <div className="flex flex-row gap-3">
               <Link href="/upload">
                 <Button
                   variant="default"
                   className="text-sm font-medium py-2 px-4 bg-black hover:bg-black/65 cursor-pointer"
                 >
-                  Sign up
+                  Create Your Portfolio
                 </Button>
               </Link>
+              <Button variant={'ghost'}>
+                <Link href={'/preview'} className="text-design-gray">
+                  Log In
+                </Link>
+              </Button>
             </div>
           </SignedOut>
         </div>
