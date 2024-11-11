@@ -93,15 +93,15 @@ export async function generateMetadata({
   }
 
   return {
-    title: `${resume.resumeData.header.name}'s Portfolio | portfolio.fudail.me`,
-    description: resume.resumeData.summary,
+    title: `${resume.resumeData.header.name}`,
+    description: resume.resumeData.header.shortAbout,
     icons: {
       icon: profilePicture,
       shortcut: profilePicture,
     },
     openGraph: {
-      title: `${resume.resumeData.header.name}'s Portfolio | portfolio.fudail.me`,
-      description: resume.resumeData.summary,
+      title: `${resume.resumeData.header.name}'s Portfolio`,
+      description: resume.resumeData.header.shortAbout,
       images: [
         {
           url: `https://portfolio.fudail.me/${username}/og`,
