@@ -100,7 +100,7 @@ export async function generateMetadata({
       shortcut: profilePicture,
     },
     openGraph: {
-      title: `${resume.resumeData.header.name}'s Portfolio`,
+      title: `${resume.resumeData.header.name}`,
       description: resume.resumeData.header.shortAbout,
       images: [
         {
