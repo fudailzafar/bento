@@ -5,11 +5,11 @@ import './globals.css';
 import { Toaster } from '@/components/ui/sonner';
 import { ReactQueryClientProvider } from '@/components/ReactQueryClientProvider';
 import { Metadata } from 'next';
-import { GoogleAnalytics } from '@next/third-parties/google'
+import { GoogleAnalytics } from '@next/third-parties/google';
 
 const fontSans = FontSans({
-  subsets: ["latin"],
-  variable: "--font-sans",
+  subsets: ['latin'],
+  variable: '--font-sans',
 });
 
 export const metadata: Metadata = {
@@ -18,21 +18,21 @@ export const metadata: Metadata = {
   description:
     'Create a beautiful personal portfolio to show your professional experience, education, and everything you are and create - in one place.',
   openGraph: {
-    title: "Portfoliofy - Your Personal Portfolio, but Rich and Beautiful.",
+    title: 'Portfoliofy - Your Personal Portfolio, but Rich and Beautiful.',
     description:
-      "Create a beautiful personal portfolio to show your professional experience, education, and everything you are and create - in one place.",
-    url: "https://portfolio.fudail.me",
-    siteName: "Consicio",
+      'Create a beautiful personal portfolio to show your professional experience, education, and everything you are and create - in one place.',
+    url: 'https://portfolio.fudail.me',
+    siteName: 'Consicio',
     images: [
       {
-        url: "https://portfolio.fudail.me/og.png",
+        url: 'https://portfolio.fudail.me/og.png',
         width: 1200,
         height: 630,
-        alt: "Portfoliofy OG Image",
+        alt: 'Portfoliofy OG Image',
       },
     ],
-    locale: "en_US",
-    type: "website",
+    locale: 'en_US',
+    type: 'website',
   },
 };
 
@@ -43,24 +43,24 @@ export default function RootLayout({
 }) {
   return (
     <ClerkProvider>
-        <ReactQueryClientProvider>
-          <html lang="en">
-            <head>
-              {/* {process.env.NODE_ENV === "development" && (
+      <ReactQueryClientProvider>
+        <html lang="en">
+          <head>
+            {/* {process.env.NODE_ENV === "development" && (
               <script
                 crossOrigin="anonymous"
                 src="//unpkg.com/react-scan/dist/auto.global.js"
               />
             )} */}
-              {/* rest of your scripts go under */}
-            </head>
-            <body className={`${fontSans.className} min-h-screen flex flex-col`}>
-              <main className="flex-1 flex flex-col">{children}</main>
-              <Toaster richColors position="bottom-center" />
-              <GoogleAnalytics gaId="G-B99MN9ZMBL" />
-            </body>
-          </html>
-        </ReactQueryClientProvider>
+            {/* rest of your scripts go under */}
+          </head>
+          <body className={`${fontSans.className} min-h-screen flex flex-col`}>
+            <main className="flex-1 flex flex-col">{children}</main>
+            <Toaster richColors position="bottom-center" />
+            <GoogleAnalytics gaId="G-B99MN9ZMBL" />
+          </body>
+        </html>
+      </ReactQueryClientProvider>
     </ClerkProvider>
   );
 }

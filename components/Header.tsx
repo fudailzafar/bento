@@ -17,7 +17,7 @@ export function Header() {
           </SignedIn>
           <SignedOut>
             <div className="flex flex-row gap-3">
-              <Link href="/upload">
+              <Link href="/signup">
                 <Button
                   variant="default"
                   className="text-sm font-medium py-2 px-4 bg-black hover:bg-black/65 cursor-pointer"
@@ -26,7 +26,7 @@ export function Header() {
                 </Button>
               </Link>
               <Button variant={'ghost'}>
-                <Link href={'/preview'} className="text-design-gray">
+                <Link href={'/login'} className="text-design-gray">
                   Log In
                 </Link>
               </Button>

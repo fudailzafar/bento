@@ -20,6 +20,7 @@ import { cn } from '@/lib/utils';
 import { AnimatedThemeToggler } from '@/components/magicui/animated-theme-toggler';
 import DockClient from '@/components/magicui/DockClient';
 import Image from 'next/image';
+import BlurFade from '@/components/magicui/blur-fade';
 
 interface SocialButtonProps {
   href: string;
@@ -122,7 +123,77 @@ export default async function ProfilePage({
   const { username } = await params;
   const { user_id, resume, clerkUser } = await getUserData(username);
 
-  if (!user_id) redirect(`/notfound/${username}`);
+  // If user_id is not found, render notfound UI directly
+  if (!user_id) {
+    return (
+      <div className="flex flex-col mt-16 mb-1 items-center justify-center bg-white">
+      {/* Logo */}
+      <BlurFade delay={3} duration={0.5}>
+        <div className="mb-1">
+          <div className="rounded-full p-10">
+            <Image
+              src={'/icons/android-chrome-512x512.png'}
+              alt=""
+              className="rounded-md"
+              width={65}
+              height={45}
+            />
+          </div>
+        </div>
+      </BlurFade>
+
+      {/* Username display */}
+      <BlurFade delay={0.5} duration={2}>
+        <div className="relative flex items-center mb-2 px-6 py-4 rounded-xl bg-gray-100">
+          <span className="text-[24px] md:text-[40px] font-semibold text-design-gray">
+            portfoliofy.com/
+            <span className="text-design-black">{username}</span>
+          </span>
+          <BlurFade delay={2} duration={0.5}>
+            <h1 className="ml-2 px-3 py-1.5 bg-[#4EDD76] text-white rounded-lg font-semibold text-base absolute -top-14 -right-12 shadow rotate-2">
+              Available!
+            </h1>
+          </BlurFade>
+        </div>
+      </BlurFade>
+      <BlurFade delay={3} duration={0.5}>
+        <div className="text-center mt-2 mb-5">
+          <p className="text-design-gray text-center">
+            Portfoliofy is the most beautiful portfolio.
+          </p>
+          <p className="text-design-gray">
+            And it’s all free.{' '}
+            <Link href={'/'}>
+              <span className="underline cursor-pointer text-design-black">
+                Learn more
+              </span>
+            </Link>
+          </p>
+        </div>
+      </BlurFade>
+      <BlurFade delay={3} duration={0.5}>
+        <div className="mt-2">
+          <Link href="/signup">
+            <Button className="relative group rounded-lg flex items-center bg-black hover:bg-black/75 text-white px-4 py-3 h-auto text-lg font-bold overflow-hidden cursor-pointer">
+              <div className="h-[120px] w-10 bg-gradient-to-r from-white/10 via-white/50 to-white/10 absolute blur-sm -rotate-45 -left-16 group-hover:left-[150%] duration-500 delay-200" />
+              <span className="relative">Claim Handle Now</span>
+            </Button>
+          </Link>
+        </div>
+      </BlurFade>
+      <BlurFade delay={2.5}>
+        <Image
+          src={'/cv-not-found.png'}
+          alt=""
+          width={415}
+          height={0}
+          className="absolute bottom-0 object-cover rotate-3"
+        />
+      </BlurFade>
+    </div>
+    );
+  }
+
   if (!resume?.resumeData || resume.status !== 'live')
     redirect(`/?idNotFound=${user_id}`);
 
@@ -154,7 +225,7 @@ export default async function ProfilePage({
       <div className="text-center z-50 mb-32 gap-5 flex justify-center items-center">
         <Button className="bg-design-black text-design-white dark:bg-design-white dark:text-design-black">
           <Link
-            href={`/?ref=${username}`}
+            href={"/signup"}
             className="text-design-white text-sm flex flex-row gap-3"
           >
             <Image src={'/favicon.ico'} alt="" width={20} height={15} />
@@ -167,7 +238,7 @@ export default async function ProfilePage({
           </Link>
         </Button>
         <Button variant={'ghost'}>
-          <Link href={'/upload'} className="text-design-gray">
+          <Link href={'/login'} className="text-design-gray">
             Log In
           </Link>
         </Button>
