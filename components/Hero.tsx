@@ -1,8 +1,8 @@
-import Link from "next/link";
-import { Button } from "./ui/button";
-import { BlurFade } from "./ui/BlurFade";
-import Image from "next/image";
-import { MousePointerClick, WandSparkles } from "lucide-react";
+import Link from 'next/link';
+import { Button } from './ui/button';
+import { BlurFade } from './ui/BlurFade';
+import Image from 'next/image';
+import { MousePointerClick, WandSparkles } from 'lucide-react';
 
 export function Hero() {
   return (

@@ -105,7 +105,7 @@ async function LLMProcessing({ userId }: { userId: string }) {
     }
 
     await storeResume(userId, {
-    ...resume,
+      ...resume,
       resumeData: resumeObject,
     });
     resume.resumeData = resumeObject;

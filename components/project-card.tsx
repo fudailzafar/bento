@@ -83,7 +83,11 @@ export function ProjectCard({
           </div>
           <div
             className="prose max-w-full text-pretty font-sans text-xs text-muted-foreground dark:prose-invert overflow-y-auto scrollbar-hide"
-            style={{ maxHeight: '6rem', scrollbarWidth: 'none', msOverflowStyle: 'none' }}
+            style={{
+              maxHeight: '6rem',
+              scrollbarWidth: 'none',
+              msOverflowStyle: 'none',
+            }}
           >
             <style>{`
               .scrollbar-hide::-webkit-scrollbar { display: none; }

@@ -44,7 +44,7 @@ export const AnimatedThemeToggler = ({ className }: props) => {
         duration: 700,
         easing: 'ease-in-out',
         pseudoElement: '::view-transition-new(root)',
-      }
+      },
     );
   };
   return (
@@ -54,7 +54,7 @@ export const AnimatedThemeToggler = ({ className }: props) => {
       className={cn(
         buttonVariants({ variant: 'ghost', size: 'icon' }),
         className,
-        "rounded-full"
+        'rounded-full',
       )}
     >
       {isDarkMode ? (

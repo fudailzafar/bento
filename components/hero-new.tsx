@@ -1,0 +1,111 @@
+'use client';
+
+import { Icons } from '@/components/icons';
+import { Section } from './ui/section';
+import { easeInOutCubic } from '@/lib/animation';
+import { motion, useScroll, useTransform } from 'framer-motion';
+import Link from 'next/link';
+import { Button } from './ui/button';
+import Image from 'next/image';
+import { ArrowRight } from 'lucide-react';
+
+export function HeroNew() {
+  const { scrollY } = useScroll({
+    offset: ['start start', 'end start'],
+  });
+  const y1 = useTransform(scrollY, [0, 300], [100, 0]);
+  const y2 = useTransform(scrollY, [0, 300], [50, 0]);
+  const y3 = useTransform(scrollY, [0, 300], [0, 0]);
+  const y4 = useTransform(scrollY, [0, 300], [50, 0]);
+  const y5 = useTransform(scrollY, [0, 300], [100, 0]);
+
+  return (
+    <>
+      {/* Top banner section */}
+      <div className="w-full bg-design-black hover:bg-design-gray text-design-white text-center py-5 text-base font-light flex items-center justify-center">
+        <a
+          href="https://portfolio.fudail.me/fudail"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="flex items-center gap-1"
+        >
+          Big news! Portfoliofy just launched! <ArrowRight size={20} />
+        </a>
+      </div>
+      {/* Main hero section */}
+      <Section id="hero" className="min-h-[100vh] w-full overflow-hidden">
+        <main className="mx-auto pt-14 sm:pt-24 md:pt-32 text-center relative px-4">
+          <div className="relative">
+            <motion.div
+              initial={{ scale: 4.5, height: '80vh' }}
+              animate={{ scale: 1, height: '10vh' }}
+              transition={{
+                scale: { delay: 0, duration: 1.8, ease: easeInOutCubic },
+                height: { delay: 0, duration: 1.8, ease: easeInOutCubic },
+              }}
+              className="mb-16 relative z-20"
+              style={{ transformOrigin: 'top' }}
+            >
+              <div className="-mt-16 bg-primary text-white text-xl font-bold p-4 h-20 w-20 flex items-center justify-center rounded-3xl mx-auto shadow-md">
+                <Image
+                  src={'/icons/android-chrome-512x512.png'}
+                  alt=""
+                  width={1}
+                  height={1}
+                  className="w-auto h-[40px] rounded-xl"
+                />
+              </div>
+            </motion.div>
+            <motion.div
+              initial={{ y: -20, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              transition={{ duration: 0.6, delay: 1.2 }}
+              className="absolute inset-0 top-20 z-10 font-semibold text-2xl mt-3"
+            >
+              Portfoliofy
+            </motion.div>
+          </div>
+
+          <div className="max-w-5xl mx-auto mt-24">
+            <motion.h1
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.8, delay: 0.5, ease: easeInOutCubic }}
+              className="text-6xl font-bold mb-4 tracking-tighter"
+            >
+              <div className="flex flex-col gap-y-4">
+                <div>A Personal Portfolio.</div>
+                <div>But Rich and Beautiful.</div>
+              </div>
+            </motion.h1>
+            <motion.p
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.8, delay: 0.7, ease: easeInOutCubic }}
+              className="text-design-gray max-w-2xl mx-auto text-[22px] mb-8 font-light text-balance mt-7 tracking-tight"
+            >
+              Your personal page to show your work, skills, and story.
+            </motion.p>
+          </div>
+
+          <div className="flex flex-col gap-3 mt-16">
+            <Link href="/signup">
+              <Button
+                variant="default"
+                className="text-lg rounded-xl font-semibold py-8 px-14 bg-black hover:bg-black/65 cursor-pointer"
+              >
+                Create Your Portfolio
+              </Button>
+            </Link>
+            <Link
+              href={'/login'}
+              className="text-design-gray text-xs hover:underline"
+            >
+              Log In
+            </Link>
+          </div>
+        </main>
+      </Section>
+    </>
+  );
+}

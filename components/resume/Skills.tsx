@@ -18,9 +18,9 @@ interface SkillsProps {
 export function Skills({ skills, className }: SkillsProps) {
   return (
     <Section className={className}>
-      <BlurFade delay={BLUR_FADE_DELAY * 9} className='my-2'>
+      <BlurFade delay={BLUR_FADE_DELAY * 9} className="my-2">
         <h2 className="text-xl font-bold">Skills</h2>
-      </BlurFade> 
+      </BlurFade>
       <ul
         className={cn('flex list-none flex-wrap gap-1 p-0 gap-y-1')}
         aria-label="List of skills"
@@ -29,12 +29,12 @@ export function Skills({ skills, className }: SkillsProps) {
         {skills.map((skill, id) => (
           <li key={skill}>
             <BlurFade key={skill} delay={BLUR_FADE_DELAY * 10 + id * 0.05}>
-            <Badge
-              className="print:text-[10px]"
-              aria-label={`Skill: ${skill}`}
-            >
-              {skill}
-            </Badge>
+              <Badge
+                className="print:text-[10px]"
+                aria-label={`Skill: ${skill}`}
+              >
+                {skill}
+              </Badge>
             </BlurFade>
           </li>
         ))}

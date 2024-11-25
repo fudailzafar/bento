@@ -27,7 +27,7 @@ const fetchUsername = async (): Promise<{
 };
 
 const checkUsernameAvailability = async (
-  username: string
+  username: string,
 ): Promise<{
   available: boolean;
 }> => {
@@ -35,7 +35,7 @@ const checkUsernameAvailability = async (
     `/api/check-username?username=${encodeURIComponent(username)}`,
     {
       method: 'POST',
-    }
+    },
   );
   if (!response.ok) {
     const error = await response.json();
@@ -74,8 +74,8 @@ export function useUserActions() {
         return Promise.reject(
           new Error(
             (error.error || 'Unknown error') +
-              (error.details ? ': ' + JSON.stringify(error.details) : '')
-          )
+              (error.details ? ': ' + JSON.stringify(error.details) : ''),
+          ),
         );
       }
       return Promise.reject(new Error(String(error)));
@@ -102,14 +102,18 @@ export function useUserActions() {
   };
 
   // Update resume data in Upstash using UploadThing result
-  const uploadFileResume = async (fileInfo: { name: string; url: string; size: number }) => {
+  const uploadFileResume = async (fileInfo: {
+    name: string;
+    url: string;
+    size: number;
+  }) => {
     const newResume: Resume = {
       file: {
         name: fileInfo.name,
         url: fileInfo.url,
         size: fileInfo.size,
         key: '',
-        bucket: ''
+        bucket: '',
       },
       resumeData: undefined,
       status: 'draft',

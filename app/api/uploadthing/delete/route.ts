@@ -7,7 +7,10 @@ export async function POST(req: NextRequest) {
   try {
     const { url } = await req.json();
     if (!url) {
-      return NextResponse.json({ error: 'No file URL provided' }, { status: 400 });
+      return NextResponse.json(
+        { error: 'No file URL provided' },
+        { status: 400 },
+      );
     }
 
     // Extract file key from the URL (UploadThing URLs are like https://utfs.io/f/KEY)
@@ -22,18 +25,24 @@ export async function POST(req: NextRequest) {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${UPLOADTHING_SECRET}`,
+        Authorization: `Bearer ${UPLOADTHING_SECRET}`,
       },
       body: JSON.stringify({ fileKey }),
     });
 
     if (!res.ok) {
       const error = await res.text();
-      return NextResponse.json({ error: error || 'Failed to delete file' }, { status: 500 });
+      return NextResponse.json(
+        { error: error || 'Failed to delete file' },
+        { status: 500 },
+      );
     }
 
     return NextResponse.json({ success: true });
   } catch (err) {
-    return NextResponse.json({ error: (err as Error).message }, { status: 500 });
+    return NextResponse.json(
+      { error: (err as Error).message },
+      { status: 500 },
+    );
   }
 }

@@ -78,29 +78,31 @@ export default function UploadPageClient() {
         </h1>
 
         <div className="relative mx-2.5">
-          <div
-            className="w-full min-h-[220px] flex flex-col items-center justify-center border-2 border-dashed border-gray-300 rounded-xl bg-white relative transition-all"
-          >
+          <div className="w-full min-h-[220px] flex flex-col items-center justify-center border-2 border-dashed border-gray-300 rounded-xl bg-white relative transition-all">
             {fileState.status === 'empty' && !isUpdating && (
               <UploadButton
                 endpoint="resumeUploader"
                 onClientUploadComplete={handleUploadThing}
                 appearance={{
-                  button: "w-full h-full min-h-[220px] flex flex-col items-center justify-center bg-transparent border-none shadow-none cursor-pointer",
-                  container: "w-full",
+                  button:
+                    'w-full h-full min-h-[220px] flex flex-col items-center justify-center bg-transparent border-none shadow-none cursor-pointer',
+                  container: 'w-full',
                 }}
                 content={{
                   button({ ready }) {
                     return (
                       <div className="flex flex-col items-center justify-center gap-2">
                         <Linkedin className="h-6 w-6 text-gray-600" />
-                        <span className="text-base font-bold text-center text-black">Upload PDF</span>
-                        <span className="text-xs font-light text-center text-gray-500">Resume or LinkedIn</span>
+                        <span className="text-base font-bold text-center text-black">
+                          Upload PDF
+                        </span>
+                        <span className="text-xs font-light text-center text-gray-500">
+                          Resume or LinkedIn
+                        </span>
                       </div>
                     );
                   },
                 }}
-                
               />
             )}
             {isUpdating && (
@@ -119,9 +121,17 @@ export default function UploadPageClient() {
                   <X className="h-4 w-4 text-gray-500" />
                 </button>
                 <div className="flex flex-col items-center justify-center w-full h-full min-h-[220px] gap-2">
-                  <img src="/uploaded-pdf.svg" alt="PDF Icon" className="h-12 w-12 mx-auto" />
-                  <span className="text-base font-bold text-center text-black">{fileState.file.name}</span>
-                  <span className="text-xs font-light text-center text-gray-500">{(fileState.file.size / 1024 / 1024).toFixed(2)} MB</span>
+                  <img
+                    src="/uploaded-pdf.svg"
+                    alt="PDF Icon"
+                    className="h-12 w-12 mx-auto"
+                  />
+                  <span className="text-base font-bold text-center text-black">
+                    {fileState.file.name}
+                  </span>
+                  <span className="text-xs font-light text-center text-gray-500">
+                    {(fileState.file.size / 1024 / 1024).toFixed(2)} MB
+                  </span>
                 </div>
               </>
             )}
@@ -158,9 +168,7 @@ export default function UploadPageClient() {
             onClick={() => router.push('/pdf')}
           >
             {isUpdating ? (
-              <>
-                Processing...
-              </>
+              <>Processing...</>
             ) : (
               <>
                 <WandSparkles className="h-5 w-5 mr-2" />

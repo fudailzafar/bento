@@ -22,12 +22,12 @@ export function Summary({ summary, className }: AboutProps) {
         </h2>
       </BlurFade>
       <BlurFade delay={BLUR_FADE_DELAY * 4}>
-      <div
-        className="text-pretty  text-sm text-design-resume print:text-[12px]"
-        aria-labelledby="about-section"
-      >
-        {summary}
-      </div>
+        <div
+          className="text-pretty  text-sm text-design-resume print:text-[12px]"
+          aria-labelledby="about-section"
+        >
+          {summary}
+        </div>
       </BlurFade>
     </Section>
   );
