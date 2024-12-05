@@ -1,45 +1,71 @@
+import Image from 'next/image';
+import Link from 'next/link';
+
 export function Footer() {
   return (
-    <footer className="w-full py-4 px-6  mt-auto border-t border-gray-200">
-      <div className="max-w-4xl justify-between items-center mx-auto w-full flex flex-col-reverse md:flex-row gap-2">
-        <div className="text-sm text-design-gray  font-bold">
-          Powered by{' '}
-          <a
-            target="_blank"
-            href="https://gemini.google.com"
-            className="text-design-black underline underline-offset-2"
-          >
-            Gemini
-          </a>{' '}
-          &{' '}
-          <a
-            target="_blank"
-            href="https://linkedin.com/in/fudailzafar"
-            className="text-design-black underline underline-offset-2"
-          >
-            Fudail
-          </a>
+    <footer className="w-full py-28 sm:py-72 px-6  mt-auto border-gray-200 ">
+      <div className="max-w-4xl justify-between items-center mx-auto w-full flex flex-col gap-2">
+        <Image
+          src={'/favicon.ico'}
+          alt=""
+          width={50}
+          height={50}
+          className="mb-1"
+        />
+
+        <div className="text-xs sm:text-sm text-design-gray font-normal mb-20 leading-5 tracking-tighter">
+          Designed in Chennai. Built for Professionals.
         </div>
 
-        <div className="flex gap-2">
-          <a
+        <div className="flex flex-col sm:flex-row text-center leading-5 tracking-tight items-center justify-center font-normal text-xs sm:text-sm text-design-gray gap-9">
+          <Link
             target="_blank"
             rel="noopener noreferrer"
-            href="https://github.com/fudailzafar"
-            className="size-6 flex items-center justify-center border-design-gray border rounded-md"
+            href="/login"
+            className=""
           >
-            <img src="/footer/github.svg" className="size-4" />
-            <span className="sr-only">GitHub</span>
-          </a>
-          <a
+            <span className="hover:underline">Log In</span>
+          </Link>
+          <Link
             target="_blank"
             rel="noopener noreferrer"
-            href="https://x.com/fudailzafar"
-            className="size-6 flex items-center justify-center border-design-gray border rounded-md"
+            href="/aboutus"
+            className=""
           >
-            <img src="/footer/x.svg" className="size-4" />
-            <span className="sr-only">Social</span>
-          </a>
+            <span className="hover:underline">About us</span>
+          </Link>
+          <Link
+            target="_blank"
+            rel="noopener noreferrer"
+            href="/changelog"
+            className=""
+          >
+            <span className="hover:underline">Changelog</span>
+          </Link>
+          <Link
+            target="_blank"
+            rel="noopener noreferrer"
+            href="jointheteam"
+            className=""
+          >
+            <span className="hover:underline">Join the team</span>
+          </Link>
+          <Link
+            target="_blank"
+            rel="noopener noreferrer"
+            href="explore"
+            className=""
+          >
+            <span className="hover:underline">Explore</span>
+          </Link>
+          <Link
+            target="_blank"
+            rel="noopener noreferrer"
+            href="https://linkedin.com/in/fudailzafar"
+            className=""
+          >
+            <span className="hover:underline">Download Brand Assets</span>
+          </Link>
         </div>
       </div>
     </footer>
