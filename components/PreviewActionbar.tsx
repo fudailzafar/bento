@@ -39,6 +39,7 @@ export default function PreviewActionbar({
           <div className="flex items-center gap-1 mr-1">
             <img
               src="/link-icon.png"
+              alt="Link Icon"
               className={cn(
                 'w-4 h-4 text-design-black ',
                 status === 'live' && 'cursor-pointer',

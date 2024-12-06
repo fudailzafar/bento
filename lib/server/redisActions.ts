@@ -2,7 +2,6 @@ import { upstashRedis } from '@/lib/server/redis';
 import { ResumeDataSchema } from '@/lib/resume';
 import { z } from 'zod';
 import { PRIVATE_ROUTES } from '../routes';
-import { log } from 'node:console';
 
 // Key prefixes for different types of data
 const REDIS_KEYS = {

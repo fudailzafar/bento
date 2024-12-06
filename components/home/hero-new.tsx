@@ -1,6 +1,5 @@
 'use client';
 
-import { Icons } from '@/components/icons';
 import { Section } from '../ui/section';
 import { easeInOutCubic } from '@/lib/animation';
 import { motion, useScroll, useTransform } from 'framer-motion';
