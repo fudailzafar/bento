@@ -122,7 +122,7 @@ export default function UploadPageClient() {
                 </button>
                 <div className="flex flex-col items-center justify-center w-full h-full min-h-[220px] gap-2">
                   <img
-                    src="/uploaded-pdf.svg"
+                    src="/user/uploaded-pdf.svg"
                     alt="PDF Icon"
                     className="h-12 w-12 mx-auto"
                   />
@@ -157,7 +157,7 @@ export default function UploadPageClient() {
               Go to your profile → Click on “Resources” → Then “Save to PDF”
             </DialogTitle>
             <img
-              src="/linkedin-save-to-pdf.png"
+              src="/user/linkedin-save-to-pdf.png"
               alt="Linkedin Steps to Save PDF"
               className="h-auto w-full"
             />
