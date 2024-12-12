@@ -66,7 +66,7 @@ export function Avatars() {
   return (
     <section className="flex flex-col justify-center items-center my-10">
       <h2 className="text-3xl text-center flex justify-center items-center font-bold mb-6">
-        Join thousands of inspiring professionals
+        Join hundreds of inspiring professionals
       </h2>
       {/* Responsive avatar rows */}
       <div className="mb-8">
