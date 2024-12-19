@@ -13,7 +13,7 @@ const fontSans = FontSans({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://portfolio.fudail.me'),
+  metadataBase: new URL('https://portfoliofy.me'),
   title: 'Portfoliofy - Your Personal Portfolio, but Rich and Beautiful.',
   description:
     'Create a beautiful personal portfolio to show your professional experience, education, and everything you are and create - in one place.',
@@ -21,11 +21,11 @@ export const metadata: Metadata = {
     title: 'Portfoliofy - Your Personal Portfolio, but Rich and Beautiful.',
     description:
       'Create a beautiful personal portfolio to show your professional experience, education, and everything you are and create - in one place.',
-    url: 'https://portfolio.fudail.me',
+    url: 'https://portfoliofy.me',
     siteName: 'Consicio',
     images: [
       {
-        url: 'https://portfolio.fudail.me/og.png',
+        url: 'https://portfoliofy.me/og.png',
         width: 1200,
         height: 630,
         alt: 'Portfoliofy OG Image',

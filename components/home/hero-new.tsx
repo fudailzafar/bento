@@ -23,7 +23,7 @@ export function HeroNew() {
       {/* Top banner section */}
       <div className="w-full bg-gray-900 hover:bg-gray-950 text-design-white text-center py-5 text-base font-light flex items-center justify-center">
         <a
-          href="https://portfolio.fudail.me/fudail"
+          href="https://portfoliofy.me/fudail"
           target="_blank"
           rel="noopener noreferrer"
           className="flex items-center gap-1"
