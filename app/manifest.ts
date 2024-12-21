@@ -5,7 +5,7 @@ export default function manifest(): MetadataRoute.Manifest {
     name: 'Porfoliofy',
     short_name: 'Porfoliofy',
     description:
-      'Portfoliofy - Your Personal Portfolio, but Rich and Beautiful. LinkedIn to Portfolio in one click! Powered by Gemini and Fudail',
+      'Portfoliofy - Your Personal Portfolio, but Rich and Beautiful. LinkedIn to Portfolio in one click!',
     start_url: '/',
     display: 'standalone',
     background_color: '#ffffff',
