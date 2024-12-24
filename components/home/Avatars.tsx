@@ -11,53 +11,53 @@ type User = {
 
 const users: User[] = [
   {
-    name: 'Rogie',
-    avatar: '/avatars/me.png',
-    username: 'rogie',
+    name: 'Fudail',
+    avatar: '/avatars/fudail.png',
+    username: 'fudail',
   },
   {
-    name: 'Samarth',
-    avatar: '/avatars/me.png',
-    username: 'samarth',
+    name: 'Zainab',
+    avatar: '/avatars/zainab-zafar.png',
+    username: 'zainab-zafar',
   },
   {
-    name: 'Samuel',
-    avatar: '/avatars/me.png',
-    username: 'samuel',
+    name: 'Arshee',
+    avatar: '/avatars/arshee-fathima-tp8kj3.png',
+    username: 'arshee-fathima-tp8kj3',
   },
   {
-    name: 'Rocco',
-    avatar: '/avatars/me.png',
-    username: 'rocco',
+    name: 'Demo',
+    avatar: '/avatars/demo.png',
+    username: 'demo',
   },
   {
-    name: 'Jane',
-    avatar: '/avatars/me.png',
-    username: 'jane',
+    name: 'Fareeha',
+    avatar: '/avatars/fareeha.png',
+    username: 'fareeha',
   },
   {
-    name: 'Alex',
-    avatar: '/avatars/me.png',
-    username: 'alex',
+    name: 'Sabeer',
+    avatar: '/avatars/sabeerg.png',
+    username: 'sabeerg',
   },
   {
-    name: 'Chris',
-    avatar: '/avatars/me.png',
-    username: 'chris',
+    name: 'Khadhija',
+    avatar: '/avatars/khadhija.png',
+    username: 'khadhija',
   },
   {
     name: 'Taylor',
-    avatar: '/avatars/me.png',
+    avatar: '/avatars/fudail.png',
     username: 'taylor',
   },
   {
     name: 'Jordan',
-    avatar: '/avatars/me.png',
+    avatar: '/avatars/fudail.png',
     username: 'jordan',
   },
   {
     name: 'Morgan',
-    avatar: '/avatars/me.png',
+    avatar: '/avatars/fudail.png',
     username: 'morgan',
   },
 ];
@@ -65,8 +65,12 @@ const users: User[] = [
 export function Avatars() {
   return (
     <section className="flex flex-col justify-center items-center my-10">
-      <h2 className="text-3xl text-center flex justify-center items-center font-bold mb-6">
-        Join hundreds of inspiring professionals
+      <h2 className="text-[28px] text-center font-bold mb-6">
+        <span className="hidden sm:inline">Join hundreds of inspiring professionals</span>
+        <span className="block sm:hidden">
+          <p className='-mb-2'>Join hundreds of{' '}</p>
+          <p>inspiring professionals</p>
+        </span>
       </h2>
       {/* Responsive avatar rows */}
       <div className="mb-8">
