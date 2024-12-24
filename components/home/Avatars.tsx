@@ -2,6 +2,7 @@
 
 import { ArrowRight } from 'lucide-react';
 import { Button } from '../ui/button';
+import Link from 'next/link';
 
 type User = {
   name: string;
@@ -66,9 +67,11 @@ export function Avatars() {
   return (
     <section className="flex flex-col justify-center items-center my-10">
       <h2 className="text-[28px] text-center font-bold mb-6">
-        <span className="hidden sm:inline">Join hundreds of inspiring professionals</span>
+        <span className="hidden sm:inline">
+          Join hundreds of inspiring professionals
+        </span>
         <span className="block sm:hidden">
-          <p className='-mb-2'>Join hundreds of{' '}</p>
+          <p className="-mb-2">Join hundreds of </p>
           <p>inspiring professionals</p>
         </span>
       </h2>
@@ -206,9 +209,11 @@ export function Avatars() {
           </div>
         </div>
       </div>
-      <Button className="bg-gray-100 hover:bg-gray-200 text-base p-3 text-black">
-        Explore the most inspiring Portfolios <ArrowRight />
-      </Button>
+      <Link href={'/explore'}>
+        <Button className="bg-gray-100 hover:bg-gray-200 text-base p-3 text-black">
+          Explore the most inspiring Portfolios <ArrowRight />
+        </Button>
+      </Link>
     </section>
   );
 }
