@@ -79,7 +79,7 @@ export default function UniqueLink() {
 
         {/* Floating Spotify card - bottom left, rotated, overlapping */}
         <div className="hidden absolute -bottom-7 left-96 bg-[#F6FEF9] rounded-2xl shadow-lg p-4 w-72 md:flex gap-2 border border-gray-100 rotate-[7deg] z-20">
-          <GitHubLogoIcon className='text-black' width={40} height={40}/>
+          <GitHubLogoIcon className="text-black" width={40} height={40} />
           <div>
             <div className="text-sm font-medium mb-1">
               Fudail Zafar speaks about his solo career as a engineer

@@ -1,4 +1,3 @@
-
 import { HeaderExplore } from '@/components/explore/HeaderExplore';
 import { Footer } from '@/components/Footer';
 import { Skeleton } from '@/components/ui/skeleton';
@@ -9,7 +8,10 @@ export default function Home() {
       <HeaderExplore />
       <div className="flex flex-wrap gap-24 justify-center items-start py-16">
         {[1, 2, 3].map((i) => (
-          <div key={i} className="bg-white rounded-2xl shadow-md p-8 w-[350px] h-[220px] flex flex-col gap-4">
+          <div
+            key={i}
+            className="bg-white rounded-2xl shadow-md p-8 w-[350px] h-[220px] flex flex-col gap-4"
+          >
             <div className="flex gap-4 items-center">
               <Skeleton className="w-16 h-16 rounded-full" />
               <div className="flex flex-col gap-2">
@@ -27,7 +29,9 @@ export default function Home() {
           </div>
         ))}
       </div>
-      <div className="text-center text-xl font-semibold text-gray-500 py-8">Coming soon</div>
+      <div className="text-center text-xl font-semibold text-gray-500 py-8">
+        Coming soon
+      </div>
       <Footer />
     </>
   );
