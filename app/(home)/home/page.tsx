@@ -4,6 +4,7 @@ import { Hero } from '@/components/home/Hero';
 import { Cta } from '@/components/home/Cta';
 import { Footer } from '@/components/Footer';
 import { VideoDialog } from '@/components/home/VideoDialog';
+import { Demo } from '@/components/home/Demo';
 
 export default function Home() {
   return (
@@ -11,7 +12,7 @@ export default function Home() {
       <HeroNew />
       <VideoDialog />
       <Avatars />
-      <Hero />
+      <Demo />
       <Cta />
       <Footer />
     </>
