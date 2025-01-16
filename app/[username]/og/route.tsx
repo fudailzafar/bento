@@ -6,15 +6,11 @@ export async function GET(request: NextRequest) {
   try {
     const username = request.nextUrl.pathname.split('/')[1];
 
-    const { user_id, resume, clerkUser } = await getUserData(username);
-
-    const { searchParams } = new URL(request.url);
+    const { resume, clerkUser } = await getUserData(username);
 
     // Get data from resume
     const name = resume?.resumeData?.header?.name;
     const role = resume?.resumeData?.header?.shortAbout;
-    const location = resume?.resumeData?.header?.location;
-    const website = `portfoliofy.me/${username}`;
 
     // Use profile image from Clerk user
     const profileImageUrl = clerkUser?.imageUrl;
@@ -32,43 +28,9 @@ export async function GET(request: NextRequest) {
             backgroundColor: 'white',
             padding: '80px',
             position: 'relative',
+            fontFamily: 'Inter, sans-serif',
           }}
         >
-          {/* Logo and Location */}
-          <div
-            style={{
-              display: 'flex',
-              width: '100%',
-              justifyContent: 'space-between',
-              alignItems: 'center',
-              position: 'absolute',
-              top: 60,
-              left: 80,
-              right: 0,
-              paddingRight: 40,
-            }}
-          >
-            <div style={{ display: 'flex', alignItems: 'center' }}>
-              <img
-                src="https://portfoliofy.me/logo.png"
-                alt="Brand Logo"
-                style={{
-                  width: '144px',
-                  height: '46px',
-                }}
-              />
-            </div>
-            <div
-              style={{
-                fontSize: '24px',
-                color: '#666',
-                textAlign: 'right',
-              }}
-            >
-              {location}
-            </div>
-          </div>
-
           {/* Main Content */}
           <div
             style={{
@@ -90,8 +52,8 @@ export async function GET(request: NextRequest) {
             >
               <h1
                 style={{
-                  fontSize: '72px',
-                  fontWeight: 'semibold',
+                  fontSize: '80px',
+                  fontWeight: 900,
                   margin: '0 0 20px 0',
                   color: '#222',
                   lineHeight: 1.1,
@@ -123,7 +85,10 @@ export async function GET(request: NextRequest) {
               }}
             >
               <img
-                src={profileImageUrl || '/placeholder.svg'}
+                src={
+                  profileImageUrl ||
+                  'https://portfoliofy.me/user/placeholder.svg'
+                }
                 alt="Profile"
                 style={{
                   width: '360px',
@@ -134,24 +99,12 @@ export async function GET(request: NextRequest) {
               />
             </div>
           </div>
-
-          {/* Website URL at bottom */}
-          <div
-            style={{
-              position: 'absolute',
-              bottom: 20,
-              fontSize: '24px',
-              color: '#666',
-            }}
-          >
-            {website}
-          </div>
         </div>
       ),
       {
         width: 1200,
         height: 630,
-      },
+      }
     );
   } catch (e: any) {
     console.log(`${e.message}`);
