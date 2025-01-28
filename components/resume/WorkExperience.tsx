@@ -25,7 +25,7 @@ export function WorkExperience({
     return work
       .filter(
         (item) =>
-          item.company && item.location && item.title && item.description,
+          item.company && item.title && item.description,
       )
       .map((item) => {
         const hasStart = !!item.start;
@@ -87,11 +87,13 @@ export function WorkExperience({
                     <p className="text-base font-semibold text-left text-[#050914] dark:text-design-white flex items-center gap-1">
                       {item.company}
                     </p>
-                    <div className="flex justify-center items-center relative overflow-hidden gap-2.5 px-[7px] py-0.5 rounded bg-[#eeeff0]">
-                      <p className="text-[12px] font-semibold text-center text-[#54575e]">
-                        {item.location}
-                      </p>
-                    </div>
+                    {item.location && (
+                      <div className="flex justify-center items-center relative overflow-hidden gap-2.5 px-[7px] py-0.5 rounded bg-[#eeeff0]">
+                        <p className="text-[12px] font-semibold text-center text-[#54575e]">
+                          {item.location}
+                        </p>
+                      </div>
+                    )}
                     {isHovered && (
                       <AnimatePresence>
                         <motion.button
@@ -136,8 +138,6 @@ export function WorkExperience({
                 <div className="flex flex-col justify-start items-start relative gap-1.5">
                   <p className="self-stretch text-sm font-medium text-left text-design-resume capitalize flex flex-wrap gap-1">
                     <span>{item.title}</span>
-                    {item.company && item.contract && <span>·</span>}
-                    <span>{item.contract}</span>
                   </p>
                   {item.description && (
                     <motion.div

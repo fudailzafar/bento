@@ -222,7 +222,7 @@ export default async function ProfilePage({
 
       <FullResume resume={resume?.resumeData} profilePicture={profilePicture} />
 
-      <div className="text-center z-50 mb-32 gap-5 flex justify-center items-center">
+      <div className="text-center -z-10 mb-32 gap-5 flex justify-center items-center">
         <Button className="bg-design-black text-design-white dark:bg-design-white dark:text-design-black">
           <Link
             href={'/signup'}

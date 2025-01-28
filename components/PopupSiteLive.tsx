@@ -1,7 +1,9 @@
+'use client';
+
 import { Dialog, DialogContent, DialogTitle } from '@/components/ui/dialog';
 import { Drawer, DrawerContent, DrawerTitle } from '@/components/ui/drawer';
-import { Copy, SquareArrowOutUpRight, X } from 'lucide-react';
-import { useMemo } from 'react';
+import { Copy, Check, SquareArrowOutUpRight, X } from 'lucide-react';
+import { useMemo, useState } from 'react';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { toast } from 'sonner';
 import Image from 'next/image';
@@ -16,6 +18,7 @@ export const PopupSiteLive = ({
   websiteUrl: string;
 }) => {
   const isMobile = useIsMobile();
+  const [copied, setCopied] = useState(false);
 
   const mainContent = useMemo(() => {
     return (
@@ -40,13 +43,27 @@ export const PopupSiteLive = ({
               <button
                 onClick={() => {
                   navigator.clipboard.writeText(websiteUrl);
-                  toast.success('Copied link to your website');
+                  setCopied(true);
+                  setTimeout(() => setCopied(false), 1500);
                 }}
-                className="bg-design-black rounded-md hover:bg-gray-800 p-2 text-white flex flex-row gap-2 items-center justify-center"
-                title="Copy URL"
+                className="bg-design-black rounded-md hover:bg-gray-800 p-2 text-white flex flex-row gap-2 items-center justify-center transition-colors duration-300"
+                title={copied ? 'Copied!' : 'Copy URL'}
+                disabled={copied}
               >
-                <Copy className="h-5 w-5" />
-                <span className="text-white">Copy URL</span>
+                <span className="transition-all duration-300 flex items-center">
+                  {copied ? (
+                    <Check className="h-5 w-5 text-green-400 transition-all duration-300" />
+                  ) : (
+                    <Copy className="h-5 w-5 transition-all duration-300" />
+                  )}
+                </span>
+                <span
+                  className={`text-white transition-all duration-300 ${
+                    copied ? 'text-green-400' : ''
+                  }`}
+                >
+                  {copied ? 'Copied!' : 'Copy URL'}
+                </span>
               </button>
               <a
                 href={websiteUrl}
@@ -62,7 +79,7 @@ export const PopupSiteLive = ({
         </div>
       </div>
     );
-  }, [websiteUrl]);
+  }, [websiteUrl, copied]);
 
   if (!isMobile) {
     return (
