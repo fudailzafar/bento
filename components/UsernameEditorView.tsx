@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect, useRef } from 'react';
+import { CheckCircleIcon, Copy } from 'lucide-react';
 import { X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useUserActions } from '@/hooks/useUserActions';
@@ -9,6 +10,7 @@ import { MAX_USERNAME_LENGTH } from '@/lib/config';
 import {
   Dialog,
   DialogContent,
+  DialogDescription,
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog';
@@ -19,7 +21,6 @@ import {
   DrawerTitle,
 } from '@/components/ui/drawer';
 import { useIsMobile } from './ui/use-mobile';
-import { Label } from '@/components/ui/label';
 
 interface UsernameEditorContentProps {
   initialUsername: string;
@@ -30,16 +31,14 @@ interface UsernameEditorContentProps {
 function UsernameEditorContent({
   initialUsername,
   onClose,
+  prefix = 'portfoliofy.me/',
 }: UsernameEditorContentProps) {
-  const [newUsername, setNewUsername] = useState<string>(initialUsername);
+  const [newUsername, setNewUsername] = useState<string>('');
+  const [showSuccess, setShowSuccess] = useState(false);
   const debounceTimerRef = useRef<NodeJS.Timeout | null>(null);
   const { updateUsernameMutation, checkUsernameMutation } = useUserActions();
 
   const isInitialUsername = newUsername === initialUsername;
-
-  useEffect(() => {
-    setNewUsername(initialUsername);
-  }, [initialUsername]);
 
   useEffect(() => {
     if (!isInitialUsername && newUsername) {
@@ -71,93 +70,183 @@ function UsernameEditorContent({
   const handleSave = async () => {
     try {
       await updateUsernameMutation.mutateAsync(newUsername);
-      toast.success('Username updated successfully');
-      onClose();
+      setShowSuccess(true);
     } catch (error) {
       toast.error('Failed to update username');
     }
   };
 
-  return (
-    <div className="flex flex-col gap-4 py-4">
-      {/* Current Username (Disabled) */}
-      <div className="flex flex-col gap-2">
-        <Label htmlFor="current-username">Current Username</Label>
-        <div className="w-full overflow-hidden rounded bg-neutral-100 border-[0.5px] border-neutral-300">
-          <input
-            id="current-username"
-            type="text"
-            value={initialUsername}
-            disabled
-            className="w-full p-3 text-sm text-neutral-500 border-none outline-none focus:ring-0 bg-transparent cursor-not-allowed"
-          />
-        </div>
-      </div>
+  // Success Modal Content
+  const [copied, setCopied] = useState(false);
+  const fullUrl = `${prefix}${newUsername}`;
 
-      {/* New Username Input */}
-      <div className="flex flex-col gap-2">
-        <Label htmlFor="new-username">New Username</Label>
-        <div className="w-full overflow-hidden rounded bg-white border-[0.5px] border-neutral-300">
-          <div className="flex items-center">
-            <input
-              id="new-username"
-              type="text"
-              value={newUsername}
-              onChange={handleUsernameChange}
-              maxLength={MAX_USERNAME_LENGTH}
-              placeholder="Enter new username"
-              className="w-full p-3 text-sm text-[#5d5d5d] border-none outline-none focus:ring-0 bg-transparent"
-              onKeyDown={(e) => {
-                if (
-                  e.key === 'Enter' &&
-                  isValid &&
-                  !checkUsernameMutation.isPending
-                ) {
-                  handleSave();
-                }
-              }}
-            />
-            <div className="pr-3">
-              {isInitialUsername ? (
-                <></>
-              ) : checkUsernameMutation.isPending ? (
-                <div className="w-4 h-4 rounded-full border-2 border-gray-300 border-t-primary animate-spin" />
-              ) : isValid ? (
+  const handleCopy = () => {
+    navigator.clipboard.writeText(fullUrl);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 1500);
+  };
+
+  return (
+    <>
+      {/* Success Modal */}
+      {showSuccess && (
+        <Dialog
+          open={showSuccess}
+          onOpenChange={(open) => {
+            if (!open) {
+              setShowSuccess(false);
+              onClose();
+            }
+          }}
+        >
+          <DialogContent className="max-w-xs rounded-2xl p-6 flex flex-col items-center gap-4">
+            <div className="flex flex-col items-center w-full">
+              <div className="flex items-center justify-center w-16 h-16 rounded-full bg-green-100 mb-2">
                 <svg
-                  width="24"
-                  height="24"
+                  width="40"
+                  height="40"
                   viewBox="0 0 24 24"
                   fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
+                  stroke="#22c55e"
+                  strokeWidth="2.5"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
                 >
-                  <path
-                    d="M20 6L9 17L4 12"
-                    stroke="#009505"
-                    strokeWidth="1.3"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
+                  <circle
+                    cx="12"
+                    cy="12"
+                    r="10"
+                    fill="#22c55e"
+                    opacity="0.15"
+                  />
+                  <polyline
+                    points="16 12 12 16 8 12"
+                    stroke="#22c55e"
+                    strokeWidth="2.5"
+                    fill="none"
                   />
                 </svg>
-              ) : (
-                <X className="w-5 h-5 text-[#950000]" />
-              )}
+              </div>
+              <DialogTitle className="text-lg font-semibold text-center mb-1">
+                Your new username is
+              </DialogTitle>
+              <div className="w-full bg-[#f7f7f7] rounded-xl px-4 py-3 text-center text-gray-700 font-normal text-sm mb-3 select-all">
+                <span className="text-design-resume">{prefix}</span>
+                <span className="text-black">{newUsername}</span>
+              </div>
+              <Button
+                className="w-full bg-green-500 hover:bg-green-600 text-white text-sm font-normal rounded-xl py-3 flex items-center justify-center gap-2"
+                onClick={handleCopy}
+              >
+                {copied ? (
+                  <>
+                    <CheckCircleIcon className="w-5 h-5" />
+                    <span>Copied!</span>
+                  </>
+                ) : (
+                  <>
+                    <Copy className="w-5 h-5" />
+                    <span>Copy my Link</span>
+                  </>
+                )}
+              </Button>
+              <div className="text-design-resume font-normal text-xs mt-3">
+                The link is ready for your portfolio!
+              </div>
+            </div>
+          </DialogContent>
+        </Dialog>
+      )}
+      {/* Main Username Editor */}
+      <div className="flex flex-col gap-4">
+        {/* New Username Input */}
+        <div className="flex flex-col gap-2">
+          <div className="w-full overflow-hidden rounded-xl bg-[#f7f7f7] border-[0.5px] border-[#f7f7f7]">
+            <div className="flex items-center">
+              <span className="pl-3 pr-0.5 text-sm text-design-resume select-none">
+                {prefix}
+              </span>
+              <input
+                id="new-username"
+                type="text"
+                value={newUsername}
+                onChange={handleUsernameChange}
+                maxLength={MAX_USERNAME_LENGTH}
+                className="flex-1 p-3 text-sm text-black border-none font-normal outline-none focus:ring-0 bg-transparent min-w-0"
+                style={{ paddingLeft: 0 }}
+                onKeyDown={(e) => {
+                  if (
+                    e.key === 'Enter' &&
+                    isValid &&
+                    !checkUsernameMutation.isPending
+                  ) {
+                    handleSave();
+                  }
+                }}
+              />
+              <div className="pr-3">
+                {isInitialUsername ? (
+                  <></>
+                ) : checkUsernameMutation.isPending ? (
+                  <div className="w-4 h-4 rounded-full border-2 border-gray-300 border-t-primary animate-spin" />
+                ) : isValid ? (
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="white"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    className="lucide lucide-circle-check-icon lucide-circle-check"
+                  >
+                    <circle cx="12" cy="12" r="10" fill="green" />
+                    <path d="m9 12 2 2 4-4" />
+                  </svg>
+                ) : newUsername ? (
+                  <div className="cursor-pointer">
+                    <X
+                      className="w-5 h-5"
+                      onClick={() => {
+                        setNewUsername('');
+                        if (checkUsernameMutation.reset) {
+                          checkUsernameMutation.reset();
+                        }
+                      }}
+                    />
+                  </div>
+                ) : null}
+              </div>
             </div>
           </div>
         </div>
-      </div>
 
-      <div className="flex justify-end gap-2">
-        <Button variant="outline" onClick={onClose}>
-          Cancel
-        </Button>
-        <Button
-          onClick={handleSave}
-          disabled={!isValid || updateUsernameMutation.isPending}
-        >
-          {updateUsernameMutation.isPending ? 'Saving...' : 'Save'}
-        </Button>
+        <div>
+          {checkUsernameMutation.data &&
+          checkUsernameMutation.data.available === false ? (
+            <div className="w-full py-4 text-center text-red-600 font-normal text-sm">
+              This username seems to be taken.
+              <br />
+              Maybe you have some other ideas?
+            </div>
+          ) : (
+            <Button
+              onClick={handleSave}
+              disabled={!isValid || updateUsernameMutation.isPending}
+              className="w-full py-4"
+            >
+              {updateUsernameMutation.isPending ? (
+                <div className="w-4 h-4 rounded-full border-2 border-gray-300 border-t-primary animate-spin" />
+              ) : (
+                'Update My Username'
+              )}
+            </Button>
+          )}
+        </div>
       </div>
-    </div>
+    </>
   );
 }
 
@@ -179,7 +268,10 @@ export default function UsernameEditorView({
       <Dialog open={isOpen} onOpenChange={onClose}>
         <DialogContent className="sm:max-w-[425px]">
           <DialogHeader>
-            <DialogTitle>Edit Username</DialogTitle>
+            <DialogTitle>Change Username</DialogTitle>
+            <DialogDescription>
+              Choose a new username for your Portfolio.
+            </DialogDescription>
           </DialogHeader>
           <UsernameEditorContent
             initialUsername={initialUsername}
