@@ -17,6 +17,7 @@ import {
 import {
   Drawer,
   DrawerContent,
+  DrawerDescription,
   DrawerHeader,
   DrawerTitle,
 } from '@/components/ui/drawer';
@@ -285,9 +286,12 @@ export default function UsernameEditorView({
 
   return (
     <Drawer open={isOpen} onOpenChange={onClose}>
-      <DrawerContent>
+      <DrawerContent className="p-3 pb-96">
         <DrawerHeader>
-          <DrawerTitle>Edit Username</DrawerTitle>
+          <DrawerTitle>Change Username</DrawerTitle>
+          <DrawerDescription>
+            Choose a new username for your Portfolio
+          </DrawerDescription>
         </DrawerHeader>
         <UsernameEditorContent
           initialUsername={initialUsername}
