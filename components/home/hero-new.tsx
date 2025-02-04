@@ -21,7 +21,12 @@ export function HeroNew() {
   return (
     <>
       {/* Top banner section */}
-      <div className="w-full bg-gray-900 hover:bg-gray-950 text-design-white text-center py-5 text-base font-light flex items-center justify-center">
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.8, delay: 1.2, ease: easeInOutCubic }}
+        className="w-full bg-gray-900 hover:bg-gray-950 text-design-white text-center py-5 text-base font-light flex items-center justify-center"
+      >
         <a
           href="https://portfoliofy.me/fudail"
           target="_blank"
@@ -30,7 +35,7 @@ export function HeroNew() {
         >
           Big news! Portfoliofy just launched! <ArrowRight size={20} />
         </a>
-      </div>
+      </motion.div>
       {/* Main hero section */}
       <Section id="hero" className="min-h-[100vh] w-full overflow-hidden">
         <main className="mx-auto pt-14 sm:pt-24 md:pt-32 text-center relative px-4">
