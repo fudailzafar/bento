@@ -19,6 +19,7 @@ async function LLMProcessing({ userId }: { userId: string }) {
   // const user = await currentUser();
 
   let resume = await getResume(userId);
+  const session = await getServerSession(authOptions);
 
   if (!resume?.fileContent || !resume.file) redirect('/upload');
 
@@ -32,9 +33,7 @@ async function LLMProcessing({ userId }: { userId: string }) {
         "We couldn't extract data from your PDF. Please edit your resume manually.";
       resumeObject = {
         header: {
-          name:
-            // user?.fullName || user?.emailAddresses[0]?.emailAddress || 'user',
-            'user',
+          name: session.user.name || session.user.email || 'user',
           shortAbout: 'This is a short description of your profile',
           location: 'Your City, Your Country',
           contacts: {
