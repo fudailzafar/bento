@@ -3,7 +3,7 @@ import { Button, buttonVariants } from '@/components/ui/button';
 import { ResumeDataSchemaType } from '@/lib/resume';
 import { redirect } from 'next/navigation';
 import Link from 'next/link';
-import { FullResume } from '@/components/resume/FullResume';
+import { FullResume } from '@/components/resume/preview/full-resume';
 import { Metadata } from 'next';
 import { getUserData } from './utils';
 import { Dock, DockIcon } from '@/components/magicui/dock';
@@ -13,12 +13,12 @@ import {
   TooltipTrigger,
 } from '@/components/ui/tooltip';
 import { Separator } from '@/components/ui/separator';
-import { LinkedInIcon } from '@/components/icons/LinkedInIcon';
-import { XIcon } from '@/components/icons/XIcon';
-import { GitHubIcon } from '@/components/icons/GitHubIcon';
+import { LinkedInIcon } from '@/components/icons/linkedin-icon';
+import { XIcon } from '@/components/icons/x-icon';
+import { GitHubIcon } from '@/components/icons/github-icon';
 import { cn } from '@/lib/utils';
 import { AnimatedThemeToggler } from '@/components/magicui/animated-theme-toggler';
-import DockClient from '@/components/magicui/DockClient';
+import DockClient from '@/components/magicui/dock-client';
 import Image from 'next/image';
 import BlurFade from '@/components/magicui/blur-fade';
 
@@ -39,7 +39,7 @@ function getSocialLinks(contacts?: ResumeDataSchemaType['header']['contacts']) {
 
   const formatSocialUrl = (
     url: string | undefined,
-    platform: 'github' | 'twitter' | 'linkedin'
+    platform: 'github' | 'twitter' | 'linkedin',
   ) => {
     if (!url) return undefined;
 
@@ -76,8 +76,8 @@ export async function generateMetadata({
   params: Promise<{ username: string }>;
 }): Promise<Metadata> {
   const { username } = await params;
-  const { user_id, resume, clerkUser } = await getUserData(username);
-  const profilePicture = clerkUser?.imageUrl;
+  const { user_id, resume, userData } = await getUserData(username);
+  const profilePicture = userData?.image;
   if (!user_id) {
     return {
       title: 'Portfoliofy - Your Personal Portfolio, but Rich and Beautiful.',
@@ -121,7 +121,7 @@ export default async function ProfilePage({
   params: Promise<{ username: string }>;
 }) {
   const { username } = await params;
-  const { user_id, resume, clerkUser } = await getUserData(username);
+  const { user_id, resume, userData } = await getUserData(username);
 
   // If user_id is not found, render notfound UI directly
   if (!user_id) {
@@ -197,7 +197,7 @@ export default async function ProfilePage({
   if (!resume?.resumeData || resume.status !== 'live')
     redirect(`/?idNotFound=${user_id}`);
 
-  const profilePicture = clerkUser?.imageUrl;
+  const profilePicture = userData?.image;
   const header = resume.resumeData.header;
   const socialLinks = getSocialLinks(header.contacts);
 
@@ -265,7 +265,7 @@ export default async function ProfilePage({
                     aria-label="Website"
                     className={cn(
                       buttonVariants({ variant: 'ghost', size: 'icon' }),
-                      'size-12 rounded-full'
+                      'size-12 rounded-full',
                     )}
                   >
                     <GlobeIcon className="size-4" />
@@ -289,7 +289,7 @@ export default async function ProfilePage({
                     aria-label="GitHub"
                     className={cn(
                       buttonVariants({ variant: 'ghost', size: 'icon' }),
-                      'size-12 rounded-full'
+                      'size-12 rounded-full',
                     )}
                   >
                     <GitHubIcon className="size-4" />
@@ -313,7 +313,7 @@ export default async function ProfilePage({
                     aria-label="Twitter"
                     className={cn(
                       buttonVariants({ variant: 'ghost', size: 'icon' }),
-                      'size-12 rounded-full'
+                      'size-12 rounded-full',
                     )}
                   >
                     <XIcon className="size-4" />
@@ -337,7 +337,7 @@ export default async function ProfilePage({
                     aria-label="LinkedIn"
                     className={cn(
                       buttonVariants({ variant: 'ghost', size: 'icon' }),
-                      'size-12 rounded-full'
+                      'size-12 rounded-full',
                     )}
                   >
                     <LinkedInIcon className="size-4" />

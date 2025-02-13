@@ -1,4 +1,4 @@
-import { CustomSpinner } from '@/components/CustomSpinner';
+import { CustomSpinner } from '@/components/upload/custom-spinner';
 import React from 'react';
 
 interface LoadingFallbackProps {

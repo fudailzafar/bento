@@ -2,8 +2,8 @@ import { Button } from '@/components/ui/button';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { ResumeDataSchemaType } from '@/lib/resume';
 import { useMemo } from 'react';
-import BlurFade from '../magicui/blur-fade';
-import BlurFadeText from '../magicui/blur-fade-text';
+import BlurFade from '../../magicui/blur-fade';
+import BlurFadeText from '../../magicui/blur-fade-text';
 
 interface SocialButtonProps {
   href: string;

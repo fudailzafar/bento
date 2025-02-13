@@ -6,14 +6,14 @@ export async function GET(request: NextRequest) {
   try {
     const username = request.nextUrl.pathname.split('/')[1];
 
-    const { resume, clerkUser } = await getUserData(username);
+    const { resume, userData } = await getUserData(username);
 
     // Get data from resume
     const name = resume?.resumeData?.header?.name;
     const role = resume?.resumeData?.header?.shortAbout;
 
-    // Use profile image from Clerk user
-    const profileImageUrl = clerkUser?.imageUrl;
+    // Use profile image from stored user data
+    const profileImageUrl = userData?.image;
 
     return new ImageResponse(
       (
@@ -104,7 +104,7 @@ export async function GET(request: NextRequest) {
       {
         width: 1200,
         height: 630,
-      }
+      },
     );
   } catch (e: any) {
     console.log(`${e.message}`);

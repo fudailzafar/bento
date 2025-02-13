@@ -5,7 +5,6 @@ import { Drawer, DrawerContent, DrawerTitle } from '@/components/ui/drawer';
 import { Copy, Check, SquareArrowOutUpRight, X } from 'lucide-react';
 import { useMemo, useState } from 'react';
 import { useIsMobile } from '@/hooks/use-mobile';
-import { toast } from 'sonner';
 import Image from 'next/image';
 
 export const PopupSiteLive = ({

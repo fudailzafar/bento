@@ -2,10 +2,10 @@
 
 import { Button } from '@/components/ui/button';
 import { cn, getDomainUrl } from '@/lib/utils';
-import { ExternalLink, Pencil } from 'lucide-react';
+import { Pencil } from 'lucide-react';
 import { useState } from 'react';
 import { toast } from 'sonner';
-import UsernameEditorView from './UsernameEditorView';
+import UsernameEditorView from './username-editor-view';
 
 export type PublishStatuses = 'draft' | 'live';
 

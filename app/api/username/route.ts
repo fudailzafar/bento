@@ -1,5 +1,6 @@
-import { getUsernameById, updateUsername } from '@/lib/server/redisActions';
-import { currentUser } from '@clerk/nextjs/server';
+import { getUsernameById, updateUsername } from '@/lib/server/redis-actions';
+import { getServerSession } from 'next-auth';
+import { authOptions } from '@/app/api/auth/[...nextauth]/route';
 import { NextResponse } from 'next/server';
 
 // API Response Types
@@ -9,12 +10,12 @@ export type PostResponse = { success: true } | { error: string };
 // GET endpoint to retrieve username
 export async function GET(): Promise<NextResponse<GetResponse>> {
   try {
-    const user = await currentUser();
-    if (!user) {
+    const session = await getServerSession(authOptions);
+    if (!session?.user?.email) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
-    const username = await getUsernameById(user.id);
+    const username = await getUsernameById(session.user.email);
     return NextResponse.json({ username });
   } catch (error) {
     console.error('Error retrieving username:', error);
@@ -30,8 +31,8 @@ export async function POST(
   request: Request,
 ): Promise<NextResponse<PostResponse>> {
   try {
-    const user = await currentUser();
-    if (!user) {
+    const session = await getServerSession(authOptions);
+    if (!session?.user?.email) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
@@ -44,7 +45,7 @@ export async function POST(
       );
     }
 
-    const success = await updateUsername(user.id, username);
+    const success = await updateUsername(session.user.email, username);
 
     if (!success) {
       return NextResponse.json(

@@ -1,20 +1,33 @@
-import { getResume, getUserIdByUsername } from '@/lib/server/redisActions';
-import { clerkClient } from '@clerk/nextjs/server';
+import {
+  getResume,
+  getUserIdByUsername,
+  getUserProfile,
+} from '@/lib/server/redis-actions';
 import { unstable_cache } from 'next/cache';
 
 export async function getUserData(username: string) {
   const user_id = await getUserIdByUsername(username);
   if (!user_id)
-    return { user_id: undefined, resume: undefined, clerkUser: undefined };
+    return { user_id: undefined, resume: undefined, userData: undefined };
 
-  const resume = await getResume(user_id);
+  const [resume, userProfile] = await Promise.all([
+    getResume(user_id),
+    getUserProfile(user_id),
+  ]);
+
   if (!resume?.resumeData || resume.status !== 'live') {
-    return { user_id, resume: undefined, clerkUser: undefined };
+    return { user_id, resume: undefined, userData: userProfile };
   }
 
+  // Create cached user data combining profile and resume info
   const getCachedUser = unstable_cache(
     async () => {
-      return await (await clerkClient()).users.getUser(user_id);
+      return {
+        id: user_id,
+        email: user_id,
+        name: userProfile?.name || resume?.resumeData?.header?.name,
+        image: userProfile?.image, // This will contain the Google profile image
+      };
     },
     [user_id],
     {
@@ -22,7 +35,7 @@ export async function getUserData(username: string) {
       revalidate: 60, // 1 minute in seconds
     },
   );
-  const clerkUser = await getCachedUser();
+  const userData = await getCachedUser();
 
-  return { user_id, resume, clerkUser };
+  return { user_id, resume, userData };
 }

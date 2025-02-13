@@ -2,13 +2,13 @@
 
 import { Section } from '@/components/ui/section';
 import { ResumeDataSchemaType } from '@/lib/resume';
-import { getShortMonth, getYear } from './resumeUtils';
 import { useMemo } from 'react';
-import BlurFade from '../magicui/blur-fade';
 import { ChevronRightIcon } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import React from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
+import BlurFade from '@/components/magicui/blur-fade';
+import { getShortMonth, getYear } from '../resume-utils';
 
 const BLUR_FADE_DELAY = 0.04;
 

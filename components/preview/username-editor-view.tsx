@@ -1,10 +1,9 @@
 'use client';
 
 import { useState, useEffect, useRef } from 'react';
-import { CheckCircleIcon, Copy } from 'lucide-react';
 import { X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { useUserActions } from '@/hooks/useUserActions';
+import { useUserActions } from '@/hooks/use-user-actions';
 import { toast } from 'sonner';
 import { MAX_USERNAME_LENGTH } from '@/lib/config';
 import {
@@ -21,8 +20,8 @@ import {
   DrawerHeader,
   DrawerTitle,
 } from '@/components/ui/drawer';
-import { useIsMobile } from './ui/use-mobile';
-import { ConfettiButton } from './ui/confetti';
+import { ConfettiButton } from '../ui/confetti';
+import { useIsMobile } from '@/hooks/use-mobile';
 
 interface UsernameEditorContentProps {
   initialUsername: string;

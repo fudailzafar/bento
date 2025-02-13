@@ -1,15 +1,14 @@
-import { HeroNew } from '@/components/home/hero-new';
-import { Avatars } from '@/components/home/Avatars';
-import { Hero } from '@/components/home/Hero';
-import { Cta } from '@/components/home/Cta';
-import { Footer } from '@/components/Footer';
-import { VideoDialog } from '@/components/home/VideoDialog';
-import { Demo } from '@/components/home/Demo';
+import { Footer } from '@/components/home/footer';
+import { Avatars } from '@/components/home/avatars';
+import { Cta } from '@/components/home/cta';
+import { Demo } from '@/components/home/demo';
+import { Hero } from '@/components/home/hero';
+import { VideoDialog } from '@/components/home/video-dialog';
 
 export default function Home() {
   return (
     <>
-      <HeroNew />
+      <Hero />
       <VideoDialog />
       <Avatars />
       <Demo />

@@ -2,11 +2,11 @@
 
 import { Section } from '@/components/ui/section';
 import { ResumeDataSchemaType } from '@/lib/resume';
-import { getShortMonth, getYear } from './resumeUtils';
+import { getShortMonth, getYear } from '../resume-utils';
 import { useMemo } from 'react';
-import BlurFade from '../magicui/blur-fade';
+import BlurFade from '../../magicui/blur-fade';
 import React from 'react';
-import { ProjectCard } from '../project-card';
+import { ProjectCard } from '../../home/demo-project-card';
 
 const BLUR_FADE_DELAY = 0.04;
 
