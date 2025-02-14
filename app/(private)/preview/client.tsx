@@ -1,5 +1,5 @@
 'use client';
-import LoadingFallback from '@/components/upload/loading-fallback';
+import LoadingFallback from '@/components/loading-fallback';
 import { PopupSiteLive } from '@/components/preview/popup-site-live';
 import PreviewActionbar from '@/components/preview/preview-action-bar';
 import { FullResume } from '@/components/resume/preview/full-resume';

@@ -8,13 +8,20 @@ import {
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuLabel,
+  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { LockOpen, LogOutIcon, MailIcon } from 'lucide-react';
+import { useState } from 'react';
+import { useUserActions } from '@/hooks/use-user-actions';
+import UsernameEditorView from '@/components/preview/username-editor-view';
+import { Separator } from './ui/separator';
 
 export function Header() {
   const { data: session } = useSession();
+  const { usernameQuery } = useUserActions();
+  const [isUsernameEditorOpen, setIsUsernameEditorOpen] = useState(false);
+
   if (session?.user) {
     return (
       <>
@@ -47,39 +54,69 @@ export function Header() {
                   </Avatar>
                 </Button>
               </DropdownMenuTrigger>
-              <DropdownMenuContent className="w-72" align="end" forceMount>
-                <DropdownMenuLabel className="font-normal p-3">
-                  <div className="flex flex-col space-y-3">
-                    <p className="text-lg font-semibold text-black">
-                      {session.user.name || 'User'}
-                    </p>
-                    <div className="border border-gray-300 rounded-md p-3 bg-gray-50">
-                      <div className="flex items-center gap-2 mb-2">
-                        <MailIcon className="text-gray-600 size-4" />
-                        <span className="text-sm text-gray-700">
-                          {session.user.email}
-                        </span>
+              <DropdownMenuContent
+                className="w-56 rounded-3xl"
+                align="end"
+                forceMount
+              >
+                <DropdownMenuLabel className="font-normal m-1">
+                  <div className="flex flex-col space-y-5">
+                    <DropdownMenuItem
+                      className="cursor-pointer hover:bg-slate-400"
+                      onClick={() => setIsUsernameEditorOpen(true)}
+                    >
+                      <div className="">
+                        <div className="text-xs font-normal text-design-black">
+                          Change Username
+                        </div>
+                        <div className="text-xs text-gray-500">
+                          /
+                          {usernameQuery.data?.username ||
+                            session.user.name
+                              ?.toLowerCase()
+                              .replace(/\s+/g, '') ||
+                            'username'}
+                        </div>
                       </div>
-                      <div className="flex items-center gap-2">
-                        <LockOpen className="text-gray-600 size-4" />
-                        <span className="text-sm text-gray-700">
-                          Authed with <strong>google.com</strong>
-                        </span>
+                    </DropdownMenuItem>
+
+                    <DropdownMenuItem className="">
+                      <div className="text-xs font-normal text-design-gray">
+                        Change Email
                       </div>
-                    </div>
+                      <div className="text-xs text-design-gray">
+                        Signed in with Google
+                      </div>
+                    </DropdownMenuItem>
+
+                    <DropdownMenuItem className="">
+                      <div className="text-xs font-normal text-design-gray">
+                        Change Password
+                      </div>
+                      <div className="text-xs text-design-gray">
+                        Signed in with Google
+                      </div>
+                    </DropdownMenuItem>
                   </div>
+                  <Separator className="my-3" />
+                  <DropdownMenuItem
+                    className="cursor-pointer text-design-black rounded-xl py-3 text-xs"
+                    onClick={() => signOut({ callbackUrl: '/' })}
+                  >
+                    Log Out
+                  </DropdownMenuItem>
                 </DropdownMenuLabel>
-                <DropdownMenuItem
-                  className="cursor-pointer flex items-center justify-center py-3 text-gray-700 hover:bg-gray-50"
-                  onClick={() => signOut({ callbackUrl: '/' })}
-                >
-                  <LogOutIcon className="text-gray-600 size-4" />
-                  <span>Sign out</span>
-                </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
           </div>
         </header>
+
+        {/* Username Editor Dialog */}
+        <UsernameEditorView
+          initialUsername={usernameQuery.data?.username || ''}
+          isOpen={isUsernameEditorOpen}
+          onClose={() => setIsUsernameEditorOpen(false)}
+        />
       </>
     );
   }
