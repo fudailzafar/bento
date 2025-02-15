@@ -27,7 +27,7 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="flex items-center justify-center min-h-">
+    <div className="flex items-center justify-center">
       <div className="w-full md:p-48">
         <div className="text-start mb-8">
           <h1 className="text-[32px] font-semibold text-design-black mb-4">

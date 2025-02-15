@@ -8,7 +8,7 @@ export async function middleware(req: NextRequest) {
   const { pathname } = req.nextUrl;
 
   // If accessing a protected route without token → redirect to login
-  if (PRIVATE_ROUTES.some((route) => pathname.startsWith(route))) {
+  if (PRIVATE_ROUTES.some((route) => pathname.startsWith(`/${route}`))) {
     if (!token) {
       const loginUrl = new URL('/api/auth/signin', req.url);
       return NextResponse.redirect(loginUrl);

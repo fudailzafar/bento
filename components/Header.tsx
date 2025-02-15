@@ -8,7 +8,6 @@ import {
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuLabel,
-  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
@@ -55,56 +54,56 @@ export function Header() {
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent
-                className="w-56 rounded-3xl"
+                className="w-56 rounded-2xl -p-2"
                 align="end"
                 forceMount
               >
-                <DropdownMenuLabel className="font-normal m-1">
-                  <div className="flex flex-col space-y-5">
-                    <DropdownMenuItem
-                      className="cursor-pointer hover:bg-slate-400"
+                <DropdownMenuLabel className="font-normal">
+                  <div className="flex flex-col">
+                    <div
+                      className="cursor-pointer hover:bg-slate-100 hover:rounded-xl p-3"
                       onClick={() => setIsUsernameEditorOpen(true)}
                     >
-                      <div className="">
-                        <div className="text-xs font-normal text-design-black">
-                          Change Username
-                        </div>
-                        <div className="text-xs text-gray-500">
-                          /
-                          {usernameQuery.data?.username ||
-                            session.user.name
-                              ?.toLowerCase()
-                              .replace(/\s+/g, '') ||
-                            'username'}
-                        </div>
+                      <div className="text-xs font-normal text-design-black">
+                        Change Username
                       </div>
-                    </DropdownMenuItem>
+                      <div className="text-xs text-gray-500">
+                        /
+                        {usernameQuery.data?.username ||
+                          session.user.name
+                            ?.toLowerCase()
+                            .replace(/\s+/g, '') ||
+                          'username'}
+                      </div>
+                    </div>
 
-                    <DropdownMenuItem className="">
+                    <div className="p-3 cursor-default">
                       <div className="text-xs font-normal text-design-gray">
                         Change Email
                       </div>
                       <div className="text-xs text-design-gray">
                         Signed in with Google
                       </div>
-                    </DropdownMenuItem>
+                    </div>
 
-                    <DropdownMenuItem className="">
+                    <div className="p-3 cursor-default">
                       <div className="text-xs font-normal text-design-gray">
                         Change Password
                       </div>
                       <div className="text-xs text-design-gray">
                         Signed in with Google
                       </div>
-                    </DropdownMenuItem>
+                    </div>
                   </div>
                   <Separator className="my-3" />
-                  <DropdownMenuItem
-                    className="cursor-pointer text-design-black rounded-xl py-3 text-xs"
+                  <div
+                    className="cursor-pointer hover:bg-slate-100 hover:rounded-xl p-3"
                     onClick={() => signOut({ callbackUrl: '/' })}
                   >
-                    Log Out
-                  </DropdownMenuItem>
+                    <div className="text-xs font-normal text-design-black">
+                      Log Out
+                    </div>
+                  </div>
                 </DropdownMenuLabel>
               </DropdownMenuContent>
             </DropdownMenu>
