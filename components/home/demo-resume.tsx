@@ -3,7 +3,6 @@ import BlurFade from '../magicui/blur-fade';
 import BlurFadeText from '../magicui/blur-fade-text';
 import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
 import { Badge } from '../ui/badge';
-import Link from 'next/link';
 import { ProjectCard } from '../ui/project-card';
 import { ResumeCard } from '../ui/resume-card';
 import { DATA } from './resume';

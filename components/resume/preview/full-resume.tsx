@@ -1,12 +1,15 @@
-import LoadingFallback from '../LoadingFallback';
-import { ResumeData } from '../../lib/server/redisActions';
-import { Education } from './Education';
-import { Header } from './Header';
-import { Skills } from './Skills';
-import { Summary } from './Summary';
-import { WorkExperience } from './WorkExperience';
-import { Contact } from './Contact';
-import { Projects } from './Projects';
+import LoadingFallback from '../../loading-fallback';
+import { ResumeData } from '../../../lib/server/redis-actions';
+import { Header } from './header';
+
+import { Education } from './education';
+
+import { Projects } from './projects';
+import { Contact } from './contact';
+import { Summary } from './summary';
+import { WorkExperience } from './work-experience';
+import { Skills } from './skills';
+
 
 export const FullResume = ({
   resume,

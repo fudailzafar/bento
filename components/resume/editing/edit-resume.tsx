@@ -1,15 +1,15 @@
-import { ResumeData } from '../../../lib/server/redisActions';
+import { ResumeData } from '../../../lib/server/redis-actions';
 import { toast } from 'sonner';
 import { Input } from '../../ui/input';
 import { Label } from '../../ui/label';
 
 import { useState } from 'react';
-import { AddButton } from './AddButton';
-import { WorkExperienceField } from './WorkExperienceField';
-import { EducationField } from './EducationField';
-import { SkillField } from './SkillField';
-import { AddSkillDialog } from './AddSkillDialog';
-import { ProjectsField } from './ProjectsField';
+import { AddButton } from './add-button';
+import { WorkExperienceField } from './work-experience-field';
+import { EducationField } from './education-field';
+import { SkillField } from './skills-field';
+import { AddSkillDialog } from './add-skill-dialog';
+import { ProjectsField } from './projects-field';
 
 export const EditResume = ({
   resume,

@@ -1,9 +1,9 @@
 import { Card, CardHeader, CardContent } from '@/components/ui/card';
 import { Section } from '@/components/ui/section';
 import { ResumeDataSchemaType } from '@/lib/resume';
-import { getYear } from './resumeUtils';
+import { getYear } from '../resume-utils';
 import { useMemo } from 'react';
-import BlurFade from '../magicui/blur-fade';
+import BlurFade from '../../magicui/blur-fade';
 
 const BLUR_FADE_DELAY = 0.04;
 

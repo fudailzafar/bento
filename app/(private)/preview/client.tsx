@@ -1,13 +1,13 @@
 'use client';
-import LoadingFallback from '@/components/LoadingFallback';
-import { PopupSiteLive } from '@/components/PopupSiteLive';
-import PreviewActionbar from '@/components/PreviewActionbar';
-import { FullResume } from '@/components/resume/FullResume';
-import { EditResume } from '@/components/resume/editing/EditResume';
-import { useUserActions } from '@/hooks/useUserActions';
-import { ResumeData } from '@/lib/server/redisActions';
+import LoadingFallback from '@/components/loading-fallback';
+import { PopupSiteLive } from '@/components/preview/popup-site-live';
+import PreviewActionbar from '@/components/preview/preview-action-bar';
+import { FullResume } from '@/components/resume/preview/full-resume';
+import { EditResume } from '@/components/resume/editing/edit-resume';
+import { useUserActions } from '@/hooks/use-user-actions';
+import { ResumeData } from '@/lib/server/redis-actions';
 import { getDomainUrl } from '@/lib/utils';
-import { useUser } from '@clerk/nextjs';
+import { useSession } from 'next-auth/react';
 import { useEffect, useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
@@ -24,10 +24,9 @@ import {
 } from '@/components/ui/alert-dialog';
 
 import { toast } from 'sonner';
-import { CustomSpinner } from '@/components/CustomSpinner';
 
 export default function PreviewClient({ messageTip }: { messageTip?: string }) {
-  const { user } = useUser();
+  const { data: session } = useSession();
   const {
     resumeQuery,
     toggleStatusMutation,
@@ -237,9 +236,7 @@ export default function PreviewClient({ messageTip }: { messageTip?: string }) {
               ) : (
                 <Save className="h-4 w-4" />
               )}
-              <span>
-                {saveResumeDataMutation.isPending ? '' : 'Save'}
-              </span>
+              <span>{saveResumeDataMutation.isPending ? '' : 'Save'}</span>
             </Button>
           </div>
         )}
@@ -254,7 +251,7 @@ export default function PreviewClient({ messageTip }: { messageTip?: string }) {
         ) : (
           <FullResume
             resume={localResumeData}
-            profilePicture={user?.imageUrl}
+            profilePicture={session?.user?.image || undefined}
           />
         )}
       </div>

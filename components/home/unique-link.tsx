@@ -4,7 +4,7 @@ import { motion } from 'framer-motion';
 import { GitHubLogoIcon, TwitterLogoIcon } from '@radix-ui/react-icons';
 import { MailIcon } from 'lucide-react';
 
-export default function UniqueLink() {
+export function UniqueLink() {
   return (
     <section className="flex flex-col items-center justify-center py-16 mb-24">
       {/* Headline */}

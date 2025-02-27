@@ -1,16 +1,15 @@
-import { HeroNew } from '@/components/home/hero-new';
+import { Footer } from '@/components/home/footer';
 import { Avatars } from '@/components/home/Avatars';
-import { Hero } from '@/components/home/Hero';
 import { Cta } from '@/components/home/Cta';
-import { Footer } from '@/components/Footer';
-import UniqueLink from '@/components/home/UniqueLink';
-import { VideoDialog } from '@/components/home/VideoDialog';
 import { Demo } from '@/components/home/Demo';
+import { Hero } from '@/components/home/Hero';
+import { VideoDialog } from '@/components/home/video-dialog';
+import { UniqueLink } from '@/components/home/unique-link';
 
 export default function Home() {
   return (
     <>
-      <HeroNew />
+      <Hero />
       <VideoDialog />
       <Avatars />
       <Demo />

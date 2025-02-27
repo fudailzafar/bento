@@ -1,75 +1,115 @@
+'use client';
+
+import { Section } from '../ui/section';
+import { easeInOutCubic } from '@/lib/animation';
+import { motion, useScroll, useTransform } from 'framer-motion';
 import Link from 'next/link';
 import { Button } from '../ui/button';
-import { BlurFade } from '../ui/BlurFade';
 import Image from 'next/image';
-import { MousePointerClick, WandSparkles } from 'lucide-react';
+import { ArrowRight } from 'lucide-react';
 
 export function Hero() {
+  const { scrollY } = useScroll({
+    offset: ['start start', 'end start'],
+  });
+  const y1 = useTransform(scrollY, [0, 300], [100, 0]);
+  const y2 = useTransform(scrollY, [0, 300], [50, 0]);
+  const y3 = useTransform(scrollY, [0, 300], [0, 0]);
+  const y4 = useTransform(scrollY, [0, 300], [50, 0]);
+  const y5 = useTransform(scrollY, [0, 300], [100, 0]);
+
   return (
     <>
-      <section className="flex-1 flex flex-col">
-        <div className="flex flex-col min-h-[80vh]">
-          {/* Main Content */}
-          <div className="flex-1 flex flex-col md:flex-row max-w-4xl mx-auto items-center px-5 md:px-2 py-8 md:pt-0">
-            {/* Left Side --- Call to Action */}
-            <div className="w-full md:w-1/2 max-w-[378px] flex flex-col justify-center items-center md:items-start ">
-              <div className="max-w-md text-center md:text-left">
-                <div className="inline-block  gap-2.5 px-2.5 py-1.5 rounded bg-gray-100 text-sm mb-5 text-design-gray">
-                  100% free forever
-                </div>
-
-                <h1 className="text-[32px] font-bold mb-4 flex items-center justify-center md:justify-start gap-4 flex-wrap text-design-black  leading-4">
-                  <span>LinkedIn</span>
-                  <Image
-                    src="/home/right-arrow.png"
-                    alt="Arrow Right Icon"
-                    width={32}
-                    height={32}
-                    className="inline size-8"
-                  />
-                  <span>Portfolio</span>
-                  <br />
-                  <span>
-                    in one <span className="hidden sm:inline">click</span>
-                  </span>
-                  <MousePointerClick className="size-[37px] text-black" />
-                </h1>
-
-                <p className="text-base text-gray-600 mb-[30px]  text-center md:text-left">
-                  Convert your resume/LinkedIn
-                  <br /> into a minimalistic & clean portfolio.
-                </p>
-
-                <div className="relative flex flex-col items-center  w-full md:w-fit">
-                  <Link href="/upload">
-                    <Button className="relative group flex items-center bg-black hover:bg-black/75 text-white px-6 py-3 h-auto text-base overflow-hidden cursor-pointer">
-                      <div className="h-[120px] w-10 bg-gradient-to-r from-white/10 via-white/50 to-white/10 absolute blur-sm -rotate-45 -left-16 group-hover:left-[150%] duration-500 delay-200" />
-                      <WandSparkles className="h-5 w-5 mr-2 relative" />
-                      <span className="relative">Upload Resume</span>
-                    </Button>
-                  </Link>
-
-                  <p className="text-sm text-gray-500 mt-4 text-center">
-                    Takes no time!
-                  </p>
-                </div>
-              </div>
-            </div>
-
-            {/* Hero Right --- Preview Image */}
-            <div className="w-full md:w-1/2 flex justify-center items-center flex-1 relative max-h-[700px] min-w-[50%] lg:min-w-[500px]">
-              <div className="absolute inset-0 -bottom-4 rounded-3xl bg-white blur-xl h-full"></div>
-              <BlurFade delay={0.25} inView>
-                <img
-                  src="/home/cv-home.png"
-                  className="relative w-full max-w-[500px] h-full object-cover overflow-hidden"
-                  alt="Preview of Resume Website"
+      {/* Top banner section */}
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.8, delay: 1.2, ease: easeInOutCubic }}
+        className="w-full bg-gray-900 hover:bg-gray-950 text-design-white text-center py-5 text-base font-light flex items-center justify-center"
+      >
+        <a
+          href="https://portfoliofy.me/fudail"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="flex items-center gap-1"
+        >
+          Big news! Portfoliofy just launched! <ArrowRight size={20} />
+        </a>
+      </motion.div>
+      {/* Main hero section */}
+      <Section id="hero" className="min-h-[100vh] w-full overflow-hidden">
+        <main className="mx-auto pt-14 sm:pt-24 md:pt-32 text-center relative px-4">
+          <div className="relative">
+            <motion.div
+              initial={{ scale: 4.5, height: '80vh' }}
+              animate={{ scale: 1, height: '10vh' }}
+              transition={{
+                scale: { delay: 0, duration: 1.8, ease: easeInOutCubic },
+                height: { delay: 0, duration: 1.8, ease: easeInOutCubic },
+              }}
+              className="mb-16 relative z-20"
+              style={{ transformOrigin: 'top' }}
+            >
+              <div className="mt-3 sm:-mt-[72px] md:-mt-24 bg-primary text-white text-xl font-bold p-0 h-20 w-20 flex items-center justify-center rounded-3xl mx-auto shadow-md">
+                <Image
+                  src={'/icons/android-chrome-512x512.png'}
+                  alt=""
+                  width={1}
+                  height={1}
+                  className="w-auto h-[40px] rounded-xl"
                 />
-              </BlurFade>
-            </div>
+              </div>
+            </motion.div>
+            <motion.div
+              initial={{ y: -20, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              transition={{ duration: 0.6, delay: 1.2 }}
+              className="absolute inset-0 top-20 z-10 font-semibold text-2xl mt-3"
+            >
+              Portfoliofy
+            </motion.div>
           </div>
-        </div>
-      </section>
+
+          <div className="max-w-5xl mx-auto mt-24">
+            <motion.h1
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.8, delay: 0.5, ease: easeInOutCubic }}
+              className="text-4xl sm:text-6xl font-bold mb-4 tracking-tighter"
+            >
+              <div className="flex flex-col gap-y-2 sm:gap-y-4">
+                <div>A Personal Portfolio.</div>
+                <div>But Rich and Beautiful.</div>
+              </div>
+            </motion.h1>
+            <motion.p
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.8, delay: 0.7, ease: easeInOutCubic }}
+              className="text-design-gray max-w-2xl mx-auto text-xl sm:text-[22px] mb-8 font-light text-balance mt-7 tracking-tight"
+            >
+              Your personal page to show your work, skills, and story.
+            </motion.p>
+          </div>
+
+          <div className="flex flex-col gap-3 mt-16">
+            <Link href="/signup">
+              <Button
+                variant="default"
+                className="text-lg rounded-xl font-semibold py-8 px-20 sm:py-8 sm:px-14 bg-black hover:bg-black/65 cursor-pointer mb-2"
+              >
+                Create Your Portfolio
+              </Button>
+            </Link>
+            <Link
+              href={'/login'}
+              className="text-design-gray text-sm sm:text-xs hover:underline"
+            >
+              Log In
+            </Link>
+          </div>
+        </main>
+      </Section>
     </>
   );
 }

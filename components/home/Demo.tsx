@@ -1,5 +1,5 @@
-import { DemoResume } from './DemoResume';
-import DemoResumeDesktop from './DemoResumeDesktop';
+import { DemoResume } from './demo-resume';
+import DemoResumeDesktop from './demo-resume-desktop';
 
 export function Demo() {
   return (

@@ -1,5 +1,7 @@
-import { getResume, Resume, storeResume } from '@/lib/server/redisActions';
-import { currentUser } from '@clerk/nextjs/server';
+import { getResume, Resume, storeResume } from '@/lib/server/redis-actions';
+// import { currentUser } from '@clerk/nextjs/server';
+import { getServerSession } from 'next-auth';
+import { authOptions } from '@/app/api/auth/[...nextauth]/route';
 import { NextResponse } from 'next/server';
 
 import { z } from 'zod';
@@ -13,12 +15,12 @@ export type PostResumeResponse =
 // GET endpoint to retrieve resume
 export async function GET(): Promise<NextResponse<GetResumeResponse>> {
   try {
-    const user = await currentUser();
-    if (!user) {
+    const session = await getServerSession(authOptions);
+    if (!session?.user?.email) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
-    const resume = await getResume(user.id);
+    const resume = await getResume(session.user.email);
     return NextResponse.json({ resume });
   } catch (error) {
     console.error('Error retrieving resume:', error);
@@ -34,13 +36,13 @@ export async function POST(
   request: Request,
 ): Promise<NextResponse<PostResumeResponse>> {
   try {
-    const user = await currentUser();
-    if (!user) {
+    const session = await getServerSession(authOptions);
+    if (!session?.user?.email) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
     const body = await request.json();
-    await storeResume(user.id, body);
+    await storeResume(session.user.email, body);
 
     return NextResponse.json({ success: true });
   } catch (error) {
