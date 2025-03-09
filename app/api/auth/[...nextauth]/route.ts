@@ -14,6 +14,7 @@ export const authOptions = {
     signUp: '/signup',
     error: '/login', // Redirect errors to login page
   },
+  secret: process.env.NEXTAUTH_SECRET,
   callbacks: {
     async signIn({
       user,
