@@ -9,11 +9,6 @@ export const authOptions = {
       clientSecret: process.env.AUTH_GOOGLE_SECRET!,
     }),
   ],
-  pages: {
-    signIn: '/login',
-    signUp: '/signup',
-    error: '/login', // Redirect errors to login page
-  },
   secret: process.env.NEXTAUTH_SECRET,
   callbacks: {
     async signIn({
