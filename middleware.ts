@@ -4,8 +4,11 @@ import { getToken } from 'next-auth/jwt';
 import type { NextRequest } from 'next/server';
 
 export async function middleware(req: NextRequest) {
-  const token = await getToken({ req, secret: process.env.NEXTAUTH_SECRET });
   const { pathname } = req.nextUrl;
+  if (pathname.startsWith('/api/auth')) {
+    return NextResponse.next();
+  }
+  const token = await getToken({ req, secret: process.env.AUTH_SECRET });
 
   // If accessing a protected route without token → redirect to login
   if (PRIVATE_ROUTES.some((route) => pathname.startsWith(`/${route}`))) {
@@ -19,5 +22,10 @@ export async function middleware(req: NextRequest) {
 }
 
 export const config = {
-  matcher: ['/preview/:path*', '/pdf/:path*', '/upload/:path*', '/api/:path*'],
+  matcher: [
+    '/preview/:path*',
+    '/pdf/:path*',
+    '/upload/:path*',
+    '/api/:path*',
+  ],
 };
