@@ -40,7 +40,7 @@ export default function LoginPage() {
 
         <button
           onClick={() => signIn('google')}
-          className="w-[440px] flex items-center justify-center gap-3 my-10 shadow-lg px-10 py-3.5 bg-[#1A96EB] hover:bg-[#2a96df] text-[#ececec] font-bold tracking-normal text-sm rounded-xl transition-colors"
+          className="w-[440px] flex items-center active:scale-95 transition-transform justify-center gap-3 my-10 shadow-lg px-10 py-3.5 bg-[#1A96EB] hover:bg-[#2a96df] text-[#ececec] font-bold tracking-normal text-sm rounded-xl"
         >
           <svg className="w-5 h-5" viewBox="0 0 24 24">
             <path
