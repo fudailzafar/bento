@@ -29,10 +29,10 @@ export function Footer() {
           <Link
             target="_blank"
             rel="noopener noreferrer"
-            href="/aboutus"
+            href="/terms-of-service"
             className=""
           >
-            <span className="hover:underline">About us</span>
+            <span className="hover:underline">Terms of Service</span>
           </Link>
           <Link
             target="_blank"
@@ -45,10 +45,10 @@ export function Footer() {
           <Link
             target="_blank"
             rel="noopener noreferrer"
-            href="jointheteam"
+            href="privacy-policy"
             className=""
           >
-            <span className="hover:underline">Join the team</span>
+            <span className="hover:underline">Privacy Policy</span>
           </Link>
           <Link
             target="_blank"
