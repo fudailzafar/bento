@@ -26,13 +26,13 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="flex items-center justify-center">
-      <div className="w-full md:p-48">
-        <div className="text-start mb-8">
-          <h1 className="text-[32px] font-semibold text-design-black mb-4">
+    <div className="min-h-[70vh] md:min-h-screen flex items-center justify-center px-7 sm:px-6 lg:px-48">
+      <div className="w-full space-y-8">
+        <div className="text-left">
+          <h1 className="text-[29px] lg:text-[32px] font-bold md:font-semibold text-design-black mb-6 md:mb-4">
             Log in to your Portfolio
           </h1>
-          <h2 className="text-design-resume font-normal text-xl">
+          <h2 className="text-design-resume font-normal text-xl sm:text-xl">
             Good to have you back!
           </h2>
         </div>
@@ -40,7 +40,7 @@ export default function LoginPage() {
         <button
           onClick={handleSignIn}
           disabled={isLoading}
-          className="w-[440px] flex items-center active:scale-95 transition-all duration-300 ease-out justify-center gap-3 my-10 shadow-lg px-10 py-3.5 bg-[#1A96EB] hover:bg-[#2a96df] disabled:opacity-70 disabled:cursor-not-allowed text-[#ececec] font-bold tracking-normal text-sm rounded-xl"
+          className="w-full max-w-[440px] flex items-center active:scale-95 transition-all duration-300 ease-out justify-center gap-3 my-10 shadow-lg px-6 sm:px-10 py-5 md:py-3.5 bg-[#1A96EB] hover:bg-[#2a96df] disabled:opacity-70 disabled:cursor-not-allowed text-[#ececec] font-bold tracking-normal text-sm rounded-xl"
         >
           {isLoading ? (
             <>
@@ -198,12 +198,14 @@ export default function LoginPage() {
           )}
         </button>
 
-        <Link
-          href="/signup"
-          className="text-start font-normal text-xs text-design-gray mt-6"
-        >
-          or sign up
-        </Link>
+        <div className="text-left mt-6">
+          <Link
+            href="/signup"
+            className="text-design-resume font-normal text-xs transition-colors"
+          >
+            or sign up
+          </Link>
+        </div>
       </div>
     </div>
   );
