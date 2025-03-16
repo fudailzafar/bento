@@ -12,7 +12,7 @@ export function HeaderExplore() {
             <Link href={'/home'}>
               <Image alt="" src={'/favicon.ico'} width={50} height={50} />
             </Link>
-            <Link href={'/home/explore#featured'}>Featured</Link>
+            <Link href={'/explore#featured'}>Featured</Link>
             <Link href={'/home'}>Home</Link>
           </div>
           <div>

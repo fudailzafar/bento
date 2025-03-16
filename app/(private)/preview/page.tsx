@@ -1,4 +1,3 @@
-// import { auth } from '@clerk/nextjs/server';
 import PreviewClient from './client';
 import {
   createUsernameLookup,
@@ -13,11 +12,8 @@ import LoadingFallback from '@/components/loading-fallback';
 import { MAX_USERNAME_LENGTH } from '@/lib/config';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/app/api/auth/[...nextauth]/route';
-// import { currentUser } from '@clerk/nextjs/server';
 
 async function LLMProcessing({ userId }: { userId: string }) {
-  // const user = await currentUser();
-
   let resume = await getResume(userId);
   const session = await getServerSession(authOptions);
 

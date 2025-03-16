@@ -1,6 +1,5 @@
 import type React from 'react';
 import { Inter as FontSans } from 'next/font/google';
-// import { ClerkProvider } from '@clerk/nextjs';
 import './globals.css';
 import { Toaster } from '@/components/ui/sonner';
 import { ReactQueryClientProvider } from '@/components/react-client-query-provider';
@@ -65,8 +64,6 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    // <ClerkProvider>
-
     <ReactQueryClientProvider>
       <html lang="en">
         <head>
@@ -87,7 +84,5 @@ export default function RootLayout({
         </body>
       </html>
     </ReactQueryClientProvider>
-
-    // </ClerkProvider>
   );
 }

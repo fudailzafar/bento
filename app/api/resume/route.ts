@@ -1,5 +1,4 @@
 import { getResume, Resume, storeResume } from '@/lib/server/redis-actions';
-// import { currentUser } from '@clerk/nextjs/server';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/app/api/auth/[...nextauth]/route';
 import { NextResponse } from 'next/server';
@@ -26,14 +25,14 @@ export async function GET(): Promise<NextResponse<GetResumeResponse>> {
     console.error('Error retrieving resume:', error);
     return NextResponse.json(
       { error: 'Internal server error' },
-      { status: 500 },
+      { status: 500 }
     );
   }
 }
 
 // POST endpoint to store resume
 export async function POST(
-  request: Request,
+  request: Request
 ): Promise<NextResponse<PostResumeResponse>> {
   try {
     const session = await getServerSession(authOptions);
@@ -49,13 +48,13 @@ export async function POST(
     if (error instanceof z.ZodError) {
       return NextResponse.json(
         { error: 'Invalid data format', details: error.errors },
-        { status: 400 },
+        { status: 400 }
       );
     }
     console.error('Error storing resume:', error);
     return NextResponse.json(
       { error: 'Internal server error' },
-      { status: 500 },
+      { status: 500 }
     );
   }
 }
