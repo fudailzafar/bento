@@ -129,14 +129,14 @@ export default async function ProfilePage({
       <div className="flex flex-col mt-16 mb-1 items-center justify-center bg-white">
         {/* Logo */}
         <BlurFade delay={3} duration={0.5}>
-          <div className="mb-1">
-            <div className="rounded-full p-10">
+          <div className="rounded-2xl bg-black p-3 mb-10">
+            <div className="rounded-full">
               <Image
                 src={'/icons/android-chrome-512x512.png'}
                 alt=""
-                className="rounded-md"
-                width={65}
-                height={45}
+                className="rounded-lg"
+                width={40}
+                height={20}
               />
             </div>
           </div>

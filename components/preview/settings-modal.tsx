@@ -69,7 +69,7 @@ export function SettingsPanel() {
                     r="2"
                     fill="white"
                     stroke="currentColor"
-                    stroke-width="2"
+                    strokeWidth="2"
                   ></circle>
                   <circle
                     cx="6"
@@ -77,7 +77,7 @@ export function SettingsPanel() {
                     r="2"
                     fill="white"
                     stroke="currentColor"
-                    stroke-width="2"
+                    strokeWidth="2"
                   ></circle>
                 </svg>
 
@@ -187,7 +187,7 @@ export function SettingsPanel() {
                   r="2"
                   fill="white"
                   stroke="currentColor"
-                  stroke-width="2"
+                  strokeWidth="2"
                 ></circle>
                 <circle
                   cx="6"
@@ -195,7 +195,7 @@ export function SettingsPanel() {
                   r="2"
                   fill="white"
                   stroke="currentColor"
-                  stroke-width="2"
+                  strokeWidth="2"
                 ></circle>
               </svg>
 
