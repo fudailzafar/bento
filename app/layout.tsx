@@ -85,7 +85,7 @@ export default function RootLayout({
               <Analytics />
             </main>
             <Toaster richColors position="bottom-center" />
-            <GoogleAnalytics gaId="G-WW2D1GVX99" />
+            <GoogleAnalytics gaId="G-B99MN9ZMBL" />
           </SessionProviderComponent>
         </body>
       </html>
