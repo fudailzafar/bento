@@ -96,7 +96,7 @@ export function Hero() {
             <Link href="/signup">
               <Button
                 variant="default"
-                className="text-lg rounded-xl font-semibold py-8 px-20 sm:py-8 sm:px-14 bg-black hover:bg-black/65 cursor-pointer mb-2"
+                className="text-lg rounded-xl active:scale-95 transition-all font-semibold py-8 px-20 sm:py-8 sm:px-14 bg-black hover:bg-black/65 cursor-pointer mb-2"
               >
                 Create Your Portfolio
               </Button>

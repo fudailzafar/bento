@@ -1,10 +1,8 @@
 'use client';
 
 import { Button } from '@/components/ui/button';
-import { cn, getDomainUrl } from '@/lib/utils';
-import { Pencil } from 'lucide-react';
+import { getDomainUrl } from '@/lib/utils';
 import { useState } from 'react';
-import { toast } from 'sonner';
 import UsernameEditorView from './username-editor-view';
 
 export type PublishStatuses = 'draft' | 'live';
