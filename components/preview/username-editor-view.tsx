@@ -101,7 +101,7 @@ function UsernameEditorContent({
 
   // Success Modal/Drawer Content Component
   const SuccessContent = () => (
-    <div className="flex flex-col items-center w-full mt-24">
+    <div className="flex flex-col items-center w-full">
       <div className="flex items-center justify-center w-16 h-16 rounded-full mb-4">
         <span className="rounded-full shadow-[0px_1px_2px_rgba(0,0,0,0.12)]">
           <svg
@@ -110,7 +110,7 @@ function UsernameEditorContent({
             width="48"
             height="48"
           >
-            <g fill="none" stroke="#4edd76" stroke-width="2">
+            <g fill="none" stroke="#4edd76" strokeWidth="2">
               <circle
                 id="colored"
                 fill="#4edd76"
@@ -359,7 +359,7 @@ function UsernameEditorContent({
                       width="16"
                       height="16"
                     >
-                      <g fill="none" stroke="#4EDD76" stroke-width="2">
+                      <g fill="none" stroke="#4EDD76" strokeWidth="2">
                         <circle
                           id="colored"
                           fill="#4EDD76"
@@ -466,7 +466,8 @@ export default function UsernameEditorView({
 
   return (
     <Drawer open={isOpen} onOpenChange={onClose}>
-      <DrawerContent className="p-3 pb-28 rounded-t-[32px]">
+      <DrawerContent className={`p-3 rounded-t-[32px] ${showSuccess ? 'pb-7' : 'pb-72'}`}>
+        <DrawerTitle className='hidden'></DrawerTitle>
         {!showSuccess && (
           <DrawerHeader className="text-left p-0">
             <div className="flex justify-end items-center mb-4">
