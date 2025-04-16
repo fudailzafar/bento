@@ -13,9 +13,9 @@ export function Header() {
         <header className="w-full py-4 md:px-0 px-6 flex justify-between items-center max-w-4xl mx-auto h-[67px]">
           <Link href="/" className="flex items-center gap-2">
             <img
-              src="/icons/portfolio-logo.png"
+              src="/icons/android-chrome-512x512.png"
               alt="Brand Logo"
-              className="h-[35px] w-auto"
+              className="h-[30px] w-auto"
             />
           </Link>
           <SettingsPanel />
