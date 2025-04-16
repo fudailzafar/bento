@@ -40,7 +40,7 @@ export function Dropzone({
         'border-2 border-dashed border-gray-300 rounded-lg p-16 text-center flex flex-col items-center justify-center gap-2 cursor-pointer transition-colors relative',
         isDragActive && 'border-primary bg-primary/5',
         (disabled || isUploading) && 'cursor-not-allowed opacity-60',
-        className,
+        className
       )}
     >
       <input {...getInputProps()} />

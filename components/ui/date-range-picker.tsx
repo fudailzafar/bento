@@ -63,7 +63,7 @@ export function DateRangePicker({
                 variant="outline"
                 className={cn(
                   'w-full justify-start text-left font-normal',
-                  !startDateObj && 'text-muted-foreground',
+                  !startDateObj && 'text-muted-foreground'
                 )}
               >
                 <div className="flex items-center w-full">
@@ -102,7 +102,7 @@ export function DateRangePicker({
                 variant="outline"
                 className={cn(
                   'w-full justify-start text-left font-normal',
-                  !endDateObj && 'text-muted-foreground',
+                  !endDateObj && 'text-muted-foreground'
                 )}
               >
                 <div className="flex items-center w-full">

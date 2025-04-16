@@ -18,7 +18,7 @@ export default function DockClient() {
           <button
             className={cn(
               buttonVariants({ variant: 'ghost', size: 'icon' }),
-              'size-12 rounded-full',
+              'size-12 rounded-full'
             )}
             onClick={() => {
               if (typeof window !== 'undefined') {

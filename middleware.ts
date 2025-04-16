@@ -22,10 +22,5 @@ export async function middleware(req: NextRequest) {
 }
 
 export const config = {
-  matcher: [
-    '/preview/:path*',
-    '/pdf/:path*',
-    '/upload/:path*',
-    '/api/:path*',
-  ],
+  matcher: ['/preview/:path*', '/pdf/:path*', '/upload/:path*', '/api/:path*'],
 };

@@ -2,7 +2,6 @@ import BlurFade from '@/components/magicui/blur-fade';
 import { Section } from '@/components/ui/section';
 import { ResumeDataSchemaType } from '@/lib/resume';
 
-
 interface AboutProps {
   summary: ResumeDataSchemaType['summary'];
   className?: string;

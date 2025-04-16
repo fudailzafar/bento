@@ -68,7 +68,7 @@ export const EditResume = ({
                       ...resume.header,
                       name: e.target.value,
                     },
-                  }),
+                  })
                 );
               }}
               placeholder="Your full name"
@@ -94,7 +94,7 @@ export const EditResume = ({
                       ...resume.header,
                       location: e.target.value,
                     },
-                  }),
+                  })
                 );
               }}
               placeholder="Your location"
@@ -119,7 +119,7 @@ export const EditResume = ({
                       ...resume.header,
                       shortAbout: e.target.value,
                     },
-                  }),
+                  })
                 );
               }}
               rows={4}
@@ -150,7 +150,7 @@ export const EditResume = ({
                           email: e.target.value,
                         },
                       },
-                    }),
+                    })
                   );
                 }}
                 placeholder="Your email address"
@@ -179,7 +179,7 @@ export const EditResume = ({
                           phone: e.target.value,
                         },
                       },
-                    }),
+                    })
                   );
                 }}
                 placeholder="Your phone number"
@@ -251,7 +251,7 @@ export const EditResume = ({
                                 [key]: e.target.value,
                               },
                             },
-                          }),
+                          })
                         );
                       }}
                       placeholder={placeholder}
@@ -276,7 +276,7 @@ export const EditResume = ({
                 normalizeResume({
                   ...resume,
                   summary: e.target.value,
-                }),
+                })
               );
             }}
             rows={4}
@@ -300,7 +300,7 @@ export const EditResume = ({
                     normalizeResume({
                       ...resume,
                       workExperience: newWorkExperience,
-                    }),
+                    })
                   );
                 }}
                 onDelete={(index) => {
@@ -310,7 +310,7 @@ export const EditResume = ({
                     normalizeResume({
                       ...resume,
                       workExperience: newWorkExperience,
-                    }),
+                    })
                   );
                 }}
               />
@@ -354,7 +354,7 @@ export const EditResume = ({
                     normalizeResume({
                       ...resume,
                       education: newEducation,
-                    }),
+                    })
                   );
                 }}
                 onDelete={(index) => {
@@ -364,7 +364,7 @@ export const EditResume = ({
                     normalizeResume({
                       ...resume,
                       education: newEducation,
-                    }),
+                    })
                   );
                 }}
               />
@@ -403,7 +403,7 @@ export const EditResume = ({
                         ...resume.header,
                         skills: newSkills,
                       },
-                    }),
+                    })
                   );
                 }}
                 onDelete={(index) => {
@@ -416,7 +416,7 @@ export const EditResume = ({
                         ...resume.header,
                         skills: newSkills,
                       },
-                    }),
+                    })
                   );
                 }}
               />
@@ -457,7 +457,7 @@ export const EditResume = ({
                       normalizeResume({
                         ...resume,
                         projects: newProject,
-                      }),
+                      })
                     );
                   }}
                   onDelete={(index) => {
@@ -467,7 +467,7 @@ export const EditResume = ({
                       normalizeResume({
                         ...resume,
                         projects: newProject,
-                      }),
+                      })
                     );
                   }}
                 />
@@ -490,7 +490,7 @@ export const EditResume = ({
                         skills: [],
                       },
                     ],
-                  }),
+                  })
                 );
               }}
             />
@@ -508,7 +508,7 @@ export const EditResume = ({
                 normalizeResume({
                   ...resume,
                   contact: e.target.value,
-                }),
+                })
               );
             }}
             rows={2}

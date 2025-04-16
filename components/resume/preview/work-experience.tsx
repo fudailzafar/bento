@@ -23,25 +23,22 @@ export function WorkExperience({
   // Filter out invalid work experiences and pre-format dates
   const validWork = useMemo(() => {
     return work
-      .filter(
-        (item) =>
-          item.company && item.title && item.description,
-      )
+      .filter((item) => item.company && item.title && item.description)
       .map((item) => {
         const hasStart = !!item.start;
         const hasEnd = !!item.end;
         let formattedDate = '—';
         if (hasStart && hasEnd) {
           formattedDate = `${getShortMonth(item.start ?? '')} ${getYear(
-            item.start ?? '',
+            item.start ?? ''
           )} - ${getShortMonth(item.end ?? '')} ${getYear(item.end ?? '')}`;
         } else if (hasStart) {
           formattedDate = `${getShortMonth(item.start)} ${getYear(
-            item.start,
+            item.start
           )} - Present`;
         } else if (hasEnd) {
           formattedDate = `Until ${getShortMonth(item.end ?? '')} ${getYear(
-            item.end ?? '',
+            item.end ?? ''
           )}`;
         }
         return {
@@ -106,7 +103,7 @@ export function WorkExperience({
                             setExpandedIndexes((prev) =>
                               prev.includes(id)
                                 ? prev.filter((idx) => idx !== id)
-                                : [...prev, id],
+                                : [...prev, id]
                             );
                           }}
                           className="ml-1 focus:outline-none"
@@ -124,7 +121,7 @@ export function WorkExperience({
                           <ChevronRightIcon
                             className={cn(
                               'size-4 text-design-black dark:text-design-white transition-transform duration-500 ease-out',
-                              isExpanded ? 'rotate-90' : 'rotate-0',
+                              isExpanded ? 'rotate-90' : 'rotate-0'
                             )}
                           />
                         </motion.button>

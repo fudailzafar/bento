@@ -2,10 +2,9 @@
 
 import { Dialog, DialogContent, DialogTitle } from '@/components/ui/dialog';
 import { Drawer, DrawerContent, DrawerTitle } from '@/components/ui/drawer';
-import { Copy, Check, SquareArrowOutUpRight, X } from 'lucide-react';
+import { Copy, Check, SquareArrowOutUpRight, X, Radio } from 'lucide-react';
 import { useMemo, useState } from 'react';
 import { useIsMobile } from '@/hooks/use-mobile';
-import Image from 'next/image';
 
 export const PopupSiteLive = ({
   isOpen,
@@ -23,12 +22,7 @@ export const PopupSiteLive = ({
     return (
       <div className="relative bg-white rounded-lg shadow-lg">
         <div className="p-6 flex flex-col items-center justify-center h-full gap-5">
-          {/* Site live icon */}
-          <Image
-            src="/user/site-live.svg"
-            alt="Site Live Icon"
-            className="h-[41px] w-[52px]"
-          />
+          <Radio className='h-[41px] w-[52px]"' />
 
           <h3 className="text-2xl font-medium text-design-black mb-1 font-sans">
             Your website is now live!

@@ -17,7 +17,7 @@ export const getCachedUser = async (userId: string) => {
     {
       tags: ['users'],
       revalidate: 86400, // 1 day in seconds
-    },
+    }
   )();
 };
 
@@ -30,6 +30,6 @@ export const getCachedResume = async (userId: string) => {
     {
       tags: ['resumes'],
       revalidate: 86400, // 1 day in seconds
-    },
+    }
   );
 };

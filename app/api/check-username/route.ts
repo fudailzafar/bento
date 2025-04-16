@@ -6,7 +6,7 @@ export type PostResponse = { available: boolean } | { error: string };
 
 // POST endpoint to check username availability
 export async function POST(
-  request: Request,
+  request: Request
 ): Promise<NextResponse<PostResponse>> {
   try {
     const { searchParams } = new URL(request.url);
@@ -15,7 +15,7 @@ export async function POST(
     if (!username || typeof username !== 'string') {
       return NextResponse.json(
         { error: 'Username parameter is required' },
-        { status: 400 },
+        { status: 400 }
       );
     }
 
@@ -26,7 +26,7 @@ export async function POST(
     console.error('Error checking username availability:', error);
     return NextResponse.json(
       { error: 'Internal server error' },
-      { status: 500 },
+      { status: 500 }
     );
   }
 }
