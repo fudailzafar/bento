@@ -37,10 +37,10 @@ export function Footer() {
           <Link
             target="_blank"
             rel="noopener noreferrer"
-            href="/changelog"
+            href="/fudail"
             className=""
           >
-            <span className="hover:underline">Changelog</span>
+            <span className="hover:underline">About</span>
           </Link>
           <Link
             target="_blank"
