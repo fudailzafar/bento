@@ -100,10 +100,7 @@ export function ProjectCard({
         {tags && tags.length > 0 && (
           <div className="mt-2 flex flex-wrap gap-1">
             {tags?.map((tag) => (
-              <Badge
-                className="px-1 py-0 text-[10px]"
-                key={tag}
-              >
+              <Badge className="px-1 py-0 text-[10px]" key={tag}>
                 {tag}
               </Badge>
             ))}
