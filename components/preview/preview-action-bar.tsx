@@ -2,10 +2,13 @@
 
 import { Button } from '@/components/ui/button';
 import { getDomainUrl } from '@/lib/utils';
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import UsernameEditorView from './username-editor-view';
 import { ToggleGroup, ToggleGroupItem } from '../ui/toggle-group';
-import { Edit, Eye, Save, X } from 'lucide-react';
+import { Edit, Eye } from 'lucide-react';
+import confetti from 'canvas-confetti';
+import { useToast } from '@/hooks/use-toast';
+import { Loader } from '../icons/loader';
 
 export type PublishStatuses = 'draft' | 'live';
 
@@ -13,120 +16,99 @@ export default function PreviewActionbar({
   initialUsername = '',
   prefix = 'portfoliofy.me/',
   status,
-  onStatusChange,
-  isChangingStatus,
   isEditMode,
   onEditModeChange,
-  hasUnsavedChanges,
-  onSaveChanges,
-  onDiscardChanges,
   isSaving,
 }: {
   initialUsername: string;
   prefix?: string;
   status?: PublishStatuses;
-  onStatusChange?: (newStatus: PublishStatuses) => Promise<void>;
-  isChangingStatus?: boolean;
   isEditMode?: boolean;
   onEditModeChange?: (isEdit: boolean) => void;
-  hasUnsavedChanges?: boolean;
-  onSaveChanges?: () => void;
-  onDiscardChanges?: () => void;
   isSaving?: boolean;
 }) {
   const [isEditorOpen, setIsEditorOpen] = useState(false);
+  const { toast } = useToast();
+  const copyButtonRef = useRef<HTMLButtonElement>(null);
 
-  const handleStatusChange = async () => {
-    if (onStatusChange) {
-      // Toggle the status
-      const newStatus = status === 'draft' ? 'live' : 'draft';
-      await onStatusChange(newStatus);
+  const handleCopyLink = async () => {
+    const link = getDomainUrl(initialUsername);
+    try {
+      await navigator.clipboard.writeText(link);
+
+      // Get button position for confetti origin
+      if (copyButtonRef.current) {
+        const rect = copyButtonRef.current.getBoundingClientRect();
+        const x = (rect.left + rect.width / 2) / window.innerWidth;
+        const y = (rect.top + rect.height / 2) / window.innerHeight;
+
+        // Trigger confetti from button position
+        confetti({
+          particleCount: 100,
+          spread: 70,
+          origin: { x, y },
+          angle: 90,
+          startVelocity: 45,
+          gravity: 1,
+          colors: [
+            '#FF6B6B',
+            '#4ECDC4',
+            '#45B7D1',
+            '#FFA07A',
+            '#98D8C8',
+            '#F7DC6F',
+            '#BB8FCE',
+          ],
+        });
+      }
+
+      toast({
+        title: 'Link copied!',
+        description: 'Your portfolio link has been copied to clipboard.',
+      });
+    } catch (error) {
+      toast({
+        title: 'Failed to copy',
+        description: 'Please try again.',
+        variant: 'destructive',
+      });
     }
   };
 
   return (
     <>
-      <div className="w-full rounded-lg bg-[#fcfcfc] border-[0.5px] border-neutral-300 py-3 px-5 sm:px-4 sm:py-2.5">
-        <div className="flex flex-col sm:flex-row items-center w-full gap-4 sm:gap-0">
-          {/* Mobile order: Status → Toggle → Actions */}
-          {/* Desktop order: Toggle → Actions → Status */}
-
-          {/* Status and Publish controls - 1st on mobile, 3rd on desktop */}
-          <div className="flex-1 flex items-center justify-center sm:justify-end gap-4 w-full sm:w-auto order-1 sm:order-3">
-            <div className="flex items-center gap-2">
-              <div className="flex items-center gap-1">
-                {status === 'live' ? (
-                  <button
-                    onClick={() =>
-                      window.open(getDomainUrl(initialUsername), '_blank')
-                    }
-                    className="flex items-center gap-1 hover:opacity-80 transition-opacity"
-                  >
-                    <div
-                      className="size-1.5 rounded-full relative"
-                      style={{
-                        backgroundColor: '#009505',
-                      }}
-                    >
-                      <div className="absolute inset-0 rounded-full bg-[#009505] animate-ping opacity-50" />
-                    </div>
-                    <p className="text-[10px] font-bold uppercase text-[#009505]">
-                      {status}
-                    </p>
-                  </button>
-                ) : (
-                  <>
-                    <div
-                      className="size-1.5 rounded-full"
-                      style={{
-                        backgroundColor: '#B98900',
-                      }}
-                    />
-                    <p className="text-[10px] font-bold uppercase text-[#B98900]">
-                      {status}
-                    </p>
-                  </>
-                )}
-              </div>
-
+      <div className="md:w-[52%] rounded-2xl bg-white/95 backdrop-blur-sm border border-neutral-200 shadow-lg py-3 px-5 sm:px-4 sm:py-2.5">
+        <div className="flex flex-row items-center w-full gap-x-4">
+          {/* Left side: Copy my Link button */}
+          <div className="flex items-center">
+            {status === 'live' && (
               <Button
-                key={status}
-                variant={'default'}
-                disabled={isChangingStatus}
-                onClick={handleStatusChange}
-                className={`flex items-center min-w-[100px] min-h-8 gap-1.5 px-3 py-1.5 h-auto ${
-                  status === 'draft'
-                    ? 'bg-design-black hover:bg-[#333333] text-[#fcfcfc]'
-                    : 'bg-design-white text-design-black hover:bg-gray-100'
-                }`}
+                ref={copyButtonRef}
+                onClick={handleCopyLink}
+                disabled={isSaving}
+                className="flex bg-[#3dda69] transition-transform active:scale-95 hover:bg-[#3dda69] font-bold items-center rounded-lg min-w-[100px] min-h-8 gap-1.5 px-4 py-2 h-auto relative group"
               >
-                {isChangingStatus ? (
+                {isSaving ? (
                   <>
-                    <span className="mr-2 h-3 w-3 animate-spin rounded-full border-2 border-white border-t-transparent"></span>
+                    <Loader />
+                    <span className="ml-1">Saving...</span>
                   </>
                 ) : (
-                  <span className="text-sm">
-                    {status === 'draft' ? 'Publish' : 'Unpublish'}
-                  </span>
+                  'Copy my Link'
+                )}
+                {/* Tooltip */}
+                {!isSaving && (
+                  <div className="hidden sm:block absolute bottom-full mb-2 left-1/2 transform -translate-x-1/2 bg-white font-normal text-design-resume text-[10px] leading-tight px-2 py-1 rounded-md shadow-md border border-slate-100 opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none z-50 min-w-max">
+                    Share your Portfolio
+                  </div>
                 )}
               </Button>
-
-              {status === 'live' && (
-                <Button className="flex items-center min-w-[100px] min-h-8 gap-1.5 px-3 py-1.5 h-auto">
-                  <a
-                    href={`${getDomainUrl(initialUsername)}`}
-                    target="_blank"
-                    rel="noreferrer"
-                  >
-                    Visit Site
-                  </a>
-                </Button>
-              )}
-            </div>
+            )}
           </div>
-
-          {/* Edit Mode Toggle - 2nd on mobile, 1st on desktop */}
-          <div className="flex items-center justify-center w-full sm:w-auto order-2 sm:order-1">
+          {/* Divider */}
+          <div className="h-5 w-[2px] bg-neutral-300"></div>
+          {/* Right side: Toggle */}
+          <div className="flex items-center gap-2">
             <ToggleGroup
               type="single"
               value={isEditMode ? 'edit' : 'preview'}
@@ -134,49 +116,32 @@ export default function PreviewActionbar({
               aria-label="View mode"
             >
               <ToggleGroupItem
-                value="preview"
-                aria-label="Preview mode"
-                className="px-4 py-2"
-              >
-                <Eye className="h-4 w-4 mr-2" />
-                <span>Preview</span>
-              </ToggleGroupItem>
-              <ToggleGroupItem
                 value="edit"
                 aria-label="Edit mode"
-                className="px-4 py-2"
+                className="px-3 sm:px-4 py-2 active:scale-95 transition-transform data-[state=on]:bg-black data-[state=on]:text-white rounded-md relative group"
               >
-                <Edit className="h-4 w-4 mr-2" />
-                <span>Edit</span>
+                <Edit className="h-4 w-4 sm:mr-2" />
+                <span className="hidden sm:inline">Edit</span>
+                {/* Tooltip - Edit */}
+                <div className="hidden sm:block absolute bottom-full mb-2 left-1/2 transform -translate-x-1/2 bg-white font-normal text-design-resume text-[10px] leading-tight px-2 py-1 rounded-md shadow-md border border-slate-100 opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none z-50 min-w-max">
+                  <div>Edit your</div>
+                  <div>Portfolio</div>
+                </div>
+              </ToggleGroupItem>
+              <ToggleGroupItem
+                value="preview"
+                aria-label="Preview mode"
+                className="px-3 sm:px-4 py-2 active:scale-95 transition-transform data-[state=on]:bg-black data-[state=on]:text-white rounded-md relative group"
+              >
+                <Eye className="h-4 w-4 sm:mr-2" />
+                <span className="hidden sm:inline">Preview</span>
+                {/* Tooltip - Preview */}
+                <div className="hidden sm:block absolute bottom-full mb-2 left-1/2 transform -translate-x-1/2 bg-white font-normal text-design-resume text-[10px] leading-tight px-2 py-1 rounded-md shadow-md border border-slate-100 opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none z-50 min-w-max">
+                  <div>Check how your</div>
+                  <div>Portfolio looks</div>
+                </div>
               </ToggleGroupItem>
             </ToggleGroup>
-          </div>
-          <div className="flex-1 flex items-center justify-center sm:justify-center gap-2 w-full sm:w-auto order-3 sm:order-2">
-            {isEditMode && (
-              <>
-                <Button
-                  variant="outline"
-                  onClick={onDiscardChanges}
-                  className="flex items-center gap-1"
-                  disabled={!hasUnsavedChanges || isSaving}
-                >
-                  <X className="h-4 w-4" />
-                  <span>Discard</span>
-                </Button>
-                <Button
-                  onClick={onSaveChanges}
-                  className="flex items-center gap-1 min-w-[80px]"
-                  disabled={!hasUnsavedChanges || isSaving}
-                >
-                  {isSaving ? (
-                    <div className="w-4 h-4 rounded-full border-2 border-gray-50 border-t-primary animate-spin" />
-                  ) : (
-                    <Save className="h-4 w-4" />
-                  )}
-                  <span>{isSaving ? 'Saving...' : 'Save'}</span>
-                </Button>
-              </>
-            )}
           </div>
         </div>
       </div>

@@ -24,7 +24,7 @@ const FORBIDDEN_USERNAMES = PRIVATE_ROUTES;
 
 // Define the complete resume schema
 const ResumeSchema = z.object({
-  status: z.enum(['live', 'draft']).default('draft'),
+  status: z.enum(['live', 'draft']).default('live'),
   file: FileSchema.nullish(),
   fileContent: z.string().nullish(),
   resumeData: ResumeDataSchema.nullish(),

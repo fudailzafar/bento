@@ -1,39 +1,21 @@
 'use client';
 import LoadingFallback from '@/components/loading-fallback';
-import { PopupSiteLive } from '@/components/preview/popup-site-live';
 import PreviewActionbar from '@/components/preview/preview-action-bar';
 import { FullResume } from '@/components/resume/preview/full-resume';
 import { EditResume } from '@/components/resume/editing/edit-resume';
 import { useUserActions } from '@/hooks/use-user-actions';
 import { ResumeData } from '@/lib/server/redis-actions';
-import { getDomainUrl } from '@/lib/utils';
 import { useSession } from 'next-auth/react';
-import { useEffect, useState } from 'react';
-import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-} from '@/components/ui/alert-dialog';
+import { useEffect, useState, useRef, useCallback } from 'react';
 import { toast } from 'sonner';
 
 export default function PreviewClient({ messageTip }: { messageTip?: string }) {
   const { data: session } = useSession();
-  const {
-    resumeQuery,
-    toggleStatusMutation,
-    usernameQuery,
-    saveResumeDataMutation,
-  } = useUserActions();
-  const [showModalSiteLive, setModalSiteLive] = useState(false);
+  const { resumeQuery, usernameQuery, saveResumeDataMutation } =
+    useUserActions();
   const [localResumeData, setLocalResumeData] = useState<ResumeData>();
   const [isEditMode, setIsEditMode] = useState(false);
-  const [hasUnsavedChanges, setHasUnsavedChanges] = useState(false);
-  const [showDiscardConfirmation, setShowDiscardConfirmation] = useState(false);
+  const debounceTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useEffect(() => {
     if (resumeQuery.data?.resume?.resumeData) {
@@ -43,46 +25,44 @@ export default function PreviewClient({ messageTip }: { messageTip?: string }) {
 
   console.log('resumeQuery', resumeQuery.data);
 
-  const handleSaveChanges = async () => {
-    if (!localResumeData) {
-      toast.error('No resume data to save');
-      return;
-    }
-
-    try {
-      await saveResumeDataMutation.mutateAsync(localResumeData);
-      toast.success('Changes saved successfully');
-      setHasUnsavedChanges(false);
-      setIsEditMode(false);
-    } catch (error) {
-      if (error instanceof Error) {
-        toast.error(`Failed to save changes: ${error.message}`);
-      } else {
-        toast.error('Failed to save changes');
+  // Debounced save function
+  const debouncedSave = useCallback(
+    async (newResume: ResumeData) => {
+      try {
+        await saveResumeDataMutation.mutateAsync(newResume);
+      } catch (error) {
+        if (error instanceof Error) {
+          toast.error(`Failed to save changes: ${error.message}`);
+        } else {
+          toast.error('Failed to save changes');
+        }
       }
-    }
-  };
-
-  const handleDiscardChanges = () => {
-    // Show confirmation dialog instead of immediately discarding
-    setShowDiscardConfirmation(true);
-  };
-
-  const confirmDiscardChanges = () => {
-    // Reset to original data
-    if (resumeQuery.data?.resume?.resumeData) {
-      setLocalResumeData(resumeQuery.data?.resume?.resumeData);
-    }
-    setHasUnsavedChanges(false);
-    setIsEditMode(false);
-    setShowDiscardConfirmation(false);
-    toast.info('Changes discarded');
-  };
+    },
+    [saveResumeDataMutation]
+  );
 
   const handleResumeChange = (newResume: ResumeData) => {
     setLocalResumeData(newResume);
-    setHasUnsavedChanges(true);
+
+    // Clear existing timer
+    if (debounceTimerRef.current) {
+      clearTimeout(debounceTimerRef.current);
+    }
+
+    // Set new timer for debounced save (500ms)
+    debounceTimerRef.current = setTimeout(() => {
+      debouncedSave(newResume);
+    }, 500);
   };
+
+  // Cleanup timer on unmount
+  useEffect(() => {
+    return () => {
+      if (debounceTimerRef.current) {
+        clearTimeout(debounceTimerRef.current);
+      }
+    };
+  }, []);
 
   if (
     resumeQuery.isLoading ||
@@ -93,63 +73,10 @@ export default function PreviewClient({ messageTip }: { messageTip?: string }) {
     return <LoadingFallback message="Loading..." />;
   }
 
-  const CustomLiveToast: React.FC = () => (
-    <div className="w-fit min-w-[360px] h-[44px] items-center justify-between relative rounded-md bg-[#eaffea] border border-[#009505] shadow-md flex flex-row gap-2 px-2">
-      <svg
-        width="24"
-        height="24"
-        viewBox="0 0 24 24"
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg"
-        className="w-6 h-6"
-        preserveAspectRatio="none"
-      >
-        <rect width="24" height="24" rx="4" fill="#EAFFEA"></rect>
-        <path
-          d="M16.6668 8.5L10.2502 14.9167L7.3335 12"
-          stroke="#009505"
-          strokeWidth="1.3"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        ></path>
-      </svg>
-      <p className="text-sm text-left text-[#003c02] mr-2">
-        <span className="hidden md:block">
-          {' '}
-          Your portfolio has been updated!
-        </span>
-        <span className="md:hidden"> Portfolio updated!</span>
-      </p>
-      <a
-        href={getDomainUrl(usernameQuery.data.username)}
-        target="_blank"
-        className="flex justify-center items-center overflow-hidden gap-1 px-3 py-1 rounded bg-[#009505] h-[26px]"
-      >
-        <svg
-          width="10"
-          height="10"
-          viewBox="0 0 10 10"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-          className="flex-grow-0 flex-shrink-0 w-2.5 h-2.5 relative"
-          preserveAspectRatio="xMidYMid meet"
-        >
-          <path
-            d="M6.86768 2.39591L1.50684 7.75675L2.2434 8.49331L7.60425 3.13248V7.60425H8.64591V1.35425H2.39591V2.39591H6.86768Z"
-            fill="white"
-          ></path>
-        </svg>
-        <p className="flex-grow-0 flex-shrink-0 text-sm font-medium text-left text-white">
-          View
-        </p>
-      </a>
-    </div>
-  );
-
   return (
-    <div className="w-full min-h-screen bg-background flex flex-col gap-4 pb-8">
+    <div className="w-full min-h-screen bg-background flex flex-col pb-32">
       {messageTip && (
-        <div className="max-w-3xl mx-auto w-full md:px-0 px-4">
+        <div className="max-w-3xl mx-auto w-full md:px-0 px-4 pt-4">
           <div className="bg-amber-50 border border-amber-200 text-amber-800 rounded-md p-4 flex items-start">
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -167,36 +94,8 @@ export default function PreviewClient({ messageTip }: { messageTip?: string }) {
           </div>
         </div>
       )}
-      <div className="max-w-3xl mx-auto w-full md:px-0 px-4">
-        <PreviewActionbar
-          initialUsername={usernameQuery.data.username}
-          status={resumeQuery.data?.resume?.status}
-          onStatusChange={async (newStatus) => {
-            await toggleStatusMutation.mutateAsync(newStatus);
-            const isFirstTime = !localStorage.getItem('publishedSite');
 
-            if (isFirstTime && newStatus === 'live') {
-              setModalSiteLive(true);
-              localStorage.setItem('publishedSite', new Date().toDateString());
-            } else {
-              if (newStatus === 'draft') {
-                toast.warning('Your portfolio has been unpublished');
-              } else {
-                toast.custom(() => <CustomLiveToast />);
-              }
-            }
-          }}
-          isChangingStatus={toggleStatusMutation.isPending}
-          isEditMode={isEditMode}
-          onEditModeChange={setIsEditMode}
-          hasUnsavedChanges={hasUnsavedChanges}
-          onSaveChanges={handleSaveChanges}
-          onDiscardChanges={handleDiscardChanges}
-          isSaving={saveResumeDataMutation.isPending}
-        />
-      </div>
-
-      <div className="max-w-3xl mx-auto w-full md:rounded-lg border-[0.5px] border-neutral-300 flex items-center justify-between px-4">
+      <div className="max-w-3xl mx-auto w-full md:rounded-lg flex items-center justify-between px-4">
         {isEditMode ? (
           <EditResume
             resume={localResumeData}
@@ -210,34 +109,18 @@ export default function PreviewClient({ messageTip }: { messageTip?: string }) {
         )}
       </div>
 
-      <AlertDialog
-        open={showDiscardConfirmation}
-        onOpenChange={setShowDiscardConfirmation}
-      >
-        <AlertDialogContent>
-          <AlertDialogHeader>
-            <AlertDialogTitle>Discard Changes?</AlertDialogTitle>
-            <AlertDialogDescription>
-              Are you sure you want to discard your changes? This action cannot
-              be undone.
-            </AlertDialogDescription>
-          </AlertDialogHeader>
-          <AlertDialogFooter>
-            <AlertDialogCancel>Cancel</AlertDialogCancel>
-            <AlertDialogAction onClick={confirmDiscardChanges}>
-              Discard
-            </AlertDialogAction>
-          </AlertDialogFooter>
-        </AlertDialogContent>
-      </AlertDialog>
-
-      <PopupSiteLive
-        isOpen={showModalSiteLive}
-        websiteUrl={getDomainUrl(usernameQuery.data.username)}
-        onClose={() => {
-          setModalSiteLive(false);
-        }}
-      />
+      {/* Fixed Action Bar at Bottom */}
+      <div className="fixed bottom-6 left-0 right-0 z-50 pointer-events-none">
+        <div className="max-w-3xl mx-auto w-full md:px-0 px-4 pointer-events-auto flex justify-center">
+          <PreviewActionbar
+            initialUsername={usernameQuery.data.username}
+            status={resumeQuery.data?.resume?.status}
+            isEditMode={isEditMode}
+            onEditModeChange={setIsEditMode}
+            isSaving={saveResumeDataMutation.isPending}
+          />
+        </div>
+      </div>
     </div>
   );
 }

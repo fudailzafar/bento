@@ -21,6 +21,7 @@ import {
   DrawerTitle,
   DrawerTrigger,
 } from '../ui/drawer';
+import { SettingsIcon } from '../icons/settings';
 
 export function SettingsPanel() {
   const isMobile = useIsMobile();
@@ -35,51 +36,13 @@ export function SettingsPanel() {
             <DropdownMenuTrigger asChild>
               <Button
                 variant="ghost"
-                className={`relative transition-all h-8 w-8 rounded-full active:shadow-lg group ${
+                className={`relative active:scale-95 transition-transform h-8 w-8 rounded-full active:shadow-lg group ${
                   isDropdownOpen
                     ? 'bg-slate-100 text-black'
-                    : 'text-design-resume hover:bg-slate-100 hover:text-design-resume active:scale-95'
+                    : 'text-design-gray hover:bg-slate-100 hover:text-design-gray'
                 }`}
               >
-                <svg
-                  width="16"
-                  height="16"
-                  viewBox="0 0 16 16"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <rect
-                    x="1"
-                    y="3"
-                    width="15"
-                    height="2"
-                    rx="1"
-                    fill="currentColor"
-                  ></rect>
-                  <rect
-                    y="11"
-                    width="15"
-                    height="2"
-                    rx="1"
-                    fill="currentColor"
-                  ></rect>
-                  <circle
-                    cx="10"
-                    cy="4"
-                    r="2"
-                    fill="white"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                  ></circle>
-                  <circle
-                    cx="6"
-                    cy="12"
-                    r="2"
-                    fill="white"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                  ></circle>
-                </svg>
+                <SettingsIcon />
 
                 {/* Tooltip */}
                 <div className="absolute top-full mt-2 left-1/2 transform -translate-x-1/2 bg-white font-normal text-design-resume text-xs px-2 py-1 rounded-md shadow-md  border border-slate-100 opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none whitespace-nowrap z-50">
@@ -159,45 +122,7 @@ export function SettingsPanel() {
                   : 'text-design-resume hover:bg-slate-100 hover:text-design-resume active:scale-95'
               }`}
             >
-              <svg
-                width="16"
-                height="16"
-                viewBox="0 0 16 16"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <rect
-                  x="1"
-                  y="3"
-                  width="15"
-                  height="2"
-                  rx="1"
-                  fill="currentColor"
-                ></rect>
-                <rect
-                  y="11"
-                  width="15"
-                  height="2"
-                  rx="1"
-                  fill="currentColor"
-                ></rect>
-                <circle
-                  cx="10"
-                  cy="4"
-                  r="2"
-                  fill="white"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                ></circle>
-                <circle
-                  cx="6"
-                  cy="12"
-                  r="2"
-                  fill="white"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                ></circle>
-              </svg>
+              <SettingsIcon />
 
               {/* Tooltip */}
               <div className="hidden md:block absolute top-full mt-2 left-1/2 transform -translate-x-1/2 bg-white font-normal text-design-resume text-xs px-2 py-1 rounded-md shadow-md  border border-slate-100 opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none whitespace-nowrap z-50">

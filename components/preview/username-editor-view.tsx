@@ -23,7 +23,8 @@ import {
 } from '@/components/ui/drawer';
 import { ConfettiButton } from '../ui/confetti';
 import { useIsMobile } from '@/hooks/use-mobile';
-import { Loader } from '../loader';
+import { Loader } from '../icons/loader';
+import { CheckmarkLarge, CheckmarkSmall } from '../icons/checkmark-small';
 
 interface UsernameEditorContentProps {
   initialUsername: string;
@@ -104,36 +105,7 @@ function UsernameEditorContent({
     <div className="flex flex-col items-center w-full">
       <div className="flex items-center justify-center w-16 h-16 rounded-full mb-4">
         <span className="rounded-full shadow-[0px_1px_2px_rgba(0,0,0,0.12)]">
-          <svg
-            viewBox="0 0 154 154"
-            xmlns="http://www.w3.org/2000/svg"
-            width="48"
-            height="48"
-          >
-            <g fill="none" stroke="#4edd76" strokeWidth="2">
-              <circle
-                id="colored"
-                fill="#4edd76"
-                cx="77"
-                cy="77"
-                r="72"
-                style={{
-                  strokeDasharray: '480px, 480px',
-                  strokeDashoffset: '960px',
-                }}
-              ></circle>
-              <polyline
-                className="st0"
-                stroke="#fff"
-                strokeWidth="10"
-                points="43.5,77.8 63.7,97.9 112.2,49.4"
-                style={{
-                  strokeDasharray: '100px, 100px',
-                  strokeDashoffset: '200px',
-                }}
-              ></polyline>
-            </g>
-          </svg>
+          <CheckmarkLarge />
         </span>
       </div>
       <h3 className="text-lg font-semibold text-center mb-8">
@@ -224,166 +196,9 @@ function UsernameEditorContent({
                   {isInitialUsername ? (
                     <></>
                   ) : checkUsernameMutation.isPending ? (
-                    <svg
-                      height="16"
-                      width="16"
-                      className="styles_container__9hC7b"
-                      viewBox="0 0 100 100"
-                      preserveAspectRatio="xMidYMid"
-                    >
-                      <g transform="rotate(0 50 50)">
-                        <rect
-                          x="44"
-                          y="0.5"
-                          rx="6"
-                          ry="6.29"
-                          width="12"
-                          height="37"
-                          fill="currentColor"
-                        >
-                          <animate
-                            attributeName="opacity"
-                            values="1;0"
-                            keyTimes="0;1"
-                            dur="0.625s"
-                            begin="-0.5208333333333333s"
-                            repeatCount="indefinite"
-                          ></animate>
-                        </rect>
-                      </g>
-                      <g transform="rotate(60 50 50)">
-                        <rect
-                          x="44"
-                          y="0.5"
-                          rx="6"
-                          ry="6.29"
-                          width="12"
-                          height="37"
-                          fill="currentColor"
-                        >
-                          <animate
-                            attributeName="opacity"
-                            values="1;0"
-                            keyTimes="0;1"
-                            dur="0.625s"
-                            begin="-0.41666666666666663s"
-                            repeatCount="indefinite"
-                          ></animate>
-                        </rect>
-                      </g>
-                      <g transform="rotate(120 50 50)">
-                        <rect
-                          x="44"
-                          y="0.5"
-                          rx="6"
-                          ry="6.29"
-                          width="12"
-                          height="37"
-                          fill="currentColor"
-                        >
-                          <animate
-                            attributeName="opacity"
-                            values="1;0"
-                            keyTimes="0;1"
-                            dur="0.625s"
-                            begin="-0.31249999999999994s"
-                            repeatCount="indefinite"
-                          ></animate>
-                        </rect>
-                      </g>
-                      <g transform="rotate(180 50 50)">
-                        <rect
-                          x="44"
-                          y="0.5"
-                          rx="6"
-                          ry="6.29"
-                          width="12"
-                          height="37"
-                          fill="currentColor"
-                        >
-                          <animate
-                            attributeName="opacity"
-                            values="1;0"
-                            keyTimes="0;1"
-                            dur="0.625s"
-                            begin="-0.20833333333333331s"
-                            repeatCount="indefinite"
-                          ></animate>
-                        </rect>
-                      </g>
-                      <g transform="rotate(240 50 50)">
-                        <rect
-                          x="44"
-                          y="0.5"
-                          rx="6"
-                          ry="6.29"
-                          width="12"
-                          height="37"
-                          fill="currentColor"
-                        >
-                          <animate
-                            attributeName="opacity"
-                            values="1;0"
-                            keyTimes="0;1"
-                            dur="0.625s"
-                            begin="-0.10416666666666666s"
-                            repeatCount="indefinite"
-                          ></animate>
-                        </rect>
-                      </g>
-                      <g transform="rotate(300 50 50)">
-                        <rect
-                          x="44"
-                          y="0.5"
-                          rx="6"
-                          ry="6.29"
-                          width="12"
-                          height="37"
-                          fill="currentColor"
-                        >
-                          <animate
-                            attributeName="opacity"
-                            values="1;0"
-                            keyTimes="0;1"
-                            dur="0.625s"
-                            begin="0s"
-                            repeatCount="indefinite"
-                          ></animate>
-                        </rect>
-                      </g>
-                    </svg>
+                    <Loader />
                   ) : isValid ? (
-                    <svg
-                      viewBox="0 0 154 154"
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="16"
-                      height="16"
-                    >
-                      <g fill="none" stroke="#4EDD76" strokeWidth="2">
-                        <circle
-                          id="colored"
-                          fill="#4EDD76"
-                          cx="77"
-                          cy="77"
-                          r="72"
-                          style={{
-                            strokeDasharray: '480px, 480px',
-                            strokeDashoffset: '960px',
-                          }}
-                        ></circle>
-                        <polyline
-                          className="st0"
-                          stroke="#fff"
-                          strokeWidth="10"
-                          points="43.5,77.8 63.7,97.9 112.2,49.4"
-                          style={{
-                            strokeDasharray: '100px, 100px',
-                            strokeDashoffset: '200px',
-                            animationDelay: '0s',
-                          }}
-                        ></polyline>
-                      </g>
-                    </svg>
+                    <CheckmarkSmall />
                   ) : newUsername ? (
                     <div className="cursor-pointer">
                       <X
@@ -405,16 +220,16 @@ function UsernameEditorContent({
           <div>
             {checkUsernameMutation.data &&
             checkUsernameMutation.data.available === false ? (
-              <div className="w-full py-4 text-center text-red-600 font-normal text-sm">
+              <p className="w-full py-1 text-start text-[#FF2222] font-normal text-xs">
                 This username seems to be taken.
                 <br />
                 Maybe you have some other ideas?
-              </div>
+              </p>
             ) : (
               <Button
                 onClick={handleSave}
                 disabled={!isValid || updateUsernameMutation.isPending}
-                className="w-full py-4 rounded-xl"
+                className="w-full py-4 rounded-lg"
               >
                 {updateUsernameMutation.isPending ? (
                   <Loader />

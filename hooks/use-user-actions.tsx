@@ -116,7 +116,7 @@ export function useUserActions() {
         bucket: '',
       },
       resumeData: undefined,
-      status: 'draft',
+      status: 'live',
     };
 
     queryClient.setQueryData(['resume'], (oldData: any) => ({
