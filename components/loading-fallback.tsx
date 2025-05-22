@@ -1,14 +1,14 @@
-import { CustomSpinner } from '@/components/upload/custom-spinner';
 import React from 'react';
+import { Loader } from './icons/loader';
 
 interface LoadingFallbackProps {
-  message: string;
+  message?: string;
 }
 
 const LoadingFallback: React.FC<LoadingFallbackProps> = ({ message }) => {
   return (
     <div className="flex justify-center items-center h-[80vh] flex-col">
-      <CustomSpinner className="h-10 w-10 mr-2" />
+      <Loader className="h-10 w-10 mr-2" />
       <p className="mt-2.5  max-w-[400px] text-center text-lg">{message}</p>
     </div>
   );

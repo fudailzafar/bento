@@ -29,14 +29,6 @@ export function Footer() {
           <Link
             target="_blank"
             rel="noopener noreferrer"
-            href="/terms-of-service"
-            className=""
-          >
-            <span className="hover:underline">Terms of Service</span>
-          </Link>
-          <Link
-            target="_blank"
-            rel="noopener noreferrer"
             href="/fudail"
             className=""
           >
@@ -45,18 +37,26 @@ export function Footer() {
           <Link
             target="_blank"
             rel="noopener noreferrer"
-            href="privacy-policy"
-            className=""
-          >
-            <span className="hover:underline">Privacy Policy</span>
-          </Link>
-          <Link
-            target="_blank"
-            rel="noopener noreferrer"
             href="explore"
             className=""
           >
             <span className="hover:underline">Explore</span>
+          </Link>
+          <Link
+            target="_blank"
+            rel="noopener noreferrer"
+            href="/terms-of-service"
+            className=""
+          >
+            <span className="hover:underline">Terms of Service</span>
+          </Link>
+          <Link
+            target="_blank"
+            rel="noopener noreferrer"
+            href="privacy-policy"
+            className=""
+          >
+            <span className="hover:underline">Privacy Policy</span>
           </Link>
           <Link
             target="_blank"

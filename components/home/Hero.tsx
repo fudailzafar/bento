@@ -78,7 +78,7 @@ export function Hero() {
               className="text-4xl sm:text-6xl font-bold mb-4 tracking-tighter"
             >
               <div className="flex flex-col gap-y-2 sm:gap-y-4">
-                <div>A Personal Portfolio.</div>
+                <div>A Portfolio.</div>
                 <div>But Rich and Beautiful.</div>
               </div>
             </motion.h1>
