@@ -85,7 +85,7 @@ export function Avatars() {
               href={`/${user.username}`}
               className="relative flex flex-col items-center group cursor-pointer"
             >
-              <span className="absolute -top-7 left-1/2 -translate-x-1/2 px-3 py-1 rounded-full bg-design-black text-white text-xs font-medium shadow-lg opacity-0 group-hover:opacity-100 transition">
+              <span className="absolute -top-7 left-1/2 -translate-x-1/2 px-3 py-1 rounded-full bg-design-primaryLight text-white text-xs font-medium shadow-lg opacity-0 group-hover:opacity-100 transition">
                 {user.name}
               </span>
               <div className="relative">

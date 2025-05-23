@@ -116,7 +116,7 @@ function UsernameEditorContent({
         <span className="text-black">{newUsername}</span>
       </div>
       <button className="w-full" onClick={handleCopy}>
-        <ConfettiButton className="w-full bg-[#4edd76] hover:bg-green-600 text-white text-sm font-bold rounded-xl py-3 flex items-center justify-center gap-2 active:scale-95 transition-transform">
+        <ConfettiButton className="w-full bg-design-success hover:bg-green-600 text-white text-sm font-bold rounded-xl py-3 flex items-center justify-center gap-2 active:scale-95 transition-transform">
           Copy my Link
         </ConfettiButton>
       </button>
@@ -229,7 +229,7 @@ function UsernameEditorContent({
               <Button
                 onClick={handleSave}
                 disabled={!isValid || updateUsernameMutation.isPending}
-                className="w-full py-4 rounded-lg"
+                className="w-full py-4 rounded-lg bg-design-primary hover:bg-design-primaryDark"
               >
                 {updateUsernameMutation.isPending ? (
                   <Loader />

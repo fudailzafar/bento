@@ -1,7 +1,7 @@
 'use client';
 
 import { Button } from '@/components/ui/button';
-import { CloudUpload, FileText, Upload, WandSparkles, X } from 'lucide-react';
+import { FileText, Upload, X } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import {
   Tooltip,
@@ -163,7 +163,7 @@ export default function UploadPageClient() {
       <div>
         <div className="relative">
           <Button
-            className="relative group active:scale-95 transition-transform flex items-center text-lg rounded-xl font-semibold py-8 px-20 sm:py-8 sm:px-14 bg-black hover:bg-black/65 cursor-pointer mb-2"
+            className="relative group active:scale-95 transition-transform flex items-center text-lg rounded-xl font-semibold py-8 px-20 sm:py-8 sm:px-14 bg-design-primary hover:bg-design-primaryDark cursor-pointer mb-2"
             disabled={fileState.status === 'empty' || isUpdating}
             onClick={() => router.push('/pdf')}
           >

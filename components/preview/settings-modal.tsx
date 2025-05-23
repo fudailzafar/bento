@@ -28,6 +28,10 @@ export function SettingsPanel() {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const { usernameQuery } = useUserActions();
   const [isUsernameEditorOpen, setIsUsernameEditorOpen] = useState(false);
+
+  {
+    /* Settings - Desktop */
+  }
   if (!isMobile) {
     return (
       <>
@@ -45,14 +49,17 @@ export function SettingsPanel() {
                 <SettingsIcon />
 
                 {/* Tooltip */}
-                <div className="absolute top-full mt-2 left-1/2 transform -translate-x-1/2 bg-white font-normal text-design-resume text-xs px-2 py-1 rounded-md shadow-md  border border-slate-100 opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none whitespace-nowrap z-50">
+                <div className="absolute bottom-full mb-3 left-1/2 transform -translate-x-1/2 bg-white font-normal text-design-resume text-xs px-2.5 py-1.5 rounded-md shadow-md border border-slate-100 opacity-0 group-hover:opacity-100 transition-opacity duration-200 delay-500 pointer-events-none whitespace-nowrap z-[100]">
                   Settings
                 </div>
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent
               className="w-56 rounded-2xl -p-2"
-              align="end"
+              align="start"
+              side="top"
+              sideOffset={8}
+              alignOffset={-8}
               forceMount
             >
               <DropdownMenuLabel className="font-normal">
@@ -109,6 +116,9 @@ export function SettingsPanel() {
     );
   }
 
+  {
+    /* Settings - Mobile */
+  }
   return (
     <>
       <div className="relative">

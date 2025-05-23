@@ -9,6 +9,7 @@ import { Edit, Eye } from 'lucide-react';
 import confetti from 'canvas-confetti';
 import { useToast } from '@/hooks/use-toast';
 import { Loader } from '../icons/loader';
+import { motion } from 'framer-motion';
 
 export type PublishStatuses = 'draft' | 'live';
 
@@ -78,7 +79,7 @@ export default function PreviewActionbar({
   return (
     <>
       <div className="md:w-[53%] rounded-2xl bg-white/95 backdrop-blur-sm border border-neutral-200 shadow-lg py-3 px-5 sm:px-4 sm:py-2.5">
-        <div className="flex flex-row items-center w-full gap-x-4">
+        <div className="flex flex-row justify-between items-center w-full">
           {/* Left side: Copy my Link button */}
           <div className="flex items-center">
             {status === 'live' && (
@@ -86,7 +87,7 @@ export default function PreviewActionbar({
                 ref={copyButtonRef}
                 onClick={handleCopyLink}
                 disabled={isSaving}
-                className="flex bg-[#3dda69] transition-transform active:scale-95 hover:bg-[#3dda69] font-bold items-center rounded-lg min-w-[100px] min-h-8 gap-1.5 px-4 py-2 h-auto relative group"
+                className="flex bg-design-success transition-transform active:scale-95 hover:bg-[#3dda69] font-bold items-center rounded-lg min-w-[100px] min-h-8 gap-1.5 px-4 py-2 h-auto relative group"
               >
                 {isSaving ? (
                   <>
@@ -98,7 +99,7 @@ export default function PreviewActionbar({
                 )}
                 {/* Tooltip */}
                 {!isSaving && (
-                  <div className="hidden sm:block absolute bottom-full mb-2 left-1/2 transform -translate-x-1/2 bg-white font-normal text-design-resume text-[10px] leading-tight px-2 py-1 rounded-md shadow-md border border-slate-100 opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none z-50 min-w-max">
+                  <div className="hidden sm:block absolute bottom-full mb-2 left-1/2 transform -translate-x-1/2 bg-white font-normal text-design-resume text-[10px] leading-tight px-2 py-1 rounded-md shadow-md border border-slate-100 opacity-0 group-hover:opacity-100 transition-opacity duration-200 delay-700 pointer-events-none z-50 min-w-max">
                     Share your Portfolio
                   </div>
                 )}
@@ -112,18 +113,32 @@ export default function PreviewActionbar({
             <ToggleGroup
               type="single"
               value={isEditMode ? 'edit' : 'preview'}
-              onValueChange={(value) => onEditModeChange?.(value === 'edit')}
+              onValueChange={(value) => {
+                // Only change if a value is selected (prevent deselection)
+                if (value) {
+                  onEditModeChange?.(value === 'edit');
+                }
+              }}
               aria-label="View mode"
             >
               <ToggleGroupItem
                 value="edit"
                 aria-label="Edit mode"
-                className="px-3 sm:px-4 py-2 active:scale-95 transition-transform data-[state=on]:bg-black data-[state=on]:text-white rounded-md relative group"
+                className="px-4 py-2 active:scale-95 transition-colors data-[state=on]:text-white rounded-lg relative group"
               >
-                <Edit className="h-4 w-4 sm:mr-2" />
-                <span className="hidden sm:inline">Edit</span>
+                <span className="relative z-10 flex items-center gap-1.5">
+                  <Edit className="h-4 w-4" />
+                  <span className="hidden sm:inline">Edit</span>
+                </span>
+                {isEditMode && (
+                  <motion.span
+                    layoutId="toggle-pill"
+                    transition={{ type: 'spring', duration: 0.5 }}
+                    className="absolute inset-0 z-0 bg-black rounded-lg"
+                  />
+                )}
                 {/* Tooltip - Edit */}
-                <div className="hidden sm:block absolute bottom-full mb-2 left-1/2 transform -translate-x-1/2 bg-white font-normal text-design-resume text-[10px] leading-tight px-2 py-1 rounded-md shadow-md border border-slate-100 opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none z-50 min-w-max">
+                <div className="hidden sm:block absolute bottom-full mb-2 left-1/2 transform -translate-x-1/2 bg-white font-normal text-design-resume text-[10px] leading-tight px-2 py-1 rounded-md shadow-md border border-slate-100 opacity-0 group-hover:opacity-100 transition-opacity duration-200 delay-700 pointer-events-none z-50 min-w-max">
                   <div>Edit your</div>
                   <div>Portfolio</div>
                 </div>
@@ -131,12 +146,21 @@ export default function PreviewActionbar({
               <ToggleGroupItem
                 value="preview"
                 aria-label="Preview mode"
-                className="px-3 sm:px-4 py-2 active:scale-95 transition-transform data-[state=on]:bg-black data-[state=on]:text-white rounded-md relative group"
+                className="px-4 py-2 active:scale-95 transition-colors data-[state=on]:text-white rounded-lg relative group"
               >
-                <Eye className="h-4 w-4 sm:mr-2" />
-                <span className="hidden sm:inline">Preview</span>
+                <span className="relative z-10 flex items-center gap-1.5">
+                  <Eye className="h-4 w-4" />
+                  <span className="hidden sm:inline">Preview</span>
+                </span>
+                {!isEditMode && (
+                  <motion.span
+                    layoutId="toggle-pill"
+                    transition={{ type: 'spring', duration: 0.5 }}
+                    className="absolute inset-0 z-0 bg-black rounded-lg"
+                  />
+                )}
                 {/* Tooltip - Preview */}
-                <div className="hidden sm:block absolute bottom-full mb-2 left-1/2 transform -translate-x-1/2 bg-white font-normal text-design-resume text-[10px] leading-tight px-2 py-1 rounded-md shadow-md border border-slate-100 opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none z-50 min-w-max">
+                <div className="hidden sm:block absolute bottom-full mb-2 left-1/2 transform -translate-x-1/2 bg-white font-normal text-design-resume text-[10px] leading-tight px-2 py-1 rounded-md shadow-md border border-slate-100 opacity-0 group-hover:opacity-100 transition-opacity duration-200 delay-700 pointer-events-none z-50 min-w-max">
                   <div>Check how your</div>
                   <div>Portfolio looks</div>
                 </div>
