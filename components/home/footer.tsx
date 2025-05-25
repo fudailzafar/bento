@@ -6,8 +6,8 @@ export function Footer() {
     <footer className="w-full py-28 sm:py-72 px-6  mt-auto border-gray-200 ">
       <div className="max-w-4xl justify-between items-center mx-auto w-full flex flex-col gap-2">
         <Image
-          src={'/icons/apple-touch.png'}
-          alt=""
+          src={'/icons/apple-touch-icon.png'}
+          alt="portfoliofy logo"
           width={50}
           height={50}
           className="mb-1"

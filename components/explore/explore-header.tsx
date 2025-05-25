@@ -12,12 +12,12 @@ export function HeaderExplore() {
             <Link href={'/home'}>
               <Image alt="" src={'/favicon.ico'} width={50} height={50} />
             </Link>
-            <Link href={'/explore#featured'}>Featured</Link>
-            <Link href={'/home'}>Home</Link>
+            <Link href={'/explore#featured'} className='text-design-resume hover:text-design-gray'>Featured</Link>
+            <Link href={'/home'} className='text-design-resume hover:text-design-gray'>Home</Link>
           </div>
           <div>
             <Link href={'/signup'} target="_blank" rel="noopener noreferrer">
-              <Button className="font-semibold text-sm px-6">Sign Up</Button>
+              <Button className="font-semibold bg-design-primary hover:bg-design-primaryDark text-sm px-6">Sign Up</Button>
             </Link>
           </div>
         </div>

@@ -13,9 +13,11 @@ import { Skills } from './skills';
 export const FullResume = ({
   resume,
   profilePicture,
+  isEditMode = false,
 }: {
   resume?: ResumeData | null;
   profilePicture?: string;
+  isEditMode?: boolean;
 }) => {
   if (!resume) {
     return <LoadingFallback message="Loading Resume..." />;
@@ -23,10 +25,10 @@ export const FullResume = ({
 
   return (
     <section
-      className="min-h-screen bg-background font-sans antialiased max-w-2xl mx-auto py-12 sm:py-24 px-6"
+      className="min-h-screen bg-background font-sans antialiased max-w-2xl mx-auto py-12 sm:py-24"
       aria-label="Resume Content"
     >
-      <Header header={resume?.header} picture={profilePicture} />
+      <Header header={resume?.header} picture={profilePicture} isEditMode={isEditMode} />
 
       <div className="flex flex-col gap-6">
         <div className="mt-10">

@@ -1,5 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { Resume, ResumeData } from '@/lib/server/redis-actions';
+import { Resume, ResumeData, UserProfile } from '@/lib/server/redis-actions';
 import { PublishStatuses } from '@/components/preview/preview-action-bar';
 import { ResumeDataSchema } from '@/lib/resume';
 
@@ -22,6 +22,17 @@ const fetchUsername = async (): Promise<{
   if (!response.ok) {
     const error = await response.json();
     throw new Error(error.error || 'Failed to fetch username');
+  }
+  return await response.json();
+};
+
+const fetchUserProfile = async (): Promise<{
+  profile: UserProfile | undefined;
+}> => {
+  const response = await fetch('/api/user/profile');
+  if (!response.ok) {
+    const error = await response.json();
+    throw new Error(error.error || 'Failed to fetch user profile');
   }
   return await response.json();
 };
@@ -56,6 +67,11 @@ export function useUserActions() {
   const usernameQuery = useQuery({
     queryKey: ['username'],
     queryFn: fetchUsername,
+  });
+
+  const userProfileQuery = useQuery({
+    queryKey: ['userProfile'],
+    queryFn: fetchUserProfile,
   });
 
   const internalResumeUpdate = async (newResume: Resume) => {
@@ -222,5 +238,6 @@ export function useUserActions() {
     updateUsernameMutation,
     checkUsernameMutation,
     saveResumeDataMutation,
+    userProfileQuery,
   };
 }

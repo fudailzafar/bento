@@ -78,7 +78,9 @@ export async function generateMetadata({
   const { username } = await params;
   const { user_id, resume, userData } = await getUserData(username);
   const profilePicture = userData?.image;
-  if (!user_id) {
+
+  // If no user or no resume data, return a safe default metadata
+  if (!user_id || !resume?.resumeData) {
     return {
       title: 'Portfoliofy - Your Personal Portfolio, but Rich and Beautiful.',
       description:
@@ -86,23 +88,18 @@ export async function generateMetadata({
     };
   }
 
-  if (!resume?.resumeData || resume.status !== 'live') {
-    return {
-      title: 'Resume Not Found | portfoliofy.me',
-      description: 'This resume could not be found on portfoliofy.me',
-    };
-  }
+  const header = resume?.resumeData?.header;
 
   return {
-    title: `${resume.resumeData.header.name}`,
-    description: resume.resumeData.header.shortAbout,
+    title: `${header?.name ?? 'Portfoliofy'}`,
+    description: header?.shortAbout ?? '',
     icons: {
       icon: profilePicture,
       shortcut: profilePicture,
     },
     openGraph: {
-      title: `${resume.resumeData.header.name}`,
-      description: resume.resumeData.header.shortAbout,
+      title: `${header?.name ?? 'Portfoliofy'}`,
+      description: header?.shortAbout ?? '',
       images: [
         {
           url: `https://portfoliofy.me/${username}/og`,
@@ -129,11 +126,11 @@ export default async function ProfilePage({
       <div className="flex flex-col mt-16 mb-1 items-center justify-center bg-white">
         {/* Logo */}
         <BlurFade delay={3} duration={0.5}>
-          <div className="rounded-2xl bg-black p-3 mb-10">
+          <div className="rounded-2xl bg-design-primary p-3 mb-10">
             <div className="rounded-full">
               <Image
                 src={'/icons/android-chrome-512x512.png'}
-                alt=""
+                alt="portfoliofy logo"
                 className="rounded-lg"
                 width={40}
                 height={20}
@@ -150,7 +147,7 @@ export default async function ProfilePage({
               <span className="text-design-black">{username}</span>
             </span>
             <BlurFade delay={2} duration={0.5}>
-              <h1 className="ml-2 px-3 py-1.5 bg-[#4EDD76] text-white rounded-lg font-semibold text-base absolute -top-14 -right-12 shadow rotate-2">
+              <h1 className="ml-2 px-3 py-1.5 bg-design-success text-white rounded-lg font-semibold text-base absolute -top-14 -right-12 shadow rotate-2">
                 Available!
               </h1>
             </BlurFade>
@@ -164,7 +161,7 @@ export default async function ProfilePage({
             <p className="text-design-gray">
               And it’s all free.{' '}
               <Link href={'/'}>
-                <span className="underline cursor-pointer text-design-black">
+                <span className="underline cursor-pointer text-design-primaryLight">
                   Learn more
                 </span>
               </Link>
@@ -174,8 +171,7 @@ export default async function ProfilePage({
         <BlurFade delay={3} duration={0.5}>
           <div className="mt-2">
             <Link href="/signup">
-              <Button className="relative group rounded-lg flex items-center bg-black hover:bg-black/75 text-white px-4 py-3 h-auto text-lg font-bold overflow-hidden cursor-pointer">
-                <div className="h-[120px] w-10 bg-gradient-to-r from-white/10 via-white/50 to-white/10 absolute blur-sm -rotate-45 -left-16 group-hover:left-[150%] duration-500 delay-200" />
+              <Button className="relative group rounded-lg flex items-center bg-design-primary hover:bg-design-primaryDark text-white px-4 py-3 h-auto text-lg font-bold overflow-hidden cursor-pointer">
                 <span className="relative">Claim Handle Now</span>
               </Button>
             </Link>
