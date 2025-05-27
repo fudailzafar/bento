@@ -3,18 +3,28 @@
 import { Section } from '@/components/ui/section';
 import { ResumeDataSchemaType } from '@/lib/resume';
 import { getShortMonth, getYear } from '../resume-utils';
-import { useMemo } from 'react';
+import { useMemo, useState } from 'react';
 import BlurFade from '../../magicui/blur-fade';
 import React from 'react';
 import { ProjectCard } from '@/components/project-card';
+import { Plus, Pen, Trash } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { ProjectsField } from '../editing/projects-field';
 
 const BLUR_FADE_DELAY = 0.04;
 
 export function Projects({
   projects,
+  isEditMode,
+  onChangeProjects,
 }: {
   projects?: ResumeDataSchemaType['projects'];
+  isEditMode?: boolean;
+  onChangeProjects?: (newProjects: ResumeDataSchemaType['projects']) => void;
 }) {
+  const [editingIndex, setEditingIndex] = useState<number | null>(null);
+  const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
+
   // Filter out invalid projects and pre-format dates
   const validProjects = useMemo(() => {
     return (projects ?? [])
@@ -29,7 +39,50 @@ export function Projects({
       }));
   }, [projects]);
 
-  if (validProjects.length === 0) {
+  const handleAdd = () => {
+    if (onChangeProjects) {
+      onChangeProjects([
+        ...(projects || []),
+        {
+          title: '',
+          description: '',
+          githubLink: '',
+          liveLink: '',
+          start: '',
+          skills: [],
+        },
+      ]);
+      setEditingIndex((projects || []).length);
+    }
+  };
+
+  const handleDelete = (index: number) => {
+    if (onChangeProjects && projects) {
+      const newProjects = [...projects];
+      newProjects.splice(index, 1);
+      onChangeProjects(newProjects);
+      setEditingIndex(null);
+    }
+  };
+
+  const handleUpdate = (
+    index: number,
+    updatedProject: ResumeDataSchemaType['projects'][0]
+  ) => {
+    if (onChangeProjects && projects) {
+      const newProjects = [...projects];
+      newProjects[index] = {
+        ...updatedProject,
+        end: updatedProject.end ?? null,
+        skills: Array.isArray(updatedProject.skills)
+          ? updatedProject.skills
+          : [],
+      };
+      onChangeProjects(newProjects);
+    }
+  };
+
+  if (validProjects.length === 0 && !isEditMode) {
     return null;
   }
 
@@ -54,23 +107,128 @@ export function Projects({
         </BlurFade>
 
         <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 max-w-[800px] mx-auto">
-          {validProjects.map((project, id) => (
-            <BlurFade
-              key={project.title}
-              delay={BLUR_FADE_DELAY * 12 + id * 0.05}
-            >
-              <ProjectCard
-                liveLink={project.liveLink}
-                key={project.title}
-                title={project.title}
-                description={project.description}
-                dates={project.formattedDate}
-                githubLink={project.githubLink}
-                tags={project.skills}
-              />
-            </BlurFade>
-          ))}
+          {(projects || []).map((project, id) => {
+            const isEditing = editingIndex === id;
+            const isHovered = hoveredIndex === id;
+
+            // Show edit form if editing
+            if (isEditMode && isEditing) {
+              return (
+                <div
+                  key={id}
+                  className="col-span-1 sm:col-span-2 rounded-lg p-4 bg-gray-50 dark:bg-gray-900"
+                >
+                  <ProjectsField
+                    project={{
+                      ...project,
+                      skills: Array.isArray(project.skills)
+                        ? project.skills
+                        : [],
+                    }}
+                    index={id}
+                    onUpdate={handleUpdate}
+                    onDelete={handleDelete}
+                  />
+                  <div className="flex justify-end">
+                    <Button
+                      onClick={() => setEditingIndex(null)}
+                      variant="outline"
+                      size="sm"
+                      className="mt-2"
+                    >
+                      Save
+                    </Button>
+                  </div>
+                </div>
+              );
+            }
+
+            // Skip invalid entries in view mode
+            if (!project.title || !project.description) {
+              if (!isEditMode) return null;
+            }
+
+            const formattedDate = `${getShortMonth(project.start)} ${getYear(
+              project.start
+            )} - ${
+              !!project.end
+                ? `${getShortMonth(project.end)} ${getYear(project.end)}`
+                : 'Present'
+            }`;
+
+            return (
+              <BlurFade
+                key={project.title + id}
+                delay={BLUR_FADE_DELAY * 12 + id * 0.05}
+              >
+                <div
+                  className="relative group"
+                  onMouseEnter={() => setHoveredIndex(id)}
+                  onMouseLeave={() => setHoveredIndex(null)}
+                >
+                  {/* Edit/Delete buttons for edit mode - positioned on top */}
+                  {isEditMode && isHovered && (
+                    <>
+                      {/* Delete button - top left */}
+                      <button
+                        onClick={() => handleDelete(id)}
+                        className="absolute -top-2 -left-2 size-8 rounded-full hover:bg-gray-50 border border-gray-50 shadow-md hover:text-design-secondary bg-white text-gray-700 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-200 z-10"
+                        aria-label="Delete project"
+                      >
+                        <Trash className="size-4" />
+                      </button>
+
+                      {/* Edit button - top right */}
+                      <button
+                        onClick={() => setEditingIndex(id)}
+                        className="absolute -top-2 -right-2 size-8 rounded-full bg-black border-gray-50 shadow-md text-white  flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-200 z-10"
+                        aria-label="Edit project"
+                      >
+                        <Pen className="size-4" />
+                      </button>
+                    </>
+                  )}
+
+                  <ProjectCard
+                    liveLink={project.liveLink}
+                    title={project.title}
+                    description={project.description}
+                    dates={formattedDate}
+                    githubLink={project.githubLink}
+                    tags={project.skills}
+                    image={project.image || undefined}
+                    isEditMode={isEditMode}
+                    onImageChange={(newImageUrl) => {
+                      handleUpdate(id, {
+                        ...project,
+                        image: newImageUrl,
+                      });
+                    }}
+                  />
+                </div>
+              </BlurFade>
+            );
+          })}
         </div>
+
+        {/* Add Project button at the bottom */}
+        {isEditMode && onChangeProjects && (
+          <BlurFade
+            delay={BLUR_FADE_DELAY * 12 + (projects?.length || 0) * 0.05 + 0.1}
+          >
+            <div className="flex justify-center max-w-[800px] mx-auto">
+              <button
+                onClick={handleAdd}
+                className="w-full sm:w-[392px] h-[300px] flex flex-col items-center justify-center border-2 border-dashed border-muted-foreground/25 hover:border-muted-foreground/50 rounded-lg transition-all duration-300 hover:shadow-lg bg-transparent hover:bg-muted/5 group"
+              >
+                <Plus className="size-8 mb-2 text-muted-foreground group-hover:text-foreground transition-colors" />
+                <span className="text-sm text-muted-foreground group-hover:text-foreground transition-colors">
+                  Add Project
+                </span>
+              </button>
+            </div>
+          </BlurFade>
+        )}
       </div>
     </Section>
   );

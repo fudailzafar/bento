@@ -1,20 +1,30 @@
 'use client';
 import LoadingFallback from '@/components/loading-fallback';
-import PreviewActionbar from '@/components/preview/preview-action-bar';
+import PreviewActionbar, {
+  ViewMode,
+} from '@/components/preview/preview-action-bar';
 import { FullResume } from '@/components/resume/preview/full-resume';
-import { EditResume } from '@/components/resume/editing/edit-resume';
 import { useUserActions } from '@/hooks/use-user-actions';
 import { ResumeData } from '@/lib/server/redis-actions';
 import { useSession } from 'next-auth/react';
 import { useEffect, useState, useRef, useCallback } from 'react';
 import { toast } from 'sonner';
+import { motion, AnimatePresence } from 'framer-motion';
+import { HamburgerMenu } from '@/components/HamburgerMenu';
 
 export default function PreviewClient({ messageTip }: { messageTip?: string }) {
   const { data: session } = useSession();
-  const { resumeQuery, usernameQuery, saveResumeDataMutation, userProfileQuery } =
-    useUserActions();
+  const {
+    resumeQuery,
+    usernameQuery,
+    saveResumeDataMutation,
+    userProfileQuery,
+  } = useUserActions();
   const [localResumeData, setLocalResumeData] = useState<ResumeData>();
-  const [isEditMode, setIsEditMode] = useState(false);
+  const [localProfilePicture, setLocalProfilePicture] = useState<
+    string | undefined
+  >();
+  const [viewMode, setViewMode] = useState<ViewMode>('desktop');
   const debounceTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useEffect(() => {
@@ -23,13 +33,19 @@ export default function PreviewClient({ messageTip }: { messageTip?: string }) {
     }
   }, [resumeQuery.data?.resume?.resumeData]);
 
+  // Update local profile picture when query data changes
+  useEffect(() => {
+    const profilePic =
+      userProfileQuery.data?.profile?.image ||
+      session?.user?.image ||
+      undefined;
+    setLocalProfilePicture(profilePic);
+  }, [userProfileQuery.data?.profile?.image, session?.user?.image]);
+
   console.log('resumeQuery', resumeQuery.data);
 
   // Get profile picture: custom uploaded image > Google image > undefined
-  const profilePicture = 
-    userProfileQuery.data?.profile?.image || 
-    session?.user?.image || 
-    undefined;
+  const profilePicture = localProfilePicture;
 
   // Debounced save function
   const debouncedSave = useCallback(
@@ -58,7 +74,13 @@ export default function PreviewClient({ messageTip }: { messageTip?: string }) {
     // Set new timer for debounced save (500ms)
     debounceTimerRef.current = setTimeout(() => {
       debouncedSave(newResume);
-    }, 500);
+    }, 3000);
+  };
+
+  const handleImageChange = (newImageUrl: string | null) => {
+    setLocalProfilePicture(newImageUrl || undefined);
+    // Invalidate the user profile query to refetch the data
+    userProfileQuery.refetch();
   };
 
   // Cleanup timer on unmount
@@ -101,33 +123,90 @@ export default function PreviewClient({ messageTip }: { messageTip?: string }) {
         </div>
       )}
 
-      <div className="max-w-3xl mx-auto w-full md:rounded-lg flex items-center justify-between px-4">
-        {isEditMode ? (
-          <EditResume
-            resume={localResumeData}
-            onChangeResume={handleResumeChange}
-          />
+      {/* Desktop/Mobile View Toggle */}
+      <AnimatePresence mode="wait">
+        {viewMode === 'mobile' ? (
+          /* Mobile View */
+          <motion.div
+            key="mobile"
+            initial={{ opacity: 0, width: '100%', maxWidth: '768px' }}
+            animate={{ opacity: 1, width: '575px', maxWidth: '575px' }}
+            exit={{ opacity: 0, width: '100%', maxWidth: '768px' }}
+            transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+            className="flex justify-center items-start min-h-[calc(100vh-12rem)] py-8 mx-auto"
+          >
+            <div className="relative w-full">
+              <motion.div
+                initial={{ borderRadius: '0.5rem' }}
+                animate={{ borderRadius: '2.5rem' }}
+                exit={{ borderRadius: '0.5rem' }}
+                transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+                className="w-full h-[632px] bg-white shadow-2xl overflow-hidden relative border border-gray-200"
+              >
+                {/* Scrollable Content */}
+                <div className="w-full h-full overflow-y-auto overflow-x-hidden bg-background scrollbar-hide">
+                  <motion.div
+                    initial={{ paddingLeft: '1rem', paddingRight: '1rem' }}
+                    animate={{ paddingLeft: '2rem', paddingRight: '2rem' }}
+                    exit={{ paddingLeft: '1rem', paddingRight: '1rem' }}
+                    transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+                  >
+                    <FullResume
+                      resume={localResumeData}
+                      profilePicture={profilePicture}
+                      isEditMode={true}
+                      onChangeResume={handleResumeChange}
+                      onImageChange={handleImageChange}
+                    />
+                  </motion.div>
+                </div>
+              </motion.div>
+            </div>
+          </motion.div>
         ) : (
-          <FullResume
-            resume={localResumeData}
-            profilePicture={profilePicture}
-            isEditMode={true}
-          />
+          /* Desktop View */
+          <motion.div
+            key="desktop"
+            initial={{ opacity: 0, width: '575px', maxWidth: '575px' }}
+            animate={{ opacity: 1, width: '100%', maxWidth: '768px' }}
+            exit={{ opacity: 0, width: '575px', maxWidth: '575px' }}
+            transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+            className="mx-auto md:rounded-lg flex items-center justify-between"
+          >
+            <motion.div
+              initial={{ borderRadius: '2.5rem' }}
+              animate={{ borderRadius: '0.5rem' }}
+              exit={{ borderRadius: '2.5rem' }}
+              transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+              className="w-full px-4"
+            >
+              <FullResume
+                resume={localResumeData}
+                profilePicture={profilePicture}
+                isEditMode={true}
+                onChangeResume={handleResumeChange}
+                onImageChange={handleImageChange}
+              />
+            </motion.div>
+          </motion.div>
         )}
-      </div>
+      </AnimatePresence>
 
-      {/* Fixed Action Bar at Bottom */}
+      {/* Action Bar */}
       <div className="fixed bottom-6 left-0 right-0 z-50 pointer-events-none">
         <div className="max-w-3xl mx-auto w-full md:px-0 px-4 pointer-events-auto flex justify-center">
           <PreviewActionbar
             initialUsername={usernameQuery.data.username}
             status={resumeQuery.data?.resume?.status}
-            isEditMode={isEditMode}
-            onEditModeChange={setIsEditMode}
+            viewMode={viewMode}
+            onViewModeChange={setViewMode}
             isSaving={saveResumeDataMutation.isPending}
           />
         </div>
       </div>
+
+      {/* Hamburger Menu */}
+      <HamburgerMenu />
     </div>
   );
 }

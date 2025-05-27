@@ -28,7 +28,7 @@ export const WorkExperienceField: React.FC<WorkExperienceFieldProps> = ({
   onDelete,
 }) => {
   return (
-    <div className="relative p-4 border rounded-md group">
+    <div className="relative p-4 rounded-md group">
       <button
         className="absolute top-2 right-2 text-gray-400 hover:text-red-500 transition-colors"
         onClick={() => onDelete(index)}

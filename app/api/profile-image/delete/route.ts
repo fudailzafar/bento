@@ -12,7 +12,7 @@ export async function DELETE(request: NextRequest) {
 
     // Get user profile
     const userProfile = await getUserProfile(session.user.email);
-    
+
     if (!userProfile) {
       return NextResponse.json(
         { error: 'User profile not found' },

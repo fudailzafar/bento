@@ -1,3 +1,5 @@
+'use client';
+
 import { Badge } from '@/components/ui/badge';
 import {
   Card,
@@ -8,8 +10,12 @@ import {
 } from '@/components/ui/card';
 import { cn } from '@/lib/utils';
 import { GitHubLogoIcon, GlobeIcon } from '@radix-ui/react-icons';
+import { CircleArrowUp, Trash } from 'lucide-react';
 import Image from 'next/image';
 import Markdown from 'react-markdown';
+import { useState, useRef } from 'react';
+import { toast } from 'sonner';
+import { Loader } from '@/components/icons/loader';
 
 interface Props {
   title: string;
@@ -22,6 +28,8 @@ interface Props {
   image?: string;
   video?: string;
   className?: string;
+  isEditMode?: boolean;
+  onImageChange?: (newImageUrl: string | null) => void;
 }
 
 export function ProjectCard({
@@ -35,7 +43,13 @@ export function ProjectCard({
   image,
   video,
   className,
+  isEditMode,
+  onImageChange,
 }: Props) {
+  const [isHovered, setIsHovered] = useState(false);
+  const [isUploading, setIsUploading] = useState(false);
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
   // Helper to ensure links have https://
   const ensureHttps = (url?: string) => {
     if (!url) return '#';
@@ -44,36 +58,173 @@ export function ProjectCard({
       : `https://${url}`;
   };
 
+  const handleUploadClick = () => {
+    fileInputRef.current?.click();
+  };
+
+  const handleFileChange = async (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    const file = event.target.files?.[0];
+    if (!file) return;
+
+    // Validate file type
+    if (!file.type.startsWith('image/')) {
+      toast.error('Please upload an image file');
+      return;
+    }
+
+    // Validate file size (5MB)
+    if (file.size > 5 * 1024 * 1024) {
+      toast.error('Image size must be less than 5MB');
+      return;
+    }
+
+    setIsUploading(true);
+
+    try {
+      const formData = new FormData();
+      formData.append('file', file);
+
+      const response = await fetch('/api/project-image/upload', {
+        method: 'POST',
+        body: formData,
+      });
+
+      if (!response.ok) {
+        const error = await response.json();
+        throw new Error(error.error || 'Upload failed');
+      }
+
+      const data = await response.json();
+      toast.success('Image updated successfully!');
+      onImageChange?.(data.imageUrl);
+    } catch (error) {
+      console.error('Upload error:', error);
+      toast.error(
+        error instanceof Error ? error.message : 'Failed to upload image'
+      );
+    } finally {
+      setIsUploading(false);
+      // Reset input
+      if (fileInputRef.current) {
+        fileInputRef.current.value = '';
+      }
+    }
+  };
+
+  const handleDelete = async () => {
+    if (!image) return;
+
+    setIsUploading(true);
+
+    try {
+      const response = await fetch(
+        `/api/project-image/delete?imageUrl=${encodeURIComponent(image)}`,
+        {
+          method: 'DELETE',
+        }
+      );
+
+      if (!response.ok) {
+        const error = await response.json();
+        throw new Error(error.error || 'Delete failed');
+      }
+
+      toast.success('Project image removed');
+      onImageChange?.(null);
+    } catch (error) {
+      console.error('Delete error:', error);
+      toast.error(
+        error instanceof Error ? error.message : 'Failed to delete image'
+      );
+    } finally {
+      setIsUploading(false);
+    }
+  };
+
   return (
     <Card
       className={
-        'flex flex-col overflow-hidden border hover:shadow-lg transition-all duration-300 ease-out h-full'
+        'flex flex-col overflow-hidden border hover:shadow-lg transition-all duration-300 ease-out h-[370px]'
       }
     >
-      <a
-        href={ensureHttps(liveLink)}
-        className={cn('block cursor-pointer', className)}
+      {/* Hidden file input */}
+      <input
+        ref={fileInputRef}
+        type="file"
+        accept="image/*"
+        onChange={handleFileChange}
+        className="hidden"
+      />
+
+      <div
+        className="relative group/image"
+        onMouseEnter={() => setIsHovered(true)}
+        onMouseLeave={() => setIsHovered(false)}
       >
-        {video && (
-          <video
-            src={video}
-            autoPlay
-            loop
-            muted
-            playsInline
-            className="pointer-events-none mx-auto h-40 w-full object-cover object-top" // needed because random black line at bottom of video
-          />
+        <a
+          href={ensureHttps(liveLink)}
+          className={cn('block cursor-pointer', className)}
+        >
+          {video && (
+            <video
+              src={video}
+              autoPlay
+              loop
+              muted
+              playsInline
+              className="pointer-events-none mx-auto h-40 w-full object-cover object-top" // needed because random black line at bottom of video
+            />
+          )}
+          {image && !video && (
+            <Image
+              src={image}
+              alt={title}
+              width={500}
+              height={300}
+              className="h-40 w-full overflow-hidden object-cover object-top"
+            />
+          )}
+          {!image && !video && (
+            <div className="h-40 w-full bg-muted flex items-center justify-center">
+              <span className="text-muted-foreground text-sm">No image</span>
+            </div>
+          )}
+        </a>
+
+        {/* Upload/Delete buttons - Only in edit mode on hover */}
+        {isEditMode && !isUploading && isHovered && (
+          <div className="absolute bottom-2 left-2 right-2 flex justify-between items-center opacity-0 group-hover/image:opacity-100 transition-opacity">
+            {/* Upload Button */}
+            <button
+              onClick={handleUploadClick}
+              className="size-8 rounded-full bg-white backdrop-blur-sm border border-neutral-300 shadow-lg hover:bg-white/90 transition-all flex items-center justify-center"
+              aria-label="Upload project image"
+            >
+              <CircleArrowUp className="size-4 text-black" />
+            </button>
+
+            {/* Delete button */}
+            {image && (
+              <button
+                onClick={handleDelete}
+                className="size-8 rounded-full bg-white backdrop-blur-sm border border-neutral-300 shadow-lg hover:bg-white/90 transition-all flex items-center justify-center"
+                aria-label="Delete project image"
+              >
+                <Trash className="size-4 text-black" />
+              </button>
+            )}
+          </div>
         )}
-        {image && (
-          <Image
-            src={image}
-            alt={title}
-            width={500}
-            height={300}
-            className="h-40 w-full overflow-hidden object-cover object-top"
-          />
+
+        {/* Loader during Upload */}
+        {isUploading && (
+          <div className="absolute inset-0 bg-black/50 flex items-center justify-center">
+            <Loader className="text-white" />
+          </div>
         )}
-      </a>
+      </div>
       <CardHeader className="flex-1 px-2">
         <div className="space-y-1">
           <CardTitle className="mt-1 text-base">{title}</CardTitle>
@@ -100,7 +251,7 @@ export function ProjectCard({
         {tags && tags.length > 0 && (
           <div className="mt-2 flex flex-wrap gap-1">
             {tags?.map((tag) => (
-              <Badge className="px-1 py-0 text-[10px]" key={tag}>
+              <Badge className="px-1 py-0 text-[10px] bg-[#F7F7F7] hover:bg-[#f7f7f7] text-black dark:text-white dark:bg-[#202020]" key={tag}>
                 {tag}
               </Badge>
             ))}

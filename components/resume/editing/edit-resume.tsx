@@ -195,7 +195,7 @@ export const EditResume = ({
               {[
                 {
                   id: 'website',
-                  label: 'Website',
+                  label: 'Blog',
                   prefix: '',
                   placeholder: 'your-website.com',
                   key: 'website',
