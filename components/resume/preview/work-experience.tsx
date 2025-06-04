@@ -298,7 +298,7 @@ export function WorkExperience({
                 />
 
                 <Card className="flex border-0 shadow-none bg-transparent">
-                  <div className="flex-none relative group/logo">
+                  <div className="flex-none relative group/logo w-12 h-12">
                     <Avatar className="border size-12 m-auto bg-muted-background dark:bg-foreground">
                       <AvatarImage
                         src={item.logo || undefined}
@@ -309,36 +309,34 @@ export function WorkExperience({
                     </Avatar>
 
                     {/* Upload/Delete buttons for logo - Only in edit mode on hover */}
-                    { uploadingIndex !== id && hoveredIndex === id && (
-                      <div className="absolute inset-0 flex items-center justify-center bg-black/50 rounded-full opacity-0 group-hover/logo:opacity-100 transition-opacity">
-                        <div className="flex gap-1">
-                          {/* Upload Button */}
-                          <button
-                            onClick={() => handleUploadClick(id)}
-                            className="size-6 rounded-full bg-white backdrop-blur-sm border border-neutral-300 shadow-lg hover:bg-white/90 transition-all flex items-center justify-center"
-                            aria-label="Upload company logo"
-                          >
-                            <CircleArrowUp className="size-3 text-black" />
-                          </button>
+                    {isEditMode && uploadingIndex !== id && hoveredIndex === id && (
+                      <div className="absolute bottom-0 left-0 right-0 flex items-center justify-between opacity-0 group-hover/logo:opacity-100 transition-opacity">
+                        {/* Upload Button - Left */}
+                        <button
+                          onClick={() => handleUploadClick(id)}
+                          className="size-5 rounded-full bg-white backdrop-blur-sm border border-neutral-300 shadow-lg hover:bg-white/90 transition-all flex items-center justify-center"
+                          aria-label="Upload company logo"
+                        >
+                          <CircleArrowUp className="size-3 text-black" />
+                        </button>
 
-                          {/* Delete button */}
-                          {item.logo && (
-                            <button
-                              onClick={() => handleDeleteLogo(id)}
-                              className="size-6 rounded-full bg-white backdrop-blur-sm border border-neutral-300 shadow-lg hover:bg-white/90 transition-all flex items-center justify-center"
-                              aria-label="Delete company logo"
-                            >
-                              <Trash className="size-3 text-black" />
-                            </button>
-                          )}
-                        </div>
+                        {/* Delete button - Right */}
+                        {item.logo && (
+                          <button
+                            onClick={() => handleDeleteLogo(id)}
+                            className="size-5 rounded-full bg-white backdrop-blur-sm border border-neutral-300 shadow-lg hover:bg-white/90 transition-all flex items-center justify-center"
+                            aria-label="Delete company logo"
+                          >
+                            <Trash className="size-3 text-black" />
+                          </button>
+                        )}
                       </div>
                     )}
 
                     {/* Loader during Upload */}
                     {uploadingIndex === id && (
-                      <div className="absolute inset-0 bg-black/50 rounded-full flex items-center justify-center">
-                        <Loader className="text-white size-6" />
+                      <div className="absolute inset-0 bg-black/50 rounded-full flex items-center justify-center overflow-hidden">
+                        <Loader className="text-white size-5" />
                       </div>
                     )}
                   </div>
@@ -350,14 +348,6 @@ export function WorkExperience({
                           <span className="text-base font-semibold text-left text-[#050914] dark:text-design-white">
                             {item.company}
                           </span>
-                          {item.location && (
-                            <Badge
-                              variant="secondary"
-                              className="ml-2 text-[12px] font-semibold px-[7px] py-0.5 bg-[#eeeff0] text-[#54575e] hover:bg-[#eeeff0]"
-                            >
-                              {item.location}
-                            </Badge>
-                          )}
                           {isHovered && (
                             <motion.button
                               key="chevron"
