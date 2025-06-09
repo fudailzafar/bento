@@ -1,5 +1,13 @@
-import { GitHubIcon } from './github-icon';
-import { LinkedInIcon } from './linkedin-icon';
-import { XIcon } from './x-icon';
-
-export { GitHubIcon, LinkedInIcon, XIcon };
+export * from './checkmark';
+export * from './compass';
+export * from './cross';
+export * from './discord';
+export * from './github-icon';
+export * from './laptop';
+export * from './link';
+export * from './linkedin-icon';
+export * from './loader';
+export * from './mobile';
+export * from './pen';
+export * from './settings';
+export * from './x-icon';

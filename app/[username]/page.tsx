@@ -13,9 +13,7 @@ import {
   TooltipTrigger,
 } from '@/components/ui/tooltip';
 import { Separator } from '@/components/ui/separator';
-import { LinkedInIcon } from '@/components/icons/linkedin-icon';
-import { XIcon } from '@/components/icons/x-icon';
-import { GitHubIcon } from '@/components/icons/github-icon';
+import { LinkedInIcon, XIcon, GitHubIcon } from '@/components/icons';
 import { cn } from '@/lib/utils';
 import { AnimatedThemeToggler } from '@/components/magicui/animated-theme-toggler';
 import DockClient from '@/components/magicui/dock-client';

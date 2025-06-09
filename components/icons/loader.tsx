@@ -1,4 +1,4 @@
-export function Loader({ className }: { className?: string }) {
+export const Loader = ({ className }: { className?: string }) => {
   return (
     <svg
       height="16"
@@ -129,4 +129,4 @@ export function Loader({ className }: { className?: string }) {
       </g>
     </svg>
   );
-}
+};

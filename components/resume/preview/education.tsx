@@ -6,13 +6,13 @@ import { ResumeDataSchemaType } from '@/lib/resume';
 import { getYear } from '../resume-utils';
 import { useMemo, useState, useRef } from 'react';
 import BlurFade from '../../magicui/blur-fade';
-import { Plus, Pen, Trash, CircleArrowUp } from 'lucide-react';
+import { Plus, Trash, CircleArrowUp } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { EducationField } from '../editing/education-field';
 import { cn } from '@/lib/utils';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { toast } from 'sonner';
-import { Loader } from '@/components/icons/loader';
+import { Loader, Pen } from '@/components/icons';
 
 const BLUR_FADE_DELAY = 0.04;
 

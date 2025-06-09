@@ -1,5 +1,5 @@
 import { HomeIcon, NotebookIcon } from 'lucide-react';
-import { Icons } from '../icons';
+import { Icons } from '../icon-library';
 
 export const DATA = {
   name: 'Fudail Mohammed Zafar',
