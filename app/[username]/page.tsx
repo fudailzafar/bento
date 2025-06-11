@@ -1,24 +1,28 @@
 import { Notebook } from 'lucide-react';
-import { Button, buttonVariants } from '@/components/ui/button';
 import { ResumeDataSchemaType } from '@/lib/resume';
 import { redirect } from 'next/navigation';
 import Link from 'next/link';
-import { FullResume } from '@/components/resume/preview/full-resume';
 import { Metadata } from 'next';
 import { getUserData } from './utils';
-import { Dock, DockIcon } from '@/components/magicui/dock';
+import { LinkedInIcon, XIcon, GitHubIcon } from '@/components/icons';
+import { cn } from '@/lib/utils';
+import Image from 'next/image';
 import {
+  AnimatedThemeToggler,
+  BlurFade,
+  Dock,
+  DockClient,
+  DockIcon,
+} from '@/components/magicui';
+import { FullResume } from '@/components/resume/preview';
+import {
+  Button,
+  buttonVariants,
+  Separator,
   Tooltip,
   TooltipContent,
   TooltipTrigger,
-} from '@/components/ui/tooltip';
-import { Separator } from '@/components/ui/separator';
-import { LinkedInIcon, XIcon, GitHubIcon } from '@/components/icons';
-import { cn } from '@/lib/utils';
-import { AnimatedThemeToggler } from '@/components/magicui/animated-theme-toggler';
-import DockClient from '@/components/magicui/dock-client';
-import Image from 'next/image';
-import BlurFade from '@/components/magicui/blur-fade';
+} from '@/components/ui';
 
 interface SocialButtonProps {
   href: string;

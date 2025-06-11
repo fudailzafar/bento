@@ -1,21 +1,31 @@
 'use client';
 
-import { Section } from '@/components/ui/section';
+import {
+  Section,
+  Button,
+  Avatar,
+  AvatarFallback,
+  AvatarImage,
+  Card,
+  CardHeader,
+} from '@/components/ui';
 import { ResumeDataSchemaType } from '@/lib/resume';
 import { useMemo, useState, useRef } from 'react';
-import { ChevronRightIcon, Plus, Pen, Trash, CircleArrowUp } from 'lucide-react';
+import {
+  ChevronRightIcon,
+  Plus,
+  Pen,
+  Trash,
+  CircleArrowUp,
+} from 'lucide-react';
 import { cn } from '@/lib/utils';
 import React from 'react';
-import { AnimatePresence, motion } from 'framer-motion';
-import BlurFade from '@/components/magicui/blur-fade';
+import { motion } from 'framer-motion';
 import { getShortMonth, getYear } from '../resume-utils';
-import { WorkExperienceField } from '../editing/work-experience-field';
-import { Button } from '@/components/ui/button';
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { Card, CardHeader } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
 import { toast } from 'sonner';
-import { Loader } from '@/components/icons';
+import { LoaderIcon } from '@/components/icons';
+import { BlurFade } from '@/components/magicui';
+import { WorkExperienceField } from '../editing';
 
 const BLUR_FADE_DELAY = 0.04;
 
@@ -154,7 +164,7 @@ export function WorkExperience({
 
       const data = await response.json();
       toast.success('Image updated successfully!');
-      
+
       handleUpdate(index, {
         ...work[index],
         logo: data.imageUrl,
@@ -284,8 +294,9 @@ export function WorkExperience({
                 onMouseEnter={() => setHoveredIndex(id)}
                 onMouseLeave={() => setHoveredIndex(null)}
                 className={cn(
-                  "group relative -mx-4 px-4 border-2 border-transparent transition-all duration-300",
-                  isEditMode && "hover:border-gray-100 hover:shadow-md hover:rounded-xl hover:py-3 dark:hover:border-gray-600"
+                  'group relative -mx-4 px-4 border-2 border-transparent transition-all duration-300',
+                  isEditMode &&
+                    'hover:border-gray-100 hover:shadow-md hover:rounded-xl hover:py-3 dark:hover:border-gray-600'
                 )}
               >
                 {/* Hidden file input */}
@@ -309,34 +320,36 @@ export function WorkExperience({
                     </Avatar>
 
                     {/* Upload/Delete buttons for logo - Only in edit mode on hover */}
-                    {isEditMode && uploadingIndex !== id && hoveredIndex === id && (
-                      <div className="absolute bottom-0 left-0 right-0 flex items-center justify-between opacity-0 group-hover/logo:opacity-100 transition-opacity">
-                        {/* Upload Button - Left */}
-                        <button
-                          onClick={() => handleUploadClick(id)}
-                          className="size-5 rounded-full bg-white backdrop-blur-sm border border-neutral-300 shadow-lg hover:bg-white/90 transition-all flex items-center justify-center"
-                          aria-label="Upload company logo"
-                        >
-                          <CircleArrowUp className="size-3 text-black" />
-                        </button>
-
-                        {/* Delete button - Right */}
-                        {item.logo && (
+                    {isEditMode &&
+                      uploadingIndex !== id &&
+                      hoveredIndex === id && (
+                        <div className="absolute bottom-0 left-0 right-0 flex items-center justify-between opacity-0 group-hover/logo:opacity-100 transition-opacity">
+                          {/* Upload Button - Left */}
                           <button
-                            onClick={() => handleDeleteLogo(id)}
+                            onClick={() => handleUploadClick(id)}
                             className="size-5 rounded-full bg-white backdrop-blur-sm border border-neutral-300 shadow-lg hover:bg-white/90 transition-all flex items-center justify-center"
-                            aria-label="Delete company logo"
+                            aria-label="Upload company logo"
                           >
-                            <Trash className="size-3 text-black" />
+                            <CircleArrowUp className="size-3 text-black" />
                           </button>
-                        )}
-                      </div>
-                    )}
+
+                          {/* Delete button - Right */}
+                          {item.logo && (
+                            <button
+                              onClick={() => handleDeleteLogo(id)}
+                              className="size-5 rounded-full bg-white backdrop-blur-sm border border-neutral-300 shadow-lg hover:bg-white/90 transition-all flex items-center justify-center"
+                              aria-label="Delete company logo"
+                            >
+                              <Trash className="size-3 text-black" />
+                            </button>
+                          )}
+                        </div>
+                      )}
 
                     {/* Loader during Upload */}
                     {uploadingIndex === id && (
                       <div className="absolute inset-0 bg-black/50 rounded-full flex items-center justify-center overflow-hidden">
-                        <Loader className="text-white size-5" />
+                        <LoaderIcon className="text-white size-5" />
                       </div>
                     )}
                   </div>
@@ -353,7 +366,9 @@ export function WorkExperience({
                               key="chevron"
                               type="button"
                               aria-label={
-                                isExpanded ? 'Collapse details' : 'Expand details'
+                                isExpanded
+                                  ? 'Collapse details'
+                                  : 'Expand details'
                               }
                               onClick={() => {
                                 setExpandedIndexes((prev) =>

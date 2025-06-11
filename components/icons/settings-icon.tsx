@@ -1,4 +1,4 @@
-export const SettingsIcon = ({ className }: { className?: string }) => {
+export const SettingsIcon = (props: React.SVGProps<SVGSVGElement>) => {
   return (
     <svg
       width="16"
@@ -6,7 +6,7 @@ export const SettingsIcon = ({ className }: { className?: string }) => {
       viewBox="0 0 16 16"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
-      className={className}
+      {...props}
     >
       <rect x="1" y="3" width="15" height="2" rx="1" fill="currentColor"></rect>
       <rect y="11" width="15" height="2" rx="1" fill="currentColor"></rect>
@@ -29,3 +29,4 @@ export const SettingsIcon = ({ className }: { className?: string }) => {
     </svg>
   );
 };
+

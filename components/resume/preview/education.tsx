@@ -1,18 +1,23 @@
 'use client';
 
-import { Card, CardHeader, CardContent } from '@/components/ui/card';
-import { Section } from '@/components/ui/section';
+import {
+  Card,
+  CardHeader,
+  Section,
+  Button,
+  Avatar,
+  AvatarFallback,
+  AvatarImage,
+} from '@/components/ui';
 import { ResumeDataSchemaType } from '@/lib/resume';
 import { getYear } from '../resume-utils';
 import { useMemo, useState, useRef } from 'react';
-import BlurFade from '../../magicui/blur-fade';
 import { Plus, Trash, CircleArrowUp } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { EducationField } from '../editing/education-field';
 import { cn } from '@/lib/utils';
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { toast } from 'sonner';
-import { Loader, Pen } from '@/components/icons';
+import { LoaderIcon, PenIcon } from '@/components/icons';
+import { BlurFade } from '@/components/magicui';
+import { EducationField } from '../editing';
 
 const BLUR_FADE_DELAY = 0.04;
 
@@ -114,7 +119,7 @@ function EducationItem({
           {/* Loader during Upload */}
           {isUploading && (
             <div className="absolute inset-0 bg-black/50 rounded-full flex items-center justify-center">
-              <Loader className="text-white size-6" />
+              <LoaderIcon className="text-white size-6" />
             </div>
           )}
         </div>
@@ -167,7 +172,7 @@ function EducationItem({
             className="absolute -top-4 -right-2 size-8 rounded-full bg-black border border-gray-50 shadow-md text-white dark:text-gray-300 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300 ease-in-out z-10"
             aria-label="Edit education"
           >
-            <Pen className="size-4 transition-transform duration-200" />
+            <PenIcon className="size-4 transition-transform duration-200" />
           </button>
         </>
       )}
@@ -263,7 +268,7 @@ export function Education({
 
       const data = await response.json();
       toast.success('Image updated successfully!');
-      
+
       handleUpdate(index, {
         ...educations[index],
         logo: data.imageUrl,

@@ -1,0 +1,9 @@
+export { Header } from './header';
+export { WorkExperience } from './work-experience';
+export { Education } from './education';
+export { Skills } from './skills';
+export { Projects } from './projects';
+export { Contact } from './contact';
+export { Summary } from './summary';
+export { SocialLinks } from './social-links';
+export { FullResume } from './full-resume';

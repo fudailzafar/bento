@@ -1,15 +1,14 @@
 'use client';
 
-import { Section } from '@/components/ui/section';
+import { Section, Button } from '@/components/ui';
 import { ResumeDataSchemaType } from '@/lib/resume';
 import { getShortMonth, getYear } from '../resume-utils';
 import { useMemo, useState } from 'react';
-import BlurFade from '../../magicui/blur-fade';
 import React from 'react';
 import { ProjectCard } from '@/components/project-card';
 import { Plus, Pen, Trash } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { ProjectsField } from '../editing/projects-field';
+import { BlurFade } from '@/components/magicui';
+import { ProjectsField } from '../editing';
 
 const BLUR_FADE_DELAY = 0.04;
 

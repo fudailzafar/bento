@@ -1,27 +1,24 @@
 'use client';
 
-import { useIsMobile } from '@/hooks/use-mobile';
-import { useUserActions } from '@/hooks/use-user-actions';
 import { useState } from 'react';
+import { signOut } from 'next-auth/react';
+import { useIsMobile, useUserActions } from '@/hooks';
+import { SettingsIcon } from '../icons';
+import UsernameEditorView from './username-editor-view';
 import {
+  Button,
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuLabel,
   DropdownMenuTrigger,
-} from '../ui/dropdown-menu';
-import { Button } from '../ui/button';
-import { Separator } from '../ui/separator';
-import { signOut } from 'next-auth/react';
-import UsernameEditorView from './username-editor-view';
-import {
   Drawer,
   DrawerClose,
   DrawerContent,
   DrawerHeader,
   DrawerTitle,
   DrawerTrigger,
-} from '../ui/drawer';
-import { SettingsIcon } from '../icons/settings';
+  Separator,
+} from '../ui';
 
 export function SettingsPanel() {
   const isMobile = useIsMobile();

@@ -1,28 +1,30 @@
 'use client';
 
 import { useState, useEffect, useRef } from 'react';
-import { Button } from '@/components/ui/button';
-import { useUserActions } from '@/hooks/use-user-actions';
 import { toast } from 'sonner';
+import { useUserActions, useIsMobile } from '@/hooks';
 import { MAX_USERNAME_LENGTH } from '@/lib/config';
 import {
+  Button,
   Dialog,
   DialogContent,
   DialogDescription,
   DialogHeader,
   DialogTitle,
-} from '@/components/ui/dialog';
-import {
   Drawer,
   DrawerContent,
   DrawerDescription,
   DrawerHeader,
   DrawerTitle,
   DrawerClose,
-} from '@/components/ui/drawer';
-import { ConfettiButton } from '../ui/confetti';
-import { useIsMobile } from '@/hooks/use-mobile';
-import { CheckmarkLarge, CheckmarkSmall, Cross, Loader } from '../icons';
+  ConfettiButton,
+} from '@/components/ui';
+import {
+  CheckmarkLargeIcon,
+  CheckmarkSmallIcon,
+  CrossIcon,
+  LoaderIcon,
+} from '../icons';
 
 interface UsernameEditorContentProps {
   initialUsername: string;
@@ -103,7 +105,7 @@ function UsernameEditorContent({
     <div className="flex flex-col items-center w-full">
       <div className="flex items-center justify-center w-16 h-16 rounded-full mb-4">
         <span className="rounded-full shadow-[0px_1px_2px_rgba(0,0,0,0.12)]">
-          <CheckmarkLarge />
+          <CheckmarkLargeIcon />
         </span>
       </div>
       <h3 className="text-lg font-semibold text-center mb-8">
@@ -194,9 +196,9 @@ function UsernameEditorContent({
                   {isInitialUsername ? (
                     <></>
                   ) : checkUsernameMutation.isPending ? (
-                    <Loader />
+                    <LoaderIcon />
                   ) : isValid ? (
-                    <CheckmarkSmall />
+                    <CheckmarkSmallIcon />
                   ) : newUsername ? (
                     <div
                       className="cursor-pointer"
@@ -207,7 +209,7 @@ function UsernameEditorContent({
                         }
                       }}
                     >
-                      <Cross />
+                      <CrossIcon />
                     </div>
                   ) : null}
                 </div>
@@ -230,7 +232,7 @@ function UsernameEditorContent({
                 className="w-full py-4 rounded-lg bg-design-primary hover:bg-design-primaryDark"
               >
                 {updateUsernameMutation.isPending ? (
-                  <Loader />
+                  <LoaderIcon />
                 ) : (
                   'Update My Username'
                 )}

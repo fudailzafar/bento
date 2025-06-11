@@ -1,25 +1,23 @@
 'use client';
 
-import { Button } from '@/components/ui/button';
 import { FileText, Upload, X } from 'lucide-react';
 import { useRouter } from 'next/navigation';
+import { useEffect, useState } from 'react';
+import LoadingFallback from '@/components/loading-fallback';
+import { useUserActions } from '@/hooks';
+import { UploadButton } from '@/lib/utils';
+import { LoaderIcon } from '@/components/icons';
 import {
+  Button,
+  Dialog,
+  DialogContent,
+  DialogTitle,
+  DialogTrigger,
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
-} from '@/components/ui/tooltip';
-import { useEffect, useState } from 'react';
-import LoadingFallback from '@/components/loading-fallback';
-import {
-  Dialog,
-  DialogTrigger,
-  DialogContent,
-  DialogTitle,
-} from '@/components/ui/dialog';
-import { useUserActions } from '@/hooks/use-user-actions';
-import { UploadButton } from '@/lib/utils';
-import { Loader } from '@/components/icons/loader';
+} from '@/components/ui';
 
 type FileState =
   | { status: 'empty' }
@@ -107,7 +105,7 @@ export default function UploadPageClient() {
             )}
             {isUpdating && (
               <div className="flex flex-col items-center justify-center w-full h-full min-h-[220px]">
-                <Loader className="h-8 w-8 mb-2" />
+                <LoaderIcon className="h-8 w-8 mb-2" />
                 <span className="text-sm text-gray-500">Uploading...</span>
               </div>
             )}
@@ -169,7 +167,7 @@ export default function UploadPageClient() {
           >
             {isUpdating ? (
               <>
-                <Loader />
+                <LoaderIcon />
               </>
             ) : (
               <>Generate Portfolio</>

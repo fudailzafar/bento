@@ -1,10 +1,10 @@
 'use client';
 
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui';
 import { useState, useRef } from 'react';
 import { Trash, CircleArrowUp } from 'lucide-react';
 import { toast } from 'sonner';
-import { Loader } from '@/components/icons';
+import { LoaderIcon } from '@/components/icons';
 
 interface EditableProfileImageProps {
   name: string;
@@ -155,7 +155,7 @@ export function EditableProfileImage({
       {/* Loader during Upload */}
       {isUploading && (
         <div className="absolute inset-0 bg-black/50 rounded-full flex items-center justify-center">
-          <Loader className="text-white" />
+          <LoaderIcon className="text-white" />
         </div>
       )}
     </div>

@@ -2,6 +2,7 @@ import React from 'react';
 import { Label } from '../../ui/label';
 import { Input } from '../../ui/input';
 import { DateRangePicker } from '../../ui/date-range-picker';
+import { TrashIcon } from '@/components/icons';
 
 interface WorkExperience {
   title: string;
@@ -33,19 +34,7 @@ export const WorkExperienceField: React.FC<WorkExperienceFieldProps> = ({
         className="absolute top-2 right-2 text-gray-400 hover:text-red-500 transition-colors"
         onClick={() => onDelete(index)}
       >
-        <svg
-          className="w-5 h-5"
-          fill="none"
-          stroke="currentColor"
-          viewBox="0 0 24 24"
-        >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth={2}
-            d="M6 18L18 6M6 6l12 12"
-          />
-        </svg>
+        <TrashIcon />
       </button>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">

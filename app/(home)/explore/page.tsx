@@ -1,6 +1,6 @@
 import { HeaderExplore } from '@/components/explore/explore-header';
 import { Footer } from '@/components/home/footer';
-import { Skeleton } from '@/components/ui/skeleton';
+import { Skeleton } from '@/components/ui';
 import { Metadata } from 'next';
 
 export async function generateMetadata({

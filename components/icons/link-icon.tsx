@@ -1,4 +1,4 @@
-export const Link = ({ className }: { className?: string }) => {
+export const LinkIcon = (props: React.SVGProps<SVGSVGElement>) =>  {
   return (
     <svg
       width="14"
@@ -6,7 +6,7 @@ export const Link = ({ className }: { className?: string }) => {
       viewBox="0 0 18 18"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
-      className={className}
+      {...props}
     >
       <path
         fillRule="evenodd"

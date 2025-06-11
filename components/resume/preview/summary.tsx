@@ -1,7 +1,7 @@
 'use client';
 
-import BlurFade from '@/components/magicui/blur-fade';
-import { Section } from '@/components/ui/section';
+import { BlurFade } from '@/components/magicui';
+import { Section } from '@/components/ui';
 import { ResumeDataSchemaType } from '@/lib/resume';
 import { useState } from 'react';
 

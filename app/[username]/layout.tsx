@@ -1,5 +1,4 @@
-import { ThemeProvider } from '@/components/ui/theme-provider';
-import { TooltipProvider } from '@/components/ui/tooltip';
+import { ThemeProvider, TooltipProvider } from '@/components/ui';
 
 export default function RootLayout({
   children,

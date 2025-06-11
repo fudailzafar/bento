@@ -1,11 +1,11 @@
-export const Loader = ({ className }: { className?: string }) => {
+export const LoaderIcon = (props: React.SVGProps<SVGSVGElement>) =>  {
   return (
     <svg
       height="16"
       width="16"
-      className={className}
       viewBox="0 0 100 100"
       preserveAspectRatio="xMidYMid"
+      {...props}
     >
       <g transform="rotate(0 50 50)">
         <rect

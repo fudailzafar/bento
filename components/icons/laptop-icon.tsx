@@ -1,4 +1,4 @@
-export const Laptop = ({ className }: { className?: string }) => {
+export const LaptopIcon = (props: React.SVGProps<SVGSVGElement>) =>  {
   return (
     <svg
       width="16"
@@ -6,7 +6,7 @@ export const Laptop = ({ className }: { className?: string }) => {
       viewBox="0 0 16 17"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
-      className={className}
+      {...props}
     >
       <rect y="12.5" width="16" height="2" rx="1" fill="currentColor"></rect>
       <path
