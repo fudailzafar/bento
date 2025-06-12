@@ -1,10 +1,14 @@
 import Markdown from 'react-markdown';
-import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
-import { Badge } from '../ui/badge';
-import { ProjectCard } from '../ui/project-card';
-import { ResumeCard } from '../ui/resume-card';
-import { DATA } from './resume';
-import { BlurFade, BlurFadeText } from '../magicui';
+import {
+  Avatar,
+  AvatarFallback,
+  AvatarImage,
+  Badge,
+  ResumeCard,
+  ProjectCard,
+} from '@/components/ui';
+import { DATA } from '@/components/home';
+import { BlurFade, BlurFadeText } from '@/components/magicui';
 
 export const DemoResume = () => {
   const BLUR_FADE_DELAY = 0.04;
@@ -138,7 +142,7 @@ export const DemoResume = () => {
                   delay={BLUR_FADE_DELAY * 12 + id * 0.05}
                 >
                   <ProjectCard
-                    href={project.href}
+                    liveLink={project.href}
                     key={project.title}
                     title={project.title}
                     description={project.description}
@@ -146,7 +150,9 @@ export const DemoResume = () => {
                     tags={project.technologies}
                     image={project.image}
                     video={project.video}
-                    links={project.links}
+                    githubLink={
+                      project.links?.find((l) => l.type === 'Source')?.href
+                    }
                   />
                 </BlurFade>
               ))}

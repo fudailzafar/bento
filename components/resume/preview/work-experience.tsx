@@ -9,7 +9,7 @@ import {
   Card,
   CardHeader,
 } from '@/components/ui';
-import { ResumeDataSchemaType } from '@/lib/resume';
+import { ResumeDataSchemaType } from '@/lib';
 import { useMemo, useState, useRef } from 'react';
 import {
   ChevronRightIcon,
@@ -18,14 +18,14 @@ import {
   Trash,
   CircleArrowUp,
 } from 'lucide-react';
-import { cn } from '@/lib/utils';
+import { cn } from '@/lib';
 import React from 'react';
 import { motion } from 'framer-motion';
-import { getShortMonth, getYear } from '../resume-utils';
+import { getShortMonth, getYear } from '@/components/resume';
 import { toast } from 'sonner';
 import { LoaderIcon } from '@/components/icons';
 import { BlurFade } from '@/components/magicui';
-import { WorkExperienceField } from '../editing';
+import { WorkExperienceField } from '@/components/resume/editing';
 
 const BLUR_FADE_DELAY = 0.04;
 

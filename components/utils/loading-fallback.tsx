@@ -1,5 +1,5 @@
 import React from 'react';
-import { LoaderIcon } from './icons';
+import { LoaderIcon } from '@/components/icons';
 
 interface LoadingFallbackProps {
   message?: string;

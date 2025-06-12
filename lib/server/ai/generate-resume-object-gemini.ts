@@ -1,5 +1,5 @@
 import { GoogleGenerativeAI } from '@google/generative-ai';
-import { ResumeDataSchema } from '@/lib/resume';
+import { ResumeDataSchema } from '@/lib';
 import dedent from 'dedent';
 
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY!);

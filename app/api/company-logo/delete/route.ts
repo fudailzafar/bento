@@ -30,11 +30,14 @@ export async function DELETE(request: NextRequest) {
     }
 
     const fileNameWithExt = urlParts.slice(uploadIndex + 2).join('/');
-    const publicId = fileNameWithExt.substring(0, fileNameWithExt.lastIndexOf('.'));
+    const publicId = fileNameWithExt.substring(
+      0,
+      fileNameWithExt.lastIndexOf('.')
+    );
 
     const timestamp = Math.round(new Date().getTime() / 1000);
     const crypto = require('crypto');
-    
+
     const signature = crypto
       .createHash('sha1')
       .update(

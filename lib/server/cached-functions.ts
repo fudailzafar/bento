@@ -1,4 +1,4 @@
-import { getResume } from '@/lib/server/redis-actions';
+import { getResume } from '@/lib/server';
 import { unstable_cache } from 'next/cache';
 
 export const getCachedUser = async (userId: string) => {

@@ -32,13 +32,16 @@ export async function DELETE(request: NextRequest) {
 
     // Get public_id (everything after version, before extension)
     const fileNameWithExt = urlParts.slice(uploadIndex + 2).join('/');
-    const publicId = fileNameWithExt.substring(0, fileNameWithExt.lastIndexOf('.'));
+    const publicId = fileNameWithExt.substring(
+      0,
+      fileNameWithExt.lastIndexOf('.')
+    );
 
     // Delete from Cloudinary using the Admin API
     // Note: This requires CLOUDINARY_API_KEY and CLOUDINARY_API_SECRET
     const timestamp = Math.round(new Date().getTime() / 1000);
     const crypto = require('crypto');
-    
+
     const signature = crypto
       .createHash('sha1')
       .update(

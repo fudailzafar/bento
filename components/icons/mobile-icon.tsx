@@ -1,4 +1,4 @@
-export const MobileIcon = (props: React.SVGProps<SVGSVGElement>) =>  {
+export const MobileIcon = (props: React.SVGProps<SVGSVGElement>) => {
   return (
     <svg
       width="16"

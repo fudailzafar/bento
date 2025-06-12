@@ -1,10 +1,12 @@
-import { Footer } from '@/components/home/footer';
-import { Avatars } from '@/components/home/Avatars';
-import { Cta } from '@/components/home/Cta';
-import { Demo } from '@/components/home/Demo';
-import { Hero } from '@/components/home/Hero';
-import { VideoDialog } from '@/components/home/video-dialog';
-import { UniqueLink } from '@/components/home/unique-link';
+import {
+  Avatars,
+  Cta,
+  Demo,
+  Footer,
+  Hero,
+  UniqueLink,
+  VideoDialog,
+} from '@/components/home';
 
 export default function Home() {
   return (

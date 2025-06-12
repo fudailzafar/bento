@@ -1,4 +1,4 @@
-export const CrossIcon = (props: React.SVGProps<SVGSVGElement>) =>  {
+export const CrossIcon = (props: React.SVGProps<SVGSVGElement>) => {
   return (
     <svg
       width="14"

@@ -1,4 +1,4 @@
-import LoadingFallback from '@/components/loading-fallback';
+import { LoadingFallback } from '@/components/utils';
 
 export default function LoadingUpload() {
   return <LoadingFallback message="" />;

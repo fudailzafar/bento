@@ -3,9 +3,9 @@
 import { MoonIcon } from '@radix-ui/react-icons';
 import { useState, useRef } from 'react';
 import { flushSync } from 'react-dom';
-import { cn } from '@/lib/utils';
 import { SunDim } from 'lucide-react';
-import { buttonVariants } from '../ui/button';
+import { cn } from '@/lib';
+import { buttonVariants } from '@/components/ui';
 
 type props = {
   className?: string;

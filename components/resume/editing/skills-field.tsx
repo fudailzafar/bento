@@ -33,7 +33,7 @@ export const SkillField: React.FC<SkillFieldProps> = ({
         className="text-gray-400 hover:text-red-500 transition-colors"
         onClick={() => onDelete(index)}
       >
-        <TrashIcon/>
+        <TrashIcon />
       </button>
     </div>
   );

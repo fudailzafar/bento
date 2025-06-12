@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/app/api/auth/[...nextauth]/route';
-import { getUserProfile, storeUserProfile } from '@/lib/server/redis-actions';
+import { getUserProfile, storeUserProfile } from '@/lib/server';
 
 export async function POST(request: NextRequest) {
   try {

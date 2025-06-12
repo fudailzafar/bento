@@ -2,8 +2,8 @@
 
 import Link from 'next/link';
 import { useSession } from 'next-auth/react';
-import { CompassIcon, DiscordIcon } from './icons';
-import { SettingsPanel } from './preview';
+import { CompassIcon, DiscordIcon } from '@/components/icons';
+import { SettingsPanel } from '@/components/preview';
 
 export function Header() {
   const { data: session } = useSession();

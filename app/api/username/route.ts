@@ -1,4 +1,4 @@
-import { getUsernameById, updateUsername } from '@/lib/server/redis-actions';
+import { getUsernameById, updateUsername } from '@/lib/server';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/app/api/auth/[...nextauth]/route';
 import { NextResponse } from 'next/server';

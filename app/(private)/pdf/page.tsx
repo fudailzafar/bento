@@ -1,11 +1,14 @@
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/app/api/auth/[...nextauth]/route';
-import { getResume, storeResume } from '@/lib/server/redis-actions';
+import {
+  getResume,
+  storeResume,
+  scrapePdfContent,
+  deleteUploadThingFile,
+} from '@/lib/server';
 import { redirect } from 'next/navigation';
 import { Suspense } from 'react';
-import LoadingFallback from '@/components/loading-fallback';
-import { scrapePdfContent } from '@/lib/server/scrape-pdf-actions';
-import { deleteUploadThingFile } from '@/lib/server/delete-uploadthing-file';
+import { LoadingFallback } from '@/components/utils';
 
 async function PdfProcessing({ userId }: { userId: string }) {
   const resume = await getResume(userId);

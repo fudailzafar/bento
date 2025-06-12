@@ -4,14 +4,15 @@ import { useState, useRef } from 'react';
 import { motion } from 'framer-motion';
 import confetti from 'canvas-confetti';
 import { Button, ToggleGroup, ToggleGroupItem } from '@/components/ui';
-import { getDomainUrl } from '@/lib/utils';
+import { getDomainUrl } from '@/lib';
 import { useToast } from '@/hooks';
-import { HamburgerMenu } from '../HamburgerMenu';
-import { LaptopIcon, LoaderIcon, MobileIcon } from '../icons';
-import UsernameEditorView from './username-editor-view';
-import { ViewMode } from '.';
-
-export type PublishStatuses = 'draft' | 'live';
+import { LaptopIcon, LoaderIcon, MobileIcon } from '@/components/icons';
+import {
+  UsernameEditorView,
+  HamburgerMenu,
+  PublishStatuses,
+  ViewMode,
+} from '@/components/preview';
 
 export default function PreviewActionbar({
   initialUsername = '',

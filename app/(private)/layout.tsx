@@ -1,4 +1,4 @@
-import { ReactQueryClientProvider } from '@/components/react-client-query-provider';
+import { ReactQueryClientProvider } from '@/components/utils';
 import React from 'react';
 
 export default function RootLayout({

@@ -29,4 +29,3 @@ export const SettingsIcon = (props: React.SVGProps<SVGSVGElement>) => {
     </svg>
   );
 };
-

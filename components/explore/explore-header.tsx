@@ -1,7 +1,6 @@
 import Link from 'next/link';
-import { Section } from '../ui/section';
 import Image from 'next/image';
-import { Button } from '../ui/button';
+import { Button, Section } from '@/components/ui';
 
 export function HeaderExplore() {
   return (

@@ -1,4 +1,4 @@
-import { PRIVATE_ROUTES } from './lib/routes';
+import { PRIVATE_ROUTES } from './lib';
 import { NextResponse } from 'next/server';
 import { getToken } from 'next-auth/jwt';
 import type { NextRequest } from 'next/server';

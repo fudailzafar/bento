@@ -1,8 +1,8 @@
 'use client';
 
-import { ArrowRightIcon } from '../icons';
-import { Button } from '../ui/button';
 import Link from 'next/link';
+import { ArrowRightIcon } from '@/components/icons';
+import { Button } from '@/components/ui';
 
 type User = {
   name: string;

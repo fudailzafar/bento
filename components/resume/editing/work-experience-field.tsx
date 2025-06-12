@@ -1,7 +1,5 @@
 import React from 'react';
-import { Label } from '../../ui/label';
-import { Input } from '../../ui/input';
-import { DateRangePicker } from '../../ui/date-range-picker';
+import { Label, Input, DateRangePicker } from '@/components/ui';
 import { TrashIcon } from '@/components/icons';
 
 interface WorkExperience {

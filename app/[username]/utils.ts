@@ -1,8 +1,4 @@
-import {
-  getResume,
-  getUserIdByUsername,
-  getUserProfile,
-} from '@/lib/server/redis-actions';
+import { getResume, getUserIdByUsername, getUserProfile } from '@/lib/server';
 import { unstable_cache } from 'next/cache';
 
 export async function getUserData(username: string) {

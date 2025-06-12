@@ -1,13 +1,15 @@
 import type React from 'react';
 import { Inter as FontSans } from 'next/font/google';
-import './globals.css';
-import { ReactQueryClientProvider } from '@/components/react-client-query-provider';
 import { Metadata } from 'next';
 import { GoogleAnalytics } from '@next/third-parties/google';
-import { SessionProviderComponent } from '../components/session-provider';
 import { SpeedInsights } from '@vercel/speed-insights/next';
 import { Analytics } from '@vercel/analytics/next';
-import { Toaster } from '@/components/ui';
+import { Toaster } from 'sonner';
+import './globals.css';
+import {
+  ReactQueryClientProvider,
+  SessionProviderComponent,
+} from '@/components/utils';
 
 const fontSans = FontSans({
   subsets: ['latin'],

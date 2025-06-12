@@ -3,7 +3,7 @@
 import { useState, useEffect, useRef } from 'react';
 import { toast } from 'sonner';
 import { useUserActions, useIsMobile } from '@/hooks';
-import { MAX_USERNAME_LENGTH } from '@/lib/config';
+import { MAX_USERNAME_LENGTH } from '@/lib';
 import {
   Button,
   Dialog,
@@ -24,7 +24,7 @@ import {
   CheckmarkSmallIcon,
   CrossIcon,
   LoaderIcon,
-} from '../icons';
+} from '@/components/icons';
 
 interface UsernameEditorContentProps {
   initialUsername: string;

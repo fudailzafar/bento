@@ -1,12 +1,11 @@
 import { Notebook } from 'lucide-react';
-import { ResumeDataSchemaType } from '@/lib/resume';
 import { redirect } from 'next/navigation';
+import Image from 'next/image';
 import Link from 'next/link';
 import { Metadata } from 'next';
+import { ResumeDataSchemaType, cn } from '@/lib';
 import { getUserData } from './utils';
 import { LinkedInIcon, XIcon, GitHubIcon } from '@/components/icons';
-import { cn } from '@/lib/utils';
-import Image from 'next/image';
 import {
   AnimatedThemeToggler,
   BlurFade,
