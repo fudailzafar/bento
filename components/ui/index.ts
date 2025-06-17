@@ -380,19 +380,6 @@ export { Textarea } from './textarea';
 // Theme Provider
 export { ThemeProvider } from './theme-provider';
 
-// Toast
-export {
-  Toast,
-  ToastAction,
-  ToastClose,
-  ToastDescription,
-  ToastProvider,
-  ToastTitle,
-  ToastViewport,
-  type ToastProps,
-  type ToastActionElement,
-} from './toast';
-
 // Toggle
 export { Toggle, toggleVariants } from './toggle';
 

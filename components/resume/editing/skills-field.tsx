@@ -1,4 +1,4 @@
-import { TrashIcon } from '@/components/icons';
+import { CrossIcon } from '@/components/icons';
 import React from 'react';
 
 interface SkillFieldProps {
@@ -33,7 +33,7 @@ export const SkillField: React.FC<SkillFieldProps> = ({
         className="text-gray-400 hover:text-red-500 transition-colors"
         onClick={() => onDelete(index)}
       >
-        <TrashIcon />
+        <CrossIcon />
       </button>
     </div>
   );

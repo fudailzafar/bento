@@ -3,15 +3,9 @@
 import React, { useState } from 'react';
 import { Section, Input, Label, Button } from '@/components/ui';
 import { ResumeDataSchemaType } from '@/lib/resume';
-import {
-  GithubIcon,
-  LinkedinIcon,
-  Notebook,
-  Pen,
-  Plus,
-  XIcon,
-} from 'lucide-react';
+import { Notebook, Plus } from 'lucide-react';
 import { BlurFade } from '@/components/magicui';
+import { GitHubIcon, LinkedInIcon, PenIcon, XIcon } from '@/components/icons';
 
 const BLUR_FADE_DELAY = 0.04;
 
@@ -51,7 +45,7 @@ export function SocialLinks({
     {
       id: 'github',
       label: 'GitHub',
-      icon: <GithubIcon className="size-5" />,
+      icon: <GitHubIcon className="size-5" />,
       value: contacts?.github,
       prefix: 'github.com/',
       placeholder: 'username',
@@ -60,7 +54,7 @@ export function SocialLinks({
     {
       id: 'linkedin',
       label: 'LinkedIn',
-      icon: <LinkedinIcon className="size-5" />,
+      icon: <LinkedInIcon className="size-5" />,
       value: contacts?.linkedin,
       prefix: 'linkedin.com/in/',
       placeholder: 'username',
@@ -104,7 +98,7 @@ export function SocialLinks({
                 className="size-8 rounded-full bg-black border border-gray-50 shadow-md text-white flex items-center justify-center hover:scale-110 transition-transform duration-200"
                 aria-label="Edit social links"
               >
-                <Pen className="size-4" />
+                <PenIcon className="size-4" />
               </button>
             )}
           </div>
@@ -164,8 +158,8 @@ export function SocialLinks({
                 const fullUrl = prefix
                   ? `https://${prefix}${value}`
                   : value?.startsWith('http')
-                    ? value
-                    : `https://${value}`;
+                  ? value
+                  : `https://${value}`;
 
                 return (
                   <a

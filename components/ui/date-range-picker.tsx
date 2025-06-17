@@ -5,9 +5,10 @@ import { Label } from './label';
 import { cn } from '@/lib/utils';
 import { MonthPicker } from './monthpicker';
 import { Button } from './button';
-import { CalendarIcon, X } from 'lucide-react';
+import { CalendarIcon} from 'lucide-react';
 import { format } from 'date-fns';
 import { Popover, PopoverContent, PopoverTrigger } from './popover';
+import { CrossIcon } from '../icons';
 
 interface DateRangePickerProps {
   startDate: string | null | undefined;
@@ -123,7 +124,7 @@ export function DateRangePicker({
                         onEndDateChange('');
                       }}
                     >
-                      <X className="h-3 w-3" />
+                      <CrossIcon className="h-3 w-3" />
                     </div>
                   )}
                 </div>

@@ -12,10 +12,10 @@ import {
 import { ResumeDataSchemaType } from '@/lib';
 import { getYear } from '@/components/resume';
 import { useMemo, useState, useRef } from 'react';
-import { Plus, Trash, CircleArrowUp } from 'lucide-react';
+import { Plus } from 'lucide-react';
 import { cn } from '@/lib';
 import { toast } from 'sonner';
-import { LoaderIcon, PenIcon } from '@/components/icons';
+import { CircleArrowUpIcon, LoaderIcon, PenIcon, TrashIcon } from '@/components/icons';
 import { BlurFade } from '@/components/magicui';
 import { EducationField } from '@/components/resume/editing';
 
@@ -99,7 +99,7 @@ function EducationItem({
                   className="size-6 rounded-full bg-white backdrop-blur-sm border border-neutral-300 shadow-lg hover:bg-white/90 transition-all flex items-center justify-center"
                   aria-label="Upload school logo"
                 >
-                  <CircleArrowUp className="size-3 text-black" />
+                  <CircleArrowUpIcon className="size-3 text-black" />
                 </button>
 
                 {/* Delete button */}
@@ -109,7 +109,7 @@ function EducationItem({
                     className="size-6 rounded-full bg-white backdrop-blur-sm border border-neutral-300 shadow-lg hover:bg-white/90 transition-all flex items-center justify-center"
                     aria-label="Delete school logo"
                   >
-                    <Trash className="size-3 text-black" />
+                    <TrashIcon className="size-3 text-black" />
                   </button>
                 )}
               </div>
@@ -154,7 +154,7 @@ function EducationItem({
         </div>
       </div>
 
-      {/* Edit/Delete buttons for education - positioned on top */}
+      {/* Edit/Delete buttons for education */}
       {isEditMode && isHovered && onEdit && onDelete && (
         <>
           {/* Delete */}
@@ -163,7 +163,7 @@ function EducationItem({
             className="absolute -top-4 -left-2 size-8 rounded-full bg-white border border-gray-50 shadow-md text-gray-700 dark:text-gray-300 hover:text-red-600 dark:hover:text-red-400 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300 ease-in-out z-10"
             aria-label="Delete education"
           >
-            <Trash className="size-4 transition-transform duration-200" />
+            <TrashIcon className="size-4 transition-transform duration-200" />
           </button>
 
           {/* Edit */}

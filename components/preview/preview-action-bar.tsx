@@ -3,9 +3,9 @@
 import { useState, useRef } from 'react';
 import { motion } from 'framer-motion';
 import confetti from 'canvas-confetti';
+import { toast } from 'sonner';
 import { Button, ToggleGroup, ToggleGroupItem } from '@/components/ui';
 import { getDomainUrl } from '@/lib';
-import { useToast } from '@/hooks';
 import { LaptopIcon, LoaderIcon, MobileIcon } from '@/components/icons';
 import {
   UsernameEditorView,
@@ -30,7 +30,6 @@ export default function PreviewActionbar({
   isSaving?: boolean;
 }) {
   const [isEditorOpen, setIsEditorOpen] = useState(false);
-  const { toast } = useToast();
   const copyButtonRef = useRef<HTMLButtonElement>(null);
 
   const handleCopyLink = async () => {
@@ -64,15 +63,12 @@ export default function PreviewActionbar({
         });
       }
 
-      toast({
-        title: 'Link copied!',
+      toast.success('Link copied!', {
         description: 'Your portfolio link has been copied to clipboard.',
       });
     } catch (error) {
-      toast({
-        title: 'Failed to copy',
+      toast.error('Failed to copy', {
         description: 'Please try again.',
-        variant: 'destructive',
       });
     }
   };

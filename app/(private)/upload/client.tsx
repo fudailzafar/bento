@@ -1,11 +1,11 @@
 'use client';
 
-import { FileText, Upload, X } from 'lucide-react';
+import { FileText } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { useUserActions } from '@/hooks';
 import { UploadButton } from '@/lib';
-import { LoaderIcon } from '@/components/icons';
+import { CircleArrowUpIcon, CrossIcon, LoaderIcon } from '@/components/icons';
 import {
   Button,
   Dialog,
@@ -90,7 +90,7 @@ export default function UploadPageClient() {
                   button({ ready }) {
                     return (
                       <div className="flex flex-col items-center justify-center gap-2">
-                        <Upload className="h-6 w-6 text-gray-600" />
+                        <CircleArrowUpIcon className="h-6 w-6 text-gray-600" />
                         <span className="text-base font-bold text-center text-black">
                           Upload PDF
                         </span>
@@ -116,7 +116,7 @@ export default function UploadPageClient() {
                   className="absolute top-2 right-2 p-1 hover:bg-gray-100 rounded-full z-10"
                   disabled={isUpdating}
                 >
-                  <X className="h-4 w-4 text-gray-500" />
+                  <CrossIcon className="h-4 w-4 text-gray-500" />
                 </button>
                 <div className="flex flex-col items-center justify-center w-full h-full min-h-[220px] gap-2">
                   <FileText className="size-12 mx-auto" />

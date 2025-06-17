@@ -1,7 +1,7 @@
 import React from 'react';
-import { X } from 'lucide-react';
 import { Label, Input, DateRangePicker } from '@/components/ui';
 import { SkillField } from '@/components/resume/editing';
+import { CrossIcon } from '@/components/icons';
 
 interface Projects {
   skills: string[];
@@ -32,7 +32,7 @@ export const ProjectsField: React.FC<ProjectsFieldProps> = ({
         className="absolute top-2 right-2 text-gray-400 hover:text-red-500 transition-colors"
         onClick={() => onDelete(index)}
       >
-        <X className="w-5 h-5" />
+        <CrossIcon className="w-5 h-5" />
       </button>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
