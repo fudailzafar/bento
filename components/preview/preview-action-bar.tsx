@@ -6,13 +6,14 @@ import confetti from 'canvas-confetti';
 import { toast } from 'sonner';
 import { Button, ToggleGroup, ToggleGroupItem } from '@/components/ui';
 import { getDomainUrl } from '@/lib';
-import { LaptopIcon, LoaderIcon, MobileIcon } from '@/components/icons';
+import { LaptopIcon, LoaderIcon, MobileIcon, CheckmarkSmallIcon } from '@/components/icons';
 import {
   UsernameEditorView,
   HamburgerMenu,
   PublishStatuses,
   ViewMode,
 } from '@/components/preview';
+import { Copy } from 'lucide-react';
 
 export default function PreviewActionbar({
   initialUsername = '',
@@ -30,12 +31,17 @@ export default function PreviewActionbar({
   isSaving?: boolean;
 }) {
   const [isEditorOpen, setIsEditorOpen] = useState(false);
+  const [isCopied, setIsCopied] = useState(false);
   const copyButtonRef = useRef<HTMLButtonElement>(null);
 
   const handleCopyLink = async () => {
     const link = getDomainUrl(initialUsername);
     try {
       await navigator.clipboard.writeText(link);
+      
+      // Set copied state
+      setIsCopied(true);
+      setTimeout(() => setIsCopied(false), 2000);
 
       // Get button position for confetti origin
       if (copyButtonRef.current) {
@@ -62,10 +68,6 @@ export default function PreviewActionbar({
           ],
         });
       }
-
-      toast.success('Link copied!', {
-        description: 'Your portfolio link has been copied to clipboard.',
-      });
     } catch (error) {
       toast.error('Failed to copy', {
         description: 'Please try again.',
@@ -84,15 +86,22 @@ export default function PreviewActionbar({
                 ref={copyButtonRef}
                 onClick={handleCopyLink}
                 disabled={isSaving}
-                className="flex bg-design-success transition-transform active:scale-95 hover:bg-[#3dda69] font-bold items-center rounded-lg min-w-[100px] min-h-8 gap-1.5 px-4 py-2 h-auto relative group"
+                className="flex bg-design-success transition-transform active:scale-95 hover:bg-[#3dda69] font-bold items-center rounded-lg min-h-8 gap-1.5 px-2.5 sm:px-4 py-2 h-auto relative group sm:min-w-[100px]"
               >
                 {isSaving ? (
                   <>
                     <LoaderIcon />
-                    <span className="ml-1">Saving...</span>
+                    <span className="hidden sm:block ml-1">Saving...</span>
                   </>
                 ) : (
-                  'Copy my Link'
+                  <>
+                    {isCopied ? (
+                      <CheckmarkSmallIcon className='block sm:hidden size-4'/>
+                    ) : (
+                      <Copy className='block sm:hidden size-4'/>
+                    )}
+                    <span className="hidden sm:block">Copy my Link</span>
+                  </>
                 )}
                 {/* Tooltip */}
                 {!isSaving && (

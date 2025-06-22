@@ -96,7 +96,6 @@ export function ProjectCard({
       }
 
       const data = await response.json();
-      toast.success('Image updated successfully!');
       onImageChange?.(data.imageUrl);
     } catch (error) {
       console.error('Upload error:', error);

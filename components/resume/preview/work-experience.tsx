@@ -162,7 +162,6 @@ export function WorkExperience({
       }
 
       const data = await response.json();
-      toast.success('Image updated successfully!');
 
       handleUpdate(index, {
         ...work[index],

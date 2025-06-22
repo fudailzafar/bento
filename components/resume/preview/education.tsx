@@ -267,7 +267,6 @@ export function Education({
       }
 
       const data = await response.json();
-      toast.success('Image updated successfully!');
 
       handleUpdate(index, {
         ...educations[index],
