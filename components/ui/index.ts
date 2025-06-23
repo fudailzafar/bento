@@ -166,6 +166,9 @@ export { MonthPicker } from './monthpicker';
 // Popover
 export { Popover, PopoverTrigger, PopoverContent } from './popover';
 
+// Project Card
+export { ProjectCard } from './project-card';
+
 // Resume Card
 export { ResumeCard } from './resume-card';
 
