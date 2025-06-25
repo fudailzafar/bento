@@ -100,7 +100,7 @@ export default function PreviewClient({ messageTip }: { messageTip?: string }) {
   }
 
   return (
-    <div className="w-full min-h-screen bg-background flex flex-col pb-32">
+    <div className="w-full min-h-screen bg-background flex flex-col">
       {messageTip && (
         <div className="max-w-3xl mx-auto w-full md:px-0 px-4 pt-4">
           <div className="bg-amber-50 border border-amber-200 text-amber-800 rounded-md p-4 flex items-start">
@@ -122,73 +122,76 @@ export default function PreviewClient({ messageTip }: { messageTip?: string }) {
       )}
 
       {/* Desktop/Mobile View Toggle */}
-      <AnimatePresence mode="wait">
-        {viewMode === 'mobile' ? (
-          /* Mobile View */
-          <motion.div
-            key="mobile"
-            initial={{ opacity: 0, width: '100%', maxWidth: '768px' }}
-            animate={{ opacity: 1, width: '575px', maxWidth: '575px' }}
-            exit={{ opacity: 0, width: '100%', maxWidth: '768px' }}
-            transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
-            className="flex justify-center items-start min-h-[calc(100vh-12rem)] py-8 mx-auto"
-          >
-            <div className="relative w-full">
-              <motion.div
-                initial={{ borderRadius: '0.5rem' }}
-                animate={{ borderRadius: '2.5rem' }}
-                exit={{ borderRadius: '0.5rem' }}
-                transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
-                className="w-full h-[632px] bg-white shadow-2xl overflow-hidden relative border border-gray-200"
-              >
-                {/* Scrollable Content */}
-                <div className="w-full h-full overflow-y-auto overflow-x-hidden bg-background scrollbar-hide">
-                  <motion.div
-                    initial={{ paddingLeft: '1rem', paddingRight: '1rem' }}
-                    animate={{ paddingLeft: '2rem', paddingRight: '2rem' }}
-                    exit={{ paddingLeft: '1rem', paddingRight: '1rem' }}
-                    transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
-                  >
-                    <FullResume
-                      resume={localResumeData}
-                      profilePicture={profilePicture}
-                      isEditMode={true}
-                      onChangeResume={handleResumeChange}
-                      onImageChange={handleImageChange}
-                    />
-                  </motion.div>
-                </div>
-              </motion.div>
-            </div>
-          </motion.div>
-        ) : (
-          /* Desktop View */
-          <motion.div
-            key="desktop"
-            initial={{ opacity: 0, width: '575px', maxWidth: '575px' }}
-            animate={{ opacity: 1, width: '100%', maxWidth: '768px' }}
-            exit={{ opacity: 0, width: '575px', maxWidth: '575px' }}
-            transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
-            className="mx-auto md:rounded-lg flex items-center justify-between"
-          >
+      <div className="flex-1 flex items-center justify-center pb-16">
+        <AnimatePresence mode="wait">
+          {viewMode === 'mobile' ? (
+            /* Mobile View */
             <motion.div
-              initial={{ borderRadius: '2.5rem' }}
-              animate={{ borderRadius: '0.5rem' }}
-              exit={{ borderRadius: '2.5rem' }}
+              key="mobile"
+              initial={{ opacity: 0, width: '100%', maxWidth: '768px' }}
+              animate={{ opacity: 1, width: '452px', maxWidth: '452px' }}
+              exit={{ opacity: 0, width: '100%', maxWidth: '768px' }}
               transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
-              className="w-full px-4"
+              className="flex justify-center items-center"
+              style={{ height: 'min(80vh, 900px)' }}
             >
-              <FullResume
-                resume={localResumeData}
-                profilePicture={profilePicture}
-                isEditMode={true}
-                onChangeResume={handleResumeChange}
-                onImageChange={handleImageChange}
-              />
+              <div className="relative w-full h-full">
+                <motion.div
+                  initial={{ borderRadius: '0.5rem' }}
+                  animate={{ borderRadius: '2.5rem' }}
+                  exit={{ borderRadius: '0.5rem' }}
+                  transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+                  className="w-full h-full bg-white shadow-2xl overflow-hidden relative border border-gray-200"
+                >
+                  {/* Scrollable Content */}
+                  <div className="w-full h-full overflow-y-auto overflow-x-hidden bg-background scrollbar-hide">
+                    <motion.div
+                      initial={{ paddingLeft: '1rem', paddingRight: '1rem' }}
+                      animate={{ paddingLeft: '2rem', paddingRight: '2rem' }}
+                      exit={{ paddingLeft: '1rem', paddingRight: '1rem' }}
+                      transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+                    >
+                      <FullResume
+                        resume={localResumeData}
+                        profilePicture={profilePicture}
+                        isEditMode={true}
+                        onChangeResume={handleResumeChange}
+                        onImageChange={handleImageChange}
+                      />
+                    </motion.div>
+                  </div>
+                </motion.div>
+              </div>
             </motion.div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+          ) : (
+            /* Desktop View */
+            <motion.div
+              key="desktop"
+              initial={{ opacity: 0, width: '452px', maxWidth: '452px' }}
+              animate={{ opacity: 1, width: '100%', maxWidth: '768px' }}
+              exit={{ opacity: 0, width: '452px', maxWidth: '452px' }}
+              transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+              className="mx-auto md:rounded-lg flex items-center justify-between"
+            >
+              <motion.div
+                initial={{ borderRadius: '2.5rem' }}
+                animate={{ borderRadius: '0.5rem' }}
+                exit={{ borderRadius: '2.5rem' }}
+                transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+                className="w-full px-4"
+              >
+                <FullResume
+                  resume={localResumeData}
+                  profilePicture={profilePicture}
+                  isEditMode={true}
+                  onChangeResume={handleResumeChange}
+                  onImageChange={handleImageChange}
+                />
+              </motion.div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </div>
 
       {/* Action Bar */}
       <div className="fixed bottom-6 left-0 right-0 z-50 pointer-events-none">

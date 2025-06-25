@@ -73,7 +73,7 @@ export function Skills({
                 {isEditMode && onChangeSkills && (
                   <button
                     onClick={() => handleDeleteSkill(id)}
-                    className="absolute -top-2 -left-2 size-5 rounded-full bg-white hover:bg-white/80 text-black flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-200 shadow-md"
+                    className="absolute -top-2 -left-2 size-5 rounded-full hover:bg-gray-50 border border-gray-50 shadow-md hover:text-design-secondary bg-white text-gray-700 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-200"
                     aria-label={`Remove ${skill}`}
                   >
                     <TrashIcon className="size-3" />

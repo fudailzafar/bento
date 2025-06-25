@@ -198,7 +198,7 @@ export function ProjectCard({
               {/* Upload Button */}
               <button
                 onClick={handleUploadClick}
-                className="size-6 rounded-lg bg-transparent hover:bg-white/10 transition-all flex items-center justify-center"
+                className="size-6 rounded-md bg-transparent hover:bg-white/10 transition-all flex items-center justify-center"
                 aria-label="Upload project image"
               >
                 <ImageIcon className="size-4 text-white" />
@@ -209,7 +209,7 @@ export function ProjectCard({
                   {/* Delete button */}
                   <button
                     onClick={handleDelete}
-                    className="size-6 rounded-lg bg-transparent hover:bg-white/10 transition-all flex items-center justify-center"
+                    className="size-6 rounded-md bg-transparent hover:bg-white/10 transition-all flex items-center justify-center"
                     aria-label="Delete project image"
                   >
                     <TrashIcon className="size-4 text-white" />

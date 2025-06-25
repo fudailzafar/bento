@@ -18,7 +18,7 @@ import { motion } from 'framer-motion';
 import { getShortMonth, getYear } from '@/components/resume';
 import { toast } from 'sonner';
 import {
-  CircleArrowUpIcon,
+  ImageIcon,
   LoaderIcon,
   PenIcon,
   TrashIcon,
@@ -328,7 +328,7 @@ export function WorkExperience({
                             className="size-5 rounded-full bg-white backdrop-blur-sm border border-neutral-300 shadow-lg hover:bg-white/90 transition-all flex items-center justify-center"
                             aria-label="Upload company logo"
                           >
-                            <CircleArrowUpIcon className="size-3 text-black" />
+                            <ImageIcon className="size-3 text-black" />
                           </button>
 
                           {/* Delete button - Right */}
@@ -431,7 +431,7 @@ export function WorkExperience({
                     {/* Delete */}
                     <button
                       onClick={() => handleDelete(id)}
-                      className="absolute -top-4 -left-2 size-8 rounded-full bg-white border border-gray-50 shadow-md text-black dark:text-gray-300  dark:hover:text-red-400 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300 ease-in-out z-10"
+                      className="absolute -top-4 -left-2 size-8 rounded-full hover:bg-gray-50 border border-gray-50 shadow-md hover:text-design-secondary bg-white text-gray-700 dark:text-gray-300  dark:hover:text-red-400 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300 ease-in-out z-10"
                       aria-label="Delete work experience"
                     >
                       <TrashIcon className="size-4 transition-transform duration-200" />
