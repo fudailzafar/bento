@@ -125,9 +125,9 @@ export default function PreviewActionbar({
         )}
 
         {/* Divider */}
-        <div className="hidden sm:block h-8 w-px bg-black/[0.08] flex-shrink-0" />
+        <div className="h-8 w-px bg-black/[0.08] flex-shrink-0" />
 
-        <div className="hidden sm:block">
+        <div className="block">
           <HamburgerMenu />
         </div>
 
