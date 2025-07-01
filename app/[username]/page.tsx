@@ -145,7 +145,10 @@ export default async function ProfilePage({
           <div className="relative flex items-center mb-2 px-6 py-4 rounded-xl bg-gray-100">
             <span className="text-[24px] md:text-[40px] font-semibold text-design-gray">
               portfoliofy.me/
-              <span className="text-design-black">{username}</span>
+              <span className="text-design-black overflow-hidden">
+                {username}
+                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/40 to-transparent translate-x-[-100%] animate-[shine_4s_ease-in-out_infinite]" />
+              </span>
             </span>
             <BlurFade delay={2} duration={0.5}>
               <h1 className="ml-2 px-3 py-1.5 bg-design-success text-white rounded-lg font-semibold text-base absolute -top-14 -right-12 shadow rotate-2">
@@ -172,7 +175,7 @@ export default async function ProfilePage({
         <BlurFade delay={3} duration={0.5}>
           <div className="mt-2">
             <Link href="/signup">
-              <Button className="relative group rounded-lg flex items-center bg-design-primary hover:bg-design-primaryDark text-white px-4 py-3 h-auto text-lg font-bold overflow-hidden cursor-pointer">
+              <Button className="relative group active:scale-95 transition-transform rounded-lg flex items-center bg-design-primary hover:bg-design-primaryDark text-white px-4 py-3 h-auto text-lg font-bold overflow-hidden cursor-pointer">
                 <span className="relative">Claim Handle Now</span>
               </Button>
             </Link>
