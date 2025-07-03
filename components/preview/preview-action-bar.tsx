@@ -89,9 +89,9 @@ export default function PreviewActionbar({
             ref={copyButtonRef}
             onClick={handleCopyLink}
             disabled={isSaving}
-            className="relative h-[33px] sm:w-[127px] !rounded-md !p-0 px-2.5 sm:px-0 !shadow-[0px_2px_3px_rgba(0,0,0,0.06)] bg-design-success hover:bg-[#3dda69] font-medium text-sm transition-all active:scale-95 flex-shrink-0 group"
+            className="relative h-[33px] w-[33px] sm:w-[127px] !rounded-md !p-0 px-0 sm:px-0 !shadow-[0px_2px_3px_rgba(0,0,0,0.06)] bg-design-success hover:bg-[#3dda69] font-medium text-sm transition-all active:scale-95 flex-shrink-0 group"
           >
-            <div className="flex items-center justify-center h-full overflow-hidden rounded-md">
+            <div className="flex items-center justify-center h-full w-full overflow-hidden rounded-md">
               {isSaving ? (
                 <>
                   <LoaderIcon className="size-4" />
