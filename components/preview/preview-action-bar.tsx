@@ -1,10 +1,9 @@
 'use client';
 
 import { useState, useRef } from 'react';
-import { motion } from 'framer-motion';
 import confetti from 'canvas-confetti';
 import { toast } from 'sonner';
-import { Button, ToggleGroup, ToggleGroupItem } from '@/components/ui';
+import { Button } from '@/components/ui';
 import { getDomainUrl } from '@/lib';
 import {
   LaptopIcon,
@@ -73,7 +72,7 @@ export default function PreviewActionbar({
           ],
         });
       }
-    } catch (error) {
+    } catch {
       toast.error('Failed to copy', {
         description: 'Please try again.',
       });
@@ -102,12 +101,16 @@ export default function PreviewActionbar({
                   {isCopied ? (
                     <>
                       <CheckmarkSmallIcon className="size-4 sm:hidden" />
-                      <span className="hidden sm:inline font-semibold">Copy my Link</span>
+                      <span className="hidden sm:inline font-semibold">
+                        Copy my Link
+                      </span>
                     </>
                   ) : (
                     <>
                       <Copy className="size-4 sm:hidden" />
-                      <span className="hidden sm:inline font-semibold">Copy my Link</span>
+                      <span className="hidden sm:inline font-semibold">
+                        Copy my Link
+                      </span>
                     </>
                   )}
                 </>

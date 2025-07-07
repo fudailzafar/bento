@@ -23,12 +23,6 @@ import {
   TooltipTrigger,
 } from '@/components/ui';
 
-interface SocialButtonProps {
-  href: string;
-  icon: React.ElementType;
-  label: string;
-}
-
 function getSocialLinks(contacts?: ResumeDataSchemaType['header']['contacts']) {
   if (!contacts) return {};
 
