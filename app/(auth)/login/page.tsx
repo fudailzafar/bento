@@ -2,7 +2,6 @@
 
 import { GoogleIcon, LoaderIcon } from '@/components/icons';
 import { signIn, useSession } from 'next-auth/react';
-import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
@@ -28,9 +27,8 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="min-h-[70vh] md:min-h-screen flex flex-col md:flex-row items-center justify-center px-7 sm:px-6 lg:px-48 gap-8">
-      {/* Left: Login Form */}
-      <div className="w-full md:w-1/2 space-y-8">
+    <div className="min-h-[70vh] md:min-h-screen flex items-center justify-center px-7 sm:px-6 lg:px-48">
+      <div className="w-full space-y-8">
         <div className="text-left">
           <h1 className="text-[29px] lg:text-[32px] font-bold md:font-semibold text-design-black mb-6 md:mb-4">
             Log in to your Portfolio
@@ -65,16 +63,6 @@ export default function LoginPage() {
             or sign up
           </Link>
         </div>
-      </div>
-      {/* Right: CV Home Image */}
-      <div className="hidden md:flex w-1/2 items-center justify-center">
-        <Image
-          src="/home/cv-home.png"
-          alt="CV Home Preview"
-          width={420}
-          height={420}
-          className="max-w-[420px] w-full h-auto rounded-xl"
-        />
       </div>
     </div>
   );

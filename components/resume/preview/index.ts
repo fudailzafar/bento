@@ -7,3 +7,5 @@ export { Contact } from './contact';
 export { Summary } from './summary';
 export { SocialLinks } from './social-links';
 export { FullResume } from './full-resume';
+export { DraggableSection } from './draggable-section';
+export { SortableSections } from './sortable-sections';

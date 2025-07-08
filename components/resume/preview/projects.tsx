@@ -48,6 +48,7 @@ export function Projects({
           githubLink: '',
           liveLink: '',
           start: '',
+          end: '',
           skills: [],
         },
       ]);

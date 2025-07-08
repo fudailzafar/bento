@@ -121,6 +121,19 @@ export const ResumeDataSchema = z.object({
   education: EducationSection,
   contact: ContactSection,
   projects: ProjectSection,
+  sectionOrder: z
+    .array(z.string())
+    .optional()
+    .default([
+      'summary',
+      'workExperience',
+      'education',
+      'skills',
+      'projects',
+      'contact',
+      'socialLinks',
+    ])
+    .describe('Order of sections in the resume'),
 });
 
 export type ResumeDataSchemaType = z.infer<typeof ResumeDataSchema>;

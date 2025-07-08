@@ -26,6 +26,11 @@ export default function PreviewActionbar({
   viewMode = 'desktop',
   onViewModeChange,
   isSaving,
+  onAddWorkExperience,
+  onAddEducation,
+  onAddSkill,
+  onAddProject,
+  onAddSocialLink,
 }: {
   initialUsername: string;
   prefix?: string;
@@ -33,6 +38,11 @@ export default function PreviewActionbar({
   viewMode?: ViewMode;
   onViewModeChange?: (mode: ViewMode) => void;
   isSaving?: boolean;
+  onAddWorkExperience?: () => void;
+  onAddEducation?: () => void;
+  onAddSkill?: () => void;
+  onAddProject?: () => void;
+  onAddSocialLink?: () => void;
 }) {
   const [isEditorOpen, setIsEditorOpen] = useState(false);
   const [isCopied, setIsCopied] = useState(false);
@@ -131,7 +141,13 @@ export default function PreviewActionbar({
         <div className="h-8 w-px bg-black/[0.08] flex-shrink-0" />
 
         <div className="block">
-          <HamburgerMenu />
+          <HamburgerMenu
+            onAddWorkExperience={onAddWorkExperience}
+            onAddEducation={onAddEducation}
+            onAddSkill={onAddSkill}
+            onAddProject={onAddProject}
+            onAddSocialLink={onAddSocialLink}
+          />
         </div>
 
         {/* Divider */}
