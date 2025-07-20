@@ -17,12 +17,7 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { getShortMonth, getYear } from '@/components/resume';
 import { toast } from 'sonner';
-import {
-  ImageIcon,
-  LoaderIcon,
-  PenIcon,
-  TrashIcon,
-} from '@/components/icons';
+import { ImageIcon, LoaderIcon, PenIcon, TrashIcon } from '@/components/icons';
 import { BlurFade } from '@/components/magicui';
 import { WorkExperienceField } from '@/components/resume/editing';
 
@@ -32,10 +27,12 @@ export function WorkExperience({
   work,
   isEditMode,
   onChangeWork,
+  className,
 }: {
   work: ResumeDataSchemaType['workExperience'];
   isEditMode?: boolean;
   onChangeWork?: (newWork: ResumeDataSchemaType['workExperience']) => void;
+  className?: string;
 }) {
   const [expandedIndexes, setExpandedIndexes] = React.useState<number[]>([]);
   const [hoveredIndex, setHoveredIndex] = React.useState<number | null>(null);
@@ -220,7 +217,7 @@ export function WorkExperience({
   }
 
   return (
-    <Section>
+    <Section className={className}>
       <BlurFade delay={BLUR_FADE_DELAY * 5}>
         <h2 className="text-xl font-bold mb-2" id="work-experience">
           Work Experience
@@ -300,7 +297,9 @@ export function WorkExperience({
               >
                 {/* Hidden file input */}
                 <input
-                  ref={(el) => { fileInputRefs.current[id] = el; }}
+                  ref={(el) => {
+                    fileInputRefs.current[id] = el;
+                  }}
                   type="file"
                   accept="image/*"
                   onChange={(e) => handleFileChange(id, e)}
