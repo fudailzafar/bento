@@ -38,14 +38,14 @@ export function Contact({
                     onChange={(e) => onChangeContact(e.target.value)}
                     onBlur={() => setIsEditing(false)}
                     autoFocus
-                    className="mx-auto max-w-[600px] w-full border border-gray-100 shadow-md rounded-xl bg-transparent outline-none text-muted-foreground md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed p-2 resize-none focus:ring-0 text-center transition-all duration-300"
-                    rows={2}
+                    className="w-full max-w-[900px] min-h-[80px] bg-transparent border-none outline-none text-center text-muted-foreground text-xl font-normal px-2 py-3 focus:ring-0 mx-auto resize-none"
                     placeholder="Add note..."
+                    rows={4}
                   />
                 ) : (
                   <div
                     onClick={() => setIsEditing(true)}
-                    className="cursor-text bg-transparent border border-transparent hover:border-gray-100 hover:shadow-md hover:rounded-xl p-2 transition-all duration-300"
+                    className="cursor-text rounded p-2 transition-colors"
                   >
                     <p className="mx-auto max-w-[600px] text-muted-foreground md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
                       {cta || 'Add note...'}
