@@ -128,8 +128,6 @@ export function useUserActions() {
         name: fileInfo.name,
         url: fileInfo.url,
         size: fileInfo.size,
-        key: '',
-        bucket: '',
       },
       resumeData: undefined,
       status: 'live',
@@ -204,8 +202,6 @@ export function useUserActions() {
         file: resumeQuery.data.resume.file
           ? {
               ...resumeQuery.data.resume.file,
-              bucket: resumeQuery.data.resume.file.bucket || '',
-              key: resumeQuery.data.resume.file.key || '',
             }
           : undefined,
       };

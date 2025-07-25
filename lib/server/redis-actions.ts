@@ -16,8 +16,6 @@ const FileSchema = z.object({
   name: z.string(),
   url: z.string().nullish(),
   size: z.number(),
-  bucket: z.string(),
-  key: z.string(),
 });
 
 const FORBIDDEN_USERNAMES = PRIVATE_ROUTES;
