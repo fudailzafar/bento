@@ -265,7 +265,8 @@ export const EditResume = ({
       </div>
 
       <div className="flex flex-col gap-6">
-        {/* Summary Section */}
+        
+        {/* About Section */}
         <div className="space-y-2">
           <h2 className="text-xl font-bold">About</h2>
           <textarea
@@ -330,6 +331,7 @@ export const EditResume = ({
                       link: '',
                       contract: '',
                       start: '',
+                      end: '',
                     },
                   ],
                 });
@@ -451,7 +453,7 @@ export const EditResume = ({
                       ...updatedWork,
                       skills: Array.isArray(updatedWork.skills)
                         ? updatedWork.skills
-                        : (resume.projects[index].skills ?? []),
+                        : resume.projects[index].skills ?? [],
                     };
                     onChangeResume(
                       normalizeResume({
@@ -487,6 +489,7 @@ export const EditResume = ({
                         githubLink: '',
                         liveLink: '',
                         start: '',
+                        end: '',
                         skills: [],
                       },
                     ],
@@ -497,7 +500,7 @@ export const EditResume = ({
           </div>
         </div>
 
-        {/* Contact CTA Section */}
+        {/* Contact Section */}
         <div className="space-y-2">
           <h2 className="text-xl font-bold">Contact</h2>
           <textarea

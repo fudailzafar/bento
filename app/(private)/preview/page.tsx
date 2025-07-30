@@ -30,7 +30,7 @@ async function LLMProcessing({ userId }: { userId: string }) {
       resumeObject = {
         header: {
           name: session.user.name || session.user.email || 'user',
-          shortAbout: 'This is a short description of your profile',
+          shortAbout: 'A one-liner on who you are, what you do',
           location: 'Your City, Your Country',
           contacts: {
             email: 'your@email.com',
@@ -46,7 +46,7 @@ async function LLMProcessing({ userId }: { userId: string }) {
             'And even more skills here lol',
           ],
         },
-        summary: 'You should add a summary here',
+        summary: 'A crisp summary of your past experience, cool projects, and mastered skills...',
         workExperience: [
           {
             company: 'Your Company',
@@ -72,7 +72,7 @@ async function LLMProcessing({ userId }: { userId: string }) {
         education: [
           {
             school: 'Your University',
-            degree: 'Bachelor of Technology in Computer Science',
+            degree: 'Bachelor of Science in Sleeping',
             start: '2019',
             end: '2023',
           },
@@ -84,7 +84,7 @@ async function LLMProcessing({ userId }: { userId: string }) {
           },
         ],
         contact:
-          'Write some text here... maybe a catchy phrase for people to contact you? 👀',
+          'Write a catchy phrase here for people to contact you... 👀',
         projects: [
           {
             title: 'Cool Project 1',

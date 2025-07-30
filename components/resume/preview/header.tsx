@@ -1,9 +1,9 @@
 'use client';
 
-import { ResumeDataSchemaType } from '@/lib';
 import { useState } from 'react';
+import { ResumeDataSchemaType } from '@/lib';
 import { BlurFade, BlurFadeText } from '@/components/magicui';
-import { EditableProfileImage } from '@/components/resume/editing';
+import { ProfileImageField } from '@/components/resume/editing';
 
 /**
  * Header component displaying personal information and contact details
@@ -102,7 +102,7 @@ export function Header({
         )}
       </div>
       <BlurFade delay={BLUR_FADE_DELAY}>
-        <EditableProfileImage
+        <ProfileImageField
           name={header.name}
           currentImage={picture}
           onImageChange={onImageChange}
