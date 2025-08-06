@@ -2,6 +2,7 @@
 
 import { useSession } from 'next-auth/react';
 import { useEffect, useState, useRef, useCallback } from 'react';
+import { AddSkillDialog } from '@/components/resume/editing';
 import { toast } from 'sonner';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useUserActions } from '@/hooks';
@@ -23,6 +24,7 @@ export default function PreviewClient({ messageTip }: { messageTip?: string }) {
     string | undefined
   >();
   const [viewMode, setViewMode] = useState<ViewMode>('desktop');
+  const [isAddSkillDialogOpen, setIsAddSkillDialogOpen] = useState(false);
   const debounceTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useEffect(() => {
@@ -87,14 +89,14 @@ export default function PreviewClient({ messageTip }: { messageTip?: string }) {
     const newWork = [
       ...(localResumeData.workExperience || []),
       {
-        title: '',
-        company: '',
-        description: '',
+        title: 'Your position',
+        company: 'Your company',
+        description: '1-2 lines on what you did (if u did something lol)',
         location: '',
         link: '',
         contract: '',
-        start: '',
-        end: null,
+        start: 'March 2024',
+        end: 'Jan 2025',
         logo: null,
       },
     ];
@@ -102,7 +104,6 @@ export default function PreviewClient({ messageTip }: { messageTip?: string }) {
       ...localResumeData,
       workExperience: newWork,
     });
-    toast.success('Work experience added');
   };
 
   const handleAddEducation = () => {
@@ -110,9 +111,9 @@ export default function PreviewClient({ messageTip }: { messageTip?: string }) {
     const newEducation = [
       ...(localResumeData.education || []),
       {
-        degree: '',
-        school: '',
-        start: '',
+        degree: 'Your degree',
+        school: 'Your school',
+        start: 'August 2025',
         end: '',
         logo: null,
       },
@@ -121,13 +122,11 @@ export default function PreviewClient({ messageTip }: { messageTip?: string }) {
       ...localResumeData,
       education: newEducation,
     });
-    toast.success('Education added');
   };
 
   const handleAddSkill = () => {
     if (!localResumeData) return;
-    // For skills, we'll just show a toast since there's a dialog
-    toast.info('Click on "Add Skill" button below the skills section');
+    setIsAddSkillDialogOpen(true);
   };
 
   const handleAddProject = () => {
@@ -135,13 +134,14 @@ export default function PreviewClient({ messageTip }: { messageTip?: string }) {
     const newProjects = [
       ...(localResumeData.projects || []),
       {
-        title: '',
-        description: '',
-        githubLink: '',
-        liveLink: '',
-        start: '',
+        title: 'Your Project',
+        description:
+          '2-3 lines on what this project does, impact, and numbers.',
+        githubLink: 'https://github.com',
+        liveLink: 'https://example.com',
+        start: 'Oct 2025',
         end: null,
-        skills: [],
+        skills: ['list', 'project', 'skills', 'here'],
         image: null,
       },
     ];
@@ -149,24 +149,11 @@ export default function PreviewClient({ messageTip }: { messageTip?: string }) {
       ...localResumeData,
       projects: newProjects,
     });
-    toast.success('Project added');
   };
 
   const handleAddSocialLink = () => {
     if (!localResumeData) return;
-    // Add a new empty social link (e.g., website) to contacts object
-    const newContacts = {
-      ...localResumeData.header.contacts,
-      website: '',
-    };
-    handleResumeChange({
-      ...localResumeData,
-      header: {
-        ...localResumeData.header,
-        contacts: newContacts,
-      },
-    });
-    toast.success('Social link added');
+    toast.info('Click on Edit button right next to the Social links section');
   };
 
   // Cleanup timer on unmount
@@ -189,6 +176,25 @@ export default function PreviewClient({ messageTip }: { messageTip?: string }) {
 
   return (
     <div className="w-full min-h-screen bg-background flex flex-col">
+      {/* Add Skill Dialog */}
+      <AddSkillDialog
+        open={isAddSkillDialogOpen}
+        onOpenChange={setIsAddSkillDialogOpen}
+        onAddSkill={(skillToAdd) => {
+          if (!localResumeData) return;
+          if ((localResumeData.header.skills || []).includes(skillToAdd)) {
+            toast.warning('This skill is already added.');
+          } else {
+            handleResumeChange({
+              ...localResumeData,
+              header: {
+                ...localResumeData.header,
+                skills: [...(localResumeData.header.skills || []), skillToAdd],
+              },
+            });
+          }
+        }}
+      />
       {messageTip && (
         <div className="max-w-3xl mx-auto w-full md:px-0 px-4 pt-4">
           <div className="bg-amber-50 border border-amber-200 text-amber-800 rounded-md p-4 flex items-start">

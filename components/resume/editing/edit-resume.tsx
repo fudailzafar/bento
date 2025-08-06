@@ -31,7 +31,6 @@ export const EditResume = ({
           skills: [...resume.header.skills, skillToAdd],
         },
       });
-      toast.success('Skill added successfully.');
     }
   };
 
