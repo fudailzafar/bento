@@ -300,9 +300,9 @@ export function WorkExperience({
                   }
                 }}
                 className={cn(
-                  'group relative -mx-4 px-4 border-2 border-transparent transition-all duration-300 cursor-pointer',
+                  'group relative -mx-2 px-2 border-2 border-transparent transition-all duration-300 cursor-pointer',
                   isEditMode &&
-                    'hover:border-gray-100 hover:shadow-md hover:rounded-xl hover:py-3 dark:hover:border-gray-600 cursor-default'
+                    'hover:border-gray-100 hover:shadow-sm hover:rounded-xl hover:py-1 dark:hover:border-gray-600 cursor-default'
                 )}
               >
                 {/* Hidden file input */}
