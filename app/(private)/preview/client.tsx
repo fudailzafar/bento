@@ -8,8 +8,8 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { useUserActions } from '@/hooks';
 import { ResumeData } from '@/lib/server';
 import { PreviewActionbar, ViewMode } from '@/components/preview';
-import { FullResume } from '@/components/resume/preview';
 import { LoadingFallback } from '@/components/utils';
+import { PreviewPortfolio } from '@/components/resume/preview';
 
 export default function PreviewClient({ messageTip }: { messageTip?: string }) {
   const { data: session } = useSession();
@@ -245,7 +245,7 @@ export default function PreviewClient({ messageTip }: { messageTip?: string }) {
                       exit={{ paddingLeft: '1rem', paddingRight: '1rem' }}
                       transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
                     >
-                      <FullResume
+                      <PreviewPortfolio
                         resume={localResumeData}
                         profilePicture={profilePicture}
                         isEditMode={true}
@@ -274,7 +274,7 @@ export default function PreviewClient({ messageTip }: { messageTip?: string }) {
                 transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
                 className="w-full px-4"
               >
-                <FullResume
+                <PreviewPortfolio
                   resume={localResumeData}
                   profilePicture={profilePicture}
                   isEditMode={true}
