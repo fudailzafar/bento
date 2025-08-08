@@ -13,7 +13,7 @@ import {
   DockClient,
   DockIcon,
 } from '@/components/magicui';
-import { FullResume } from '@/components/resume/preview';
+import { PublicResume } from '@/components/resume/preview/public-portfolio';
 import {
   Button,
   buttonVariants,
@@ -215,7 +215,7 @@ export default async function ProfilePage({
       />
 
       <div className="px-6">
-        <FullResume
+        <PublicResume
           resume={resume?.resumeData}
           profilePicture={profilePicture}
         />
