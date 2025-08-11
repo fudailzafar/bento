@@ -2,18 +2,39 @@ import { ImageResponse } from '@vercel/og';
 import { NextRequest } from 'next/server';
 import { getUserData } from '../utils';
 
+async function loadGoogleFont(font: string, text: string, weight: number) {
+  const url = `https://fonts.googleapis.com/css2?family=${font}:wght@${weight}&text=${encodeURIComponent(
+    text
+  )}`;
+  const css = await (await fetch(url)).text();
+  const resource = css.match(
+    /src: url\((.+)\) format\('(opentype|truetype)'\)/
+  );
+
+  if (resource) {
+    const response = await fetch(resource[1]);
+    if (response.status == 200) {
+      return await response.arrayBuffer();
+    }
+  }
+
+  throw new Error('failed to load font data');
+}
+
 export async function GET(request: NextRequest) {
   try {
     const username = request.nextUrl.pathname.split('/')[1];
-
     const { resume, userData } = await getUserData(username);
-
-    // Get data from resume
     const name = resume?.resumeData?.header?.name;
     const role = resume?.resumeData?.header?.shortAbout;
-
-    // Use profile image from stored user data
     const profileImageUrl = userData?.image;
+
+    // Load Inter font for the text that will be displayed
+    const nameText = name || '';
+    const roleText = role || '';
+
+    const interBoldData = await loadGoogleFont('Inter', nameText, 700);
+    const interSemiBoldData = await loadGoogleFont('Inter', roleText, 400);
 
     return new ImageResponse(
       (
@@ -28,7 +49,7 @@ export async function GET(request: NextRequest) {
             backgroundColor: 'white',
             padding: '80px',
             position: 'relative',
-            fontFamily: 'Inter, sans-serif',
+            fontFamily: 'Inter',
           }}
         >
           {/* Main Content */}
@@ -53,10 +74,11 @@ export async function GET(request: NextRequest) {
               <h1
                 style={{
                   fontSize: '80px',
-                  fontWeight: 900,
+                  fontWeight: 700,
                   margin: '0 0 20px 0',
                   color: '#222',
                   lineHeight: 1.1,
+                  fontFamily: 'Inter',
                 }}
               >
                 {name}
@@ -64,9 +86,11 @@ export async function GET(request: NextRequest) {
               <p
                 style={{
                   fontSize: '32px',
-                  color: '#444',
+                  fontWeight: 400,
                   margin: 0,
+                  color: '#444',
                   lineHeight: 1.4,
+                  fontFamily: 'Inter',
                 }}
               >
                 {role && role?.length > 90
@@ -104,6 +128,20 @@ export async function GET(request: NextRequest) {
       {
         width: 1200,
         height: 630,
+        fonts: [
+          {
+            name: 'Inter',
+            data: interBoldData,
+            style: 'normal',
+            weight: 700,
+          },
+          {
+            name: 'Inter',
+            data: interSemiBoldData,
+            style: 'normal',
+            weight: 400,
+          },
+        ],
       }
     );
   } catch (e: any) {
