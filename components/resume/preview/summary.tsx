@@ -3,7 +3,7 @@
 import { BlurFade } from '@/components/magicui';
 import { Section } from '@/components/ui';
 import { ResumeDataSchemaType } from '@/lib/resume';
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 
 interface AboutProps {
   summary: ResumeDataSchemaType['summary'];
@@ -25,42 +25,65 @@ export function Summary({
   onChangeSummary,
 }: AboutProps) {
   const [isEditing, setIsEditing] = useState(false);
+  const summaryRef = useRef<HTMLDivElement>(null);
 
-  // Calculate rows based on content length
-  const calculateRows = (text: string) => {
-    const lineBreaks = (text.match(/\n/g) || []).length;
-    const estimatedLines = Math.ceil(text.length / 80); // ~80 chars per line
-    return Math.max(lineBreaks + 1, estimatedLines, 2); // minimum 2 rows
+  const handleBlur = () => {
+    if (summaryRef.current && onChangeSummary) {
+      const newContent = summaryRef.current.textContent || '';
+      onChangeSummary(newContent);
+    }
+    setIsEditing(false);
+  };
+
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === 'Escape') {
+      summaryRef.current?.blur();
+    }
+  };
+
+  const enableEditing = () => {
+    if (isEditMode && !isEditing) {
+      setIsEditing(true);
+      setTimeout(() => {
+        if (summaryRef.current) {
+          summaryRef.current.focus();
+          const range = document.createRange();
+          range.selectNodeContents(summaryRef.current);
+          const selection = window.getSelection();
+          selection?.removeAllRanges();
+          selection?.addRange(range);
+        }
+      }, 0);
+    }
   };
 
   return (
     <Section className={className}>
       {isEditMode && onChangeSummary ? (
-        <div
-          className="group relative -mx-4 px-4 py-3 border-2 p-2 transition-all duration-300 border-transparent  dark:hover:border-gray-600 rounded-lg cursor-text"
-          onClick={() => !isEditing && setIsEditing(true)}
-        >
+        <div className="group relative -mx-4 px-4 py-3 transition-all duration-300 rounded-lg">
           <BlurFade delay={BLUR_FADE_DELAY * 3}>
             <h2 className="text-xl font-bold mb-2" id="about-section">
               About
             </h2>
           </BlurFade>
           <BlurFade delay={BLUR_FADE_DELAY * 4}>
-            {isEditing ? (
-              <textarea
-                value={summary}
-                onChange={(e) => onChangeSummary(e.target.value)}
-                onBlur={() => setIsEditing(false)}
-                autoFocus
-                className="w-full bg-transparent border-none outline-none text-pretty text-sm text-design-resume print:text-[12px] p-0 resize-none focus:ring-0 leading-normal"
-                rows={calculateRows(summary)}
-                aria-labelledby="about-section"
-              />
-            ) : (
-              <div className="text-pretty text-sm text-design-resume print:text-[12px]">
-                {summary}
-              </div>
-            )}
+            <div
+              ref={summaryRef}
+              contentEditable={isEditing}
+              suppressContentEditableWarning={true}
+              className={`text-pretty text-sm text-design-resume print:text-[12px] outline-none ${
+                isEditing
+                  ? 'cursor-text bg-transparent'
+                  : 'cursor-text transition-opacity'
+              }`}
+              onClick={enableEditing}
+              onBlur={handleBlur}
+              onKeyDown={handleKeyDown}
+              aria-labelledby="about-section"
+              dangerouslySetInnerHTML={{
+                __html: summary?.length > 0 ? summary : 'Add your summary...',
+              }}
+            />
           </BlurFade>
         </div>
       ) : (

@@ -9,7 +9,20 @@ import { useUserActions } from '@/hooks';
 import { ResumeData } from '@/lib/server';
 import { PreviewActionbar, ViewMode } from '@/components/preview';
 import { LoadingFallback } from '@/components/utils';
-import { PreviewPortfolio } from '@/components/resume/preview';
+import { InteractablePortfolio } from '@/components/resume/preview';
+import { MessageThreadCollapsible } from '@/components/ui/message-thread-collapsible';
+import { ChevronLeft, ChevronRight } from 'lucide-react';
+import { ScrollableMessageContainer } from '@/components/ui/scrollable-message-container';
+import {
+  ThreadContent,
+  ThreadContentMessages,
+} from '@/components/ui/thread-content';
+import {
+  MessageInput,
+  MessageInputSubmitButton,
+  MessageInputTextarea,
+  MessageInputToolbar,
+} from '@/components/ui/message-input';
 
 export default function PreviewClient({ messageTip }: { messageTip?: string }) {
   const { data: session } = useSession();
@@ -26,6 +39,7 @@ export default function PreviewClient({ messageTip }: { messageTip?: string }) {
   const [viewMode, setViewMode] = useState<ViewMode>('desktop');
   const [isAddSkillDialogOpen, setIsAddSkillDialogOpen] = useState(false);
   const debounceTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const [isChatOpen, setIsChatOpen] = useState(true);
 
   useEffect(() => {
     if (resumeQuery.data?.resume?.resumeData) {
@@ -175,133 +189,202 @@ export default function PreviewClient({ messageTip }: { messageTip?: string }) {
   }
 
   return (
-    <div className="w-full min-h-screen bg-background flex flex-col">
-      {/* Add Skill Dialog */}
-      <AddSkillDialog
-        open={isAddSkillDialogOpen}
-        onOpenChange={setIsAddSkillDialogOpen}
-        onAddSkill={(skillToAdd) => {
-          if (!localResumeData) return;
-          if ((localResumeData.header.skills || []).includes(skillToAdd)) {
-            toast.warning('This skill is already added.');
-          } else {
-            handleResumeChange({
-              ...localResumeData,
-              header: {
-                ...localResumeData.header,
-                skills: [...(localResumeData.header.skills || []), skillToAdd],
-              },
-            });
-          }
-        }}
-      />
-      {messageTip && (
-        <div className="max-w-3xl mx-auto w-full md:px-0 px-4 pt-4">
-          <div className="bg-amber-50 border border-amber-200 text-amber-800 rounded-md p-4 flex items-start">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="h-5 w-5 mr-2 mt-0.5"
-              viewBox="0 0 20 20"
-              fill="currentColor"
-            >
-              <path
-                fillRule="evenodd"
-                d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z"
-                clipRule="evenodd"
-              />
-            </svg>
-            <p>{messageTip}</p>
-          </div>
-        </div>
-      )}
+    <div className="w-full min-h-screen bg-background flex">
+      {/* Chat Sidebar */}
+      <div
+        className={`${
+          isChatOpen ? 'w-80' : 'w-0'
+        } fixed right-0 top-0 h-screen border-l border-gray-200 bg-white transition-all duration-300 flex flex-col z-40 overflow-hidden`}
+      >
+        {isChatOpen && (
+          <>
+            <div className="p-4 border-b border-gray-200">
+              <h2 className="text-lg font-semibold text-gray-900">
+                Chat Assistant
+              </h2>
+              <p className="text-sm text-gray-600 mt-1">
+                Try: &quot;Change the name to John Doe&quot; or &quot;Add Work
+                Experience&quot;
+              </p>
+            </div>
 
-      {/* Desktop/Mobile View Toggle */}
-      <div className="flex-1 flex items-center justify-center pb-16">
-        <AnimatePresence mode="wait">
-          {viewMode === 'mobile' ? (
-            /* Mobile View */
-            <motion.div
-              key="mobile"
-              initial={{ opacity: 0, width: '100%', maxWidth: '768px' }}
-              animate={{ opacity: 1, width: '452px', maxWidth: '452px' }}
-              exit={{ opacity: 0, width: '100%', maxWidth: '768px' }}
-              transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
-              className="flex justify-center items-center"
-              style={{ height: 'min(80vh, 900px)' }}
-            >
-              <div className="relative w-full h-full">
-                <motion.div
-                  initial={{ borderRadius: '0.5rem' }}
-                  animate={{ borderRadius: '2.5rem' }}
-                  exit={{ borderRadius: '0.5rem' }}
-                  transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
-                  className="w-full h-full bg-white shadow-2xl overflow-hidden relative border border-gray-200"
-                >
-                  {/* Scrollable Content */}
-                  <div className="w-full h-full overflow-y-auto overflow-x-hidden bg-background scrollbar-hide">
-                    <motion.div
-                      initial={{ paddingLeft: '1rem', paddingRight: '1rem' }}
-                      animate={{ paddingLeft: '2rem', paddingRight: '2rem' }}
-                      exit={{ paddingLeft: '1rem', paddingRight: '1rem' }}
-                      transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
-                    >
-                      <PreviewPortfolio
-                        resume={localResumeData}
-                        profilePicture={profilePicture}
-                        isEditMode={true}
-                        onChangeResume={handleResumeChange}
-                        onImageChange={handleImageChange}
-                      />
-                    </motion.div>
-                  </div>
-                </motion.div>
-              </div>
-            </motion.div>
-          ) : (
-            /* Desktop View */
-            <motion.div
-              key="desktop"
-              initial={{ opacity: 0, width: '452px', maxWidth: '452px' }}
-              animate={{ opacity: 1, width: '100%', maxWidth: '768px' }}
-              exit={{ opacity: 0, width: '452px', maxWidth: '452px' }}
-              transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
-              className="mx-auto md:rounded-lg flex items-center justify-between"
-            >
-              <motion.div
-                initial={{ borderRadius: '2.5rem' }}
-                animate={{ borderRadius: '0.5rem' }}
-                exit={{ borderRadius: '2.5rem' }}
-                transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
-                className="w-full px-4"
-              >
-                <PreviewPortfolio
-                  resume={localResumeData}
-                  profilePicture={profilePicture}
-                  isEditMode={true}
-                  onChangeResume={handleResumeChange}
-                  onImageChange={handleImageChange}
-                />
-              </motion.div>
-            </motion.div>
-          )}
-        </AnimatePresence>
+            <ScrollableMessageContainer className="flex-1 p-4">
+              <ThreadContent variant="default">
+                <ThreadContentMessages />
+              </ThreadContent>
+            </ScrollableMessageContainer>
+
+            <div className="p-4 text-black">
+              <MessageInput contextKey="portfolio-editor" variant="bordered">
+                <MessageInputTextarea placeholder="Update the name..." />
+                <MessageInputToolbar>
+                  <MessageInputSubmitButton />
+                </MessageInputToolbar>
+              </MessageInput>
+            </div>
+          </>
+        )}
       </div>
 
-      {/* Action Bar */}
-      <div className="fixed bottom-6 left-0 right-0 z-50 pointer-events-none">
-        <div className="max-w-3xl mx-auto w-full md:px-0 px-4 pointer-events-auto flex justify-center">
-          <PreviewActionbar
-            initialUsername={usernameQuery.data.username}
-            status={resumeQuery.data?.resume?.status}
-            viewMode={viewMode}
-            onViewModeChange={setViewMode}
-            isSaving={saveResumeDataMutation.isPending}
-            onAddWorkExperience={handleAddWorkExperience}
-            onAddEducation={handleAddEducation}
-            onAddSkill={handleAddSkill}
-            onAddProject={handleAddProject}
-            onAddSocialLink={handleAddSocialLink}
-          />
+      {/* Toggle Button */}
+      <button
+        onClick={() => setIsChatOpen(!isChatOpen)}
+        className={`${
+          isChatOpen ? 'right-80' : 'right-0'
+        } fixed top-1/2 -translate-y-1/2 bg-white border border-gray-200 rounded-l-lg p-2 hover:bg-gray-50 z-50 transition-all duration-300`}
+      >
+        {isChatOpen ? (
+          <ChevronRight className="w-4 h-4" />
+        ) : (
+          <ChevronLeft className="w-4 h-4" />
+        )}
+      </button>
+
+      {/* Main Content Area */}
+      <div
+        className={`${
+          isChatOpen ? 'mr-80' : 'mr-0'
+        } flex-1 transition-all duration-300 flex flex-col`}
+      >
+        {/* Add Skill Dialog */}
+        <AddSkillDialog
+          open={isAddSkillDialogOpen}
+          onOpenChange={setIsAddSkillDialogOpen}
+          onAddSkill={(skillToAdd) => {
+            if (!localResumeData) return;
+            if ((localResumeData.header.skills || []).includes(skillToAdd)) {
+              toast.warning('This skill is already added.');
+            } else {
+              handleResumeChange({
+                ...localResumeData,
+                header: {
+                  ...localResumeData.header,
+                  skills: [
+                    ...(localResumeData.header.skills || []),
+                    skillToAdd,
+                  ],
+                },
+              });
+            }
+          }}
+        />
+        {messageTip && (
+          <div className="max-w-3xl mx-auto w-full md:px-0 px-4 pt-4">
+            <div className="bg-amber-50 border border-amber-200 text-amber-800 rounded-md p-4 flex items-start">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-5 w-5 mr-2 mt-0.5"
+                viewBox="0 0 20 20"
+                fill="currentColor"
+              >
+                <path
+                  fillRule="evenodd"
+                  d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z"
+                  clipRule="evenodd"
+                />
+              </svg>
+              <p>{messageTip}</p>
+            </div>
+          </div>
+        )}
+
+        {/* Desktop/Mobile View Toggle */}
+        <div className="flex-1 flex items-center justify-center pb-16">
+          <AnimatePresence mode="wait">
+            {viewMode === 'mobile' ? (
+              /* Mobile View */
+              <motion.div
+                key="mobile"
+                initial={{ opacity: 0, width: '100%', maxWidth: '768px' }}
+                animate={{ opacity: 1, width: '452px', maxWidth: '452px' }}
+                exit={{ opacity: 0, width: '100%', maxWidth: '768px' }}
+                transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+                className="flex justify-center items-center"
+                style={{ height: 'min(80vh, 900px)' }}
+              >
+                <div className="relative w-full h-full">
+                  <motion.div
+                    initial={{ borderRadius: '0.5rem' }}
+                    animate={{ borderRadius: '2.5rem' }}
+                    exit={{ borderRadius: '0.5rem' }}
+                    transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+                    className="w-full h-full bg-white shadow-2xl overflow-hidden relative border border-gray-200"
+                  >
+                    {/* Scrollable Content */}
+                    <div className="w-full h-full overflow-y-auto overflow-x-hidden bg-background scrollbar-hide">
+                      <motion.div
+                        initial={{
+                          paddingLeft: '1rem',
+                          paddingRight: '1rem',
+                        }}
+                        animate={{
+                          paddingLeft: '2rem',
+                          paddingRight: '2rem',
+                        }}
+                        exit={{ paddingLeft: '1rem', paddingRight: '1rem' }}
+                        transition={{
+                          duration: 0.5,
+                          ease: [0.16, 1, 0.3, 1],
+                        }}
+                      >
+                        <InteractablePortfolio
+                          resume={localResumeData}
+                          profilePicture={profilePicture}
+                          isEditMode={true}
+                          onChangeResume={handleResumeChange}
+                          onImageChange={handleImageChange}
+                        />
+                      </motion.div>
+                    </div>
+                  </motion.div>
+                </div>
+              </motion.div>
+            ) : (
+              /* Desktop View */
+              <motion.div
+                key="desktop"
+                initial={{ opacity: 0, width: '452px', maxWidth: '452px' }}
+                animate={{ opacity: 1, width: '100%', maxWidth: '768px' }}
+                exit={{ opacity: 0, width: '452px', maxWidth: '452px' }}
+                transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+                className="mx-auto md:rounded-lg flex items-center justify-between"
+              >
+                <motion.div
+                  initial={{ borderRadius: '2.5rem' }}
+                  animate={{ borderRadius: '0.5rem' }}
+                  exit={{ borderRadius: '2.5rem' }}
+                  transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+                  className="w-full px-4"
+                >
+                  <InteractablePortfolio
+                    resume={localResumeData}
+                    profilePicture={profilePicture}
+                    isEditMode={true}
+                    onChangeResume={handleResumeChange}
+                    onImageChange={handleImageChange}
+                  />
+                </motion.div>
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </div>
+
+        {/* Action Bar */}
+        <div className="fixed bottom-6 left-0 right-0 z-50 pointer-events-none">
+          <div className="max-w-3xl mx-auto w-full md:px-0 px-4 pointer-events-auto flex justify-center">
+            <PreviewActionbar
+              initialUsername={usernameQuery.data.username}
+              status={resumeQuery.data?.resume?.status}
+              viewMode={viewMode}
+              onViewModeChange={setViewMode}
+              isSaving={saveResumeDataMutation.isPending}
+              onAddWorkExperience={handleAddWorkExperience}
+              onAddEducation={handleAddEducation}
+              onAddSkill={handleAddSkill}
+              onAddProject={handleAddProject}
+              onAddSocialLink={handleAddSocialLink}
+            />
+          </div>
         </div>
       </div>
     </div>

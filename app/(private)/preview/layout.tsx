@@ -1,5 +1,6 @@
 import { Header } from '@/components/common';
 import { ReactQueryClientProvider } from '@/components/utils';
+import { PreviewProvider } from './preview-provider';
 import React from 'react';
 
 export default function RootLayout({
@@ -11,9 +12,11 @@ export default function RootLayout({
     <>
       <Header />
       <ReactQueryClientProvider>
-        <section className="flex-1 flex flex-col min-h-[calc(100vh-200px)]">
-          {children}
-        </section>
+        <PreviewProvider>
+          <section className="flex-1 flex flex-col min-h-[calc(100vh-200px)]">
+            {children}
+          </section>
+        </PreviewProvider>
       </ReactQueryClientProvider>
     </>
   );
