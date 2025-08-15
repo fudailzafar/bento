@@ -5,7 +5,6 @@ import { ResumeDataSchemaType } from '@/lib';
 import { getShortMonth, getYear } from '@/components/resume';
 import { useMemo, useState } from 'react';
 import React from 'react';
-import { Plus } from 'lucide-react';
 import { BlurFade } from '@/components/magicui';
 import { ProjectsField } from '@/components/resume/editing';
 import { PenIcon, TrashIcon } from '@/components/icons';
@@ -37,24 +36,6 @@ export function Projects({
         }`,
       }));
   }, [projects]);
-
-  const handleAdd = () => {
-    if (onChangeProjects) {
-      onChangeProjects([
-        ...(projects || []),
-        {
-          title: '',
-          description: '',
-          githubLink: '',
-          liveLink: '',
-          start: '',
-          end: '',
-          skills: [],
-        },
-      ]);
-      setEditingIndex((projects || []).length);
-    }
-  };
 
   const handleDelete = (index: number) => {
     if (onChangeProjects && projects) {
@@ -211,24 +192,7 @@ export function Projects({
           })}
         </div>
 
-        {/* Add Project button at the bottom */}
-        {isEditMode && onChangeProjects && (
-          <BlurFade
-            delay={BLUR_FADE_DELAY * 12 + (projects?.length || 0) * 0.05 + 0.1}
-          >
-            <div className="mt-4 flex justify-center">
-              <button
-                onClick={handleAdd}
-                className="w-full py-5 flex flex-row items-center justify-center gap-2 border-2 border-dashed border-muted-foreground/25 hover:border-muted-foreground/50 rounded-lg transition-all duration-300 hover:shadow-lg bg-transparent hover:bg-muted/5 group"
-              >
-                <Plus className="size-4 text-muted-foreground group-hover:text-foreground transition-colors" />
-                <span className="text-sm text-muted-foreground group-hover:text-foreground transition-colors">
-                  Add Project
-                </span>
-              </button>
-            </div>
-          </BlurFade>
-        )}
+        
       </div>
     </Section>
   );
