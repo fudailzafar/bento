@@ -70,13 +70,7 @@ export function Contact({
                 ref={ctaRef}
                 contentEditable={isEditMode && isEditing}
                 suppressContentEditableWarning={true}
-                className={`text-muted-foreground md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed outline-none ${
-                  isEditing
-                    ? 'cursor-text bg-transparent p-2'
-                    : isEditMode
-                    ? 'cursor-pointer hover:opacity-80 rounded p-2 transition-colors'
-                    : 'cursor-default p-2'
-                }`}
+                className={"p-2 text-muted-foreground md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed outline-none "}
                 onClick={enableEditing}
                 onBlur={handleBlur}
                 onKeyDown={handleKeyDown}

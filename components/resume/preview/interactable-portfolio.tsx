@@ -35,23 +35,36 @@ const PortfolioWrapper = ({
 
         // If resume data is being updated
         if (newProps.resume && onChangeResume) {
-          // Deep merge the updates with existing resume data
-          const updatedResume = {
-            ...resume,
-            ...newProps.resume,
-          } as ResumeData;
+          // Deep merge function for nested objects
+          const deepMerge = (target: any, source: any): any => {
+            const output = { ...target };
 
-          // If header is being updated, merge it properly
-          if (newProps.resume.header) {
-            updatedResume.header = {
-              ...resume?.header,
-              ...newProps.resume.header,
-              contacts: {
-                ...resume?.header?.contacts,
-                ...newProps.resume.header.contacts,
-              },
-            } as any;
-          }
+            if (isObject(target) && isObject(source)) {
+              Object.keys(source).forEach((key) => {
+                if (isObject(source[key])) {
+                  if (!(key in target)) {
+                    output[key] = source[key];
+                  } else {
+                    output[key] = deepMerge(target[key], source[key]);
+                  }
+                } else {
+                  output[key] = source[key];
+                }
+              });
+            }
+
+            return output;
+          };
+
+          const isObject = (item: any): boolean => {
+            return item && typeof item === 'object' && !Array.isArray(item);
+          };
+
+          // Deep merge the updates with existing resume data
+          const updatedResume = deepMerge(
+            resume || {},
+            newProps.resume
+          ) as ResumeData;
 
           console.log('Calling onChangeResume with:', updatedResume);
           onChangeResume(updatedResume);

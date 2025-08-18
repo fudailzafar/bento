@@ -71,11 +71,9 @@ export function Summary({
               ref={summaryRef}
               contentEditable={isEditing}
               suppressContentEditableWarning={true}
-              className={`text-pretty text-sm text-design-resume print:text-[12px] outline-none ${
-                isEditing
-                  ? 'cursor-text bg-transparent'
-                  : 'cursor-text transition-opacity'
-              }`}
+              className={
+                'text-pretty text-sm text-design-resume print:text-[12px] outline-none'
+              }
               onClick={enableEditing}
               onBlur={handleBlur}
               onKeyDown={handleKeyDown}

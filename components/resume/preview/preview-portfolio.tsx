@@ -86,7 +86,7 @@ export const PreviewPortfolio = ({
     ),
     education: (
       <Education
-        educations={resume.education}
+        educations={resume?.education || []}
         isEditMode={isEditMode}
         className="py-5"
         onChangeEducation={
@@ -103,7 +103,7 @@ export const PreviewPortfolio = ({
     ),
     skills: (
       <Skills
-        skills={resume.header.skills}
+        skills={resume?.header?.skills || []}
         isEditMode={isEditMode}
         className="py-5"
         onChangeSkills={
