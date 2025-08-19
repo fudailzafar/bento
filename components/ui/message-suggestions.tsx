@@ -1,16 +1,13 @@
-"use client";
+'use client';
 
-import { MessageGenerationStage } from "@/components/ui/message-generation-stage";
-import {
-  Tooltip,
-  TooltipProvider,
-} from "@/components/ui/suggestions-tooltip";
-import { cn } from "@/lib/utils";
-import type { Suggestion, TamboThread } from "@tambo-ai/react";
-import { useTambo, useTamboSuggestions } from "@tambo-ai/react";
-import { Loader2Icon } from "lucide-react";
-import * as React from "react";
-import { useEffect, useRef } from "react";
+import { MessageGenerationStage } from '@/components/ui/message-generation-stage';
+import { Tooltip, TooltipProvider } from '@/components/ui/suggestions-tooltip';
+import { cn } from '@/lib/utils';
+import type { Suggestion, TamboThread } from '@tambo-ai/react';
+import { useTambo, useTamboSuggestions } from '@tambo-ai/react';
+import { Loader2Icon } from 'lucide-react';
+import * as React from 'react';
+import { useEffect, useRef } from 'react';
 
 /**
  * @typedef MessageSuggestionsContextValue
@@ -48,7 +45,7 @@ const useMessageSuggestionsContext = () => {
   const context = React.useContext(MessageSuggestionsContext);
   if (!context) {
     throw new Error(
-      "MessageSuggestions sub-components must be used within a MessageSuggestions",
+      'MessageSuggestions sub-components must be used within a MessageSuggestions'
     );
   }
   return context;
@@ -92,7 +89,7 @@ const MessageSuggestions = React.forwardRef<
       initialSuggestions = [],
       ...props
     },
-    ref,
+    ref
   ) => {
     const { thread } = useTambo();
     const {
@@ -118,7 +115,7 @@ const MessageSuggestions = React.forwardRef<
     ]);
 
     const isMac =
-      typeof navigator !== "undefined" && navigator.platform.startsWith("Mac");
+      typeof navigator !== 'undefined' && navigator.platform.startsWith('Mac');
 
     // Track the last AI message ID to detect new messages
     const lastAiMessageIdRef = useRef<string | null>(null);
@@ -142,12 +139,12 @@ const MessageSuggestions = React.forwardRef<
         error,
         thread,
         isMac,
-      ],
+      ]
     );
 
     // Find the last AI message
     const lastAiMessage = thread?.messages
-      ? [...thread.messages].reverse().find((msg) => msg.role === "assistant")
+      ? [...thread.messages].reverse().find((msg) => msg.role === 'assistant')
       : null;
 
     // When a new AI message appears, update the reference
@@ -188,10 +185,10 @@ const MessageSuggestions = React.forwardRef<
         }
       };
 
-      document.addEventListener("keydown", handleKeyDown);
+      document.addEventListener('keydown', handleKeyDown);
 
       return () => {
-        document.removeEventListener("keydown", handleKeyDown);
+        document.removeEventListener('keydown', handleKeyDown);
       };
     }, [suggestions, accept, isMac]);
 
@@ -205,7 +202,7 @@ const MessageSuggestions = React.forwardRef<
         <TooltipProvider>
           <div
             ref={ref}
-            className={cn("px-4 pb-2", className)}
+            className={cn('px-4 pb-2', className)}
             data-slot="message-suggestions-container"
             {...props}
           >
@@ -214,9 +211,9 @@ const MessageSuggestions = React.forwardRef<
         </TooltipProvider>
       </MessageSuggestionsContext.Provider>
     );
-  },
+  }
 );
-MessageSuggestions.displayName = "MessageSuggestions";
+MessageSuggestions.displayName = 'MessageSuggestions';
 
 /**
  * Props for the MessageSuggestionsStatus component.
@@ -247,13 +244,13 @@ const MessageSuggestionsStatus = React.forwardRef<
     <div
       ref={ref}
       className={cn(
-        "p-2 rounded-md text-sm bg-transparent",
+        'p-2 rounded-md text-sm bg-transparent',
         !error &&
           !isGenerating &&
-          (!thread?.generationStage || thread.generationStage === "COMPLETE")
-          ? "p-0 min-h-0 mb-0"
-          : "",
-        className,
+          (!thread?.generationStage || thread.generationStage === 'COMPLETE')
+          ? 'p-0 min-h-0 mb-0'
+          : '',
+        className
       )}
       data-slot="message-suggestions-status"
       {...props}
@@ -267,7 +264,7 @@ const MessageSuggestionsStatus = React.forwardRef<
 
       {/* Always render a container for generation stage to prevent layout shifts */}
       <div className="generation-stage-container">
-        {thread?.generationStage && thread.generationStage !== "COMPLETE" ? (
+        {thread?.generationStage && thread.generationStage !== 'COMPLETE' ? (
           <MessageGenerationStage />
         ) : isGenerating ? (
           <div className="flex items-center gap-2 text-muted-foreground">
@@ -279,7 +276,7 @@ const MessageSuggestionsStatus = React.forwardRef<
     </div>
   );
 });
-MessageSuggestionsStatus.displayName = "MessageSuggestions.Status";
+MessageSuggestionsStatus.displayName = 'MessageSuggestions.Status';
 
 /**
  * Props for the MessageSuggestionsList component.
@@ -306,8 +303,8 @@ const MessageSuggestionsList = React.forwardRef<
   const { suggestions, selectedSuggestionId, accept, isGenerating, isMac } =
     useMessageSuggestionsContext();
 
-  const modKey = isMac ? "⌘" : "Ctrl";
-  const altKey = isMac ? "⌥" : "Alt";
+  const modKey = isMac ? '⌘' : 'Ctrl';
+  const altKey = isMac ? '⌥' : 'Alt';
 
   // Create placeholder suggestions when there are no real suggestions
   const placeholders = Array(3).fill(null);
@@ -316,9 +313,9 @@ const MessageSuggestionsList = React.forwardRef<
     <div
       ref={ref}
       className={cn(
-        "flex space-x-2 overflow-x-auto pb-2 rounded-md bg-transparent min-h-[2.5rem]",
-        isGenerating ? "opacity-70" : "",
-        className,
+        'flex space-x-2 overflow-x-auto pb-2 rounded-md bg-transparent min-h-[2.5rem]',
+        isGenerating ? 'opacity-70' : '',
+        className
       )}
       data-slot="message-suggestions-list"
       {...props}
@@ -336,13 +333,13 @@ const MessageSuggestionsList = React.forwardRef<
             >
               <button
                 className={cn(
-                  "py-2 px-2.5 rounded-2xl text-xs transition-colors",
-                  "border border-flat",
+                  'py-2 px-2.5 rounded-2xl text-xs transition-colors',
+                  'border border-flat',
                   isGenerating
-                    ? "bg-muted/50 text-muted-foreground"
+                    ? 'bg-muted/50 text-muted-foreground'
                     : selectedSuggestionId === suggestion.id
-                      ? "bg-accent text-accent-foreground"
-                      : "bg-background hover:bg-accent hover:text-accent-foreground",
+                      ? 'bg-accent text-accent-foreground'
+                      : 'bg-background hover:bg-accent hover:text-accent-foreground'
                 )}
                 onClick={async () =>
                   !isGenerating && (await accept({ suggestion }))
@@ -368,6 +365,6 @@ const MessageSuggestionsList = React.forwardRef<
     </div>
   );
 });
-MessageSuggestionsList.displayName = "MessageSuggestions.List";
+MessageSuggestionsList.displayName = 'MessageSuggestions.List';
 
 export { MessageSuggestions, MessageSuggestionsStatus, MessageSuggestionsList };

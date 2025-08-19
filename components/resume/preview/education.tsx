@@ -393,8 +393,6 @@ export function Education({
           );
         })}
       </div>
-
-      
     </Section>
   );
 }

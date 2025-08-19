@@ -1,27 +1,24 @@
-"use client";
+'use client';
 
-import { ElicitationUI } from "@/components/ui/elicitation-ui";
-import { McpConfigModal } from "@/components/ui/mcp-config-modal";
-import {
-  Tooltip,
-  TooltipProvider,
-} from "@/components/ui/suggestions-tooltip";
-import { cn } from "@/lib/utils";
-import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
+import { ElicitationUI } from '@/components/ui/elicitation-ui';
+import { McpConfigModal } from '@/components/ui/mcp-config-modal';
+import { Tooltip, TooltipProvider } from '@/components/ui/suggestions-tooltip';
+import { cn } from '@/lib/utils';
+import * as DropdownMenu from '@radix-ui/react-dropdown-menu';
 import {
   useIsTamboTokenUpdating,
   useTamboThread,
   useTamboThreadInput,
   type StagedImage,
-} from "@tambo-ai/react";
+} from '@tambo-ai/react';
 import {
   useTamboElicitationContext,
   useTamboMcpPrompt,
   useTamboMcpPromptList,
   type TamboElicitationRequest,
   type TamboElicitationResponse,
-} from "@tambo-ai/react/mcp";
-import { cva, type VariantProps } from "class-variance-authority";
+} from '@tambo-ai/react/mcp';
+import { cva, type VariantProps } from 'class-variance-authority';
 import {
   ArrowUp,
   Image as ImageIcon,
@@ -29,9 +26,9 @@ import {
   Sparkles,
   Square,
   X,
-} from "lucide-react";
-import Image from "next/image";
-import * as React from "react";
+} from 'lucide-react';
+import Image from 'next/image';
+import * as React from 'react';
 
 /**
  * CSS variants for the message input container
@@ -40,29 +37,29 @@ import * as React from "react";
  * @property {string} solid - Solid styling with shadow effects
  * @property {string} bordered - Bordered styling with border emphasis
  */
-const messageInputVariants = cva("w-full", {
+const messageInputVariants = cva('w-full', {
   variants: {
     variant: {
-      default: "",
+      default: '',
       solid: [
-        "[&>div]:bg-background",
-        "[&>div]:border-0",
-        "[&>div]:shadow-xl [&>div]:shadow-black/5 [&>div]:dark:shadow-black/20",
-        "[&>div]:ring-1 [&>div]:ring-black/5 [&>div]:dark:ring-white/10",
-        "[&_textarea]:bg-transparent",
-        "[&_textarea]:rounded-lg",
-      ].join(" "),
+        '[&>div]:bg-background',
+        '[&>div]:border-0',
+        '[&>div]:shadow-xl [&>div]:shadow-black/5 [&>div]:dark:shadow-black/20',
+        '[&>div]:ring-1 [&>div]:ring-black/5 [&>div]:dark:ring-white/10',
+        '[&_textarea]:bg-transparent',
+        '[&_textarea]:rounded-lg',
+      ].join(' '),
       bordered: [
-        "[&>div]:bg-transparent",
-        "[&>div]:border-2 [&>div]:border-gray-300 [&>div]:dark:border-zinc-600",
-        "[&>div]:shadow-none",
-        "[&_textarea]:bg-transparent",
-        "[&_textarea]:border-0",
-      ].join(" "),
+        '[&>div]:bg-transparent',
+        '[&>div]:border-2 [&>div]:border-gray-300 [&>div]:dark:border-zinc-600',
+        '[&>div]:shadow-none',
+        '[&_textarea]:bg-transparent',
+        '[&_textarea]:border-0',
+      ].join(' '),
     },
   },
   defaultVariants: {
-    variant: "default",
+    variant: 'default',
   },
 });
 
@@ -117,7 +114,7 @@ const useMessageInputContext = () => {
   const context = React.useContext(MessageInputContext);
   if (!context) {
     throw new Error(
-      "MessageInput sub-components must be used within a MessageInput",
+      'MessageInput sub-components must be used within a MessageInput'
     );
   }
   return context;
@@ -132,7 +129,7 @@ export interface MessageInputProps
   /** The context key identifying which thread to send messages to. */
   contextKey?: string;
   /** Optional styling variant for the input container. */
-  variant?: VariantProps<typeof messageInputVariants>["variant"];
+  variant?: VariantProps<typeof messageInputVariants>['variant'];
   /** Optional ref to forward to the textarea element. */
   inputRef?: React.RefObject<HTMLTextAreaElement>;
   /** The child elements to render within the form container. */
@@ -165,9 +162,9 @@ const MessageInput = React.forwardRef<HTMLFormElement, MessageInputProps>(
         {children}
       </MessageInputInternal>
     );
-  },
+  }
 );
-MessageInput.displayName = "MessageInput";
+MessageInput.displayName = 'MessageInput';
 
 /**
  * Internal MessageInput component that uses the TamboThreadInput context
@@ -187,7 +184,7 @@ const MessageInputInternal = React.forwardRef<
     clearImages,
   } = useTamboThreadInput();
   const { cancel } = useTamboThread();
-  const [displayValue, setDisplayValue] = React.useState("");
+  const [displayValue, setDisplayValue] = React.useState('');
   const [submitError, setSubmitError] = React.useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = React.useState(false);
   const [isDragging, setIsDragging] = React.useState(false);
@@ -210,7 +207,7 @@ const MessageInputInternal = React.forwardRef<
       if ((!value.trim() && images.length === 0) || isSubmitting) return;
 
       setSubmitError(null);
-      setDisplayValue("");
+      setDisplayValue('');
       setIsSubmitting(true);
 
       // Clear images in next tick for immediate UI feedback
@@ -223,18 +220,18 @@ const MessageInputInternal = React.forwardRef<
           contextKey,
           streamResponse: true,
         });
-        setValue("");
+        setValue('');
         // Images are cleared automatically by the TamboThreadInputProvider
         setTimeout(() => {
           textareaRef.current?.focus();
         }, 0);
       } catch (error) {
-        console.error("Failed to submit message:", error);
+        console.error('Failed to submit message:', error);
         setDisplayValue(value);
         setSubmitError(
           error instanceof Error
             ? error.message
-            : "Failed to send message. Please try again.",
+            : 'Failed to send message. Please try again.'
         );
 
         // Cancel the thread to reset loading state
@@ -254,7 +251,7 @@ const MessageInputInternal = React.forwardRef<
       isSubmitting,
       images,
       clearImages,
-    ],
+    ]
   );
 
   const handleDragEnter = React.useCallback((e: React.DragEvent) => {
@@ -263,7 +260,7 @@ const MessageInputInternal = React.forwardRef<
     dragCounter.current++;
     if (e.dataTransfer.items && e.dataTransfer.items.length > 0) {
       const hasImages = Array.from(e.dataTransfer.items).some((item) =>
-        item.type.startsWith("image/"),
+        item.type.startsWith('image/')
       );
       if (hasImages) {
         setIsDragging(true);
@@ -293,18 +290,18 @@ const MessageInputInternal = React.forwardRef<
       dragCounter.current = 0;
 
       const files = Array.from(e.dataTransfer.files).filter((file) =>
-        file.type.startsWith("image/"),
+        file.type.startsWith('image/')
       );
 
       if (files.length > 0) {
         try {
           await addImages(files);
         } catch (error) {
-          console.error("Failed to add dropped images:", error);
+          console.error('Failed to add dropped images:', error);
         }
       }
     },
-    [addImages],
+    [addImages]
   );
 
   const handleElicitationResponse = React.useCallback(
@@ -314,7 +311,7 @@ const MessageInputInternal = React.forwardRef<
         resolveElicitation(response);
       }
     },
-    [resolveElicitation],
+    [resolveElicitation]
   );
 
   const contextValue = React.useMemo(
@@ -349,7 +346,7 @@ const MessageInputInternal = React.forwardRef<
       submitError,
       elicitation,
       resolveElicitation,
-    ],
+    ]
   );
   return (
     <MessageInputContext.Provider
@@ -368,10 +365,10 @@ const MessageInputInternal = React.forwardRef<
       >
         <div
           className={cn(
-            "relative flex flex-col rounded-xl bg-background shadow-md p-2 px-3",
+            'relative flex flex-col rounded-xl bg-background shadow-md p-2 px-3',
             isDragging
-              ? "border border-dashed border-emerald-400"
-              : "border border-border",
+              ? 'border border-dashed border-emerald-400'
+              : 'border border-border'
           )}
         >
           {isDragging && (
@@ -397,13 +394,13 @@ const MessageInputInternal = React.forwardRef<
     </MessageInputContext.Provider>
   );
 });
-MessageInputInternal.displayName = "MessageInputInternal";
-MessageInput.displayName = "MessageInput";
+MessageInputInternal.displayName = 'MessageInputInternal';
+MessageInput.displayName = 'MessageInput';
 
 /**
  * Symbol for marking pasted images
  */
-const IS_PASTED_IMAGE = Symbol("is-pasted-image");
+const IS_PASTED_IMAGE = Symbol('is-pasted-image');
 
 /**
  * Extend the File interface to include IS_PASTED_IMAGE symbol
@@ -437,7 +434,7 @@ export interface MessageInputTextareaProps
  */
 const MessageInputTextarea = ({
   className,
-  placeholder = "What do you want to do?",
+  placeholder = 'What do you want to do?',
   ...props
 }: MessageInputTextareaProps) => {
   const { value, setValue, textareaRef, handleSubmit } =
@@ -452,7 +449,7 @@ const MessageInputTextarea = ({
   };
 
   const handleKeyDown = async (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
-    if (e.key === "Enter" && !e.shiftKey) {
+    if (e.key === 'Enter' && !e.shiftKey) {
       e.preventDefault();
       if (value.trim()) {
         await handleSubmit(e as unknown as React.FormEvent);
@@ -462,10 +459,10 @@ const MessageInputTextarea = ({
 
   const handlePaste = async (e: React.ClipboardEvent<HTMLTextAreaElement>) => {
     const items = Array.from(e.clipboardData.items);
-    const imageItems = items.filter((item) => item.type.startsWith("image/"));
+    const imageItems = items.filter((item) => item.type.startsWith('image/'));
 
     // Allow default paste if there is text, even when images exist
-    const hasText = e.clipboardData.getData("text/plain").length > 0;
+    const hasText = e.clipboardData.getData('text/plain').length > 0;
 
     if (imageItems.length === 0) {
       return; // Allow default text paste
@@ -483,7 +480,7 @@ const MessageInputTextarea = ({
           file[IS_PASTED_IMAGE] = true;
           await addImage(file);
         } catch (error) {
-          console.error("Failed to add pasted image:", error);
+          console.error('Failed to add pasted image:', error);
         }
       }
     }
@@ -497,8 +494,8 @@ const MessageInputTextarea = ({
       onKeyDown={handleKeyDown}
       onPaste={handlePaste}
       className={cn(
-        "flex-1 p-3 rounded-t-lg bg-background text-foreground resize-none text-sm min-h-[82px] max-h-[40vh] focus:outline-none placeholder:text-muted-foreground/50",
-        className,
+        'flex-1 p-3 rounded-t-lg bg-background text-foreground resize-none text-sm min-h-[82px] max-h-[40vh] focus:outline-none placeholder:text-muted-foreground/50',
+        className
       )}
       disabled={isPending || isUpdatingToken}
       placeholder={placeholder}
@@ -508,7 +505,7 @@ const MessageInputTextarea = ({
     />
   );
 };
-MessageInputTextarea.displayName = "MessageInput.Textarea";
+MessageInputTextarea.displayName = 'MessageInput.Textarea';
 
 /**
  * Props for the MessageInputSubmitButton component.
@@ -549,19 +546,19 @@ const MessageInputSubmitButton = React.forwardRef<
   };
 
   const buttonClasses = cn(
-    "w-10 h-10 bg-black/80 text-white rounded-lg hover:bg-black/70 disabled:opacity-50 flex items-center justify-center enabled:cursor-pointer",
-    className,
+    'w-10 h-10 bg-black/80 text-white rounded-lg hover:bg-black/70 disabled:opacity-50 flex items-center justify-center enabled:cursor-pointer',
+    className
   );
 
   return (
     <button
       ref={ref}
-      type={isPending ? "button" : "submit"}
+      type={isPending ? 'button' : 'submit'}
       disabled={isUpdatingToken}
       onClick={isPending ? handleCancel : undefined}
       className={buttonClasses}
-      aria-label={isPending ? "Cancel message" : "Send message"}
-      data-slot={isPending ? "message-input-cancel" : "message-input-submit"}
+      aria-label={isPending ? 'Cancel message' : 'Send message'}
+      data-slot={isPending ? 'message-input-cancel' : 'message-input-submit'}
       {...props}
     >
       {children ??
@@ -573,7 +570,7 @@ const MessageInputSubmitButton = React.forwardRef<
     </button>
   );
 });
-MessageInputSubmitButton.displayName = "MessageInput.SubmitButton";
+MessageInputSubmitButton.displayName = 'MessageInput.SubmitButton';
 
 /**
  * MCP Config Button component for opening the MCP configuration modal.
@@ -598,8 +595,8 @@ const MessageInputMcpConfigButton = React.forwardRef<
   const [isModalOpen, setIsModalOpen] = React.useState(false);
 
   const buttonClasses = cn(
-    "w-10 h-10 bg-muted text-primary rounded-lg hover:bg-muted/80 disabled:opacity-50 flex items-center justify-center cursor-pointer",
-    className,
+    'w-10 h-10 bg-muted text-primary rounded-lg hover:bg-muted/80 disabled:opacity-50 flex items-center justify-center cursor-pointer',
+    className
   );
 
   const MCPIcon = () => {
@@ -656,7 +653,7 @@ const MessageInputMcpConfigButton = React.forwardRef<
     </TooltipProvider>
   );
 });
-MessageInputMcpConfigButton.displayName = "MessageInput.McpConfigButton";
+MessageInputMcpConfigButton.displayName = 'MessageInput.McpConfigButton';
 
 /**
  * Props for the MessageInputError component.
@@ -690,7 +687,7 @@ const MessageInputError = React.forwardRef<
   return (
     <p
       ref={ref}
-      className={cn("text-sm text-destructive mt-2", className)}
+      className={cn('text-sm text-destructive mt-2', className)}
       data-slot="message-input-error"
       {...props}
     >
@@ -698,7 +695,7 @@ const MessageInputError = React.forwardRef<
     </p>
   );
 });
-MessageInputError.displayName = "MessageInput.Error";
+MessageInputError.displayName = 'MessageInput.Error';
 
 /**
  * Props for the MessageInputFileButton component.
@@ -728,7 +725,7 @@ export interface MessageInputFileButtonProps
 const MessageInputFileButton = React.forwardRef<
   HTMLButtonElement,
   MessageInputFileButtonProps
->(({ className, accept = "image/*", multiple = true, ...props }, ref) => {
+>(({ className, accept = 'image/*', multiple = true, ...props }, ref) => {
   const { addImages } = useTamboThreadInput();
   const fileInputRef = React.useRef<HTMLInputElement>(null);
 
@@ -741,15 +738,15 @@ const MessageInputFileButton = React.forwardRef<
     try {
       await addImages(files);
     } catch (error) {
-      console.error("Failed to add selected files:", error);
+      console.error('Failed to add selected files:', error);
     }
     // Reset the input so the same file can be selected again
-    e.target.value = "";
+    e.target.value = '';
   };
 
   const buttonClasses = cn(
-    "w-10 h-10 bg-muted text-primary rounded-lg hover:bg-muted/80 disabled:opacity-50 flex items-center justify-center cursor-pointer",
-    className,
+    'w-10 h-10 bg-muted text-primary rounded-lg hover:bg-muted/80 disabled:opacity-50 flex items-center justify-center cursor-pointer',
+    className
   );
 
   return (
@@ -783,7 +780,7 @@ const MessageInputFileButton = React.forwardRef<
     </TooltipProvider>
   );
 });
-MessageInputFileButton.displayName = "MessageInput.FileButton";
+MessageInputFileButton.displayName = 'MessageInput.FileButton';
 
 /**
  * Props for the MessageInputMcpPromptButton component.
@@ -815,7 +812,7 @@ const MessageInputMcpPromptButton = React.forwardRef<
   const [selectedPromptName, setSelectedPromptName] = React.useState<
     string | null
   >(null);
-  const { data: promptData } = useTamboMcpPrompt(selectedPromptName ?? "");
+  const { data: promptData } = useTamboMcpPrompt(selectedPromptName ?? '');
 
   // When prompt data is fetched, insert it into the input
   React.useEffect(() => {
@@ -823,13 +820,13 @@ const MessageInputMcpPromptButton = React.forwardRef<
       // Extract the text from the prompt messages
       const promptText = promptData.messages
         .map((msg) => {
-          if (msg.content.type === "text") {
+          if (msg.content.type === 'text') {
             return msg.content.text;
           }
-          return "";
+          return '';
         })
         .filter(Boolean)
-        .join("\n");
+        .join('\n');
 
       // Insert the prompt text, appending to existing value if any
       const newValue = value ? `${value}\n\n${promptText}` : promptText;
@@ -846,8 +843,8 @@ const MessageInputMcpPromptButton = React.forwardRef<
   }
 
   const buttonClasses = cn(
-    "w-10 h-10 bg-muted text-primary rounded-lg hover:bg-muted/80 disabled:opacity-50 flex items-center justify-center cursor-pointer",
-    className,
+    'w-10 h-10 bg-muted text-primary rounded-lg hover:bg-muted/80 disabled:opacity-50 flex items-center justify-center cursor-pointer',
+    className
   );
 
   return (
@@ -918,7 +915,7 @@ const MessageInputMcpPromptButton = React.forwardRef<
     </TooltipProvider>
   );
 });
-MessageInputMcpPromptButton.displayName = "MessageInput.McpPromptButton";
+MessageInputMcpPromptButton.displayName = 'MessageInput.McpPromptButton';
 
 /**
  * Props for the ImageContextBadge component.
@@ -960,17 +957,17 @@ const ImageContextBadge: React.FC<ImageContextBadgeProps> = ({
       onClick={onToggle}
       aria-expanded={isExpanded}
       className={cn(
-        "relative flex items-center rounded-lg border overflow-hidden",
-        "border-border bg-background hover:bg-muted cursor-pointer",
-        "transition-[width,height,padding] duration-200 ease-in-out",
-        isExpanded ? "w-40 h-28 p-0" : "w-32 h-9 pl-3 pr-8 gap-2",
+        'relative flex items-center rounded-lg border overflow-hidden',
+        'border-border bg-background hover:bg-muted cursor-pointer',
+        'transition-[width,height,padding] duration-200 ease-in-out',
+        isExpanded ? 'w-40 h-28 p-0' : 'w-32 h-9 pl-3 pr-8 gap-2'
       )}
     >
       {isExpanded && (
         <div
           className={cn(
-            "absolute inset-0 transition-opacity duration-150",
-            "opacity-100 delay-100",
+            'absolute inset-0 transition-opacity duration-150',
+            'opacity-100 delay-100'
           )}
         >
           <div className="relative w-full h-full">
@@ -990,8 +987,8 @@ const ImageContextBadge: React.FC<ImageContextBadgeProps> = ({
       )}
       <span
         className={cn(
-          "flex items-center gap-1.5 text-sm text-foreground truncate leading-none transition-opacity duration-150",
-          isExpanded ? "opacity-0" : "opacity-100 delay-100",
+          'flex items-center gap-1.5 text-sm text-foreground truncate leading-none transition-opacity duration-150',
+          isExpanded ? 'opacity-0' : 'opacity-100 delay-100'
         )}
       >
         <ImageIcon className="w-3.5 h-3.5 flex-shrink-0" />
@@ -1035,7 +1032,7 @@ const MessageInputStagedImages = React.forwardRef<
 >(({ className, ...props }, ref) => {
   const { images, removeImage } = useTamboThreadInput();
   const [expandedImageId, setExpandedImageId] = React.useState<string | null>(
-    null,
+    null
   );
 
   if (images.length === 0) {
@@ -1046,8 +1043,8 @@ const MessageInputStagedImages = React.forwardRef<
     <div
       ref={ref}
       className={cn(
-        "flex flex-wrap items-center gap-2 pb-2 pt-1 border-b border-border",
-        className,
+        'flex flex-wrap items-center gap-2 pb-2 pt-1 border-b border-border',
+        className
       )}
       data-slot="message-input-staged-images"
       {...props}
@@ -1069,7 +1066,7 @@ const MessageInputStagedImages = React.forwardRef<
     </div>
   );
 });
-MessageInputStagedImages.displayName = "MessageInput.StagedImages";
+MessageInputStagedImages.displayName = 'MessageInput.StagedImages';
 
 /**
  * Container for the toolbar components (like submit button and MCP config button).
@@ -1093,8 +1090,8 @@ const MessageInputToolbar = React.forwardRef<
     <div
       ref={ref}
       className={cn(
-        "flex justify-between items-center mt-2 p-1 gap-2",
-        className,
+        'flex justify-between items-center mt-2 p-1 gap-2',
+        className
       )}
       data-slot="message-input-toolbar"
       {...props}
@@ -1126,7 +1123,7 @@ const MessageInputToolbar = React.forwardRef<
     </div>
   );
 });
-MessageInputToolbar.displayName = "MessageInput.Toolbar";
+MessageInputToolbar.displayName = 'MessageInput.Toolbar';
 
 // --- Exports ---
 export {

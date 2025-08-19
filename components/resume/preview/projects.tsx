@@ -191,8 +191,6 @@ export function Projects({
             );
           })}
         </div>
-
-        
       </div>
     </Section>
   );

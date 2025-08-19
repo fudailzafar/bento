@@ -264,7 +264,6 @@ export const EditResume = ({
       </div>
 
       <div className="flex flex-col gap-6">
-        
         {/* About Section */}
         <div className="space-y-2">
           <h2 className="text-xl font-bold">About</h2>
@@ -452,7 +451,7 @@ export const EditResume = ({
                       ...updatedWork,
                       skills: Array.isArray(updatedWork.skills)
                         ? updatedWork.skills
-                        : resume.projects[index].skills ?? [],
+                        : (resume.projects[index].skills ?? []),
                     };
                     onChangeResume(
                       normalizeResume({

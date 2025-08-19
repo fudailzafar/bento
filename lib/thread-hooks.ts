@@ -1,6 +1,6 @@
-import type { TamboThreadMessage } from "@tambo-ai/react";
-import * as React from "react";
-import { useEffect, useState } from "react";
+import type { TamboThreadMessage } from '@tambo-ai/react';
+import * as React from 'react';
+import { useEffect, useState } from 'react';
 
 /**
  * Custom hook to merge multiple refs into one callback ref
@@ -13,7 +13,7 @@ export function useMergedRef<T>(...refs: React.Ref<T>[]) {
       for (const ref of refs) {
         if (!ref) continue;
 
-        if (typeof ref === "function") {
+        if (typeof ref === 'function') {
           ref(element);
         } else {
           // This cast is safe because we're just updating the .current property
@@ -21,7 +21,7 @@ export function useMergedRef<T>(...refs: React.Ref<T>[]) {
         }
       }
     },
-    [refs],
+    [refs]
   );
 }
 
@@ -31,7 +31,7 @@ export function useMergedRef<T>(...refs: React.Ref<T>[]) {
  * @returns Object containing hasCanvasSpace and canvasIsOnLeft
  */
 export function useCanvasDetection(
-  elementRef: React.RefObject<HTMLElement | null>,
+  elementRef: React.RefObject<HTMLElement | null>
 ) {
   const [hasCanvasSpace, setHasCanvasSpace] = useState(false);
   const [canvasIsOnLeft, setCanvasIsOnLeft] = useState(false);
@@ -54,11 +54,11 @@ export function useCanvasDetection(
     const timeoutId = setTimeout(checkCanvas, 100);
 
     // Re-check on window resize
-    window.addEventListener("resize", checkCanvas);
+    window.addEventListener('resize', checkCanvas);
 
     return () => {
       clearTimeout(timeoutId);
-      window.removeEventListener("resize", checkCanvas);
+      window.removeEventListener('resize', checkCanvas);
     };
   }, [elementRef]);
 
@@ -83,7 +83,7 @@ export function hasRightClass(className?: string): boolean {
 export function usePositioning(
   className?: string,
   canvasIsOnLeft = false,
-  hasCanvasSpace = false,
+  hasCanvasSpace = false
 ) {
   const isRightClass = hasRightClass(className);
   const isLeftPanel = !isRightClass;
@@ -92,11 +92,11 @@ export function usePositioning(
   // If panel has right class, history should be on right
   // If canvas is on left, history should be on right
   // Otherwise, history should be on left
-  const historyPosition: "left" | "right" = isRightClass
-    ? "right"
+  const historyPosition: 'left' | 'right' = isRightClass
+    ? 'right'
     : hasCanvasSpace && canvasIsOnLeft
-      ? "right"
-      : "left";
+      ? 'right'
+      : 'left';
 
   return { isLeftPanel, historyPosition };
 }
@@ -108,20 +108,20 @@ export function usePositioning(
  * @returns A renderable string or React element.
  */
 export function getSafeContent(
-  content: TamboThreadMessage["content"] | React.ReactNode | undefined | null,
+  content: TamboThreadMessage['content'] | React.ReactNode | undefined | null
 ): string | React.ReactElement {
-  if (!content) return "";
-  if (typeof content === "string") return content;
+  if (!content) return '';
+  if (typeof content === 'string') return content;
   if (React.isValidElement(content)) return content; // Pass elements through
   if (Array.isArray(content)) {
     // Filter out non-text items and join text
     return content
-      .map((item) => (item?.type === "text" ? (item.text ?? "") : ""))
-      .join("");
+      .map((item) => (item?.type === 'text' ? (item.text ?? '') : ''))
+      .join('');
   }
   // Handle potential edge cases or unknown types
   // console.warn("getSafeContent encountered unknown content type:", content);
-  return "Invalid content format"; // Or handle differently
+  return 'Invalid content format'; // Or handle differently
 }
 
 /**
@@ -130,7 +130,7 @@ export function getSafeContent(
  * @returns True if the item has content, false otherwise.
  */
 function hasContentInItem(item: unknown): boolean {
-  if (!item || typeof item !== "object") {
+  if (!item || typeof item !== 'object') {
     return false;
   }
 
@@ -141,12 +141,12 @@ function hasContentInItem(item: unknown): boolean {
   };
 
   // Check for text content
-  if (typedItem.type === "text") {
+  if (typedItem.type === 'text') {
     return !!typedItem.text?.trim();
   }
 
   // Check for image content
-  if (typedItem.type === "image_url") {
+  if (typedItem.type === 'image_url') {
     return !!typedItem.image_url?.url;
   }
 
@@ -159,10 +159,10 @@ function hasContentInItem(item: unknown): boolean {
  * @returns True if there is content, false otherwise.
  */
 export function checkHasContent(
-  content: TamboThreadMessage["content"] | React.ReactNode | undefined | null,
+  content: TamboThreadMessage['content'] | React.ReactNode | undefined | null
 ): boolean {
   if (!content) return false;
-  if (typeof content === "string") return content.trim().length > 0;
+  if (typeof content === 'string') return content.trim().length > 0;
   if (React.isValidElement(content)) return true; // Assume elements have content
   if (Array.isArray(content)) {
     return content.some(hasContentInItem);
@@ -176,11 +176,11 @@ export function checkHasContent(
  * @returns Array of image URLs
  */
 export function getMessageImages(
-  content: { type?: string; image_url?: { url?: string } }[] | undefined | null,
+  content: { type?: string; image_url?: { url?: string } }[] | undefined | null
 ): string[] {
   if (!content) return [];
 
   return content
-    .filter((item) => item?.type === "image_url" && item.image_url?.url)
+    .filter((item) => item?.type === 'image_url' && item.image_url?.url)
     .map((item) => item.image_url!.url!);
 }

@@ -1,12 +1,48 @@
 import NextAuth from 'next-auth';
 import GoogleProvider from 'next-auth/providers/google';
-import { storeUserProfile } from '@/lib/server';
+import CredentialsProvider from 'next-auth/providers/credentials';
+import {
+  storeUserProfile,
+  verifyUserCredentials,
+  getUserProfile,
+} from '@/lib/server';
 
 export const authOptions = {
   providers: [
     GoogleProvider({
       clientId: process.env.AUTH_GOOGLE_ID!,
       clientSecret: process.env.AUTH_GOOGLE_SECRET!,
+    }),
+    CredentialsProvider({
+      name: 'Credentials',
+      credentials: {
+        email: { label: 'Email', type: 'email' },
+        password: { label: 'Password', type: 'password' },
+      },
+      async authorize(credentials) {
+        if (!credentials?.email || !credentials?.password) {
+          return null;
+        }
+
+        const userId = await verifyUserCredentials(
+          credentials.email,
+          credentials.password
+        );
+
+        if (!userId) {
+          return null;
+        }
+
+        // Get user profile
+        const userProfile = await getUserProfile(userId);
+
+        return {
+          id: userId,
+          email: credentials.email,
+          name: userProfile?.name || null,
+          image: userProfile?.image || null,
+        };
+      },
     }),
   ],
   pages: {
@@ -41,9 +77,10 @@ export const authOptions = {
       return true;
     },
     async session({ session, token }: { session: any; token: any }) {
-      // Add Google profile data to session
+      // Add user data to session
       if (session.user) {
-        session.user.id = token.sub; // Google user ID
+        session.user.id = token.sub; // user ID
+        session.user.email = token.email;
         session.user.picture = token.picture; // profile pic
       }
       return session;
@@ -52,13 +89,20 @@ export const authOptions = {
       token,
       account,
       profile,
+      user,
     }: {
       token: any;
       account?: any;
       profile?: any;
+      user?: any;
     }) {
       if (account && profile) {
         token.picture = profile.picture;
+      }
+      if (user) {
+        token.id = user.id;
+        token.email = user.email;
+        token.picture = user.image;
       }
       return token;
     },

@@ -1,39 +1,39 @@
-"use client";
+'use client';
 
-import { cn } from "@/lib/utils";
+import { cn } from '@/lib/utils';
 import {
   type TamboElicitationRequest,
   type TamboElicitationResponse,
-} from "@tambo-ai/react/mcp";
-import * as React from "react";
+} from '@tambo-ai/react/mcp';
+import * as React from 'react';
 
 /**
  * JSON Schema types for elicitation fields
  */
 interface BaseFieldSchema {
-  type: "string" | "number" | "integer" | "boolean";
+  type: 'string' | 'number' | 'integer' | 'boolean';
   description?: string;
   default?: unknown;
 }
 
 interface StringFieldSchema extends BaseFieldSchema {
-  type: "string";
+  type: 'string';
   minLength?: number;
   maxLength?: number;
   pattern?: string;
-  format?: "email" | "uri" | "date" | "date-time";
+  format?: 'email' | 'uri' | 'date' | 'date-time';
   enum?: string[];
   enumNames?: string[];
 }
 
 interface NumberFieldSchema extends BaseFieldSchema {
-  type: "number" | "integer";
+  type: 'number' | 'integer';
   minimum?: number;
   maximum?: number;
 }
 
 interface BooleanFieldSchema extends BaseFieldSchema {
-  type: "boolean";
+  type: 'boolean';
 }
 
 type FieldSchema = StringFieldSchema | NumberFieldSchema | BooleanFieldSchema;
@@ -76,10 +76,10 @@ const BooleanField: React.FC<FieldProps> = ({
           autoFocus={autoFocus}
           onClick={() => onChange(true)}
           className={cn(
-            "flex-1 px-4 py-2 rounded-lg border transition-colors",
+            'flex-1 px-4 py-2 rounded-lg border transition-colors',
             boolValue === true
-              ? "bg-primary text-primary-foreground border-primary"
-              : "bg-background border-border hover:bg-muted",
+              ? 'bg-primary text-primary-foreground border-primary'
+              : 'bg-background border-border hover:bg-muted'
           )}
         >
           Yes
@@ -88,10 +88,10 @@ const BooleanField: React.FC<FieldProps> = ({
           type="button"
           onClick={() => onChange(false)}
           className={cn(
-            "flex-1 px-4 py-2 rounded-lg border transition-colors",
+            'flex-1 px-4 py-2 rounded-lg border transition-colors',
             boolValue === false
-              ? "bg-primary text-primary-foreground border-primary"
-              : "bg-background border-border hover:bg-muted",
+              ? 'bg-primary text-primary-foreground border-primary'
+              : 'bg-background border-border hover:bg-muted'
           )}
         >
           No
@@ -131,10 +131,10 @@ const EnumField: React.FC<FieldProps> = ({
             autoFocus={autoFocus && index === 0}
             onClick={() => onChange(option)}
             className={cn(
-              "px-4 py-2 rounded-lg border transition-colors",
+              'px-4 py-2 rounded-lg border transition-colors',
               stringValue === option
-                ? "bg-primary text-primary-foreground border-primary"
-                : "bg-background border-border hover:bg-muted",
+                ? 'bg-primary text-primary-foreground border-primary'
+                : 'bg-background border-border hover:bg-muted'
             )}
           >
             {optionNames[index] || option}
@@ -158,21 +158,21 @@ const StringField: React.FC<FieldProps> = ({
   validationError,
 }) => {
   const stringSchema = schema as StringFieldSchema;
-  const stringValue = (value as string | undefined) ?? "";
+  const stringValue = (value as string | undefined) ?? '';
 
   // Map JSON Schema format to HTML5 input type
   const getInputType = (): string => {
     switch (stringSchema.format) {
-      case "email":
-        return "email";
-      case "uri":
-        return "url";
-      case "date":
-        return "date";
-      case "date-time":
-        return "datetime-local";
+      case 'email':
+        return 'email';
+      case 'uri':
+        return 'url';
+      case 'date':
+        return 'date';
+      case 'date-time':
+        return 'datetime-local';
       default:
-        return "text";
+        return 'text';
     }
   };
 
@@ -194,10 +194,10 @@ const StringField: React.FC<FieldProps> = ({
         value={stringValue}
         onChange={(e) => onChange(e.target.value)}
         className={cn(
-          "w-full px-3 py-2 rounded-lg border bg-background text-foreground focus:outline-none focus:ring-2",
+          'w-full px-3 py-2 rounded-lg border bg-background text-foreground focus:outline-none focus:ring-2',
           hasError
-            ? "border-destructive focus:ring-destructive"
-            : "border-border focus:ring-primary",
+            ? 'border-destructive focus:ring-destructive'
+            : 'border-border focus:ring-primary'
         )}
         placeholder={schema.description ?? name}
         minLength={stringSchema.minLength}
@@ -243,25 +243,25 @@ const NumberField: React.FC<FieldProps> = ({
         id={inputId}
         type="number"
         autoFocus={autoFocus}
-        value={numberValue ?? ""}
+        value={numberValue ?? ''}
         onChange={(e) => {
           const { value, valueAsNumber } = e.currentTarget;
           onChange(
-            value === "" || Number.isNaN(valueAsNumber)
+            value === '' || Number.isNaN(valueAsNumber)
               ? undefined
-              : valueAsNumber,
+              : valueAsNumber
           );
         }}
         className={cn(
-          "w-full px-3 py-2 rounded-lg border bg-background text-foreground focus:outline-none focus:ring-2",
+          'w-full px-3 py-2 rounded-lg border bg-background text-foreground focus:outline-none focus:ring-2',
           hasError
-            ? "border-destructive focus:ring-destructive"
-            : "border-border focus:ring-primary",
+            ? 'border-destructive focus:ring-destructive'
+            : 'border-border focus:ring-primary'
         )}
         placeholder={schema.description ?? name}
         min={numberSchema.minimum}
         max={numberSchema.maximum}
-        step={numberSchema.type === "integer" ? 1 : "any"}
+        step={numberSchema.type === 'integer' ? 1 : 'any'}
         required={required}
         aria-invalid={hasError || undefined}
         aria-describedby={hasError ? errorId : undefined}
@@ -281,19 +281,19 @@ const NumberField: React.FC<FieldProps> = ({
 const Field: React.FC<FieldProps> = (props) => {
   const { schema } = props;
 
-  if (schema.type === "boolean") {
+  if (schema.type === 'boolean') {
     return <BooleanField {...props} />;
   }
 
-  if (schema.type === "string" && (schema as StringFieldSchema).enum) {
+  if (schema.type === 'string' && (schema as StringFieldSchema).enum) {
     return <EnumField {...props} />;
   }
 
-  if (schema.type === "string") {
+  if (schema.type === 'string') {
     return <StringField {...props} />;
   }
 
-  if (schema.type === "number" || schema.type === "integer") {
+  if (schema.type === 'number' || schema.type === 'integer') {
     return <NumberField {...props} />;
   }
 
@@ -314,8 +314,8 @@ function isSingleEntryMode(request: TamboElicitationRequest): boolean {
   const [, schema] = fields[0];
 
   return (
-    schema.type === "boolean" ||
-    (schema.type === "string" && !!(schema as StringFieldSchema).enum)
+    schema.type === 'boolean' ||
+    (schema.type === 'string' && !!(schema as StringFieldSchema).enum)
   );
 }
 
@@ -326,20 +326,20 @@ function isSingleEntryMode(request: TamboElicitationRequest): boolean {
 function validateField(
   value: unknown,
   schema: FieldSchema,
-  required: boolean,
+  required: boolean
 ): { valid: boolean; error: string | null } {
   // Required
-  if (required && (value === undefined || value === "" || value === null)) {
-    return { valid: false, error: "This field is required" };
+  if (required && (value === undefined || value === '' || value === null)) {
+    return { valid: false, error: 'This field is required' };
   }
 
   // If empty and not required, it's valid
-  if (!required && (value === undefined || value === "" || value === null)) {
+  if (!required && (value === undefined || value === '' || value === null)) {
     return { valid: true, error: null };
   }
 
   // String validation
-  if (schema.type === "string") {
+  if (schema.type === 'string') {
     const stringSchema = schema as StringFieldSchema;
     const stringValue = String(value);
 
@@ -369,7 +369,7 @@ function validateField(
         if (!regex.test(stringValue)) {
           return {
             valid: false,
-            error: "Value does not match required pattern",
+            error: 'Value does not match required pattern',
           };
         }
       } catch {
@@ -380,19 +380,19 @@ function validateField(
     // Format validation
     if (stringSchema.format) {
       switch (stringSchema.format) {
-        case "email":
+        case 'email':
           if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(stringValue)) {
             return {
               valid: false,
-              error: "Please enter a valid email address",
+              error: 'Please enter a valid email address',
             };
           }
           break;
-        case "uri":
+        case 'uri':
           try {
             new URL(stringValue);
           } catch {
-            return { valid: false, error: "Please enter a valid URL" };
+            return { valid: false, error: 'Please enter a valid URL' };
           }
           break;
       }
@@ -400,12 +400,12 @@ function validateField(
   }
 
   // Number validation
-  if (schema.type === "number" || schema.type === "integer") {
+  if (schema.type === 'number' || schema.type === 'integer') {
     const numberSchema = schema as NumberFieldSchema;
     const numberValue = Number(value);
 
     if (Number.isNaN(numberValue)) {
-      return { valid: false, error: "Please enter a valid number" };
+      return { valid: false, error: 'Please enter a valid number' };
     }
 
     if (
@@ -428,8 +428,8 @@ function validateField(
       };
     }
 
-    if (schema.type === "integer" && !Number.isInteger(numberValue)) {
-      return { valid: false, error: "Please enter a whole number" };
+    if (schema.type === 'integer' && !Number.isInteger(numberValue)) {
+      return { valid: false, error: 'Please enter a whole number' };
     }
   }
 
@@ -440,7 +440,7 @@ function validateField(
 function getValidationError(
   value: unknown,
   schema: FieldSchema,
-  required: boolean,
+  required: boolean
 ): string | null {
   return validateField(value, schema, required).error;
 }
@@ -477,12 +477,12 @@ export const ElicitationUI: React.FC<ElicitationUIProps> = ({
         }
       });
       return initial;
-    },
+    }
   );
 
   // Track which fields have been touched (interacted with)
   const [touchedFields, setTouchedFields] = React.useState<Set<string>>(
-    new Set(),
+    new Set()
   );
 
   const handleFieldChange = (name: string, value: unknown) => {
@@ -498,15 +498,15 @@ export const ElicitationUI: React.FC<ElicitationUIProps> = ({
       setTouchedFields(new Set(fields.map(([name]) => name)));
       return;
     }
-    onResponse({ action: "accept", content: formData });
+    onResponse({ action: 'accept', content: formData });
   };
 
   const handleDecline = () => {
-    onResponse({ action: "decline" });
+    onResponse({ action: 'decline' });
   };
 
   const handleCancel = () => {
-    onResponse({ action: "cancel" });
+    onResponse({ action: 'cancel' });
   };
 
   // For single-entry mode with boolean/enum, clicking the option submits immediately
@@ -516,7 +516,7 @@ export const ElicitationUI: React.FC<ElicitationUIProps> = ({
     // Mark as touched for consistency/future-proofing
     setTouchedFields((prev) => new Set(prev).add(name));
     // Submit immediately
-    onResponse({ action: "accept", content: updatedData });
+    onResponse({ action: 'accept', content: updatedData });
   };
 
   // Check if form is valid (all fields pass validation)
@@ -534,15 +534,15 @@ export const ElicitationUI: React.FC<ElicitationUIProps> = ({
       ? getValidationError(
           formData[fieldName],
           fieldSchema,
-          requiredFields.has(fieldName),
+          requiredFields.has(fieldName)
         )
       : null;
 
     return (
       <div
         className={cn(
-          "flex flex-col rounded-xl bg-background border border-border p-4 space-y-3",
-          className,
+          'flex flex-col rounded-xl bg-background border border-border p-4 space-y-3',
+          className
         )}
       >
         <div className="text-base font-semibold text-foreground mb-2">
@@ -574,8 +574,8 @@ export const ElicitationUI: React.FC<ElicitationUIProps> = ({
   return (
     <div
       className={cn(
-        "flex flex-col rounded-xl bg-background border border-border p-4 space-y-4",
-        className,
+        'flex flex-col rounded-xl bg-background border border-border p-4 space-y-4',
+        className
       )}
     >
       <div className="text-base font-semibold text-foreground">
@@ -587,7 +587,7 @@ export const ElicitationUI: React.FC<ElicitationUIProps> = ({
             ? getValidationError(
                 formData[name],
                 schema,
-                requiredFields.has(name),
+                requiredFields.has(name)
               )
             : null;
 

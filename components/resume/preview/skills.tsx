@@ -2,7 +2,7 @@
 
 import { Badge, Section } from '@/components/ui';
 import { cn } from '@/lib';
-import { useState } from 'react'
+import { useState } from 'react';
 import { toast } from 'sonner';
 import { BlurFade } from '@/components/magicui';
 import { AddSkillDialog } from '@/components/resume/editing';
@@ -82,8 +82,6 @@ export function Skills({
           </li>
         ))}
       </ul>
-
-      
 
       {isEditMode && onChangeSkills && (
         <AddSkillDialog

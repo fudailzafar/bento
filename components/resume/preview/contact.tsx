@@ -70,7 +70,9 @@ export function Contact({
                 ref={ctaRef}
                 contentEditable={isEditMode && isEditing}
                 suppressContentEditableWarning={true}
-                className={"p-2 text-muted-foreground md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed outline-none "}
+                className={
+                  'p-2 text-muted-foreground md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed outline-none '
+                }
                 onClick={enableEditing}
                 onBlur={handleBlur}
                 onKeyDown={handleKeyDown}

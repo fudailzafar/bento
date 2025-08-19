@@ -1,11 +1,11 @@
-"use client";
+'use client';
 
-import * as React from "react";
-import { cn } from "@/lib/utils";
-import { Copy, Check, ExternalLink } from "lucide-react";
-import hljs from "highlight.js";
-import "highlight.js/styles/github.css";
-import DOMPurify from "dompurify";
+import * as React from 'react';
+import { cn } from '@/lib/utils';
+import { Copy, Check, ExternalLink } from 'lucide-react';
+import hljs from 'highlight.js';
+import 'highlight.js/styles/github.css';
+import DOMPurify from 'dompurify';
 
 /**
  * Markdown Components for Streamdown
@@ -94,8 +94,8 @@ export const createMarkdownComponents = (): Record<
   React.ComponentType<any>
 > => ({
   code: function Code({ className, children, ...props }) {
-    const match = /language-(\w+)/.exec(className ?? "");
-    const content = String(children).replace(/\n$/, "");
+    const match = /language-(\w+)/.exec(className ?? '');
+    const content = String(children).replace(/\n$/, '');
     const deferredContent = React.useDeferredValue(content);
 
     const highlighted = React.useMemo(() => {
@@ -113,10 +113,10 @@ export const createMarkdownComponents = (): Record<
           <CodeHeader language={match[1]} code={content} />
           <div
             className={cn(
-              "overflow-x-auto rounded-b-md bg-background",
-              "[&::-webkit-scrollbar]:w-[6px]",
-              "[&::-webkit-scrollbar-thumb]:bg-gray-300 [&::-webkit-scrollbar-thumb]:rounded-md",
-              "[&::-webkit-scrollbar:horizontal]:h-[4px]",
+              'overflow-x-auto rounded-b-md bg-background',
+              '[&::-webkit-scrollbar]:w-[6px]',
+              '[&::-webkit-scrollbar-thumb]:bg-gray-300 [&::-webkit-scrollbar-thumb]:rounded-md',
+              '[&::-webkit-scrollbar:horizontal]:h-[4px]'
             )}
           >
             <pre className="p-4 whitespace-pre">
@@ -134,7 +134,7 @@ export const createMarkdownComponents = (): Record<
 
     return (
       <code
-        className={cn("bg-muted px-1.5 py-0.5 rounded text-sm", className)}
+        className={cn('bg-muted px-1.5 py-0.5 rounded text-sm', className)}
         {...props}
       >
         {children}

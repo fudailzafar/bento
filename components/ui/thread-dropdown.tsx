@@ -1,11 +1,11 @@
-"use client";
+'use client';
 
-import { cn } from "@/lib/utils";
-import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
-import { useTamboThread, useTamboThreadList } from "@tambo-ai/react";
-import { ChevronDownIcon, PlusIcon } from "lucide-react";
-import * as React from "react";
-import { useCallback } from "react";
+import { cn } from '@/lib/utils';
+import * as DropdownMenu from '@radix-ui/react-dropdown-menu';
+import { useTamboThread, useTamboThreadList } from '@tambo-ai/react';
+import { ChevronDownIcon, PlusIcon } from 'lucide-react';
+import * as React from 'react';
+import { useCallback } from 'react';
 
 /**
  * Props for the ThreadDropdown component
@@ -44,8 +44,8 @@ export const ThreadDropdown = React.forwardRef<
   } = useTamboThreadList({ contextKey });
   const { switchCurrentThread, startNewThread } = useTamboThread();
   const isMac =
-    typeof navigator !== "undefined" && navigator.platform.startsWith("Mac");
-  const modKey = isMac ? "⌥" : "Alt";
+    typeof navigator !== 'undefined' && navigator.platform.startsWith('Mac');
+  const modKey = isMac ? '⌥' : 'Alt';
 
   const handleNewThread = useCallback(
     async (e?: React.MouseEvent) => {
@@ -58,24 +58,24 @@ export const ThreadDropdown = React.forwardRef<
         await refetch();
         onThreadChange?.();
       } catch (error) {
-        console.error("Failed to create new thread:", error);
+        console.error('Failed to create new thread:', error);
       }
     },
-    [onThreadChange, startNewThread, refetch],
+    [onThreadChange, startNewThread, refetch]
   );
 
   React.useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
-      if (event.altKey && event.shiftKey && event.key === "n") {
+      if (event.altKey && event.shiftKey && event.key === 'n') {
         event.preventDefault();
         handleNewThread();
       }
     };
 
-    document.addEventListener("keydown", handleKeyDown);
+    document.addEventListener('keydown', handleKeyDown);
 
     return () => {
-      document.removeEventListener("keydown", handleKeyDown);
+      document.removeEventListener('keydown', handleKeyDown);
     };
   }, [handleNewThread]);
 
@@ -88,12 +88,12 @@ export const ThreadDropdown = React.forwardRef<
       switchCurrentThread(threadId);
       onThreadChange?.();
     } catch (error) {
-      console.error("Failed to switch thread:", error);
+      console.error('Failed to switch thread:', error);
     }
   };
 
   return (
-    <div className={cn("relative", className)} ref={ref} {...props}>
+    <div className={cn('relative', className)} ref={ref} {...props}>
       <DropdownMenu.Root>
         <DropdownMenu.Trigger asChild>
           <div
@@ -176,4 +176,4 @@ export const ThreadDropdown = React.forwardRef<
     </div>
   );
 });
-ThreadDropdown.displayName = "ThreadDropdown";
+ThreadDropdown.displayName = 'ThreadDropdown';

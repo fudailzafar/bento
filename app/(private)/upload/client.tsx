@@ -12,10 +12,6 @@ import {
   DialogContent,
   DialogTitle,
   DialogTrigger,
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
 } from '@/components/ui';
 import { LoadingFallback } from '@/components/utils';
 
@@ -72,7 +68,7 @@ export default function UploadPageClient() {
       <div className="w-full max-w-[438px] text-center">
         <h1 className="text-base text-center pb-6">
           Upload a PDF of your LinkedIn or your resume and generate your
-          personal site
+          personal site <span className="text-gray-500">(Optional)</span>
         </h1>
 
         <div className="relative mx-2.5">
@@ -158,34 +154,35 @@ export default function UploadPageClient() {
           </DialogContent>
         </Dialog>
       </div>
-      <div>
+      <div className="flex flex-col gap-3 items-center">
         <div className="relative">
           <Button
-            className="relative group active:scale-95 transition-transform flex items-center text-lg rounded-xl font-semibold py-8 px-20 sm:py-8 sm:px-14 bg-design-primary hover:bg-design-primaryDark cursor-pointer mb-2"
-            disabled={fileState.status === 'empty' || isUpdating}
-            onClick={() => router.push('/pdf')}
+            className="relative group active:scale-95 transition-transform flex items-center text-lg rounded-xl font-semibold py-8 px-20 sm:py-8 sm:px-14 bg-design-primary hover:bg-design-primaryDark cursor-pointer"
+            disabled={isUpdating}
+            onClick={() =>
+              router.push(fileState.status === 'saved' ? '/pdf' : '/preview')
+            }
           >
             {isUpdating ? (
               <>
                 <LoaderIcon />
               </>
-            ) : (
+            ) : fileState.status === 'saved' ? (
               <>Generate Portfolio</>
+            ) : (
+              <>Continue</>
             )}
           </Button>
-          {fileState.status === 'empty' && (
-            <TooltipProvider>
-              <Tooltip>
-                <TooltipTrigger asChild>
-                  <span className="absolute inset-0" />
-                </TooltipTrigger>
-                <TooltipContent>
-                  <p>Upload a PDF to continue</p>
-                </TooltipContent>
-              </Tooltip>
-            </TooltipProvider>
-          )}
         </div>
+
+        {fileState.status === 'empty' && !isUpdating && (
+          <button
+            onClick={() => router.push('/preview')}
+            className="text-sm text-gray-600 hover:text-gray-900 underline transition-colors"
+          >
+            Skip and start from scratch
+          </button>
+        )}
       </div>
     </div>
   );

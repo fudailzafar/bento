@@ -184,12 +184,11 @@ export function ProjectCard({
               className="h-40 w-full overflow-hidden object-cover object-top"
             />
           )}
-          {!image &&
-            !video && isEditMode && (
-              <div className="h-40 w-full bg-muted flex items-center justify-center">
-                <span className="text-muted-foreground text-sm">No image</span>
-              </div>
-            )}
+          {!image && !video && isEditMode && (
+            <div className="h-40 w-full bg-muted flex items-center justify-center">
+              <span className="text-muted-foreground text-sm">No image</span>
+            </div>
+          )}
         </a>
 
         {/* Upload/Delete buttons - Only in edit mode on hover */}
