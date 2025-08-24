@@ -147,7 +147,7 @@ export default function SignupPage() {
                   <LoaderIcon />
                 </>
               ) : (
-                'Sign up'
+                'Create Account'
               )}
             </button>
           ) : (
