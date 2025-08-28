@@ -73,7 +73,7 @@ export default function SignupPage() {
   };
 
   return (
-    <div className="min-h-[70vh] md:min-h-screen flex items-center justify-center px-7 sm:px-6 lg:px-48">
+    <div className="min-h-[90vh] md:min-h-screen flex items-center justify-center px-7 sm:px-6 lg:px-48">
       <div className="w-full max-w-[440px] space-y-8 mx-auto">
         <div className="text-left">
           <h1 className="text-[29px] lg:text-[32px] font-bold md:font-semibold text-design-black mb-6 md:mb-4">
@@ -85,7 +85,7 @@ export default function SignupPage() {
         </div>
 
         {/* Single Form */}
-        <form onSubmit={handleSubmit} className="space-y-4">
+        <form onSubmit={handleSubmit} className="pt-10 space-y-8">
           {/* Two Column Layout on Desktop */}
           <div className="flex flex-col md:flex-row gap-3 md:gap-4">
             <Input
