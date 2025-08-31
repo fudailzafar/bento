@@ -13,7 +13,7 @@ export default function SignupPage() {
             href="/login"
             className="text-design-resume font-normal text-xs transition-colors"
           >
-            Already have an account? Log in
+            or log in
           </Link>
         </div>
       </div>
