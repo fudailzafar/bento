@@ -14,7 +14,7 @@ const fontSans = FontSans({
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://portfolio.fudail.me'),
-  title: 'portfolio.fudail.me - Resume to Website',
+  title: 'Portfoliofy - Your Personal Portfolio, but Rich and Beautiful',
   description:
     'LinkedIn to Portfolio in one click! Powered by Gemini and Fudail',
   openGraph: {
