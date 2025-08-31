@@ -1,41 +1,53 @@
-import type { Metadata } from "next";
-import { Geist, Geist_Mono, Inter } from "next/font/google";
-import "./globals.css";
-import { ClerkProvider } from "@clerk/nextjs";
+import type React from 'react';
+import { Inter as FontSans } from 'next/font/google';
+import { ClerkProvider } from '@clerk/nextjs';
+import './globals.css';
+import { Toaster } from '@/components/ui/sonner';
+import { ReactQueryClientProvider } from '@/components/ReactQueryClientProvider';
+import { Metadata } from 'next';
+import PlausibleProvider from 'next-plausible';
 
-
-
-const fontSans = Inter({
-  variable: "--font-sans",
+const fontSans = FontSans({
   subsets: ["latin"],
+  variable: "--font-sans",
 });
 
-
-
 export const metadata: Metadata = {
-  metadataBase: new URL("https://fudail.me"),
-  title: "fudail.me - Linkedin to Portfolio",
+  metadataBase: new URL('https://fudail.me'),
+  title: 'fudail.me - Resume to Website',
   description:
-    "LinkedIn to Portfolio in three clicks! Powered by Gemini and UploadThing",
+    'LinkedIn to Portfolio in one click! Powered by Gemini and Fudail',
   openGraph: {
-    images: "/og.png",
+    images: '/og.png',
   },
 };
 
 export default function RootLayout({
   children,
-}: Readonly<{
+}: {
   children: React.ReactNode;
-}>) {
+}) {
   return (
     <ClerkProvider>
-      <html lang="en">
-        <body
-          className={`${fontSans.variable} antialiased`}
-        >
-          {children}
-        </body>
-      </html>
+      <PlausibleProvider domain="fudail.me">
+        <ReactQueryClientProvider>
+          <html lang="en">
+            <head>
+              {/* {process.env.NODE_ENV === "development" && (
+              <script
+                crossOrigin="anonymous"
+                src="//unpkg.com/react-scan/dist/auto.global.js"
+              />
+            )} */}
+              {/* rest of your scripts go under */}
+            </head>
+            <body className={`${fontSans.className} min-h-screen flex flex-col`}>
+              <main className="flex-1 flex flex-col">{children}</main>
+              <Toaster richColors position="bottom-center" />
+            </body>
+          </html>
+        </ReactQueryClientProvider>
+      </PlausibleProvider>
     </ClerkProvider>
   );
 }

@@ -16,7 +16,7 @@ export function Header() {
             <UserButton />
           </SignedIn>
           <SignedOut>
-            <div className="flex flex-row gap-3 font-mono ">
+            <div className="flex flex-row gap-3  ">
               <a
                 href="https://github.com/fudailzafar"
                 target="_blank"

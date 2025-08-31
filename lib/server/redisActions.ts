@@ -2,6 +2,7 @@ import { upstashRedis } from '@/lib/server/redis';
 import { ResumeDataSchema } from '@/lib/resume';
 import { z } from 'zod';
 import { PRIVATE_ROUTES } from '../routes';
+import { log } from 'node:console';
 
 // Key prefixes for different types of data
 const REDIS_KEYS = {
@@ -15,6 +16,8 @@ const FileSchema = z.object({
   name: z.string(),
   url: z.string().nullish(),
   size: z.number(),
+  bucket: z.string(),
+  key: z.string(),
 });
 
 const FORBIDDEN_USERNAMES = PRIVATE_ROUTES;
@@ -35,7 +38,7 @@ export type Resume = z.infer<typeof ResumeSchema>;
 export async function getResume(userId: string): Promise<Resume | undefined> {
   try {
     const resume = await upstashRedis.get<Resume>(
-      `${REDIS_KEYS.RESUME_PREFIX}${userId}`,
+      `${REDIS_KEYS.RESUME_PREFIX}${userId}`
     );
     return resume || undefined;
   } catch (error) {
@@ -47,13 +50,13 @@ export async function getResume(userId: string): Promise<Resume | undefined> {
 // Function to store resume data for a user
 export async function storeResume(
   userId: string,
-  resumeData: Resume,
+  resumeData: Resume
 ): Promise<void> {
   try {
     const validatedData = ResumeSchema.parse(resumeData);
     await upstashRedis.set(
       `${REDIS_KEYS.RESUME_PREFIX}${userId}`,
-      validatedData,
+      validatedData
     );
   } catch (error) {
     if (error instanceof z.ZodError) {
@@ -112,7 +115,7 @@ export const createUsernameLookup = async ({
  * @returns Promise resolving to username or null
  */
 export const getUsernameById = async (
-  userId: string,
+  userId: string
 ): Promise<string | null> => {
   return await upstashRedis.get(`${REDIS_KEYS.USER_ID_PREFIX}${userId}`);
 };
@@ -123,13 +126,13 @@ export const getUsernameById = async (
  * @returns Promise resolving to user ID or null
  */
 export const getUserIdByUsername = async (
-  username: string,
+  username: string
 ): Promise<string | null> => {
   return await upstashRedis.get(`${REDIS_KEYS.USER_NAME_PREFIX}${username}`);
 };
 
 export const checkUsernameAvailability = async (
-  username: string,
+  username: string
 ): Promise<{
   available: boolean;
 }> => {
@@ -189,7 +192,7 @@ export const deleteUser = async (opts: {
  */
 export const updateUsername = async (
   userId: string,
-  newUsername: string,
+  newUsername: string
 ): Promise<boolean> => {
   // Check if new username is forbidden
   if (FORBIDDEN_USERNAMES.includes(newUsername.toLowerCase())) {
@@ -202,7 +205,7 @@ export const updateUsername = async (
 
   // Check if new username is already taken
   const newUsernameExists = await upstashRedis.exists(
-    `${REDIS_KEYS.USER_NAME_PREFIX}${newUsername}`,
+    `${REDIS_KEYS.USER_NAME_PREFIX}${newUsername}`
   );
   if (newUsernameExists) return false;
 

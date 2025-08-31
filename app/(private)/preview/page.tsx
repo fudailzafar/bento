@@ -40,6 +40,8 @@ async function LLMProcessing({ userId }: { userId: string }) {
         summary: 'You should add a summary here',
         workExperience: [],
         education: [],
+        contact: 'Help taken from Safwaan bhai to fix this error',
+        projects: [],
       };
     }
 

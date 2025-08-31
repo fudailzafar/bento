@@ -56,11 +56,34 @@ const EducationSection = z.array(
   })
 );
 
+const ContactSection = z.string().describe('Catchy Phrase for call to action');
+
+const ProjectSection = z.array(
+  z.object({
+    title: z.string().describe('Project Title'),
+    description: z.string().describe('Project description'),
+    liveLink: z.string().describe('Project website URL'),
+    githubLink: z.string().describe('Project website URL'),
+    start: z.string().describe("Start date in format 'YYYY-MM-DD'"),
+    end: z
+      .string()
+      .optional()
+      .nullable()
+      .describe("End date in format 'YYYY-MM-DD'"),
+    skills: z
+      .array(z.string())
+      .describe('Skills used for building projects the user has made.')
+      .optional(),
+  })
+);
+
 export const ResumeDataSchema = z.object({
   header: HeaderSection,
   summary: SummarySection,
   workExperience: WorkExperienceSection,
   education: EducationSection,
+  contact: ContactSection,
+  projects: ProjectSection,
 });
 
 export type ResumeDataSchemaType = z.infer<typeof ResumeDataSchema>;

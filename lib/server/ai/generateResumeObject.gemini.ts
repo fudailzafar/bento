@@ -1,4 +1,4 @@
-import { GoogleGenerativeAI } from "@google/generative-ai";
+import { GoogleGenerativeAI } from '@google/generative-ai';
 import { ResumeDataSchema } from '@/lib/resume';
 import dedent from 'dedent';
 
@@ -8,13 +8,14 @@ export const generateResumeObject = async (resumeText: string) => {
   const startTime = Date.now();
   try {
     const model = genAI.getGenerativeModel({
-      model: "gemini-1.5-flash",
+      model: 'gemini-1.5-flash',
       generationConfig: {
         temperature: 0.7,
         maxOutputTokens: 1500,
       },
     });
-    const prompt = dedent(`You are an expert resume writer. Generate a JSON resume object from the following resume text. Be professional and concise.
+    const prompt =
+      dedent(`You are an expert resume writer. Generate a JSON resume object from the following resume text. Be professional and concise.
 
 ## Instructions:
 - If the resume text does not include an 'about' section or specific skills mentioned, please generate appropriate content for these sections based on the context of the resume and based on the job role.
@@ -33,68 +34,95 @@ Return only the JSON object, nothing else.`);
     const text = response.text();
 
     // Log the raw response for debugging
-    console.log("Gemini raw response:", text);
+    console.log('Gemini raw response:', text);
 
-    // Try to extract JSON from code block or markdown
-    let jsonString = text;
-    // Remove markdown code block if present
-    if (jsonString.startsWith("```json")) {
-      jsonString = jsonString.replace(/^```json/, "").replace(/```$/, "").trim();
-    } else if (jsonString.startsWith("```")) {
-      jsonString = jsonString.replace(/^```/, "").replace(/```$/, "").trim();
-    }
-    // Try to find the first {...} block if still not valid
-    if (!jsonString.trim().startsWith("{")) {
+
+    // Robust JSON extraction from code block or markdown
+    let jsonString = text.trim();
+
+    // Remove all code block markers (```json, ```, etc.)
+    jsonString = jsonString.replace(/^```json[\r\n]*/i, '').replace(/^```[\r\n]*/i, '').replace(/```$/g, '').trim();
+
+    // If still not valid, try to extract the first {...} JSON object
+    if (!jsonString.startsWith('{')) {
       const match = jsonString.match(/\{[\s\S]*\}/);
       if (match) jsonString = match[0];
     }
 
+    // Remove any trailing or leading non-JSON content
+    // (e.g., if the model adds extra text before/after)
+    const firstCurly = jsonString.indexOf('{');
+    const lastCurly = jsonString.lastIndexOf('}');
+    if (firstCurly !== -1 && lastCurly !== -1 && lastCurly > firstCurly) {
+      jsonString = jsonString.substring(firstCurly, lastCurly + 1);
+    }
+
+    // Optionally log the cleaned jsonString for debugging
+    // console.log('Cleaned JSON string:', jsonString);
 
     // Parse JSON
     let object;
     try {
       object = JSON.parse(jsonString);
     } catch (e) {
-      throw new Error("Could not parse JSON from Gemini response");
+      console.log(JSON.stringify(e, null, 2));
+      throw new Error('Could not parse JSON from Gemini response');
     }
 
-    // Map Gemini's output to your schema if needed
+
+    // Map Gemini's output to match ResumeDataSchema exactly
     if (object.basics) {
       object = {
         header: {
-          name: object.basics.name || "",
-          shortAbout: object.basics.about || "",
+          name: object.basics.name || '',
+          shortAbout: object.basics.about || '',
           location: object.basics.location
-            ? [
-                object.basics.location.city,
-                object.basics.location.country,
-              ].filter(Boolean).join(", ")
-            : "",
+            ? [object.basics.location.city, object.basics.location.country].filter(Boolean).join(', ')
+            : '',
           contacts: {
-            email: object.basics.email || "",
-            linkedin: object.basics.linkedin || "",
-            github: object.basics.github || "",
-            website: object.basics.website || "",
-            phone: object.basics.phone || "",
+            website: object.basics.website || '',
+            email: object.basics.email || '',
+            phone: object.basics.phone || '',
+            twitter: object.basics.twitter || '',
+            linkedin: object.basics.linkedin || '',
+            github: object.basics.github || '',
           },
-          skills: object.skills || [],
+          skills: Array.isArray(object.skills) ? object.skills : [],
         },
-        summary: object.basics.about || "",
-        workExperience: (object.experience || []).map((exp: any) => ({
-          title: exp.title || "",
-          company: exp.company || "",
-          location: exp.location || "",
-          startDate: exp.startDate || (exp.years ? exp.years.split("–")[0].trim() : ""),
-          endDate: exp.endDate || (exp.years ? exp.years.split("–")[1]?.trim() : ""),
-          description: exp.description || "",
-        })),
-        education: (object.education || []).map((edu: any) => ({
-          institution: edu.institution || "",
-          degree: edu.degree || edu.area || "",
-          graduationDate: edu.graduationDate || edu.expectedGraduation || "",
-          location: edu.location || "",
-        })),
-        // Add other fields as needed, or ignore extra fields
+        summary: object.basics.about || '',
+        workExperience: Array.isArray(object.experience)
+          ? object.experience.map((exp: any) => ({
+              company: exp.company || '',
+              link: exp.link || '',
+              location: exp.location || '',
+              contract: exp.contract || '',
+              title: exp.title || '',
+              start: exp.start || exp.startDate || (exp.years ? exp.years.split('–')[0].trim() : ''),
+              end: exp.end || exp.endDate || (exp.years ? exp.years.split('–')[1]?.trim() : ''),
+              description: exp.description || '',
+            }))
+          : [],
+        education: Array.isArray(object.education)
+          ? object.education.map((edu: any) => ({
+              school: edu.school || edu.institution || '',
+              degree: edu.degree || edu.area || '',
+              start: edu.start || edu.startYear || '',
+              end: edu.end || edu.endYear || '',
+            }))
+          : [],
+        contact: object.contact || 'Let’s connect! Reach out for opportunities or collaborations.',
+        projects: Array.isArray(object.projects)
+          ? object.projects.map((pro: any) => ({
+              title: pro.name || '',
+              link: pro.link || '',
+              description: pro.description || '',
+              start: pro.start || pro.startDate || (pro.years ? pro.years.split('–')[0].trim() : ''),
+              end: pro.end || pro.endDate || (pro.years ? pro.years.split('–')[1]?.trim() : ''),
+              githubLink: '',
+              liveLink: '',
+              skills: Array.isArray(pro.technologies) ? pro.technologies : [],
+            }))
+          : [],
       };
     }
 
@@ -103,7 +131,9 @@ Return only the JSON object, nothing else.`);
 
     const endTime = Date.now();
     console.log(
-      `Generating resume object with Gemini took ${(endTime - startTime) / 1000} seconds`
+      `Generating resume object with Gemini took ${
+        (endTime - startTime) / 1000
+      } seconds`
     );
 
     return object;

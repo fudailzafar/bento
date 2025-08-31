@@ -1,15 +1,9 @@
-import {
-  GlobeIcon,
-  MailIcon,
-  PhoneIcon,
-  Github,
-  Twitter,
-  Linkedin,
-} from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { ResumeDataSchemaType } from '@/lib/resume';
 import { useMemo } from 'react';
+import BlurFade from '../magicui/blur-fade';
+import BlurFadeText from '../magicui/blur-fade-text';
 
 interface SocialButtonProps {
   href: string;
@@ -24,7 +18,7 @@ function SocialButton({ href, icon: Icon, label }: SocialButtonProps) {
         href={
           href.startsWith('mailto:') || href.startsWith('tel:')
             ? href
-            : `${href}${href.includes('?') ? '&' : '?'}ref=fudail.me`
+            : `${href}${href.includes('?') ? '&' : '?'}ref=selfso`
         }
         aria-label={label}
         target="_blank"
@@ -92,128 +86,37 @@ export function Header({
     header.contacts.linkedin,
   ]);
 
+  const BLUR_FADE_DELAY = 0.04;
+
   return (
     <header className="flex items-start md:items-center justify-between gap-4 ">
       <div className="flex-1 space-y-1.5">
-        <h1 className="text-3xl font-bold tracking-tighter sm:text-5xl xl:text-6xl/none" id="resume-name">
-          {header.name}
-        </h1>
-        <p
-          className="max-w-[600px] text-pretty font-mono text-sm md:text-xl print:text-[12px]"
-          aria-labelledby="resume-name"
-        >
-          {header.shortAbout}
-        </p>
+        <BlurFadeText
+                delay={BLUR_FADE_DELAY}
+                className="text-3xl font-bold tracking-tighter sm:text-5xl xl:text-6xl/none"
+                yOffset={8}
+                text={header.name}
+              />
 
-        <p className="max-w-md items-center text-pretty font-mono text-xs text-foreground">
-          <a
-            className="inline-flex gap-x-1.5 align-baseline leading-none hover:underline text-[#9CA0A8]"
-            href={`https://www.google.com/maps/search/${encodeURIComponent(
-              header.location || ''
-            )}`}
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label={`Location: ${header.location}`}
-          >
-            {header.location}
-          </a>
-        </p>
+        <BlurFadeText
+                className="max-w-[600px] md:text-xl"
+                delay={BLUR_FADE_DELAY}
+                text={header.shortAbout}
+              />
 
-        <div
-          className="flex gap-x-1 pt-1 font-mono text-sm text-design-resume print:hidden"
-          role="list"
-          aria-label="Contact links"
-        >
-          {socialLinks.website && (
-            <SocialButton
-              href={socialLinks.website}
-              icon={GlobeIcon}
-              label="Personal website"
-            />
-          )}
-          {header.contacts.email && (
-            <SocialButton
-              href={`mailto:${header.contacts.email}`}
-              icon={MailIcon}
-              label="Email"
-            />
-          )}
-          {header.contacts.phone && (
-            <SocialButton
-              href={`tel:${header.contacts.phone}`}
-              icon={PhoneIcon}
-              label="Phone"
-            />
-          )}
-          {socialLinks.github && (
-            <SocialButton
-              href={socialLinks.github}
-              icon={Github}
-              label="GitHub"
-            />
-          )}
-          {socialLinks.twitter && (
-            <SocialButton
-              href={socialLinks.twitter}
-              icon={Twitter}
-              label="Twitter"
-            />
-          )}
-          {socialLinks.linkedin && (
-            <SocialButton
-              href={socialLinks.linkedin}
-              icon={Linkedin}
-              label="LinkedIn"
-            />
-          )}
-        </div>
-
-        <div
-          className="hidden gap-x-2 font-mono text-sm text-design-resume print:flex print:text-[12px]"
-          aria-label="Print contact information"
-        >
-          {socialLinks.website && (
-            <>
-              <a
-                className="underline hover:text-foreground/70"
-                href={socialLinks.website}
-              >
-                {new URL(socialLinks.website).hostname}
-              </a>
-              <span aria-hidden="true">/</span>
-            </>
-          )}
-          {header.contacts.email && (
-            <>
-              <a
-                className="underline hover:text-foreground/70"
-                href={`mailto:${header.contacts.email}`}
-              >
-                {header.contacts.email}
-              </a>
-              <span aria-hidden="true">/</span>
-            </>
-          )}
-          {header.contacts.phone && (
-            <a
-              className="underline hover:text-foreground/70"
-              href={`tel:${header.contacts.phone}`}
-            >
-              {header.contacts.phone}
-            </a>
-          )}
-        </div>
+        
       </div>
-
-      <Avatar className="size-20 md:size-28" aria-hidden="true">
-        <AvatarImage src={picture} alt={`${header.name}'s profile picture`} />
-        <AvatarFallback>
+      <BlurFade delay={BLUR_FADE_DELAY}>
+              <Avatar className="size-28 border">
+                <AvatarImage src={picture} alt={`${header.name}'s profile picture`} />
+                <AvatarFallback>
           {header.name
             .split(' ')
             .map((n) => n[0])
             .join('')}
         </AvatarFallback>
-      </Avatar>
+              </Avatar>
+      </BlurFade>
     </header>
   );
 }
