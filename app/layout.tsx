@@ -18,7 +18,21 @@ export const metadata: Metadata = {
   description:
     'LinkedIn to Portfolio in one click! Powered by Gemini and Fudail',
   openGraph: {
-    images: '/og.png',
+    title: "Portfoliofy - Your Personal Portfolio, but Rich and Beautiful",
+    description:
+      "LinkedIn to Portfolio in one click! Powered by Gemini and Fudail",
+    url: "https://portfolio.fudail.me",
+    siteName: "Consicio",
+    images: [
+      {
+        url: "https://portfolio.fudail.me/og.png",
+        width: 1200,
+        height: 630,
+        alt: "Portfoliofy OG Image",
+      },
+    ],
+    locale: "en_US",
+    type: "website",
   },
 };
 
