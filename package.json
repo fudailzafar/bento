@@ -75,6 +75,7 @@
     "tailwind-merge": "^2.5.5",
     "tailwindcss-animate": "^1.0.7",
     "together-ai": "^0.16.0",
+    "uploadthing": "^7.7.4",
     "vaul": "^0.9.6",
     "zod": "^3.25.28",
     "zod-to-json-schema": "^3.24.5"

@@ -60,7 +60,7 @@ export function Hero() {
             <div className="w-full md:w-1/2 flex justify-center items-center flex-1 relative max-h-[700px] min-w-[50%] lg:min-w-[500px]">
               <div className="absolute inset-0 -bottom-4 rounded-3xl bg-black/5 blur-xl h-full"></div>
               <BlurFade delay={0.25} inView>
-                <Image
+                <img
                   src="/cv-home.png"
                   className="relative w-full max-w-[500px] h-full object-cover overflow-hidden"
                   alt="Preview of Resume Website"
