@@ -27,15 +27,29 @@ export function WorkExperience({
         (item) =>
           item.company && item.location && item.title && item.description
       )
-      .map((item) => ({
-        ...item,
-        formattedDate: `${getShortMonth(item.start)} ${getYear(item.start)} - ${
-          !!item.end
-            ? `${getShortMonth(item.end)} ${getYear(item.end)}`
-            : 'Present'
-        }`,
-        companyLower: item.company.toLowerCase(),
-      }));
+      .map((item) => {
+        const hasStart = !!item.start;
+        const hasEnd = !!item.end;
+        let formattedDate = '—';
+        if (hasStart && hasEnd) {
+          formattedDate = `${getShortMonth(item.start ?? '')} ${getYear(
+            item.start ?? ''
+          )} - ${getShortMonth(item.end ?? '')} ${getYear(item.end ?? '')}`;
+        } else if (hasStart) {
+          formattedDate = `${getShortMonth(item.start)} ${getYear(
+            item.start
+          )} - Present`;
+        } else if (hasEnd) {
+          formattedDate = `Until ${getShortMonth(item.end ?? '')} ${getYear(
+            item.end ?? ''
+          )}`;
+        }
+        return {
+          ...item,
+          formattedDate,
+          companyLower: item.company.toLowerCase(),
+        };
+      });
   }, [work]);
 
   if (validWork.length === 0) {
