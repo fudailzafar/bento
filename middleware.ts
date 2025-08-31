@@ -5,9 +5,15 @@ import type { NextRequest } from 'next/server';
 
 export async function middleware(req: NextRequest) {
   const { pathname } = req.nextUrl;
-  if (pathname.startsWith('/api/auth')) {
+
+  // Allow access to auth-related APIs without authentication
+  if (
+    pathname.startsWith('/api/auth') ||
+    pathname.startsWith('/api/check-username')
+  ) {
     return NextResponse.next();
   }
+
   const token = await getToken({ req, secret: process.env.AUTH_SECRET });
 
   // If accessing a protected route without token → redirect to login
