@@ -152,7 +152,7 @@ export default async function ProfilePage({
       <div className="text-center z-50 mb-32">
         <Link href={`/?ref=${username}`} className="text-design-gray text-sm">
           Made with 💖 using{' '}
-          <span className="text-design-black underline underline-offset-2">
+          <span className="text-design-black underline underline-offset-2 dark:text-design-white">
             portfolio.fudail.me
           </span>
         </Link>

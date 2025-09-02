@@ -74,22 +74,22 @@ Return only the JSON object, nothing else.`);
     if (object.basics) {
       object = {
         header: {
-          name: object.basics.name || '',
-          shortAbout: object.basics.about || '',
+          name: object.basics.name || 'Your name',
+          shortAbout: object.basics.about || 'This is a short description of your profile',
           location: object.basics.location
             ? [object.basics.location.city, object.basics.location.country].filter(Boolean).join(', ')
-            : '',
+            : 'City, Country',
           contacts: {
-            website: object.basics.website || '',
-            email: object.basics.email || '',
-            phone: object.basics.phone || '',
-            twitter: object.basics.twitter || '',
-            linkedin: object.basics.linkedin || '',
-            github: object.basics.github || '',
+            website: object.basics.website || 'example.com',
+            email: object.basics.email || 'johndoe@gmail.com',
+            phone: object.basics.phone || '+1234567890',
+            twitter: object.basics.twitter || 'elonmusk',
+            linkedin: object.basics.linkedin || 'yourusername',
+            github: object.basics.github || 'yourusername',
           },
           skills: Array.isArray(object.skills) ? object.skills : [],
         },
-        summary: object.basics.about || '',
+        summary: object.basics.about || 'You should add a summary here',
         workExperience: Array.isArray(object.experience)
           ? object.experience.map((exp: any) => ({
               company: exp.company || '',
@@ -110,7 +110,7 @@ Return only the JSON object, nothing else.`);
               end: edu.end || edu.endYear || '',
             }))
           : [],
-        contact: object.contact || 'Let’s connect! Reach out for opportunities or collaborations.',
+        contact: object.contact || 'Write some text here... maybe a catchy phrase for people to contact you? 👀',
         projects: Array.isArray(object.projects)
           ? object.projects.map((pro: any) => ({
               title: pro.name || '',

@@ -26,8 +26,14 @@ export function DateRangePicker({
   const [endOpen, setEndOpen] = useState(false);
 
   // Convert string dates to Date objects for MonthPicker
-  const startDateObj = startDate ? new Date(startDate) : undefined;
-  const endDateObj = endDate ? new Date(endDate) : undefined;
+  const startDateObj =
+    startDate && !isNaN(new Date(startDate).getTime())
+      ? new Date(startDate)
+      : undefined;
+  const endDateObj =
+    endDate && !isNaN(new Date(endDate).getTime())
+      ? new Date(endDate)
+      : undefined;
 
   // Handle month selection
   const handleStartMonthSelect = (date: Date) => {
@@ -63,7 +69,7 @@ export function DateRangePicker({
                 <div className="flex items-center w-full">
                   <CalendarIcon className="mr-2 h-4 w-4" />
                   <span className="flex-1">
-                    {startDateObj
+                    {startDateObj && !isNaN(startDateObj.getTime())
                       ? format(startDateObj, 'MMM yyyy')
                       : 'Pick a start month'}
                   </span>
@@ -102,7 +108,7 @@ export function DateRangePicker({
                 <div className="flex items-center w-full">
                   <CalendarIcon className="mr-2 h-4 w-4" />
                   <span className="flex-1">
-                    {endDateObj
+                    {endDateObj && !isNaN(endDateObj.getTime())
                       ? format(endDateObj, 'MMM yyyy')
                       : 'Pick an end month'}
                   </span>

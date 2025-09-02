@@ -118,8 +118,8 @@ export default function PreviewClient({ messageTip }: { messageTip?: string }) {
         ></path>
       </svg>
       <p className="text-sm text-left text-[#003c02] mr-2">
-        <span className="hidden md:block"> Your website has been updated!</span>
-        <span className="md:hidden"> Website updated!</span>
+        <span className="hidden md:block"> Your portfolio has been updated!</span>
+        <span className="md:hidden"> Portfolio updated!</span>
       </p>
       <a
         href={getDomainUrl(usernameQuery.data.username)}
@@ -181,7 +181,7 @@ export default function PreviewClient({ messageTip }: { messageTip?: string }) {
               localStorage.setItem("publishedSite", new Date().toDateString());
             } else {
               if (newStatus === "draft") {
-                toast.warning("Your website has been unpublished");
+                toast.warning("Your portfolio has been unpublished");
               } else {
                 toast.custom(() => <CustomLiveToast />);
               }

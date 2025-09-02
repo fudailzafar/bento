@@ -37,7 +37,7 @@ export function Hero() {
 
                 <p className="text-base text-gray-600 mb-[30px]  text-center md:text-left">
                   Convert your resume/LinkedIn
-                  <br /> into a minimalistic & clean website.
+                  <br /> into a minimalistic & clean portfolio.
                 </p>
 
                 <div className="relative flex flex-col items-center  w-full md:w-fit">
