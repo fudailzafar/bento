@@ -57,7 +57,7 @@ export default function RootLayout({
             <body className={`${fontSans.className} min-h-screen flex flex-col`}>
               <main className="flex-1 flex flex-col">{children}</main>
               <Toaster richColors position="bottom-center" />
-              <GoogleAnalytics gaId={process.env.GOOGLE_ANALYTICS_MEASUREMENT_ID ?? ''} />
+              <GoogleAnalytics gaId="G-8V5WYSSHT2" />
             </body>
           </html>
         </ReactQueryClientProvider>
