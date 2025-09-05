@@ -1,5 +1,5 @@
 import { GlobeIcon } from 'lucide-react';
-import { buttonVariants } from '@/components/ui/button';
+import { Button, buttonVariants } from '@/components/ui/button';
 import { ResumeDataSchemaType } from '@/lib/resume';
 import { redirect } from 'next/navigation';
 import Link from 'next/link';
@@ -19,6 +19,7 @@ import { GitHubIcon } from '@/components/icons/GitHubIcon';
 import { cn } from '@/lib/utils';
 import { AnimatedThemeToggler } from '@/components/magicui/animated-theme-toggler';
 import DockClient from '@/components/magicui/DockClient';
+import Image from 'next/image';
 
 interface SocialButtonProps {
   href: string;
@@ -78,8 +79,9 @@ export async function generateMetadata({
   const profilePicture = clerkUser?.imageUrl;
   if (!user_id) {
     return {
-      title: 'User Not Found | portfolio.fudail.me',
-      description: 'This user profile could not be found on portfolio.fudail.me',
+      title: 'Portfoliofy - Your Personal Portfolio, but Rich and Beautiful.',
+      description:
+        'Create a beautiful personal portfolio to show your professional experience, education, and everything you are and create - in one place.',
     };
   }
 
@@ -120,7 +122,7 @@ export default async function ProfilePage({
   const { username } = await params;
   const { user_id, resume, clerkUser } = await getUserData(username);
 
-  if (!user_id) redirect(`/?usernameNotFound=${username}`);
+  if (!user_id) redirect(`/notfound/${username}`);
   if (!resume?.resumeData || resume.status !== 'live')
     redirect(`/?idNotFound=${user_id}`);
 
@@ -149,13 +151,26 @@ export default async function ProfilePage({
 
       <FullResume resume={resume?.resumeData} profilePicture={profilePicture} />
 
-      <div className="text-center z-50 mb-32">
-        <Link href={`/?ref=${username}`} className="text-design-gray text-sm">
-          Made with 💖 using{' '}
-          <span className="text-design-black underline underline-offset-2 dark:text-design-white">
-            portfolio.fudail.me
-          </span>
-        </Link>
+      <div className="text-center z-50 mb-32 gap-5 flex justify-center items-center">
+        <Button className="bg-design-black text-design-white dark:bg-design-white dark:text-design-black">
+          <Link
+            href={`/?ref=${username}`}
+            className="text-design-white text-sm flex flex-row gap-3"
+          >
+            <Image src={'/favicon.ico'} alt="" width={20} height={15} />
+            <div className="text-design-white dark:text-design-black">
+              Create Your{' '}
+              <span className="text-design-white dark:text-design-black">
+                Portfolio
+              </span>
+            </div>
+          </Link>
+        </Button>
+        <Button variant={'ghost'}>
+          <Link href={'/upload'} className="text-design-gray">
+            Log In
+          </Link>
+        </Button>
       </div>
 
       {/* Dock */}
