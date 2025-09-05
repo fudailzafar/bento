@@ -53,7 +53,7 @@ async function LLMProcessing({ userId }: { userId: string }) {
           {
             company: 'Your Company',
             location: 'Your company location',
-            contract: 'Hybrid/On-site/Remote',
+            contract: '',
             role: 'Your Job Title',
             start: 'Jan 2023',
             end: '',
@@ -64,7 +64,7 @@ async function LLMProcessing({ userId }: { userId: string }) {
             company: 'Another Company',
             role: 'Previous Job Title',
             location: 'Your company location',
-            contract: 'Hybrid/On-site/Remote',
+            contract: '',
             start: 'Jun 2021',
             end: 'Dec 2022',
             description:
