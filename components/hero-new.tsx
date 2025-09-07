@@ -22,7 +22,7 @@ export function HeroNew() {
   return (
     <>
       {/* Top banner section */}
-      <div className="w-full bg-design-black hover:bg-design-gray text-design-white text-center py-5 text-base font-light flex items-center justify-center">
+      <div className="w-full bg-gray-900 hover:bg-gray-950 text-design-white text-center py-5 text-base font-light flex items-center justify-center">
         <a
           href="https://portfolio.fudail.me/fudail"
           target="_blank"
@@ -46,7 +46,7 @@ export function HeroNew() {
               className="mb-16 relative z-20"
               style={{ transformOrigin: 'top' }}
             >
-              <div className="-mt-16 bg-primary text-white text-xl font-bold p-4 h-20 w-20 flex items-center justify-center rounded-3xl mx-auto shadow-md">
+              <div className="mt-3 sm:-mt-[72px] md:-mt-24 bg-primary text-white text-xl font-bold p-0 h-20 w-20 flex items-center justify-center rounded-3xl mx-auto shadow-md">
                 <Image
                   src={'/icons/android-chrome-512x512.png'}
                   alt=""
@@ -71,9 +71,9 @@ export function HeroNew() {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 0.8, delay: 0.5, ease: easeInOutCubic }}
-              className="text-6xl font-bold mb-4 tracking-tighter"
+              className="text-4xl sm:text-6xl font-bold mb-4 tracking-tighter"
             >
-              <div className="flex flex-col gap-y-4">
+              <div className="flex flex-col gap-y-2 sm:gap-y-4">
                 <div>A Personal Portfolio.</div>
                 <div>But Rich and Beautiful.</div>
               </div>
@@ -82,7 +82,7 @@ export function HeroNew() {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 0.8, delay: 0.7, ease: easeInOutCubic }}
-              className="text-design-gray max-w-2xl mx-auto text-[22px] mb-8 font-light text-balance mt-7 tracking-tight"
+              className="text-design-gray max-w-2xl mx-auto text-xl sm:text-[22px] mb-8 font-light text-balance mt-7 tracking-tight"
             >
               Your personal page to show your work, skills, and story.
             </motion.p>
@@ -92,14 +92,14 @@ export function HeroNew() {
             <Link href="/signup">
               <Button
                 variant="default"
-                className="text-lg rounded-xl font-semibold py-8 px-14 bg-black hover:bg-black/65 cursor-pointer"
+                className="text-lg rounded-xl font-semibold py-8 px-20 sm:py-8 sm:px-14 bg-black hover:bg-black/65 cursor-pointer mb-2"
               >
                 Create Your Portfolio
               </Button>
             </Link>
             <Link
               href={'/login'}
-              className="text-design-gray text-xs hover:underline"
+              className="text-design-gray text-sm sm:text-xs hover:underline"
             >
               Log In
             </Link>
