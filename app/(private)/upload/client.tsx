@@ -156,7 +156,11 @@ export default function UploadPageClient() {
             <DialogTitle className="text-base text-center text-design-gray px-7 py-4">
               Go to your profile → Click on “Resources” → Then “Save to PDF”
             </DialogTitle>
-            <img src="/linkedin-save-to-pdf.png" className="h-auto w-full" />
+            <img
+              src="/linkedin-save-to-pdf.png"
+              alt="Linkedin Steps to Save PDF"
+              className="h-auto w-full"
+            />
           </DialogContent>
         </Dialog>
       </div>
