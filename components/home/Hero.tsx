@@ -21,7 +21,7 @@ export function Hero() {
                 <h1 className="text-[32px] font-bold mb-4 flex items-center justify-center md:justify-start gap-4 flex-wrap text-design-black  leading-4">
                   <span>LinkedIn</span>
                   <Image
-                    src="/right-arrow.png"
+                    src="/home/right-arrow.png"
                     alt="Arrow Right Icon"
                     width={32}
                     height={32}
@@ -61,7 +61,7 @@ export function Hero() {
               <div className="absolute inset-0 -bottom-4 rounded-3xl bg-white blur-xl h-full"></div>
               <BlurFade delay={0.25} inView>
                 <img
-                  src="/cv-home.png"
+                  src="/home/cv-home.png"
                   className="relative w-full max-w-[500px] h-full object-cover overflow-hidden"
                   alt="Preview of Resume Website"
                 />

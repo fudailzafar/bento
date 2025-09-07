@@ -183,7 +183,7 @@ export default async function ProfilePage({
         </BlurFade>
         <BlurFade delay={2.5}>
           <Image
-            src={'/cv-not-found.png'}
+            src={'/user/cv-not-found.png'}
             alt=""
             width={415}
             height={0}
