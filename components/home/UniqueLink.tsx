@@ -20,13 +20,13 @@ export default function UniqueLink() {
         <div className="relative bg-[#F6F6F6] rounded-2xl shadow-lg w-[300px] sm:w-[900px] h-[200px] sm:h-[480px] flex items-center justify-center mx-auto overflow-hidden">
           {/* Username marquee and URL layout */}
           <div className="absolute left-0 top-1/2 -translate-y-1/2 flex flex-row w-full h-full items-center justify-center p-4 md:px-12">
-            {/* portfoliofy.com/ on the left */}
+            {/* portfoliofy.me/ on the left */}
             <div
               className="flex flex-col items-end justify-center pr-2"
               style={{ minWidth: '320px' }}
             >
               <div className="text-2xl md:text-5xl font-normal text-gray-400 mb-2 whitespace-nowrap">
-                portfoliofy.com/
+                portfoliofy.me/
               </div>
             </div>
             {/* Vertical marquee on the right, usernames close to slash */}

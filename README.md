@@ -1,4 +1,4 @@
-<a href="https://portfolio.fudail.me">
+<a href="https://portfoliofy.me">
   <img alt="Fudail" src="./public/og.png">
   <h1 align="center">Portfoliofy</h1>
 </a>
