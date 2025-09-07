@@ -11,7 +11,7 @@ export type PublishStatuses = 'draft' | 'live';
 
 export default function PreviewActionbar({
   initialUsername = '',
-  prefix = 'portfolio.fudail.me/',
+  prefix = 'portfoliofy.me/',
   status,
   onStatusChange,
   isChangingStatus,

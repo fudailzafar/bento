@@ -88,8 +88,8 @@ export async function generateMetadata({
 
   if (!resume?.resumeData || resume.status !== 'live') {
     return {
-      title: 'Resume Not Found | portfoliofudail.me',
-      description: 'This resume could not be found on portfolio.fudail.me',
+      title: 'Resume Not Found | portfoliofy.me',
+      description: 'This resume could not be found on portfoliofy.me',
     };
   }
 
@@ -105,10 +105,10 @@ export async function generateMetadata({
       description: resume.resumeData.header.shortAbout,
       images: [
         {
-          url: `https://portfolio.fudail.me/${username}/og`,
+          url: `https://portfoliofy.me/${username}/og`,
           width: 1200,
           height: 630,
-          alt: 'portfolio.fudail.me Profile',
+          alt: 'portfoliofy.me Profile',
         },
       ],
     },
@@ -146,7 +146,7 @@ export default async function ProfilePage({
         <BlurFade delay={0.5} duration={2}>
           <div className="relative flex items-center mb-2 px-6 py-4 rounded-xl bg-gray-100">
             <span className="text-[24px] md:text-[40px] font-semibold text-design-gray">
-              portfoliofy.com/
+              portfoliofy.me/
               <span className="text-design-black">{username}</span>
             </span>
             <BlurFade delay={2} duration={0.5}>
@@ -209,7 +209,7 @@ export default async function ProfilePage({
     jobTitle: header.shortAbout,
     description: resume.resumeData.summary,
     email: header.contacts.email && `mailto:${header.contacts.email}`,
-    url: `https://portfolio.fudail.me/${username}`,
+    url: `https://portfoliofy.me/${username}`,
     skills: header.skills,
   };
 

@@ -14,7 +14,7 @@ export async function GET(request: NextRequest) {
     const name = resume?.resumeData?.header?.name;
     const role = resume?.resumeData?.header?.shortAbout;
     const location = resume?.resumeData?.header?.location;
-    const website = `portfolio.fudail.me/${username}`;
+    const website = `portfoliofy.me/${username}`;
 
     // Use profile image from Clerk user
     const profileImageUrl = clerkUser?.imageUrl;
@@ -50,7 +50,7 @@ export async function GET(request: NextRequest) {
           >
             <div style={{ display: 'flex', alignItems: 'center' }}>
               <img
-                src="https://portfolio.fudail.me/logo.png"
+                src="https://portfoliofy.me/logo.png"
                 alt="Brand Logo"
                 style={{
                   width: '144px',
