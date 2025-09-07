@@ -149,7 +149,7 @@ export const ProjectsField: React.FC<ProjectsFieldProps> = ({
               });
             }}
             placeholder="Description"
-            rows={3}    
+            rows={3}
           />
         </div>
 

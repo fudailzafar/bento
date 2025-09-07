@@ -36,12 +36,15 @@ Return only the JSON object, nothing else.`);
     // Log the raw response for debugging
     console.log('Gemini raw response:', text);
 
-
     // Robust JSON extraction from code block or markdown
     let jsonString = text.trim();
 
     // Remove all code block markers (```json, ```, etc.)
-    jsonString = jsonString.replace(/^```json[\r\n]*/i, '').replace(/^```[\r\n]*/i, '').replace(/```$/g, '').trim();
+    jsonString = jsonString
+      .replace(/^```json[\r\n]*/i, '')
+      .replace(/^```[\r\n]*/i, '')
+      .replace(/```$/g, '')
+      .trim();
 
     // If still not valid, try to extract the first {...} JSON object
     if (!jsonString.startsWith('{')) {
@@ -69,15 +72,18 @@ Return only the JSON object, nothing else.`);
       throw new Error('Could not parse JSON from Gemini response');
     }
 
-
     // Map Gemini's output to match ResumeDataSchema exactly
     if (object.basics) {
       object = {
         header: {
           name: object.basics.name || 'Your name',
-          shortAbout: object.basics.about || 'This is a short description of your profile',
+          shortAbout:
+            object.basics.about ||
+            'This is a short description of your profile',
           location: object.basics.location
-            ? [object.basics.location.city, object.basics.location.country].filter(Boolean).join(', ')
+            ? [object.basics.location.city, object.basics.location.country]
+                .filter(Boolean)
+                .join(', ')
             : 'City, Country',
           contacts: {
             website: object.basics.website || 'example.com',
@@ -97,8 +103,14 @@ Return only the JSON object, nothing else.`);
               location: exp.location || '',
               contract: exp.contract || '',
               title: exp.title || '',
-              start: exp.start || exp.startDate || (exp.years ? exp.years.split('–')[0].trim() : ''),
-              end: exp.end || exp.endDate || (exp.years ? exp.years.split('–')[1]?.trim() : ''),
+              start:
+                exp.start ||
+                exp.startDate ||
+                (exp.years ? exp.years.split('–')[0].trim() : ''),
+              end:
+                exp.end ||
+                exp.endDate ||
+                (exp.years ? exp.years.split('–')[1]?.trim() : ''),
               description: exp.description || '',
             }))
           : [],
@@ -110,14 +122,22 @@ Return only the JSON object, nothing else.`);
               end: edu.end || edu.endYear || '',
             }))
           : [],
-        contact: object.contact || 'Write some text here... maybe a catchy phrase for people to contact you? 👀',
+        contact:
+          object.contact ||
+          'Write some text here... maybe a catchy phrase for people to contact you? 👀',
         projects: Array.isArray(object.projects)
           ? object.projects.map((pro: any) => ({
               title: pro.name || '',
               link: pro.link || '',
               description: pro.description || '',
-              start: pro.start || pro.startDate || (pro.years ? pro.years.split('–')[0].trim() : ''),
-              end: pro.end || pro.endDate || (pro.years ? pro.years.split('–')[1]?.trim() : ''),
+              start:
+                pro.start ||
+                pro.startDate ||
+                (pro.years ? pro.years.split('–')[0].trim() : ''),
+              end:
+                pro.end ||
+                pro.endDate ||
+                (pro.years ? pro.years.split('–')[1]?.trim() : ''),
               githubLink: '',
               liveLink: '',
               skills: Array.isArray(pro.technologies) ? pro.technologies : [],
@@ -133,7 +153,7 @@ Return only the JSON object, nothing else.`);
     console.log(
       `Generating resume object with Gemini took ${
         (endTime - startTime) / 1000
-      } seconds`
+      } seconds`,
     );
 
     return object;

@@ -1,8 +1,8 @@
-"use client";
+'use client';
 
-import { cn } from "@/lib/utils";
-import { AnimatePresence, motion, Variants } from "framer-motion";
-import { useMemo } from "react";
+import { cn } from '@/lib/utils';
+import { AnimatePresence, motion, Variants } from 'framer-motion';
+import { useMemo } from 'react';
 
 interface BlurFadeTextProps {
   text: string;
@@ -27,11 +27,11 @@ const BlurFadeText = ({
   animateByCharacter = false,
 }: BlurFadeTextProps) => {
   const defaultVariants: Variants = {
-    hidden: { y: yOffset, opacity: 0, filter: "blur(8px)" },
-    visible: { y: -yOffset, opacity: 1, filter: "blur(0px)" },
+    hidden: { y: yOffset, opacity: 0, filter: 'blur(8px)' },
+    visible: { y: -yOffset, opacity: 1, filter: 'blur(0px)' },
   };
   const combinedVariants = variant || defaultVariants;
-  const characters = useMemo(() => Array.from(text ?? ""), [text]);
+  const characters = useMemo(() => Array.from(text ?? ''), [text]);
 
   if (animateByCharacter) {
     return (
@@ -46,10 +46,10 @@ const BlurFadeText = ({
               variants={combinedVariants}
               transition={{
                 delay: delay + i * characterDelay,
-                ease: "easeOut",
+                ease: 'easeOut',
               }}
-              className={cn("inline-block", className)}
-              style={{ width: char.trim() === "" ? "0.2em" : "auto" }}
+              className={cn('inline-block', className)}
+              style={{ width: char.trim() === '' ? '0.2em' : 'auto' }}
             >
               {char}
             </motion.span>
@@ -69,9 +69,9 @@ const BlurFadeText = ({
           variants={combinedVariants}
           transition={{
             delay,
-            ease: "easeOut",
+            ease: 'easeOut',
           }}
-          className={cn("inline-block", className)}
+          className={cn('inline-block', className)}
         >
           {text}
         </motion.span>

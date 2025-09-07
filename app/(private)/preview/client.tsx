@@ -1,17 +1,17 @@
-"use client";
-import LoadingFallback from "@/components/LoadingFallback";
-import { PopupSiteLive } from "@/components/PopupSiteLive";
-import PreviewActionbar from "@/components/PreviewActionbar";
-import { FullResume } from "@/components/resume/FullResume";
-import { EditResume } from "@/components/resume/editing/EditResume";
-import { useUserActions } from "@/hooks/useUserActions";
-import { ResumeData } from "@/lib/server/redisActions";
-import { getDomainUrl } from "@/lib/utils";
-import { useUser } from "@clerk/nextjs";
-import { useEffect, useState } from "react";
-import { Button } from "@/components/ui/button";
-import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
-import { Eye, Edit, Save, X } from "lucide-react";
+'use client';
+import LoadingFallback from '@/components/LoadingFallback';
+import { PopupSiteLive } from '@/components/PopupSiteLive';
+import PreviewActionbar from '@/components/PreviewActionbar';
+import { FullResume } from '@/components/resume/FullResume';
+import { EditResume } from '@/components/resume/editing/EditResume';
+import { useUserActions } from '@/hooks/useUserActions';
+import { ResumeData } from '@/lib/server/redisActions';
+import { getDomainUrl } from '@/lib/utils';
+import { useUser } from '@clerk/nextjs';
+import { useEffect, useState } from 'react';
+import { Button } from '@/components/ui/button';
+import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
+import { Eye, Edit, Save, X } from 'lucide-react';
 import {
   AlertDialog,
   AlertDialogAction,
@@ -21,9 +21,9 @@ import {
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
-} from "@/components/ui/alert-dialog";
+} from '@/components/ui/alert-dialog';
 
-import { toast } from "sonner";
+import { toast } from 'sonner';
 
 export default function PreviewClient({ messageTip }: { messageTip?: string }) {
   const { user } = useUser();
@@ -45,24 +45,24 @@ export default function PreviewClient({ messageTip }: { messageTip?: string }) {
     }
   }, [resumeQuery.data?.resume?.resumeData]);
 
-  console.log("resumeQuery", resumeQuery.data);
+  console.log('resumeQuery', resumeQuery.data);
 
   const handleSaveChanges = async () => {
     if (!localResumeData) {
-      toast.error("No resume data to save");
+      toast.error('No resume data to save');
       return;
     }
 
     try {
       await saveResumeDataMutation.mutateAsync(localResumeData);
-      toast.success("Changes saved successfully");
+      toast.success('Changes saved successfully');
       setHasUnsavedChanges(false);
       setIsEditMode(false);
     } catch (error) {
       if (error instanceof Error) {
         toast.error(`Failed to save changes: ${error.message}`);
       } else {
-        toast.error("Failed to save changes");
+        toast.error('Failed to save changes');
       }
     }
   };
@@ -80,7 +80,7 @@ export default function PreviewClient({ messageTip }: { messageTip?: string }) {
     setHasUnsavedChanges(false);
     setIsEditMode(false);
     setShowDiscardConfirmation(false);
-    toast.info("Changes discarded");
+    toast.info('Changes discarded');
   };
 
   const handleResumeChange = (newResume: ResumeData) => {
@@ -118,7 +118,10 @@ export default function PreviewClient({ messageTip }: { messageTip?: string }) {
         ></path>
       </svg>
       <p className="text-sm text-left text-[#003c02] mr-2">
-        <span className="hidden md:block"> Your portfolio has been updated!</span>
+        <span className="hidden md:block">
+          {' '}
+          Your portfolio has been updated!
+        </span>
         <span className="md:hidden"> Portfolio updated!</span>
       </p>
       <a
@@ -174,14 +177,14 @@ export default function PreviewClient({ messageTip }: { messageTip?: string }) {
           status={resumeQuery.data?.resume?.status}
           onStatusChange={async (newStatus) => {
             await toggleStatusMutation.mutateAsync(newStatus);
-            const isFirstTime = !localStorage.getItem("publishedSite");
+            const isFirstTime = !localStorage.getItem('publishedSite');
 
-            if (isFirstTime && newStatus === "live") {
+            if (isFirstTime && newStatus === 'live') {
               setModalSiteLive(true);
-              localStorage.setItem("publishedSite", new Date().toDateString());
+              localStorage.setItem('publishedSite', new Date().toDateString());
             } else {
-              if (newStatus === "draft") {
-                toast.warning("Your portfolio has been unpublished");
+              if (newStatus === 'draft') {
+                toast.warning('Your portfolio has been unpublished');
               } else {
                 toast.custom(() => <CustomLiveToast />);
               }
@@ -194,11 +197,15 @@ export default function PreviewClient({ messageTip }: { messageTip?: string }) {
       <div className="max-w-3xl mx-auto w-full flex flex-col md:flex-row justify-between items-center px-4 md:px-0 gap-4">
         <ToggleGroup
           type="single"
-          value={isEditMode ? "edit" : "preview"}
-          onValueChange={(value) => setIsEditMode(value === "edit")}
+          value={isEditMode ? 'edit' : 'preview'}
+          onValueChange={(value) => setIsEditMode(value === 'edit')}
           aria-label="View mode"
         >
-          <ToggleGroupItem value="preview" aria-label="Preview mode" className="p-4">
+          <ToggleGroupItem
+            value="preview"
+            aria-label="Preview mode"
+            className="p-4"
+          >
             <Eye className="h-4 w-4 mr-1" />
             <span>Preview</span>
           </ToggleGroupItem>
@@ -230,7 +237,7 @@ export default function PreviewClient({ messageTip }: { messageTip?: string }) {
                 <Save className="h-4 w-4" />
               )}
               <span>
-                {saveResumeDataMutation.isPending ? "Saving..." : "Save"}
+                {saveResumeDataMutation.isPending ? 'Saving...' : 'Save'}
               </span>
             </Button>
           </div>

@@ -1,15 +1,15 @@
-import { auth } from "@clerk/nextjs/server";
-import { getResume, storeResume } from "@/lib/server/redisActions";
-import { redirect } from "next/navigation";
-import { Suspense } from "react";
-import LoadingFallback from "@/components/LoadingFallback";
-import { scrapePdfContent } from "@/lib/server/scrapePdfContent";
-import { deleteUploadThingFile } from "@/lib/server/deleteUploadThingFile";
+import { auth } from '@clerk/nextjs/server';
+import { getResume, storeResume } from '@/lib/server/redisActions';
+import { redirect } from 'next/navigation';
+import { Suspense } from 'react';
+import LoadingFallback from '@/components/LoadingFallback';
+import { scrapePdfContent } from '@/lib/server/scrapePdfContent';
+import { deleteUploadThingFile } from '@/lib/server/deleteUploadThingFile';
 
 async function PdfProcessing({ userId }: { userId: string }) {
   const resume = await getResume(userId);
 
-  if (!resume || !resume.file || !resume.file.url) redirect("/upload");
+  if (!resume || !resume.file || !resume.file.url) redirect('/upload');
 
   if (!resume.fileContent) {
     const fileContent = await scrapePdfContent(resume?.file.url);
@@ -28,7 +28,7 @@ async function PdfProcessing({ userId }: { userId: string }) {
         resumeData: null,
       });
 
-      redirect("/upload");
+      redirect('/upload');
     }
 
     await storeResume(userId, {
@@ -38,7 +38,7 @@ async function PdfProcessing({ userId }: { userId: string }) {
     });
   }
 
-  redirect("/preview");
+  redirect('/preview');
   return <></>; // This line will never be reached due to the redirect
 }
 

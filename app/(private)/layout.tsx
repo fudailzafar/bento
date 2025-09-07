@@ -1,7 +1,6 @@
-import { Footer } from "@/components/Footer";
-import { Header } from "@/components/Header";
-import { ReactQueryClientProvider } from "@/components/ReactQueryClientProvider";
-import React from "react";
+import { Header } from '@/components/Header';
+import { ReactQueryClientProvider } from '@/components/ReactQueryClientProvider';
+import React from 'react';
 
 export default function RootLayout({
   children,
@@ -16,7 +15,6 @@ export default function RootLayout({
           {children}
         </section>
       </ReactQueryClientProvider>
-      <Footer />
     </>
   );
 }

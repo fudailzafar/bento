@@ -74,7 +74,7 @@ export function Education({
   // Filter out invalid education entries (only require school)
   const validEducations = useMemo(
     () => educations.filter((edu) => edu.school),
-    [educations]
+    [educations],
   );
 
   if (validEducations.length === 0) {
@@ -83,27 +83,24 @@ export function Education({
 
   return (
     <Section>
-        <BlurFade delay={BLUR_FADE_DELAY * 7}>
-          <h2 className="text-xl font-bold mb-2" id="education-section">
-            Education
-          </h2>
-        </BlurFade>
-        <div
-          className="space-y-4"
-          role="feed"
-          aria-labelledby="education-section"
-        >
-          {validEducations.map((item, idx) => (
-            <BlurFade
-              key={item.school}
-              delay={BLUR_FADE_DELAY * 8 + idx * 0.05}
-            >
-              <article key={idx} role="article">
-                <EducationItem education={item} />
-              </article>
-            </BlurFade>
-          ))}
-        </div>
+      <BlurFade delay={BLUR_FADE_DELAY * 7}>
+        <h2 className="text-xl font-bold mb-2" id="education-section">
+          Education
+        </h2>
+      </BlurFade>
+      <div
+        className="space-y-4"
+        role="feed"
+        aria-labelledby="education-section"
+      >
+        {validEducations.map((item, idx) => (
+          <BlurFade key={item.school} delay={BLUR_FADE_DELAY * 8 + idx * 0.05}>
+            <article key={idx} role="article">
+              <EducationItem education={item} />
+            </article>
+          </BlurFade>
+        ))}
+      </div>
     </Section>
   );
 }

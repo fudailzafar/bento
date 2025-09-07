@@ -32,14 +32,20 @@ const WorkExperienceSection = z.array(
       .string()
       .optional()
       .default('')
-      .describe("Location with format 'City, Country' or could be Hybrid or Remote"),
+      .describe(
+        "Location with format 'City, Country' or could be Hybrid or Remote",
+      ),
     contract: z
       .string()
       .optional()
       .default('')
       .describe('Type of work contract like Full-time, Part-time, Contract'),
     title: z.string().optional().default('').describe('Job title'),
-    start: z.string().optional().default('').describe("Start date in format 'YYYY-MM-DD'"),
+    start: z
+      .string()
+      .optional()
+      .default('')
+      .describe("Start date in format 'YYYY-MM-DD'"),
     end: z
       .string()
       .optional()
@@ -47,7 +53,7 @@ const WorkExperienceSection = z.array(
       .default('')
       .describe("End date in format 'YYYY-MM-DD'"),
     description: z.string().optional().default('').describe('Job description'),
-  })
+  }),
 );
 
 const EducationSection = z.array(
@@ -56,7 +62,7 @@ const EducationSection = z.array(
     degree: z.string().describe('Degree or certification obtained'),
     start: z.string().describe('Start year'),
     end: z.string().describe('End year'),
-  })
+  }),
 );
 
 const ContactSection = z.string().describe('Catchy Phrase for call to action');
@@ -64,10 +70,22 @@ const ContactSection = z.string().describe('Catchy Phrase for call to action');
 const ProjectSection = z.array(
   z.object({
     title: z.string().optional().default('').describe('Project Title'),
-    description: z.string().optional().default('').describe('Project description'),
+    description: z
+      .string()
+      .optional()
+      .default('')
+      .describe('Project description'),
     liveLink: z.string().optional().default('').describe('Project website URL'),
-    githubLink: z.string().optional().default('').describe('Project website URL'),
-    start: z.string().optional().default('').describe("Start date in format 'YYYY-MM-DD'"),
+    githubLink: z
+      .string()
+      .optional()
+      .default('')
+      .describe('Project website URL'),
+    start: z
+      .string()
+      .optional()
+      .default('')
+      .describe("Start date in format 'YYYY-MM-DD'"),
     end: z
       .string()
       .optional()
@@ -78,7 +96,7 @@ const ProjectSection = z.array(
       .array(z.string())
       .describe('Skills used for building projects the user has made.')
       .optional(),
-  })
+  }),
 );
 
 export const ResumeDataSchema = z.object({

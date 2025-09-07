@@ -49,7 +49,7 @@ export function Header({
   const socialLinks = useMemo(() => {
     const formatSocialUrl = (
       url: string | undefined,
-      platform: 'github' | 'twitter' | 'linkedin'
+      platform: 'github' | 'twitter' | 'linkedin',
     ) => {
       if (!url) return undefined;
 
@@ -92,30 +92,28 @@ export function Header({
     <header className="flex items-start md:items-center justify-between gap-4 ">
       <div className="flex-1 space-y-1.5">
         <BlurFadeText
-                delay={BLUR_FADE_DELAY}
-                className="text-3xl font-bold tracking-tighter sm:text-5xl xl:text-6xl/none"
-                yOffset={8}
-                text={header.name}
-              />
+          delay={BLUR_FADE_DELAY}
+          className="text-3xl font-bold tracking-tighter sm:text-5xl xl:text-6xl/none"
+          yOffset={8}
+          text={header.name}
+        />
 
         <BlurFadeText
-                className="max-w-[600px] md:text-xl"
-                delay={BLUR_FADE_DELAY}
-                text={header.shortAbout}
-              />
-
-        
+          className="max-w-[600px] md:text-xl"
+          delay={BLUR_FADE_DELAY}
+          text={header.shortAbout}
+        />
       </div>
       <BlurFade delay={BLUR_FADE_DELAY}>
-              <Avatar className="size-28 border">
-                <AvatarImage src={picture} alt={`${header.name}'s profile picture`} />
-                <AvatarFallback>
-          {header.name
-            .split(' ')
-            .map((n) => n[0])
-            .join('')}
-        </AvatarFallback>
-              </Avatar>
+        <Avatar className="size-28 border">
+          <AvatarImage src={picture} alt={`${header.name}'s profile picture`} />
+          <AvatarFallback>
+            {header.name
+              .split(' ')
+              .map((n) => n[0])
+              .join('')}
+          </AvatarFallback>
+        </Avatar>
       </BlurFade>
     </header>
   );

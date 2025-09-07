@@ -1,10 +1,14 @@
-"use client";
+'use client';
 
-import { DockIcon } from "@/components/magicui/dock";
-import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
-import { HomeIcon } from "lucide-react";
-import { cn } from "@/lib/utils";
-import { buttonVariants } from "@/components/ui/button";
+import { DockIcon } from '@/components/magicui/dock';
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from '@/components/ui/tooltip';
+import { HomeIcon } from 'lucide-react';
+import { cn } from '@/lib/utils';
+import { buttonVariants } from '@/components/ui/button';
 
 export default function DockClient() {
   return (
@@ -14,7 +18,7 @@ export default function DockClient() {
           <button
             className={cn(
               buttonVariants({ variant: 'ghost', size: 'icon' }),
-              'size-12 rounded-full'
+              'size-12 rounded-full',
             )}
             onClick={() => {
               if (typeof window !== 'undefined') {
