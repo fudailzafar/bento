@@ -1,11 +1,11 @@
 'use client';
 
 import { Icons } from '@/components/icons';
-import { Section } from './ui/section';
+import { Section } from '../ui/section';
 import { easeInOutCubic } from '@/lib/animation';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import Link from 'next/link';
-import { Button } from './ui/button';
+import { Button } from '../ui/button';
 import Image from 'next/image';
 import { ArrowRight } from 'lucide-react';
 
