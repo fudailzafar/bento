@@ -65,7 +65,7 @@ const users: User[] = [
 
 export function Avatars() {
   return (
-    <section className="flex flex-col justify-center items-center my-10">
+    <section className="flex flex-col justify-center items-center mt-40 md:mt-80 mb-10">
       <h2 className="text-[28px] text-center font-bold mb-6">
         <span className="hidden sm:inline">
           Join hundreds of inspiring professionals
