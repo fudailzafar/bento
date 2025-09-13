@@ -57,7 +57,6 @@ export default function SignupCallbackPage() {
     <div className="min-h-screen flex items-center justify-center">
       <div className="text-center space-y-4">
         <LoaderIcon className="w-8 h-8 mx-auto" />
-        <p className="text-gray-600">Setting up your account...</p>
       </div>
     </div>
   );
