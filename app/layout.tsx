@@ -22,7 +22,7 @@ export const metadata: Metadata = {
     description:
       'Create a beautiful personal portfolio to show your professional experience, education, and everything you are and create - in one place.',
     url: 'https://portfoliofy.me',
-    siteName: 'Consicio',
+    siteName: 'Portfoliofy',
     images: [
       {
         url: 'https://portfoliofy.me/og.png',
@@ -57,7 +57,7 @@ export default function RootLayout({
           <body className={`${fontSans.className} min-h-screen flex flex-col`}>
             <main className="flex-1 flex flex-col">{children}</main>
             <Toaster richColors position="bottom-center" />
-            <GoogleAnalytics gaId="G-B99MN9ZMBL" />
+            <GoogleAnalytics gaId="G-WW2D1GVX99" />
           </body>
         </html>
       </ReactQueryClientProvider>
