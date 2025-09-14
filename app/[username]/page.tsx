@@ -39,7 +39,7 @@ function getSocialLinks(contacts?: ResumeDataSchemaType['header']['contacts']) {
 
   const formatSocialUrl = (
     url: string | undefined,
-    platform: 'github' | 'twitter' | 'linkedin',
+    platform: 'github' | 'twitter' | 'linkedin'
   ) => {
     if (!url) return undefined;
 
@@ -184,10 +184,10 @@ export default async function ProfilePage({
         <BlurFade delay={2.5}>
           <Image
             src={'/user/cv-not-found.png'}
-            alt=""
-            width={415}
-            height={0}
-            className="absolute bottom-0 object-cover rotate-3"
+            alt="not-found"
+            width={450}
+            height={450}
+            className="mt-10 bottom-0"
           />
         </BlurFade>
       </div>
@@ -265,7 +265,7 @@ export default async function ProfilePage({
                     aria-label="Website"
                     className={cn(
                       buttonVariants({ variant: 'ghost', size: 'icon' }),
-                      'size-12 rounded-full',
+                      'size-12 rounded-full'
                     )}
                   >
                     <GlobeIcon className="size-4" />
@@ -289,7 +289,7 @@ export default async function ProfilePage({
                     aria-label="GitHub"
                     className={cn(
                       buttonVariants({ variant: 'ghost', size: 'icon' }),
-                      'size-12 rounded-full',
+                      'size-12 rounded-full'
                     )}
                   >
                     <GitHubIcon className="size-4" />
@@ -313,7 +313,7 @@ export default async function ProfilePage({
                     aria-label="Twitter"
                     className={cn(
                       buttonVariants({ variant: 'ghost', size: 'icon' }),
-                      'size-12 rounded-full',
+                      'size-12 rounded-full'
                     )}
                   >
                     <XIcon className="size-4" />
@@ -337,7 +337,7 @@ export default async function ProfilePage({
                     aria-label="LinkedIn"
                     className={cn(
                       buttonVariants({ variant: 'ghost', size: 'icon' }),
-                      'size-12 rounded-full',
+                      'size-12 rounded-full'
                     )}
                   >
                     <LinkedInIcon className="size-4" />
