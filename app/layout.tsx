@@ -53,6 +53,9 @@ export const metadata: Metadata = {
     title: 'Portfoliofy - Your Personal Portfolio, but Rich and Beautiful.',
     card: 'summary_large_image',
   },
+  verification: {
+    google: 'ftfMZY0UZJdQsb3nV7elf6ppIpHq3QOPcOeX7275nP0',
+  },
 };
 
 export default function RootLayout({
