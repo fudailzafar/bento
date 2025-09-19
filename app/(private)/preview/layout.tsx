@@ -10,7 +10,6 @@ export default function RootLayout({
 }) {
   return (
     <>
-      <Header />
       <ReactQueryClientProvider>
         <PreviewProvider>
           <section className="flex-1 flex flex-col min-h-[calc(100vh-200px)]">
@@ -18,6 +17,7 @@ export default function RootLayout({
           </section>
         </PreviewProvider>
       </ReactQueryClientProvider>
+      <Header />
     </>
   );
 }

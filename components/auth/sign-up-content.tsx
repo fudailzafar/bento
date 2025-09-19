@@ -30,7 +30,7 @@ export default function SignupContent() {
   const [step, setStep] = useState<'username' | 'auth'>('username');
   const [direction, setDirection] = useState<'forward' | 'backward'>('forward');
 
-  const debouncedUsername = useDebounce(username, 500);
+  const debouncedUsername = useDebounce(username, 600);
   const hasCredentials = email.length > 0 || password.length > 0;
 
   useEffect(() => {

@@ -77,7 +77,7 @@ export async function generateMetadata({
   // If no user or no resume data, return a safe default metadata
   if (!user_id || !resume?.resumeData) {
     return {
-      title: 'Portfoliofy - Your Personal Portfolio, but Rich and Beautiful.',
+      title: 'Portfoliofy - A Portfolio, but Rich and Beautiful.',
       description:
         'Create a beautiful personal portfolio to show your professional experience, education, and everything you are and create - in one place.',
     };
