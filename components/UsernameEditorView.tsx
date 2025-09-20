@@ -22,6 +22,7 @@ import {
   DrawerTitle,
 } from '@/components/ui/drawer';
 import { useIsMobile } from './ui/use-mobile';
+import { ConfettiButton } from './ui/confetti';
 
 interface UsernameEditorContentProps {
   initialUsername: string;
@@ -135,22 +136,11 @@ function UsernameEditorContent({
                 <span className="text-design-resume">{prefix}</span>
                 <span className="text-black">{newUsername}</span>
               </div>
-              <Button
-                className="w-full bg-green-500 hover:bg-green-600 text-white text-sm font-normal rounded-xl py-3 flex items-center justify-center gap-2"
-                onClick={handleCopy}
-              >
-                {copied ? (
-                  <>
-                    <CheckCircleIcon className="w-5 h-5" />
-                    <span>Copied!</span>
-                  </>
-                ) : (
-                  <>
-                    <Copy className="w-5 h-5" />
-                    <span>Copy my Link</span>
-                  </>
-                )}
-              </Button>
+              <button className="w-full" onClick={handleCopy}>
+                <ConfettiButton className="w-full bg-green-500 hover:bg-green-600 text-white text-sm font-normal rounded-xl py-3 flex items-center justify-center gap-2 active:scale-95 transition-transform">
+                  Copy my Link
+                </ConfettiButton>
+              </button>
               <div className="text-design-resume font-normal text-xs mt-3">
                 The link is ready for your portfolio!
               </div>
@@ -189,22 +179,165 @@ function UsernameEditorContent({
                 {isInitialUsername ? (
                   <></>
                 ) : checkUsernameMutation.isPending ? (
-                  <div className="w-4 h-4 rounded-full border-2 border-gray-300 border-t-primary animate-spin" />
+                  <svg
+                    height="16"
+                    width="16"
+                    className="styles_container__9hC7b"
+                    viewBox="0 0 100 100"
+                    preserveAspectRatio="xMidYMid"
+                  >
+                    <g transform="rotate(0 50 50)">
+                      <rect
+                        x="44"
+                        y="0.5"
+                        rx="6"
+                        ry="6.29"
+                        width="12"
+                        height="37"
+                        fill="currentColor"
+                      >
+                        <animate
+                          attributeName="opacity"
+                          values="1;0"
+                          keyTimes="0;1"
+                          dur="0.625s"
+                          begin="-0.5208333333333333s"
+                          repeatCount="indefinite"
+                        ></animate>
+                      </rect>
+                    </g>
+                    <g transform="rotate(60 50 50)">
+                      <rect
+                        x="44"
+                        y="0.5"
+                        rx="6"
+                        ry="6.29"
+                        width="12"
+                        height="37"
+                        fill="currentColor"
+                      >
+                        <animate
+                          attributeName="opacity"
+                          values="1;0"
+                          keyTimes="0;1"
+                          dur="0.625s"
+                          begin="-0.41666666666666663s"
+                          repeatCount="indefinite"
+                        ></animate>
+                      </rect>
+                    </g>
+                    <g transform="rotate(120 50 50)">
+                      <rect
+                        x="44"
+                        y="0.5"
+                        rx="6"
+                        ry="6.29"
+                        width="12"
+                        height="37"
+                        fill="currentColor"
+                      >
+                        <animate
+                          attributeName="opacity"
+                          values="1;0"
+                          keyTimes="0;1"
+                          dur="0.625s"
+                          begin="-0.31249999999999994s"
+                          repeatCount="indefinite"
+                        ></animate>
+                      </rect>
+                    </g>
+                    <g transform="rotate(180 50 50)">
+                      <rect
+                        x="44"
+                        y="0.5"
+                        rx="6"
+                        ry="6.29"
+                        width="12"
+                        height="37"
+                        fill="currentColor"
+                      >
+                        <animate
+                          attributeName="opacity"
+                          values="1;0"
+                          keyTimes="0;1"
+                          dur="0.625s"
+                          begin="-0.20833333333333331s"
+                          repeatCount="indefinite"
+                        ></animate>
+                      </rect>
+                    </g>
+                    <g transform="rotate(240 50 50)">
+                      <rect
+                        x="44"
+                        y="0.5"
+                        rx="6"
+                        ry="6.29"
+                        width="12"
+                        height="37"
+                        fill="currentColor"
+                      >
+                        <animate
+                          attributeName="opacity"
+                          values="1;0"
+                          keyTimes="0;1"
+                          dur="0.625s"
+                          begin="-0.10416666666666666s"
+                          repeatCount="indefinite"
+                        ></animate>
+                      </rect>
+                    </g>
+                    <g transform="rotate(300 50 50)">
+                      <rect
+                        x="44"
+                        y="0.5"
+                        rx="6"
+                        ry="6.29"
+                        width="12"
+                        height="37"
+                        fill="currentColor"
+                      >
+                        <animate
+                          attributeName="opacity"
+                          values="1;0"
+                          keyTimes="0;1"
+                          dur="0.625s"
+                          begin="0s"
+                          repeatCount="indefinite"
+                        ></animate>
+                      </rect>
+                    </g>
+                  </svg>
                 ) : isValid ? (
                   <svg
+                    viewBox="0 0 154 154"
                     xmlns="http://www.w3.org/2000/svg"
-                    width="24"
-                    height="24"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="white"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    className="lucide lucide-circle-check-icon lucide-circle-check"
+                    width="16"
+                    height="16"
                   >
-                    <circle cx="12" cy="12" r="10" fill="green" />
-                    <path d="m9 12 2 2 4-4" />
+                    <g fill="none" stroke="#4EDD76" stroke-width="2">
+                      <circle
+                        id="colored"
+                        fill="#4EDD76"
+                        cx="77"
+                        cy="77"
+                        r="72"
+                        style={{
+                          strokeDasharray: '480px, 480px',
+                          strokeDashoffset: '960px',
+                        }}
+                      ></circle>
+                      <polyline
+                        className="st0"
+                        stroke="#fff"
+                        stroke-width="10"
+                        points="43.5,77.8 63.7,97.9 112.2,49.4"
+                        style={{
+                          strokeDasharray: '100px, 100px',
+                          strokeDashoffset: '200px',
+                          animationDelay: '0s',
+                        }}
+                      ></polyline>
+                    </g>
                   </svg>
                 ) : newUsername ? (
                   <div className="cursor-pointer">
@@ -239,7 +372,134 @@ function UsernameEditorContent({
               className="w-full py-4"
             >
               {updateUsernameMutation.isPending ? (
-                <div className="w-4 h-4 rounded-full border-2 border-gray-300 border-t-primary animate-spin" />
+                <svg
+                  height="16"
+                  width="16"
+                  className="styles_container__9hC7b"
+                  viewBox="0 0 100 100"
+                  preserveAspectRatio="xMidYMid"
+                >
+                  <g transform="rotate(0 50 50)">
+                    <rect
+                      x="44"
+                      y="0.5"
+                      rx="6"
+                      ry="6.29"
+                      width="12"
+                      height="37"
+                      fill="currentColor"
+                    >
+                      <animate
+                        attributeName="opacity"
+                        values="1;0"
+                        keyTimes="0;1"
+                        dur="0.625s"
+                        begin="-0.5208333333333333s"
+                        repeatCount="indefinite"
+                      ></animate>
+                    </rect>
+                  </g>
+                  <g transform="rotate(60 50 50)">
+                    <rect
+                      x="44"
+                      y="0.5"
+                      rx="6"
+                      ry="6.29"
+                      width="12"
+                      height="37"
+                      fill="currentColor"
+                    >
+                      <animate
+                        attributeName="opacity"
+                        values="1;0"
+                        keyTimes="0;1"
+                        dur="0.625s"
+                        begin="-0.41666666666666663s"
+                        repeatCount="indefinite"
+                      ></animate>
+                    </rect>
+                  </g>
+                  <g transform="rotate(120 50 50)">
+                    <rect
+                      x="44"
+                      y="0.5"
+                      rx="6"
+                      ry="6.29"
+                      width="12"
+                      height="37"
+                      fill="currentColor"
+                    >
+                      <animate
+                        attributeName="opacity"
+                        values="1;0"
+                        keyTimes="0;1"
+                        dur="0.625s"
+                        begin="-0.31249999999999994s"
+                        repeatCount="indefinite"
+                      ></animate>
+                    </rect>
+                  </g>
+                  <g transform="rotate(180 50 50)">
+                    <rect
+                      x="44"
+                      y="0.5"
+                      rx="6"
+                      ry="6.29"
+                      width="12"
+                      height="37"
+                      fill="currentColor"
+                    >
+                      <animate
+                        attributeName="opacity"
+                        values="1;0"
+                        keyTimes="0;1"
+                        dur="0.625s"
+                        begin="-0.20833333333333331s"
+                        repeatCount="indefinite"
+                      ></animate>
+                    </rect>
+                  </g>
+                  <g transform="rotate(240 50 50)">
+                    <rect
+                      x="44"
+                      y="0.5"
+                      rx="6"
+                      ry="6.29"
+                      width="12"
+                      height="37"
+                      fill="currentColor"
+                    >
+                      <animate
+                        attributeName="opacity"
+                        values="1;0"
+                        keyTimes="0;1"
+                        dur="0.625s"
+                        begin="-0.10416666666666666s"
+                        repeatCount="indefinite"
+                      ></animate>
+                    </rect>
+                  </g>
+                  <g transform="rotate(300 50 50)">
+                    <rect
+                      x="44"
+                      y="0.5"
+                      rx="6"
+                      ry="6.29"
+                      width="12"
+                      height="37"
+                      fill="currentColor"
+                    >
+                      <animate
+                        attributeName="opacity"
+                        values="1;0"
+                        keyTimes="0;1"
+                        dur="0.625s"
+                        begin="0s"
+                        repeatCount="indefinite"
+                      ></animate>
+                    </rect>
+                  </g>
+                </svg>
               ) : (
                 'Update My Username'
               )}

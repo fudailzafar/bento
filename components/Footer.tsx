@@ -61,7 +61,7 @@ export function Footer() {
           <Link
             target="_blank"
             rel="noopener noreferrer"
-            href="https://linkedin.com/in/fudailzafar"
+            href="https://drive.google.com/file/d/1sAd1Cyi2ujw0d5DVAG6HTjUssr6NE9KY/view?usp=sharing"
             className=""
           >
             <span className="hover:underline">Download Brand Assets</span>
