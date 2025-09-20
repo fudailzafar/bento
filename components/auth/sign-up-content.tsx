@@ -268,23 +268,23 @@ export default function SignupContent() {
                 damping: 20,
                 mass: 0.8,
               }}
-              className="space-y-4"
+              className="space-y-6"
             >
-              <div className="text-left">
-                <div>
+              <div className="text-left space-y-2">
+                <div className="mb-6">
                   <button type="button" onClick={handleBackToUsername}>
                     <ArrowLeftIcon />
                   </button>
                 </div>
-                <span className="font-normal text-base">
+                <p className="font-normal text-base text-design-black">
                   portfoliofy.me/{username} is yours!
-                </span>
-                <h2 className="text-[29px] lg:text-[32px] font-bold md:font-extrabold text-design-black mb-6 md:mb-4">
+                </p>
+                <h2 className="text-[32px] md:text-[48px] lg:text-[32px] font-bold text-design-black leading-tight">
                   Now, create your account.
                 </h2>
               </div>
 
-              <form onSubmit={handleCredentialsSignup} className="space-y-4">
+              <form onSubmit={handleCredentialsSignup} className="space-y-6 pt-8">
                 <div className="flex flex-col md:flex-row gap-3 md:gap-4">
                   <Input
                     id="email"
@@ -293,7 +293,7 @@ export default function SignupContent() {
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     disabled={isLoading}
-                    className="w-full h-12 px-4 bg-[#F5F5F5] border-0 rounded-lg text-base placeholder:text-gray-400 focus-visible:ring-0 focus-visible:ring-offset-0 outline-none"
+                    className="w-full h-14 px-4 bg-[#F5F5F5] border-0 rounded-xl text-base placeholder:text-gray-400 focus-visible:ring-0 focus-visible:ring-offset-0 outline-none"
                   />
 
                   <div className="relative w-full">
@@ -304,62 +304,56 @@ export default function SignupContent() {
                       value={password}
                       onChange={(e) => setPassword(e.target.value)}
                       disabled={isLoading}
-                      className="w-full h-12 px-4 pr-[76px] bg-[#F5F5F5] border-0 rounded-lg text-base placeholder:text-gray-400 focus-visible:ring-0 focus-visible:ring-offset-0 outline-none"
+                      className="w-full h-14 px-4 pr-[76px] bg-[#F5F5F5] border-0 rounded-xl text-base placeholder:text-gray-400 focus-visible:ring-0 focus-visible:ring-offset-0 outline-none"
                     />
                     <button
                       type="button"
                       onClick={() => setShowPassword(!showPassword)}
-                      className="absolute right-2 top-1/2 -translate-y-1/2 h-8 w-[60px] flex items-center justify-center bg-white hover:bg-gray-50 text-black text-xs font-semibold rounded shadow-[0_1px_2px_rgba(0,0,0,0.08)] transition-all active:scale-95"
+                      className="absolute right-3 top-1/2 -translate-y-1/2 h-9 px-4 flex items-center justify-center bg-white hover:bg-gray-50 text-black text-sm font-semibold rounded-lg shadow-[0_1px_2px_rgba(0,0,0,0.08)] transition-all active:scale-95"
                     >
                       {showPassword ? 'Hide' : 'Show'}
                     </button>
                   </div>
                 </div>
 
-                {hasCredentials && (
-                  <>
-                    {error && (
-                      <div className="text-xs text-red-600">{error}</div>
-                    )}
-
-                    <button
-                      type="submit"
-                      disabled={
-                        isLoading || !email || !password || password.length < 6
-                      }
-                      className="w-full cursor-pointer flex items-center active:scale-95 transition-all duration-300 ease-out justify-center gap-3 px-6 py-3 bg-black hover:bg-black/80 disabled:opacity-70 disabled:cursor-not-allowed text-white font-semibold tracking-tight text-sm rounded-lg"
-                    >
-                      {isLoading ? <LoaderIcon /> : 'Create Account'}
-                    </button>
-                  </>
+                {error && (
+                  <div className="text-sm text-red-600">{error}</div>
                 )}
-              </form>
 
-              <div className="relative">
-                <div className="flex justify-start text-sm uppercase text-black font-semibold">
-                  OR
-                </div>
-              </div>
-
-              {!hasCredentials ? (
-                <>
+                {hasCredentials && (
                   <button
-                    type="button"
-                    onClick={handleGoogleSignup}
-                    disabled={isLoading}
-                    className="w-full flex items-center active:scale-95 transition-all duration-300 ease-out justify-center gap-3 px-6 py-3 bg-design-primary hover:bg-design-primaryDark disabled:opacity-70 disabled:cursor-not-allowed text-white font-semibold tracking-tight text-sm rounded-lg"
+                    type="submit"
+                    disabled={
+                      isLoading || !email || !password || password.length < 6
+                    }
+                    className="w-full cursor-pointer flex items-center active:scale-95 transition-all duration-300 ease-out justify-center gap-3 px-6 py-4 bg-black hover:bg-black/80 disabled:opacity-70 disabled:cursor-not-allowed text-white font-semibold text-base rounded-xl"
                   >
-                    {isLoading ? (
-                      <LoaderIcon />
-                    ) : (
-                      <>
-                        <GoogleIcon />
-                        Sign up with Google
-                      </>
-                    )}
+                    {isLoading ? <LoaderIcon /> : 'Create Account'}
                   </button>
-                </>
-              ) : null}
+                )}
+
+                <div className="relative py-2">
+                  <div className="flex justify-start text-base font-bold text-black">
+                    OR
+                  </div>
+                </div>
+
+                <button
+                  type="button"
+                  onClick={handleGoogleSignup}
+                  disabled={isLoading}
+                  className="w-full flex items-center active:scale-95 transition-all duration-300 ease-out justify-center gap-3 px-6 py-4 bg-[#4285F4] hover:bg-[#357AE8] disabled:opacity-70 disabled:cursor-not-allowed text-white font-semibold text-base rounded-xl"
+                >
+                  {isLoading ? (
+                    <LoaderIcon />
+                  ) : (
+                    <>
+                      <GoogleIcon />
+                      Sign up with Google
+                    </>
+                  )}
+                </button>
+              </form>
             </motion.div>
           )}
         </AnimatePresence>
