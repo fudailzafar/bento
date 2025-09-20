@@ -12,7 +12,7 @@ export function VideoDialog() {
       </div>
       <div className="block sm:hidden">
         <video
-          src="/home/portfoliofy-demo.mp4"
+          src="/home/portfoliofy-mobile-demo.mp4"
           autoPlay
           loop
           muted
