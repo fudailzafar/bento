@@ -1,4 +1,5 @@
 import { DemoResume } from './DemoResume';
+import DemoResumeDesktop from './DemoResumeDesktop';
 
 export function Demo() {
   return (
@@ -24,11 +25,18 @@ export function Demo() {
               And more
             </div>
           </div>
-          <div className="max-w-[340px] md:mt-12 md:max-w-full flex flex-col md:gap-y-2 text-center font-light text-[26px] md:text-3xl text-gray-700 mx-auto">
-            <p>All your content integrated into your personal page.</p>
+          <div className="max-w-[350px] md:mt-12 md:max-w-full flex flex-col md:gap-y-2 text-center font-light text-[26px] md:text-3xl text-gray-700 mx-auto">
+            <p>All your story integrated into your personal page.</p>
+          </div>
+          <div className="max-w-[340px] md:mt-2 md:max-w-full text-center font-light text-[26px] md:text-3xl text-gray-700 mx-auto">
             <p>No more hiding your content behind links.</p>
           </div>
-          <DemoResume />
+          <div className="md:hidden">
+            <DemoResume />
+          </div>
+          <div className="hidden md:block">
+            <DemoResumeDesktop />
+          </div>
         </div>
       </div>
     </>

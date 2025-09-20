@@ -24,6 +24,7 @@ import {
 } from '@/components/ui/alert-dialog';
 
 import { toast } from 'sonner';
+import { CustomSpinner } from '@/components/CustomSpinner';
 
 export default function PreviewClient({ messageTip }: { messageTip?: string }) {
   const { user } = useUser();
@@ -228,16 +229,16 @@ export default function PreviewClient({ messageTip }: { messageTip?: string }) {
             </Button>
             <Button
               onClick={handleSaveChanges}
-              className="flex items-center gap-1"
+              className="flex items-center gap-1 w-24"
               disabled={!hasUnsavedChanges || saveResumeDataMutation.isPending}
             >
               {saveResumeDataMutation.isPending ? (
-                <span className="animate-spin">⌛</span>
+                <div className="w-4 h-4 rounded-full border-2 border-gray-50 border-t-primary animate-spin" />
               ) : (
                 <Save className="h-4 w-4" />
               )}
               <span>
-                {saveResumeDataMutation.isPending ? 'Saving...' : 'Save'}
+                {saveResumeDataMutation.isPending ? '' : 'Save'}
               </span>
             </Button>
           </div>
