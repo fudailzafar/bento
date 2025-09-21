@@ -1,7 +1,8 @@
+import BlurFade from '@/components/magicui/blur-fade';
 import { Badge } from '@/components/ui/badge';
 import { Section } from '@/components/ui/section';
 import { cn } from '@/lib/utils';
-import BlurFade from '../magicui/blur-fade';
+
 const BLUR_FADE_DELAY = 0.04;
 
 type Skills = readonly string[];

@@ -1,5 +1,5 @@
 import { upstashRedis } from '@/lib/server/redis';
-import { Resume } from '@/lib/server/redisActions';
+import { Resume } from '@/lib/server/redis-actions';
 import { NextResponse } from 'next/server';
 import { unstable_cache } from 'next/cache';
 

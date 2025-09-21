@@ -2,10 +2,10 @@
 
 import { Button } from '@/components/ui/button';
 import { cn, getDomainUrl } from '@/lib/utils';
-import { ExternalLink, Pencil } from 'lucide-react';
+import { Pencil } from 'lucide-react';
 import { useState } from 'react';
 import { toast } from 'sonner';
-import UsernameEditorView from './UsernameEditorView';
+import UsernameEditorView from './username-editor-view';
 
 export type PublishStatuses = 'draft' | 'live';
 
@@ -35,41 +35,6 @@ export default function PreviewActionbar({
   return (
     <>
       <div className="w-full rounded-lg bg-[#fcfcfc] border-[0.5px] border-neutral-300 flex items-center justify-between py-3 px-5  sm:px-4 sm:py-2.5  flex-col sm:flex-row gap-4">
-        <div className="flex flex-col sm:flex-row items-center gap-4 w-full">
-          <div className="flex items-center gap-1 mr-1">
-            <img
-              src="/icons/link-icon.png"
-              alt="Link Icon"
-              className={cn(
-                'w-4 h-4 text-design-black ',
-                status === 'live' && 'cursor-pointer',
-              )}
-              onClick={() => {
-                if (!initialUsername || status !== 'live') return;
-                const portofolioUrl = getDomainUrl(initialUsername);
-                navigator.clipboard.writeText(portofolioUrl);
-                toast.success('Copied link to your website');
-              }}
-            />
-            <p className="text-sm text-design-black">{prefix}</p>
-          </div>
-
-          <div className="overflow-hidden rounded bg-white border-[0.5px] border-neutral-300 flex flex-row md:w-80 w-full">
-            <span className="flex-1 p-3 text-sm text-[#5d5d5d] border-none outline-none focus:ring-0 bg-transparent w-fit truncate">
-              {initialUsername}
-            </span>
-
-            <Button
-              variant="ghost"
-              size="icon"
-              className="size-[44px] flex items-center justify-center border-l-[0.5px]"
-              onClick={() => setIsEditorOpen(true)}
-            >
-              <Pencil className="w-4 h-4" />
-            </Button>
-          </div>
-        </div>
-
         <div className="flex items-center gap-4">
           <div className="flex items-center gap-2">
             <div className="flex items-center gap-1">

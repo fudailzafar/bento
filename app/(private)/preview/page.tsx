@@ -1,22 +1,25 @@
-import { auth } from '@clerk/nextjs/server';
+// import { auth } from '@clerk/nextjs/server';
 import PreviewClient from './client';
 import {
   createUsernameLookup,
   getResume,
   getUsernameById,
   storeResume,
-} from '@/lib/server/redisActions';
-import { generateResumeObject } from '@/lib/server/ai/generateResumeObject.gemini';
+} from '@/lib/server/redis-actions';
+import { generateResumeObject } from '@/lib/server/ai/generate-resume-object-gemini';
 import { redirect } from 'next/navigation';
 import { Suspense } from 'react';
-import LoadingFallback from '@/components/LoadingFallback';
+import LoadingFallback from '@/components/loading-fallback';
 import { MAX_USERNAME_LENGTH } from '@/lib/config';
-import { currentUser } from '@clerk/nextjs/server';
+import { getServerSession } from 'next-auth';
+import { authOptions } from '@/app/api/auth/[...nextauth]/route';
+// import { currentUser } from '@clerk/nextjs/server';
 
 async function LLMProcessing({ userId }: { userId: string }) {
-  const user = await currentUser();
+  // const user = await currentUser();
 
   let resume = await getResume(userId);
+  const session = await getServerSession(authOptions);
 
   if (!resume?.fileContent || !resume.file) redirect('/upload');
 
@@ -30,8 +33,7 @@ async function LLMProcessing({ userId }: { userId: string }) {
         "We couldn't extract data from your PDF. Please edit your resume manually.";
       resumeObject = {
         header: {
-          name:
-            user?.fullName || user?.emailAddresses[0]?.emailAddress || 'user',
+          name: session.user.name || session.user.email || 'user',
           shortAbout: 'This is a short description of your profile',
           location: 'Your City, Your Country',
           contacts: {
@@ -142,9 +144,13 @@ async function LLMProcessing({ userId }: { userId: string }) {
 }
 
 export default async function Preview() {
-  const { userId, redirectToSignIn } = await auth();
+  const session = await getServerSession(authOptions);
 
-  if (!userId) return redirectToSignIn();
+  if (!session?.user?.email) {
+    redirect('/login');
+  }
+
+  const userId = session.user.email;
 
   return (
     <>

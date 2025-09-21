@@ -1,10 +1,9 @@
 'use client';
 
 import { useState, useEffect, useRef } from 'react';
-import { CheckCircleIcon, Copy } from 'lucide-react';
 import { X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { useUserActions } from '@/hooks/useUserActions';
+import { useUserActions } from '@/hooks/use-user-actions';
 import { toast } from 'sonner';
 import { MAX_USERNAME_LENGTH } from '@/lib/config';
 import {
@@ -21,8 +20,8 @@ import {
   DrawerHeader,
   DrawerTitle,
 } from '@/components/ui/drawer';
-import { useIsMobile } from './ui/use-mobile';
-import { ConfettiButton } from './ui/confetti';
+import { ConfettiButton } from '../ui/confetti';
+import { useIsMobile } from '@/hooks/use-mobile';
 
 interface UsernameEditorContentProps {
   initialUsername: string;
@@ -329,7 +328,7 @@ function UsernameEditorContent({
                       <polyline
                         className="st0"
                         stroke="#fff"
-                        stroke-width="10"
+                        strokeWidth="10"
                         points="43.5,77.8 63.7,97.9 112.2,49.4"
                         style={{
                           strokeDasharray: '100px, 100px',
@@ -527,7 +526,7 @@ export default function UsernameEditorView({
   if (!isMobile) {
     return (
       <Dialog open={isOpen} onOpenChange={onClose}>
-        <DialogContent className="sm:max-w-[425px]">
+        <DialogContent className="sm:max-w-[400px]">
           <DialogHeader>
             <DialogTitle>Change Username</DialogTitle>
             <DialogDescription>
