@@ -1,4 +1,4 @@
-import LoadingFallback from '../../upload/loading-fallback';
+import LoadingFallback from '../../loading-fallback';
 import { ResumeData } from '../../../lib/server/redis-actions';
 import { Header } from './header';
 

@@ -18,7 +18,7 @@ const config: Config = {
         design: {
           black: '#1f1f1f',
           white: '#ffffff',
-          gray: '#5d5d5d',
+          gray: '#6c6c6c',
           resume: '#6B7280',
         },
         background: 'hsl(var(--background))',

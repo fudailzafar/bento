@@ -9,7 +9,7 @@ import {
 import { generateResumeObject } from '@/lib/server/ai/generate-resume-object-gemini';
 import { redirect } from 'next/navigation';
 import { Suspense } from 'react';
-import LoadingFallback from '@/components/upload/loading-fallback';
+import LoadingFallback from '@/components/loading-fallback';
 import { MAX_USERNAME_LENGTH } from '@/lib/config';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/app/api/auth/[...nextauth]/route';

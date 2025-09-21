@@ -11,7 +11,7 @@ import {
 } from '@/components/ui/tooltip';
 import { useEffect, useState } from 'react';
 import { CustomSpinner } from '@/components/upload/custom-spinner';
-import LoadingFallback from '@/components/upload/loading-fallback';
+import LoadingFallback from '@/components/loading-fallback';
 import {
   Dialog,
   DialogTrigger,
