@@ -5,11 +5,5 @@ export function SessionProviderComponent({
 }: {
   children: React.ReactNode;
 }) {
-  return (
-    <>
-      <div>
-        <SessionProvider>{children}</SessionProvider>
-      </div>
-    </>
-  );
+  return <SessionProvider>{children}</SessionProvider>;
 }

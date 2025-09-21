@@ -328,7 +328,7 @@ function UsernameEditorContent({
                       <polyline
                         className="st0"
                         stroke="#fff"
-                        stroke-width="10"
+                        strokeWidth="10"
                         points="43.5,77.8 63.7,97.9 112.2,49.4"
                         style={{
                           strokeDasharray: '100px, 100px',
@@ -526,7 +526,7 @@ export default function UsernameEditorView({
   if (!isMobile) {
     return (
       <Dialog open={isOpen} onOpenChange={onClose}>
-        <DialogContent className="sm:max-w-[425px]">
+        <DialogContent className="sm:max-w-[400px]">
           <DialogHeader>
             <DialogTitle>Change Username</DialogTitle>
             <DialogDescription>
