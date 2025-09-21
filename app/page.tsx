@@ -2,9 +2,9 @@ import { Footer } from '@/components/home/footer';
 import { UniqueLink } from '@/components/home/unique-link';
 import { VideoDialog } from '@/components/home/video-dialog';
 import { Avatars } from '@/components/home/avatars';
-import { Demo } from '@/components/home/Demo';
+import { Demo } from '@/components/home/demo';
 import { Cta } from '@/components/home/cta';
-import { Hero } from '@/components/home/Hero';
+import { Hero } from '@/components/home/hero';
 
 export default function Home() {
   return (
