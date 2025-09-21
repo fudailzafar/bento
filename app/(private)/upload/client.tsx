@@ -10,15 +10,15 @@ import {
   TooltipTrigger,
 } from '@/components/ui/tooltip';
 import { useEffect, useState } from 'react';
-import { CustomSpinner } from '@/components/CustomSpinner';
-import LoadingFallback from '@/components/LoadingFallback';
+import { CustomSpinner } from '@/components/upload/custom-spinner';
+import LoadingFallback from '@/components/upload/loading-fallback';
 import {
   Dialog,
   DialogTrigger,
   DialogContent,
   DialogTitle,
 } from '@/components/ui/dialog';
-import { useUserActions } from '@/hooks/useUserActions';
+import { useUserActions } from '@/hooks/use-user-actions';
 import { UploadButton } from '@/lib/utils';
 
 type FileState =

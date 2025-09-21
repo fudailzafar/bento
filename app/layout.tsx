@@ -1,11 +1,12 @@
 import type React from 'react';
 import { Inter as FontSans } from 'next/font/google';
-import { ClerkProvider } from '@clerk/nextjs';
+// import { ClerkProvider } from '@clerk/nextjs';
 import './globals.css';
 import { Toaster } from '@/components/ui/sonner';
-import { ReactQueryClientProvider } from '@/components/ReactQueryClientProvider';
+import { ReactQueryClientProvider } from '@/components/react-client-query-provider';
 import { Metadata } from 'next';
 import { GoogleAnalytics } from '@next/third-parties/google';
+import { SessionProviderComponent } from '../components/session-provider';
 
 const fontSans = FontSans({
   subsets: ['latin'],
@@ -64,25 +65,29 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <ClerkProvider>
-      <ReactQueryClientProvider>
-        <html lang="en">
-          <head>
-            {/* {process.env.NODE_ENV === "development" && (
+    // <ClerkProvider>
+
+    <ReactQueryClientProvider>
+      <html lang="en">
+        <head>
+          {/* {process.env.NODE_ENV === "development" && (
               <script
                 crossOrigin="anonymous"
                 src="//unpkg.com/react-scan/dist/auto.global.js"
               />
             )} */}
-            {/* rest of your scripts go under */}
-          </head>
-          <body className={`${fontSans.className} min-h-screen flex flex-col`}>
+          {/* rest of your scripts go under */}
+        </head>
+        <body className={`${fontSans.className} min-h-screen flex flex-col`}>
+          <SessionProviderComponent>
             <main className="flex-1 flex flex-col">{children}</main>
             <Toaster richColors position="bottom-center" />
             <GoogleAnalytics gaId="G-WW2D1GVX99" />
-          </body>
-        </html>
-      </ReactQueryClientProvider>
-    </ClerkProvider>
+          </SessionProviderComponent>
+        </body>
+      </html>
+    </ReactQueryClientProvider>
+
+    // </ClerkProvider>
   );
 }

@@ -8,6 +8,7 @@ const REDIS_KEYS = {
   RESUME_PREFIX: 'resume:', // Using colon is a Redis convention for namespacing
   USER_ID_PREFIX: 'user:id:',
   USER_NAME_PREFIX: 'user:name:',
+  USER_PROFILE_PREFIX: 'user:profile:',
 } as const;
 
 // Define the file schema
@@ -29,9 +30,20 @@ const ResumeSchema = z.object({
   resumeData: ResumeDataSchema.nullish(),
 });
 
+// Define user profile schema
+const UserProfileSchema = z.object({
+  id: z.string(),
+  email: z.string(),
+  name: z.string().optional(),
+  image: z.string().optional(),
+  createdAt: z.string(),
+  updatedAt: z.string(),
+});
+
 // Type inference for the resume data
 export type ResumeData = z.infer<typeof ResumeDataSchema>;
 export type Resume = z.infer<typeof ResumeSchema>;
+export type UserProfile = z.infer<typeof UserProfileSchema>;
 
 // Function to get resume data for a user
 export async function getResume(userId: string): Promise<Resume | undefined> {
@@ -63,6 +75,50 @@ export async function storeResume(
     }
     console.error('Error storing resume:', error);
     throw new Error('Failed to store resume');
+  }
+}
+
+// Function to store user profile data
+export async function storeUserProfile(
+  userId: string,
+  profileData: Omit<UserProfile, 'createdAt' | 'updatedAt'>,
+): Promise<void> {
+  try {
+    const now = new Date().toISOString();
+    const existingProfile = await getUserProfile(userId);
+
+    const userProfile: UserProfile = {
+      ...profileData,
+      createdAt: existingProfile?.createdAt || now,
+      updatedAt: now,
+    };
+
+    const validatedData = UserProfileSchema.parse(userProfile);
+    await upstashRedis.set(
+      `${REDIS_KEYS.USER_PROFILE_PREFIX}${userId}`,
+      validatedData,
+    );
+  } catch (error) {
+    if (error instanceof z.ZodError) {
+      throw error;
+    }
+    console.error('Error storing user profile:', error);
+    throw new Error('Failed to store user profile');
+  }
+}
+
+// Function to get user profile data
+export async function getUserProfile(
+  userId: string,
+): Promise<UserProfile | undefined> {
+  try {
+    const profile = await upstashRedis.get<UserProfile>(
+      `${REDIS_KEYS.USER_PROFILE_PREFIX}${userId}`,
+    );
+    return profile || undefined;
+  } catch (error) {
+    console.error('Error retrieving user profile:', error);
+    throw new Error('Failed to retrieve user profile');
   }
 }
 

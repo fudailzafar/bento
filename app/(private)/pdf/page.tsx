@@ -1,10 +1,12 @@
-import { auth } from '@clerk/nextjs/server';
-import { getResume, storeResume } from '@/lib/server/redisActions';
+// import { auth } from '@clerk/nextjs/server';
+import { getServerSession } from 'next-auth';
+import { authOptions } from '@/app/api/auth/[...nextauth]/route';
+import { getResume, storeResume } from '@/lib/server/redis-actions';
 import { redirect } from 'next/navigation';
 import { Suspense } from 'react';
-import LoadingFallback from '@/components/LoadingFallback';
-import { scrapePdfContent } from '@/lib/server/scrapePdfContent';
-import { deleteUploadThingFile } from '@/lib/server/deleteUploadThingFile';
+import LoadingFallback from '@/components/upload/loading-fallback';
+import { scrapePdfContent } from '@/lib/server/scrape-pdf-actions';
+import { deleteUploadThingFile } from '@/lib/server/delete-uploadthing-file';
 
 async function PdfProcessing({ userId }: { userId: string }) {
   const resume = await getResume(userId);
@@ -43,9 +45,14 @@ async function PdfProcessing({ userId }: { userId: string }) {
 }
 
 export default async function Pdf() {
-  const { userId, redirectToSignIn } = await auth();
+  const session = await getServerSession(authOptions);
 
-  if (!userId) return redirectToSignIn();
+  if (!session?.user?.email) {
+    redirect('/login');
+  }
+
+  // Use email as userId or create a consistent user identifier
+  const userId = session.user.email;
 
   return (
     <>
