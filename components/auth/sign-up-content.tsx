@@ -342,7 +342,7 @@ export default function SignupContent() {
                   type="button"
                   onClick={handleGoogleSignup}
                   disabled={isLoading}
-                  className="w-full flex items-center active:scale-95 transition-all duration-300 ease-out justify-center gap-3 px-6 py-4 bg-[#4285F4] hover:bg-[#357AE8] disabled:opacity-70 disabled:cursor-not-allowed text-white font-semibold text-base rounded-xl"
+                  className="w-full flex items-center active:scale-95 transition-all duration-300 ease-out justify-center gap-3 px-6 py-4 bg-design-primary hover:bg-design-primaryDark disabled:opacity-70 disabled:cursor-not-allowed text-white font-semibold text-base rounded-xl"
                 >
                   {isLoading ? (
                     <LoaderIcon />
