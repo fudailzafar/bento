@@ -1,9 +1,10 @@
 import { Footer } from '@/components/home/footer';
-import { Avatars } from '@/components/home/avatars';
-import { Cta } from '@/components/home/cta';
-import { Demo } from '@/components/home/demo';
-import { Hero } from '@/components/home/hero';
+import { Avatars } from '@/components/home/Avatars';
+import { Cta } from '@/components/home/Cta';
+import { Demo } from '@/components/home/Demo';
+import { Hero } from '@/components/home/Hero';
 import { VideoDialog } from '@/components/home/video-dialog';
+import { UniqueLink } from '@/components/home/unique-link';
 
 export default function Home() {
   return (
@@ -12,6 +13,7 @@ export default function Home() {
       <VideoDialog />
       <Avatars />
       <Demo />
+      <UniqueLink />
       <Cta />
       <Footer />
     </>
