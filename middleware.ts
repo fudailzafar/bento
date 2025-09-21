@@ -10,7 +10,7 @@ export async function middleware(req: NextRequest) {
   // If accessing a protected route without token → redirect to login
   if (PRIVATE_ROUTES.some((route) => pathname.startsWith(`/${route}`))) {
     if (!token) {
-      const loginUrl = new URL('/api/auth/signin', req.url);
+      const loginUrl = new URL('/login', req.url);
       return NextResponse.redirect(loginUrl);
     }
   }
