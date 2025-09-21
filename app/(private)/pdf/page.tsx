@@ -4,7 +4,7 @@ import { authOptions } from '@/app/api/auth/[...nextauth]/route';
 import { getResume, storeResume } from '@/lib/server/redis-actions';
 import { redirect } from 'next/navigation';
 import { Suspense } from 'react';
-import LoadingFallback from '@/components/upload/loading-fallback';
+import LoadingFallback from '@/components/loading-fallback';
 import { scrapePdfContent } from '@/lib/server/scrape-pdf-actions';
 import { deleteUploadThingFile } from '@/lib/server/delete-uploadthing-file';
 
