@@ -545,7 +545,7 @@ export default function UsernameEditorView({
 
   return (
     <Drawer open={isOpen} onOpenChange={onClose}>
-      <DrawerContent className="p-3 pb-96">
+      <DrawerContent className="p-3 pb-64">
         <DrawerHeader>
           <DrawerTitle>Change Username</DrawerTitle>
           <DrawerDescription>
