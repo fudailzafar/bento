@@ -1,4 +1,3 @@
-// import { auth } from '@clerk/nextjs/server';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/app/api/auth/[...nextauth]/route';
 import { getResume, storeResume } from '@/lib/server/redis-actions';
