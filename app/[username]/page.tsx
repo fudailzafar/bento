@@ -222,7 +222,7 @@ export default async function ProfilePage({
 
       <FullResume resume={resume?.resumeData} profilePicture={profilePicture} />
 
-      <div className="bg-slate-100 py-10 md:bg-white text-center z-10 pb-24 md:pb-0 md:mb-32 gap-5 flex flex-col md:flex-row justify-center items-center">
+      <div className="bg-slate-100 dark:bg-[#020817] py-10 md:bg-white text-center z-10 pb-24 md:pb-0 md:mb-32 gap-5 flex flex-col md:flex-row justify-center items-center">
         <Button className="bg-design-black text-design-white dark:bg-design-white dark:text-design-black">
           <Link
             href={'/signup'}
@@ -238,7 +238,7 @@ export default async function ProfilePage({
           </Link>
         </Button>
         <Button variant={'ghost'}>
-          <Link href={'/login'} className="text-design-gray">
+          <Link href={'/login'} className="text-design-gray dark:text-design-white">
             Log In
           </Link>
         </Button>

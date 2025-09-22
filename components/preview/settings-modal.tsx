@@ -252,7 +252,7 @@ export function SettingsPanel() {
             </div>
 
             <div
-              className="cursor-pointer hover:bg-red-50 rounded-lg p-3 transition-colors"
+              className="cursor-pointer rounded-lg p-3 transition-colors"
               onClick={() => signOut({ callbackUrl: '/' })}
             >
               <div className="mt-32 text-sm text-center font-normal text-red-500">
