@@ -6,6 +6,8 @@ import { ReactQueryClientProvider } from '@/components/react-client-query-provid
 import { Metadata } from 'next';
 import { GoogleAnalytics } from '@next/third-parties/google';
 import { SessionProviderComponent } from '../components/session-provider';
+import { SpeedInsights } from '@vercel/speed-insights/next';
+import { Analytics } from '@vercel/analytics/next';
 
 const fontSans = FontSans({
   subsets: ['latin'],
@@ -77,7 +79,11 @@ export default function RootLayout({
         </head>
         <body className={`${fontSans.className} min-h-screen flex flex-col`}>
           <SessionProviderComponent>
-            <main className="flex-1 flex flex-col">{children}</main>
+            <main className="flex-1 flex flex-col">
+              {children}
+              <SpeedInsights />
+              <Analytics />
+            </main>
             <Toaster richColors position="bottom-center" />
             <GoogleAnalytics gaId="G-WW2D1GVX99" />
           </SessionProviderComponent>
