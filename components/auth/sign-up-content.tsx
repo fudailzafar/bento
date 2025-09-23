@@ -13,6 +13,7 @@ import { useEffect, useState } from 'react';
 import { Input } from '@/components/ui/input';
 import { useDebounce } from '@/hooks/use-debounce';
 import { motion, AnimatePresence } from 'framer-motion';
+import clsx from 'clsx';
 
 export default function SignupContent() {
   const { data: session } = useSession();
@@ -232,7 +233,7 @@ export default function SignupContent() {
                   disabled={
                     !username || username.length < 3 || !usernameAvailable
                   }
-                  className="w-full cursor-pointer flex items-center active:scale-95 transition-all duration-300 ease-out justify-center gap-3 px-6 py-5 bg-black hover:bg-black/80 disabled:opacity-70 disabled:cursor-not-allowed text-white font-bold tracking-tight text-sm rounded-xl"
+                  className="w-full cursor-pointer flex items-center active:scale-95 transition-all duration-300 ease-out justify-center gap-3 px-6 py-4 bg-black hover:bg-black/80 disabled:opacity-70 disabled:cursor-not-allowed text-white font-medium tracking-tight text-sm rounded-lg"
                 >
                   Grab my Link
                 </button>
@@ -243,7 +244,7 @@ export default function SignupContent() {
                   disabled={
                     !username || username.length < 3 || !usernameAvailable
                   }
-                  className="invisible w-full cursor-pointer flex items-center active:scale-95 transition-all duration-300 ease-out justify-center gap-3 px-6 py-5 bg-black hover:bg-black/80 disabled:opacity-70 disabled:cursor-not-allowed text-white font-bold tracking-tight text-sm rounded-lg"
+                  className="invisible w-full cursor-pointer flex items-center active:scale-95 transition-all duration-300 ease-out justify-center gap-3 px-6 py-4 bg-black hover:bg-black/80 disabled:opacity-70 disabled:cursor-not-allowed text-white font-bold tracking-tight text-sm rounded-lg"
                 >
                   Grab my Link
                 </button>
@@ -320,32 +321,36 @@ export default function SignupContent() {
                   <div className="text-sm text-red-600">{error}</div>
                 )}
 
-                {hasCredentials && (
-                  <button
-                    type="submit"
-                    disabled={
-                      isLoading || !email || !password || password.length < 6
-                    }
-                    className="w-full cursor-pointer flex items-center active:scale-95 transition-all duration-300 ease-out justify-center gap-3 px-6 py-4 bg-black hover:bg-black/80 disabled:opacity-70 disabled:cursor-not-allowed text-white font-semibold text-base rounded-xl"
-                  >
-                    {isLoading ? <LoaderIcon /> : 'Create Account'}
-                  </button>
-                )}
-
-                <div className="relative py-2">
+                <div
+                  className={clsx(
+                    'relative py-2 transition-opacity duration-200',
+                    hasCredentials ? 'opacity-0 invisible' : 'opacity-100 visible'
+                  )}
+                >
                   <div className="flex justify-start text-base font-bold text-black">
                     OR
                   </div>
                 </div>
 
                 <button
-                  type="button"
-                  onClick={handleGoogleSignup}
-                  disabled={isLoading}
-                  className="w-full flex items-center active:scale-95 transition-all duration-300 ease-out justify-center gap-3 px-6 py-4 bg-design-primary hover:bg-design-primaryDark disabled:opacity-70 disabled:cursor-not-allowed text-white font-semibold text-base rounded-xl"
+                  type={hasCredentials ? 'submit' : 'button'}
+                  onClick={hasCredentials ? undefined : handleGoogleSignup}
+                  disabled={
+                    hasCredentials
+                      ? isLoading || !email || !password || password.length < 6
+                      : isLoading
+                  }
+                  className={clsx(
+                    'w-full cursor-pointer flex items-center active:scale-95 transition-all duration-300 ease-out justify-center gap-3 px-6 py-3 disabled:opacity-70 disabled:cursor-not-allowed text-white font-medium text-sm rounded-lg',
+                    hasCredentials
+                      ? 'bg-black hover:bg-black/80'
+                      : 'bg-design-primary hover:bg-design-primaryDark'
+                  )}
                 >
                   {isLoading ? (
                     <LoaderIcon />
+                  ) : hasCredentials ? (
+                    'Create Account'
                   ) : (
                     <>
                       <GoogleIcon />
@@ -353,6 +358,8 @@ export default function SignupContent() {
                     </>
                   )}
                 </button>
+
+                
               </form>
             </motion.div>
           )}
