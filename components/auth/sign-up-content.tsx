@@ -15,7 +15,9 @@ import { useDebounce } from '@/hooks/use-debounce';
 import { motion, AnimatePresence } from 'framer-motion';
 import clsx from 'clsx';
 
-export default function SignupContent({ onStepChange }: { onStepChange?: (step: 'username' | 'auth') => void } = {}) {
+export default function SignupContent({
+  onStepChange,
+}: { onStepChange?: (step: 'username' | 'auth') => void } = {}) {
   const { data: session } = useSession();
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
@@ -180,7 +182,7 @@ export default function SignupContent({ onStepChange }: { onStepChange?: (step: 
                 <h1 className="text-[32px] font-bold text-design-black mb-4">
                   First, claim your unique link
                 </h1>
-                <h2 className="text-design-resume font-normal text-xl sm:text-xl mb-20">
+                <h2 className="text-design-resume font-light text-xl sm:text-xl mb-20">
                   The good ones are still available!
                 </h2>
               </div>
@@ -214,30 +216,26 @@ export default function SignupContent({ onStepChange }: { onStepChange?: (step: 
                 )}
               </div>
 
-              {/* Fixed height container to prevent layout shift */}
-              <div className="min-h-[32px]">
-                {username.length >= 3 && !usernameAvailable && (
-                  <div className="text-xs text-red-600">
-                    This username seems to be taken already... <br /> Try
-                    something similar.
-                  </div>
-                )}
-                {username.length < 3 && username.length > 0 && (
-                  <div className="text-xs text-red-600">
-                    This username seems to be too short... <br /> Try something
-                    longer.
-                  </div>
-                )}
-              </div>
-
-              {username.length > 0 ? (
+              {/* Show error messages or button based on username state */}
+              {username.length > 0 && username.length < 3 ? (
+                <div className="w-full flex items-center justify-start py-3.5 text-red-600 font-light text-xs rounded-lg">
+                  This username seems to be too short... <br /> Try something longer.
+                </div>
+              ) : username.length >= 3 &&
+                !usernameAvailable &&
+                !checkingUsername ? (
+                <div className="w-full flex items-center justify-start py-3.5 text-red-600 font-light text-xs rounded-lg">
+                  This username seems to be taken already... <br /> Try
+                  something similar.
+                </div>
+              ) : username.length > 0 ? (
                 <button
                   type="button"
                   onClick={handleContinueWithUsername}
                   disabled={
                     !username || username.length < 3 || !usernameAvailable
                   }
-                  className="w-full cursor-pointer flex items-center active:scale-95 transition-all duration-300 ease-out justify-center gap-3 px-6 py-4 bg-black hover:bg-black/80 disabled:opacity-70 disabled:cursor-not-allowed text-white font-medium tracking-tight text-sm rounded-lg"
+                  className="w-full cursor-pointer flex items-center active:scale-95 transition-all duration-300 ease-out justify-center gap-3 px-6 py-3.5 bg-black hover:bg-black/80 disabled:opacity-70 disabled:cursor-not-allowed text-white font-medium tracking-tight text-sm rounded-lg"
                 >
                   Grab my Link
                 </button>
@@ -248,7 +246,7 @@ export default function SignupContent({ onStepChange }: { onStepChange?: (step: 
                   disabled={
                     !username || username.length < 3 || !usernameAvailable
                   }
-                  className="invisible w-full cursor-pointer flex items-center active:scale-95 transition-all duration-300 ease-out justify-center gap-3 px-6 py-4 bg-black hover:bg-black/80 disabled:opacity-70 disabled:cursor-not-allowed text-white font-bold tracking-tight text-sm rounded-lg"
+                  className="invisible w-full cursor-pointer flex items-center active:scale-95 transition-all duration-300 ease-out justify-center gap-3 px-6 py-3.5 bg-black hover:bg-black/80 disabled:opacity-70 disabled:cursor-not-allowed text-white font-bold tracking-tight text-sm rounded-lg"
                 >
                   Grab my Link
                 </button>
@@ -287,7 +285,10 @@ export default function SignupContent({ onStepChange }: { onStepChange?: (step: 
                 </h2>
               </div>
 
-              <form onSubmit={handleCredentialsSignup} className="space-y-6 pt-8">
+              <form
+                onSubmit={handleCredentialsSignup}
+                className="space-y-6 pt-8"
+              >
                 <div className="flex flex-col md:flex-row gap-3 md:gap-4">
                   <Input
                     id="email"
@@ -319,14 +320,14 @@ export default function SignupContent({ onStepChange }: { onStepChange?: (step: 
                   </div>
                 </div>
 
-                {error && (
-                  <div className="text-sm text-red-600">{error}</div>
-                )}
+                {error && <div className="text-sm text-red-600">{error}</div>}
 
                 <div
                   className={clsx(
                     'relative py-2 transition-opacity duration-200',
-                    hasCredentials ? 'opacity-0 invisible' : 'opacity-100 visible'
+                    hasCredentials
+                      ? 'opacity-0 invisible'
+                      : 'opacity-100 visible'
                   )}
                 >
                   <div className="flex justify-start text-base font-bold text-black">
@@ -360,8 +361,6 @@ export default function SignupContent({ onStepChange }: { onStepChange?: (step: 
                     </>
                   )}
                 </button>
-
-                
               </form>
             </motion.div>
           )}
