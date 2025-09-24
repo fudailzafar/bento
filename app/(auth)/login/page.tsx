@@ -2,7 +2,6 @@
 
 import { GoogleIcon, LoaderIcon } from '@/components/icons';
 import { signIn, useSession } from 'next-auth/react';
-import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
@@ -58,8 +57,8 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="min-h-[90vh] md:min-h-screen flex items-center justify-center px-7 sm:px-6 lg:px-48">
-      <div className="w-full max-w-[440px] space-y-8 mx-auto">
+    <div className="min-h-[90vh] md:min-h-screen flex items-center justify-between gap-12 lg:gap-16 px-7 sm:px-6 lg:px-32">
+      <div className="w-full max-w-[440px] space-y-8">
         <div className="text-left">
           <h1 className="text-[29px] lg:text-[32px] font-bold md:font-semibold text-design-black mb-6 md:mb-4">
             Log in to your Portfolio
@@ -146,7 +145,7 @@ export default function LoginPage() {
             <button
               type="submit"
               disabled={isLoading}
-              className="w-full flex items-center active:scale-95 transition-all duration-300 ease-out justify-center gap-3 px-6 py-3 bg-design-primary hover:bg-design-primaryDark disabled:opacity-70 disabled:cursor-not-allowed text-white font-semibold tracking-tight text-sm rounded-lg"
+              className="w-full flex shadow-lg items-center active:scale-95 transition-all duration-300 ease-out justify-center gap-3 px-6 py-3 bg-design-primary hover:bg-design-primaryDark disabled:opacity-70 disabled:cursor-not-allowed text-white font-semibold tracking-tight text-sm rounded-lg"
             >
               {isLoading ? (
                 <>
@@ -172,7 +171,7 @@ export default function LoginPage() {
         </div>
       </div>
 
-      <div className="hidden md:flex flex-1 items-center justify-center">
+      <div className="hidden md:flex flex-1 items-center justify-center max-w-[700px]">
         <SignupAnimation />
       </div>
     </div>
