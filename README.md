@@ -1,5 +1,5 @@
 <a href="https://portfoliofy.me">
-  <img alt="Fudail" src="./public/og.png">
+  <img alt="Fudail" src="./app/opengraph-image.png">
   <h1 align="center">Portfoliofy</h1>
 </a>
 

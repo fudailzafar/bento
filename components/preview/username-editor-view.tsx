@@ -19,25 +19,37 @@ import {
   DrawerDescription,
   DrawerHeader,
   DrawerTitle,
+  DrawerClose,
 } from '@/components/ui/drawer';
 import { ConfettiButton } from '../ui/confetti';
 import { useIsMobile } from '@/hooks/use-mobile';
+import { Loader } from '../loader';
 
 interface UsernameEditorContentProps {
   initialUsername: string;
   onClose: () => void;
   prefix?: string;
+  onSuccessChange?: (showSuccess: boolean) => void;
 }
 
 function UsernameEditorContent({
   initialUsername,
   onClose,
   prefix = 'portfoliofy.me/',
+  onSuccessChange,
 }: UsernameEditorContentProps) {
   const [newUsername, setNewUsername] = useState<string>('');
   const [showSuccess, setShowSuccess] = useState(false);
   const debounceTimerRef = useRef<NodeJS.Timeout | null>(null);
   const { updateUsernameMutation, checkUsernameMutation } = useUserActions();
+  const isMobile = useIsMobile();
+
+  // Notify parent component about success state changes
+  useEffect(() => {
+    if (onSuccessChange) {
+      onSuccessChange(showSuccess);
+    }
+  }, [showSuccess, onSuccessChange]);
 
   const isInitialUsername = newUsername === initialUsername;
 
@@ -87,10 +99,65 @@ function UsernameEditorContent({
     setTimeout(() => setCopied(false), 1500);
   };
 
+  // Success Modal/Drawer Content Component
+  const SuccessContent = () => (
+    <div className="flex flex-col items-center w-full mt-24">
+      <div className="flex items-center justify-center w-16 h-16 rounded-full mb-4">
+        <span className="rounded-full shadow-[0px_1px_2px_rgba(0,0,0,0.12)]">
+          <svg
+            viewBox="0 0 154 154"
+            xmlns="http://www.w3.org/2000/svg"
+            width="48"
+            height="48"
+          >
+            <g fill="none" stroke="#4edd76" stroke-width="2">
+              <circle
+                id="colored"
+                fill="#4edd76"
+                cx="77"
+                cy="77"
+                r="72"
+                style={{
+                  strokeDasharray: '480px, 480px',
+                  strokeDashoffset: '960px',
+                }}
+              ></circle>
+              <polyline
+                className="st0"
+                stroke="#fff"
+                strokeWidth="10"
+                points="43.5,77.8 63.7,97.9 112.2,49.4"
+                style={{
+                  strokeDasharray: '100px, 100px',
+                  strokeDashoffset: '200px',
+                }}
+              ></polyline>
+            </g>
+          </svg>
+        </span>
+      </div>
+      <h3 className="text-lg font-semibold text-center mb-8">
+        Your new username is
+      </h3>
+      <div className="w-full bg-[#f7f7f7] rounded-xl px-4 py-3 text-center text-gray-700 font-normal text-sm mb-4 select-all">
+        <span className="text-design-resume">{prefix}</span>
+        <span className="text-black">{newUsername}</span>
+      </div>
+      <button className="w-full" onClick={handleCopy}>
+        <ConfettiButton className="w-full bg-[#4edd76] hover:bg-green-600 text-white text-sm font-bold rounded-xl py-3 flex items-center justify-center gap-2 active:scale-95 transition-transform">
+          Copy my Link
+        </ConfettiButton>
+      </button>
+      <div className="text-design-resume font-normal text-xs mt-3 text-center">
+        The link is ready for your portfolio!
+      </div>
+    </div>
+  );
+
   return (
     <>
-      {/* Success Modal */}
-      {showSuccess && (
+      {/* Success Modal for Desktop */}
+      {showSuccess && !isMobile && (
         <Dialog
           open={showSuccess}
           onOpenChange={(open) => {
@@ -101,411 +168,264 @@ function UsernameEditorContent({
           }}
         >
           <DialogContent className="max-w-xs rounded-2xl p-6 flex flex-col items-center gap-4">
-            <div className="flex flex-col items-center w-full">
-              <div className="flex items-center justify-center w-16 h-16 rounded-full bg-green-100 mb-2">
-                <svg
-                  width="40"
-                  height="40"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="#22c55e"
-                  strokeWidth="2.5"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                >
-                  <circle
-                    cx="12"
-                    cy="12"
-                    r="10"
-                    fill="#22c55e"
-                    opacity="0.15"
-                  />
-                  <polyline
-                    points="16 12 12 16 8 12"
-                    stroke="#22c55e"
-                    strokeWidth="2.5"
-                    fill="none"
-                  />
-                </svg>
-              </div>
-              <DialogTitle className="text-lg font-semibold text-center mb-1">
-                Your new username is
-              </DialogTitle>
-              <div className="w-full bg-[#f7f7f7] rounded-xl px-4 py-3 text-center text-gray-700 font-normal text-sm mb-3 select-all">
-                <span className="text-design-resume">{prefix}</span>
-                <span className="text-black">{newUsername}</span>
-              </div>
-              <button className="w-full" onClick={handleCopy}>
-                <ConfettiButton className="w-full bg-green-500 hover:bg-green-600 text-white text-sm font-normal rounded-xl py-3 flex items-center justify-center gap-2 active:scale-95 transition-transform">
-                  Copy my Link
-                </ConfettiButton>
-              </button>
-              <div className="text-design-resume font-normal text-xs mt-3">
-                The link is ready for your portfolio!
-              </div>
-            </div>
+            <SuccessContent />
           </DialogContent>
         </Dialog>
       )}
-      {/* Main Username Editor */}
-      <div className="flex flex-col gap-4">
-        {/* New Username Input */}
-        <div className="flex flex-col gap-2">
-          <div className="w-full overflow-hidden rounded-xl bg-[#f7f7f7] border-[0.5px] border-[#f7f7f7]">
-            <div className="flex items-center">
-              <span className="pl-3 pr-0.5 text-sm text-design-resume select-none">
-                {prefix}
-              </span>
-              <input
-                id="new-username"
-                type="text"
-                value={newUsername}
-                onChange={handleUsernameChange}
-                maxLength={MAX_USERNAME_LENGTH}
-                className="flex-1 p-3 text-sm text-black border-none font-normal outline-none focus:ring-0 bg-transparent min-w-0"
-                style={{ paddingLeft: 0 }}
-                onKeyDown={(e) => {
-                  if (
-                    e.key === 'Enter' &&
-                    isValid &&
-                    !checkUsernameMutation.isPending
-                  ) {
-                    handleSave();
-                  }
+
+      {/* Success Drawer for Mobile - replaces the main drawer content */}
+      {showSuccess && isMobile ? (
+        <div className="flex flex-col gap-4 px-3">
+          <div className="flex justify-end items-center mb-4">
+            <DrawerClose asChild>
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => {
+                  setShowSuccess(false);
+                  onClose();
                 }}
-              />
-              <div className="pr-3">
-                {isInitialUsername ? (
-                  <></>
-                ) : checkUsernameMutation.isPending ? (
-                  <svg
-                    height="16"
-                    width="16"
-                    className="styles_container__9hC7b"
-                    viewBox="0 0 100 100"
-                    preserveAspectRatio="xMidYMid"
-                  >
-                    <g transform="rotate(0 50 50)">
-                      <rect
-                        x="44"
-                        y="0.5"
-                        rx="6"
-                        ry="6.29"
-                        width="12"
-                        height="37"
-                        fill="currentColor"
-                      >
-                        <animate
-                          attributeName="opacity"
-                          values="1;0"
-                          keyTimes="0;1"
-                          dur="0.625s"
-                          begin="-0.5208333333333333s"
-                          repeatCount="indefinite"
-                        ></animate>
-                      </rect>
-                    </g>
-                    <g transform="rotate(60 50 50)">
-                      <rect
-                        x="44"
-                        y="0.5"
-                        rx="6"
-                        ry="6.29"
-                        width="12"
-                        height="37"
-                        fill="currentColor"
-                      >
-                        <animate
-                          attributeName="opacity"
-                          values="1;0"
-                          keyTimes="0;1"
-                          dur="0.625s"
-                          begin="-0.41666666666666663s"
-                          repeatCount="indefinite"
-                        ></animate>
-                      </rect>
-                    </g>
-                    <g transform="rotate(120 50 50)">
-                      <rect
-                        x="44"
-                        y="0.5"
-                        rx="6"
-                        ry="6.29"
-                        width="12"
-                        height="37"
-                        fill="currentColor"
-                      >
-                        <animate
-                          attributeName="opacity"
-                          values="1;0"
-                          keyTimes="0;1"
-                          dur="0.625s"
-                          begin="-0.31249999999999994s"
-                          repeatCount="indefinite"
-                        ></animate>
-                      </rect>
-                    </g>
-                    <g transform="rotate(180 50 50)">
-                      <rect
-                        x="44"
-                        y="0.5"
-                        rx="6"
-                        ry="6.29"
-                        width="12"
-                        height="37"
-                        fill="currentColor"
-                      >
-                        <animate
-                          attributeName="opacity"
-                          values="1;0"
-                          keyTimes="0;1"
-                          dur="0.625s"
-                          begin="-0.20833333333333331s"
-                          repeatCount="indefinite"
-                        ></animate>
-                      </rect>
-                    </g>
-                    <g transform="rotate(240 50 50)">
-                      <rect
-                        x="44"
-                        y="0.5"
-                        rx="6"
-                        ry="6.29"
-                        width="12"
-                        height="37"
-                        fill="currentColor"
-                      >
-                        <animate
-                          attributeName="opacity"
-                          values="1;0"
-                          keyTimes="0;1"
-                          dur="0.625s"
-                          begin="-0.10416666666666666s"
-                          repeatCount="indefinite"
-                        ></animate>
-                      </rect>
-                    </g>
-                    <g transform="rotate(300 50 50)">
-                      <rect
-                        x="44"
-                        y="0.5"
-                        rx="6"
-                        ry="6.29"
-                        width="12"
-                        height="37"
-                        fill="currentColor"
-                      >
-                        <animate
-                          attributeName="opacity"
-                          values="1;0"
-                          keyTimes="0;1"
-                          dur="0.625s"
-                          begin="0s"
-                          repeatCount="indefinite"
-                        ></animate>
-                      </rect>
-                    </g>
-                  </svg>
-                ) : isValid ? (
-                  <svg
-                    viewBox="0 0 154 154"
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="16"
-                    height="16"
-                  >
-                    <g fill="none" stroke="#4EDD76" stroke-width="2">
-                      <circle
-                        id="colored"
-                        fill="#4EDD76"
-                        cx="77"
-                        cy="77"
-                        r="72"
-                        style={{
-                          strokeDasharray: '480px, 480px',
-                          strokeDashoffset: '960px',
+                className="text-white text-lg p-6 rounded-xl bg-[#3dda69] hover:bg-[#3dda69] active:scale-95 transition-all font-bold"
+              >
+                Done
+              </Button>
+            </DrawerClose>
+          </div>
+          <SuccessContent />
+        </div>
+      ) : (
+        <div className="flex flex-col gap-4">
+          {/* New Username Input */}
+          <div className="flex flex-col gap-2">
+            <div className="w-full overflow-hidden rounded-xl bg-[#f7f7f7] border-[0.5px] border-[#f7f7f7]">
+              <div className="flex items-center">
+                <span className="pl-3 pr-0.5 text-sm text-design-resume select-none">
+                  {prefix}
+                </span>
+                <input
+                  id="new-username"
+                  type="text"
+                  value={newUsername}
+                  onChange={handleUsernameChange}
+                  maxLength={MAX_USERNAME_LENGTH}
+                  className="flex-1 p-3 text-sm text-black border-none font-normal outline-none focus:ring-0 bg-transparent min-w-0"
+                  style={{ paddingLeft: 0 }}
+                  onKeyDown={(e) => {
+                    if (
+                      e.key === 'Enter' &&
+                      isValid &&
+                      !checkUsernameMutation.isPending
+                    ) {
+                      handleSave();
+                    }
+                  }}
+                />
+                <div className="pr-3">
+                  {isInitialUsername ? (
+                    <></>
+                  ) : checkUsernameMutation.isPending ? (
+                    <svg
+                      height="16"
+                      width="16"
+                      className="styles_container__9hC7b"
+                      viewBox="0 0 100 100"
+                      preserveAspectRatio="xMidYMid"
+                    >
+                      <g transform="rotate(0 50 50)">
+                        <rect
+                          x="44"
+                          y="0.5"
+                          rx="6"
+                          ry="6.29"
+                          width="12"
+                          height="37"
+                          fill="currentColor"
+                        >
+                          <animate
+                            attributeName="opacity"
+                            values="1;0"
+                            keyTimes="0;1"
+                            dur="0.625s"
+                            begin="-0.5208333333333333s"
+                            repeatCount="indefinite"
+                          ></animate>
+                        </rect>
+                      </g>
+                      <g transform="rotate(60 50 50)">
+                        <rect
+                          x="44"
+                          y="0.5"
+                          rx="6"
+                          ry="6.29"
+                          width="12"
+                          height="37"
+                          fill="currentColor"
+                        >
+                          <animate
+                            attributeName="opacity"
+                            values="1;0"
+                            keyTimes="0;1"
+                            dur="0.625s"
+                            begin="-0.41666666666666663s"
+                            repeatCount="indefinite"
+                          ></animate>
+                        </rect>
+                      </g>
+                      <g transform="rotate(120 50 50)">
+                        <rect
+                          x="44"
+                          y="0.5"
+                          rx="6"
+                          ry="6.29"
+                          width="12"
+                          height="37"
+                          fill="currentColor"
+                        >
+                          <animate
+                            attributeName="opacity"
+                            values="1;0"
+                            keyTimes="0;1"
+                            dur="0.625s"
+                            begin="-0.31249999999999994s"
+                            repeatCount="indefinite"
+                          ></animate>
+                        </rect>
+                      </g>
+                      <g transform="rotate(180 50 50)">
+                        <rect
+                          x="44"
+                          y="0.5"
+                          rx="6"
+                          ry="6.29"
+                          width="12"
+                          height="37"
+                          fill="currentColor"
+                        >
+                          <animate
+                            attributeName="opacity"
+                            values="1;0"
+                            keyTimes="0;1"
+                            dur="0.625s"
+                            begin="-0.20833333333333331s"
+                            repeatCount="indefinite"
+                          ></animate>
+                        </rect>
+                      </g>
+                      <g transform="rotate(240 50 50)">
+                        <rect
+                          x="44"
+                          y="0.5"
+                          rx="6"
+                          ry="6.29"
+                          width="12"
+                          height="37"
+                          fill="currentColor"
+                        >
+                          <animate
+                            attributeName="opacity"
+                            values="1;0"
+                            keyTimes="0;1"
+                            dur="0.625s"
+                            begin="-0.10416666666666666s"
+                            repeatCount="indefinite"
+                          ></animate>
+                        </rect>
+                      </g>
+                      <g transform="rotate(300 50 50)">
+                        <rect
+                          x="44"
+                          y="0.5"
+                          rx="6"
+                          ry="6.29"
+                          width="12"
+                          height="37"
+                          fill="currentColor"
+                        >
+                          <animate
+                            attributeName="opacity"
+                            values="1;0"
+                            keyTimes="0;1"
+                            dur="0.625s"
+                            begin="0s"
+                            repeatCount="indefinite"
+                          ></animate>
+                        </rect>
+                      </g>
+                    </svg>
+                  ) : isValid ? (
+                    <svg
+                      viewBox="0 0 154 154"
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="16"
+                      height="16"
+                    >
+                      <g fill="none" stroke="#4EDD76" stroke-width="2">
+                        <circle
+                          id="colored"
+                          fill="#4EDD76"
+                          cx="77"
+                          cy="77"
+                          r="72"
+                          style={{
+                            strokeDasharray: '480px, 480px',
+                            strokeDashoffset: '960px',
+                          }}
+                        ></circle>
+                        <polyline
+                          className="st0"
+                          stroke="#fff"
+                          strokeWidth="10"
+                          points="43.5,77.8 63.7,97.9 112.2,49.4"
+                          style={{
+                            strokeDasharray: '100px, 100px',
+                            strokeDashoffset: '200px',
+                            animationDelay: '0s',
+                          }}
+                        ></polyline>
+                      </g>
+                    </svg>
+                  ) : newUsername ? (
+                    <div className="cursor-pointer">
+                      <X
+                        className="w-5 h-5"
+                        onClick={() => {
+                          setNewUsername('');
+                          if (checkUsernameMutation.reset) {
+                            checkUsernameMutation.reset();
+                          }
                         }}
-                      ></circle>
-                      <polyline
-                        className="st0"
-                        stroke="#fff"
-                        strokeWidth="10"
-                        points="43.5,77.8 63.7,97.9 112.2,49.4"
-                        style={{
-                          strokeDasharray: '100px, 100px',
-                          strokeDashoffset: '200px',
-                          animationDelay: '0s',
-                        }}
-                      ></polyline>
-                    </g>
-                  </svg>
-                ) : newUsername ? (
-                  <div className="cursor-pointer">
-                    <X
-                      className="w-5 h-5"
-                      onClick={() => {
-                        setNewUsername('');
-                        if (checkUsernameMutation.reset) {
-                          checkUsernameMutation.reset();
-                        }
-                      }}
-                    />
-                  </div>
-                ) : null}
+                      />
+                    </div>
+                  ) : null}
+                </div>
               </div>
             </div>
           </div>
-        </div>
 
-        <div>
-          {checkUsernameMutation.data &&
-          checkUsernameMutation.data.available === false ? (
-            <div className="w-full py-4 text-center text-red-600 font-normal text-sm">
-              This username seems to be taken.
-              <br />
-              Maybe you have some other ideas?
-            </div>
-          ) : (
-            <Button
-              onClick={handleSave}
-              disabled={!isValid || updateUsernameMutation.isPending}
-              className="w-full py-4"
-            >
-              {updateUsernameMutation.isPending ? (
-                <svg
-                  height="16"
-                  width="16"
-                  className="styles_container__9hC7b"
-                  viewBox="0 0 100 100"
-                  preserveAspectRatio="xMidYMid"
-                >
-                  <g transform="rotate(0 50 50)">
-                    <rect
-                      x="44"
-                      y="0.5"
-                      rx="6"
-                      ry="6.29"
-                      width="12"
-                      height="37"
-                      fill="currentColor"
-                    >
-                      <animate
-                        attributeName="opacity"
-                        values="1;0"
-                        keyTimes="0;1"
-                        dur="0.625s"
-                        begin="-0.5208333333333333s"
-                        repeatCount="indefinite"
-                      ></animate>
-                    </rect>
-                  </g>
-                  <g transform="rotate(60 50 50)">
-                    <rect
-                      x="44"
-                      y="0.5"
-                      rx="6"
-                      ry="6.29"
-                      width="12"
-                      height="37"
-                      fill="currentColor"
-                    >
-                      <animate
-                        attributeName="opacity"
-                        values="1;0"
-                        keyTimes="0;1"
-                        dur="0.625s"
-                        begin="-0.41666666666666663s"
-                        repeatCount="indefinite"
-                      ></animate>
-                    </rect>
-                  </g>
-                  <g transform="rotate(120 50 50)">
-                    <rect
-                      x="44"
-                      y="0.5"
-                      rx="6"
-                      ry="6.29"
-                      width="12"
-                      height="37"
-                      fill="currentColor"
-                    >
-                      <animate
-                        attributeName="opacity"
-                        values="1;0"
-                        keyTimes="0;1"
-                        dur="0.625s"
-                        begin="-0.31249999999999994s"
-                        repeatCount="indefinite"
-                      ></animate>
-                    </rect>
-                  </g>
-                  <g transform="rotate(180 50 50)">
-                    <rect
-                      x="44"
-                      y="0.5"
-                      rx="6"
-                      ry="6.29"
-                      width="12"
-                      height="37"
-                      fill="currentColor"
-                    >
-                      <animate
-                        attributeName="opacity"
-                        values="1;0"
-                        keyTimes="0;1"
-                        dur="0.625s"
-                        begin="-0.20833333333333331s"
-                        repeatCount="indefinite"
-                      ></animate>
-                    </rect>
-                  </g>
-                  <g transform="rotate(240 50 50)">
-                    <rect
-                      x="44"
-                      y="0.5"
-                      rx="6"
-                      ry="6.29"
-                      width="12"
-                      height="37"
-                      fill="currentColor"
-                    >
-                      <animate
-                        attributeName="opacity"
-                        values="1;0"
-                        keyTimes="0;1"
-                        dur="0.625s"
-                        begin="-0.10416666666666666s"
-                        repeatCount="indefinite"
-                      ></animate>
-                    </rect>
-                  </g>
-                  <g transform="rotate(300 50 50)">
-                    <rect
-                      x="44"
-                      y="0.5"
-                      rx="6"
-                      ry="6.29"
-                      width="12"
-                      height="37"
-                      fill="currentColor"
-                    >
-                      <animate
-                        attributeName="opacity"
-                        values="1;0"
-                        keyTimes="0;1"
-                        dur="0.625s"
-                        begin="0s"
-                        repeatCount="indefinite"
-                      ></animate>
-                    </rect>
-                  </g>
-                </svg>
-              ) : (
-                'Update My Username'
-              )}
-            </Button>
-          )}
+          <div>
+            {checkUsernameMutation.data &&
+            checkUsernameMutation.data.available === false ? (
+              <div className="w-full py-4 text-center text-red-600 font-normal text-sm">
+                This username seems to be taken.
+                <br />
+                Maybe you have some other ideas?
+              </div>
+            ) : (
+              <Button
+                onClick={handleSave}
+                disabled={!isValid || updateUsernameMutation.isPending}
+                className="w-full py-4 rounded-xl"
+              >
+                {updateUsernameMutation.isPending ? (
+                  <Loader/>
+                ) : (
+                  'Update My Username'
+                )}
+              </Button>
+            )}
+          </div>
         </div>
-      </div>
+      )}
     </>
   );
 }
@@ -522,6 +442,7 @@ export default function UsernameEditorView({
   prefix?: string;
 }) {
   const isMobile = useIsMobile();
+  const [showSuccess, setShowSuccess] = useState(false);
 
   if (!isMobile) {
     return (
@@ -545,17 +466,37 @@ export default function UsernameEditorView({
 
   return (
     <Drawer open={isOpen} onOpenChange={onClose}>
-      <DrawerContent className="p-3 pb-64">
-        <DrawerHeader>
-          <DrawerTitle>Change Username</DrawerTitle>
-          <DrawerDescription>
-            Choose a new username for your Portfolio
-          </DrawerDescription>
-        </DrawerHeader>
+      <DrawerContent className="p-3 pb-28 rounded-t-[32px]">
+        {!showSuccess && (
+          <DrawerHeader className="text-left p-0">
+            <div className="flex justify-end items-center mb-4">
+              <DrawerClose asChild>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => {
+                    setShowSuccess(false);
+                    onClose();
+                  }}
+                  className="text-white text-lg p-6 rounded-xl bg-[#3dda69] hover:bg-[#3dda69] active:scale-95 transition-all font-bold"
+                >
+                  Done
+                </Button>
+              </DrawerClose>
+            </div>
+            <DrawerTitle className="text-2xl font-semibold -mb-1">
+              Change Username
+            </DrawerTitle>
+            <DrawerDescription className="mb-4">
+              Choose a new username for your Portfolio.
+            </DrawerDescription>
+          </DrawerHeader>
+        )}
         <UsernameEditorContent
           initialUsername={initialUsername}
           onClose={onClose}
           prefix={prefix}
+          onSuccessChange={setShowSuccess}
         />
       </DrawerContent>
     </Drawer>
