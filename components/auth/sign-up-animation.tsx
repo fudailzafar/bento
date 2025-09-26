@@ -9,17 +9,61 @@ import LinkedinLogo from '@/public/auth/linkedin.png';
 import Photo from '@/public/auth/photo1.png';
 import RandomMovingImage from './random-moving-image';
 
-export default function SignupAnimation({ isActive = true }: { isActive?: boolean }) {
+export default function SignupAnimation({
+  isActive = true,
+}: {
+  isActive?: boolean;
+}) {
   return (
     <div className="grid aspect-square max-h-[640px] max-w-[640px] gap-8 grid-cols-4 grid-rows-4 p-8 signup">
-      <RandomMovingImage rows={2} cols={2} imageSrc={Photo} isActive={isActive} />
-      <RandomMovingImage rows={1} cols={1} imageSrc={BehanceLogo} isActive={isActive} />
-      <RandomMovingImage rows={1} cols={1} imageSrc={LinkedinLogo} isActive={isActive} />
-      <RandomMovingImage rows={2} cols={2} imageSrc={DribbbleLogo} isActive={isActive} />
-      <RandomMovingImage rows={1} cols={1} imageSrc={FigmaLogo} isActive={isActive} />
-      <RandomMovingImage rows={2} cols={1} imageSrc={InstaLogo} isActive={isActive} />
-      <RandomMovingImage rows={1} cols={1} imageSrc={TwitterLogo} isActive={isActive} />
-      <RandomMovingImage rows={1} cols={2} imageSrc={GithubLogo} isActive={isActive} />
+      <RandomMovingImage
+        rows={2}
+        cols={2}
+        imageSrc={Photo}
+        isActive={isActive}
+      />
+      <RandomMovingImage
+        rows={1}
+        cols={1}
+        imageSrc={BehanceLogo}
+        isActive={isActive}
+      />
+      <RandomMovingImage
+        rows={1}
+        cols={1}
+        imageSrc={LinkedinLogo}
+        isActive={isActive}
+      />
+      <RandomMovingImage
+        rows={2}
+        cols={2}
+        imageSrc={DribbbleLogo}
+        isActive={isActive}
+      />
+      <RandomMovingImage
+        rows={1}
+        cols={1}
+        imageSrc={FigmaLogo}
+        isActive={isActive}
+      />
+      <RandomMovingImage
+        rows={2}
+        cols={1}
+        imageSrc={InstaLogo}
+        isActive={isActive}
+      />
+      <RandomMovingImage
+        rows={1}
+        cols={1}
+        imageSrc={TwitterLogo}
+        isActive={isActive}
+      />
+      <RandomMovingImage
+        rows={1}
+        cols={2}
+        imageSrc={GithubLogo}
+        isActive={isActive}
+      />
     </div>
   );
 }

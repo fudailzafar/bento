@@ -5,7 +5,9 @@ import Link from 'next/link';
 import { useState } from 'react';
 
 export default function SignupPage() {
-  const [currentStep, setCurrentStep] = useState<'username' | 'auth'>('username');
+  const [currentStep, setCurrentStep] = useState<'username' | 'auth'>(
+    'username'
+  );
 
   return (
     <div className="min-h-[90vh] md:min-h-screen flex items-center justify-center gap-12 lg:gap-16 px-7 sm:px-6 lg:px-32">

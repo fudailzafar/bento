@@ -12,10 +12,13 @@ export default function RandomMovingImage({
   imageSrc: StaticImageData;
   isActive?: boolean;
 }) {
-  const randomValues = useMemo(() => ({
-    randomX: Math.random() * 0.7,
-    randomY: Math.random(),
-  }), []); // Empty dependency array means this only runs once
+  const randomValues = useMemo(
+    () => ({
+      randomX: Math.random() * 0.7,
+      randomY: Math.random(),
+    }),
+    []
+  ); // Empty dependency array means this only runs once
 
   return (
     <div
