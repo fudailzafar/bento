@@ -24,30 +24,6 @@ export const HamburgerMenu = ({
 }: HamburgerMenuProps) => {
   return (
     <div className="flex items-center space-x-1">
-      {/* Social Links Button */}
-      {/* <button
-        onClick={onAddSocialLink}
-        className="relative h-[33px] w-[33px] rounded-lg transition-all active:scale-95 group shadow-[0_1px_2px_rgba(0,0,0,0.08),0_1px_1px_rgba(0,0,0,0.05)]"
-        data-state="closed"
-        aria-label="Add Social Link"
-      >
-        <div className="relative h-full w-full flex items-center justify-center overflow-hidden rounded-lg">
-          
-          <div className="absolute inset-0 bg-gradient-to-b from-white/5 to-transparent rounded-lg" />
-
-        
-          <LinkIcon />
-
-         
-          <div className="absolute inset-0 rounded-lg border border-black/[0.08] opacity-0 group-hover:opacity-100 transition-opacity" />
-
-          <div className="absolute inset-0 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity bg-gradient-to-b from-white/20 to-transparent" />
-        </div>
-
-        <div className="hidden sm:block absolute bottom-full mb-2 left-1/2 transform -translate-x-1/2 bg-white font-normal text-design-resume text-[10px] leading-tight px-2 py-1 rounded-md shadow-md border border-slate-100 opacity-0 group-hover:opacity-100 transition-opacity duration-200 delay-700 pointer-events-none z-50 min-w-max">
-          Add Social Link
-        </div>
-      </button> */}
 
       {/* Work Experience Button */}
       <button
