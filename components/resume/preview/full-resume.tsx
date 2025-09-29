@@ -10,7 +10,6 @@ import { Summary } from './summary';
 import { WorkExperience } from './work-experience';
 import { Skills } from './skills';
 
-
 export const FullResume = ({
   resume,
   profilePicture,

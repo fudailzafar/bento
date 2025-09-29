@@ -9,9 +9,6 @@ import { ResumeData } from '@/lib/server/redis-actions';
 import { getDomainUrl } from '@/lib/utils';
 import { useSession } from 'next-auth/react';
 import { useEffect, useState } from 'react';
-import { Button } from '@/components/ui/button';
-import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
-import { Eye, Edit, Save, X } from 'lucide-react';
 import {
   AlertDialog,
   AlertDialogAction,
@@ -22,7 +19,6 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from '@/components/ui/alert-dialog';
-
 import { toast } from 'sonner';
 
 export default function PreviewClient({ messageTip }: { messageTip?: string }) {
@@ -191,55 +187,13 @@ export default function PreviewClient({ messageTip }: { messageTip?: string }) {
             }
           }}
           isChangingStatus={toggleStatusMutation.isPending}
+          isEditMode={isEditMode}
+          onEditModeChange={setIsEditMode}
+          hasUnsavedChanges={hasUnsavedChanges}
+          onSaveChanges={handleSaveChanges}
+          onDiscardChanges={handleDiscardChanges}
+          isSaving={saveResumeDataMutation.isPending}
         />
-      </div>
-
-      <div className="max-w-3xl mx-auto w-full flex flex-col md:flex-row justify-between items-center px-4 md:px-0 gap-4">
-        <ToggleGroup
-          type="single"
-          value={isEditMode ? 'edit' : 'preview'}
-          onValueChange={(value) => setIsEditMode(value === 'edit')}
-          aria-label="View mode"
-        >
-          <ToggleGroupItem
-            value="preview"
-            aria-label="Preview mode"
-            className="p-4"
-          >
-            <Eye className="h-4 w-4 mr-1" />
-            <span>Preview</span>
-          </ToggleGroupItem>
-          <ToggleGroupItem value="edit" aria-label="Edit mode">
-            <Edit className="h-4 w-4 mr-1" />
-            <span>Edit</span>
-          </ToggleGroupItem>
-        </ToggleGroup>
-
-        {isEditMode && (
-          <div className="flex gap-2">
-            <Button
-              variant="outline"
-              onClick={handleDiscardChanges}
-              className="flex items-center gap-1"
-              disabled={!hasUnsavedChanges || saveResumeDataMutation.isPending}
-            >
-              <X className="h-4 w-4" />
-              <span>Discard</span>
-            </Button>
-            <Button
-              onClick={handleSaveChanges}
-              className="flex items-center gap-1 w-24"
-              disabled={!hasUnsavedChanges || saveResumeDataMutation.isPending}
-            >
-              {saveResumeDataMutation.isPending ? (
-                <div className="w-4 h-4 rounded-full border-2 border-gray-50 border-t-primary animate-spin" />
-              ) : (
-                <Save className="h-4 w-4" />
-              )}
-              <span>{saveResumeDataMutation.isPending ? '' : 'Save'}</span>
-            </Button>
-          </div>
-        )}
       </div>
 
       <div className="max-w-3xl mx-auto w-full md:rounded-lg border-[0.5px] border-neutral-300 flex items-center justify-between px-4">

@@ -39,7 +39,7 @@ function getSocialLinks(contacts?: ResumeDataSchemaType['header']['contacts']) {
 
   const formatSocialUrl = (
     url: string | undefined,
-    platform: 'github' | 'twitter' | 'linkedin',
+    platform: 'github' | 'twitter' | 'linkedin'
   ) => {
     if (!url) return undefined;
 
@@ -238,7 +238,10 @@ export default async function ProfilePage({
           </Link>
         </Button>
         <Button variant={'ghost'}>
-          <Link href={'/login'} className="text-design-gray dark:text-design-white">
+          <Link
+            href={'/login'}
+            className="text-design-gray dark:text-design-white"
+          >
             Log In
           </Link>
         </Button>
@@ -265,7 +268,7 @@ export default async function ProfilePage({
                     aria-label="Website"
                     className={cn(
                       buttonVariants({ variant: 'ghost', size: 'icon' }),
-                      'size-12 rounded-full',
+                      'size-12 rounded-full'
                     )}
                   >
                     <GlobeIcon className="size-4" />
@@ -289,7 +292,7 @@ export default async function ProfilePage({
                     aria-label="GitHub"
                     className={cn(
                       buttonVariants({ variant: 'ghost', size: 'icon' }),
-                      'size-12 rounded-full',
+                      'size-12 rounded-full'
                     )}
                   >
                     <GitHubIcon className="size-4" />
@@ -313,7 +316,7 @@ export default async function ProfilePage({
                     aria-label="Twitter"
                     className={cn(
                       buttonVariants({ variant: 'ghost', size: 'icon' }),
-                      'size-12 rounded-full',
+                      'size-12 rounded-full'
                     )}
                   >
                     <XIcon className="size-4" />
@@ -337,7 +340,7 @@ export default async function ProfilePage({
                     aria-label="LinkedIn"
                     className={cn(
                       buttonVariants({ variant: 'ghost', size: 'icon' }),
-                      'size-12 rounded-full',
+                      'size-12 rounded-full'
                     )}
                   >
                     <LinkedInIcon className="size-4" />

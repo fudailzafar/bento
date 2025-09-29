@@ -17,45 +17,51 @@ export default function TermsOfService() {
           <h2 className="text-2xl font-semibold text-gray-800 mb-4">
             Interpretation and Definitions
           </h2>
-          <h3 className="text-xl font-medium text-gray-700 mb-2">Interpretation</h3>
+          <h3 className="text-xl font-medium text-gray-700 mb-2">
+            Interpretation
+          </h3>
           <p className="text-gray-700 mb-4">
             The words of which the initial letter is capitalized have meanings
             defined under the following conditions. The following definitions
             shall have the same meaning regardless of whether they appear in
             singular or in plural.
           </p>
-          <h3 className="text-xl font-medium text-gray-700 mb-2">Definitions</h3>
+          <h3 className="text-xl font-medium text-gray-700 mb-2">
+            Definitions
+          </h3>
           <p className="text-gray-700 mb-4">
             For the purposes of these Terms and Conditions:
           </p>
           <ul className="list-disc list-inside space-y-4 text-gray-700 mb-8">
             <li>
               <p>
-                <strong className="font-semibold">Affiliate</strong> means an entity
-                that controls, is controlled by or is under common control with
-                a party, where &quot;control&quot; means ownership of 50% or
-                more of the shares, equity interest or other securities entitled
-                to vote for election of directors or other managing authority.
+                <strong className="font-semibold">Affiliate</strong> means an
+                entity that controls, is controlled by or is under common
+                control with a party, where &quot;control&quot; means ownership
+                of 50% or more of the shares, equity interest or other
+                securities entitled to vote for election of directors or other
+                managing authority.
               </p>
             </li>
             <li>
               <p>
-                <strong className="font-semibold">Country</strong> refers to: Tamil
-                Nadu, India
+                <strong className="font-semibold">Country</strong> refers to:
+                Tamil Nadu, India
               </p>
             </li>
             <li>
               <p>
-                <strong className="font-semibold">Company</strong> (referred to as
-                either &quot;the Company&quot;, &quot;We&quot;, &quot;Us&quot;
-                or &quot;Our&quot; in this Agreement) refers to Portfoliofy.
+                <strong className="font-semibold">Company</strong> (referred to
+                as either &quot;the Company&quot;, &quot;We&quot;,
+                &quot;Us&quot; or &quot;Our&quot; in this Agreement) refers to
+                Portfoliofy.
               </p>
             </li>
             <li>
               <p>
-                <strong className="font-semibold">Device</strong> means any device
-                that can access the Service such as a computer, a cellphone or a
-                digital tablet.
+                <strong className="font-semibold">Device</strong> means any
+                device that can access the Service such as a computer, a
+                cellphone or a digital tablet.
               </p>
             </li>
             <li>
@@ -98,10 +104,10 @@ export default function TermsOfService() {
             </li>
             <li>
               <p>
-                <strong className="font-semibold">You</strong> means the individual
-                accessing or using the Service, or the company, or other legal
-                entity on behalf of which such individual is accessing or using
-                the Service, as applicable.
+                <strong className="font-semibold">You</strong> means the
+                individual accessing or using the Service, or the company, or
+                other legal entity on behalf of which such individual is
+                accessing or using the Service, as applicable.
               </p>
             </li>
           </ul>
@@ -161,7 +167,9 @@ export default function TermsOfService() {
             policies of any third-party web sites or services that You visit.
           </p>
 
-          <h2 className="text-2xl font-semibold text-gray-800 mb-4">Termination</h2>
+          <h2 className="text-2xl font-semibold text-gray-800 mb-4">
+            Termination
+          </h2>
           <p className="text-gray-700 mb-4">
             We may terminate or suspend Your access immediately, without prior
             notice or liability, for any reason whatsoever, including without
@@ -289,7 +297,9 @@ export default function TermsOfService() {
           <h2 className="text-2xl font-semibold text-gray-800 mb-4">
             Severability and Waiver
           </h2>
-          <h3 className="text-xl font-medium text-gray-700 mb-2">Severability</h3>
+          <h3 className="text-xl font-medium text-gray-700 mb-2">
+            Severability
+          </h3>
           <p className="text-gray-700 mb-4">
             If any provision of these Terms is held to be unenforceable or
             invalid, such provision will be changed and interpreted to
@@ -332,7 +342,9 @@ export default function TermsOfService() {
             using the website and the Service.
           </p>
 
-          <h2 className="text-2xl font-semibold text-gray-800 mb-4">Contact Us</h2>
+          <h2 className="text-2xl font-semibold text-gray-800 mb-4">
+            Contact Us
+          </h2>
           <p className="text-gray-700 mb-4">
             If you have any questions about these Terms and Conditions, You can
             contact us:

@@ -417,7 +417,7 @@ function UsernameEditorContent({
                 className="w-full py-4 rounded-xl"
               >
                 {updateUsernameMutation.isPending ? (
-                  <Loader/>
+                  <Loader />
                 ) : (
                   'Update My Username'
                 )}
@@ -466,8 +466,10 @@ export default function UsernameEditorView({
 
   return (
     <Drawer open={isOpen} onOpenChange={onClose}>
-      <DrawerContent className={`p-3 rounded-t-[32px] ${showSuccess ? 'pb-7' : 'pb-72'}`}>
-        <DrawerTitle className='hidden'></DrawerTitle>
+      <DrawerContent
+        className={`p-3 rounded-t-[32px] ${showSuccess ? 'pb-7' : 'pb-72'}`}
+      >
+        <DrawerTitle className="hidden"></DrawerTitle>
         {!showSuccess && (
           <DrawerHeader className="text-left p-0">
             <div className="flex justify-end items-center mb-4">

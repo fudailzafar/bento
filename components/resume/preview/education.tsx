@@ -74,7 +74,7 @@ export function Education({
   // Filter out invalid education entries (only require school)
   const validEducations = useMemo(
     () => educations.filter((edu) => edu.school),
-    [educations],
+    [educations]
   );
 
   if (validEducations.length === 0) {

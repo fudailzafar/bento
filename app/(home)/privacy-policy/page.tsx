@@ -3,7 +3,9 @@ export default function PrivacyPolicy() {
     <>
       <div className="bg-gray-100 min-h-screen py-10 px-4 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto bg-white p-8 rounded-lg shadow-xl">
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">Privacy Policy</h1>
+          <h1 className="text-3xl font-bold text-gray-900 mb-2">
+            Privacy Policy
+          </h1>
           <p className="text-sm text-gray-500 mb-6">
             Last updated: September 21, 2025
           </p>
@@ -22,60 +24,66 @@ export default function PrivacyPolicy() {
           <h2 className="text-2xl font-semibold text-gray-800 mb-4">
             Interpretation and Definitions
           </h2>
-          <h3 className="text-xl font-medium text-gray-700 mb-2">Interpretation</h3>
+          <h3 className="text-xl font-medium text-gray-700 mb-2">
+            Interpretation
+          </h3>
           <p className="text-gray-700 mb-4">
             The words of which the initial letter is capitalized have meanings
             defined under the following conditions. The following definitions
             shall have the same meaning regardless of whether they appear in
             singular or in plural.
           </p>
-          <h3 className="text-xl font-medium text-gray-700 mb-2">Definitions</h3>
+          <h3 className="text-xl font-medium text-gray-700 mb-2">
+            Definitions
+          </h3>
           <p className="text-gray-700 mb-4">
             For the purposes of this Privacy Policy:
           </p>
           <ul className="list-disc list-inside space-y-4 text-gray-700 mb-8">
             <li>
               <p>
-                <strong className="font-semibold">Account</strong> means a unique
-                account created for You to access our Service or parts of our
-                Service.
+                <strong className="font-semibold">Account</strong> means a
+                unique account created for You to access our Service or parts of
+                our Service.
               </p>
             </li>
             <li>
               <p>
-                <strong className="font-semibold">Affiliate</strong> means an entity
-                that controls, is controlled by or is under common control with
-                a party, where &quot;control&quot; means ownership of 50% or
-                more of the shares, equity interest or other securities entitled
-                to vote for election of directors or other managing authority.
+                <strong className="font-semibold">Affiliate</strong> means an
+                entity that controls, is controlled by or is under common
+                control with a party, where &quot;control&quot; means ownership
+                of 50% or more of the shares, equity interest or other
+                securities entitled to vote for election of directors or other
+                managing authority.
               </p>
             </li>
             <li>
               <p>
-                <strong className="font-semibold">Company</strong> (referred to as
-                either &quot;the Company&quot;, &quot;We&quot;, &quot;Us&quot;
-                or &quot;Our&quot; in this Agreement) refers to Portfoliofy.
+                <strong className="font-semibold">Company</strong> (referred to
+                as either &quot;the Company&quot;, &quot;We&quot;,
+                &quot;Us&quot; or &quot;Our&quot; in this Agreement) refers to
+                Portfoliofy.
               </p>
             </li>
             <li>
               <p>
-                <strong className="font-semibold">Cookies</strong> are small files
-                that are placed on Your computer, mobile device or any other
-                device by a website, containing the details of Your browsing
-                history on that website among its many uses.
+                <strong className="font-semibold">Cookies</strong> are small
+                files that are placed on Your computer, mobile device or any
+                other device by a website, containing the details of Your
+                browsing history on that website among its many uses.
               </p>
             </li>
             <li>
               <p>
-                <strong className="font-semibold">Country</strong> refers to: Tamil
-                Nadu, India
+                <strong className="font-semibold">Country</strong> refers to:
+                Tamil Nadu, India
               </p>
             </li>
             <li>
               <p>
-                <strong className="font-semibold">Device</strong> means any device
-                that can access the Service such as a computer, a cellphone or a
-                digital tablet.
+                <strong className="font-semibold">Device</strong> means any
+                device that can access the Service such as a computer, a
+                cellphone or a digital tablet.
               </p>
             </li>
             <li>
@@ -93,13 +101,13 @@ export default function PrivacyPolicy() {
             </li>
             <li>
               <p>
-                <strong className="font-semibold">Service Provider</strong> means
-                any natural or legal person who processes the data on behalf of
-                the Company. It refers to third-party companies or individuals
-                employed by the Company to facilitate the Service, to provide
-                the Service on behalf of the Company, to perform services
-                related to the Service or to assist the Company in analyzing how
-                the Service is used.
+                <strong className="font-semibold">Service Provider</strong>{' '}
+                means any natural or legal person who processes the data on
+                behalf of the Company. It refers to third-party companies or
+                individuals employed by the Company to facilitate the Service,
+                to provide the Service on behalf of the Company, to perform
+                services related to the Service or to assist the Company in
+                analyzing how the Service is used.
               </p>
             </li>
             <li>
@@ -113,8 +121,8 @@ export default function PrivacyPolicy() {
             </li>
             <li>
               <p>
-                <strong className="font-semibold">Usage Data</strong> refers to data
-                collected automatically, either generated by the use of the
+                <strong className="font-semibold">Usage Data</strong> refers to
+                data collected automatically, either generated by the use of the
                 Service or from the Service infrastructure itself (for example,
                 the duration of a page visit).
               </p>
@@ -135,10 +143,10 @@ export default function PrivacyPolicy() {
             </li>
             <li>
               <p>
-                <strong className="font-semibold">You</strong> means the individual
-                accessing or using the Service, or the company, or other legal
-                entity on behalf of which such individual is accessing or using
-                the Service, as applicable.
+                <strong className="font-semibold">You</strong> means the
+                individual accessing or using the Service, or the company, or
+                other legal entity on behalf of which such individual is
+                accessing or using the Service, as applicable.
               </p>
             </li>
           </ul>
@@ -149,7 +157,9 @@ export default function PrivacyPolicy() {
           <h3 className="text-xl font-medium text-gray-700 mb-2">
             Types of Data Collected
           </h3>
-          <h4 className="text-lg font-medium text-gray-700 mb-2">Personal Data</h4>
+          <h4 className="text-lg font-medium text-gray-700 mb-2">
+            Personal Data
+          </h4>
           <p className="text-gray-700 mb-4">
             While using Our Service, We may ask You to provide Us with certain
             personally identifiable information that can be used to contact or
@@ -241,7 +251,9 @@ export default function PrivacyPolicy() {
           </p>
           <ul className="list-disc list-inside space-y-4 text-gray-700 mb-4">
             <li>
-              <strong className="font-semibold">Cookies or Browser Cookies.</strong>{' '}
+              <strong className="font-semibold">
+                Cookies or Browser Cookies.
+              </strong>{' '}
               A cookie is a small file placed on Your Device. You can instruct
               Your browser to refuse all Cookies or to indicate when a Cookie is
               being sent. However, if You do not accept Cookies, You may not be
@@ -349,7 +361,9 @@ export default function PrivacyPolicy() {
             </li>
             <li>
               <p>
-                <strong className="font-semibold">To manage Your Account:</strong>{' '}
+                <strong className="font-semibold">
+                  To manage Your Account:
+                </strong>{' '}
                 to manage Your registration as a user of the Service. The
                 Personal Data You provide can give You access to different
                 functionalities of the Service that are available to You as a
@@ -379,8 +393,8 @@ export default function PrivacyPolicy() {
             </li>
             <li>
               <p>
-                <strong className="font-semibold">To provide You</strong> with news,
-                special offers and general information about other goods,
+                <strong className="font-semibold">To provide You</strong> with
+                news, special offers and general information about other goods,
                 services and events which we offer that are similar to those
                 that you have already purchased or enquired about unless You
                 have opted not to receive such information.
@@ -388,13 +402,17 @@ export default function PrivacyPolicy() {
             </li>
             <li>
               <p>
-                <strong className="font-semibold">To manage Your requests:</strong>{' '}
+                <strong className="font-semibold">
+                  To manage Your requests:
+                </strong>{' '}
                 To attend and manage Your requests to Us.
               </p>
             </li>
             <li>
               <p>
-                <strong className="font-semibold">For business transfers:</strong>{' '}
+                <strong className="font-semibold">
+                  For business transfers:
+                </strong>{' '}
                 We may use Your information to evaluate or conduct a merger,
                 divestiture, restructuring, reorganization, dissolution, or
                 other sale or transfer of some or all of Our assets, whether as
@@ -405,8 +423,8 @@ export default function PrivacyPolicy() {
             </li>
             <li>
               <p>
-                <strong className="font-semibold">For other purposes</strong>: We
-                may use Your information for other purposes, such as data
+                <strong className="font-semibold">For other purposes</strong>:
+                We may use Your information for other purposes, such as data
                 analysis, identifying usage trends, determining the
                 effectiveness of our promotional campaigns and to evaluate and
                 improve our Service, products, services, marketing and your
@@ -420,13 +438,13 @@ export default function PrivacyPolicy() {
           </p>
           <ul className="list-disc list-inside space-y-2 text-gray-700 mb-8">
             <li>
-              <strong className="font-semibold">With Service Providers:</strong> We
-              may share Your personal information with Service Providers to
+              <strong className="font-semibold">With Service Providers:</strong>{' '}
+              We may share Your personal information with Service Providers to
               monitor and analyze the use of our Service, to contact You.
             </li>
             <li>
-              <strong className="font-semibold">For business transfers:</strong> We
-              may share or transfer Your personal information in connection
+              <strong className="font-semibold">For business transfers:</strong>{' '}
+              We may share or transfer Your personal information in connection
               with, or during negotiations of, any merger, sale of Company
               assets, financing, or acquisition of all or a portion of Our
               business to another company.
@@ -440,13 +458,13 @@ export default function PrivacyPolicy() {
               under common control with Us.
             </li>
             <li>
-              <strong className="font-semibold">With business partners:</strong> We
-              may share Your information with Our business partners to offer You
-              certain products, services or promotions.
+              <strong className="font-semibold">With business partners:</strong>{' '}
+              We may share Your information with Our business partners to offer
+              You certain products, services or promotions.
             </li>
             <li>
-              <strong className="font-semibold">With other users:</strong> when You
-              share personal information or otherwise interact in the public
+              <strong className="font-semibold">With other users:</strong> when
+              You share personal information or otherwise interact in the public
               areas with other users, such information may be viewed by all
               users and may be publicly distributed outside. If You interact
               with other users or register through a Third-Party Social Media
@@ -456,9 +474,9 @@ export default function PrivacyPolicy() {
               activity, communicate with You and view Your profile.
             </li>
             <li>
-              <strong className="font-semibold">With Your consent</strong>: We may
-              disclose Your personal information for any other purpose with Your
-              consent.
+              <strong className="font-semibold">With Your consent</strong>: We
+              may disclose Your personal information for any other purpose with
+              Your consent.
             </li>
           </ul>
 
@@ -633,7 +651,9 @@ export default function PrivacyPolicy() {
             posted on this page.
           </p>
 
-          <h2 className="text-2xl font-semibold text-gray-800 mb-4">Contact Us</h2>
+          <h2 className="text-2xl font-semibold text-gray-800 mb-4">
+            Contact Us
+          </h2>
           <p className="text-gray-700 mb-4">
             If you have any questions about this Privacy Policy, You can contact
             us:

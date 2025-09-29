@@ -17,7 +17,7 @@ export async function GET(): Promise<NextResponse> {
     console.error('Error retrieving user profile:', error);
     return NextResponse.json(
       { error: 'Internal server error' },
-      { status: 500 },
+      { status: 500 }
     );
   }
 }
@@ -43,7 +43,7 @@ export async function POST(request: Request): Promise<NextResponse> {
     console.error('Error storing user profile:', error);
     return NextResponse.json(
       { error: 'Internal server error' },
-      { status: 500 },
+      { status: 500 }
     );
   }
 }

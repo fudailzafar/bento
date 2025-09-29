@@ -102,7 +102,6 @@ export function ProjectCard({
             {tags?.map((tag) => (
               <Badge
                 className="px-1 py-0 text-[10px]"
-                variant="secondary"
                 key={tag}
               >
                 {tag}

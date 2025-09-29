@@ -49,7 +49,7 @@ export function Header({
   const socialLinks = useMemo(() => {
     const formatSocialUrl = (
       url: string | undefined,
-      platform: 'github' | 'twitter' | 'linkedin',
+      platform: 'github' | 'twitter' | 'linkedin'
     ) => {
       if (!url) return undefined;
 

@@ -23,7 +23,7 @@ async function LLMProcessing({ userId }: { userId: string }) {
 
   if (!resume.resumeData) {
     let resumeObject = await generateResumeObject(resume?.fileContent);
-
+    console.log(resumeObject);
     if (!resumeObject) {
       messageTip =
         "We couldn't extract data from your PDF. Please edit your resume manually.";

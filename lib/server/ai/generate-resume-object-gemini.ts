@@ -6,7 +6,12 @@ const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY!);
 
 export const generateResumeObject = async (resumeText: string) => {
   const startTime = Date.now();
+  console.log('🚀 Starting Gemini resume generation...');
+  console.log('📄 Resume text length:', resumeText.length);
+  console.log('📄 Resume text preview:', resumeText.substring(0, 200) + '...');
+
   try {
+    console.log('🔧 Initializing Gemini model...');
     const model = genAI.getGenerativeModel({
       model: 'gemini-1.5-flash',
       generationConfig: {
@@ -14,6 +19,7 @@ export const generateResumeObject = async (resumeText: string) => {
         maxOutputTokens: 1500,
       },
     });
+    console.log('✅ Gemini model initialized successfully');
     const prompt =
       dedent(`You are an expert resume writer. Generate a JSON resume object from the following resume text. Be professional and concise.
 
@@ -29,12 +35,18 @@ ${resumeText}
 
 Return only the JSON object, nothing else.`);
 
+    console.log('📤 Sending prompt to Gemini...');
+    console.log('📝 Prompt preview:', prompt.substring(0, 300) + '...');
+
     const result = await model.generateContent(prompt);
+    console.log('✅ Received response from Gemini');
+
     const response = await result.response;
     const text = response.text();
 
     // Log the raw response for debugging
-    console.log('Gemini raw response:', text);
+    console.log('📥 Gemini raw response:', text);
+    console.log('📏 Raw response length:', text.length);
 
     // Robust JSON extraction from code block or markdown
     let jsonString = text.trim();
@@ -61,19 +73,29 @@ Return only the JSON object, nothing else.`);
     }
 
     // Optionally log the cleaned jsonString for debugging
-    // console.log('Cleaned JSON string:', jsonString);
+    console.log('🧹 Cleaned JSON string:', jsonString);
+    console.log('🧹 Cleaned JSON length:', jsonString.length);
 
     // Parse JSON
     let object;
     try {
+      console.log('🔍 Attempting to parse JSON...');
       object = JSON.parse(jsonString);
+      console.log('✅ JSON parsed successfully');
+      console.log('📊 Parsed object keys:', Object.keys(object));
+      console.log('📊 Full parsed object:', JSON.stringify(object, null, 2));
     } catch (e) {
-      console.log(JSON.stringify(e, null, 2));
+      console.error('❌ JSON parsing failed:', e);
+      console.error('🔍 Failed JSON string:', jsonString);
       throw new Error('Could not parse JSON from Gemini response');
     }
 
     // Map Gemini's output to match ResumeDataSchema exactly
+    console.log('🔄 Starting object transformation...');
+    console.log('🔍 Object has basics property:', !!object.basics);
+
     if (object.basics) {
+      console.log('📝 Transforming object with basics structure...');
       object = {
         header: {
           name: object.basics.name || 'Your name',
@@ -144,21 +166,38 @@ Return only the JSON object, nothing else.`);
             }))
           : [],
       };
+      console.log('✅ Object transformation completed');
+    } else {
+      console.log('⚠️ No basics property found, using object as-is');
     }
 
+    console.log(
+      '🔍 Final object before validation:',
+      JSON.stringify(object, null, 2)
+    );
+
     // Validate with Zod schema
+    console.log('🛡️ Starting Zod schema validation...');
     ResumeDataSchema.parse(object);
+    console.log('✅ Zod validation passed');
 
     const endTime = Date.now();
     console.log(
-      `Generating resume object with Gemini took ${
+      `🎉 Generating resume object with Gemini took ${
         (endTime - startTime) / 1000
-      } seconds`,
+      } seconds`
     );
+    console.log('🎯 Final result:', JSON.stringify(object, null, 2));
 
     return object;
   } catch (error) {
-    console.warn('Impossible generating resume object with Gemini', error);
+    console.error('❌ Error generating resume object with Gemini:', error);
+    console.error(
+      '❌ Error stack:',
+      error instanceof Error ? error.stack : 'No stack trace'
+    );
+    console.error('❌ Error type:', typeof error);
+    console.error('❌ Full error object:', JSON.stringify(error, null, 2));
     return undefined;
   }
 };

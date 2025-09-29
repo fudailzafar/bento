@@ -9,7 +9,7 @@ export async function POST(req: NextRequest) {
     if (!url) {
       return NextResponse.json(
         { error: 'No file URL provided' },
-        { status: 400 },
+        { status: 400 }
       );
     }
 
@@ -34,7 +34,7 @@ export async function POST(req: NextRequest) {
       const error = await res.text();
       return NextResponse.json(
         { error: error || 'Failed to delete file' },
-        { status: 500 },
+        { status: 500 }
       );
     }
 
@@ -42,7 +42,7 @@ export async function POST(req: NextRequest) {
   } catch (err) {
     return NextResponse.json(
       { error: (err as Error).message },
-      { status: 500 },
+      { status: 500 }
     );
   }
 }
