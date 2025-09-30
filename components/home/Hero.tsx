@@ -25,7 +25,7 @@ export function Hero() {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 0.8, delay: 1.2, ease: easeInOutCubic }}
-        className="w-full bg-gray-900 hover:bg-gray-950 text-design-white text-center py-5 text-base font-light flex items-center justify-center"
+        className="w-full bg-black hover:bg-slate-900 text-design-white text-center py-5 text-base font-light flex items-center justify-center"
       >
         <a
           href="https://portfoliofy.me/fudail"
