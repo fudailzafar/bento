@@ -50,7 +50,7 @@ export function Hero() {
               className="mb-16 relative z-20"
               style={{ transformOrigin: 'top' }}
             >
-              <div className="mt-3 sm:-mt-[72px] md:-mt-24 bg-primary text-white text-xl font-bold p-0 h-20 w-20 flex items-center justify-center rounded-3xl mx-auto shadow-md">
+              <div className="mt-3 sm:-mt-[72px] md:-mt-24 bg-black text-white text-xl font-bold p-0 h-20 w-20 flex items-center justify-center rounded-3xl mx-auto shadow-md">
                 <Image
                   src={'/icons/android-chrome-512x512.png'}
                   alt=""

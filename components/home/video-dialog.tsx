@@ -7,7 +7,7 @@ export function VideoDialog() {
           autoPlay
           loop
           muted
-          className="rounded-xl w-[1200px] mx-auto shadow-lg"
+          className="rounded-3xl w-[1300px] mx-auto shadow-lg"
         />
       </div>
       <div className="block sm:hidden">
@@ -16,7 +16,7 @@ export function VideoDialog() {
           autoPlay
           loop
           muted
-          className="rounded-xl w-11/12 max-w-xl mx-auto shadow-lg"
+          className="rounded-3xl w-11/12 max-w-xl mx-auto shadow-lg"
         />
       </div>
     </div>
