@@ -369,7 +369,7 @@ export default function PreviewClient({ messageTip }: { messageTip?: string }) {
         </div>
 
         {/* Action Bar */}
-        <div className="fixed bottom-6 left-0 right-0 z-50 pointer-events-none">
+        <div className="fixed bottom-10 left-0 right-0 z-50 pointer-events-none">
           <div className="max-w-3xl mx-auto w-full md:px-0 px-4 pointer-events-auto flex justify-center">
             <PreviewActionbar
               initialUsername={usernameQuery.data.username}

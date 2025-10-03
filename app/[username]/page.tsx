@@ -214,12 +214,10 @@ export default async function ProfilePage({
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
 
-      <div className="px-6">
-        <PublicPortfolio
-          resume={resume?.resumeData}
-          profilePicture={profilePicture}
-        />
-      </div>
+      <PublicPortfolio
+        resume={resume?.resumeData}
+        profilePicture={profilePicture}
+      />
 
       {/* Mobile CTA Section */}
       <div className="sm:hidden bg-slate-100 dark:bg-[#020817] py-10 text-center z-10 pb-24 gap-5 flex flex-col justify-center items-center">

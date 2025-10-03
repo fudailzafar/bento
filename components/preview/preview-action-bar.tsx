@@ -91,7 +91,7 @@ export default function PreviewActionbar({
 
   return (
     <>
-      <div className="relative md:w-[56%] rounded-2xl bg-white/95 backdrop-blur-sm border border-neutral-200 shadow-lg p-2.5 flex items-center gap-2">
+      <div className="relative md:w-[60%] rounded-2xl bg-white/95 backdrop-blur-sm border border-neutral-200 shadow-lg p-2.5 flex items-center gap-5">
         {/* Share Button */}
         {status === 'live' && (
           <Button
@@ -138,7 +138,7 @@ export default function PreviewActionbar({
         )}
 
         {/* Divider */}
-        <div className="h-8 w-px bg-black/[0.08] flex-shrink-0" />
+        <div className="h-4 w-[2px] rounded-lg bg-black/[0.08] flex-shrink-0" />
 
         <div className="block">
           <HamburgerMenu
@@ -151,7 +151,7 @@ export default function PreviewActionbar({
         </div>
 
         {/* Divider */}
-        <div className="hidden sm:block h-8 w-px bg-black/[0.08] flex-shrink-0" />
+        <div className="hidden sm:block h-4 w-[2px] rounded-lg bg-black/[0.08] flex-shrink-0" />
 
         {/* Desktop/Mobile Toggle */}
         <div className="hidden sm:flex items-center space-x-1 flex-shrink-0">
@@ -196,8 +196,8 @@ export default function PreviewActionbar({
           </button>
         </div>
 
-        {/* Container highlight effect */}
-        <div className="absolute inset-0 rounded-2xl pointer-events-none bg-gradient-to-b from-white/10 to-transparent opacity-50" />
+        {/* Container highlight effect
+        <div className="absolute inset-0 rounded-2xl pointer-events-none bg-gradient-to-b from-white/10 to-transparent opacity-50" /> */}
       </div>
 
       <UsernameEditorView

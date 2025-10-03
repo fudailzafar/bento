@@ -7,6 +7,7 @@ import {
   Lightbulb,
 } from 'lucide-react';
 import React from 'react';
+import { LinkIcon } from '../icons';
 
 interface HamburgerMenuProps {
   onAddWorkExperience?: () => void;
@@ -23,25 +24,22 @@ export const HamburgerMenu = ({
   onAddProject,
 }: HamburgerMenuProps) => {
   return (
-    <div className="flex items-center space-x-1">
+    <div className="flex items-center space-x-2">
 
       {/* Work Experience Button */}
       <button
         onClick={onAddWorkExperience}
-        className="relative h-[33px] w-[33px] rounded-lg transition-all active:scale-95 group shadow-[0_1px_2px_rgba(0,0,0,0.08),0_1px_1px_rgba(0,0,0,0.05)]"
+        className="relative h-[25px] w-[25px] rounded-lg transition-all active:scale-95 group shadow-[0_1px_2px_rgba(0,0,0,0.08),0_1px_1px_rgba(0,0,0,0.05)] border border-black/[0.08]"
         data-link-button="true"
         data-state="closed"
         aria-label="Add Work Experience"
       >
-        <div className="relative h-full w-full flex items-center justify-center overflow-hidden rounded-lg">
+        <div className="relative h-full w-full flex items-center justify-center rounded-lg">
           {/* Gradient */}
           <div className="absolute inset-0 bg-gradient-to-b from-white/5 to-transparent rounded-lg" />
 
           {/* Icon - 14x14 size */}
           <BriefcaseBusiness size={15} />
-
-          {/* Border */}
-          <div className="absolute inset-0 rounded-lg border border-black/[0.08] opacity-0 group-hover:opacity-100 transition-opacity" />
 
           {/* Highlight - Strong */}
           <div className="absolute inset-0 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity bg-gradient-to-b from-white/20 to-transparent" />
@@ -56,22 +54,19 @@ export const HamburgerMenu = ({
       {/* Education Button */}
       <button
         onClick={onAddEducation}
-        className="relative h-[33px] w-[33px] rounded-lg transition-all active:scale-95 group shadow-[0_1px_2px_rgba(0,0,0,0.08),0_1px_1px_rgba(0,0,0,0.05)]"
+        className="relative h-[25px] w-[25px] rounded-lg transition-all active:scale-95 group shadow-[0_1px_2px_rgba(0,0,0,0.08),0_1px_1px_rgba(0,0,0,0.05)] border border-black/[0.08]"
         data-state="closed"
         aria-label="Add Education"
       >
-        <div className="relative h-full w-full flex items-center justify-center overflow-hidden rounded-lg">
+        <div className="relative h-full w-full flex items-center justify-center rounded-lg">
           {/* Gradient */}
           <div className="absolute inset-0 bg-gradient-to-b from-white/5 to-transparent rounded-lg" />
 
           {/* Icon */}
           <GraduationCap size={15} />
 
-          {/* Border */}
-          <div className="absolute inset-0 rounded-lg border border-black/[0.08] opacity-0 group-hover:opacity-100 transition-opacity" />
-
-          {/* Highlight */}
-          <div className="absolute inset-0 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity bg-black/[0.04]" />
+          {/* Highlight - Strong */}
+          <div className="absolute inset-0 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity bg-gradient-to-b from-white/20 to-transparent" />
         </div>
 
         {/* Tooltip */}
@@ -83,22 +78,19 @@ export const HamburgerMenu = ({
       {/* Skills Button */}
       <button
         onClick={onAddSkill}
-        className="relative h-[33px] w-[33px] rounded-lg transition-all active:scale-95 group shadow-[0_1px_2px_rgba(0,0,0,0.08),0_1px_1px_rgba(0,0,0,0.05)]"
+        className="relative h-[25px] w-[25px] rounded-lg transition-all active:scale-95 group shadow-[0_1px_2px_rgba(0,0,0,0.08),0_1px_1px_rgba(0,0,0,0.05)] border border-black/[0.08]"
         data-state="closed"
         aria-label="Add Skill"
       >
-        <div className="relative h-full w-full flex items-center justify-center overflow-hidden rounded-lg">
+        <div className="relative h-full w-full flex items-center justify-center rounded-lg">
           {/* Gradient */}
           <div className="absolute inset-0 bg-gradient-to-b from-white/5 to-transparent rounded-lg" />
 
           {/* Icon */}
           <BicepsFlexed size={15} />
 
-          {/* Border */}
-          <div className="absolute inset-0 rounded-lg border border-black/[0.08] opacity-0 group-hover:opacity-100 transition-opacity" />
-
-          {/* Highlight */}
-          <div className="absolute inset-0 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity bg-black/[0.04]" />
+          {/* Highlight - Strong */}
+          <div className="absolute inset-0 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity bg-gradient-to-b from-white/20 to-transparent" />
         </div>
 
         {/* Tooltip */}
@@ -110,22 +102,19 @@ export const HamburgerMenu = ({
       {/* Projects Button */}
       <button
         onClick={onAddProject}
-        className="relative h-[33px] w-[33px] rounded-lg transition-all active:scale-95 group shadow-[0_1px_2px_rgba(0,0,0,0.08),0_1px_1px_rgba(0,0,0,0.05)]"
+        className="relative h-[25px] w-[25px] rounded-lg transition-all active:scale-95 group shadow-[0_1px_2px_rgba(0,0,0,0.08),0_1px_1px_rgba(0,0,0,0.05)] border border-black/[0.08]"
         data-state="closed"
         aria-label="Add Project"
       >
-        <div className="relative h-full w-full flex items-center justify-center overflow-hidden rounded-lg">
+        <div className="relative h-full w-full flex items-center justify-center rounded-lg">
           {/* Gradient */}
           <div className="absolute inset-0 bg-gradient-to-b from-white/5 to-transparent rounded-lg" />
 
           {/* Icon */}
-          <Lightbulb size={15} />
+          <LinkIcon />
 
-          {/* Border */}
-          <div className="absolute inset-0 rounded-lg border border-black/[0.08] opacity-0 group-hover:opacity-100 transition-opacity" />
-
-          {/* Highlight */}
-          <div className="absolute inset-0 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity bg-black/[0.04]" />
+          {/* Highlight - Strong */}
+          <div className="absolute inset-0 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity bg-gradient-to-b from-white/20 to-transparent" />
         </div>
 
         {/* Tooltip */}
