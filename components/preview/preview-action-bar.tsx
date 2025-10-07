@@ -14,7 +14,6 @@ import {
 import {
   UsernameEditorView,
   HamburgerMenu,
-  PublishStatuses,
   ViewMode,
 } from '@/components/preview';
 import { Copy } from 'lucide-react';
@@ -22,7 +21,6 @@ import { Copy } from 'lucide-react';
 export default function PreviewActionbar({
   initialUsername = '',
   prefix = 'portfoliofy.me/',
-  status,
   viewMode = 'desktop',
   onViewModeChange,
   isSaving,
@@ -34,7 +32,6 @@ export default function PreviewActionbar({
 }: {
   initialUsername: string;
   prefix?: string;
-  status?: PublishStatuses;
   viewMode?: ViewMode;
   onViewModeChange?: (mode: ViewMode) => void;
   isSaving?: boolean;

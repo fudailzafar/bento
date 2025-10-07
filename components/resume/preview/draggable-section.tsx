@@ -44,7 +44,11 @@ export function DraggableSection({
   }
 
   return (
-    <div ref={setNodeRef} style={style} className={`group relative mb-6 ${className}`}>
+    <div
+      ref={setNodeRef}
+      style={style}
+      className={`group relative mb-6 ${className}`}
+    >
       {/* Drag Handle - Only visible in edit mode */}
       <div
         {...attributes}
@@ -69,9 +73,7 @@ export function DraggableSection({
           }
         `}
       >
-        <div className={isDragging ? 'invisible' : ''}>
-          {children}
-        </div>
+        <div className={isDragging ? 'invisible' : ''}>{children}</div>
       </div>
     </div>
   );
