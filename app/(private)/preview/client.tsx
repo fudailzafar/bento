@@ -240,11 +240,7 @@ export default function PreviewClient({ messageTip }: { messageTip?: string }) {
       </button>
 
       {/* Main Content Area */}
-      <div
-        className={`${
-          isChatOpen ? 'mr-80' : 'mr-0'
-        } flex-1 transition-all duration-300 flex flex-col`}
-      >
+      <div className="flex-1 flex flex-col">
         {/* Add Skill Dialog */}
         <AddSkillDialog
           open={isAddSkillDialogOpen}

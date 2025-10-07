@@ -244,14 +244,16 @@ export default async function ProfilePage({
 
       {/* Desktop CTA Section */}
       <div className="hidden sm:flex fixed bottom-10 left-10 z-50 flex-row items-center justify-center gap-2">
-        <Button className="bg-design-primary hover:bg-design-primaryDark text-design-white h-8 px-3">
+        <Button className="relative overflow-hidden bg-design-primary hover:bg-design-primaryDark text-design-white h-8 px-3">
           <Link
             href={'/signup'}
-            className="text-xs flex flex-row gap-2 items-center font-semibold"
+            className="relative z-10 text-xs flex flex-row gap-2 items-center font-semibold"
           >
             <Image src={'/favicon.ico'} alt="" width={16} height={16} />
             <span>Create Your Portfolio</span>
           </Link>
+          {/* Shine effect */}
+          <div className="absolute inset-0 bg-gradient-to-r from-transparent via-design-primaryLight/30 to-transparent translate-x-[-100%] animate-[shine_4s_ease-in-out_infinite]" />
         </Button>
         <Button variant={'ghost'} className="h-8 px-3">
           <Link

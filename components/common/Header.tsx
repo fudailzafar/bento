@@ -53,7 +53,7 @@ export function Header() {
         </header>
 
         {/* Desktop Header */}
-        <div className="hidden sm:flex fixed bottom-10 left-10 z-50 flex-row items-center justify-center gap-2">
+        <div className="hidden sm:flex fixed bottom-12 left-10 z-50 flex-row items-center justify-center gap-2">
           <SettingsPanel />
           <Link
             href="/explore"
