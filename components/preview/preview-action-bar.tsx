@@ -90,49 +90,47 @@ export default function PreviewActionbar({
     <>
       <div className="relative md:w-[66%] rounded-2xl bg-white/95 backdrop-blur-sm border border-neutral-200 shadow-lg px-3.5 py-3 flex items-center gap-5">
         {/* Share Button */}
-        {status === 'live' && (
-          <Button
-            ref={copyButtonRef}
-            onClick={handleCopyLink}
-            disabled={isSaving}
-            className="relative h-[33px] w-[33px] sm:w-[127px] !rounded-md !p-0 px-0 sm:px-0 !shadow-[0px_2px_3px_rgba(0,0,0,0.06)] bg-design-success hover:bg-[#3dda69] font-medium text-sm transition-all active:scale-95 flex-shrink-0 group"
-          >
-            <div className="flex items-center justify-center h-full w-full overflow-hidden rounded-md">
-              {isSaving ? (
-                <>
-                  <LoaderIcon className="size-4" />
-                  <span className="ml-1.5 hidden sm:inline">Saving...</span>
-                </>
-              ) : (
-                <>
-                  {isCopied ? (
-                    <>
-                      <CheckmarkSmallIcon className="size-4 sm:hidden" />
-                      <span className="hidden sm:inline font-semibold">
-                        Copy my Link
-                      </span>
-                    </>
-                  ) : (
-                    <>
-                      <Copy className="size-4 sm:hidden" />
-                      <span className="hidden sm:inline font-semibold">
-                        Copy my Link
-                      </span>
-                    </>
-                  )}
-                </>
-              )}
-              {/* Shine effect */}
-              <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent translate-x-[-100%] animate-[shine_4s_ease-in-out_infinite]" />
-            </div>
-            {/* Tooltip */}
-            {!isSaving && (
-              <div className="hidden sm:block absolute bottom-full mb-2 left-1/2 transform -translate-x-1/2 bg-white font-normal text-design-resume text-[10px] leading-tight px-2 py-1 rounded-md shadow-md border border-slate-100 opacity-0 group-hover:opacity-100 transition-opacity duration-200 delay-700 pointer-events-none z-50 min-w-max">
-                Share your Portfolio
-              </div>
+        <Button
+          ref={copyButtonRef}
+          onClick={handleCopyLink}
+          disabled={isSaving}
+          className="relative h-[33px] w-[33px] sm:w-[127px] !rounded-md !p-0 px-0 sm:px-0 !shadow-[0px_2px_3px_rgba(0,0,0,0.06)] bg-design-success hover:bg-[#3dda69] font-medium text-sm transition-all active:scale-95 flex-shrink-0 group"
+        >
+          <div className="flex items-center justify-center h-full w-full overflow-hidden rounded-md">
+            {isSaving ? (
+              <>
+                <LoaderIcon className="size-4" />
+                <span className="ml-1.5 hidden sm:inline">Saving...</span>
+              </>
+            ) : (
+              <>
+                {isCopied ? (
+                  <>
+                    <CheckmarkSmallIcon className="size-4 sm:hidden" />
+                    <span className="hidden sm:inline font-semibold">
+                      Copy my Link
+                    </span>
+                  </>
+                ) : (
+                  <>
+                    <Copy className="size-4 sm:hidden" />
+                    <span className="hidden sm:inline font-semibold">
+                      Copy my Link
+                    </span>
+                  </>
+                )}
+              </>
             )}
-          </Button>
-        )}
+            {/* Shine effect */}
+            <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent translate-x-[-100%] animate-[shine_4s_ease-in-out_infinite]" />
+          </div>
+          {/* Tooltip */}
+          {!isSaving && (
+            <div className="hidden sm:block absolute bottom-full mb-2 left-1/2 transform -translate-x-1/2 bg-white font-normal text-design-resume text-[10px] leading-tight px-2 py-1 rounded-md shadow-md border border-slate-100 opacity-0 group-hover:opacity-100 transition-opacity duration-200 delay-700 pointer-events-none z-50 min-w-max">
+              Share your Portfolio
+            </div>
+          )}
+        </Button>
 
         {/* Divider */}
         <div className="h-4 w-[2px] rounded-lg bg-black/[0.08] flex-shrink-0" />
