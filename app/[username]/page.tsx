@@ -188,7 +188,7 @@ export default async function ProfilePage({
     );
   }
 
-  if (!resume?.resumeData || resume.status !== 'live')
+  if (!resume?.resumeData)
     redirect(`/?idNotFound=${user_id}`);
 
   const profilePicture = userData?.image;

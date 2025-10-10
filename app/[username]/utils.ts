@@ -11,7 +11,7 @@ export async function getUserData(username: string) {
     getUserProfile(user_id),
   ]);
 
-  if (!resume?.resumeData || resume.status !== 'live') {
+  if (!resume?.resumeData) {
     return { user_id, resume: undefined, userData: userProfile };
   }
 

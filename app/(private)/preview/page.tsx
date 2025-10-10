@@ -112,7 +112,6 @@ async function LLMProcessing({ userId }: { userId: string }) {
     };
 
     await storeResume(userId, {
-      status: 'live',
       resumeData: defaultResumeData,
     });
 

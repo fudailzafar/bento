@@ -1,6 +1,30 @@
+import { Metadata } from 'next';
+import { BreadcrumbSchema } from '@/components/seo';
+
+export const metadata: Metadata = {
+  title: 'Privacy Policy | Portfoliofy',
+  description: 'Learn how Portfoliofy collects, uses, and protects your personal data. Read our comprehensive privacy policy and data protection guidelines.',
+  openGraph: {
+    title: 'Privacy Policy | Portfoliofy',
+    description: 'Learn how Portfoliofy protects your personal data and privacy.',
+    url: 'https://portfoliofy.me/privacy-policy',
+    siteName: 'Portfoliofy',
+    type: 'website',
+  },
+  alternates: {
+    canonical: 'https://portfoliofy.me/privacy-policy',
+  },
+};
+
 export default function PrivacyPolicy() {
   return (
     <>
+      <BreadcrumbSchema
+        items={[
+          { name: 'Home', url: 'https://portfoliofy.me' },
+          { name: 'Privacy Policy', url: 'https://portfoliofy.me/privacy-policy' },
+        ]}
+      />
       <div className="bg-gray-100 min-h-screen py-10 px-4 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto bg-white p-8 rounded-lg shadow-xl">
           <h1 className="text-3xl font-bold text-gray-900 mb-2">

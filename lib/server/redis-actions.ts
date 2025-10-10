@@ -25,10 +25,10 @@ const FORBIDDEN_USERNAMES = PRIVATE_ROUTES;
 
 // Define the complete resume schema
 const ResumeSchema = z.object({
-  status: z.enum(['live', 'draft']).default('live'),
   file: FileSchema.nullish(),
   fileContent: z.string().nullish(),
   resumeData: ResumeDataSchema.nullish(),
+  updatedAt: z.string().optional(),
 });
 
 // Define user profile schema
@@ -75,7 +75,11 @@ export async function storeResume(
   resumeData: Resume
 ): Promise<void> {
   try {
-    const validatedData = ResumeSchema.parse(resumeData);
+    const dataWithTimestamp = {
+      ...resumeData,
+      updatedAt: new Date().toISOString(),
+    };
+    const validatedData = ResumeSchema.parse(dataWithTimestamp);
     await upstashRedis.set(
       `${REDIS_KEYS.RESUME_PREFIX}${userId}`,
       validatedData

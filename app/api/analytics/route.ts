@@ -32,11 +32,6 @@ const getCachedAnalytics = unstable_cache(
         const resumes = (await Promise.all(
           currentKeys.map((key) => upstashRedis.get(key))
         )) as (Resume | null)[];
-
-        // Count published resumes in current batch
-        publishedCount += resumes.filter(
-          (resume): resume is Resume => resume?.status === 'live'
-        ).length;
       }
     } while (cursor !== '0');
 

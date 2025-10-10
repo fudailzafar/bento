@@ -1,6 +1,30 @@
+import { Metadata } from 'next';
+import { BreadcrumbSchema } from '@/components/seo';
+
+export const metadata: Metadata = {
+  title: 'Terms of Service | Portfoliofy',
+  description: 'Read our terms and conditions for using Portfoliofy. Learn about user agreements, service usage, and legal guidelines.',
+  openGraph: {
+    title: 'Terms of Service | Portfoliofy',
+    description: 'Read our terms and conditions for using Portfoliofy.',
+    url: 'https://portfoliofy.me/terms-of-service',
+    siteName: 'Portfoliofy',
+    type: 'website',
+  },
+  alternates: {
+    canonical: 'https://portfoliofy.me/terms-of-service',
+  },
+};
+
 export default function TermsOfService() {
   return (
     <>
+      <BreadcrumbSchema
+        items={[
+          { name: 'Home', url: 'https://portfoliofy.me' },
+          { name: 'Terms of Service', url: 'https://portfoliofy.me/terms-of-service' },
+        ]}
+      />
       <div className="bg-gray-100 min-h-screen py-10 px-4 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto bg-white p-8 rounded-lg shadow-xl">
           <h1 className="text-3xl font-bold text-gray-900 mb-2">
