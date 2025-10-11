@@ -102,25 +102,25 @@ function UsernameEditorContent({
 
   // Success Modal/Drawer Content Component
   const SuccessContent = () => (
-    <div className="flex flex-col items-center w-full">
-      <div className="flex items-center justify-center w-16 h-16 rounded-full mb-4">
+    <div className="flex w-full flex-col items-center">
+      <div className="mb-4 flex h-16 w-16 items-center justify-center rounded-full">
         <span className="rounded-full shadow-[0px_1px_2px_rgba(0,0,0,0.12)]">
           <CheckmarkLargeIcon />
         </span>
       </div>
-      <h3 className="text-lg font-semibold text-center mb-8">
+      <h3 className="mb-8 text-center text-lg font-semibold">
         Your new username is
       </h3>
-      <div className="w-full bg-[#f7f7f7] rounded-xl px-4 py-3 text-center text-gray-700 font-normal text-sm mb-4 select-all">
+      <div className="mb-4 w-full select-all rounded-xl bg-[#f7f7f7] px-4 py-3 text-center text-sm font-normal text-gray-700">
         <span className="text-design-resume">{prefix}</span>
         <span className="text-black">{newUsername}</span>
       </div>
       <button className="w-full" onClick={handleCopy}>
-        <ConfettiButton className="w-full bg-design-success hover:bg-green-600 text-white text-sm font-bold rounded-xl py-3 flex items-center justify-center gap-2 active:scale-95 transition-transform">
+        <ConfettiButton className="flex w-full items-center justify-center gap-2 rounded-xl bg-design-success py-3 text-sm font-bold text-white transition-transform hover:bg-green-600 active:scale-95">
           Copy my Link
         </ConfettiButton>
       </button>
-      <div className="text-design-resume font-normal text-xs mt-3 text-center">
+      <div className="mt-3 text-center text-xs font-normal text-design-resume">
         The link is ready for your portfolio!
       </div>
     </div>
@@ -139,7 +139,7 @@ function UsernameEditorContent({
             }
           }}
         >
-          <DialogContent className="max-w-xs rounded-2xl p-6 flex flex-col items-center gap-4">
+          <DialogContent className="flex max-w-xs flex-col items-center gap-4 rounded-2xl p-6">
             <SuccessContent />
           </DialogContent>
         </Dialog>
@@ -148,7 +148,7 @@ function UsernameEditorContent({
       {/* Success Drawer for Mobile - replaces the main drawer content */}
       {showSuccess && isMobile ? (
         <div className="flex flex-col gap-4 px-3">
-          <div className="flex justify-end items-center mb-4">
+          <div className="mb-4 flex items-center justify-end">
             <DrawerClose asChild>
               <Button
                 variant="outline"
@@ -157,7 +157,7 @@ function UsernameEditorContent({
                   setShowSuccess(false);
                   onClose();
                 }}
-                className="text-white text-lg p-6 rounded-xl bg-[#3dda69] hover:bg-[#3dda69] active:scale-95 transition-all font-bold"
+                className="rounded-xl bg-[#3dda69] p-6 text-lg font-bold text-white transition-all hover:bg-[#3dda69] active:scale-95"
               >
                 Done
               </Button>
@@ -169,9 +169,9 @@ function UsernameEditorContent({
         <div className="flex flex-col gap-4">
           {/* New Username Input */}
           <div className="flex flex-col gap-2">
-            <div className="w-full overflow-hidden rounded-xl bg-[#f7f7f7] border-[0.5px] border-[#f7f7f7]">
+            <div className="w-full overflow-hidden rounded-xl border-[0.5px] border-[#f7f7f7] bg-[#f7f7f7]">
               <div className="flex items-center">
-                <span className="pl-3 pr-0.5 text-sm text-design-resume select-none">
+                <span className="select-none pl-3 pr-0.5 text-sm text-design-resume">
                   {prefix}
                 </span>
                 <input
@@ -180,7 +180,7 @@ function UsernameEditorContent({
                   value={newUsername}
                   onChange={handleUsernameChange}
                   maxLength={MAX_USERNAME_LENGTH}
-                  className="flex-1 p-3 text-sm text-black border-none font-normal outline-none focus:ring-0 bg-transparent min-w-0"
+                  className="min-w-0 flex-1 border-none bg-transparent p-3 text-sm font-normal text-black outline-none focus:ring-0"
                   style={{ paddingLeft: 0 }}
                   onKeyDown={(e) => {
                     if (
@@ -220,7 +220,7 @@ function UsernameEditorContent({
           <div>
             {checkUsernameMutation.data &&
             checkUsernameMutation.data.available === false ? (
-              <p className="w-full py-1 text-start text-[#FF2222] font-normal text-xs">
+              <p className="w-full py-1 text-start text-xs font-normal text-[#FF2222]">
                 This username seems to be taken.
                 <br />
                 Maybe you have some other ideas?
@@ -229,7 +229,7 @@ function UsernameEditorContent({
               <Button
                 onClick={handleSave}
                 disabled={!isValid || updateUsernameMutation.isPending}
-                className="w-full py-4 rounded-lg bg-design-primary hover:bg-design-primaryDark"
+                className="w-full rounded-lg bg-design-primary py-4 hover:bg-design-primaryDark"
               >
                 {updateUsernameMutation.isPending ? (
                   <LoaderIcon />
@@ -282,12 +282,12 @@ export default function UsernameEditorView({
   return (
     <Drawer open={isOpen} onOpenChange={onClose}>
       <DrawerContent
-        className={`p-3 rounded-t-[32px] ${showSuccess ? 'pb-7' : 'pb-72'}`}
+        className={`rounded-t-[32px] p-3 ${showSuccess ? 'pb-7' : 'pb-72'}`}
       >
         <DrawerTitle className="hidden"></DrawerTitle>
         {!showSuccess && (
-          <DrawerHeader className="text-left p-0">
-            <div className="flex justify-end items-center mb-4">
+          <DrawerHeader className="p-0 text-left">
+            <div className="mb-4 flex items-center justify-end">
               <DrawerClose asChild>
                 <Button
                   variant="outline"
@@ -296,13 +296,13 @@ export default function UsernameEditorView({
                     setShowSuccess(false);
                     onClose();
                   }}
-                  className="text-white text-lg p-6 rounded-xl bg-[#3dda69] hover:bg-[#3dda69] active:scale-95 transition-all font-bold"
+                  className="rounded-xl bg-[#3dda69] p-6 text-lg font-bold text-white transition-all hover:bg-[#3dda69] active:scale-95"
                 >
                   Done
                 </Button>
               </DrawerClose>
             </div>
-            <DrawerTitle className="text-2xl font-semibold -mb-1">
+            <DrawerTitle className="-mb-1 text-2xl font-semibold">
               Change Username
             </DrawerTitle>
             <DrawerDescription className="mb-4">

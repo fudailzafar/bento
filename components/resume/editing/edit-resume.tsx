@@ -45,13 +45,13 @@ export const EditResume = ({
 
   return (
     <section
-      className="mx-auto w-full max-w-2xl space-y-8 bg-white my-8"
+      className="mx-auto my-8 w-full max-w-2xl space-y-8 bg-white"
       aria-label="Resume Content editing"
     >
       <div className="flex flex-col gap-2">
         <h2 className="text-xl font-bold">Header</h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div className="flex flex-col gap-2 col-span-2 md:col-span-1">
+        <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+          <div className="col-span-2 flex flex-col gap-2 md:col-span-1">
             <Label htmlFor="name" className="text-sm font-medium text-gray-700">
               Name
             </Label>
@@ -100,7 +100,7 @@ export const EditResume = ({
             />
           </div>
 
-          <div className="flex flex-col gap-2 col-span-2">
+          <div className="col-span-2 flex flex-col gap-2">
             <Label
               htmlFor="shortAbout"
               className="text-sm font-medium text-gray-700"
@@ -108,7 +108,7 @@ export const EditResume = ({
               Short About
             </Label>
             <textarea
-              className="w-full p-2 border rounded-md  text-sm"
+              className="w-full rounded-md border p-2 text-sm"
               value={resume?.header?.shortAbout || ''}
               onChange={(e) => {
                 onChangeResume(
@@ -126,7 +126,7 @@ export const EditResume = ({
             />
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 col-span-2">
+          <div className="col-span-2 grid grid-cols-1 gap-4 md:grid-cols-2">
             <div className="flex flex-col gap-2">
               <Label
                 htmlFor="email"
@@ -186,11 +186,11 @@ export const EditResume = ({
             </div>
           </div>
 
-          <div className="flex flex-col gap-2 col-span-2">
+          <div className="col-span-2 flex flex-col gap-2">
             <Label className="text-sm font-medium text-gray-700">
               Social Links
             </Label>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
               {[
                 {
                   id: 'website',
@@ -227,7 +227,7 @@ export const EditResume = ({
                   </Label>
                   <div className="flex items-center">
                     {prefix && (
-                      <span className="text-sm text-gray-500 mr-2">
+                      <span className="mr-2 text-sm text-gray-500">
                         {prefix}
                       </span>
                     )}
@@ -268,7 +268,7 @@ export const EditResume = ({
         <div className="space-y-2">
           <h2 className="text-xl font-bold">About</h2>
           <textarea
-            className="w-full p-2 border rounded-md  text-sm"
+            className="w-full rounded-md border p-2 text-sm"
             value={resume?.summary}
             onChange={(e) => {
               onChangeResume(
@@ -502,7 +502,7 @@ export const EditResume = ({
         <div className="space-y-2">
           <h2 className="text-xl font-bold">Contact</h2>
           <textarea
-            className="w-full p-2 border rounded-md text-sm"
+            className="w-full rounded-md border p-2 text-sm"
             value={resume?.contact || ''}
             onChange={(e) => {
               onChangeResume(

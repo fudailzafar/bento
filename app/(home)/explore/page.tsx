@@ -13,30 +13,30 @@ export default function Home() {
   return (
     <>
       <HeaderExplore />
-      <div className="flex flex-wrap gap-24 justify-center items-start py-16">
+      <div className="flex flex-wrap items-start justify-center gap-24 py-16">
         {[1, 2, 3].map((i) => (
           <div
             key={i}
-            className="bg-white rounded-2xl shadow-md p-8 w-[350px] h-[220px] flex flex-col gap-4"
+            className="flex h-[220px] w-[350px] flex-col gap-4 rounded-2xl bg-white p-8 shadow-md"
           >
-            <div className="flex gap-4 items-center">
-              <Skeleton className="w-16 h-16 rounded-full" />
+            <div className="flex items-center gap-4">
+              <Skeleton className="h-16 w-16 rounded-full" />
               <div className="flex flex-col gap-2">
-                <Skeleton className="w-24 h-5 rounded" />
-                <Skeleton className="w-32 h-4 rounded" />
+                <Skeleton className="h-5 w-24 rounded" />
+                <Skeleton className="h-4 w-32 rounded" />
               </div>
             </div>
-            <div className="flex gap-2 mt-2">
-              <Skeleton className="w-8 h-8 rounded" />
-              <Skeleton className="w-8 h-8 rounded" />
-              <Skeleton className="w-8 h-8 rounded" />
-              <Skeleton className="w-8 h-8 rounded" />
+            <div className="mt-2 flex gap-2">
+              <Skeleton className="h-8 w-8 rounded" />
+              <Skeleton className="h-8 w-8 rounded" />
+              <Skeleton className="h-8 w-8 rounded" />
+              <Skeleton className="h-8 w-8 rounded" />
             </div>
-            <Skeleton className="w-full h-10 rounded mt-4" />
+            <Skeleton className="mt-4 h-10 w-full rounded" />
           </div>
         ))}
       </div>
-      <div className="text-center text-xl font-semibold text-gray-500 py-8">
+      <div className="py-8 text-center text-xl font-semibold text-gray-500">
         Coming soon
       </div>
       <Footer />

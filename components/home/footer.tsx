@@ -3,8 +3,8 @@ import Link from 'next/link';
 
 export function Footer() {
   return (
-    <footer className="w-full py-28 sm:py-72 px-6  mt-auto border-gray-200 ">
-      <div className="max-w-4xl justify-between items-center mx-auto w-full flex flex-col gap-2">
+    <footer className="mt-auto w-full border-gray-200 px-6 py-28 sm:py-72">
+      <div className="mx-auto flex w-full max-w-4xl flex-col items-center justify-between gap-2">
         <Image
           src={'/icons/apple-touch-icon.png'}
           alt="portfoliofy logo"
@@ -13,11 +13,11 @@ export function Footer() {
           className="mb-1"
         />
 
-        <div className="text-xs sm:text-sm text-design-gray font-normal mb-20 leading-5 tracking-tighter">
+        <div className="mb-20 text-xs font-normal leading-5 tracking-tighter text-design-gray sm:text-sm">
           Designed in Chennai. Built for Professionals.
         </div>
 
-        <div className="flex flex-col sm:flex-row text-center leading-5 tracking-tight items-center justify-center font-normal text-xs sm:text-sm text-design-gray gap-9">
+        <div className="flex flex-col items-center justify-center gap-9 text-center text-xs font-normal leading-5 tracking-tight text-design-gray sm:flex-row sm:text-sm">
           <Link
             target="_blank"
             rel="noopener noreferrer"

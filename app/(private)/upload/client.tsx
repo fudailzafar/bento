@@ -64,15 +64,15 @@ export default function UploadPageClient() {
   const isUpdating = resumeQuery.isPending || uploadResumeMutation.isPending;
 
   return (
-    <div className="flex flex-col items-center flex-1 px-4 py-12 gap-6">
+    <div className="flex flex-1 flex-col items-center gap-6 px-4 py-12">
       <div className="w-full max-w-[438px] text-center">
-        <h1 className="text-base text-center pb-6">
+        <h1 className="pb-6 text-center text-base">
           Upload a PDF of your LinkedIn or your resume and generate your
           personal site <span className="text-gray-500">(Optional)</span>
         </h1>
 
         <div className="relative mx-2.5">
-          <div className="w-full min-h-[220px] flex flex-col items-center justify-center border-2 border-dashed border-gray-300 rounded-xl bg-white relative transition-all">
+          <div className="relative flex min-h-[220px] w-full flex-col items-center justify-center rounded-xl border-2 border-dashed border-gray-300 bg-white transition-all">
             {fileState.status === 'empty' && !isUpdating && (
               <UploadButton
                 endpoint="resumeUploader"
@@ -87,10 +87,10 @@ export default function UploadPageClient() {
                     return (
                       <div className="flex flex-col items-center justify-center gap-2">
                         <CircleArrowUpIcon className="h-6 w-6 text-gray-600" />
-                        <span className="text-base font-bold text-center text-black">
+                        <span className="text-center text-base font-bold text-black">
                           Upload PDF
                         </span>
-                        <span className="text-xs font-light text-center text-gray-500">
+                        <span className="text-center text-xs font-light text-gray-500">
                           Resume or LinkedIn
                         </span>
                       </div>
@@ -100,8 +100,8 @@ export default function UploadPageClient() {
               />
             )}
             {isUpdating && (
-              <div className="flex flex-col items-center justify-center w-full h-full min-h-[220px]">
-                <LoaderIcon className="h-8 w-8 mb-2" />
+              <div className="flex h-full min-h-[220px] w-full flex-col items-center justify-center">
+                <LoaderIcon className="mb-2 h-8 w-8" />
                 <span className="text-sm text-gray-500">Uploading...</span>
               </div>
             )}
@@ -109,17 +109,17 @@ export default function UploadPageClient() {
               <>
                 <button
                   onClick={handleReset}
-                  className="absolute top-2 right-2 p-1 hover:bg-gray-100 rounded-full z-10"
+                  className="absolute right-2 top-2 z-10 rounded-full p-1 hover:bg-gray-100"
                   disabled={isUpdating}
                 >
                   <CrossIcon className="h-4 w-4 text-gray-500" />
                 </button>
-                <div className="flex flex-col items-center justify-center w-full h-full min-h-[220px] gap-2">
-                  <FileText className="size-12 mx-auto" />
-                  <span className="text-base font-bold text-center text-black">
+                <div className="flex h-full min-h-[220px] w-full flex-col items-center justify-center gap-2">
+                  <FileText className="mx-auto size-12" />
+                  <span className="text-center text-base font-bold text-black">
                     {fileState.file.name}
                   </span>
-                  <span className="text-xs font-light text-center text-gray-500">
+                  <span className="text-center text-xs font-light text-gray-500">
                     {(fileState.file.size / 1024 / 1024).toFixed(2)} MB
                   </span>
                 </div>
@@ -132,18 +132,18 @@ export default function UploadPageClient() {
           <DialogTrigger asChild>
             <Button
               variant="ghost"
-              className="mt-3 hover:bg-white border border-transparent hover:border-gray-200 text-center cursor-help flex flex-row gap-1.5 justify-center mx-auto"
+              className="mx-auto mt-3 flex cursor-help flex-row justify-center gap-1.5 border border-transparent text-center hover:border-gray-200 hover:bg-white"
             >
-              <span className="ml-1 inline-block w-4 h-4 rounded-full border border-gray-300 items-center justify-center text-xs cursor-help">
+              <span className="ml-1 inline-block h-4 w-4 cursor-help items-center justify-center rounded-full border border-gray-300 text-xs">
                 i
               </span>
-              <p className="text-xs text-center text-design-gray whitespace-normal">
+              <p className="whitespace-normal text-center text-xs text-design-gray">
                 How to upload LinkedIn profile
               </p>
             </Button>
           </DialogTrigger>
-          <DialogContent className="w-full max-w-[652px] text-center !p-0 gap-0">
-            <DialogTitle className="text-base text-center text-design-gray px-7 py-4">
+          <DialogContent className="w-full max-w-[652px] gap-0 !p-0 text-center">
+            <DialogTitle className="px-7 py-4 text-center text-base text-design-gray">
               Go to your profile → Click on “Resources” → Then “Save to PDF”
             </DialogTitle>
             <img
@@ -154,10 +154,10 @@ export default function UploadPageClient() {
           </DialogContent>
         </Dialog>
       </div>
-      <div className="flex flex-col gap-3 items-center">
+      <div className="flex flex-col items-center gap-3">
         <div className="relative">
           <Button
-            className="relative group active:scale-95 transition-transform flex items-center text-lg rounded-xl font-semibold py-8 px-20 sm:py-8 sm:px-14 bg-design-primary hover:bg-design-primaryDark cursor-pointer"
+            className="group relative flex cursor-pointer items-center rounded-xl bg-design-primary px-20 py-8 text-lg font-semibold transition-transform hover:bg-design-primaryDark active:scale-95 sm:px-14 sm:py-8"
             disabled={isUpdating}
             onClick={() =>
               router.push(fileState.status === 'saved' ? '/pdf' : '/preview')
@@ -178,7 +178,7 @@ export default function UploadPageClient() {
         {fileState.status === 'empty' && !isUpdating && (
           <button
             onClick={() => router.push('/preview')}
-            className="text-sm text-gray-600 hover:text-gray-900 underline transition-colors"
+            className="text-sm text-gray-600 underline transition-colors hover:text-gray-900"
           >
             Skip and start from scratch
           </button>

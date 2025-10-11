@@ -35,7 +35,7 @@ export function SettingsPanel() {
             <DropdownMenuTrigger asChild>
               <Button
                 variant="ghost"
-                className={`relative active:scale-95 transition-transform h-8 w-8 rounded-full active:shadow-lg group ${
+                className={`group relative h-8 w-8 rounded-full transition-transform active:scale-95 active:shadow-lg ${
                   isDropdownOpen
                     ? 'bg-slate-100 text-black'
                     : 'text-design-gray hover:bg-slate-100 hover:text-design-gray'
@@ -44,13 +44,13 @@ export function SettingsPanel() {
                 <SettingsIcon />
 
                 {/* Tooltip */}
-                <div className="absolute bottom-full mb-3 left-1/2 transform -translate-x-1/2 bg-white font-normal text-design-resume text-xs px-2.5 py-1.5 rounded-md shadow-md border border-slate-100 opacity-0 group-hover:opacity-100 transition-opacity duration-200 delay-500 pointer-events-none whitespace-nowrap z-[100]">
+                <div className="pointer-events-none absolute bottom-full left-1/2 z-[100] mb-3 -translate-x-1/2 transform whitespace-nowrap rounded-md border border-slate-100 bg-white px-2.5 py-1.5 text-xs font-normal text-design-resume opacity-0 shadow-md transition-opacity delay-500 duration-200 group-hover:opacity-100">
                   Settings
                 </div>
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent
-              className="w-56 rounded-2xl -p-2"
+              className="-p-2 w-56 rounded-2xl"
               align="start"
               side="top"
               sideOffset={8}
@@ -60,7 +60,7 @@ export function SettingsPanel() {
               <DropdownMenuLabel className="font-normal">
                 <div className="flex flex-col">
                   <div
-                    className="cursor-pointer hover:bg-slate-100 hover:rounded-xl p-3"
+                    className="cursor-pointer p-3 hover:rounded-xl hover:bg-slate-100"
                     onClick={() => setIsUsernameEditorOpen(true)}
                   >
                     <div className="text-xs font-normal text-design-black">
@@ -71,7 +71,7 @@ export function SettingsPanel() {
                     </div>
                   </div>
 
-                  <div className="p-3 cursor-default">
+                  <div className="cursor-default p-3">
                     <div className="text-xs font-normal text-design-gray">
                       Change Email
                     </div>
@@ -80,7 +80,7 @@ export function SettingsPanel() {
                     </div>
                   </div>
 
-                  <div className="p-3 cursor-default">
+                  <div className="cursor-default p-3">
                     <div className="text-xs font-normal text-design-gray">
                       Change Password
                     </div>
@@ -91,7 +91,7 @@ export function SettingsPanel() {
                 </div>
                 <Separator className="my-3" />
                 <div
-                  className="cursor-pointer hover:bg-slate-100 hover:rounded-xl p-3"
+                  className="cursor-pointer p-3 hover:rounded-xl hover:bg-slate-100"
                   onClick={() => signOut({ callbackUrl: '/' })}
                 >
                   <div className="text-xs font-normal text-red-500">
@@ -121,7 +121,7 @@ export function SettingsPanel() {
           <DrawerTrigger asChild>
             <Button
               variant="ghost"
-              className={`relative transition-all h-8 w-8 rounded-full active:shadow-lg group ${
+              className={`group relative h-8 w-8 rounded-full transition-all active:shadow-lg ${
                 isDropdownOpen
                   ? 'bg-slate-100 text-black'
                   : 'text-design-resume hover:bg-slate-100 hover:text-design-resume active:scale-95'
@@ -130,25 +130,25 @@ export function SettingsPanel() {
               <SettingsIcon />
 
               {/* Tooltip */}
-              <div className="hidden md:block absolute top-full mt-2 left-1/2 transform -translate-x-1/2 bg-white font-normal text-design-resume text-xs px-2 py-1 rounded-md shadow-md  border border-slate-100 opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none whitespace-nowrap z-50">
+              <div className="pointer-events-none absolute left-1/2 top-full z-50 mt-2 hidden -translate-x-1/2 transform whitespace-nowrap rounded-md border border-slate-100 bg-white px-2 py-1 text-xs font-normal text-design-resume opacity-0 shadow-md transition-opacity duration-200 group-hover:opacity-100 md:block">
                 Settings
               </div>
             </Button>
           </DrawerTrigger>
-          <DrawerContent className="px-3 pb-20 rounded-t-[32px]">
+          <DrawerContent className="rounded-t-[32px] px-3 pb-20">
             <DrawerHeader className="">
               <DrawerTitle className="text-right">
                 <DrawerClose asChild>
-                  <Button className="text-white text-lg p-6 rounded-xl bg-[#3dda69] hover:bg-[#3dda69] active:scale-95 transition-all font-bold">
+                  <Button className="rounded-xl bg-[#3dda69] p-6 text-lg font-bold text-white transition-all hover:bg-[#3dda69] active:scale-95">
                     Done
                   </Button>
                 </DrawerClose>
               </DrawerTitle>
             </DrawerHeader>
 
-            <div className="flex mt-10 flex-col space-y-1">
+            <div className="mt-10 flex flex-col space-y-1">
               <div
-                className="cursor-pointer hover:bg-slate-50 rounded-lg p-3 transition-colors"
+                className="cursor-pointer rounded-lg p-3 transition-colors hover:bg-slate-50"
                 onClick={() => {
                   setIsUsernameEditorOpen(true);
                   setIsDropdownOpen(false);
@@ -162,7 +162,7 @@ export function SettingsPanel() {
                 </div>
               </div>
 
-              <div className="p-3 rounded-lg">
+              <div className="rounded-lg p-3">
                 <div className="text-sm font-normal text-design-gray">
                   Change Email
                 </div>
@@ -171,7 +171,7 @@ export function SettingsPanel() {
                 </div>
               </div>
 
-              <div className="p-3 rounded-lg">
+              <div className="rounded-lg p-3">
                 <div className="text-sm font-normal text-design-gray">
                   Change Password
                 </div>
@@ -185,7 +185,7 @@ export function SettingsPanel() {
               className="cursor-pointer rounded-lg p-3 transition-colors"
               onClick={() => signOut({ callbackUrl: '/' })}
             >
-              <div className="mt-32 text-sm text-center font-normal text-red-500">
+              <div className="mt-32 text-center text-sm font-normal text-red-500">
                 Log Out
               </div>
             </div>

@@ -94,7 +94,7 @@ export function Header({
   };
 
   return (
-    <header className="flex items-start md:items-center justify-between gap-4 ">
+    <header className="flex items-start justify-between gap-4 md:items-center">
       <div className="flex-1 space-y-1.5">
         {/* Name Field */}
         {isEditMode && onChangeHeader ? (
@@ -104,7 +104,7 @@ export function Header({
               contentEditable={isEditingName}
               suppressContentEditableWarning={true}
               className={
-                'text-3xl font-bold tracking-tighter sm:text-5xl xl:text-6xl/none outline-none p-2'
+                'p-2 text-3xl font-bold tracking-tighter outline-none sm:text-5xl xl:text-6xl/none'
               }
               onClick={enableNameEditing}
               onBlur={handleNameBlur}
@@ -131,7 +131,7 @@ export function Header({
               ref={aboutRef}
               contentEditable={isEditingAbout}
               suppressContentEditableWarning={true}
-              className={'max-w-[600px] md:text-xl outline-none p-2'}
+              className={'max-w-[600px] p-2 outline-none md:text-xl'}
               onClick={enableAboutEditing}
               onBlur={handleAboutBlur}
               onKeyDown={(e) => handleKeyDown('about', e)}

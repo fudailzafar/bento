@@ -95,7 +95,7 @@ export function SocialLinks({
             {isEditMode && onChangeContacts && !isEditing && (
               <button
                 onClick={() => setIsEditing(true)}
-                className="size-8 rounded-full bg-black border border-gray-50 shadow-md text-white flex items-center justify-center hover:scale-110 transition-transform duration-200"
+                className="flex size-8 items-center justify-center rounded-full border border-gray-50 bg-black text-white shadow-md transition-transform duration-200 hover:scale-110"
                 aria-label="Edit social links"
               >
                 <PenIcon className="size-4" />
@@ -104,21 +104,21 @@ export function SocialLinks({
           </div>
 
           {isEditMode && isEditing ? (
-            <div className="space-y-4 border-2 border-gray-100 rounded-xl p-4 bg-gray-50 dark:bg-gray-900">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="space-y-4 rounded-xl border-2 border-gray-100 bg-gray-50 p-4 dark:bg-gray-900">
+              <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
                 {socialLinks.map(
                   ({ id, label, icon, value, prefix, placeholder, key }) => (
                     <div key={id} className="flex flex-col gap-2">
                       <Label
                         htmlFor={id}
-                        className="text-sm text-gray-600 flex items-center gap-2"
+                        className="flex items-center gap-2 text-sm text-gray-600"
                       >
                         {icon}
                         {label}
                       </Label>
                       <div className="flex items-center gap-2">
                         {prefix && (
-                          <span className="text-sm text-gray-500 whitespace-nowrap">
+                          <span className="whitespace-nowrap text-sm text-gray-500">
                             {prefix}
                           </span>
                         )}
@@ -151,7 +151,7 @@ export function SocialLinks({
               </div>
             </div>
           ) : (
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
               {socialLinks.map(({ id, label, icon, value, prefix }) => {
                 if (!value && !isEditMode) return null;
 
@@ -167,16 +167,16 @@ export function SocialLinks({
                     href={fullUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex items-center gap-3 p-3 rounded-lg border border-gray-200 hover:border-gray-300 hover:shadow-md transition-all duration-300 bg-white dark:bg-gray-800 dark:border-gray-700 dark:hover:border-gray-600 group"
+                    className="group flex items-center gap-3 rounded-lg border border-gray-200 bg-white p-3 transition-all duration-300 hover:border-gray-300 hover:shadow-md dark:border-gray-700 dark:bg-gray-800 dark:hover:border-gray-600"
                   >
-                    <div className="text-gray-600 dark:text-gray-400 group-hover:text-black dark:group-hover:text-white transition-colors">
+                    <div className="text-gray-600 transition-colors group-hover:text-black dark:text-gray-400 dark:group-hover:text-white">
                       {icon}
                     </div>
-                    <div className="flex-1 min-w-0">
+                    <div className="min-w-0 flex-1">
                       <p className="text-sm font-medium text-gray-900 dark:text-gray-100">
                         {label}
                       </p>
-                      <p className="text-xs text-gray-500 dark:text-gray-400 truncate">
+                      <p className="truncate text-xs text-gray-500 dark:text-gray-400">
                         {value || (isEditMode ? 'Not set' : '')}
                       </p>
                     </div>

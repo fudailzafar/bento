@@ -38,7 +38,7 @@ const DemoResumeDesktop = () => {
 
   return (
     <motion.section
-      className="min-h-screen font-sans antialiased max-w-7xl mx-auto py-16 sm:py-24 px-8"
+      className="mx-auto min-h-screen max-w-7xl px-8 py-16 font-sans antialiased sm:py-24"
       initial="hidden"
       animate="visible"
       variants={containerVariants}
@@ -47,10 +47,10 @@ const DemoResumeDesktop = () => {
       <motion.main className="space-y-12" variants={containerVariants}>
         {/* Hero Section - Full Width */}
         <motion.section id="hero" variants={itemVariants} className="p-12">
-          <div className="flex justify-between items-start gap-12">
+          <div className="flex items-start justify-between gap-12">
             <div className="flex-1 space-y-6">
               <motion.h1
-                className="text-5xl font-bold tracking-tighter sm:text-7xl xl:text-8xl/none bg-gradient-to-r from-gray-900 to-gray-600 bg-clip-text text-transparent"
+                className="bg-gradient-to-r from-gray-900 to-gray-600 bg-clip-text text-5xl font-bold tracking-tighter text-transparent sm:text-7xl xl:text-8xl/none"
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.2 }}
@@ -59,7 +59,7 @@ const DemoResumeDesktop = () => {
                 Hi, I'm {DATA.name.split(' ')[0]} 👋
               </motion.h1>
               <motion.p
-                className="text-2xl md:text-3xl text-muted-foreground leading-relaxed max-w-3xl"
+                className="max-w-3xl text-2xl leading-relaxed text-muted-foreground md:text-3xl"
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.4 }}
@@ -88,17 +88,17 @@ const DemoResumeDesktop = () => {
         {/* Two Column Layout */}
         <div className="grid grid-cols-12 gap-8">
           {/* Left Column - About & Skills */}
-          <div className="col-span-12 lg:col-span-5 space-y-8">
+          <div className="col-span-12 space-y-8 lg:col-span-5">
             {/* About Section */}
             <motion.section id="about" variants={itemVariants} className="p-8">
               <motion.h2
-                className="text-3xl font-bold tracking-tight mb-6 text-gray-900"
+                className="mb-6 text-3xl font-bold tracking-tight text-gray-900"
                 whileHover={{ rotate: -3 }}
               >
                 About
               </motion.h2>
               <motion.div
-                className="prose max-w-none text-pretty font-sans text-lg text-muted-foreground dark:prose-invert leading-relaxed"
+                className="prose dark:prose-invert max-w-none text-pretty font-sans text-lg leading-relaxed text-muted-foreground"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ delay: 0.2 }}
@@ -111,7 +111,7 @@ const DemoResumeDesktop = () => {
             {/* Skills Section */}
             <motion.section id="skills" variants={itemVariants} className="p-8">
               <motion.h2
-                className="text-3xl font-bold tracking-tight mb-6 text-gray-900"
+                className="mb-6 text-3xl font-bold tracking-tight text-gray-900"
                 whileHover={{ rotate: 3 }}
               >
                 Skills
@@ -131,7 +131,7 @@ const DemoResumeDesktop = () => {
                     whileHover={{ rotate: 5 }}
                     whileTap={{ scale: 0.95 }}
                   >
-                    <Badge className="text-sm px-4 py-2 bg-black hover:shadow-md transition-all duration-200">
+                    <Badge className="bg-black px-4 py-2 text-sm transition-all duration-200 hover:shadow-md">
                       {skill}
                     </Badge>
                   </motion.div>
@@ -141,11 +141,11 @@ const DemoResumeDesktop = () => {
           </div>
 
           {/* Right Column - Work & Education */}
-          <div className="col-span-12 lg:col-span-7 space-y-8">
+          <div className="col-span-12 space-y-8 lg:col-span-7">
             {/* Work Experience Section */}
             <motion.section id="work" variants={itemVariants} className="p-8">
               <motion.h2
-                className="text-3xl font-bold tracking-tight mb-8 text-gray-900"
+                className="mb-8 text-3xl font-bold tracking-tight text-gray-900"
                 whileHover={{ rotate: -2 }}
               >
                 Work Experience
@@ -182,7 +182,7 @@ const DemoResumeDesktop = () => {
               className="p-8"
             >
               <motion.h2
-                className="text-3xl font-bold tracking-tight mb-8 text-gray-900"
+                className="mb-8 text-3xl font-bold tracking-tight text-gray-900"
                 whileHover={{ rotate: 2 }}
               >
                 Education
@@ -220,25 +220,25 @@ const DemoResumeDesktop = () => {
         >
           <div className="space-y-12">
             <motion.div
-              className="text-center space-y-6"
+              className="space-y-6 text-center"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.2 }}
             >
               <motion.div
-                className="inline-block rounded-xl bg-black backdrop-blur-sm text-white px-6 py-3 text-sm font-medium border"
+                className="inline-block rounded-xl border bg-black px-6 py-3 text-sm font-medium text-white backdrop-blur-sm"
                 whileHover={{ rotate: -3 }}
               >
                 My Projects
               </motion.div>
               <motion.h2
-                className="text-5xl font-bold tracking-tighter sm:text-7xl text-black"
+                className="text-5xl font-bold tracking-tighter text-black sm:text-7xl"
                 whileHover={{ rotate: -2 }}
               >
                 Check out my latest work
               </motion.h2>
               <motion.p
-                className="text-gray-300 text-xl md:text-2xl leading-relaxed max-w-4xl mx-auto"
+                className="mx-auto max-w-4xl text-xl leading-relaxed text-gray-300 md:text-2xl"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ delay: 0.4 }}
@@ -251,7 +251,7 @@ const DemoResumeDesktop = () => {
 
             {/* Projects Grid with Asymmetric Layout */}
             <motion.div
-              className="grid grid-cols-1 lg:grid-cols-3 gap-8"
+              className="grid grid-cols-1 gap-8 lg:grid-cols-3"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 0.3 }}
@@ -265,7 +265,7 @@ const DemoResumeDesktop = () => {
                   whileHover={{ y: -8, rotate: 3 }}
                   className={`transition-all duration-300`}
                 >
-                  <div className="bg-white/10 backdrop-blur-sm rounded-2xl border border-white/20 overflow-hidden hover:border-white/40 transition-all duration-300">
+                  <div className="overflow-hidden rounded-2xl border border-white/20 bg-white/10 backdrop-blur-sm transition-all duration-300 hover:border-white/40">
                     <ProjectCard
                       liveLink={project.href}
                       title={project.title}

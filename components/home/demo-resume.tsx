@@ -15,14 +15,14 @@ export const DemoResume = () => {
 
   return (
     <section
-      className="min-h-screen bg-background font-sans antialiased max-w-2xl mx-auto py-12 sm:py-24 px-6"
+      className="mx-auto min-h-screen max-w-2xl bg-background px-6 py-12 font-sans antialiased sm:py-24"
       aria-label="Resume Content"
     >
-      <main className="flex flex-col min-h-[100dvh] space-y-10">
+      <main className="flex min-h-[100dvh] flex-col space-y-10">
         <section id="hero">
           <div className="mx-auto w-full max-w-2xl space-y-8">
-            <div className="gap-2 flex justify-between">
-              <div className="flex-col flex flex-1 space-y-1.5">
+            <div className="flex justify-between gap-2">
+              <div className="flex flex-1 flex-col space-y-1.5">
                 <BlurFadeText
                   delay={BLUR_FADE_DELAY}
                   className="text-3xl font-bold tracking-tighter sm:text-5xl xl:text-6xl/none"
@@ -49,7 +49,7 @@ export const DemoResume = () => {
             <h2 className="text-xl font-bold">About</h2>
           </BlurFade>
           <BlurFade delay={BLUR_FADE_DELAY * 4}>
-            <div className="prose max-w-full text-pretty font-sans text-sm text-muted-foreground dark:prose-invert">
+            <div className="prose dark:prose-invert max-w-full text-pretty font-sans text-sm text-muted-foreground">
               <Markdown>{DATA.summary}</Markdown>
             </div>
           </BlurFade>
@@ -117,11 +117,11 @@ export const DemoResume = () => {
           </div>
         </section>
         <section id="projects">
-          <div className="space-y-12 w-full py-12">
+          <div className="w-full space-y-12 py-12">
             <BlurFade delay={BLUR_FADE_DELAY * 11}>
               <div className="flex flex-col items-center justify-center space-y-4 text-center">
                 <div className="space-y-2">
-                  <div className="inline-block rounded-lg bg-foreground text-background px-3 py-1 text-sm">
+                  <div className="inline-block rounded-lg bg-foreground px-3 py-1 text-sm text-background">
                     My Projects
                   </div>
                   <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl">
@@ -135,7 +135,7 @@ export const DemoResume = () => {
                 </div>
               </div>
             </BlurFade>
-            <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 max-w-[800px] mx-auto">
+            <div className="mx-auto grid max-w-[800px] grid-cols-1 gap-3 sm:grid-cols-2">
               {DATA.projects.map((project, id) => (
                 <BlurFade
                   key={project.title}

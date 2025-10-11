@@ -15,7 +15,7 @@ export const SkillField: React.FC<SkillFieldProps> = ({
   onDelete,
 }) => {
   return (
-    <div className="group relative bg-gray-100 px-3 py-1 rounded-full w-fit flex items-center gap-2">
+    <div className="group relative flex w-fit items-center gap-2 rounded-full bg-gray-100 px-3 py-1">
       <div
         contentEditable
         suppressContentEditableWarning
@@ -24,13 +24,13 @@ export const SkillField: React.FC<SkillFieldProps> = ({
           const trimmedSkill = (e.currentTarget.textContent || '').trim();
           onUpdate(index, trimmedSkill);
         }}
-        className="bg-transparent outline-none h-6 py-0 min-w-[40px] overflow-hidden"
+        className="h-6 min-w-[40px] overflow-hidden bg-transparent py-0 outline-none"
         style={{ width: 'fit-content' }}
       >
         {skill}
       </div>
       <button
-        className="text-gray-400 hover:text-red-500 transition-colors"
+        className="text-gray-400 transition-colors hover:text-red-500"
         onClick={() => onDelete(index)}
       >
         <CrossIcon />

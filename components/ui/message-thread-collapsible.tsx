@@ -109,7 +109,7 @@ const CollapsibleContainer = React.forwardRef<
     open={isOpen}
     onOpenChange={onOpenChange}
     className={cn(
-      'fixed bottom-4 right-4 w-full max-w-sm sm:max-w-md md:max-w-lg rounded-lg shadow-lg bg-background border border-gray-200',
+      'fixed bottom-4 right-4 w-full max-w-sm rounded-lg border border-gray-200 bg-background shadow-lg sm:max-w-md md:max-w-lg',
       'transition-all duration-300 ease-in-out',
       className
     )}
@@ -153,15 +153,15 @@ const CollapsibleTrigger = ({
       <Collapsible.Trigger asChild>
         <button
           className={cn(
-            'flex items-center justify-between w-full p-4',
-            'hover:bg-muted/50 transition-colors'
+            'flex w-full items-center justify-between p-4',
+            'transition-colors hover:bg-muted/50'
           )}
           aria-expanded={isOpen}
           aria-controls="message-thread-content"
         >
           <span>{config.labels.closedState}</span>
           <span
-            className="text-xs text-muted-foreground pl-8"
+            className="pl-8 text-xs text-muted-foreground"
             suppressHydrationWarning
           >
             {`(${shortcutText})`}
@@ -170,7 +170,7 @@ const CollapsibleTrigger = ({
       </Collapsible.Trigger>
     )}
     {isOpen && (
-      <div className="flex items-center justify-between w-full p-4">
+      <div className="flex w-full items-center justify-between p-4">
         <div className="flex items-center gap-2">
           <span>{config.labels.openState}</span>
           <ThreadDropdown
@@ -179,7 +179,7 @@ const CollapsibleTrigger = ({
           />
         </div>
         <button
-          className="p-1 rounded-full hover:bg-muted/70 transition-colors cursor-pointer"
+          className="cursor-pointer rounded-full p-1 transition-colors hover:bg-muted/70"
           onClick={(e) => {
             e.stopPropagation();
             onClose();
@@ -252,7 +252,7 @@ export const MessageThreadCollapsible = React.forwardRef<
         config={THREAD_CONFIG}
       />
       <Collapsible.Content>
-        <div className="h-[700px] flex flex-col">
+        <div className="flex h-[700px] flex-col">
           {/* Message thread content */}
           <ScrollableMessageContainer className="p-4">
             <ThreadContent variant={variant}>

@@ -365,15 +365,15 @@ const MessageInputInternal = React.forwardRef<
       >
         <div
           className={cn(
-            'relative flex flex-col rounded-xl bg-background shadow-md p-2 px-3',
+            'relative flex flex-col rounded-xl bg-background p-2 px-3 shadow-md',
             isDragging
               ? 'border border-dashed border-emerald-400'
               : 'border border-border'
           )}
         >
           {isDragging && (
-            <div className="absolute inset-0 rounded-xl bg-emerald-50/90 dark:bg-emerald-950/30 flex items-center justify-center pointer-events-none z-20">
-              <p className="text-emerald-700 dark:text-emerald-300 font-medium">
+            <div className="pointer-events-none absolute inset-0 z-20 flex items-center justify-center rounded-xl bg-emerald-50/90 dark:bg-emerald-950/30">
+              <p className="font-medium text-emerald-700 dark:text-emerald-300">
                 Drop files here to add to conversation
               </p>
             </div>
@@ -494,7 +494,7 @@ const MessageInputTextarea = ({
       onKeyDown={handleKeyDown}
       onPaste={handlePaste}
       className={cn(
-        'flex-1 p-3 rounded-t-lg bg-background text-foreground resize-none text-sm min-h-[82px] max-h-[40vh] focus:outline-none placeholder:text-muted-foreground/50',
+        'max-h-[40vh] min-h-[82px] flex-1 resize-none rounded-t-lg bg-background p-3 text-sm text-foreground placeholder:text-muted-foreground/50 focus:outline-none',
         className
       )}
       disabled={isPending || isUpdatingToken}
@@ -563,9 +563,9 @@ const MessageInputSubmitButton = React.forwardRef<
     >
       {children ??
         (isPending ? (
-          <Square className="w-4 h-4" fill="currentColor" />
+          <Square className="h-4 w-4" fill="currentColor" />
         ) : (
-          <ArrowUp className="w-5 h-5" />
+          <ArrowUp className="h-5 w-5" />
         ))}
     </button>
   );
@@ -687,7 +687,7 @@ const MessageInputError = React.forwardRef<
   return (
     <p
       ref={ref}
-      className={cn('text-sm text-destructive mt-2', className)}
+      className={cn('mt-2 text-sm text-destructive', className)}
       data-slot="message-input-error"
       {...props}
     >
@@ -765,7 +765,7 @@ const MessageInputFileButton = React.forwardRef<
           data-slot="message-input-file-button"
           {...props}
         >
-          <Paperclip className="w-4 h-4" />
+          <Paperclip className="h-4 w-4" />
           <input
             ref={fileInputRef}
             type="file"
@@ -864,7 +864,7 @@ const MessageInputMcpPromptButton = React.forwardRef<
               data-slot="message-input-mcp-prompt-button"
               {...props}
             >
-              <Sparkles className="w-4 h-4" />
+              <Sparkles className="h-4 w-4" />
             </button>
           </DropdownMenu.Trigger>
           <DropdownMenu.Portal>
@@ -892,16 +892,16 @@ const MessageInputMcpPromptButton = React.forwardRef<
                 promptList.map((promptEntry) => (
                   <DropdownMenu.Item
                     key={`${promptEntry.server.url}-${promptEntry.prompt.name}`}
-                    className="relative flex cursor-pointer select-none items-start flex-col rounded-sm px-2 py-1.5 text-sm outline-none hover:bg-accent hover:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50"
+                    className="relative flex cursor-pointer select-none flex-col items-start rounded-sm px-2 py-1.5 text-sm outline-none hover:bg-accent hover:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50"
                     onSelect={() => {
                       setSelectedPromptName(promptEntry.prompt.name);
                     }}
                   >
-                    <span className="font-medium truncate max-w-full">
+                    <span className="max-w-full truncate font-medium">
                       {promptEntry.prompt.name}
                     </span>
                     {promptEntry.prompt.description && (
-                      <span className="text-xs text-muted-foreground truncate max-w-full">
+                      <span className="max-w-full truncate text-xs text-muted-foreground">
                         {promptEntry.prompt.description}
                       </span>
                     )}
@@ -951,16 +951,16 @@ const ImageContextBadge: React.FC<ImageContextBadgeProps> = ({
   onToggle,
   onRemove,
 }) => (
-  <div className="relative group flex-shrink-0">
+  <div className="group relative flex-shrink-0">
     <button
       type="button"
       onClick={onToggle}
       aria-expanded={isExpanded}
       className={cn(
-        'relative flex items-center rounded-lg border overflow-hidden',
-        'border-border bg-background hover:bg-muted cursor-pointer',
+        'relative flex items-center overflow-hidden rounded-lg border',
+        'cursor-pointer border-border bg-background hover:bg-muted',
         'transition-[width,height,padding] duration-200 ease-in-out',
-        isExpanded ? 'w-40 h-28 p-0' : 'w-32 h-9 pl-3 pr-8 gap-2'
+        isExpanded ? 'h-28 w-40 p-0' : 'h-9 w-32 gap-2 pl-3 pr-8'
       )}
     >
       {isExpanded && (
@@ -970,7 +970,7 @@ const ImageContextBadge: React.FC<ImageContextBadgeProps> = ({
             'opacity-100 delay-100'
           )}
         >
-          <div className="relative w-full h-full">
+          <div className="relative h-full w-full">
             <Image
               src={image.dataUrl}
               alt={displayName}
@@ -979,7 +979,7 @@ const ImageContextBadge: React.FC<ImageContextBadgeProps> = ({
               className="object-cover"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
-            <div className="absolute bottom-1 left-2 right-2 text-white text-xs font-medium truncate">
+            <div className="absolute bottom-1 left-2 right-2 truncate text-xs font-medium text-white">
               {displayName}
             </div>
           </div>
@@ -987,11 +987,11 @@ const ImageContextBadge: React.FC<ImageContextBadgeProps> = ({
       )}
       <span
         className={cn(
-          'flex items-center gap-1.5 text-sm text-foreground truncate leading-none transition-opacity duration-150',
+          'flex items-center gap-1.5 truncate text-sm leading-none text-foreground transition-opacity duration-150',
           isExpanded ? 'opacity-0' : 'opacity-100 delay-100'
         )}
       >
-        <ImageIcon className="w-3.5 h-3.5 flex-shrink-0" />
+        <ImageIcon className="h-3.5 w-3.5 flex-shrink-0" />
         <span className="truncate">{displayName}</span>
       </span>
     </button>
@@ -1001,10 +1001,10 @@ const ImageContextBadge: React.FC<ImageContextBadgeProps> = ({
         e.stopPropagation();
         onRemove();
       }}
-      className="absolute -top-1 -right-1 w-5 h-5 bg-background border border-border text-muted-foreground rounded-full flex items-center justify-center hover:bg-muted hover:text-foreground transition-colors shadow-sm z-10"
+      className="absolute -right-1 -top-1 z-10 flex h-5 w-5 items-center justify-center rounded-full border border-border bg-background text-muted-foreground shadow-sm transition-colors hover:bg-muted hover:text-foreground"
       aria-label={`Remove ${displayName}`}
     >
-      <X className="w-3 h-3" />
+      <X className="h-3 w-3" />
     </button>
   </div>
 );
@@ -1043,7 +1043,7 @@ const MessageInputStagedImages = React.forwardRef<
     <div
       ref={ref}
       className={cn(
-        'flex flex-wrap items-center gap-2 pb-2 pt-1 border-b border-border',
+        'flex flex-wrap items-center gap-2 border-b border-border pb-2 pt-1',
         className
       )}
       data-slot="message-input-staged-images"
@@ -1090,7 +1090,7 @@ const MessageInputToolbar = React.forwardRef<
     <div
       ref={ref}
       className={cn(
-        'flex justify-between items-center mt-2 p-1 gap-2',
+        'mt-2 flex items-center justify-between gap-2 p-1',
         className
       )}
       data-slot="message-input-toolbar"

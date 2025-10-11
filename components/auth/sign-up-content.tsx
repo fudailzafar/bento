@@ -179,16 +179,16 @@ export default function SignupContent({
               className="space-y-4"
             >
               <div className="text-left">
-                <h1 className="text-[32px] font-bold text-design-black mb-4">
+                <h1 className="mb-4 text-[32px] font-bold text-design-black">
                   First, claim your unique link
                 </h1>
-                <h2 className="text-design-resume font-light text-xl sm:text-xl mb-20">
+                <h2 className="mb-20 text-xl font-light text-design-resume sm:text-xl">
                   The good ones are still available!
                 </h2>
               </div>
 
               <div className="relative w-full">
-                <div className="absolute left-0 top-0 h-12 flex items-center pl-4 text-design-gray text-base pointer-events-none">
+                <div className="pointer-events-none absolute left-0 top-0 flex h-12 items-center pl-4 text-base text-design-gray">
                   portfoliofy.me/
                 </div>
                 <Input
@@ -199,12 +199,12 @@ export default function SignupContent({
                   onChange={(e) => handleUsernameChange(e.target.value)}
                   disabled={isLoading}
                   autoFocus
-                  className="w-full h-12 pl-[130px] pr-12 bg-[#F5F5F5] border-0 rounded-lg text-base placeholder:text-gray-400 focus-visible:ring-0 focus-visible:ring-offset-0 outline-none"
+                  className="h-12 w-full rounded-lg border-0 bg-[#F5F5F5] pl-[130px] pr-12 text-base outline-none placeholder:text-gray-400 focus-visible:ring-0 focus-visible:ring-offset-0"
                 />
                 {username.length >= 3 && (
                   <div className="absolute right-3 top-1/2 -translate-y-1/2">
                     {checkingUsername ? (
-                      <LoaderIcon className="w-4 h-4" />
+                      <LoaderIcon className="h-4 w-4" />
                     ) : usernameAvailable ? (
                       <CheckmarkSmallIcon />
                     ) : (
@@ -218,14 +218,14 @@ export default function SignupContent({
 
               {/* Show error messages or button based on username state */}
               {username.length > 0 && username.length < 3 ? (
-                <div className="w-full flex items-center justify-start py-3.5 text-red-600 font-light text-xs rounded-lg">
+                <div className="flex w-full items-center justify-start rounded-lg py-3.5 text-xs font-light text-red-600">
                   This username seems to be too short... <br /> Try something
                   longer.
                 </div>
               ) : username.length >= 3 &&
                 !usernameAvailable &&
                 !checkingUsername ? (
-                <div className="w-full flex items-center justify-start py-3.5 text-red-600 font-light text-xs rounded-lg">
+                <div className="flex w-full items-center justify-start rounded-lg py-3.5 text-xs font-light text-red-600">
                   This username seems to be taken already... <br /> Try
                   something similar.
                 </div>
@@ -236,7 +236,7 @@ export default function SignupContent({
                   disabled={
                     !username || username.length < 3 || !usernameAvailable
                   }
-                  className="w-full cursor-pointer flex items-center active:scale-95 transition-all duration-300 ease-out justify-center gap-3 px-6 py-3.5 bg-black hover:bg-black/80 disabled:opacity-70 disabled:cursor-not-allowed text-white font-medium tracking-tight text-sm rounded-lg"
+                  className="flex w-full cursor-pointer items-center justify-center gap-3 rounded-lg bg-black px-6 py-3.5 text-sm font-medium tracking-tight text-white transition-all duration-300 ease-out hover:bg-black/80 active:scale-95 disabled:cursor-not-allowed disabled:opacity-70"
                 >
                   Grab my Link
                 </button>
@@ -247,7 +247,7 @@ export default function SignupContent({
                   disabled={
                     !username || username.length < 3 || !usernameAvailable
                   }
-                  className="invisible w-full cursor-pointer flex items-center active:scale-95 transition-all duration-300 ease-out justify-center gap-3 px-6 py-3.5 bg-black hover:bg-black/80 disabled:opacity-70 disabled:cursor-not-allowed text-white font-bold tracking-tight text-sm rounded-lg"
+                  className="invisible flex w-full cursor-pointer items-center justify-center gap-3 rounded-lg bg-black px-6 py-3.5 text-sm font-bold tracking-tight text-white transition-all duration-300 ease-out hover:bg-black/80 active:scale-95 disabled:cursor-not-allowed disabled:opacity-70"
                 >
                   Grab my Link
                 </button>
@@ -272,16 +272,16 @@ export default function SignupContent({
               }}
               className="space-y-6"
             >
-              <div className="text-left space-y-2">
+              <div className="space-y-2 text-left">
                 <div className="mb-6">
                   <button type="button" onClick={handleBackToUsername}>
                     <ArrowLeftIcon />
                   </button>
                 </div>
-                <p className="font-normal text-base text-design-black">
+                <p className="text-base font-normal text-design-black">
                   portfoliofy.me/{username} is yours!
                 </p>
-                <h2 className="text-[32px] md:text-[48px] lg:text-[32px] font-bold text-design-black leading-tight">
+                <h2 className="text-[32px] font-bold leading-tight text-design-black md:text-[48px] lg:text-[32px]">
                   Now, create your account.
                 </h2>
               </div>
@@ -290,7 +290,7 @@ export default function SignupContent({
                 onSubmit={handleCredentialsSignup}
                 className="space-y-6 pt-8"
               >
-                <div className="flex flex-col md:flex-row gap-3 md:gap-4">
+                <div className="flex flex-col gap-3 md:flex-row md:gap-4">
                   <Input
                     id="email"
                     type="email"
@@ -298,7 +298,7 @@ export default function SignupContent({
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     disabled={isLoading}
-                    className="w-full h-12 px-4 bg-[#F5F5F5] border-0 rounded-lg text-base placeholder:text-gray-400 focus-visible:ring-0 focus-visible:ring-offset-0 outline-none"
+                    className="h-12 w-full rounded-lg border-0 bg-[#F5F5F5] px-4 text-base outline-none placeholder:text-gray-400 focus-visible:ring-0 focus-visible:ring-offset-0"
                   />
 
                   <div className="relative w-full">
@@ -309,12 +309,12 @@ export default function SignupContent({
                       value={password}
                       onChange={(e) => setPassword(e.target.value)}
                       disabled={isLoading}
-                      className="w-full h-12 px-4 pr-[76px] bg-[#F5F5F5] border-0 rounded-lg text-base placeholder:text-gray-400 focus-visible:ring-0 focus-visible:ring-offset-0 outline-none"
+                      className="h-12 w-full rounded-lg border-0 bg-[#F5F5F5] px-4 pr-[76px] text-base outline-none placeholder:text-gray-400 focus-visible:ring-0 focus-visible:ring-offset-0"
                     />
                     <button
                       type="button"
                       onClick={() => setShowPassword(!showPassword)}
-                      className="absolute right-2 top-1/2 -translate-y-1/2 h-8 w-[60px] flex items-center justify-center bg-white hover:bg-gray-50 text-black text-xs font-semibold rounded shadow-[0_1px_2px_rgba(0,0,0,0.08)] transition-all active:scale-95"
+                      className="absolute right-2 top-1/2 flex h-8 w-[60px] -translate-y-1/2 items-center justify-center rounded bg-white text-xs font-semibold text-black shadow-[0_1px_2px_rgba(0,0,0,0.08)] transition-all hover:bg-gray-50 active:scale-95"
                     >
                       {showPassword ? 'Hide' : 'Show'}
                     </button>
@@ -327,8 +327,8 @@ export default function SignupContent({
                   className={clsx(
                     'relative py-2 transition-opacity duration-200',
                     hasCredentials
-                      ? 'opacity-0 invisible'
-                      : 'opacity-100 visible'
+                      ? 'invisible opacity-0'
+                      : 'visible opacity-100'
                   )}
                 >
                   <div className="flex justify-start text-base font-bold text-black">
@@ -345,7 +345,7 @@ export default function SignupContent({
                       : isLoading
                   }
                   className={clsx(
-                    'w-full cursor-pointer shadow-lg flex items-center active:scale-95 transition-all duration-300 ease-out justify-center gap-3 px-6 py-3 disabled:opacity-70 disabled:cursor-not-allowed text-white font-medium text-sm rounded-lg',
+                    'flex w-full cursor-pointer items-center justify-center gap-3 rounded-lg px-6 py-3 text-sm font-medium text-white shadow-lg transition-all duration-300 ease-out active:scale-95 disabled:cursor-not-allowed disabled:opacity-70',
                     hasCredentials
                       ? 'bg-black hover:bg-black/80'
                       : 'bg-design-primary hover:bg-design-primaryDark'

@@ -103,7 +103,7 @@ export function ProfileImageField({
 
   return (
     <div
-      className="relative inline-block group"
+      className="group relative inline-block"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
@@ -130,11 +130,11 @@ export function ProfileImageField({
 
           {/* Action Buttons - Always visible on mobile, hover on desktop */}
           {!isUploading && !isPublicView && (
-            <div className="absolute bottom-0 left-0 right-0 flex justify-between items-center px-1 sm:opacity-0 sm:group-hover:opacity-100 transition-opacity">
+            <div className="absolute bottom-0 left-0 right-0 flex items-center justify-between px-1 transition-opacity sm:opacity-0 sm:group-hover:opacity-100">
               {/* Upload - Desktop only */}
               <button
                 onClick={handleUploadClick}
-                className="hidden sm:flex size-8 rounded-full bg-white backdrop-blur-sm border border-neutral-300 shadow-lg hover:bg-white/90 transition-all items-center justify-center"
+                className="hidden size-8 items-center justify-center rounded-full border border-neutral-300 bg-white shadow-lg backdrop-blur-sm transition-all hover:bg-white/90 sm:flex"
               >
                 <CircleArrowUpIcon className="size-4 text-black" />
               </button>
@@ -142,7 +142,7 @@ export function ProfileImageField({
               {/* Delete - Always visible on mobile, hover on desktop */}
               <button
                 onClick={handleDelete}
-                className="size-8 rounded-full bg-white backdrop-blur-sm border border-neutral-300 shadow-lg hover:bg-white/90 transition-all flex items-center justify-center"
+                className="flex size-8 items-center justify-center rounded-full border border-neutral-300 bg-white shadow-lg backdrop-blur-sm transition-all hover:bg-white/90"
               >
                 <TrashIcon className="size-4 text-black" />
               </button>
@@ -167,16 +167,16 @@ export function ProfileImageField({
         // Empty state - Upload Icon (Edit mode only)
         <button
           onClick={handleUploadClick}
-          className="size-28 rounded-full border-2 border-dashed border-black/[0.08] bg-[#FAFAFA] hover:bg-[#F6F6F6] active:bg-[#F1F1F1] transition-colors duration-200 ease-in-out flex flex-col items-center justify-center cursor-pointer"
+          className="flex size-28 cursor-pointer flex-col items-center justify-center rounded-full border-2 border-dashed border-black/[0.08] bg-[#FAFAFA] transition-colors duration-200 ease-in-out hover:bg-[#F6F6F6] active:bg-[#F1F1F1]"
         >
-          <CircleArrowUpIcon className="size-8 mb-2 text-black/10" />
-          <span className="text-xs text-black/60 font-medium">Add Avatar</span>
+          <CircleArrowUpIcon className="mb-2 size-8 text-black/10" />
+          <span className="text-xs font-medium text-black/60">Add Avatar</span>
         </button>
       )}
 
       {/* Loader during Upload */}
       {isUploading && (
-        <div className="absolute inset-0 bg-black/50 rounded-full flex items-center justify-center">
+        <div className="absolute inset-0 flex items-center justify-center rounded-full bg-black/50">
           <LoaderIcon className="text-white" />
         </div>
       )}

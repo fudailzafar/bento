@@ -69,11 +69,11 @@ export function Projects({
 
   return (
     <Section>
-      <div className="space-y-12 w-full py-12">
+      <div className="w-full space-y-12 py-12">
         <BlurFade delay={BLUR_FADE_DELAY * 11}>
           <div className="flex flex-col items-center justify-center space-y-4 text-center">
             <div className="space-y-2">
-              <div className="inline-block rounded-lg bg-foreground text-background px-3 py-1 text-sm">
+              <div className="inline-block rounded-lg bg-foreground px-3 py-1 text-sm text-background">
                 My Projects
               </div>
               <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl">
@@ -87,7 +87,7 @@ export function Projects({
           </div>
         </BlurFade>
 
-        <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 max-w-[800px] mx-auto">
+        <div className="mx-auto grid max-w-[800px] grid-cols-1 gap-3 sm:grid-cols-2">
           {(projects || []).map((project, id) => {
             const isEditing = editingIndex === id;
             const isHovered = hoveredIndex === id;
@@ -97,7 +97,7 @@ export function Projects({
               return (
                 <div
                   key={id}
-                  className="col-span-1 sm:col-span-2 rounded-lg p-4 bg-gray-50 dark:bg-gray-900"
+                  className="col-span-1 rounded-lg bg-gray-50 p-4 dark:bg-gray-900 sm:col-span-2"
                 >
                   <ProjectsField
                     project={{
@@ -143,7 +143,7 @@ export function Projects({
                 delay={BLUR_FADE_DELAY * 12 + id * 0.05}
               >
                 <div
-                  className="relative group"
+                  className="group relative"
                   onMouseEnter={() => setHoveredIndex(id)}
                   onMouseLeave={() => setHoveredIndex(null)}
                 >
@@ -153,7 +153,7 @@ export function Projects({
                       {/* Delete button - top left */}
                       <button
                         onClick={() => handleDelete(id)}
-                        className="absolute -top-2 -left-2 size-8 rounded-full hover:bg-gray-50 border border-gray-50 shadow-md hover:text-design-secondary bg-white text-gray-700 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-200 z-10"
+                        className="absolute -left-2 -top-2 z-10 flex size-8 items-center justify-center rounded-full border border-gray-50 bg-white text-gray-700 opacity-0 shadow-md transition-all duration-200 hover:bg-gray-50 hover:text-design-secondary group-hover:opacity-100"
                         aria-label="Delete project"
                       >
                         <TrashIcon className="size-4" />
@@ -162,7 +162,7 @@ export function Projects({
                       {/* Edit button - top right */}
                       <button
                         onClick={() => setEditingIndex(id)}
-                        className="absolute -top-2 -right-2 size-8 rounded-full bg-black border-gray-50 shadow-md text-white  flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-200 z-10"
+                        className="absolute -right-2 -top-2 z-10 flex size-8 items-center justify-center rounded-full border-gray-50 bg-black text-white opacity-0 shadow-md transition-all duration-200 group-hover:opacity-100"
                         aria-label="Edit project"
                       >
                         <PenIcon className="size-4" />

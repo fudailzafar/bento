@@ -8,7 +8,7 @@ interface AddButtonProps {
 export const AddButton: React.FC<AddButtonProps> = ({ label, onClick }) => {
   return (
     <button
-      className="w-full p-2 border-2 border-dashed rounded-md text-gray-500 hover:border-gray-400"
+      className="w-full rounded-md border-2 border-dashed p-2 text-gray-500 hover:border-gray-400"
       onClick={onClick}
     >
       + {label}

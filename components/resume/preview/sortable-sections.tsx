@@ -105,7 +105,7 @@ export const SortableSections = ({
 
       <DragOverlay dropAnimation={null}>
         {activeId ? (
-          <div className="rounded-2xl shadow-2xl bg-white dark:bg-gray-900 opacity-95 px-4 py-4">
+          <div className="rounded-2xl bg-white px-4 py-4 opacity-95 shadow-2xl dark:bg-gray-900">
             {sectionComponents[activeId]}
           </div>
         ) : null}

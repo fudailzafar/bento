@@ -68,7 +68,7 @@ const BooleanField: React.FC<FieldProps> = ({
     <div className="space-y-2">
       <label className="text-sm font-medium text-foreground">
         {schema.description ?? name}
-        {required && <span className="text-destructive ml-1">*</span>}
+        {required && <span className="ml-1 text-destructive">*</span>}
       </label>
       <div className="flex gap-2">
         <button
@@ -76,10 +76,10 @@ const BooleanField: React.FC<FieldProps> = ({
           autoFocus={autoFocus}
           onClick={() => onChange(true)}
           className={cn(
-            'flex-1 px-4 py-2 rounded-lg border transition-colors',
+            'flex-1 rounded-lg border px-4 py-2 transition-colors',
             boolValue === true
-              ? 'bg-primary text-primary-foreground border-primary'
-              : 'bg-background border-border hover:bg-muted'
+              ? 'border-primary bg-primary text-primary-foreground'
+              : 'border-border bg-background hover:bg-muted'
           )}
         >
           Yes
@@ -88,10 +88,10 @@ const BooleanField: React.FC<FieldProps> = ({
           type="button"
           onClick={() => onChange(false)}
           className={cn(
-            'flex-1 px-4 py-2 rounded-lg border transition-colors',
+            'flex-1 rounded-lg border px-4 py-2 transition-colors',
             boolValue === false
-              ? 'bg-primary text-primary-foreground border-primary'
-              : 'bg-background border-border hover:bg-muted'
+              ? 'border-primary bg-primary text-primary-foreground'
+              : 'border-border bg-background hover:bg-muted'
           )}
         >
           No
@@ -121,7 +121,7 @@ const EnumField: React.FC<FieldProps> = ({
     <div className="space-y-2">
       <label className="text-sm font-medium text-foreground">
         {schema.description ?? name}
-        {required && <span className="text-destructive ml-1">*</span>}
+        {required && <span className="ml-1 text-destructive">*</span>}
       </label>
       <div className="flex flex-wrap gap-2">
         {options.map((option, index) => (
@@ -131,10 +131,10 @@ const EnumField: React.FC<FieldProps> = ({
             autoFocus={autoFocus && index === 0}
             onClick={() => onChange(option)}
             className={cn(
-              'px-4 py-2 rounded-lg border transition-colors',
+              'rounded-lg border px-4 py-2 transition-colors',
               stringValue === option
-                ? 'bg-primary text-primary-foreground border-primary'
-                : 'bg-background border-border hover:bg-muted'
+                ? 'border-primary bg-primary text-primary-foreground'
+                : 'border-border bg-background hover:bg-muted'
             )}
           >
             {optionNames[index] || option}
@@ -185,7 +185,7 @@ const StringField: React.FC<FieldProps> = ({
     <div className="space-y-2">
       <label htmlFor={inputId} className="text-sm font-medium text-foreground">
         {schema.description ?? name}
-        {required && <span className="text-destructive ml-1">*</span>}
+        {required && <span className="ml-1 text-destructive">*</span>}
       </label>
       <input
         id={inputId}
@@ -194,7 +194,7 @@ const StringField: React.FC<FieldProps> = ({
         value={stringValue}
         onChange={(e) => onChange(e.target.value)}
         className={cn(
-          'w-full px-3 py-2 rounded-lg border bg-background text-foreground focus:outline-none focus:ring-2',
+          'w-full rounded-lg border bg-background px-3 py-2 text-foreground focus:outline-none focus:ring-2',
           hasError
             ? 'border-destructive focus:ring-destructive'
             : 'border-border focus:ring-primary'
@@ -237,7 +237,7 @@ const NumberField: React.FC<FieldProps> = ({
     <div className="space-y-2">
       <label htmlFor={inputId} className="text-sm font-medium text-foreground">
         {schema.description ?? name}
-        {required && <span className="text-destructive ml-1">*</span>}
+        {required && <span className="ml-1 text-destructive">*</span>}
       </label>
       <input
         id={inputId}
@@ -253,7 +253,7 @@ const NumberField: React.FC<FieldProps> = ({
           );
         }}
         className={cn(
-          'w-full px-3 py-2 rounded-lg border bg-background text-foreground focus:outline-none focus:ring-2',
+          'w-full rounded-lg border bg-background px-3 py-2 text-foreground focus:outline-none focus:ring-2',
           hasError
             ? 'border-destructive focus:ring-destructive'
             : 'border-border focus:ring-primary'
@@ -541,11 +541,11 @@ export const ElicitationUI: React.FC<ElicitationUIProps> = ({
     return (
       <div
         className={cn(
-          'flex flex-col rounded-xl bg-background border border-border p-4 space-y-3',
+          'flex flex-col space-y-3 rounded-xl border border-border bg-background p-4',
           className
         )}
       >
-        <div className="text-base font-semibold text-foreground mb-2">
+        <div className="mb-2 text-base font-semibold text-foreground">
           {request.message}
         </div>
         <Field
@@ -561,7 +561,7 @@ export const ElicitationUI: React.FC<ElicitationUIProps> = ({
           <button
             type="button"
             onClick={handleCancel}
-            className="px-4 py-2 text-sm rounded-lg border border-destructive text-destructive hover:bg-destructive/10 transition-colors"
+            className="rounded-lg border border-destructive px-4 py-2 text-sm text-destructive transition-colors hover:bg-destructive/10"
           >
             Cancel
           </button>
@@ -574,7 +574,7 @@ export const ElicitationUI: React.FC<ElicitationUIProps> = ({
   return (
     <div
       className={cn(
-        'flex flex-col rounded-xl bg-background border border-border p-4 space-y-4',
+        'flex flex-col space-y-4 rounded-xl border border-border bg-background p-4',
         className
       )}
     >
@@ -609,14 +609,14 @@ export const ElicitationUI: React.FC<ElicitationUIProps> = ({
         <button
           type="button"
           onClick={handleCancel}
-          className="px-4 py-2 text-sm rounded-lg border border-destructive text-destructive hover:bg-destructive/10 transition-colors"
+          className="rounded-lg border border-destructive px-4 py-2 text-sm text-destructive transition-colors hover:bg-destructive/10"
         >
           Cancel
         </button>
         <button
           type="button"
           onClick={handleDecline}
-          className="px-4 py-2 text-sm rounded-lg border border-border bg-background hover:bg-muted transition-colors"
+          className="rounded-lg border border-border bg-background px-4 py-2 text-sm transition-colors hover:bg-muted"
         >
           Decline
         </button>
@@ -624,7 +624,7 @@ export const ElicitationUI: React.FC<ElicitationUIProps> = ({
           type="button"
           onClick={handleAccept}
           disabled={!isValid}
-          className="px-6 py-2 text-sm rounded-lg bg-black/80 text-white hover:bg-black/70 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+          className="rounded-lg bg-black/80 px-6 py-2 text-sm text-white transition-colors hover:bg-black/70 disabled:cursor-not-allowed disabled:opacity-50"
         >
           Submit
         </button>

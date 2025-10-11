@@ -49,9 +49,9 @@ export default function SignupCallbackClient() {
   }, [session, status, username, router]);
 
   return (
-    <div className="min-h-screen flex items-center justify-center">
-      <div className="text-center space-y-4">
-        <LoaderIcon className="w-8 h-8 mx-auto" />
+    <div className="flex min-h-screen items-center justify-center">
+      <div className="space-y-4 text-center">
+        <LoaderIcon className="mx-auto h-8 w-8" />
       </div>
     </div>
   );

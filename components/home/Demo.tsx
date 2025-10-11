@@ -4,9 +4,9 @@ import DemoResumeDesktop from './demo-resume-desktop';
 export function Demo() {
   return (
     <>
-      <div className="my-36 mx-auto flex flex-col justify-center items-center">
-        <div className="relative w-full flex flex-col items-center">
-          <div className="text-center max-w-[340px] md:max-w-full font-bold text-[40px] sm:text-6xl leading-tight">
+      <div className="mx-auto my-36 flex flex-col items-center justify-center">
+        <div className="relative flex w-full flex-col items-center">
+          <div className="max-w-[340px] text-center text-[40px] font-bold leading-tight sm:text-6xl md:max-w-full">
             <div
               className="bg-gradient-to-b from-black to-gray-400 bg-clip-text text-transparent"
               style={{
@@ -25,10 +25,10 @@ export function Demo() {
               And more
             </div>
           </div>
-          <div className="max-w-[350px] md:mt-12 md:max-w-full flex flex-col md:gap-y-2 text-center font-light text-[26px] md:text-3xl text-gray-700 mx-auto">
+          <div className="mx-auto flex max-w-[350px] flex-col text-center text-[26px] font-light text-gray-700 md:mt-12 md:max-w-full md:gap-y-2 md:text-3xl">
             <p>All your story integrated into A page.</p>
           </div>
-          <div className="max-w-[340px] md:mt-2 md:max-w-full text-center font-light text-[26px] md:text-3xl text-gray-700 mx-auto">
+          <div className="mx-auto max-w-[340px] text-center text-[26px] font-light text-gray-700 md:mt-2 md:max-w-full md:text-3xl">
             <p>No more hiding your content behind links.</p>
           </div>
           <div className="md:hidden">

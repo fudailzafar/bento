@@ -23,15 +23,15 @@ export const EducationField: React.FC<EducationFieldProps> = ({
   onDelete,
 }) => {
   return (
-    <div className="relative p-4 rounded-md group">
+    <div className="group relative rounded-md p-4">
       <button
-        className="absolute top-2 right-2 text-gray-400 hover:text-red-500 transition-colors"
+        className="absolute right-2 top-2 text-gray-400 transition-colors hover:text-red-500"
         onClick={() => onDelete(index)}
       >
-        <CrossIcon className="w-5 h-5" />
+        <CrossIcon className="h-5 w-5" />
       </button>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
         <div className="md:col-span-2">
           <Label
             htmlFor={`edu-degree-${index}`}

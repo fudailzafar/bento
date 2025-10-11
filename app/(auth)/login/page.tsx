@@ -57,21 +57,21 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="min-h-[90vh] md:min-h-screen flex items-center justify-between gap-12 lg:gap-16 px-7 sm:px-6 lg:px-32">
+    <div className="flex min-h-[90vh] items-center justify-between gap-12 px-7 sm:px-6 md:min-h-screen lg:gap-16 lg:px-32">
       <div className="w-full max-w-[440px] space-y-8">
         <div className="text-left">
-          <h1 className="text-[29px] lg:text-[32px] font-bold md:font-semibold text-design-black mb-6 md:mb-4">
+          <h1 className="mb-6 text-[29px] font-bold text-design-black md:mb-4 md:font-semibold lg:text-[32px]">
             Log in to your Portfolio
           </h1>
-          <h2 className="text-design-resume font-normal text-xl sm:text-xl">
+          <h2 className="text-xl font-normal text-design-resume sm:text-xl">
             Good to have you back!
           </h2>
         </div>
 
         {/* Single Form */}
-        <form onSubmit={handleSubmit} className="pt-10  space-y-8">
+        <form onSubmit={handleSubmit} className="space-y-8 pt-10">
           {/* Two Column Layout on Desktop */}
-          <div className="flex flex-col md:flex-row gap-3 md:gap-4">
+          <div className="flex flex-col gap-3 md:flex-row md:gap-4">
             <Input
               id="email"
               type="email"
@@ -79,7 +79,7 @@ export default function LoginPage() {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               disabled={isLoading}
-              className="w-full h-12 px-4 bg-[#F5F5F5] border-0 rounded-lg text-base placeholder:text-gray-400 focus-visible:ring-0 focus-visible:ring-offset-0 outline-none"
+              className="h-12 w-full rounded-lg border-0 bg-[#F5F5F5] px-4 text-base outline-none placeholder:text-gray-400 focus-visible:ring-0 focus-visible:ring-offset-0"
             />
 
             <div className="relative w-full">
@@ -90,12 +90,12 @@ export default function LoginPage() {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 disabled={isLoading}
-                className="w-full h-12 px-4 pr-[76px] bg-[#F5F5F5] border-0 rounded-lg text-base placeholder:text-gray-400 focus-visible:ring-0 focus-visible:ring-offset-0 outline-none"
+                className="h-12 w-full rounded-lg border-0 bg-[#F5F5F5] px-4 pr-[76px] text-base outline-none placeholder:text-gray-400 focus-visible:ring-0 focus-visible:ring-offset-0"
               />
               <button
                 type="button"
                 onClick={() => setShowPassword(!showPassword)}
-                className="absolute right-2 top-1/2 -translate-y-1/2 h-8 w-[60px] flex items-center justify-center bg-white hover:bg-gray-50 text-black text-xs font-semibold rounded shadow-[0_1px_2px_rgba(0,0,0,0.08)] transition-all active:scale-95"
+                className="absolute right-2 top-1/2 flex h-8 w-[60px] -translate-y-1/2 items-center justify-center rounded bg-white text-xs font-semibold text-black shadow-[0_1px_2px_rgba(0,0,0,0.08)] transition-all hover:bg-gray-50 active:scale-95"
               >
                 {showPassword ? 'Hide' : 'Show'}
               </button>
@@ -105,7 +105,7 @@ export default function LoginPage() {
           {/* OR Divider - only show when not in credentials mode */}
           {!hasCredentials ? (
             <div className="relative">
-              <div className="flex justify-start text-sm uppercase text-black font-semibold">
+              <div className="flex justify-start text-sm font-semibold uppercase text-black">
                 OR
               </div>
             </div>
@@ -114,10 +114,10 @@ export default function LoginPage() {
               {error ? (
                 <div className="text-xs text-design-secondary">{error}</div>
               ) : (
-                <div className="invisible flex justify-start text-sm uppercase text-black font-semibold text-left">
+                <div className="invisible flex justify-start text-left text-sm font-semibold uppercase text-black">
                   <Link
                     href="/reset-password"
-                    className="text-[#5B68F4] text-sm font-normal hover:underline"
+                    className="text-sm font-normal text-[#5B68F4] hover:underline"
                   >
                     Reset Password
                   </Link>
@@ -131,7 +131,7 @@ export default function LoginPage() {
             <button
               type="submit"
               disabled={isLoading || !email || !password}
-              className="w-full cursor-pointer flex items-center active:scale-95 transition-all duration-300 ease-out justify-center gap-3 px-6 py-3 bg-black hover:bg-black/80 disabled:opacity-70 disabled:cursor-not-allowed text-white font-semibold tracking-tight text-sm rounded-lg"
+              className="flex w-full cursor-pointer items-center justify-center gap-3 rounded-lg bg-black px-6 py-3 text-sm font-semibold tracking-tight text-white transition-all duration-300 ease-out hover:bg-black/80 active:scale-95 disabled:cursor-not-allowed disabled:opacity-70"
             >
               {isLoading ? (
                 <>
@@ -145,7 +145,7 @@ export default function LoginPage() {
             <button
               type="submit"
               disabled={isLoading}
-              className="w-full flex shadow-lg items-center active:scale-95 transition-all duration-300 ease-out justify-center gap-3 px-6 py-3 bg-design-primary hover:bg-design-primaryDark disabled:opacity-70 disabled:cursor-not-allowed text-white font-semibold tracking-tight text-sm rounded-lg"
+              className="flex w-full items-center justify-center gap-3 rounded-lg bg-design-primary px-6 py-3 text-sm font-semibold tracking-tight text-white shadow-lg transition-all duration-300 ease-out hover:bg-design-primaryDark active:scale-95 disabled:cursor-not-allowed disabled:opacity-70"
             >
               {isLoading ? (
                 <>
@@ -161,17 +161,17 @@ export default function LoginPage() {
           )}
         </form>
 
-        <div className="text-left mt-6">
+        <div className="mt-6 text-left">
           <Link
             href="/signup"
-            className="text-design-resume font-normal text-xs transition-colors"
+            className="text-xs font-normal text-design-resume transition-colors"
           >
             or sign up
           </Link>
         </div>
       </div>
 
-      <div className="hidden md:flex flex-1 items-center justify-center max-w-[700px]">
+      <div className="hidden max-w-[700px] flex-1 items-center justify-center md:flex">
         <SignupAnimation />
       </div>
     </div>

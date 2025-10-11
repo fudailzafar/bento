@@ -61,7 +61,7 @@ export function Hero() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.8, delay: 1.2, ease: easeInOutCubic }}
-          className="w-full bg-design-primary hover:bg-design-primaryDark text-design-white text-center py-5 text-base font-light flex items-center justify-center"
+          className="flex w-full items-center justify-center bg-design-primary py-5 text-center text-base font-light text-design-white hover:bg-design-primaryDark"
         >
           Big news! Portfoliofy just launched!{' '}
           <ArrowRightIcon width={20} className="text-white" />
@@ -69,7 +69,7 @@ export function Hero() {
       </a>
       {/* Main hero section */}
       <Section id="hero" className="min-h-[100vh] w-full overflow-hidden">
-        <main className="mx-auto pt-14 sm:pt-24 md:pt-32 text-center relative px-4">
+        <main className="relative mx-auto px-4 pt-14 text-center sm:pt-24 md:pt-32">
           <div className="relative">
             <motion.div
               initial={{ scale: 4.5, height: '80vh' }}
@@ -78,25 +78,25 @@ export function Hero() {
                 scale: { delay: 0, duration: 1.8, ease: easeInOutCubic },
                 height: { delay: 0, duration: 1.8, ease: easeInOutCubic },
               }}
-              className="mb-16 relative z-20"
+              className="relative z-20 mb-16"
               style={{ transformOrigin: 'top' }}
             >
-              <div className="mt-3 sm:-mt-[72px] md:-mt-24 bg-design-primary text-white text-xl font-bold p-0 h-20 w-20 flex items-center justify-center rounded-3xl mx-auto shadow-md">
+              <div className="mx-auto mt-3 flex h-20 w-20 items-center justify-center rounded-3xl bg-design-primary p-0 text-xl font-bold text-white shadow-md sm:-mt-[72px] md:-mt-24">
                 <Image
                   src={'/icons/android-chrome-512x512.png'}
                   alt=""
                   width={1}
                   height={1}
-                  className="w-auto h-[40px] rounded-xl"
+                  className="h-[40px] w-auto rounded-xl"
                 />
               </div>
             </motion.div>
 
             {/* Left floating cards */}
-            <div className="pointer-events-none hidden lg:block fixed left-0 top-0 w-full h-full">
+            <div className="pointer-events-none fixed left-0 top-0 hidden h-full w-full lg:block">
               {/* ambient glow behind left cluster */}
               <motion.div
-                className="absolute left-[1rem] 2xl:left-[3rem] top-[20rem] w-96 h-64 rounded-[50px] -z-20"
+                className="absolute left-[1rem] top-[20rem] -z-20 h-64 w-96 rounded-[50px] 2xl:left-[3rem]"
                 style={{
                   background:
                     'radial-gradient(closest-side, rgba(253,224,235,0.3), rgba(255,255,255,0) 70%)',
@@ -124,15 +124,15 @@ export function Hero() {
                       }
                     : { duration: 0 }
                 }
-                className="absolute left-[1.5rem] 2xl:left-[4rem] top-[9rem]"
+                className="absolute left-[1.5rem] top-[9rem] 2xl:left-[4rem]"
                 style={{ zIndex: 8, y: leftParallax[0], opacity: cardOpacity }}
               >
-                <div className="w-56 rounded-3xl bg-white dark:bg-neutral-900 shadow-[0_20px_60px_-15px_rgba(0,0,0,0.25)] p-6 border border-neutral-100 dark:border-neutral-800">
+                <div className="w-56 rounded-3xl border border-neutral-100 bg-white p-6 shadow-[0_20px_60px_-15px_rgba(0,0,0,0.25)] dark:border-neutral-800 dark:bg-neutral-900">
                   <div className="flex items-center gap-4">
-                    <div className="w-14 h-14 rounded-2xl bg-yellow-400 flex items-center justify-center text-2xl flex-shrink-0">
+                    <div className="flex h-14 w-14 flex-shrink-0 items-center justify-center rounded-2xl bg-yellow-400 text-2xl">
                       ☕
                     </div>
-                    <div className="text-base font-semibold text-neutral-900 dark:text-neutral-100 leading-tight">
+                    <div className="text-base font-semibold leading-tight text-neutral-900 dark:text-neutral-100">
                       Support my designs
                     </div>
                   </div>
@@ -158,28 +158,28 @@ export function Hero() {
                       }
                     : { duration: 0 }
                 }
-                className="absolute left-[0.5rem] 2xl:left-[2rem] top-[18rem]"
+                className="absolute left-[0.5rem] top-[18rem] 2xl:left-[2rem]"
                 style={{ zIndex: 7, y: leftParallax[1], opacity: cardOpacity }}
               >
-                <div className="w-64 rounded-3xl bg-gradient-to-br from-pink-100 to-pink-50 dark:from-pink-900/30 dark:to-pink-800/20 shadow-[0_20px_60px_-15px_rgba(0,0,0,0.25)] p-6 border border-white/60 dark:border-neutral-700">
-                  <div className="mb-4 rounded-2xl overflow-hidden bg-white/80 h-32 flex items-center justify-center">
+                <div className="w-64 rounded-3xl border border-white/60 bg-gradient-to-br from-pink-100 to-pink-50 p-6 shadow-[0_20px_60px_-15px_rgba(0,0,0,0.25)] dark:border-neutral-700 dark:from-pink-900/30 dark:to-pink-800/20">
+                  <div className="mb-4 flex h-32 items-center justify-center overflow-hidden rounded-2xl bg-white/80">
                     <Image
                       src="/image.png"
                       alt="preview"
                       width={200}
                       height={120}
-                      className="object-cover w-full h-full"
+                      className="h-full w-full object-cover"
                     />
                   </div>
-                  <div className="flex items-center gap-3 mb-4">
-                    <div className="w-11 h-11 rounded-xl bg-red-600 flex items-center justify-center text-white text-base flex-shrink-0">
+                  <div className="mb-4 flex items-center gap-3">
+                    <div className="flex h-11 w-11 flex-shrink-0 items-center justify-center rounded-xl bg-red-600 text-base text-white">
                       ▶
                     </div>
-                    <div className="text-base font-semibold text-neutral-900 dark:text-neutral-100 leading-tight">
+                    <div className="text-base font-semibold leading-tight text-neutral-900 dark:text-neutral-100">
                       Gadget Reviews
                     </div>
                   </div>
-                  <button className="px-5 py-2.5 bg-red-600 text-white text-xs font-semibold rounded-full hover:bg-red-700 transition-colors">
+                  <button className="rounded-full bg-red-600 px-5 py-2.5 text-xs font-semibold text-white transition-colors hover:bg-red-700">
                     Subscribe 304k
                   </button>
                 </div>
@@ -204,11 +204,11 @@ export function Hero() {
                       }
                     : { duration: 0 }
                 }
-                className="absolute left-[1rem] 2xl:left-[3rem] top-[36rem]"
+                className="absolute left-[1rem] top-[36rem] 2xl:left-[3rem]"
                 style={{ zIndex: 6, y: leftParallax[2], opacity: cardOpacity }}
               >
-                <div className="w-52 rounded-3xl bg-white dark:bg-neutral-900 shadow-[0_20px_60px_-15px_rgba(0,0,0,0.25)] p-6 border border-neutral-100 dark:border-neutral-800">
-                  <div className="text-sm text-neutral-600 dark:text-neutral-400 leading-relaxed">
+                <div className="w-52 rounded-3xl border border-neutral-100 bg-white p-6 shadow-[0_20px_60px_-15px_rgba(0,0,0,0.25)] dark:border-neutral-800 dark:bg-neutral-900">
+                  <div className="text-sm leading-relaxed text-neutral-600 dark:text-neutral-400">
                     Computer Museum is partnering
                   </div>
                 </div>
@@ -218,18 +218,18 @@ export function Hero() {
               initial={{ y: -20, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
               transition={{ duration: 0.6, delay: 1.2 }}
-              className="absolute inset-0 top-20 z-10 font-semibold text-2xl mt-3"
+              className="absolute inset-0 top-20 z-10 mt-3 text-2xl font-semibold"
             >
               Portfoliofy
             </motion.div>
           </div>
 
-          <div className="max-w-5xl mx-auto mt-24">
+          <div className="mx-auto mt-24 max-w-5xl">
             <motion.h1
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 0.8, delay: 0.5, ease: easeInOutCubic }}
-              className="text-4xl sm:text-6xl font-bold mb-4 tracking-tighter"
+              className="mb-4 text-4xl font-bold tracking-tighter sm:text-6xl"
             >
               <div className="flex flex-col gap-y-2 sm:gap-y-4">
                 <div>A Portfolio.</div>
@@ -237,10 +237,10 @@ export function Hero() {
               </div>
 
               {/* Right floating cards - Bento style (spread to screen edges) */}
-              <div className="pointer-events-none hidden lg:block fixed right-0 top-0 w-full h-full">
+              <div className="pointer-events-none fixed right-0 top-0 hidden h-full w-full lg:block">
                 {/* ambient glow behind right cluster */}
                 <motion.div
-                  className="absolute right-[1rem] 2xl:right-[3rem] top-[18rem] w-96 h-72 rounded-[50px] -z-20"
+                  className="absolute right-[1rem] top-[18rem] -z-20 h-72 w-96 rounded-[50px] 2xl:right-[3rem]"
                   style={{
                     background:
                       'radial-gradient(closest-side, rgba(219,234,254,0.3), rgba(255,255,255,0) 70%)',
@@ -268,16 +268,16 @@ export function Hero() {
                         }
                       : { duration: 0 }
                   }
-                  className="absolute right-[0.5rem] 2xl:right-[2rem] top-[21rem]"
+                  className="absolute right-[0.5rem] top-[21rem] 2xl:right-[2rem]"
                   style={{
                     zIndex: 7,
                     y: rightParallax[1],
                     opacity: cardOpacity,
                   }}
                 >
-                  <div className="w-64 rounded-3xl bg-gradient-to-br from-blue-100 to-blue-50 dark:from-blue-900/30 dark:to-blue-800/20 shadow-[0_20px_60px_-15px_rgba(0,0,0,0.25)] p-5 border border-white/60 dark:border-neutral-700">
-                    <div className="flex items-center gap-3 mb-4">
-                      <div className="w-12 h-12 rounded-full bg-sky-400 flex items-center justify-center text-white text-xl flex-shrink-0">
+                  <div className="w-64 rounded-3xl border border-white/60 bg-gradient-to-br from-blue-100 to-blue-50 p-5 shadow-[0_20px_60px_-15px_rgba(0,0,0,0.25)] dark:border-neutral-700 dark:from-blue-900/30 dark:to-blue-800/20">
+                    <div className="mb-4 flex items-center gap-3">
+                      <div className="flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full bg-sky-400 text-xl text-white">
                         🐦
                       </div>
                       <div className="min-w-0">
@@ -289,7 +289,7 @@ export function Hero() {
                         </div>
                       </div>
                     </div>
-                    <button className="px-4 py-2 bg-sky-500 text-white text-xs font-semibold rounded-full">
+                    <button className="rounded-full bg-sky-500 px-4 py-2 text-xs font-semibold text-white">
                       Follow 12k
                     </button>
                   </div>
@@ -314,20 +314,20 @@ export function Hero() {
                         }
                       : { duration: 0 }
                   }
-                  className="absolute right-[1rem] 2xl:right-[3rem] top-[32rem]"
+                  className="absolute right-[1rem] top-[32rem] 2xl:right-[3rem]"
                   style={{
                     zIndex: 6,
                     y: rightParallax[2],
                     opacity: cardOpacity,
                   }}
                 >
-                  <div className="w-56 h-40 rounded-3xl bg-white dark:bg-neutral-900 shadow-[0_20px_60px_-15px_rgba(0,0,0,0.25)] overflow-hidden border border-neutral-100 dark:border-neutral-800">
+                  <div className="h-40 w-56 overflow-hidden rounded-3xl border border-neutral-100 bg-white shadow-[0_20px_60px_-15px_rgba(0,0,0,0.25)] dark:border-neutral-800 dark:bg-neutral-900">
                     <Image
                       src="/map.png"
                       alt="preview"
                       width={224}
                       height={160}
-                      className="object-cover w-full h-full"
+                      className="h-full w-full object-cover"
                     />
                   </div>
                 </motion.div>
@@ -337,24 +337,24 @@ export function Hero() {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 0.8, delay: 0.7, ease: easeInOutCubic }}
-              className="text-design-gray max-w-2xl mx-auto text-xl sm:text-[22px] mb-8 font-light text-balance mt-7 tracking-tight"
+              className="mx-auto mb-8 mt-7 max-w-2xl text-balance text-xl font-light tracking-tight text-design-gray sm:text-[22px]"
             >
               Your personal page to show your work, skills, and story.
             </motion.p>
           </div>
 
-          <div className="flex flex-col gap-3 mt-16">
+          <div className="mt-16 flex flex-col gap-3">
             <Link href="/signup">
               <Button
                 variant="default"
-                className="text-lg rounded-xl shadow-md active:scale-95 transition-all font-semibold py-8 px-20 sm:py-8 sm:px-14 bg-design-primary hover:bg-design-primaryDark cursor-pointer mb-2"
+                className="mb-2 cursor-pointer rounded-xl bg-design-primary px-20 py-8 text-lg font-semibold shadow-md transition-all hover:bg-design-primaryDark active:scale-95 sm:px-14 sm:py-8"
               >
                 Create Your Portfolio
               </Button>
             </Link>
             <Link
               href={'/login'}
-              className="text-design-gray text-sm sm:text-xs hover:underline"
+              className="text-sm text-design-gray hover:underline sm:text-xs"
             >
               Log In
             </Link>

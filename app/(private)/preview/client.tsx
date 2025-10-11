@@ -188,20 +188,20 @@ export default function PreviewClient({ messageTip }: { messageTip?: string }) {
   }
 
   return (
-    <div className="w-full min-h-screen bg-background flex">
+    <div className="flex min-h-screen w-full bg-background">
       {/* Chat Sidebar */}
       <div
         className={`${
           isChatOpen ? 'w-80' : 'w-0'
-        } fixed right-0 top-0 h-screen border-l border-gray-200 bg-white transition-all duration-300 flex flex-col z-40 overflow-hidden`}
+        } fixed right-0 top-0 z-40 flex h-screen flex-col overflow-hidden border-l border-gray-200 bg-white transition-all duration-300`}
       >
         {isChatOpen && (
           <>
-            <div className="p-4 border-b border-gray-200">
+            <div className="border-b border-gray-200 p-4">
               <h2 className="text-lg font-semibold text-gray-900">
                 Chat Assistant
               </h2>
-              <p className="text-sm text-gray-600 mt-1">
+              <p className="mt-1 text-sm text-gray-600">
                 Try: &quot;Change the name to John Doe&quot; or &quot;Add Work
                 Experience&quot;
               </p>
@@ -230,17 +230,17 @@ export default function PreviewClient({ messageTip }: { messageTip?: string }) {
         onClick={() => setIsChatOpen(!isChatOpen)}
         className={`${
           isChatOpen ? 'right-80' : 'right-0'
-        } fixed top-1/2 -translate-y-1/2 bg-white border border-gray-200 rounded-l-lg p-2 hover:bg-gray-50 z-50 transition-all duration-300`}
+        } fixed top-1/2 z-50 -translate-y-1/2 rounded-l-lg border border-gray-200 bg-white p-2 transition-all duration-300 hover:bg-gray-50`}
       >
         {isChatOpen ? (
-          <ChevronRight className="w-4 h-4" />
+          <ChevronRight className="h-4 w-4" />
         ) : (
-          <ChevronLeft className="w-4 h-4" />
+          <ChevronLeft className="h-4 w-4" />
         )}
       </button>
 
       {/* Main Content Area */}
-      <div className="flex-1 flex flex-col">
+      <div className="flex flex-1 flex-col">
         {/* Add Skill Dialog */}
         <AddSkillDialog
           open={isAddSkillDialogOpen}
@@ -264,11 +264,11 @@ export default function PreviewClient({ messageTip }: { messageTip?: string }) {
           }}
         />
         {messageTip && (
-          <div className="max-w-3xl mx-auto w-full md:px-0 px-4 pt-4">
-            <div className="bg-amber-50 border border-amber-200 text-amber-800 rounded-md p-4 flex items-start">
+          <div className="mx-auto w-full max-w-3xl px-4 pt-4 md:px-0">
+            <div className="flex items-start rounded-md border border-amber-200 bg-amber-50 p-4 text-amber-800">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
-                className="h-5 w-5 mr-2 mt-0.5"
+                className="mr-2 mt-0.5 h-5 w-5"
                 viewBox="0 0 20 20"
                 fill="currentColor"
               >
@@ -284,7 +284,7 @@ export default function PreviewClient({ messageTip }: { messageTip?: string }) {
         )}
 
         {/* Desktop/Mobile View Toggle */}
-        <div className="flex-1 flex items-center justify-center pb-16">
+        <div className="flex flex-1 items-center justify-center pb-16">
           <AnimatePresence mode="wait">
             {viewMode === 'mobile' ? (
               /* Mobile View */
@@ -294,19 +294,19 @@ export default function PreviewClient({ messageTip }: { messageTip?: string }) {
                 animate={{ opacity: 1, width: '452px', maxWidth: '452px' }}
                 exit={{ opacity: 0, width: '100%', maxWidth: '768px' }}
                 transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
-                className="flex justify-center items-center"
+                className="flex items-center justify-center"
                 style={{ height: 'min(80vh, 900px)' }}
               >
-                <div className="relative w-full h-full">
+                <div className="relative h-full w-full">
                   <motion.div
                     initial={{ borderRadius: '0.5rem' }}
                     animate={{ borderRadius: '2.5rem' }}
                     exit={{ borderRadius: '0.5rem' }}
                     transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
-                    className="w-full h-full bg-white shadow-2xl overflow-hidden relative border border-gray-200"
+                    className="relative h-full w-full overflow-hidden border border-gray-200 bg-white shadow-2xl"
                   >
                     {/* Scrollable Content */}
-                    <div className="w-full h-full overflow-y-auto overflow-x-hidden bg-background scrollbar-hide">
+                    <div className="scrollbar-hide h-full w-full overflow-y-auto overflow-x-hidden bg-background">
                       <motion.div
                         initial={{
                           paddingLeft: '1rem',
@@ -342,7 +342,7 @@ export default function PreviewClient({ messageTip }: { messageTip?: string }) {
                 animate={{ opacity: 1, width: '100%', maxWidth: '768px' }}
                 exit={{ opacity: 0, width: '452px', maxWidth: '452px' }}
                 transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
-                className="mx-auto md:rounded-lg flex items-center justify-between"
+                className="mx-auto flex items-center justify-between md:rounded-lg"
               >
                 <motion.div
                   initial={{ borderRadius: '2.5rem' }}
@@ -365,8 +365,8 @@ export default function PreviewClient({ messageTip }: { messageTip?: string }) {
         </div>
 
         {/* Action Bar */}
-        <div className="fixed bottom-10 left-0 right-0 z-50 pointer-events-none">
-          <div className="max-w-3xl mx-auto w-full md:px-0 px-4 pointer-events-auto flex justify-center">
+        <div className="pointer-events-none fixed bottom-10 left-0 right-0 z-50">
+          <div className="pointer-events-auto mx-auto flex w-full max-w-3xl justify-center px-4 md:px-0">
             <PreviewActionbar
               initialUsername={usernameQuery.data.username}
               viewMode={viewMode}

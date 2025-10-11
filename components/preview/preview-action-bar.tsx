@@ -88,15 +88,15 @@ export default function PreviewActionbar({
 
   return (
     <>
-      <div className="relative md:w-[66%] rounded-2xl bg-white/95 backdrop-blur-sm border border-neutral-200 shadow-lg px-3.5 py-3 flex items-center gap-5">
+      <div className="relative flex items-center gap-5 rounded-2xl border border-neutral-200 bg-white/95 px-3.5 py-3 shadow-lg backdrop-blur-sm md:w-[66%]">
         {/* Share Button */}
         <Button
           ref={copyButtonRef}
           onClick={handleCopyLink}
           disabled={isSaving}
-          className="relative h-[33px] w-[33px] sm:w-[127px] !rounded-md !p-0 px-0 sm:px-0 !shadow-[0px_2px_3px_rgba(0,0,0,0.06)] bg-design-success hover:bg-[#3dda69] font-medium text-sm transition-all active:scale-95 flex-shrink-0 group"
+          className="group relative h-[33px] w-[33px] flex-shrink-0 !rounded-md bg-design-success !p-0 px-0 text-sm font-medium !shadow-[0px_2px_3px_rgba(0,0,0,0.06)] transition-all hover:bg-[#3dda69] active:scale-95 sm:w-[127px] sm:px-0"
         >
-          <div className="flex items-center justify-center h-full w-full overflow-hidden rounded-md">
+          <div className="flex h-full w-full items-center justify-center overflow-hidden rounded-md">
             {isSaving ? (
               <>
                 <LoaderIcon className="size-4" />
@@ -107,14 +107,14 @@ export default function PreviewActionbar({
                 {isCopied ? (
                   <>
                     <CheckmarkSmallIcon className="size-4 sm:hidden" />
-                    <span className="hidden sm:inline font-semibold">
+                    <span className="hidden font-semibold sm:inline">
                       Copy my Link
                     </span>
                   </>
                 ) : (
                   <>
                     <Copy className="size-4 sm:hidden" />
-                    <span className="hidden sm:inline font-semibold">
+                    <span className="hidden font-semibold sm:inline">
                       Copy my Link
                     </span>
                   </>
@@ -122,18 +122,18 @@ export default function PreviewActionbar({
               </>
             )}
             {/* Shine effect */}
-            <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent translate-x-[-100%] animate-[shine_4s_ease-in-out_infinite]" />
+            <div className="absolute inset-0 translate-x-[-100%] animate-[shine_4s_ease-in-out_infinite] bg-gradient-to-r from-transparent via-white/20 to-transparent" />
           </div>
           {/* Tooltip */}
           {!isSaving && (
-            <div className="hidden sm:block absolute bottom-full mb-2 left-1/2 transform -translate-x-1/2 bg-white font-normal text-design-resume text-[10px] leading-tight px-2 py-1 rounded-md shadow-md border border-slate-100 opacity-0 group-hover:opacity-100 transition-opacity duration-200 delay-700 pointer-events-none z-50 min-w-max">
+            <div className="pointer-events-none absolute bottom-full left-1/2 z-50 mb-2 hidden min-w-max -translate-x-1/2 transform rounded-md border border-slate-100 bg-white px-2 py-1 text-[10px] font-normal leading-tight text-design-resume opacity-0 shadow-md transition-opacity delay-700 duration-200 group-hover:opacity-100 sm:block">
               Share your Portfolio
             </div>
           )}
         </Button>
 
         {/* Divider */}
-        <div className="h-4 w-[2px] rounded-lg bg-black/[0.08] flex-shrink-0" />
+        <div className="h-4 w-[2px] flex-shrink-0 rounded-lg bg-black/[0.08]" />
 
         <div className="block">
           <HamburgerMenu
@@ -146,25 +146,25 @@ export default function PreviewActionbar({
         </div>
 
         {/* Divider */}
-        <div className="hidden sm:block h-4 w-[2px] rounded-lg bg-black/[0.08] flex-shrink-0" />
+        <div className="hidden h-4 w-[2px] flex-shrink-0 rounded-lg bg-black/[0.08] sm:block" />
 
         {/* Desktop/Mobile Toggle */}
-        <div className="hidden sm:flex items-center space-x-1 flex-shrink-0">
+        <div className="hidden flex-shrink-0 items-center space-x-1 sm:flex">
           <button
             onClick={() => onViewModeChange?.('desktop')}
-            className={`relative h-[33px] w-[50px] !rounded-md transition-all active:scale-95 group ${
+            className={`group relative h-[33px] w-[50px] !rounded-md transition-all active:scale-95 ${
               viewMode === 'desktop'
                 ? 'bg-black text-white'
                 : 'bg-transparent text-black hover:bg-black/5'
             }`}
           >
-            <div className="flex items-center justify-center h-full overflow-hidden rounded-md">
+            <div className="flex h-full items-center justify-center overflow-hidden rounded-md">
               <LaptopIcon className="size-4" />
               {/* Shine effect */}
-              <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent translate-x-[-100%] animate-[shine_4s_ease-in-out_infinite]" />
+              <div className="absolute inset-0 translate-x-[-100%] animate-[shine_4s_ease-in-out_infinite] bg-gradient-to-r from-transparent via-white/10 to-transparent" />
             </div>
             {/* Tooltip */}
-            <div className="absolute bottom-full mb-2 left-1/2 transform -translate-x-1/2 bg-white font-normal text-design-resume text-[10px] leading-tight px-2 py-1 rounded-md shadow-md border border-slate-100 opacity-0 group-hover:opacity-100 transition-opacity duration-200 delay-700 pointer-events-none z-50 min-w-max">
+            <div className="pointer-events-none absolute bottom-full left-1/2 z-50 mb-2 min-w-max -translate-x-1/2 transform rounded-md border border-slate-100 bg-white px-2 py-1 text-[10px] font-normal leading-tight text-design-resume opacity-0 shadow-md transition-opacity delay-700 duration-200 group-hover:opacity-100">
               <div>Edit how your Portfolio</div>
               <div>looks on computers</div>
             </div>
@@ -172,19 +172,19 @@ export default function PreviewActionbar({
 
           <button
             onClick={() => onViewModeChange?.('mobile')}
-            className={`relative h-[33px] w-[50px] !rounded-md transition-all active:scale-95 group ${
+            className={`group relative h-[33px] w-[50px] !rounded-md transition-all active:scale-95 ${
               viewMode === 'mobile'
                 ? 'bg-black text-white'
                 : 'bg-transparent text-black hover:bg-black/5'
             }`}
           >
-            <div className="flex items-center justify-center h-full overflow-hidden rounded-md">
+            <div className="flex h-full items-center justify-center overflow-hidden rounded-md">
               <MobileIcon className="size-4" />
               {/* Shine effect */}
-              <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent translate-x-[-100%] animate-[shine_4s_ease-in-out_infinite]" />
+              <div className="absolute inset-0 translate-x-[-100%] animate-[shine_4s_ease-in-out_infinite] bg-gradient-to-r from-transparent via-white/10 to-transparent" />
             </div>
             {/* Tooltip */}
-            <div className="absolute bottom-full mb-2 left-1/2 transform -translate-x-1/2 bg-white font-normal text-design-resume text-[10px] leading-tight px-2 py-1 rounded-md shadow-md border border-slate-100 opacity-0 group-hover:opacity-100 transition-opacity duration-200 delay-700 pointer-events-none z-50 min-w-max">
+            <div className="pointer-events-none absolute bottom-full left-1/2 z-50 mb-2 min-w-max -translate-x-1/2 transform rounded-md border border-slate-100 bg-white px-2 py-1 text-[10px] font-normal leading-tight text-design-resume opacity-0 shadow-md transition-opacity delay-700 duration-200 group-hover:opacity-100">
               <div>Edit how your Portfolio</div>
               <div>looks on phones</div>
             </div>

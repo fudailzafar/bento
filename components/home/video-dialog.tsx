@@ -1,13 +1,13 @@
 export function VideoDialog() {
   return (
-    <div className="flex flex-col items-center justify-center w-full">
+    <div className="flex w-full flex-col items-center justify-center">
       <div className="hidden sm:block">
         <video
           src="/home/portfoliofy-demo.mp4"
           autoPlay
           loop
           muted
-          className="rounded-3xl w-[1200px] mx-auto shadow-lg"
+          className="mx-auto w-[1200px] rounded-3xl shadow-lg"
         />
       </div>
       <div className="block sm:hidden">
@@ -16,7 +16,7 @@ export function VideoDialog() {
           autoPlay
           loop
           muted
-          className="rounded-3xl w-11/12 max-w-xl mx-auto shadow-lg"
+          className="mx-auto w-11/12 max-w-xl rounded-3xl shadow-lg"
         />
       </div>
     </div>
