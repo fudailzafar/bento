@@ -22,6 +22,9 @@ import {
   TooltipTrigger,
 } from '@/components/ui';
 import { PublicPortfolio } from '@/components/resume/preview';
+import { getServerSession } from 'next-auth';
+import { authOptions } from '@/app/api/auth/[...nextauth]/route';
+import OwnProfileLoader from './own-profile-loader';
 
 function getSocialLinks(contacts?: ResumeDataSchemaType['header']['contacts']) {
   if (!contacts) return {};
@@ -114,6 +117,15 @@ export default async function ProfilePage({
 }) {
   const { username } = await params;
   const { user_id, resume, userData } = await getUserData(username);
+
+  // Check if the logged-in user is viewing their own profile
+  const session = await getServerSession(authOptions);
+  const isOwnProfile = session?.user?.email === user_id;
+
+  // If user is viewing their own profile, show preview/edit mode with initialization
+  if (isOwnProfile && user_id) {
+    return <OwnProfileLoader userId={user_id} />;
+  }
 
   // If user_id is not found, render notfound UI directly
   if (!user_id) {

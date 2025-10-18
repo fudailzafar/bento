@@ -1,6 +1,7 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { Resume, ResumeData, UserProfile } from '@/lib/server';
 import { ResumeDataSchema } from '@/lib';
+import { useRouter } from 'next/navigation';
 
 // Fetch resume data
 const fetchResume = async (): Promise<{
@@ -56,6 +57,7 @@ const checkUsernameAvailability = async (
 
 export function useUserActions() {
   const queryClient = useQueryClient();
+  const router = useRouter();
 
   // Query for fetching resume data
   const resumeQuery = useQuery({
@@ -151,9 +153,14 @@ export function useUserActions() {
   // mutation to allow editing a username for a user_id, if it fails means that username is already taken
   const updateUsernameMutation = useMutation({
     mutationFn: internalUsernameUpdate,
-    onSuccess: () => {
+    onSuccess: (data, newUsername) => {
       // Invalidate and refetch username data
       queryClient.invalidateQueries({ queryKey: ['username'] });
+      
+      // Update the URL without triggering navigation
+      if (typeof window !== 'undefined') {
+        window.history.replaceState(null, '', `/${newUsername}`);
+      }
     },
     throwOnError: false,
   });

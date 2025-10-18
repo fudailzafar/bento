@@ -5,6 +5,7 @@ import {
   storeResume,
   scrapePdfContent,
   deleteUploadThingFile,
+  getUsernameById,
 } from '@/lib/server';
 import { redirect } from 'next/navigation';
 import { Suspense } from 'react';
@@ -42,7 +43,8 @@ async function PdfProcessing({ userId }: { userId: string }) {
     });
   }
 
-  redirect('/preview');
+  const username = await getUsernameById(userId);
+  redirect(username ? `/${username}` : '/upload');
   return <></>; // This line will never be reached due to the redirect
 }
 

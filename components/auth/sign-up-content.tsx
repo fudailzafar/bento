@@ -44,7 +44,7 @@ export default function SignupContent({
 
   useEffect(() => {
     if (session?.user) {
-      router.push('/preview');
+      router.push('/upload');
     }
   }, [session, router]);
 
@@ -146,7 +146,7 @@ export default function SignupContent({
       if (result?.error) {
         setError('Account created but login failed. Please try logging in.');
       } else if (result?.ok) {
-        router.push('/preview');
+        router.push('/upload');
       }
     } catch {
       setError('An error occurred. Please try again.');

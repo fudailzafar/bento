@@ -1,4 +1,5 @@
-import PreviewClient from './client';
+import { getServerSession } from 'next-auth';
+import { authOptions } from '@/app/api/auth/[...nextauth]/route';
 import {
   createUsernameLookup,
   getResume,
@@ -9,11 +10,10 @@ import {
 import { redirect } from 'next/navigation';
 import { Suspense } from 'react';
 import { MAX_USERNAME_LENGTH } from '@/lib';
-import { getServerSession } from 'next-auth';
-import { authOptions } from '@/app/api/auth/[...nextauth]/route';
 import { LoadingFallback } from '@/components/utils';
+import PreviewWrapper from './preview-wrapper';
 
-async function LLMProcessing({ userId }: { userId: string }) {
+async function InitializeAndPreview({ userId }: { userId: string }) {
   const resume = await getResume(userId);
   const session = await getServerSession(authOptions);
 
@@ -235,9 +235,6 @@ async function LLMProcessing({ userId }: { userId: string }) {
     });
   }
 
-  // Re-fetch resume to ensure we have the latest data
-  const updatedResume = await getResume(userId);
-
   // we set the username only if it wasn't already set for this user meaning it's new user
   const foundUsername = await getUsernameById(userId);
 
@@ -249,6 +246,7 @@ async function LLMProcessing({ userId }: { userId: string }) {
       .substring(2, 2 + saltLength);
 
   if (!foundUsername) {
+    const updatedResume = await getResume(userId);
     const username =
       (
         (updatedResume?.resumeData?.header?.name || 'user')
@@ -265,24 +263,14 @@ async function LLMProcessing({ userId }: { userId: string }) {
     if (!creation) redirect('/upload?error=usernameCreationFailed');
   }
 
-  return <PreviewClient messageTip={messageTip} />;
+  return <PreviewWrapper messageTip={messageTip} />;
 }
 
-export default async function Preview() {
-  const session = await getServerSession(authOptions);
-
-  if (!session?.user?.email) {
-    redirect('/login');
-  }
-
-  const userId = session.user.email;
-
+export default async function OwnProfileLoader({ userId }: { userId: string }) {
   return (
-    <>
-      <Suspense fallback={<LoadingFallback />}>
-        <LLMProcessing userId={userId} />
-      </Suspense>
-    </>
+    <Suspense fallback={<LoadingFallback />}>
+      <InitializeAndPreview userId={userId} />
+    </Suspense>
   );
 }
 

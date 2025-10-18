@@ -22,8 +22,8 @@ export default function SignupCallbackClient() {
       }
 
       if (!username) {
-        // No username provided, redirect to preview (will generate random username)
-        router.push('/preview');
+        // No username provided, redirect to upload (will generate random username)
+        router.push('/upload');
         return;
       }
 
@@ -37,11 +37,11 @@ export default function SignupCallbackClient() {
           body: JSON.stringify({ username }),
         });
 
-        // Redirect to preview regardless of success (preview handles missing mapping)
-        router.push('/preview');
+        // Redirect to upload regardless of success (preview handles missing mapping)
+        router.push('/upload');
       } catch (error) {
         console.error('Error claiming username:', error);
-        router.push('/preview');
+        router.push('/upload');
       }
     };
 
