@@ -21,21 +21,21 @@ export function Hero() {
   return (
     <>
       {/* Top banner section */}
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 0.8, delay: 1.2, ease: easeInOutCubic }}
-        className="w-full bg-black hover:bg-slate-900 text-design-white text-center py-5 text-base font-light flex items-center justify-center"
+      <a
+        href="https://portfoliofy.me/fudail"
+        target="_blank"
+        rel="noopener noreferrer"
+        className="flex items-center gap-1"
       >
-        <a
-          href="https://portfoliofy.me/fudail"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="flex items-center gap-1"
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.8, delay: 1.2, ease: easeInOutCubic }}
+          className="w-full bg-design-primary hover:bg-design-primaryDark text-design-white text-center py-5 text-base font-light flex items-center justify-center"
         >
           Big news! Portfoliofy just launched! <ArrowRight size={20} />
-        </a>
-      </motion.div>
+        </motion.div>
+      </a>
       {/* Main hero section */}
       <Section id="hero" className="min-h-[100vh] w-full overflow-hidden">
         <main className="mx-auto pt-14 sm:pt-24 md:pt-32 text-center relative px-4">
@@ -50,7 +50,7 @@ export function Hero() {
               className="mb-16 relative z-20"
               style={{ transformOrigin: 'top' }}
             >
-              <div className="mt-3 sm:-mt-[72px] md:-mt-24 bg-black text-white text-xl font-bold p-0 h-20 w-20 flex items-center justify-center rounded-3xl mx-auto shadow-md">
+              <div className="mt-3 sm:-mt-[72px] md:-mt-24 bg-design-primary text-white text-xl font-bold p-0 h-20 w-20 flex items-center justify-center rounded-3xl mx-auto shadow-md">
                 <Image
                   src={'/icons/android-chrome-512x512.png'}
                   alt=""
@@ -96,7 +96,7 @@ export function Hero() {
             <Link href="/signup">
               <Button
                 variant="default"
-                className="text-lg rounded-xl active:scale-95 transition-all font-semibold py-8 px-20 sm:py-8 sm:px-14 bg-black hover:bg-black/65 cursor-pointer mb-2"
+                className="text-lg rounded-xl active:scale-95 transition-all font-semibold py-8 px-20 sm:py-8 sm:px-14 bg-design-primary hover:bg-design-primaryDark cursor-pointer mb-2"
               >
                 Create Your Portfolio
               </Button>
