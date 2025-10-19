@@ -79,7 +79,7 @@ export default function PreviewActionbar({
   return (
     <>
       <div className="md:w-[53%] rounded-2xl bg-white/95 backdrop-blur-sm border border-neutral-200 shadow-lg py-3 px-5 sm:px-4 sm:py-2.5">
-        <div className="flex flex-row justify-between items-center w-full">
+        <div className="flex flex-row justify-between items-center w-full gap-2 sm:gap-0">
           {/* Left side: Copy my Link button */}
           <div className="flex items-center">
             {status === 'live' && (

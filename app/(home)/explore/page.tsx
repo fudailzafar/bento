@@ -1,6 +1,17 @@
 import { HeaderExplore } from '@/components/explore/explore-header';
 import { Footer } from '@/components/home/footer';
 import { Skeleton } from '@/components/ui/skeleton';
+import { Metadata } from 'next';
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ username: string }>;
+}): Promise<Metadata> {
+  return {
+    title: 'Portfoliofy - Explore',
+  };
+}
 
 export default function Home() {
   return (

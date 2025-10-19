@@ -26,7 +26,8 @@ export async function getUserData(username: string) {
         id: user_id,
         email: user_id,
         name: userProfile?.name || resume?.resumeData?.header?.name,
-        image: userProfile?.image, // This will contain the Google profile image
+        // Use custom uploaded image if available, fallback to Google profile image
+        image: userProfile?.image,
       };
     },
     [user_id],

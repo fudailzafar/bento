@@ -4,6 +4,7 @@ import { ResumeDataSchemaType } from '@/lib/resume';
 import { useMemo } from 'react';
 import BlurFade from '../../magicui/blur-fade';
 import BlurFadeText from '../../magicui/blur-fade-text';
+import { EditableProfileImage } from '../editing/editable-profile-image';
 
 interface SocialButtonProps {
   href: string;
@@ -36,9 +37,11 @@ function SocialButton({ href, icon: Icon, label }: SocialButtonProps) {
 export function Header({
   header,
   picture,
+  isEditMode = false,
 }: {
   header: ResumeDataSchemaType['header'];
   picture?: string;
+  isEditMode?: boolean;
 }) {
   const prefixUrl = (stringToFix?: string) => {
     if (!stringToFix) return undefined;
@@ -105,15 +108,22 @@ export function Header({
         />
       </div>
       <BlurFade delay={BLUR_FADE_DELAY}>
-        <Avatar className="size-28 border">
-          <AvatarImage src={picture} alt={`${header.name}'s profile picture`} />
-          <AvatarFallback>
-            {header.name
-              .split(' ')
-              .map((n) => n[0])
-              .join('')}
-          </AvatarFallback>
-        </Avatar>
+        {isEditMode ? (
+          <EditableProfileImage name={header.name} currentImage={picture} />
+        ) : (
+          <Avatar className="size-28 border">
+            <AvatarImage
+              src={picture}
+              alt={`${header.name}'s profile picture`}
+            />
+            <AvatarFallback>
+              {header.name
+                .split(' ')
+                .map((n) => n[0])
+                .join('')}
+            </AvatarFallback>
+          </Avatar>
+        )}
       </BlurFade>
     </header>
   );

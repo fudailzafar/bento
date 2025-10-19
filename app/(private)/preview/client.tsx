@@ -11,7 +11,7 @@ import { toast } from 'sonner';
 
 export default function PreviewClient({ messageTip }: { messageTip?: string }) {
   const { data: session } = useSession();
-  const { resumeQuery, usernameQuery, saveResumeDataMutation } =
+  const { resumeQuery, usernameQuery, saveResumeDataMutation, userProfileQuery } =
     useUserActions();
   const [localResumeData, setLocalResumeData] = useState<ResumeData>();
   const [isEditMode, setIsEditMode] = useState(false);
@@ -24,6 +24,12 @@ export default function PreviewClient({ messageTip }: { messageTip?: string }) {
   }, [resumeQuery.data?.resume?.resumeData]);
 
   console.log('resumeQuery', resumeQuery.data);
+
+  // Get profile picture: custom uploaded image > Google image > undefined
+  const profilePicture = 
+    userProfileQuery.data?.profile?.image || 
+    session?.user?.image || 
+    undefined;
 
   // Debounced save function
   const debouncedSave = useCallback(
@@ -104,7 +110,8 @@ export default function PreviewClient({ messageTip }: { messageTip?: string }) {
         ) : (
           <FullResume
             resume={localResumeData}
-            profilePicture={session?.user?.image || undefined}
+            profilePicture={profilePicture}
+            isEditMode={true}
           />
         )}
       </div>
