@@ -216,7 +216,12 @@ export default async function ProfilePage({
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
 
-      <FullResume resume={resume?.resumeData} profilePicture={profilePicture} />
+      <div className='px-6'>
+        <FullResume
+          resume={resume?.resumeData}
+          profilePicture={profilePicture}
+        />
+      </div>
 
       <div className="bg-slate-100 dark:bg-[#020817] py-10 md:bg-white text-center z-10 pb-24 md:pb-0 md:mb-32 gap-5 flex flex-col md:flex-row justify-center items-center">
         <Button className="bg-design-black text-design-white dark:bg-design-white dark:text-design-black">
