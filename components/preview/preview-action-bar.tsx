@@ -77,7 +77,7 @@ export default function PreviewActionbar({
 
   return (
     <>
-      <div className="md:w-[52%] rounded-2xl bg-white/95 backdrop-blur-sm border border-neutral-200 shadow-lg py-3 px-5 sm:px-4 sm:py-2.5">
+      <div className="md:w-[53%] rounded-2xl bg-white/95 backdrop-blur-sm border border-neutral-200 shadow-lg py-3 px-5 sm:px-4 sm:py-2.5">
         <div className="flex flex-row items-center w-full gap-x-4">
           {/* Left side: Copy my Link button */}
           <div className="flex items-center">
@@ -106,7 +106,7 @@ export default function PreviewActionbar({
             )}
           </div>
           {/* Divider */}
-          <div className="h-5 w-[2px] bg-neutral-300"></div>
+          <div className="h-5 w-[2px] bg-neutral-300" />
           {/* Right side: Toggle */}
           <div className="flex items-center gap-2">
             <ToggleGroup

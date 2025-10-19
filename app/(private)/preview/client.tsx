@@ -70,7 +70,7 @@ export default function PreviewClient({ messageTip }: { messageTip?: string }) {
     !usernameQuery.data ||
     !localResumeData
   ) {
-    return <LoadingFallback message="Loading..." />;
+    return <LoadingFallback />;
   }
 
   return (

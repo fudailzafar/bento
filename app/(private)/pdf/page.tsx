@@ -55,11 +55,7 @@ export default async function Pdf() {
 
   return (
     <>
-      <Suspense
-        fallback={
-          <LoadingFallback message="Reading your resume carefully..." />
-        }
-      >
+      <Suspense fallback={<LoadingFallback />}>
         <PdfProcessing userId={userId} />
       </Suspense>
     </>

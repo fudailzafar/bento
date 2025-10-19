@@ -1,9 +1,9 @@
-export function Loader() {
+export function Loader({ className }: { className?: string }) {
   return (
     <svg
       height="16"
       width="16"
-      className="styles_container__9hC7b"
+      className={className}
       viewBox="0 0 100 100"
       preserveAspectRatio="xMidYMid"
     >

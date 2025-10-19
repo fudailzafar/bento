@@ -150,11 +150,7 @@ export default async function Preview() {
 
   return (
     <>
-      <Suspense
-        fallback={
-          <LoadingFallback message="Creating your personal portfolio..." />
-        }
-      >
+      <Suspense fallback={<LoadingFallback />}>
         <LLMProcessing userId={userId} />
       </Suspense>
     </>

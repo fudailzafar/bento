@@ -1,7 +1,7 @@
 'use client';
 
 import { Button } from '@/components/ui/button';
-import { CloudUpload, FileText, WandSparkles, X } from 'lucide-react';
+import { CloudUpload, FileText, Upload, WandSparkles, X } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import {
   Tooltip,
@@ -10,7 +10,6 @@ import {
   TooltipTrigger,
 } from '@/components/ui/tooltip';
 import { useEffect, useState } from 'react';
-import { CustomSpinner } from '@/components/upload/custom-spinner';
 import LoadingFallback from '@/components/loading-fallback';
 import {
   Dialog,
@@ -20,6 +19,7 @@ import {
 } from '@/components/ui/dialog';
 import { useUserActions } from '@/hooks/use-user-actions';
 import { UploadButton } from '@/lib/utils';
+import { Loader } from '@/components/icons/loader';
 
 type FileState =
   | { status: 'empty' }
@@ -64,7 +64,7 @@ export default function UploadPageClient() {
   };
 
   if (resumeQuery.isLoading) {
-    return <LoadingFallback message="Loading..." />;
+    return <LoadingFallback />;
   }
 
   const isUpdating = resumeQuery.isPending || uploadResumeMutation.isPending;
@@ -92,7 +92,7 @@ export default function UploadPageClient() {
                   button({ ready }) {
                     return (
                       <div className="flex flex-col items-center justify-center gap-2">
-                        <CloudUpload className="h-6 w-6 text-gray-600" />
+                        <Upload className="h-6 w-6 text-gray-600" />
                         <span className="text-base font-bold text-center text-black">
                           Upload PDF
                         </span>
@@ -107,7 +107,7 @@ export default function UploadPageClient() {
             )}
             {isUpdating && (
               <div className="flex flex-col items-center justify-center w-full h-full min-h-[220px]">
-                <CustomSpinner className="h-8 w-8 mb-2" />
+                <Loader className="h-8 w-8 mb-2" />
                 <span className="text-sm text-gray-500">Uploading...</span>
               </div>
             )}
@@ -163,17 +163,16 @@ export default function UploadPageClient() {
       <div>
         <div className="relative">
           <Button
-            className="px-4 py-3 h-auto bg-black hover:bg-black/75 cursor-pointer"
+            className="relative group active:scale-95 transition-transform flex items-center text-lg rounded-xl font-semibold py-8 px-20 sm:py-8 sm:px-14 bg-black hover:bg-black/65 cursor-pointer mb-2"
             disabled={fileState.status === 'empty' || isUpdating}
             onClick={() => router.push('/pdf')}
           >
             {isUpdating ? (
-              <>Processing...</>
-            ) : (
               <>
-                <WandSparkles className="h-5 w-5 mr-2" />
-                Generate Portfolio
+                <Loader />
               </>
+            ) : (
+              <>Generate Portfolio</>
             )}
           </Button>
           {fileState.status === 'empty' && (
