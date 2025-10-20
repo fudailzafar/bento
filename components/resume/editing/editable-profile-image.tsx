@@ -60,11 +60,8 @@ export function EditableProfileImage({
       }
 
       const data = await response.json();
-      toast.success('Profile image updated successfully!');
+      toast.success('Image updated successfully!');
       onImageChange?.(data.imageUrl);
-
-      // Refresh the page to show the new image (this will refetch all queries)
-      window.location.reload();
     } catch (error) {
       console.error('Upload error:', error);
       toast.error(
@@ -97,9 +94,6 @@ export function EditableProfileImage({
       const data = await response.json();
       toast.success('Profile image reset to default');
       onImageChange?.(data.defaultImage || null);
-
-      // Refresh the page to show the default image
-      window.location.reload();
     } catch (error) {
       console.error('Delete error:', error);
       toast.error(
@@ -117,7 +111,9 @@ export function EditableProfileImage({
       onMouseLeave={() => setIsHovered(false)}
     >
       <Avatar className="size-28 border">
+        {/* Profile Picture */}
         <AvatarImage src={currentImage} alt={`${name}'s profile picture`} />
+        {/* Profile Picture FallBack */}
         <AvatarFallback>
           {name
             .split(' ')
@@ -126,7 +122,7 @@ export function EditableProfileImage({
         </AvatarFallback>
       </Avatar>
 
-      {/* Hidden file input */}
+      {/* Hidden File Input for Profile Picture */}
       <input
         ref={fileInputRef}
         type="file"
@@ -135,28 +131,28 @@ export function EditableProfileImage({
         className="hidden"
       />
 
-      {/* Action buttons - Always visible on mobile, hover on desktop */}
+      {/* Action Buttons - Hover on Desktop, Fixed on Mobile */}
       {!isUploading && (
-        <div className="absolute bottom-0 left-0 right-0 flex justify-between items-center px-2 pb-2 opacity-100 sm:opacity-0 sm:group-hover:opacity-100 transition-opacity">
-          {/* Upload button - bottom left */}
+        <div className="absolute bottom-0 left-0 right-0 flex justify-between items-center px-1 opacity-100 sm:opacity-0 sm:group-hover:opacity-100 transition-opacity">
+          {/* Upload */}
           <button
             onClick={handleUploadClick}
             className="size-8 rounded-full bg-white backdrop-blur-sm border border-neutral-300 shadow-lg hover:bg-white/90 transition-all flex items-center justify-center"
           >
-            <CircleArrowUp className="size-4 text-gray-700" />
+            <CircleArrowUp className="size-4 text-black" />
           </button>
 
-          {/* Delete button - bottom right */}
+          {/* Delete */}
           <button
             onClick={handleDelete}
-            className="size-8 rounded-full bg-white backdrop-blur-sm border border-neutral-300 shadow-lg hover:bg-red-50 transition-all flex items-center justify-center"
+            className="size-8 rounded-full bg-white backdrop-blur-sm border border-neutral-300 shadow-lg hover:bg-white/90 transition-all flex items-center justify-center"
           >
-            <Trash className="size-4 text-gray-700 hover:text-red-600" />
+            <Trash className="size-4 text-black" />
           </button>
         </div>
       )}
 
-      {/* Loading overlay */}
+      {/* Loader during Upload */}
       {isUploading && (
         <div className="absolute inset-0 bg-black/50 rounded-full flex items-center justify-center">
           <Loader className="text-white" />

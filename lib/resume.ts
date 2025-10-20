@@ -53,6 +53,11 @@ const WorkExperienceSection = z.array(
       .default('')
       .describe("End date in format 'YYYY-MM-DD'"),
     description: z.string().optional().default('').describe('Job description'),
+    logo: z
+      .string()
+      .optional()
+      .nullable()
+      .describe('Cloudinary URL for company logo'),
   })
 );
 
@@ -62,6 +67,11 @@ const EducationSection = z.array(
     degree: z.string().describe('Degree or certification obtained'),
     start: z.string().describe('Start year'),
     end: z.string().describe('End year'),
+    logo: z
+      .string()
+      .optional()
+      .nullable()
+      .describe('Cloudinary URL for school logo'),
   })
 );
 
@@ -96,6 +106,11 @@ const ProjectSection = z.array(
       .array(z.string())
       .describe('Skills used for building projects the user has made.')
       .optional(),
+    image: z
+      .string()
+      .optional()
+      .nullable()
+      .describe('Cloudinary URL for project image'),
   })
 );
 

@@ -5,27 +5,28 @@ import { getDomainUrl } from '@/lib/utils';
 import { useState, useRef } from 'react';
 import UsernameEditorView from './username-editor-view';
 import { ToggleGroup, ToggleGroupItem } from '../ui/toggle-group';
-import { Edit, Eye } from 'lucide-react';
+import { Laptop, Smartphone } from 'lucide-react';
 import confetti from 'canvas-confetti';
 import { useToast } from '@/hooks/use-toast';
 import { Loader } from '../icons/loader';
 import { motion } from 'framer-motion';
 
 export type PublishStatuses = 'draft' | 'live';
+export type ViewMode = 'desktop' | 'mobile';
 
 export default function PreviewActionbar({
   initialUsername = '',
   prefix = 'portfoliofy.me/',
   status,
-  isEditMode,
-  onEditModeChange,
+  viewMode = 'desktop',
+  onViewModeChange,
   isSaving,
 }: {
   initialUsername: string;
   prefix?: string;
   status?: PublishStatuses;
-  isEditMode?: boolean;
-  onEditModeChange?: (isEdit: boolean) => void;
+  viewMode?: ViewMode;
+  onViewModeChange?: (mode: ViewMode) => void;
   isSaving?: boolean;
 }) {
   const [isEditorOpen, setIsEditorOpen] = useState(false);
@@ -107,62 +108,62 @@ export default function PreviewActionbar({
             )}
           </div>
           {/* Divider */}
-          <div className="h-5 w-[2px] bg-neutral-300" />
-          {/* Right side: Toggle */}
-          <div className="flex items-center gap-2">
+          <div className="hidden sm:block h-5 w-[2px] bg-neutral-300" />
+          {/* Right side: Desktop/Mobile Toggle */}
+          <div className="hidden sm:flex items-center gap-2">
             <ToggleGroup
               type="single"
-              value={isEditMode ? 'edit' : 'preview'}
+              value={viewMode}
               onValueChange={(value) => {
                 // Only change if a value is selected (prevent deselection)
                 if (value) {
-                  onEditModeChange?.(value === 'edit');
+                  onViewModeChange?.(value as ViewMode);
                 }
               }}
-              aria-label="View mode"
+              aria-label="Device view mode"
             >
               <ToggleGroupItem
-                value="edit"
-                aria-label="Edit mode"
+                value="desktop"
+                aria-label="Desktop view"
                 className="px-4 py-2 active:scale-95 transition-colors data-[state=on]:text-white rounded-lg relative group"
               >
                 <span className="relative z-10 flex items-center gap-1.5">
-                  <Edit className="h-4 w-4" />
-                  <span className="hidden sm:inline">Edit</span>
+                  <Laptop className="h-4 w-4" />
+                  <span className="hidden sm:inline">Desktop</span>
                 </span>
-                {isEditMode && (
+                {viewMode === 'desktop' && (
                   <motion.span
                     layoutId="toggle-pill"
                     transition={{ type: 'spring', duration: 0.5 }}
                     className="absolute inset-0 z-0 bg-black rounded-lg"
                   />
                 )}
-                {/* Tooltip - Edit */}
+                {/* Tooltip - Desktop */}
                 <div className="hidden sm:block absolute bottom-full mb-2 left-1/2 transform -translate-x-1/2 bg-white font-normal text-design-resume text-[10px] leading-tight px-2 py-1 rounded-md shadow-md border border-slate-100 opacity-0 group-hover:opacity-100 transition-opacity duration-200 delay-700 pointer-events-none z-50 min-w-max">
-                  <div>Edit your</div>
-                  <div>Portfolio</div>
+                  <div>Edit how your Portfolio</div>
+                  <div>looks on computers</div>
                 </div>
               </ToggleGroupItem>
               <ToggleGroupItem
-                value="preview"
-                aria-label="Preview mode"
+                value="mobile"
+                aria-label="Mobile view"
                 className="px-4 py-2 active:scale-95 transition-colors data-[state=on]:text-white rounded-lg relative group"
               >
                 <span className="relative z-10 flex items-center gap-1.5">
-                  <Eye className="h-4 w-4" />
-                  <span className="hidden sm:inline">Preview</span>
+                  <Smartphone className="h-4 w-4" />
+                  <span className="hidden sm:inline">Mobile</span>
                 </span>
-                {!isEditMode && (
+                {viewMode === 'mobile' && (
                   <motion.span
                     layoutId="toggle-pill"
                     transition={{ type: 'spring', duration: 0.5 }}
                     className="absolute inset-0 z-0 bg-black rounded-lg"
                   />
                 )}
-                {/* Tooltip - Preview */}
+                {/* Tooltip - Mobile */}
                 <div className="hidden sm:block absolute bottom-full mb-2 left-1/2 transform -translate-x-1/2 bg-white font-normal text-design-resume text-[10px] leading-tight px-2 py-1 rounded-md shadow-md border border-slate-100 opacity-0 group-hover:opacity-100 transition-opacity duration-200 delay-700 pointer-events-none z-50 min-w-max">
-                  <div>Check how your</div>
-                  <div>Portfolio looks</div>
+                  <div>Edit how your Portfolio</div>
+                  <div>looks on phones</div>
                 </div>
               </ToggleGroupItem>
             </ToggleGroup>

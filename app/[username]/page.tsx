@@ -1,4 +1,4 @@
-import { GlobeIcon } from 'lucide-react';
+import { Notebook } from 'lucide-react';
 import { Button, buttonVariants } from '@/components/ui/button';
 import { ResumeDataSchemaType } from '@/lib/resume';
 import { redirect } from 'next/navigation';
@@ -216,14 +216,15 @@ export default async function ProfilePage({
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
 
-      <div className='px-6'>
+      <div className="px-6">
         <FullResume
           resume={resume?.resumeData}
           profilePicture={profilePicture}
         />
       </div>
 
-      <div className="bg-slate-100 dark:bg-[#020817] py-10 md:bg-white text-center z-10 pb-24 md:pb-0 md:mb-32 gap-5 flex flex-col md:flex-row justify-center items-center">
+      {/* Mobile CTA Section */}
+      <div className="sm:hidden bg-slate-100 dark:bg-[#020817] py-10 text-center z-10 pb-24 gap-5 flex flex-col justify-center items-center">
         <Button className="bg-design-black text-design-white dark:bg-design-white dark:text-design-black">
           <Link
             href={'/signup'}
@@ -248,14 +249,33 @@ export default async function ProfilePage({
         </Button>
       </div>
 
+      {/* Desktop CTA Section */}
+      <div className="hidden sm:flex fixed bottom-10 left-10 z-50 flex-row items-center justify-center gap-2">
+        <Button className="bg-design-primary hover:bg-design-primaryDark text-design-white h-8 px-3">
+          <Link
+            href={'/signup'}
+            className="text-sm flex flex-row gap-2 items-center"
+          >
+            <Image src={'/favicon.ico'} alt="" width={16} height={16} />
+            <span>Create Portfolio</span>
+          </Link>
+        </Button>
+        <Button variant={'ghost'} className="h-8 px-3">
+          <Link
+            href={'/login'}
+            className="text-design-gray dark:text-design-white text-sm"
+          >
+            Log In
+          </Link>
+        </Button>
+      </div>
+
       {/* Dock */}
       <div className="pointer-events-none fixed inset-x-0 bottom-0 z-30 mx-auto mb-4 flex origin-bottom h-full max-h-14">
         <div className="fixed bottom-0 inset-x-0 h-16 w-full bg-background to-transparent backdrop-blur-lg [-webkit-mask-image:linear-gradient(to_top,black,transparent)] dark:bg-background"></div>
 
         <Dock className="z-50 pointer-events-auto relative mx-auto flex min-h-full h-full items-center px-1 bg-background [box-shadow:0_0_0_1px_rgba(0,0,0,.03),0_2px_4px_rgba(0,0,0,.05),0_12px_24px_rgba(0,0,0,.05)] transform-gpu dark:[border:1px_solid_rgba(255,255,255,.1)] dark:[box-shadow:0_-20px_80px_-20px_#ffffff1f_inset]">
           <DockClient />
-
-          <Separator orientation="vertical" className="h-full" />
 
           {/* Social Links */}
           {socialLinks.website && (
@@ -272,15 +292,17 @@ export default async function ProfilePage({
                       'size-12 rounded-full'
                     )}
                   >
-                    <GlobeIcon className="size-4" />
+                    <Notebook className="size-4" />
                   </Link>
                 </TooltipTrigger>
                 <TooltipContent>
-                  <p>Website</p>
+                  <p>Blog</p>
                 </TooltipContent>
               </Tooltip>
             </DockIcon>
           )}
+
+          <Separator orientation="vertical" className="h-full" />
 
           {socialLinks.github && (
             <DockIcon>

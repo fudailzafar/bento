@@ -29,9 +29,7 @@ export function SettingsPanel() {
   const { usernameQuery } = useUserActions();
   const [isUsernameEditorOpen, setIsUsernameEditorOpen] = useState(false);
 
-  {
-    /* Settings - Desktop */
-  }
+  /* Settings - Desktop */
   if (!isMobile) {
     return (
       <>
