@@ -1,7 +1,6 @@
 'use client';
 
 import { useState, useEffect, useRef } from 'react';
-import { X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useUserActions } from '@/hooks/use-user-actions';
 import { toast } from 'sonner';
@@ -23,8 +22,7 @@ import {
 } from '@/components/ui/drawer';
 import { ConfettiButton } from '../ui/confetti';
 import { useIsMobile } from '@/hooks/use-mobile';
-import { Loader } from '../icons/loader';
-import { CheckmarkLarge, CheckmarkSmall } from '../icons/checkmark-small';
+import { CheckmarkLarge, CheckmarkSmall, Cross, Loader } from '../icons';
 
 interface UsernameEditorContentProps {
   initialUsername: string;
@@ -200,16 +198,16 @@ function UsernameEditorContent({
                   ) : isValid ? (
                     <CheckmarkSmall />
                   ) : newUsername ? (
-                    <div className="cursor-pointer">
-                      <X
-                        className="w-5 h-5"
-                        onClick={() => {
-                          setNewUsername('');
-                          if (checkUsernameMutation.reset) {
-                            checkUsernameMutation.reset();
-                          }
-                        }}
-                      />
+                    <div
+                      className="cursor-pointer"
+                      onClick={() => {
+                        setNewUsername('');
+                        if (checkUsernameMutation.reset) {
+                          checkUsernameMutation.reset();
+                        }
+                      }}
+                    >
+                      <Cross />
                     </div>
                   ) : null}
                 </div>

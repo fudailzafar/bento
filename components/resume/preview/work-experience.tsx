@@ -15,7 +15,7 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Card, CardHeader } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { toast } from 'sonner';
-import { Loader } from '@/components/icons/loader';
+import { Loader } from '@/components/icons';
 
 const BLUR_FADE_DELAY = 0.04;
 

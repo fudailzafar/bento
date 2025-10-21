@@ -10,12 +10,12 @@ import {
 } from '@/components/ui/card';
 import { cn } from '@/lib/utils';
 import { GitHubLogoIcon, GlobeIcon } from '@radix-ui/react-icons';
-import { CircleArrowUp, ImageIcon, Trash } from 'lucide-react';
+import { ImageIcon, Trash } from 'lucide-react';
 import Image from 'next/image';
 import Markdown from 'react-markdown';
 import { useState, useRef } from 'react';
 import { toast } from 'sonner';
-import { Loader } from '@/components/icons/loader';
+import { Loader } from '@/components/icons';
 
 interface Props {
   title: string;

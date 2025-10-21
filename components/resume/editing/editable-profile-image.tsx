@@ -4,7 +4,7 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { useState, useRef } from 'react';
 import { Trash, CircleArrowUp } from 'lucide-react';
 import { toast } from 'sonner';
-import { Loader } from '@/components/icons/loader';
+import { Loader } from '@/components/icons';
 
 interface EditableProfileImageProps {
   name: string;
