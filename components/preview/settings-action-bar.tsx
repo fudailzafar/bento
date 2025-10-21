@@ -1,10 +1,10 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { signOut } from 'next-auth/react';
 import { useIsMobile, useUserActions } from '@/hooks';
 import { SettingsIcon } from '@/components/icons';
-import { UsernameEditorView } from '@/components/preview';
+import { UsernameEditorView, EmailEditorView, PasswordEditorView } from '@/components/preview';
 import {
   Button,
   DropdownMenu,
@@ -20,11 +20,25 @@ import {
   Separator,
 } from '@/components/ui';
 
-export function SettingsPanel() {
+export function SettingsActionBar() {
   const isMobile = useIsMobile();
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const { usernameQuery } = useUserActions();
   const [isUsernameEditorOpen, setIsUsernameEditorOpen] = useState(false);
+  const [isEmailEditorOpen, setIsEmailEditorOpen] = useState(false);
+  const [isPasswordEditorOpen, setIsPasswordEditorOpen] = useState(false);
+  const [authInfo, setAuthInfo] = useState<{
+    email: string;
+    provider: 'google' | 'credentials';
+  } | null>(null);
+
+  // Fetch auth info
+  useEffect(() => {
+    fetch('/api/user/auth-info')
+      .then((res) => res.json())
+      .then((data) => setAuthInfo(data))
+      .catch((error) => console.error('Failed to fetch auth info:', error));
+  }, []);
 
   /* Settings - Desktop */
   if (!isMobile) {
@@ -71,21 +85,59 @@ export function SettingsPanel() {
                     </div>
                   </div>
 
-                  <div className="cursor-default p-3">
-                    <div className="text-xs font-normal text-design-gray">
+                  <div
+                    className={`p-3 ${
+                      authInfo?.provider === 'credentials'
+                        ? 'cursor-pointer hover:rounded-xl hover:bg-slate-100'
+                        : 'cursor-default'
+                    }`}
+                    onClick={() => {
+                      if (authInfo?.provider === 'credentials') {
+                        setIsEmailEditorOpen(true);
+                      }
+                    }}
+                  >
+                    <div
+                      className={`text-xs font-normal ${
+                        authInfo?.provider === 'credentials'
+                          ? 'text-design-black'
+                          : 'text-design-gray'
+                      }`}
+                    >
                       Change Email
                     </div>
-                    <div className="text-xs text-design-gray">
-                      Signed in with Google
+                    <div className="text-xs text-gray-500">
+                      {authInfo?.provider === 'credentials'
+                        ? authInfo.email
+                        : 'Signed in with Google'}
                     </div>
                   </div>
 
-                  <div className="cursor-default p-3">
-                    <div className="text-xs font-normal text-design-gray">
+                  <div
+                    className={`p-3 ${
+                      authInfo?.provider === 'credentials'
+                        ? 'cursor-pointer hover:rounded-xl hover:bg-slate-100'
+                        : 'cursor-default'
+                    }`}
+                    onClick={() => {
+                      if (authInfo?.provider === 'credentials') {
+                        setIsPasswordEditorOpen(true);
+                      }
+                    }}
+                  >
+                    <div
+                      className={`text-xs font-normal ${
+                        authInfo?.provider === 'credentials'
+                          ? 'text-design-black'
+                          : 'text-design-gray'
+                      }`}
+                    >
                       Change Password
                     </div>
-                    <div className="text-xs text-design-gray">
-                      Signed in with Google
+                    <div className="text-xs text-gray-500">
+                      {authInfo?.provider === 'credentials'
+                        ? '•••••••'
+                        : 'Signed in with Google'}
                     </div>
                   </div>
                 </div>
@@ -105,6 +157,15 @@ export function SettingsPanel() {
             initialUsername={usernameQuery.data?.username || ''}
             isOpen={isUsernameEditorOpen}
             onClose={() => setIsUsernameEditorOpen(false)}
+          />
+          <EmailEditorView
+            initialEmail={authInfo?.email || ''}
+            isOpen={isEmailEditorOpen}
+            onClose={() => setIsEmailEditorOpen(false)}
+          />
+          <PasswordEditorView
+            isOpen={isPasswordEditorOpen}
+            onClose={() => setIsPasswordEditorOpen(false)}
           />
         </div>
       </>
@@ -162,21 +223,61 @@ export function SettingsPanel() {
                 </div>
               </div>
 
-              <div className="rounded-lg p-3">
-                <div className="text-sm font-normal text-design-gray">
+              <div
+                className={`rounded-lg p-3 ${
+                  authInfo?.provider === 'credentials'
+                    ? 'cursor-pointer transition-colors hover:bg-slate-50'
+                    : ''
+                }`}
+                onClick={() => {
+                  if (authInfo?.provider === 'credentials') {
+                    setIsEmailEditorOpen(true);
+                    setIsDropdownOpen(false);
+                  }
+                }}
+              >
+                <div
+                  className={`text-sm font-normal ${
+                    authInfo?.provider === 'credentials'
+                      ? 'text-design-black'
+                      : 'text-design-gray'
+                  }`}
+                >
                   Change Email
                 </div>
-                <div className="text-sm text-design-gray">
-                  Signed in with Google
+                <div className="text-sm text-gray-500">
+                  {authInfo?.provider === 'credentials'
+                    ? authInfo.email
+                    : 'Signed in with Google'}
                 </div>
               </div>
 
-              <div className="rounded-lg p-3">
-                <div className="text-sm font-normal text-design-gray">
+              <div
+                className={`rounded-lg p-3 ${
+                  authInfo?.provider === 'credentials'
+                    ? 'cursor-pointer transition-colors hover:bg-slate-50'
+                    : ''
+                }`}
+                onClick={() => {
+                  if (authInfo?.provider === 'credentials') {
+                    setIsPasswordEditorOpen(true);
+                    setIsDropdownOpen(false);
+                  }
+                }}
+              >
+                <div
+                  className={`text-sm font-normal ${
+                    authInfo?.provider === 'credentials'
+                      ? 'text-design-black'
+                      : 'text-design-gray'
+                  }`}
+                >
                   Change Password
                 </div>
-                <div className="text-sm text-design-gray">
-                  Signed in with Google
+                <div className="text-sm text-gray-500">
+                  {authInfo?.provider === 'credentials'
+                    ? '••••••••'
+                    : 'Signed in with Google'}
                 </div>
               </div>
             </div>
@@ -196,6 +297,15 @@ export function SettingsPanel() {
           initialUsername={usernameQuery.data?.username || ''}
           isOpen={isUsernameEditorOpen}
           onClose={() => setIsUsernameEditorOpen(false)}
+        />
+        <EmailEditorView
+          initialEmail={authInfo?.email || ''}
+          isOpen={isEmailEditorOpen}
+          onClose={() => setIsEmailEditorOpen(false)}
+        />
+        <PasswordEditorView
+          isOpen={isPasswordEditorOpen}
+          onClose={() => setIsPasswordEditorOpen(false)}
         />
       </div>
     </>

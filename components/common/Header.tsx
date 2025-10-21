@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import { useSession } from 'next-auth/react';
 import { CompassIcon, DiscordIcon } from '@/components/icons';
-import { SettingsPanel } from '@/components/preview';
+import { SettingsActionBar } from '../preview';
 
 export function Header() {
   const { data: session } = useSession();
@@ -14,7 +14,7 @@ export function Header() {
         {/* Mobile Header */}
         <header className="mx-auto flex h-[67px] w-full max-w-4xl items-center justify-between px-6 py-4 pb-36 sm:hidden md:px-0">
           <div className="flex flex-row items-center justify-center gap-2">
-            <SettingsPanel />
+            <SettingsActionBar/>
             <Link
               href="/explore"
               target="_blank"
@@ -54,7 +54,7 @@ export function Header() {
 
         {/* Desktop Header */}
         <div className="fixed bottom-12 left-10 z-50 hidden flex-row items-center justify-center gap-2 sm:flex">
-          <SettingsPanel />
+          <SettingsActionBar />
           <Link
             href="/explore"
             target="_blank"
