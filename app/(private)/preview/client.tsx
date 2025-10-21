@@ -204,9 +204,6 @@ export default function PreviewClient({ messageTip }: { messageTip?: string }) {
           />
         </div>
       </div>
-
-      {/* Hamburger Menu */}
-      <HamburgerMenu />
     </div>
   );
 }
