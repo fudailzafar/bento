@@ -5,11 +5,11 @@ import { getDomainUrl } from '@/lib/utils';
 import { useState, useRef } from 'react';
 import UsernameEditorView from './username-editor-view';
 import { ToggleGroup, ToggleGroupItem } from '../ui/toggle-group';
-import { Laptop, Smartphone } from 'lucide-react';
 import confetti from 'canvas-confetti';
 import { useToast } from '@/hooks/use-toast';
-import { Loader } from '../icons/loader';
+import { Loader, Laptop, Mobile } from '../icons';
 import { motion } from 'framer-motion';
+import { HamburgerMenu } from '../HamburgerMenu';
 
 export type PublishStatuses = 'draft' | 'live';
 export type ViewMode = 'desktop' | 'mobile';
@@ -79,7 +79,7 @@ export default function PreviewActionbar({
 
   return (
     <>
-      <div className="md:w-[53%] rounded-2xl bg-white/95 backdrop-blur-sm border border-neutral-200 shadow-lg py-3 px-5 sm:px-4 sm:py-2.5">
+      <div className="md:w-[50%] rounded-2xl bg-white/95 backdrop-blur-sm border border-neutral-200 shadow-lg py-3 px-5 sm:px-4 sm:py-2.5">
         <div className="flex flex-row justify-between items-center w-full gap-2 sm:gap-0">
           {/* Left side: Copy my Link button */}
           <div className="flex items-center">
@@ -109,6 +109,11 @@ export default function PreviewActionbar({
           </div>
           {/* Divider */}
           <div className="hidden sm:block h-5 w-[2px] bg-neutral-300" />
+
+          <HamburgerMenu />
+
+          {/* Divider */}
+          <div className="hidden sm:block h-5 w-[2px] bg-neutral-300" />
           {/* Right side: Desktop/Mobile Toggle */}
           <div className="hidden sm:flex items-center gap-2">
             <ToggleGroup
@@ -128,8 +133,7 @@ export default function PreviewActionbar({
                 className="px-4 py-2 active:scale-95 transition-colors data-[state=on]:text-white rounded-lg relative group"
               >
                 <span className="relative z-10 flex items-center gap-1.5">
-                  <Laptop className="h-4 w-4" />
-                  <span className="hidden sm:inline">Desktop</span>
+                  <Laptop />
                 </span>
                 {viewMode === 'desktop' && (
                   <motion.span
@@ -150,8 +154,7 @@ export default function PreviewActionbar({
                 className="px-4 py-2 active:scale-95 transition-colors data-[state=on]:text-white rounded-lg relative group"
               >
                 <span className="relative z-10 flex items-center gap-1.5">
-                  <Smartphone className="h-4 w-4" />
-                  <span className="hidden sm:inline">Mobile</span>
+                  <Mobile />
                 </span>
                 {viewMode === 'mobile' && (
                   <motion.span
