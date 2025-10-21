@@ -10,7 +10,7 @@ import {
 } from '@/components/ui/card';
 import { cn } from '@/lib/utils';
 import { GitHubLogoIcon, GlobeIcon } from '@radix-ui/react-icons';
-import { CircleArrowUp, Trash } from 'lucide-react';
+import { CircleArrowUp, ImageIcon, Trash } from 'lucide-react';
 import Image from 'next/image';
 import Markdown from 'react-markdown';
 import { useState, useRef } from 'react';
@@ -195,26 +195,30 @@ export function ProjectCard({
 
         {/* Upload/Delete buttons - Only in edit mode on hover */}
         {isEditMode && !isUploading && isHovered && (
-          <div className="absolute bottom-2 left-2 right-2 flex justify-between items-center opacity-0 group-hover/image:opacity-100 transition-opacity">
-            {/* Upload Button */}
-            <button
-              onClick={handleUploadClick}
-              className="size-8 rounded-full bg-white backdrop-blur-sm border border-neutral-300 shadow-lg hover:bg-white/90 transition-all flex items-center justify-center"
-              aria-label="Upload project image"
-            >
-              <CircleArrowUp className="size-4 text-black" />
-            </button>
-
-            {/* Delete button */}
-            {image && (
+          <div className="absolute bottom-2 left-2 flex gap-2 items-center opacity-0 group-hover/image:opacity-100 transition-opacity">
+            <div className="flex gap-1 items-center bg-black/80 backdrop-blur-sm rounded-xl p-1">
+              {/* Upload Button */}
               <button
-                onClick={handleDelete}
-                className="size-8 rounded-full bg-white backdrop-blur-sm border border-neutral-300 shadow-lg hover:bg-white/90 transition-all flex items-center justify-center"
-                aria-label="Delete project image"
+                onClick={handleUploadClick}
+                className="size-6 rounded-lg bg-transparent hover:bg-white/10 transition-all flex items-center justify-center"
+                aria-label="Upload project image"
               >
-                <Trash className="size-4 text-black" />
+                <ImageIcon className="size-4 text-white" />
               </button>
-            )}
+              {image && (
+                <>
+                  <div className="h-4 w-[1px] bg-white/30" />
+                  {/* Delete button */}
+                  <button
+                    onClick={handleDelete}
+                    className="size-6 rounded-lg bg-transparent hover:bg-white/10 transition-all flex items-center justify-center"
+                    aria-label="Delete project image"
+                  >
+                    <Trash className="size-4 text-white" />
+                  </button>
+                </>
+              )}
+            </div>
           </div>
         )}
 
@@ -251,7 +255,10 @@ export function ProjectCard({
         {tags && tags.length > 0 && (
           <div className="mt-2 flex flex-wrap gap-1">
             {tags?.map((tag) => (
-              <Badge className="px-1 py-0 text-[10px] bg-[#F7F7F7] hover:bg-[#f7f7f7] text-black dark:text-white dark:bg-[#202020]" key={tag}>
+              <Badge
+                className="px-1 py-0 text-[10px] bg-[#F7F7F7] hover:bg-[#f7f7f7] text-black dark:text-white dark:bg-[#202020]"
+                key={tag}
+              >
                 {tag}
               </Badge>
             ))}
