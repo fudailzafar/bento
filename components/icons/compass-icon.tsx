@@ -1,4 +1,4 @@
-export const Compass = ({ className }: { className?: string }) => {
+export const CompassIcon = (props: React.SVGProps<SVGSVGElement>) =>  {
   return (
     <svg
       width="16"
@@ -6,7 +6,7 @@ export const Compass = ({ className }: { className?: string }) => {
       viewBox="0 0 16 16"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
-      className={className}
+      {...props}
     >
       <circle cx="8" cy="8" r="6" stroke="#8E8E8E" strokeWidth="2"></circle>
       <path

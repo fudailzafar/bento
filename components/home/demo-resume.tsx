@@ -1,11 +1,10 @@
 import Markdown from 'react-markdown';
-import BlurFade from '../magicui/blur-fade';
-import BlurFadeText from '../magicui/blur-fade-text';
 import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
 import { Badge } from '../ui/badge';
 import { ProjectCard } from '../ui/project-card';
 import { ResumeCard } from '../ui/resume-card';
 import { DATA } from './resume';
+import { BlurFade, BlurFadeText } from '../magicui';
 
 export const DemoResume = () => {
   const BLUR_FADE_DELAY = 0.04;

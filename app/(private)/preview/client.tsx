@@ -1,16 +1,14 @@
 'use client';
-import LoadingFallback from '@/components/loading-fallback';
-import PreviewActionbar, {
-  ViewMode,
-} from '@/components/preview/preview-action-bar';
-import { FullResume } from '@/components/resume/preview/full-resume';
-import { useUserActions } from '@/hooks/use-user-actions';
-import { ResumeData } from '@/lib/server/redis-actions';
+
 import { useSession } from 'next-auth/react';
 import { useEffect, useState, useRef, useCallback } from 'react';
 import { toast } from 'sonner';
 import { motion, AnimatePresence } from 'framer-motion';
-import { HamburgerMenu } from '@/components/HamburgerMenu';
+import LoadingFallback from '@/components/loading-fallback';
+import { useUserActions } from '@/hooks';
+import { ResumeData } from '@/lib/server/redis-actions';
+import { PreviewActionbar, ViewMode } from '@/components/preview';
+import { FullResume } from '@/components/resume/preview';
 
 export default function PreviewClient({ messageTip }: { messageTip?: string }) {
   const { data: session } = useSession();

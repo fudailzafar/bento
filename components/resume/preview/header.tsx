@@ -1,12 +1,10 @@
 'use client';
 
-import { Button } from '@/components/ui/button';
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { Button, Avatar, AvatarFallback, AvatarImage } from '@/components/ui';
 import { ResumeDataSchemaType } from '@/lib/resume';
 import { useMemo, useState } from 'react';
-import BlurFade from '../../magicui/blur-fade';
-import BlurFadeText from '../../magicui/blur-fade-text';
-import { EditableProfileImage } from '../editing/editable-profile-image';
+import { BlurFade, BlurFadeText } from '@/components/magicui';
+import { EditableProfileImage } from '../editing';
 
 interface SocialButtonProps {
   href: string;

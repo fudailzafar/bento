@@ -6,7 +6,7 @@ import { motion, useScroll, useTransform } from 'framer-motion';
 import Link from 'next/link';
 import { Button } from '../ui/button';
 import Image from 'next/image';
-import { ArrowRight } from 'lucide-react';
+import { ArrowRightIcon } from '../icons';
 
 export function Hero() {
   const { scrollY } = useScroll({
@@ -33,7 +33,7 @@ export function Hero() {
           transition={{ duration: 0.8, delay: 1.2, ease: easeInOutCubic }}
           className="w-full bg-design-primary hover:bg-design-primaryDark text-design-white text-center py-5 text-base font-light flex items-center justify-center"
         >
-          Big news! Portfoliofy just launched! <ArrowRight size={20} />
+          Big news! Portfoliofy just launched! <ArrowRightIcon width={20} className="text-white" />
         </motion.div>
       </a>
       {/* Main hero section */}

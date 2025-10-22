@@ -1,13 +1,17 @@
 'use client';
 
 import React, { useState } from 'react';
-import BlurFade from '../../magicui/blur-fade';
-import { Section } from '@/components/ui/section';
+import { Section, Input, Label, Button } from '@/components/ui';
 import { ResumeDataSchemaType } from '@/lib/resume';
-import { GithubIcon, LinkedinIcon, Notebook, Pen, Plus, XIcon } from 'lucide-react';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { Button } from '@/components/ui/button';
+import {
+  GithubIcon,
+  LinkedinIcon,
+  Notebook,
+  Pen,
+  Plus,
+  XIcon,
+} from 'lucide-react';
+import { BlurFade } from '@/components/magicui';
 
 const BLUR_FADE_DELAY = 0.04;
 
@@ -28,7 +32,9 @@ export function SocialLinks({
 }: {
   contacts: ResumeDataSchemaType['header']['contacts'];
   isEditMode?: boolean;
-  onChangeContacts?: (newContacts: ResumeDataSchemaType['header']['contacts']) => void;
+  onChangeContacts?: (
+    newContacts: ResumeDataSchemaType['header']['contacts']
+  ) => void;
 }) {
   const [isEditing, setIsEditing] = useState(false);
 
@@ -106,34 +112,39 @@ export function SocialLinks({
           {isEditMode && isEditing ? (
             <div className="space-y-4 border-2 border-gray-100 rounded-xl p-4 bg-gray-50 dark:bg-gray-900">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                {socialLinks.map(({ id, label, icon, value, prefix, placeholder, key }) => (
-                  <div key={id} className="flex flex-col gap-2">
-                    <Label htmlFor={id} className="text-sm text-gray-600 flex items-center gap-2">
-                      {icon}
-                      {label}
-                    </Label>
-                    <div className="flex items-center gap-2">
-                      {prefix && (
-                        <span className="text-sm text-gray-500 whitespace-nowrap">
-                          {prefix}
-                        </span>
-                      )}
-                      <Input
-                        type="text"
-                        id={id}
-                        value={value || ''}
-                        onChange={(e) => {
-                          onChangeContacts?.({
-                            ...contacts,
-                            [key]: e.target.value,
-                          });
-                        }}
-                        placeholder={placeholder}
-                        className="flex-1"
-                      />
+                {socialLinks.map(
+                  ({ id, label, icon, value, prefix, placeholder, key }) => (
+                    <div key={id} className="flex flex-col gap-2">
+                      <Label
+                        htmlFor={id}
+                        className="text-sm text-gray-600 flex items-center gap-2"
+                      >
+                        {icon}
+                        {label}
+                      </Label>
+                      <div className="flex items-center gap-2">
+                        {prefix && (
+                          <span className="text-sm text-gray-500 whitespace-nowrap">
+                            {prefix}
+                          </span>
+                        )}
+                        <Input
+                          type="text"
+                          id={id}
+                          value={value || ''}
+                          onChange={(e) => {
+                            onChangeContacts?.({
+                              ...contacts,
+                              [key]: e.target.value,
+                            });
+                          }}
+                          placeholder={placeholder}
+                          className="flex-1"
+                        />
+                      </div>
                     </div>
-                  </div>
-                ))}
+                  )
+                )}
               </div>
               <div className="flex justify-end">
                 <Button
@@ -150,7 +161,11 @@ export function SocialLinks({
               {socialLinks.map(({ id, label, icon, value, prefix }) => {
                 if (!value && !isEditMode) return null;
 
-                const fullUrl = prefix ? `https://${prefix}${value}` : value?.startsWith('http') ? value : `https://${value}`;
+                const fullUrl = prefix
+                  ? `https://${prefix}${value}`
+                  : value?.startsWith('http')
+                  ? value
+                  : `https://${value}`;
 
                 return (
                   <a

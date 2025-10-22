@@ -1,13 +1,13 @@
 'use client';
 
-import { Badge } from '@/components/ui/badge';
 import {
+  Badge,
   Card,
   CardContent,
   CardFooter,
   CardHeader,
   CardTitle,
-} from '@/components/ui/card';
+} from '@/components/ui';
 import { cn } from '@/lib/utils';
 import { GitHubLogoIcon, GlobeIcon } from '@radix-ui/react-icons';
 import { ImageIcon, Trash } from 'lucide-react';
@@ -15,7 +15,7 @@ import Image from 'next/image';
 import Markdown from 'react-markdown';
 import { useState, useRef } from 'react';
 import { toast } from 'sonner';
-import { Loader } from '@/components/icons';
+import { LoaderIcon } from './icons';
 
 interface Props {
   title: string;
@@ -225,7 +225,7 @@ export function ProjectCard({
         {/* Loader during Upload */}
         {isUploading && (
           <div className="absolute inset-0 bg-black/50 flex items-center justify-center">
-            <Loader className="text-white" />
+            <LoaderIcon className="text-white" />
           </div>
         )}
       </div>

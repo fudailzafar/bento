@@ -1,14 +1,15 @@
 'use client';
 
-import { DockIcon } from '@/components/magicui/dock';
 import {
   Tooltip,
   TooltipContent,
   TooltipTrigger,
-} from '@/components/ui/tooltip';
+  buttonVariants,
+} from '@/components/ui';
 import { HomeIcon } from 'lucide-react';
 import { cn } from '@/lib/utils';
-import { buttonVariants } from '@/components/ui/button';
+
+import { DockIcon } from './dock';
 
 export default function DockClient() {
   return (

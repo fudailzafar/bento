@@ -1,9 +1,7 @@
 import LoadingFallback from '../../loading-fallback';
 import { ResumeData } from '../../../lib/server/redis-actions';
 import { Header } from './header';
-
 import { Education } from './education';
-
 import { Projects } from './projects';
 import { Contact } from './contact';
 import { Summary } from './summary';

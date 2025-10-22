@@ -1,6 +1,6 @@
 'use client';
 
-import { ArrowRight } from 'lucide-react';
+import { ArrowRightIcon } from '../icons';
 import { Button } from '../ui/button';
 import Link from 'next/link';
 
@@ -211,7 +211,7 @@ export function Avatars() {
       </div>
       <Link href={'/explore'}>
         <Button className="bg-gray-100 hover:bg-gray-200 text-base p-3 text-black">
-          Explore the most inspiring Portfolios <ArrowRight />
+          Explore the most inspiring Portfolios <ArrowRightIcon />
         </Button>
       </Link>
     </section>

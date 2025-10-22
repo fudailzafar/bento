@@ -1,11 +1,11 @@
-export const CheckmarkSmall = ({ className }: { className?: string }) => {
+export const CheckmarkSmallIcon = (props: React.SVGProps<SVGSVGElement>) =>  {
   return (
     <svg
       viewBox="0 0 154 154"
       xmlns="http://www.w3.org/2000/svg"
       width="16"
       height="16"
-      className={className}
+      {...props}
     >
       <g fill="none" stroke="#4EDD76" strokeWidth="2">
         <circle
@@ -35,14 +35,14 @@ export const CheckmarkSmall = ({ className }: { className?: string }) => {
   );
 };
 
-export const CheckmarkLarge = ({ className }: { className?: string }) => {
+export const CheckmarkLargeIcon = (props: React.SVGProps<SVGSVGElement>) =>  {
   return (
     <svg
       viewBox="0 0 154 154"
       xmlns="http://www.w3.org/2000/svg"
       width="48"
       height="48"
-      className={className}
+      {...props}
     >
       <g fill="none" stroke="#4edd76" strokeWidth="2">
         <circle

@@ -1,18 +1,17 @@
 'use client';
 
-import { Button } from '@/components/ui/button';
-import { getDomainUrl } from '@/lib/utils';
 import { useState, useRef } from 'react';
-import UsernameEditorView from './username-editor-view';
-import { ToggleGroup, ToggleGroupItem } from '../ui/toggle-group';
-import confetti from 'canvas-confetti';
-import { useToast } from '@/hooks/use-toast';
-import { Loader, Laptop, Mobile } from '../icons';
 import { motion } from 'framer-motion';
+import confetti from 'canvas-confetti';
+import { Button, ToggleGroup, ToggleGroupItem } from '@/components/ui';
+import { getDomainUrl } from '@/lib/utils';
+import { useToast } from '@/hooks';
 import { HamburgerMenu } from '../HamburgerMenu';
+import { LaptopIcon, LoaderIcon, MobileIcon } from '../icons';
+import UsernameEditorView from './username-editor-view';
+import { ViewMode } from '.';
 
 export type PublishStatuses = 'draft' | 'live';
-export type ViewMode = 'desktop' | 'mobile';
 
 export default function PreviewActionbar({
   initialUsername = '',
@@ -92,7 +91,7 @@ export default function PreviewActionbar({
               >
                 {isSaving ? (
                   <>
-                    <Loader />
+                    <LoaderIcon />
                     <span className="ml-1">Saving...</span>
                   </>
                 ) : (
@@ -133,7 +132,7 @@ export default function PreviewActionbar({
                 className="px-4 py-2 active:scale-95 transition-colors data-[state=on]:text-white rounded-lg relative group"
               >
                 <span className="relative z-10 flex items-center gap-1.5">
-                  <Laptop />
+                  <LaptopIcon />
                 </span>
                 {viewMode === 'desktop' && (
                   <motion.span
@@ -154,7 +153,7 @@ export default function PreviewActionbar({
                 className="px-4 py-2 active:scale-95 transition-colors data-[state=on]:text-white rounded-lg relative group"
               >
                 <span className="relative z-10 flex items-center gap-1.5">
-                  <Mobile />
+                  <MobileIcon />
                 </span>
                 {viewMode === 'mobile' && (
                   <motion.span

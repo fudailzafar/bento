@@ -1,7 +1,7 @@
 'use client';
 
+import { BlurFade } from '@/components/magicui';
 import React, { useState } from 'react';
-import BlurFade from '../../magicui/blur-fade';
 
 const BLUR_FADE_DELAY = 0.04;
 
