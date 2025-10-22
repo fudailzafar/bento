@@ -15,6 +15,7 @@ export * from './linkedin-icon';
 export * from './loader-icon';
 export * from './mobile-icon';
 export * from './pen-icon';
+export * from './section-icon'
 export * from './settings-icon';
 export * from './trash-icon';
 export * from './x-icon';

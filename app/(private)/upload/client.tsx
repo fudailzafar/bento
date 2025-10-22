@@ -87,7 +87,7 @@ export default function UploadPageClient() {
                   container: 'w-full',
                 }}
                 content={{
-                  button({ ready }) {
+                  button() {
                     return (
                       <div className="flex flex-col items-center justify-center gap-2">
                         <CircleArrowUpIcon className="h-6 w-6 text-gray-600" />

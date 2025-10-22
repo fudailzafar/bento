@@ -6,7 +6,12 @@ import confetti from 'canvas-confetti';
 import { toast } from 'sonner';
 import { Button, ToggleGroup, ToggleGroupItem } from '@/components/ui';
 import { getDomainUrl } from '@/lib';
-import { LaptopIcon, LoaderIcon, MobileIcon, CheckmarkSmallIcon } from '@/components/icons';
+import {
+  LaptopIcon,
+  LoaderIcon,
+  MobileIcon,
+  CheckmarkSmallIcon,
+} from '@/components/icons';
 import {
   UsernameEditorView,
   HamburgerMenu,
@@ -38,7 +43,7 @@ export default function PreviewActionbar({
     const link = getDomainUrl(initialUsername);
     try {
       await navigator.clipboard.writeText(link);
-      
+
       // Set copied state
       setIsCopied(true);
       setTimeout(() => setIsCopied(false), 2000);
@@ -77,106 +82,103 @@ export default function PreviewActionbar({
 
   return (
     <>
-      <div className="md:w-[50%] rounded-2xl bg-white/95 backdrop-blur-sm border border-neutral-200 shadow-lg py-3 px-5 sm:px-4 sm:py-2.5">
-        <div className="flex flex-row justify-between items-center w-full gap-2 sm:gap-0">
-          {/* Left side: Copy my Link button */}
-          <div className="flex items-center">
-            {status === 'live' && (
-              <Button
-                ref={copyButtonRef}
-                onClick={handleCopyLink}
-                disabled={isSaving}
-                className="flex bg-design-success transition-transform active:scale-95 hover:bg-[#3dda69] font-bold items-center rounded-lg min-h-8 gap-1.5 px-2.5 sm:px-4 py-2 h-auto relative group sm:min-w-[100px]"
-              >
-                {isSaving ? (
-                  <>
-                    <LoaderIcon />
-                    <span className="hidden sm:block ml-1">Saving...</span>
-                  </>
-                ) : (
-                  <>
-                    {isCopied ? (
-                      <CheckmarkSmallIcon className='block sm:hidden size-4'/>
-                    ) : (
-                      <Copy className='block sm:hidden size-4'/>
-                    )}
-                    <span className="hidden sm:block">Copy my Link</span>
-                  </>
-                )}
-                {/* Tooltip */}
-                {!isSaving && (
-                  <div className="hidden sm:block absolute bottom-full mb-2 left-1/2 transform -translate-x-1/2 bg-white font-normal text-design-resume text-[10px] leading-tight px-2 py-1 rounded-md shadow-md border border-slate-100 opacity-0 group-hover:opacity-100 transition-opacity duration-200 delay-700 pointer-events-none z-50 min-w-max">
-                    Share your Portfolio
-                  </div>
-                )}
-              </Button>
+      <div className="relative md:w-[57%] rounded-2xl bg-white/95 backdrop-blur-sm border border-neutral-200 shadow-lg p-2.5 flex items-center gap-2">
+        {/* Share Button */}
+        {status === 'live' && (
+          <Button
+            ref={copyButtonRef}
+            onClick={handleCopyLink}
+            disabled={isSaving}
+            className="relative h-[33px] sm:w-[127px] !rounded-md !p-0 px-2.5 sm:px-0 !shadow-[0px_2px_3px_rgba(0,0,0,0.06)] bg-design-success hover:bg-[#3dda69] font-medium text-sm transition-all active:scale-95 flex-shrink-0 group"
+          >
+            <div className="flex items-center justify-center h-full overflow-hidden rounded-md">
+              {isSaving ? (
+                <>
+                  <LoaderIcon className="size-4" />
+                  <span className="ml-1.5 hidden sm:inline">Saving...</span>
+                </>
+              ) : (
+                <>
+                  {isCopied ? (
+                    <>
+                      <CheckmarkSmallIcon className="size-4 sm:hidden" />
+                      <span className="hidden sm:inline font-semibold">Copy my Link</span>
+                    </>
+                  ) : (
+                    <>
+                      <Copy className="size-4 sm:hidden" />
+                      <span className="hidden sm:inline font-semibold">Copy my Link</span>
+                    </>
+                  )}
+                </>
+              )}
+              {/* Shine effect */}
+              <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent translate-x-[-100%] animate-[shine_4s_ease-in-out_infinite]" />
+            </div>
+            {/* Tooltip */}
+            {!isSaving && (
+              <div className="hidden sm:block absolute bottom-full mb-2 left-1/2 transform -translate-x-1/2 bg-white font-normal text-design-resume text-[10px] leading-tight px-2 py-1 rounded-md shadow-md border border-slate-100 opacity-0 group-hover:opacity-100 transition-opacity duration-200 delay-700 pointer-events-none z-50 min-w-max">
+                Share your Portfolio
+              </div>
             )}
-          </div>
-          {/* Divider */}
-          <div className="hidden sm:block h-5 w-[2px] bg-neutral-300" />
+          </Button>
+        )}
 
+        {/* Divider */}
+        <div className="hidden sm:block h-8 w-px bg-black/[0.08] flex-shrink-0" />
+
+        <div className="hidden sm:block">
           <HamburgerMenu />
-
-          {/* Divider */}
-          <div className="hidden sm:block h-5 w-[2px] bg-neutral-300" />
-          {/* Right side: Desktop/Mobile Toggle */}
-          <div className="hidden sm:flex items-center gap-2">
-            <ToggleGroup
-              type="single"
-              value={viewMode}
-              onValueChange={(value) => {
-                // Only change if a value is selected (prevent deselection)
-                if (value) {
-                  onViewModeChange?.(value as ViewMode);
-                }
-              }}
-              aria-label="Device view mode"
-            >
-              <ToggleGroupItem
-                value="desktop"
-                aria-label="Desktop view"
-                className="px-4 py-2 active:scale-95 transition-colors data-[state=on]:text-white rounded-lg relative group"
-              >
-                <span className="relative z-10 flex items-center gap-1.5">
-                  <LaptopIcon />
-                </span>
-                {viewMode === 'desktop' && (
-                  <motion.span
-                    layoutId="toggle-pill"
-                    transition={{ type: 'spring', duration: 0.5 }}
-                    className="absolute inset-0 z-0 bg-black rounded-lg"
-                  />
-                )}
-                {/* Tooltip - Desktop */}
-                <div className="hidden sm:block absolute bottom-full mb-2 left-1/2 transform -translate-x-1/2 bg-white font-normal text-design-resume text-[10px] leading-tight px-2 py-1 rounded-md shadow-md border border-slate-100 opacity-0 group-hover:opacity-100 transition-opacity duration-200 delay-700 pointer-events-none z-50 min-w-max">
-                  <div>Edit how your Portfolio</div>
-                  <div>looks on computers</div>
-                </div>
-              </ToggleGroupItem>
-              <ToggleGroupItem
-                value="mobile"
-                aria-label="Mobile view"
-                className="px-4 py-2 active:scale-95 transition-colors data-[state=on]:text-white rounded-lg relative group"
-              >
-                <span className="relative z-10 flex items-center gap-1.5">
-                  <MobileIcon />
-                </span>
-                {viewMode === 'mobile' && (
-                  <motion.span
-                    layoutId="toggle-pill"
-                    transition={{ type: 'spring', duration: 0.5 }}
-                    className="absolute inset-0 z-0 bg-black rounded-lg"
-                  />
-                )}
-                {/* Tooltip - Mobile */}
-                <div className="hidden sm:block absolute bottom-full mb-2 left-1/2 transform -translate-x-1/2 bg-white font-normal text-design-resume text-[10px] leading-tight px-2 py-1 rounded-md shadow-md border border-slate-100 opacity-0 group-hover:opacity-100 transition-opacity duration-200 delay-700 pointer-events-none z-50 min-w-max">
-                  <div>Edit how your Portfolio</div>
-                  <div>looks on phones</div>
-                </div>
-              </ToggleGroupItem>
-            </ToggleGroup>
-          </div>
         </div>
+
+        {/* Divider */}
+        <div className="hidden sm:block h-8 w-px bg-black/[0.08] flex-shrink-0" />
+
+        {/* Desktop/Mobile Toggle */}
+        <div className="hidden sm:flex items-center space-x-1 flex-shrink-0">
+          <button
+            onClick={() => onViewModeChange?.('desktop')}
+            className={`relative h-[33px] w-[50px] !rounded-md transition-all active:scale-95 group ${
+              viewMode === 'desktop'
+                ? 'bg-black text-white'
+                : 'bg-transparent text-black hover:bg-black/5'
+            }`}
+          >
+            <div className="flex items-center justify-center h-full overflow-hidden rounded-md">
+              <LaptopIcon className="size-4" />
+              {/* Shine effect */}
+              <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent translate-x-[-100%] animate-[shine_4s_ease-in-out_infinite]" />
+            </div>
+            {/* Tooltip */}
+            <div className="absolute bottom-full mb-2 left-1/2 transform -translate-x-1/2 bg-white font-normal text-design-resume text-[10px] leading-tight px-2 py-1 rounded-md shadow-md border border-slate-100 opacity-0 group-hover:opacity-100 transition-opacity duration-200 delay-700 pointer-events-none z-50 min-w-max">
+              <div>Edit how your Portfolio</div>
+              <div>looks on computers</div>
+            </div>
+          </button>
+
+          <button
+            onClick={() => onViewModeChange?.('mobile')}
+            className={`relative h-[33px] w-[50px] !rounded-md transition-all active:scale-95 group ${
+              viewMode === 'mobile'
+                ? 'bg-black text-white'
+                : 'bg-transparent text-black hover:bg-black/5'
+            }`}
+          >
+            <div className="flex items-center justify-center h-full overflow-hidden rounded-md">
+              <MobileIcon className="size-4" />
+              {/* Shine effect */}
+              <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent translate-x-[-100%] animate-[shine_4s_ease-in-out_infinite]" />
+            </div>
+            {/* Tooltip */}
+            <div className="absolute bottom-full mb-2 left-1/2 transform -translate-x-1/2 bg-white font-normal text-design-resume text-[10px] leading-tight px-2 py-1 rounded-md shadow-md border border-slate-100 opacity-0 group-hover:opacity-100 transition-opacity duration-200 delay-700 pointer-events-none z-50 min-w-max">
+              <div>Edit how your Portfolio</div>
+              <div>looks on phones</div>
+            </div>
+          </button>
+        </div>
+
+        {/* Container highlight effect */}
+        <div className="absolute inset-0 rounded-2xl pointer-events-none bg-gradient-to-b from-white/10 to-transparent opacity-50" />
       </div>
 
       <UsernameEditorView
