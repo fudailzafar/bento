@@ -1,5 +1,3 @@
-import LoadingFallback from '../../loading-fallback';
-import { ResumeData } from '../../../lib/server/redis-actions';
 import { Header } from './header';
 import { Education } from './education';
 import { Projects } from './projects';
@@ -8,6 +6,8 @@ import { Summary } from './summary';
 import { WorkExperience } from './work-experience';
 import { Skills } from './skills';
 import { SocialLinks } from './social-links';
+import { LoadingFallback } from '@/components/utils';
+import { ResumeData } from '@/lib/server';
 
 export const FullResume = ({
   resume,
@@ -23,7 +23,7 @@ export const FullResume = ({
   onImageChange?: (newImageUrl: string | null) => void;
 }) => {
   if (!resume) {
-    return <LoadingFallback message="Loading Resume..." />;
+    return <LoadingFallback message="Loading Portfolio..." />;
   }
 
   return (

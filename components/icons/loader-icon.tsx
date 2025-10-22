@@ -1,4 +1,4 @@
-export const LoaderIcon = (props: React.SVGProps<SVGSVGElement>) =>  {
+export const LoaderIcon = (props: React.SVGProps<SVGSVGElement>) => {
   return (
     <svg
       height="16"

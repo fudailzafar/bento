@@ -2,12 +2,16 @@
 
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
-import { Badge } from '../ui/badge';
-import { ProjectCard } from '../ui/project-card';
-import { ResumeCard } from '../ui/resume-card';
-import { DATA } from './resume';
 import Markdown from 'react-markdown';
+import {
+  Avatar,
+  AvatarFallback,
+  AvatarImage,
+  Badge,
+  ProjectCard,
+  ResumeCard,
+} from '@/components/ui';
+import { DATA } from '@/components/home';
 
 const DemoResumeDesktop = () => {
   const containerVariants = {
@@ -263,14 +267,16 @@ const DemoResumeDesktop = () => {
                 >
                   <div className="bg-white/10 backdrop-blur-sm rounded-2xl border border-white/20 overflow-hidden hover:border-white/40 transition-all duration-300">
                     <ProjectCard
-                      href={project.href}
+                      liveLink={project.href}
                       title={project.title}
                       description={project.description}
                       dates={project.dates}
                       tags={project.technologies}
                       image={project.image}
                       video={project.video}
-                      links={project.links}
+                      githubLink={
+                        project.links?.find((l) => l.type === 'Source')?.href
+                      }
                     />
                   </div>
                 </motion.div>

@@ -1,4 +1,4 @@
-export const LinkIcon = (props: React.SVGProps<SVGSVGElement>) =>  {
+export const LinkIcon = (props: React.SVGProps<SVGSVGElement>) => {
   return (
     <svg
       width="14"

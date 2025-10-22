@@ -9,15 +9,15 @@ import {
   AvatarFallback,
   AvatarImage,
 } from '@/components/ui';
-import { ResumeDataSchemaType } from '@/lib/resume';
-import { getYear } from '../resume-utils';
+import { ResumeDataSchemaType } from '@/lib';
+import { getYear } from '@/components/resume';
 import { useMemo, useState, useRef } from 'react';
 import { Plus, Trash, CircleArrowUp } from 'lucide-react';
-import { cn } from '@/lib/utils';
+import { cn } from '@/lib';
 import { toast } from 'sonner';
 import { LoaderIcon, PenIcon } from '@/components/icons';
 import { BlurFade } from '@/components/magicui';
-import { EducationField } from '../editing';
+import { EducationField } from '@/components/resume/editing';
 
 const BLUR_FADE_DELAY = 0.04;
 

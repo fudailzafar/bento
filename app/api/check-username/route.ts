@@ -1,4 +1,4 @@
-import { checkUsernameAvailability } from '@/lib/server/redis-actions';
+import { checkUsernameAvailability } from '@/lib/server';
 import { NextResponse } from 'next/server';
 
 // API Response Types

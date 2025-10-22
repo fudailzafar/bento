@@ -1,4 +1,4 @@
-export const LaptopIcon = (props: React.SVGProps<SVGSVGElement>) =>  {
+export const LaptopIcon = (props: React.SVGProps<SVGSVGElement>) => {
   return (
     <svg
       width="16"

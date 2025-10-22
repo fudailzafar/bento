@@ -4,11 +4,11 @@ import { useSession } from 'next-auth/react';
 import { useEffect, useState, useRef, useCallback } from 'react';
 import { toast } from 'sonner';
 import { motion, AnimatePresence } from 'framer-motion';
-import LoadingFallback from '@/components/loading-fallback';
 import { useUserActions } from '@/hooks';
-import { ResumeData } from '@/lib/server/redis-actions';
+import { ResumeData } from '@/lib/server';
 import { PreviewActionbar, ViewMode } from '@/components/preview';
 import { FullResume } from '@/components/resume/preview';
+import { LoadingFallback } from '@/components/utils';
 
 export default function PreviewClient({ messageTip }: { messageTip?: string }) {
   const { data: session } = useSession();

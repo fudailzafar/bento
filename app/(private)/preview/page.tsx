@@ -4,17 +4,17 @@ import {
   getResume,
   getUsernameById,
   storeResume,
-} from '@/lib/server/redis-actions';
-import { generateResumeObject } from '@/lib/server/ai/generate-resume-object-gemini';
+  generateResumeObject,
+} from '@/lib/server';
 import { redirect } from 'next/navigation';
 import { Suspense } from 'react';
-import LoadingFallback from '@/components/loading-fallback';
-import { MAX_USERNAME_LENGTH } from '@/lib/config';
+import { MAX_USERNAME_LENGTH } from '@/lib';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/app/api/auth/[...nextauth]/route';
+import { LoadingFallback } from '@/components/utils';
 
 async function LLMProcessing({ userId }: { userId: string }) {
-  let resume = await getResume(userId);
+  const resume = await getResume(userId);
   const session = await getServerSession(authOptions);
 
   if (!resume?.fileContent || !resume.file) redirect('/upload');

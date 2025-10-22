@@ -1,14 +1,15 @@
 'use client';
 
 import { Section, Button } from '@/components/ui';
-import { ResumeDataSchemaType } from '@/lib/resume';
-import { getShortMonth, getYear } from '../resume-utils';
+import { ResumeDataSchemaType } from '@/lib';
+import { getShortMonth, getYear } from '@/components/resume';
 import { useMemo, useState } from 'react';
 import React from 'react';
-import { ProjectCard } from '@/components/project-card';
-import { Plus, Pen, Trash } from 'lucide-react';
+import { ProjectCard } from '@/components/ui';
+import { Plus } from 'lucide-react';
 import { BlurFade } from '@/components/magicui';
-import { ProjectsField } from '../editing';
+import { ProjectsField } from '@/components/resume/editing';
+import { PenIcon, TrashIcon } from '@/components/icons';
 
 const BLUR_FADE_DELAY = 0.04;
 
@@ -174,7 +175,7 @@ export function Projects({
                         className="absolute -top-2 -left-2 size-8 rounded-full hover:bg-gray-50 border border-gray-50 shadow-md hover:text-design-secondary bg-white text-gray-700 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-200 z-10"
                         aria-label="Delete project"
                       >
-                        <Trash className="size-4" />
+                        <TrashIcon className="size-4" />
                       </button>
 
                       {/* Edit button - top right */}
@@ -183,7 +184,7 @@ export function Projects({
                         className="absolute -top-2 -right-2 size-8 rounded-full bg-black border-gray-50 shadow-md text-white  flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-200 z-10"
                         aria-label="Edit project"
                       >
-                        <Pen className="size-4" />
+                        <PenIcon className="size-4" />
                       </button>
                     </>
                   )}

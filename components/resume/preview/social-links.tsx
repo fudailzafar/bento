@@ -164,8 +164,8 @@ export function SocialLinks({
                 const fullUrl = prefix
                   ? `https://${prefix}${value}`
                   : value?.startsWith('http')
-                  ? value
-                  : `https://${value}`;
+                    ? value
+                    : `https://${value}`;
 
                 return (
                   <a

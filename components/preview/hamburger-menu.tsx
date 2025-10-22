@@ -6,7 +6,7 @@ import {
   DropdownMenuContent,
   DropdownMenuTrigger,
 } from '@/components/ui';
-import { LinkIcon } from './icons';
+import { LinkIcon } from '@/components/icons';
 
 export const HamburgerMenu = () => {
   const [isOpen, setIsOpen] = useState(false);

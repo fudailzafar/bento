@@ -1,12 +1,12 @@
 'use client';
 
 import { Badge, Section } from '@/components/ui';
-import { cn } from '@/lib/utils';
+import { cn } from '@/lib';
 import { useState } from 'react';
 import { Plus, Trash } from 'lucide-react';
 import { toast } from 'sonner';
 import { BlurFade } from '@/components/magicui';
-import { AddSkillDialog } from '../editing';
+import { AddSkillDialog } from '@/components/resume/editing';
 
 const BLUR_FADE_DELAY = 0.04;
 

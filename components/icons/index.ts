@@ -6,6 +6,7 @@ export * from './cross-icon';
 export * from './discord-icon';
 export * from './github-icon';
 export * from './google-icon';
+export * from './icon-library';
 export * from './laptop-icon';
 export * from './link-icon';
 export * from './linkedin-icon';

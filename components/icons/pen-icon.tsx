@@ -1,4 +1,4 @@
-export const PenIcon = (props: React.SVGProps<SVGSVGElement>) =>  {
+export const PenIcon = (props: React.SVGProps<SVGSVGElement>) => {
   return (
     <svg
       width="16"

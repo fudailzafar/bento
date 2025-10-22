@@ -1,4 +1,4 @@
-export const CheckmarkSmallIcon = (props: React.SVGProps<SVGSVGElement>) =>  {
+export const CheckmarkSmallIcon = (props: React.SVGProps<SVGSVGElement>) => {
   return (
     <svg
       viewBox="0 0 154 154"
@@ -35,7 +35,7 @@ export const CheckmarkSmallIcon = (props: React.SVGProps<SVGSVGElement>) =>  {
   );
 };
 
-export const CheckmarkLargeIcon = (props: React.SVGProps<SVGSVGElement>) =>  {
+export const CheckmarkLargeIcon = (props: React.SVGProps<SVGSVGElement>) => {
   return (
     <svg
       viewBox="0 0 154 154"

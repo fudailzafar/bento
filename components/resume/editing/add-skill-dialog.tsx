@@ -1,15 +1,15 @@
 import React, { useState } from 'react';
 import { toast } from 'sonner';
-import { Input } from '../../ui/input';
-import { Label } from '../../ui/label';
 import {
+  Input,
+  Label,
   Dialog,
   DialogContent,
   DialogHeader,
   DialogTitle,
   DialogFooter,
-} from '../../ui/dialog';
-import { Button } from '../../ui/button';
+  Button,
+} from '@/components/ui';
 
 interface AddSkillDialogProps {
   open: boolean;

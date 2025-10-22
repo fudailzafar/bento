@@ -1,5 +1,5 @@
-import { HeaderExplore } from '@/components/explore/explore-header';
-import { Footer } from '@/components/home/footer';
+import { HeaderExplore } from '@/components/explore';
+import { Footer } from '@/components/home';
 import { Skeleton } from '@/components/ui';
 import { Metadata } from 'next';
 

@@ -1,9 +1,7 @@
 import React from 'react';
-import { Label } from '../../ui/label';
-import { Input } from '../../ui/input';
-import { DateRangePicker } from '../../ui/date-range-picker';
-import { SkillField } from './skills-field';
 import { X } from 'lucide-react';
+import { Label, Input, DateRangePicker } from '@/components/ui';
+import { SkillField } from '@/components/resume/editing';
 
 interface Projects {
   skills: string[];

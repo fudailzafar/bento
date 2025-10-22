@@ -1,7 +1,7 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { Resume, ResumeData, UserProfile } from '@/lib/server/redis-actions';
-import { ResumeDataSchema } from '@/lib/resume';
-import { PublishStatuses } from '@/components/preview/preview-action-bar';
+import { Resume, ResumeData, UserProfile } from '@/lib/server';
+import { ResumeDataSchema } from '@/lib';
+import { PublishStatuses } from '@/components/preview';
 
 // Fetch resume data
 const fetchResume = async (): Promise<{

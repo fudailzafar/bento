@@ -1,4 +1,4 @@
-export const CompassIcon = (props: React.SVGProps<SVGSVGElement>) =>  {
+export const CompassIcon = (props: React.SVGProps<SVGSVGElement>) => {
   return (
     <svg
       width="16"

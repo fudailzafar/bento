@@ -1,6 +1,6 @@
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/app/api/auth/[...nextauth]/route';
-import { storeUserProfile, getUserProfile } from '@/lib/server/redis-actions';
+import { storeUserProfile, getUserProfile } from '@/lib/server';
 import { NextResponse } from 'next/server';
 
 // GET endpoint to retrieve user profile

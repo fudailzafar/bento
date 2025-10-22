@@ -3,8 +3,8 @@
 import { useState } from 'react';
 import { signOut } from 'next-auth/react';
 import { useIsMobile, useUserActions } from '@/hooks';
-import { SettingsIcon } from '../icons';
-import UsernameEditorView from './username-editor-view';
+import { SettingsIcon } from '@/components/icons';
+import { UsernameEditorView } from '@/components/preview';
 import {
   Button,
   DropdownMenu,
@@ -18,7 +18,7 @@ import {
   DrawerTitle,
   DrawerTrigger,
   Separator,
-} from '../ui';
+} from '@/components/ui';
 
 export function SettingsPanel() {
   const isMobile = useIsMobile();

@@ -1,12 +1,11 @@
 'use client';
 
-import { Section } from '../ui/section';
-import { easeInOutCubic } from '@/lib/animation';
+import { easeInOutCubic } from '@/lib';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import Link from 'next/link';
-import { Button } from '../ui/button';
 import Image from 'next/image';
-import { ArrowRightIcon } from '../icons';
+import { Button, Section } from '@/components/ui';
+import { ArrowRightIcon } from '@/components/icons';
 
 export function Hero() {
   const { scrollY } = useScroll({
@@ -33,7 +32,8 @@ export function Hero() {
           transition={{ duration: 0.8, delay: 1.2, ease: easeInOutCubic }}
           className="w-full bg-design-primary hover:bg-design-primaryDark text-design-white text-center py-5 text-base font-light flex items-center justify-center"
         >
-          Big news! Portfoliofy just launched! <ArrowRightIcon width={20} className="text-white" />
+          Big news! Portfoliofy just launched!{' '}
+          <ArrowRightIcon width={20} className="text-white" />
         </motion.div>
       </a>
       {/* Main hero section */}

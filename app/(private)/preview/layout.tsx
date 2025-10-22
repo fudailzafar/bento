@@ -1,5 +1,5 @@
-import { Header } from '@/components/Header';
-import { ReactQueryClientProvider } from '@/components/react-client-query-provider';
+import { Header } from '@/components/common';
+import { ReactQueryClientProvider } from '@/components/utils';
 import React from 'react';
 
 export default function RootLayout({

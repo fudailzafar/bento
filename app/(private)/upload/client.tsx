@@ -3,9 +3,8 @@
 import { FileText, Upload, X } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
-import LoadingFallback from '@/components/loading-fallback';
 import { useUserActions } from '@/hooks';
-import { UploadButton } from '@/lib/utils';
+import { UploadButton } from '@/lib';
 import { LoaderIcon } from '@/components/icons';
 import {
   Button,
@@ -18,6 +17,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from '@/components/ui';
+import { LoadingFallback } from '@/components/utils';
 
 type FileState =
   | { status: 'empty' }
