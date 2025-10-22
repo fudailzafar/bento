@@ -9,12 +9,14 @@ interface EditableProfileImageProps {
   name: string;
   currentImage?: string;
   onImageChange?: (newImageUrl: string | null) => void;
+  isPublicView?: boolean;
 }
 
 export function EditableProfileImage({
   name,
   currentImage,
   onImageChange,
+  isPublicView = false,
 }: EditableProfileImageProps) {
   const [isHovered, setIsHovered] = useState(false);
   const [isUploading, setIsUploading] = useState(false);
@@ -59,7 +61,6 @@ export function EditableProfileImage({
       }
 
       const data = await response.json();
-      toast.success('Image updated successfully!');
       onImageChange?.(data.imageUrl);
     } catch (error) {
       console.error('Upload error:', error);
@@ -89,10 +90,7 @@ export function EditableProfileImage({
         const error = await response.json();
         throw new Error(error.error || 'Delete failed');
       }
-
-      const data = await response.json();
-      toast.success('Profile image reset to default');
-      onImageChange?.(data.defaultImage || null);
+      onImageChange?.(null);
     } catch (error) {
       console.error('Delete error:', error);
       toast.error(
@@ -109,46 +107,71 @@ export function EditableProfileImage({
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
-      <Avatar className="size-28 border">
-        {/* Profile Picture */}
-        <AvatarImage src={currentImage} alt={`${name}'s profile picture`} />
-        {/* Profile Picture FallBack */}
-        <AvatarFallback>
-          {name
-            .split(' ')
-            .map((n) => n[0])
-            .join('')}
-        </AvatarFallback>
-      </Avatar>
-
       {/* Hidden File Input for Profile Picture */}
       <input
         ref={fileInputRef}
         type="file"
-        accept="image/*"
+        accept="image/png,image/jpeg,image/heic,image/gif,image/webp"
         onChange={handleFileChange}
         className="hidden"
       />
+      {currentImage ? (
+        // Avatar with image
+        <>
+          <Avatar className="size-28 border">
+            <AvatarImage src={currentImage} alt={`${name}'s profile picture`} />
+            <AvatarFallback>
+              {name
+                .split(' ')
+                .map((n) => n[0])
+                .join('')}
+            </AvatarFallback>
+          </Avatar>
 
-      {/* Action Buttons - Hover on Desktop, Fixed on Mobile */}
-      {!isUploading && (
-        <div className="absolute bottom-0 left-0 right-0 flex justify-between items-center px-1 opacity-100 sm:opacity-0 sm:group-hover:opacity-100 transition-opacity">
-          {/* Upload */}
-          <button
-            onClick={handleUploadClick}
-            className="size-8 rounded-full bg-white backdrop-blur-sm border border-neutral-300 shadow-lg hover:bg-white/90 transition-all flex items-center justify-center"
-          >
-            <CircleArrowUpIcon className="size-4 text-black" />
-          </button>
+          {/* Action Buttons - Always visible on mobile, hover on desktop */}
+          {!isUploading && !isPublicView && (
+            <div className="absolute bottom-0 left-0 right-0 flex justify-between items-center px-1 sm:opacity-0 sm:group-hover:opacity-100 transition-opacity">
+              {/* Upload - Desktop only */}
+              <button
+                onClick={handleUploadClick}
+                className="hidden sm:flex size-8 rounded-full bg-white backdrop-blur-sm border border-neutral-300 shadow-lg hover:bg-white/90 transition-all items-center justify-center"
+              >
+                <CircleArrowUpIcon className="size-4 text-black" />
+              </button>
 
-          {/* Delete */}
-          <button
-            onClick={handleDelete}
-            className="size-8 rounded-full bg-white backdrop-blur-sm border border-neutral-300 shadow-lg hover:bg-white/90 transition-all flex items-center justify-center"
-          >
-            <TrashIcon className="size-4 text-black" />
-          </button>
-        </div>
+              {/* Delete - Always visible on mobile, hover on desktop */}
+              <button
+                onClick={handleDelete}
+                className="size-8 rounded-full bg-white backdrop-blur-sm border border-neutral-300 shadow-lg hover:bg-white/90 transition-all flex items-center justify-center"
+              >
+                <TrashIcon className="size-4 text-black" />
+              </button>
+            </div>
+          )}
+        </>
+      ) : isPublicView ? (
+        // Public view - Show placeholder
+        <Avatar className="size-28 border">
+          <AvatarImage
+            src="/user/placeholder.svg"
+            alt={`${name}'s profile picture`}
+          />
+          <AvatarFallback>
+            {name
+              .split(' ')
+              .map((n) => n[0])
+              .join('')}
+          </AvatarFallback>
+        </Avatar>
+      ) : (
+        // Empty state - Upload Icon (Edit mode only)
+        <button
+          onClick={handleUploadClick}
+          className="size-28 rounded-full border-2 border-dashed border-black/[0.08] bg-[#FAFAFA] hover:bg-[#F6F6F6] active:bg-[#F1F1F1] transition-colors duration-200 ease-in-out flex flex-col items-center justify-center cursor-pointer"
+        >
+          <CircleArrowUpIcon className="size-8 mb-2 text-black/10" />
+          <span className="text-xs text-black/60 font-medium">Add Avatar</span>
+        </button>
       )}
 
       {/* Loader during Upload */}

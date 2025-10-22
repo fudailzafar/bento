@@ -1,2 +1,2 @@
 export { Header } from './Header';
-export { ProjectCard } from '../ui/project-card';
+export { ProjectCard } from './project-card';

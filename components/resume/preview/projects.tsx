@@ -5,7 +5,7 @@ import { ResumeDataSchemaType } from '@/lib';
 import { getShortMonth, getYear } from '@/components/resume';
 import { useMemo, useState } from 'react';
 import React from 'react';
-import { ProjectCard } from '@/components/ui';
+import { ProjectCard } from '@/components/common';
 import { Plus } from 'lucide-react';
 import { BlurFade } from '@/components/magicui';
 import { ProjectsField } from '@/components/resume/editing';

@@ -174,26 +174,12 @@ export function Header({
         )}
       </div>
       <BlurFade delay={BLUR_FADE_DELAY}>
-        {isEditMode ? (
-          <EditableProfileImage
-            name={header.name}
-            currentImage={picture}
-            onImageChange={onImageChange}
-          />
-        ) : (
-          <Avatar className="size-28 border">
-            <AvatarImage
-              src={picture}
-              alt={`${header.name}'s profile picture`}
-            />
-            <AvatarFallback>
-              {header.name
-                .split(' ')
-                .map((n) => n[0])
-                .join('')}
-            </AvatarFallback>
-          </Avatar>
-        )}
+        <EditableProfileImage
+          name={header.name}
+          currentImage={picture}
+          onImageChange={onImageChange}
+          isPublicView={!isEditMode}
+        />
       </BlurFade>
     </header>
   );
