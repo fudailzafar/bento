@@ -2,9 +2,8 @@
 
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui';
 import { useState, useRef } from 'react';
-import { Trash, CircleArrowUp } from 'lucide-react';
 import { toast } from 'sonner';
-import { LoaderIcon } from '@/components/icons';
+import { CircleArrowUpIcon, LoaderIcon, TrashIcon } from '@/components/icons';
 
 interface EditableProfileImageProps {
   name: string;
@@ -139,7 +138,7 @@ export function EditableProfileImage({
             onClick={handleUploadClick}
             className="size-8 rounded-full bg-white backdrop-blur-sm border border-neutral-300 shadow-lg hover:bg-white/90 transition-all flex items-center justify-center"
           >
-            <CircleArrowUp className="size-4 text-black" />
+            <CircleArrowUpIcon className="size-4 text-black" />
           </button>
 
           {/* Delete */}
@@ -147,7 +146,7 @@ export function EditableProfileImage({
             onClick={handleDelete}
             className="size-8 rounded-full bg-white backdrop-blur-sm border border-neutral-300 shadow-lg hover:bg-white/90 transition-all flex items-center justify-center"
           >
-            <Trash className="size-4 text-black" />
+            <TrashIcon className="size-4 text-black" />
           </button>
         </div>
       )}

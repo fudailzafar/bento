@@ -1,6 +1,6 @@
 import React from 'react';
 import { Label, Input, DateRangePicker } from '@/components/ui';
-import { TrashIcon } from '@/components/icons';
+import { CrossIcon } from '@/components/icons';
 
 interface WorkExperience {
   title: string;
@@ -32,7 +32,7 @@ export const WorkExperienceField: React.FC<WorkExperienceFieldProps> = ({
         className="absolute top-2 right-2 text-gray-400 hover:text-red-500 transition-colors"
         onClick={() => onDelete(index)}
       >
-        <TrashIcon />
+        <CrossIcon />
       </button>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">

@@ -10,12 +10,11 @@ import {
 } from '@/components/ui';
 import { cn } from '@/lib';
 import { GitHubLogoIcon, GlobeIcon } from '@radix-ui/react-icons';
-import { ImageIcon, Trash } from 'lucide-react';
 import Image from 'next/image';
 import Markdown from 'react-markdown';
 import { useState, useRef } from 'react';
 import { toast } from 'sonner';
-import { LoaderIcon } from '@/components/icons';
+import { ImageIcon, LoaderIcon, TrashIcon } from '@/components/icons';
 
 interface Props {
   title: string;
@@ -214,7 +213,7 @@ export function ProjectCard({
                     className="size-6 rounded-lg bg-transparent hover:bg-white/10 transition-all flex items-center justify-center"
                     aria-label="Delete project image"
                   >
-                    <Trash className="size-4 text-white" />
+                    <TrashIcon className="size-4 text-white" />
                   </button>
                 </>
               )}

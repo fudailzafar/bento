@@ -11,19 +11,18 @@ import {
 } from '@/components/ui';
 import { ResumeDataSchemaType } from '@/lib';
 import { useMemo, useState, useRef } from 'react';
-import {
-  ChevronRightIcon,
-  Plus,
-  Pen,
-  Trash,
-  CircleArrowUp,
-} from 'lucide-react';
+import { ChevronRightIcon, Plus } from 'lucide-react';
 import { cn } from '@/lib';
 import React from 'react';
 import { motion } from 'framer-motion';
 import { getShortMonth, getYear } from '@/components/resume';
 import { toast } from 'sonner';
-import { LoaderIcon } from '@/components/icons';
+import {
+  CircleArrowUpIcon,
+  LoaderIcon,
+  PenIcon,
+  TrashIcon,
+} from '@/components/icons';
 import { BlurFade } from '@/components/magicui';
 import { WorkExperienceField } from '@/components/resume/editing';
 
@@ -330,7 +329,7 @@ export function WorkExperience({
                             className="size-5 rounded-full bg-white backdrop-blur-sm border border-neutral-300 shadow-lg hover:bg-white/90 transition-all flex items-center justify-center"
                             aria-label="Upload company logo"
                           >
-                            <CircleArrowUp className="size-3 text-black" />
+                            <CircleArrowUpIcon className="size-3 text-black" />
                           </button>
 
                           {/* Delete button - Right */}
@@ -340,7 +339,7 @@ export function WorkExperience({
                               className="size-5 rounded-full bg-white backdrop-blur-sm border border-neutral-300 shadow-lg hover:bg-white/90 transition-all flex items-center justify-center"
                               aria-label="Delete company logo"
                             >
-                              <Trash className="size-3 text-black" />
+                              <TrashIcon className="size-3 text-black" />
                             </button>
                           )}
                         </div>
@@ -436,7 +435,7 @@ export function WorkExperience({
                       className="absolute -top-4 -left-2 size-8 rounded-full bg-white border border-gray-50 shadow-md text-black dark:text-gray-300  dark:hover:text-red-400 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300 ease-in-out z-10"
                       aria-label="Delete work experience"
                     >
-                      <Trash className="size-4 transition-transform duration-200" />
+                      <TrashIcon className="size-4 transition-transform duration-200" />
                     </button>
 
                     {/* Edit */}
@@ -445,7 +444,7 @@ export function WorkExperience({
                       className="absolute -top-4 -right-2 size-8 rounded-full bg-black border border-gray-50 shadow-md text-white dark:text-gray-300 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300 ease-in-out z-10"
                       aria-label="Edit work experience"
                     >
-                      <Pen className="size-4 transition-transform duration-200" />
+                      <PenIcon className="size-4 transition-transform duration-200" />
                     </button>
                   </>
                 )}

@@ -3,10 +3,11 @@
 import { Badge, Section } from '@/components/ui';
 import { cn } from '@/lib';
 import { useState } from 'react';
-import { Plus, Trash } from 'lucide-react';
+import { Plus } from 'lucide-react';
 import { toast } from 'sonner';
 import { BlurFade } from '@/components/magicui';
 import { AddSkillDialog } from '@/components/resume/editing';
+import { TrashIcon } from '@/components/icons';
 
 const BLUR_FADE_DELAY = 0.04;
 
@@ -75,7 +76,7 @@ export function Skills({
                     className="absolute -top-2 -left-2 size-5 rounded-full bg-white hover:bg-white/80 text-black flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-200 shadow-md"
                     aria-label={`Remove ${skill}`}
                   >
-                    <Trash className="size-3" />
+                    <TrashIcon className="size-3" />
                   </button>
                 )}
               </div>
