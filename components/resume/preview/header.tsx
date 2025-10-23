@@ -1,35 +1,9 @@
 'use client';
 
-import { Button, Avatar, AvatarFallback, AvatarImage } from '@/components/ui';
 import { ResumeDataSchemaType } from '@/lib';
-import { useMemo, useState } from 'react';
+import { useState } from 'react';
 import { BlurFade, BlurFadeText } from '@/components/magicui';
 import { EditableProfileImage } from '@/components/resume/editing';
-
-interface SocialButtonProps {
-  href: string;
-  icon: React.ElementType;
-  label: string;
-}
-
-function SocialButton({ href, icon: Icon, label }: SocialButtonProps) {
-  return (
-    <Button className="size-8" variant="outline" size="icon" asChild>
-      <a
-        href={
-          href.startsWith('mailto:') || href.startsWith('tel:')
-            ? href
-            : `${href}${href.includes('?') ? '&' : '?'}ref=portfoliofyme`
-        }
-        aria-label={label}
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        <Icon className="size-4" aria-hidden="true" />
-      </a>
-    </Button>
-  );
-}
 
 /**
  * Header component displaying personal information and contact details
@@ -49,52 +23,6 @@ export function Header({
 }) {
   const [isEditingName, setIsEditingName] = useState(false);
   const [isEditingAbout, setIsEditingAbout] = useState(false);
-
-  const prefixUrl = (stringToFix?: string) => {
-    if (!stringToFix) return undefined;
-    const url = stringToFix.trim();
-    return url.startsWith('http') ? url : `https://${url}`;
-  };
-
-  const socialLinks = useMemo(() => {
-    const formatSocialUrl = (
-      url: string | undefined,
-      platform: 'github' | 'twitter' | 'linkedin'
-    ) => {
-      if (!url) return undefined;
-
-      const cleanUrl = url.trim();
-      if (cleanUrl.startsWith('http')) return cleanUrl;
-
-      // Handle twitter.com and x.com variations
-      if (
-        platform === 'twitter' &&
-        (cleanUrl.startsWith('twitter.com') || cleanUrl.startsWith('x.com'))
-      ) {
-        return `https://${cleanUrl}`;
-      }
-
-      const platformUrls = {
-        github: 'github.com',
-        twitter: 'x.com',
-        linkedin: 'linkedin.com/in',
-      } as const;
-
-      return `https://${platformUrls[platform]}/${cleanUrl}`;
-    };
-
-    return {
-      website: prefixUrl(header.contacts.website),
-      github: formatSocialUrl(header.contacts.github, 'github'),
-      twitter: formatSocialUrl(header.contacts.twitter, 'twitter'),
-      linkedin: formatSocialUrl(header.contacts.linkedin, 'linkedin'),
-    };
-  }, [
-    header.contacts.website,
-    header.contacts.github,
-    header.contacts.twitter,
-    header.contacts.linkedin,
-  ]);
 
   const BLUR_FADE_DELAY = 0.04;
 

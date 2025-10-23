@@ -21,7 +21,7 @@ export default function LoginPage() {
     setIsLoading(true);
     try {
       await signIn('google');
-    } catch (error) {
+    } catch {
       setIsLoading(false);
     }
   };

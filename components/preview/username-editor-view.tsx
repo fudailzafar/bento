@@ -85,7 +85,7 @@ function UsernameEditorContent({
     try {
       await updateUsernameMutation.mutateAsync(newUsername);
       setShowSuccess(true);
-    } catch (error) {
+    } catch {
       toast.error('Failed to update username');
     }
   };
