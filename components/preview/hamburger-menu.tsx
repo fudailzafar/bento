@@ -1,15 +1,8 @@
 'use client';
 
-import React, { useState } from 'react';
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuTrigger,
-} from '@/components/ui';
-import { LinkIcon, SectionIcon } from '@/components/icons';
+import React from 'react';
 
 export const HamburgerMenu = () => {
-  const [isOpen, setIsOpen] = useState(false);
 
   return (
     <div className="flex items-center space-x-1">
