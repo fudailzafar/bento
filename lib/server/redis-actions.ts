@@ -1,6 +1,7 @@
-import { upstashRedis } from '@/lib/server';
-import { PRIVATE_ROUTES, ResumeDataSchema } from '@/lib';
+import { upstashRedis } from '@/lib/server/redis';
+import { ResumeDataSchema } from '@/lib/resume';
 import { z } from 'zod';
+import { PRIVATE_ROUTES } from '../routes';
 
 // Key prefixes for different types of data
 const REDIS_KEYS = {

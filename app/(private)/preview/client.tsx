@@ -81,6 +81,94 @@ export default function PreviewClient({ messageTip }: { messageTip?: string }) {
     userProfileQuery.refetch();
   };
 
+  // Handlers for adding items
+  const handleAddWorkExperience = () => {
+    if (!localResumeData) return;
+    const newWork = [
+      ...(localResumeData.workExperience || []),
+      {
+        title: '',
+        company: '',
+        description: '',
+        location: '',
+        link: '',
+        contract: '',
+        start: '',
+        end: null,
+        logo: null,
+      },
+    ];
+    handleResumeChange({
+      ...localResumeData,
+      workExperience: newWork,
+    });
+    toast.success('Work experience added');
+  };
+
+  const handleAddEducation = () => {
+    if (!localResumeData) return;
+    const newEducation = [
+      ...(localResumeData.education || []),
+      {
+        degree: '',
+        school: '',
+        start: '',
+        end: '',
+        logo: null,
+      },
+    ];
+    handleResumeChange({
+      ...localResumeData,
+      education: newEducation,
+    });
+    toast.success('Education added');
+  };
+
+  const handleAddSkill = () => {
+    if (!localResumeData) return;
+    // For skills, we'll just show a toast since there's a dialog
+    toast.info('Click on "Add Skill" button below the skills section');
+  };
+
+  const handleAddProject = () => {
+    if (!localResumeData) return;
+    const newProjects = [
+      ...(localResumeData.projects || []),
+      {
+        title: '',
+        description: '',
+        githubLink: '',
+        liveLink: '',
+        start: '',
+        end: null,
+        skills: [],
+        image: null,
+      },
+    ];
+    handleResumeChange({
+      ...localResumeData,
+      projects: newProjects,
+    });
+    toast.success('Project added');
+  };
+
+  const handleAddSocialLink = () => {
+    if (!localResumeData) return;
+    // Add a new empty social link (e.g., website) to contacts object
+    const newContacts = {
+      ...localResumeData.header.contacts,
+      website: '',
+    };
+    handleResumeChange({
+      ...localResumeData,
+      header: {
+        ...localResumeData.header,
+        contacts: newContacts,
+      },
+    });
+    toast.success('Social link added');
+  };
+
   // Cleanup timer on unmount
   useEffect(() => {
     return () => {
@@ -202,6 +290,11 @@ export default function PreviewClient({ messageTip }: { messageTip?: string }) {
             viewMode={viewMode}
             onViewModeChange={setViewMode}
             isSaving={saveResumeDataMutation.isPending}
+            onAddWorkExperience={handleAddWorkExperience}
+            onAddEducation={handleAddEducation}
+            onAddSkill={handleAddSkill}
+            onAddProject={handleAddProject}
+            onAddSocialLink={handleAddSocialLink}
           />
         </div>
       </div>

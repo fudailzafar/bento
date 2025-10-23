@@ -43,7 +43,7 @@ function EducationItem({
   onLogoUpload?: () => void;
   onLogoDelete?: () => void;
   isUploading?: boolean;
-  fileInputRef?: React.RefObject<HTMLInputElement>;
+  fileInputRef?: React.RefObject<HTMLInputElement | null>;
 }) {
   const { school, start, end, degree, logo } = education;
   const [isHovered, setIsHovered] = useState(false);
@@ -375,11 +375,6 @@ export function Education({
             if (!isEditMode) return null;
           }
 
-          // Create a ref for this specific input
-          const inputRef = {
-            current: fileInputRefs.current[idx] || null,
-          };
-
           return (
             // Education Card with Animation
             <BlurFade
@@ -391,7 +386,6 @@ export function Education({
                 <input
                   ref={(el) => {
                     fileInputRefs.current[idx] = el;
-                    inputRef.current = el;
                   }}
                   type="file"
                   accept="image/*"
@@ -406,7 +400,7 @@ export function Education({
                   onLogoUpload={() => handleUploadClick(idx)}
                   onLogoDelete={() => handleDeleteLogo(idx)}
                   isUploading={uploadingIndex === idx}
-                  fileInputRef={inputRef}
+                  fileInputRef={{ current: fileInputRefs.current[idx] }}
                 />
               </article>
             </BlurFade>

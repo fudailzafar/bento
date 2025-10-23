@@ -37,7 +37,7 @@ export function Summary({
     <Section className={className}>
       {isEditMode && onChangeSummary ? (
         <div
-          className="group relative -mx-4 px-4 py-3 border-2 hover:border-gray-100 hover:shadow-md hover:rounded-xl p-2 transition-all duration-300 border-transparent  dark:hover:border-gray-600 rounded-lg cursor-text"
+          className="group relative -mx-4 px-4 py-3 border-2 p-2 transition-all duration-300 border-transparent  dark:hover:border-gray-600 rounded-lg cursor-text"
           onClick={() => !isEditing && setIsEditing(true)}
         >
           <BlurFade delay={BLUR_FADE_DELAY * 3}>

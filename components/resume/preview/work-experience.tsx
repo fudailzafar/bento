@@ -84,6 +84,7 @@ export function WorkExperience({
           link: '',
           contract: '',
           start: '',
+          end: '',
         },
       ]);
       setEditingIndex(work.length);
@@ -299,7 +300,7 @@ export function WorkExperience({
               >
                 {/* Hidden file input */}
                 <input
-                  ref={(el) => (fileInputRefs.current[id] = el)}
+                  ref={(el) => { fileInputRefs.current[id] = el; }}
                   type="file"
                   accept="image/*"
                   onChange={(e) => handleFileChange(id, e)}
