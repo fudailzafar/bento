@@ -2,6 +2,7 @@
 
 import { GoogleIcon, LoaderIcon } from '@/components/icons';
 import { signIn, useSession } from 'next-auth/react';
+import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
@@ -28,7 +29,7 @@ export default function LoginPage() {
 
   return (
     <div className="min-h-[70vh] md:min-h-screen flex items-center justify-center px-7 sm:px-6 lg:px-48">
-      <div className="w-full space-y-8">
+      <div className="w-full max-w-[440px] space-y-8 mx-auto">
         <div className="text-left">
           <h1 className="text-3xl lg:text-[32px] font-semibold text-design-black mb-6 md:mb-4">
             Create your Account
@@ -41,7 +42,7 @@ export default function LoginPage() {
         <button
           onClick={handleSignIn}
           disabled={isLoading}
-          className="w-full max-w-[440px] flex items-center active:scale-95 transition-all duration-300 ease-out justify-center gap-3 my-10 shadow-lg px-6 sm:px-10 py-5 md:py-3.5 bg-[#1A96EB] hover:bg-[#2a96df] disabled:opacity-70 disabled:cursor-not-allowed text-[#ececec] font-bold tracking-normal text-sm rounded-xl"
+          className="w-full flex items-center active:scale-95 transition-all duration-300 ease-out justify-center gap-3 my-10 shadow-lg px-6 sm:px-10 py-5 md:py-3.5 bg-[#1A96EB] hover:bg-[#2a96df] disabled:opacity-70 disabled:cursor-not-allowed text-[#ececec] font-bold tracking-normal text-sm rounded-xl"
         >
           {isLoading ? (
             <>
@@ -63,6 +64,16 @@ export default function LoginPage() {
             or log in
           </Link>
         </div>
+      </div>
+
+      <div className="hidden md:flex flex-1 items-center justify-center">
+        <Image
+          src="/home/cv-home.png"
+          width={450}
+          height={450}
+          alt="Portfolio Home Illustration"
+          className="max-w-[430px] w-full h-auto object-contain rounded-2xl"
+        />
       </div>
     </div>
   );
