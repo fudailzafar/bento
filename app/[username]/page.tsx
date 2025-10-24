@@ -223,17 +223,15 @@ export default async function ProfilePage({
 
       {/* Mobile CTA Section */}
       <div className="sm:hidden bg-slate-100 dark:bg-[#020817] py-10 text-center z-10 pb-24 gap-5 flex flex-col justify-center items-center">
-        <Button className="bg-design-black text-design-white dark:bg-design-white dark:text-design-black">
+        <Button className="bg-design-primary hover:bg-design-primaryDark text-design-white">
           <Link
             href={'/signup'}
-            className="text-design-white text-sm flex flex-row gap-3"
+            className="text-xs flex-row gap-3 font-bold flex justify-center items-center"
           >
             <Image src={'/favicon.ico'} alt="" width={20} height={15} />
-            <div className="text-design-white dark:text-design-black">
-              Create Your{' '}
-              <span className="text-design-white dark:text-design-black">
-                Portfolio
-              </span>
+            <div>
+              <p className='text-base font-bold'>Create Your Portfolio</p>
+              
             </div>
           </Link>
         </Button>
@@ -252,10 +250,10 @@ export default async function ProfilePage({
         <Button className="bg-design-primary hover:bg-design-primaryDark text-design-white h-8 px-3">
           <Link
             href={'/signup'}
-            className="text-sm flex flex-row gap-2 items-center"
+            className="text-xs flex flex-row gap-2 items-center font-semibold"
           >
             <Image src={'/favicon.ico'} alt="" width={16} height={16} />
-            <span>Create Portfolio</span>
+            <span>Create Your Portfolio</span>
           </Link>
         </Button>
         <Button variant={'ghost'} className="h-8 px-3">
