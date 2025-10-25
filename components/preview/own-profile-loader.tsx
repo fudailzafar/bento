@@ -1,3 +1,5 @@
+'use server';
+
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/app/api/auth/[...nextauth]/route';
 import {
@@ -273,5 +275,3 @@ export default async function OwnProfileLoader({ userId }: { userId: string }) {
     </Suspense>
   );
 }
-
-export const maxDuration = 40;

@@ -399,3 +399,5 @@ export default async function ProfilePage({
     </>
   );
 }
+
+export const maxDuration = 40;
