@@ -54,7 +54,6 @@ export const FullResume = ({
     summary: (
       <Summary
         summary={resume?.summary}
-        className="py-5"
         isEditMode={isEditMode}
         onChangeSummary={
           isEditMode && onChangeResume
