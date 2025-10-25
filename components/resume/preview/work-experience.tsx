@@ -289,10 +289,20 @@ export function WorkExperience({
               <div
                 onMouseEnter={() => setHoveredIndex(id)}
                 onMouseLeave={() => setHoveredIndex(null)}
+                onClick={() => {
+                  // Only disable click in edit mode (form editing)
+                  if (!isEditMode || (isEditMode && !editingIndex && typeof editingIndex !== 'number')) {
+                    setExpandedIndexes((prev) =>
+                      prev.includes(id)
+                        ? prev.filter((idx) => idx !== id)
+                        : [...prev, id]
+                    );
+                  }
+                }}
                 className={cn(
-                  'group relative -mx-4 px-4 border-2 border-transparent transition-all duration-300',
+                  'group relative -mx-4 px-4 border-2 border-transparent transition-all duration-300 cursor-pointer',
                   isEditMode &&
-                    'hover:border-gray-100 hover:shadow-md hover:rounded-xl hover:py-3 dark:hover:border-gray-600'
+                    'hover:border-gray-100 hover:shadow-md hover:rounded-xl hover:py-3 dark:hover:border-gray-600 cursor-default'
                 )}
               >
                 {/* Hidden file input */}
@@ -359,23 +369,11 @@ export function WorkExperience({
                           <span className="text-base font-semibold text-left text-[#050914] dark:text-design-white">
                             {item.company}
                           </span>
+                          {/* Chevron only for hover visual, not clickable in public/preview view */}
                           {isHovered && (
-                            <motion.button
+                            <motion.span
                               key="chevron"
-                              type="button"
-                              aria-label={
-                                isExpanded
-                                  ? 'Collapse details'
-                                  : 'Expand details'
-                              }
-                              onClick={() => {
-                                setExpandedIndexes((prev) =>
-                                  prev.includes(id)
-                                    ? prev.filter((idx) => idx !== id)
-                                    : [...prev, id]
-                                );
-                              }}
-                              className="ml-1 focus:outline-none"
+                              className="ml-1"
                               initial={{ opacity: 0, x: -8 }}
                               animate={{ opacity: 1, x: 0 }}
                               exit={{
@@ -393,7 +391,7 @@ export function WorkExperience({
                                   isExpanded ? 'rotate-90' : 'rotate-0'
                                 )}
                               />
-                            </motion.button>
+                            </motion.span>
                           )}
                         </h3>
                         <div className="text-xs sm:text-sm tabular-nums text-muted-foreground text-right">
