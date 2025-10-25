@@ -15,12 +15,7 @@ import { useMemo, useState, useRef } from 'react';
 import { Plus } from 'lucide-react';
 import { cn } from '@/lib';
 import { toast } from 'sonner';
-import {
-  ImageIcon,
-  LoaderIcon,
-  PenIcon,
-  TrashIcon,
-} from '@/components/icons';
+import { ImageIcon, LoaderIcon, PenIcon, TrashIcon } from '@/components/icons';
 import { BlurFade } from '@/components/magicui';
 import { EducationField } from '@/components/resume/editing';
 
@@ -189,10 +184,12 @@ export function Education({
   educations,
   isEditMode,
   onChangeEducation,
+  className,
 }: {
   educations: ResumeDataSchemaType['education'];
   isEditMode?: boolean;
   onChangeEducation?: (newEducation: ResumeDataSchemaType['education']) => void;
+  className?: string;
 }) {
   const [editingIndex, setEditingIndex] = useState<number | null>(null);
   const [uploadingIndex, setUploadingIndex] = useState<number | null>(null);
@@ -330,7 +327,7 @@ export function Education({
 
   return (
     // Education Section
-    <Section>
+    <Section className={className}>
       <BlurFade delay={BLUR_FADE_DELAY * 7}>
         <h2 className="text-xl font-bold mb-2" id="education-section">
           Education

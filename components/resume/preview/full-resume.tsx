@@ -29,16 +29,15 @@ export const FullResume = ({
     return <LoadingFallback message="Loading Portfolio..." />;
   }
 
-  const sectionOrder =
-    resume?.sectionOrder || [
-      'summary',
-      'workExperience',
-      'education',
-      'skills',
-      'projects',
-      'contact',
-      'socialLinks',
-    ];
+  const sectionOrder = resume?.sectionOrder || [
+    'summary',
+    'workExperience',
+    'education',
+    'skills',
+    'projects',
+    'contact',
+    'socialLinks',
+  ];
 
   const handleReorder = (newSectionOrder: string[]) => {
     if (onChangeResume && resume) {
@@ -54,6 +53,7 @@ export const FullResume = ({
     summary: (
       <Summary
         summary={resume?.summary}
+        className="py-5"
         isEditMode={isEditMode}
         onChangeSummary={
           isEditMode && onChangeResume
@@ -71,6 +71,7 @@ export const FullResume = ({
       <WorkExperience
         work={resume?.workExperience}
         isEditMode={isEditMode}
+        className='py-5'
         onChangeWork={
           isEditMode && onChangeResume
             ? (newWork) => {
@@ -87,6 +88,7 @@ export const FullResume = ({
       <Education
         educations={resume.education}
         isEditMode={isEditMode}
+        className="py-5"
         onChangeEducation={
           isEditMode && onChangeResume
             ? (newEducation) => {
@@ -103,6 +105,7 @@ export const FullResume = ({
       <Skills
         skills={resume.header.skills}
         isEditMode={isEditMode}
+        className="py-5"
         onChangeSkills={
           isEditMode && onChangeResume
             ? (newSkills) => {
