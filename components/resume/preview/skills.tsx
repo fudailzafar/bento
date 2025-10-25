@@ -34,7 +34,6 @@ export function Skills({
         toast.warning('This skill is already added.');
       } else {
         onChangeSkills([...skills, skillToAdd]);
-        toast.success('Skill added successfully.');
       }
     }
   };
@@ -91,7 +90,7 @@ export function Skills({
           <div className="mt-4 flex justify-end">
             <button
               onClick={() => setIsAddSkillDialogOpen(true)}
-              className="px-3 active:scale-95 py-2 flex items-center justify-center gap-2 border-2 border-dashed border-muted-foreground/25 hover:border-muted-foreground/50 rounded-lg transition-all duration-300 hover:shadow-lg bg-transparent hover:bg-muted/5 group"
+              className="w-full px-3 active:scale-95 py-4 flex items-center justify-center gap-2 border-2 border-dashed border-muted-foreground/25 hover:border-muted-foreground/50 rounded-lg transition-all duration-300 hover:shadow-lg bg-transparent hover:bg-muted/5 group"
             >
               <Plus className="size-4 text-muted-foreground group-hover:text-foreground transition-colors" />
               <span className="text-sm text-muted-foreground group-hover:text-foreground transition-colors">
