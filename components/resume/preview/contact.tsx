@@ -14,6 +14,12 @@ export function Contact({
   isEditMode?: boolean;
   onChangeContact?: (newContact: string) => void;
 }) {
+  // Calculate rows based on content length
+  const calculateRows = (text: string) => {
+    const lineBreaks = (text.match(/\n/g) || []).length;
+    const estimatedLines = Math.ceil(text.length / 80); // ~80 chars per line
+    return Math.max(lineBreaks + 1, estimatedLines, 2); // minimum 2 rows
+  };
   const [isEditing, setIsEditing] = useState(false);
 
   if (!cta && !isEditMode) return null;
@@ -33,15 +39,19 @@ export function Contact({
             {isEditMode && onChangeContact ? (
               <div className="group relative mx-auto max-w-[600px]">
                 {isEditing ? (
-                  <textarea
-                    value={cta}
-                    onChange={(e) => onChangeContact(e.target.value)}
-                    onBlur={() => setIsEditing(false)}
-                    autoFocus
-                    className="w-full max-w-[900px] min-h-[80px] bg-transparent border-none outline-none text-center text-muted-foreground text-xl font-normal px-2 py-3 focus:ring-0 mx-auto resize-none"
-                    placeholder="Add note..."
-                    rows={4}
-                  />
+                  <>
+                    <div className="cursor-text rounded p-2 transition-colors">
+                      <textarea
+                        value={cta}
+                        onChange={(e) => onChangeContact(e.target.value)}
+                        onBlur={() => setIsEditing(false)}
+                        autoFocus
+                        className="mx-auto max-w-[600px] text-muted-foreground md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed min-w-[400px] md:min-w-[600px] bg-transparent border-none outline-none text-center focus:ring-0 py-[-8px] resize-none"
+                        placeholder="Add note..."
+                        rows={calculateRows(cta)}
+                      />
+                    </div>
+                  </>
                 ) : (
                   <div
                     onClick={() => setIsEditing(true)}

@@ -29,15 +29,16 @@ export const FullResume = ({
     return <LoadingFallback message="Loading Portfolio..." />;
   }
 
-  const sectionOrder = resume?.sectionOrder || [
-    'summary',
-    'workExperience',
-    'education',
-    'skills',
-    'projects',
-    'contact',
-    'socialLinks',
-  ];
+  const sectionOrder = (
+    resume?.sectionOrder || [
+      'summary',
+      'workExperience',
+      'education',
+      'skills',
+      'projects',
+      'contact',
+    ]
+  ).filter((section) => section !== 'socialLinks');
 
   const handleReorder = (newSectionOrder: string[]) => {
     if (onChangeResume && resume) {
@@ -71,7 +72,7 @@ export const FullResume = ({
       <WorkExperience
         work={resume?.workExperience}
         isEditMode={isEditMode}
-        className='py-5'
+        className="py-5"
         onChangeWork={
           isEditMode && onChangeResume
             ? (newWork) => {
@@ -153,25 +154,6 @@ export const FullResume = ({
         }
       />
     ),
-    socialLinks: (
-      <SocialLinks
-        contacts={resume?.header?.contacts}
-        isEditMode={isEditMode}
-        onChangeContacts={
-          isEditMode && onChangeResume
-            ? (newContacts) => {
-                onChangeResume({
-                  ...resume,
-                  header: {
-                    ...resume.header,
-                    contacts: newContacts,
-                  },
-                });
-              }
-            : undefined
-        }
-      />
-    ),
   };
 
   return (
@@ -205,6 +187,24 @@ export const FullResume = ({
             onReorder={handleReorder}
           />
         </div>
+
+        <SocialLinks
+          contacts={resume?.header?.contacts}
+          isEditMode={isEditMode}
+          onChangeContacts={
+            isEditMode && onChangeResume
+              ? (newContacts) => {
+                  onChangeResume({
+                    ...resume,
+                    header: {
+                      ...resume.header,
+                      contacts: newContacts,
+                    },
+                  });
+                }
+              : undefined
+          }
+        />
       </div>
     </section>
   );

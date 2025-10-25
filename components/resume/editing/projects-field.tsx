@@ -10,7 +10,7 @@ interface Projects {
   liveLink: string;
   githubLink: string;
   start: string;
-  end?: string | null;
+  end: string | null;
 }
 
 interface ProjectsFieldProps {

@@ -131,7 +131,6 @@ export const ResumeDataSchema = z.object({
       'skills',
       'projects',
       'contact',
-      'socialLinks',
     ])
     .describe('Order of sections in the resume'),
 });
