@@ -12,7 +12,7 @@ import { SortableSections } from './sortable-sections';
 import { LoadingFallback } from '@/components/utils';
 import { ResumeData } from '@/lib/server';
 
-export const FullResume = ({
+export const PreviewPortfolio = ({
   resume,
   profilePicture,
   isEditMode = false,
@@ -158,7 +158,7 @@ export const FullResume = ({
   return (
     <section
       className="min-h-screen bg-background font-sans antialiased max-w-2xl mx-auto py-12 sm:py-24"
-      aria-label="Resume Content"
+      aria-label="Preview Portfolio Content"
     >
       <Header
         header={resume?.header}

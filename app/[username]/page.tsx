@@ -13,7 +13,6 @@ import {
   DockClient,
   DockIcon,
 } from '@/components/magicui';
-import { PublicResume } from '@/components/resume/preview/public-portfolio';
 import {
   Button,
   buttonVariants,
@@ -22,6 +21,7 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from '@/components/ui';
+import { PublicPortfolio } from '@/components/resume/preview';
 
 function getSocialLinks(contacts?: ResumeDataSchemaType['header']['contacts']) {
   if (!contacts) return {};
@@ -215,7 +215,7 @@ export default async function ProfilePage({
       />
 
       <div className="px-6">
-        <PublicResume
+        <PublicPortfolio
           resume={resume?.resumeData}
           profilePicture={profilePicture}
         />
