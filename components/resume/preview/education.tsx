@@ -61,9 +61,9 @@ function EducationItem({
   return (
     <Card
       className={cn(
-        'group relative -mx-4 px-4 border-2 border-transparent transition-all duration-300',
+        'group relative -mx-2 px-2 border-2 border-transparent transition-all duration-300',
         isEditMode &&
-          'hover:border-gray-100 hover:shadow-md hover:py-3 dark:hover:border-gray-600'
+          'hover:border-gray-100 hover:shadow-sm hover:rounded-xl hover:py-1 dark:hover:border-gray-600'
       )}
       onMouseEnter={() => isEditMode && setIsHovered(true)}
       onMouseLeave={() => isEditMode && setIsHovered(false)}

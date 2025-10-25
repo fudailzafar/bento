@@ -216,12 +216,12 @@ export function Projects({
           <BlurFade
             delay={BLUR_FADE_DELAY * 12 + (projects?.length || 0) * 0.05 + 0.1}
           >
-            <div className="flex justify-center max-w-[800px] mx-auto">
+            <div className="mt-4 flex justify-center">
               <button
                 onClick={handleAdd}
-                className="w-full sm:w-[392px] h-[300px] flex flex-col items-center justify-center border-2 border-dashed border-muted-foreground/25 hover:border-muted-foreground/50 rounded-lg transition-all duration-300 hover:shadow-lg bg-transparent hover:bg-muted/5 group"
+                className="w-full py-5 flex flex-row items-center justify-center gap-2 border-2 border-dashed border-muted-foreground/25 hover:border-muted-foreground/50 rounded-lg transition-all duration-300 hover:shadow-lg bg-transparent hover:bg-muted/5 group"
               >
-                <Plus className="size-8 mb-2 text-muted-foreground group-hover:text-foreground transition-colors" />
+                <Plus className="size-4 text-muted-foreground group-hover:text-foreground transition-colors" />
                 <span className="text-sm text-muted-foreground group-hover:text-foreground transition-colors">
                   Add Project
                 </span>
