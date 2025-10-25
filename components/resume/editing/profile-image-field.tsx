@@ -5,19 +5,19 @@ import { useState, useRef } from 'react';
 import { toast } from 'sonner';
 import { CircleArrowUpIcon, LoaderIcon, TrashIcon } from '@/components/icons';
 
-interface EditableProfileImageProps {
+interface ProfileImageFieldProps {
   name: string;
   currentImage?: string;
   onImageChange?: (newImageUrl: string | null) => void;
   isPublicView?: boolean;
 }
 
-export function EditableProfileImage({
+export function ProfileImageField({
   name,
   currentImage,
   onImageChange,
   isPublicView = false,
-}: EditableProfileImageProps) {
+}: ProfileImageFieldProps) {
   const [isHovered, setIsHovered] = useState(false);
   const [isUploading, setIsUploading] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
