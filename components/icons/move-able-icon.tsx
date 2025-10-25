@@ -13,14 +13,14 @@ export const MoveAbleIcon = (props: React.SVGProps<SVGSVGElement>) => {
         fill="currentColor"
       ></path>
       <path
-        fill-rule="evenodd"
-        clip-rule="evenodd"
+        fillRule="evenodd"
+        clipRule="evenodd"
         d="M4.70711 6.29274C5.09763 6.68327 5.09763 7.31643 4.70711 7.70696L3.41421 8.99985L4.70711 10.2927C5.09763 10.6833 5.09763 11.3164 4.70711 11.707C4.31658 12.0975 3.68342 12.0975 3.29289 11.707L1.29289 9.70696C0.902369 9.31643 0.902369 8.68327 1.29289 8.29274L3.29289 6.29274C3.68342 5.90222 4.31658 5.90222 4.70711 6.29274Z"
         fill="currentColor"
       ></path>
       <path
-        fill-rule="evenodd"
-        clip-rule="evenodd"
+        fillRule="evenodd"
+        clipRule="evenodd"
         d="M3.99985 5.99985C4.55213 5.99985 4.99985 6.44756 4.99985 6.99985V10.9998C4.99985 11.5521 4.55213 11.9998 3.99985 11.9998C3.44756 11.9998 2.99985 11.5521 2.99985 10.9998V6.99985C2.99985 6.44756 3.44756 5.99985 3.99985 5.99985Z"
         fill="currentColor"
       ></path>
@@ -29,26 +29,26 @@ export const MoveAbleIcon = (props: React.SVGProps<SVGSVGElement>) => {
         fill="currentColor"
       ></path>
       <path
-        fill-rule="evenodd"
-        clip-rule="evenodd"
+        fillRule="evenodd"
+        clipRule="evenodd"
         d="M13.2927 6.29274C13.6833 5.90222 14.3164 5.90222 14.707 6.29274L16.707 8.29274C17.0975 8.68327 17.0975 9.31643 16.707 9.70695L14.707 11.707C14.3164 12.0975 13.6833 12.0975 13.2927 11.707C12.9022 11.3164 12.9022 10.6833 13.2927 10.2927L14.5856 8.99985L13.2927 7.70696C12.9022 7.31643 12.9022 6.68327 13.2927 6.29274Z"
         fill="currentColor"
       ></path>
       <path
-        fill-rule="evenodd"
-        clip-rule="evenodd"
+        fillRule="evenodd"
+        clipRule="evenodd"
         d="M13.9998 5.99985C14.5521 5.99985 14.9998 6.44756 14.9998 6.99985V10.9998C14.9998 11.5521 14.5521 11.9998 13.9998 11.9998C13.4476 11.9998 12.9998 11.5521 12.9998 10.9998V6.99985C12.9998 6.44756 13.4476 5.99985 13.9998 5.99985Z"
         fill="currentColor"
       ></path>
       <path
-        fill-rule="evenodd"
-        clip-rule="evenodd"
+        fillRule="evenodd"
+        clipRule="evenodd"
         d="M6.29274 13.2927C6.68327 12.9022 7.31643 12.9022 7.70696 13.2927L8.99985 14.5856L10.2927 13.2927C10.6833 12.9022 11.3164 12.9022 11.707 13.2927C12.0975 13.6833 12.0975 14.3164 11.707 14.707L9.70696 16.707C9.31643 17.0975 8.68327 17.0975 8.29274 16.707L6.29274 14.707C5.90222 14.3164 5.90222 13.6833 6.29274 13.2927Z"
         fill="currentColor"
       ></path>
       <path
-        fill-rule="evenodd"
-        clip-rule="evenodd"
+        fillRule="evenodd"
+        clipRule="evenodd"
         d="M5.99985 13.9998C5.99985 13.4476 6.44756 12.9998 6.99985 12.9998H10.9998C11.5521 12.9998 11.9998 13.4476 11.9998 13.9998C11.9998 14.5521 11.5521 14.9998 10.9998 14.9998H6.99985C6.44756 14.9998 5.99985 14.5521 5.99985 13.9998Z"
         fill="currentColor"
       ></path>
