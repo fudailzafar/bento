@@ -49,7 +49,9 @@ export default function LoginPage() {
         } else if (result?.ok) {
           const usernameRes = await fetch('/api/username');
           const usernameData = await usernameRes.json();
-          router.push(usernameData.username ? `/${usernameData.username}` : '/upload');
+          router.push(
+            usernameData.username ? `/${usernameData.username}` : '/upload'
+          );
         }
       } else {
         // Otherwise use Google OAuth
@@ -66,7 +68,7 @@ export default function LoginPage() {
     <div className="flex min-h-[90vh] items-center justify-between gap-12 px-7 sm:px-6 md:min-h-screen lg:gap-16 lg:px-32">
       <div className="w-full max-w-[440px] space-y-8">
         <div className="text-left">
-          <h1 className="mb-6 text-[29px] font-bold text-design-black md:mb-4 md:font-semibold lg:text-[32px]">
+          <h1 className="my-6 text-[28px] font-semibold text-design-black md:mb-4 lg:text-[32px]">
             Log in to your Portfolio
           </h1>
           <h2 className="text-xl font-normal text-design-resume sm:text-xl">
@@ -107,6 +109,12 @@ export default function LoginPage() {
               </button>
             </div>
           </div>
+          <Link
+            href="/reset-password"
+            className="pt-1 text-xs font-normal text-design-primaryLight underline"
+          >
+            Reset Password
+          </Link>
 
           {/* OR Divider - only show when not in credentials mode */}
           {!hasCredentials ? (
@@ -151,7 +159,7 @@ export default function LoginPage() {
             <button
               type="submit"
               disabled={isLoading}
-              className="flex w-full items-center justify-center gap-3 rounded-lg bg-design-primary px-6 py-3 text-sm font-semibold tracking-tight text-white shadow-lg transition-all duration-300 ease-out hover:bg-design-primaryDark active:scale-95 disabled:cursor-not-allowed disabled:opacity-70"
+              className="flex w-full items-center justify-center gap-3 rounded-xl bg-design-primary px-6 py-5 text-sm font-semibold tracking-tight text-white shadow-lg transition-all duration-300 ease-out hover:bg-design-primaryDark active:scale-95 disabled:cursor-not-allowed disabled:opacity-70 md:rounded-lg md:py-3"
             >
               {isLoading ? (
                 <>
