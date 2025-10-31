@@ -3,7 +3,7 @@ export function VideoDialog() {
     <div className="flex w-full flex-col items-center justify-center">
       <div className="hidden sm:block">
         <video
-          src="/home/portfoliofy-demo.mp4"
+          src="/home/portfoliofy-desktop-demo.mp4"
           autoPlay
           loop
           muted
