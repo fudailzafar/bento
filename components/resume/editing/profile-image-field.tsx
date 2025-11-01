@@ -118,7 +118,7 @@ export function ProfileImageField({
       {currentImage ? (
         // Avatar with image
         <>
-          <Avatar className="size-28 border">
+          <Avatar className="size-32 border md:size-48">
             <AvatarImage src={currentImage} alt={`${name}'s profile picture`} />
             <AvatarFallback>
               {name
@@ -130,11 +130,11 @@ export function ProfileImageField({
 
           {/* Action Buttons - Always visible on mobile, hover on desktop */}
           {!isUploading && !isPublicView && (
-            <div className="absolute bottom-0 left-0 right-0 flex items-center justify-between px-1 transition-opacity sm:opacity-0 sm:group-hover:opacity-100">
+            <div className="absolute bottom-0 right-0 flex items-center justify-between px-3 transition-opacity sm:opacity-0 sm:group-hover:opacity-100 md:bottom-2 md:left-0">
               {/* Upload - Desktop only */}
               <button
                 onClick={handleUploadClick}
-                className="hidden size-8 items-center justify-center rounded-full border border-neutral-300 bg-white shadow-lg backdrop-blur-sm transition-all hover:bg-white/90 sm:flex"
+                className="hidden size-9 items-center justify-center rounded-full border border-neutral-300 bg-white shadow-lg backdrop-blur-sm transition-all hover:bg-white/90 sm:flex"
               >
                 <CircleArrowUpIcon className="size-4 text-black" />
               </button>
@@ -142,9 +142,9 @@ export function ProfileImageField({
               {/* Delete - Always visible on mobile, hover on desktop */}
               <button
                 onClick={handleDelete}
-                className="flex size-8 items-center justify-center rounded-full border border-neutral-300 bg-white shadow-lg backdrop-blur-sm transition-all hover:bg-white/90"
+                className="flex size-9 items-center justify-center rounded-full border border-neutral-300 bg-white shadow-lg backdrop-blur-sm transition-all hover:bg-white/90"
               >
-                <TrashIcon className="size-4 text-black" />
+                <TrashIcon className="size-4 text-black md:size-4" />
               </button>
             </div>
           )}
@@ -167,10 +167,12 @@ export function ProfileImageField({
         // Empty state - Upload Icon (Edit mode only)
         <button
           onClick={handleUploadClick}
-          className="flex size-28 cursor-pointer flex-col items-center justify-center rounded-full border-2 border-dashed border-black/[0.08] bg-[#FAFAFA] transition-colors duration-200 ease-in-out hover:bg-[#F6F6F6] active:bg-[#F1F1F1]"
+          className="flex size-28 cursor-pointer flex-col items-center justify-center rounded-full border-2 border-dashed border-black/[0.08] bg-[#FAFAFA] transition-colors duration-200 ease-in-out hover:bg-[#F6F6F6] active:bg-[#F1F1F1] md:size-48"
         >
           <CircleArrowUpIcon className="mb-2 size-8 text-black/10" />
-          <span className="text-xs font-medium text-black/60">Add Avatar</span>
+          <span className="text-xs font-medium text-black/60 md:text-sm md:font-semibold">
+            Add Avatar
+          </span>
         </button>
       )}
 

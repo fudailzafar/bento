@@ -4,5 +4,5 @@ export { default as PasswordEditorView } from './password-editor-view';
 export { default as DockActionBar } from './dock-action-bar';
 export { SectionActionBar } from './section-action-bar';
 export { SettingsActionBar } from './settings-action-bar';
-export { default as OwnProfileLoader } from './own-profile-loader';
+export { default as OwnProfileLoader } from './self-portfolio-loader';
 export type ViewMode = 'desktop' | 'mobile';

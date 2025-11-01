@@ -76,7 +76,7 @@ export function DraggableSection({
             ? 'md:cursor-grabbing border border-gray-200 bg-gray-200 opacity-30 dark:border-gray-700 dark:bg-gray-800'
             : isMobileActive
               ? 'border-2 border-black shadow-md md:border-0 md:border-gray-200 md:shadow-none md:group-hover:border md:group-hover:border-gray-200 md:group-hover:bg-white md:group-hover:shadow-[0_1px_3px_rgba(0,0,0,0.1)] dark:md:group-hover:border-gray-700 dark:md:group-hover:bg-gray-900'
-              : 'border border-gray-200 shadow-[0_1px_3px_rgba(0,0,0,0.1)] md:border-0 md:shadow-none md:group-hover:border md:group-hover:border-gray-200 md:group-hover:bg-white md:group-hover:shadow-[0_1px_3px_rgba(0,0,0,0.1)] dark:md:group-hover:border-gray-700 dark:md:group-hover:bg-gray-900'
+              : 'border border-gray-200 shadow-[0_1px_3px_rgba(0,0,0,0.1)] md:border md:border-gray-200 md:bg-white md:shadow-[0_0_3px_rgba(0,0,0,0.1)] dark:md:group-hover:border-gray-700 dark:md:group-hover:bg-gray-900'
         } `}
       >
         <div className={isDragging ? 'invisible' : ''}>{children}</div>

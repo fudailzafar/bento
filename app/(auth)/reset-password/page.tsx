@@ -1,11 +1,10 @@
 'use client';
 
 import { useState } from 'react';
-import { Input } from '@/components/ui/input';
 import { SignupAnimation } from '@/components/auth';
-import { LoaderIcon } from '@/components/icons';
+import ResetPasswordContent from '@/components/auth/reset-password-contet';
 
-export default function ResetPasswordContentPage() {
+export default function ResetPasswordPage() {
   const [email, setEmail] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [message, setMessage] = useState('');
@@ -44,7 +43,7 @@ export default function ResetPasswordContentPage() {
   if (emailSent) {
     return (
       <div className="flex min-h-[90vh] items-center justify-between gap-12 px-7 sm:px-6 md:min-h-screen lg:gap-16 lg:px-32">
-        <div className="flex w-full max-w-[660px] flex-col items-center space-y-3 text-center">
+        <div className="flex w-full max-w-[440px] flex-col items-center space-y-3 text-center">
           <div className="flex h-16 w-16 items-center justify-center rounded-full bg-design-primary">
             <svg
               width="32"
@@ -80,7 +79,7 @@ export default function ResetPasswordContentPage() {
             </p>
           </div>
 
-          <div className="flex max-w-[660px] flex-col gap-3">
+          <div className="flex w-full max-w-[440px] flex-col gap-3">
             <a
               href="https://mail.google.com"
               target="_blank"
@@ -109,45 +108,13 @@ export default function ResetPasswordContentPage() {
 
   return (
     <div className="flex min-h-[90vh] items-center justify-between gap-12 px-7 sm:px-6 md:min-h-screen lg:gap-16 lg:px-32">
-      <div className="w-full max-w-[440px] space-y-8">
-        <div className="text-left">
-          <h1 className="mb-6 text-[29px] font-bold text-design-black md:mb-4 md:font-semibold lg:text-[32px]">
-            Reset your password
-          </h1>
-          <h2 className="text-xl font-light text-design-resume sm:text-xl">
-            To which email should we send the reset link to?
-          </h2>
-        </div>
-
-        {/* Single Form */}
-        <form onSubmit={handleSubmit} className="space-y-4 pt-10">
-          {/* Two Column Layout on Desktop */}
-          <div className="flex flex-col gap-3 md:flex-row md:gap-4">
-            <Input
-              id="email"
-              type="email"
-              placeholder="Email address"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              required
-              disabled={isLoading}
-              className="h-12 w-full rounded-lg border-0 bg-[#F5F5F5] px-4 text-base outline-none placeholder:text-gray-400 focus-visible:ring-0 focus-visible:ring-offset-0"
-            />
-          </div>
-
-          <button
-            type="submit"
-            disabled={isLoading || !email}
-            className="flex w-full items-center justify-center gap-3 rounded-lg bg-design-black px-6 py-3 text-sm font-semibold tracking-tight text-white shadow-lg transition-all duration-300 ease-out hover:bg-design-black/80 active:scale-95 disabled:cursor-not-allowed disabled:opacity-70"
-          >
-            {isLoading ? <LoaderIcon /> : 'Send Reset Link'}
-          </button>
-
-          {message && (
-            <p className="text-center text-sm text-green-600">{message}</p>
-          )}
-        </form>
-      </div>
+      <ResetPasswordContent
+        handleSubmit={handleSubmit}
+        email={email}
+        setEmail={setEmail}
+        isLoading={isLoading}
+        message={message}
+      />
 
       <div className="hidden max-w-[700px] flex-1 items-center justify-center md:flex">
         <SignupAnimation />

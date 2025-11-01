@@ -1,6 +1,7 @@
 'use client';
 
 import { Header } from './header';
+import { Header as CommonHeader } from '@/components/common';
 import { Education } from './education';
 import { Projects } from './projects';
 import { Contact } from './contact';
@@ -156,55 +157,66 @@ export const PreviewPortfolio = ({
   };
 
   return (
-    <section
-      className="mx-auto min-h-screen max-w-2xl bg-background py-12 font-sans antialiased sm:py-24"
-      aria-label="Preview Portfolio Content"
-    >
-      <Header
-        header={resume?.header}
-        picture={profilePicture}
-        isEditMode={isEditMode}
-        onChangeHeader={
-          isEditMode && onChangeResume
-            ? (newHeader) => {
-                onChangeResume({
-                  ...resume,
-                  header: newHeader,
-                });
-              }
-            : undefined
-        }
-        onImageChange={onImageChange}
-      />
-
-      <div className="flex flex-col gap-6">
-        <div className="mt-10">
-          <SortableSections
-            sectionOrder={sectionOrder}
-            sectionComponents={sectionComponents}
+    <>
+      <div className="scrollbar-hide flex h-screen w-full flex-col md:flex-row md:gap-7">
+        <section
+          className="top-0 w-full self-start bg-background pt-8 font-sans antialiased sm:py-16 md:sticky md:w-[500px]"
+          aria-label="Preview Portfolio Header"
+        >
+          <Header
+            header={resume?.header}
+            picture={profilePicture}
             isEditMode={isEditMode}
-            onReorder={handleReorder}
+            onChangeHeader={
+              isEditMode && onChangeResume
+                ? (newHeader) => {
+                    onChangeResume({
+                      ...resume,
+                      header: newHeader,
+                    });
+                  }
+                : undefined
+            }
+            onImageChange={onImageChange}
           />
-        </div>
+        </section>
+        <section
+          className="scrollbar-hide w-full bg-background py-1 font-sans antialiased sm:py-8 md:w-[820px] md:overflow-y-auto"
+          aria-label="Preview Portfolio Content"
+        >
+          <div className="flex flex-col gap-6 md:pb-36">
+            <div className="mt-10">
+              <SortableSections
+                sectionOrder={sectionOrder}
+                sectionComponents={sectionComponents}
+                isEditMode={isEditMode}
+                onReorder={handleReorder}
+              />
+            </div>
 
-        <SocialLinks
-          contacts={resume?.header?.contacts}
-          isEditMode={isEditMode}
-          onChangeContacts={
-            isEditMode && onChangeResume
-              ? (newContacts) => {
-                  onChangeResume({
-                    ...resume,
-                    header: {
-                      ...resume.header,
-                      contacts: newContacts,
-                    },
-                  });
-                }
-              : undefined
-          }
-        />
+            <SocialLinks
+              contacts={resume?.header?.contacts}
+              isEditMode={isEditMode}
+              onChangeContacts={
+                isEditMode && onChangeResume
+                  ? (newContacts) => {
+                      onChangeResume({
+                        ...resume,
+                        header: {
+                          ...resume.header,
+                          contacts: newContacts,
+                        },
+                      });
+                    }
+                  : undefined
+              }
+            />
+
+            {/* Mobile Header at bottom */}
+            <CommonHeader />
+          </div>
+        </section>
       </div>
-    </section>
+    </>
   );
 };
