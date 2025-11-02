@@ -1,7 +1,7 @@
 'use client';
 
 import { BlurFade } from '@/components/magicui';
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 
 const BLUR_FADE_DELAY = 0.04;
 
@@ -14,13 +14,42 @@ export function Contact({
   isEditMode?: boolean;
   onChangeContact?: (newContact: string) => void;
 }) {
-  // Calculate rows based on content length
-  const calculateRows = (text: string) => {
-    const lineBreaks = (text.match(/\n/g) || []).length;
-    const estimatedLines = Math.ceil(text.length / 80); // ~80 chars per line
-    return Math.max(lineBreaks + 1, estimatedLines, 2); // minimum 2 rows
-  };
   const [isEditing, setIsEditing] = useState(false);
+  const ctaRef = useRef<HTMLParagraphElement>(null);
+
+  const handleBlur = () => {
+    if (ctaRef.current && onChangeContact) {
+      const newContent = ctaRef.current.textContent || '';
+      onChangeContact(newContent);
+    }
+    setIsEditing(false);
+  };
+
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === 'Enter' && !e.shiftKey) {
+      e.preventDefault();
+      ctaRef.current?.blur();
+    } else if (e.key === 'Escape') {
+      ctaRef.current?.blur();
+    }
+  };
+
+  const enableEditing = () => {
+    if (isEditMode && !isEditing) {
+      setIsEditing(true);
+      setTimeout(() => {
+        if (ctaRef.current) {
+          ctaRef.current.focus();
+          // Select all text
+          const range = document.createRange();
+          range.selectNodeContents(ctaRef.current);
+          const selection = window.getSelection();
+          selection?.removeAllRanges();
+          selection?.addRange(range);
+        }
+      }, 0);
+    }
+  };
 
   if (!cta && !isEditMode) return null;
 
@@ -36,38 +65,26 @@ export function Contact({
               Get in Touch
             </h2>
 
-            {isEditMode && onChangeContact ? (
-              <div className="group relative mx-auto max-w-[600px]">
-                {isEditing ? (
-                  <>
-                    <div className="cursor-text rounded p-2 transition-colors">
-                      <textarea
-                        value={cta}
-                        onChange={(e) => onChangeContact(e.target.value)}
-                        onBlur={() => setIsEditing(false)}
-                        autoFocus
-                        className="mx-auto max-w-[600px] text-muted-foreground md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed min-w-[400px] md:min-w-[600px] bg-transparent border-none outline-none text-center focus:ring-0 py-[-8px] resize-none"
-                        placeholder="Add note..."
-                        rows={calculateRows(cta)}
-                      />
-                    </div>
-                  </>
-                ) : (
-                  <div
-                    onClick={() => setIsEditing(true)}
-                    className="cursor-text rounded p-2 transition-colors"
-                  >
-                    <p className="mx-auto max-w-[600px] text-muted-foreground md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
-                      {cta || 'Add note...'}
-                    </p>
-                  </div>
-                )}
-              </div>
-            ) : (
-              <p className="mx-auto max-w-[600px] text-muted-foreground md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
-                {cta}
-              </p>
-            )}
+            <div className="mx-auto max-w-[600px]">
+              <p
+                ref={ctaRef}
+                contentEditable={isEditMode && isEditing}
+                suppressContentEditableWarning={true}
+                className={`text-muted-foreground md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed outline-none ${
+                  isEditing
+                    ? 'cursor-text bg-transparent p-2'
+                    : isEditMode
+                    ? 'cursor-pointer hover:opacity-80 rounded p-2 transition-colors'
+                    : 'cursor-default p-2'
+                }`}
+                onClick={enableEditing}
+                onBlur={handleBlur}
+                onKeyDown={handleKeyDown}
+                dangerouslySetInnerHTML={{
+                  __html: cta?.length > 0 ? cta : 'Add note...',
+                }}
+              />
+            </div>
           </div>
         </BlurFade>
       </div>

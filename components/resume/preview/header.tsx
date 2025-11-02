@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import { ResumeDataSchemaType } from '@/lib';
 import { BlurFade, BlurFadeText } from '@/components/magicui';
 import { ProfileImageField } from '@/components/resume/editing';
@@ -23,8 +23,75 @@ export function Header({
 }) {
   const [isEditingName, setIsEditingName] = useState(false);
   const [isEditingAbout, setIsEditingAbout] = useState(false);
+  const nameRef = useRef<HTMLHeadingElement>(null);
+  const aboutRef = useRef<HTMLParagraphElement>(null);
 
   const BLUR_FADE_DELAY = 0.04;
+
+  const handleNameBlur = () => {
+    if (nameRef.current && onChangeHeader) {
+      const newContent = nameRef.current.textContent || '';
+      onChangeHeader({ ...header, name: newContent });
+    }
+    setIsEditingName(false);
+  };
+
+  const handleAboutBlur = () => {
+    if (aboutRef.current && onChangeHeader) {
+      const newContent = aboutRef.current.textContent || '';
+      onChangeHeader({ ...header, shortAbout: newContent });
+    }
+    setIsEditingAbout(false);
+  };
+
+  const handleKeyDown = (field: 'name' | 'about', e: React.KeyboardEvent) => {
+    if (e.key === 'Enter' && !e.shiftKey) {
+      e.preventDefault();
+      if (field === 'name') {
+        nameRef.current?.blur();
+      } else {
+        aboutRef.current?.blur();
+      }
+    } else if (e.key === 'Escape') {
+      if (field === 'name') {
+        nameRef.current?.blur();
+      } else {
+        aboutRef.current?.blur();
+      }
+    }
+  };
+
+  const enableNameEditing = () => {
+    if (isEditMode && !isEditingName) {
+      setIsEditingName(true);
+      setTimeout(() => {
+        if (nameRef.current) {
+          nameRef.current.focus();
+          const range = document.createRange();
+          range.selectNodeContents(nameRef.current);
+          const selection = window.getSelection();
+          selection?.removeAllRanges();
+          selection?.addRange(range);
+        }
+      }, 0);
+    }
+  };
+
+  const enableAboutEditing = () => {
+    if (isEditMode && !isEditingAbout) {
+      setIsEditingAbout(true);
+      setTimeout(() => {
+        if (aboutRef.current) {
+          aboutRef.current.focus();
+          const range = document.createRange();
+          range.selectNodeContents(aboutRef.current);
+          const selection = window.getSelection();
+          selection?.removeAllRanges();
+          selection?.addRange(range);
+        }
+      }, 0);
+    }
+  };
 
   return (
     <header className="flex items-start md:items-center justify-between gap-4 ">
@@ -32,30 +99,23 @@ export function Header({
         {/* Name Field */}
         {isEditMode && onChangeHeader ? (
           <div className="group relative">
-            {isEditingName ? (
-              <input
-                type="text"
-                value={header.name}
-                onChange={(e) =>
-                  onChangeHeader({ ...header, name: e.target.value })
-                }
-                onBlur={() => setIsEditingName(false)}
-                autoFocus
-                className="w-full bg-transparent border-none outline-none text-3xl font-bold tracking-tighter sm:text-5xl xl:text-6xl/none p-0 focus:ring-0"
-              />
-            ) : (
-              <div
-                onClick={() => setIsEditingName(true)}
-                className="cursor-text rounded p-2 -ml-2 transition-colors"
-              >
-                <BlurFadeText
-                  delay={BLUR_FADE_DELAY}
-                  className="text-3xl font-bold tracking-tighter sm:text-5xl xl:text-6xl/none"
-                  yOffset={8}
-                  text={header.name}
-                />
-              </div>
-            )}
+            <h1
+              ref={nameRef}
+              contentEditable={isEditingName}
+              suppressContentEditableWarning={true}
+              className={`text-3xl font-bold tracking-tighter sm:text-5xl xl:text-6xl/none outline-none ${
+                isEditingName
+                  ? 'cursor-text bg-transparent p-2 -ml-2'
+                  : 'cursor-text hover:opacity-80 rounded p-2 -ml-2 transition-colors'
+              }`}
+              onClick={enableNameEditing}
+              onBlur={handleNameBlur}
+              onKeyDown={(e) => handleKeyDown('name', e)}
+              dangerouslySetInnerHTML={{
+                __html:
+                  header.name?.length > 0 ? header.name : 'Enter your name',
+              }}
+            />
           </div>
         ) : (
           <BlurFadeText
@@ -69,29 +129,25 @@ export function Header({
         {/* Short About Field */}
         {isEditMode && onChangeHeader ? (
           <div className="group relative">
-            {isEditingAbout ? (
-              <textarea
-                value={header.shortAbout}
-                onChange={(e) =>
-                  onChangeHeader({ ...header, shortAbout: e.target.value })
-                }
-                onBlur={() => setIsEditingAbout(false)}
-                autoFocus
-                className="w-full max-w-[600px] bg-transparent border-none outline-none md:text-xl p-0 resize-none focus:ring-0 leading-normal"
-                rows={2}
-              />
-            ) : (
-              <div
-                onClick={() => setIsEditingAbout(true)}
-                className="cursor-text rounded p-2 -ml-2 transition-colors"
-              >
-                <BlurFadeText
-                  className="max-w-[600px] md:text-xl"
-                  delay={BLUR_FADE_DELAY}
-                  text={header.shortAbout}
-                />
-              </div>
-            )}
+            <p
+              ref={aboutRef}
+              contentEditable={isEditingAbout}
+              suppressContentEditableWarning={true}
+              className={`max-w-[600px] md:text-xl outline-none ${
+                isEditingAbout
+                  ? 'cursor-text bg-transparent p-2 -ml-2'
+                  : 'cursor-text hover:opacity-80 rounded p-2 -ml-2 transition-colors'
+              }`}
+              onClick={enableAboutEditing}
+              onBlur={handleAboutBlur}
+              onKeyDown={(e) => handleKeyDown('about', e)}
+              dangerouslySetInnerHTML={{
+                __html:
+                  header.shortAbout?.length > 0
+                    ? header.shortAbout
+                    : 'Enter short description',
+              }}
+            />
           </div>
         ) : (
           <BlurFadeText
