@@ -1,8 +1,8 @@
 'use client';
 
 import { useState } from 'react';
-import { SignupAnimation } from '@/components/auth';
-import ResetPasswordContent from '@/components/auth/reset-password-contet';
+import { AuthAnimation } from '@/components/auth';
+import ResetPasswordContent from '@/components/auth/reset-password-content';
 
 export default function ResetPasswordPage() {
   const [email, setEmail] = useState('');
@@ -100,7 +100,7 @@ export default function ResetPasswordPage() {
         </div>
 
         <div className="hidden max-w-[700px] flex-1 items-center justify-center md:flex">
-          <SignupAnimation />
+          <AuthAnimation />
         </div>
       </div>
     );
@@ -116,9 +116,7 @@ export default function ResetPasswordPage() {
         message={message}
       />
 
-      <div className="hidden max-w-[700px] flex-1 items-center justify-center md:flex">
-        <SignupAnimation />
-      </div>
+      <AuthAnimation />
     </div>
   );
 }

@@ -1,6 +1,5 @@
 import { Notebook } from 'lucide-react';
 import { redirect } from 'next/navigation';
-import Image from 'next/image';
 import Link from 'next/link';
 import { Metadata } from 'next';
 import { ResumeDataSchemaType, cn } from '@/lib';
@@ -13,7 +12,6 @@ import {
   DockIcon,
 } from '@/components/magicui';
 import {
-  Button,
   buttonVariants,
   Separator,
   Tooltip,
@@ -23,8 +21,9 @@ import {
 import { PublicPortfolio } from '@/components/resume/preview';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/app/api/auth/[...nextauth]/route';
-import ClaimUsername from '@/components/auth/claim-username';
-import SelfPortfolioLoader from '@/components/preview/self-portfolio-loader';
+import { PromotionCtaDesktop, PromotionCtaMobile } from '@/components/common';
+import { SelfPortfolioLoader } from '@/components/preview';
+import { ClaimUsername } from '@/components/auth';
 
 function getSocialLinks(contacts?: ResumeDataSchemaType['header']['contacts']) {
   if (!contacts) return {};
@@ -162,51 +161,11 @@ export default async function ProfilePage({
         profilePicture={profilePicture}
       />
 
-      {/* Mobile CTA Section */}
-      <div className="z-10 flex flex-col items-center justify-center gap-5 bg-slate-100 py-10 pb-24 text-center dark:bg-[#020817] sm:hidden">
-        <Button className="bg-design-primary text-design-white hover:bg-design-primaryDark">
-          <Link
-            href={'/signup'}
-            className="flex flex-row items-center justify-center gap-3 text-xs font-bold"
-          >
-            <Image src={'/favicon.ico'} alt="" width={20} height={15} />
-            <div>
-              <p className="text-base font-bold">Create Your Portfolio</p>
-            </div>
-          </Link>
-        </Button>
-        <Button variant={'ghost'}>
-          <Link
-            href={'/login'}
-            className="text-design-gray dark:text-design-white"
-          >
-            Log In
-          </Link>
-        </Button>
-      </div>
-
       {/* Desktop CTA Section */}
-      <div className="fixed bottom-10 left-10 z-50 hidden flex-row items-center justify-center gap-2 sm:flex">
-        <Button className="relative h-8 overflow-hidden bg-design-primary px-3 text-design-white hover:bg-design-primaryDark">
-          <Link
-            href={'/signup'}
-            className="relative z-10 flex flex-row items-center gap-2 text-xs font-semibold"
-          >
-            <Image src={'/favicon.ico'} alt="" width={16} height={16} />
-            <span>Create Your Portfolio</span>
-          </Link>
-          {/* Shine effect */}
-          <div className="absolute inset-0 translate-x-[-100%] animate-[shine_4s_ease-in-out_infinite] bg-gradient-to-r from-transparent via-design-primaryLight/30 to-transparent" />
-        </Button>
-        <Button variant={'ghost'} className="h-8 px-3">
-          <Link
-            href={'/login'}
-            className="text-sm text-design-gray dark:text-design-white"
-          >
-            Log In
-          </Link>
-        </Button>
-      </div>
+      <PromotionCtaDesktop />
+
+      {/* Mobile CTA Section */}
+      <PromotionCtaMobile />
 
       {/* Dock */}
       <div className="pointer-events-none fixed inset-x-0 bottom-0 z-30 mx-auto mb-4 flex h-full max-h-14 origin-bottom">

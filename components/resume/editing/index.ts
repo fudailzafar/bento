@@ -6,4 +6,3 @@ export { ProfileImageField } from './profile-image-field';
 export { EditResume } from './edit-resume';
 export { ContactField } from './contact-field';
 export { AddSkillDialog } from './add-skill-dialog';
-export { AddButton } from './add-button';

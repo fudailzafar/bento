@@ -3,8 +3,8 @@
 import { useEffect, useState } from 'react';
 import { signIn, useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
-import { SignupAnimation } from '@/components/auth';
 import LoginContent from '@/components/auth/log-in-content';
+import { AuthAnimation } from '@/components/auth';
 
 export default function LoginPage() {
   const { data: session } = useSession();
@@ -64,7 +64,7 @@ export default function LoginPage() {
 
   return (
     <div className="flex min-h-[90vh] items-center justify-between gap-12 px-7 sm:px-6 md:min-h-screen lg:gap-16 lg:px-32">
-      {/* Authentication Container */}
+      {/* Login Content Component */}
       <LoginContent
         handleSubmit={handleSubmit}
         email={email}
@@ -78,10 +78,8 @@ export default function LoginPage() {
         error={error}
       />
 
-      {/* Animation Container */}
-      <div className="hidden max-w-[750px] flex-1 items-center justify-center md:flex">
-        <SignupAnimation />
-      </div>
+      {/* Animation Component */}
+      <AuthAnimation />
     </div>
   );
 }

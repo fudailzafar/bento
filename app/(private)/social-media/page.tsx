@@ -3,7 +3,7 @@
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { Button, Input } from '@/components/ui';
-import { SignupAnimation } from '@/components/auth';
+import { AuthAnimation } from '@/components/auth';
 import {
     ArrowLeftIcon,
   CheckmarkLargeIcon,
@@ -379,7 +379,7 @@ export default function SocialMediaPage() {
       </div>
 
       <div className="hidden max-w-[700px] flex-1 items-center justify-center md:flex">
-        <SignupAnimation isActive={step === 'social'} />
+        <AuthAnimation isActive={step === 'social'} />
       </div>
     </div>
   );

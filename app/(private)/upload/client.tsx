@@ -14,7 +14,7 @@ import {
   DialogTrigger,
 } from '@/components/ui';
 import { LoadingFallback } from '@/components/utils';
-import { SignupAnimation } from '@/components/auth';
+import { AuthAnimation } from '@/components/auth';
 
 type FileState =
   | { status: 'empty' }
@@ -207,7 +207,7 @@ export default function UploadPageClient() {
       </div>
 
       <div className="hidden max-w-[700px] flex-1 items-center justify-center md:flex">
-        <SignupAnimation />
+        <AuthAnimation />
       </div>
     </div>
   );
