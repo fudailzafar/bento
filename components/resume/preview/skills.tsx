@@ -2,8 +2,7 @@
 
 import { Badge, Section } from '@/components/ui';
 import { cn } from '@/lib';
-import { useState } from 'react';
-import { Plus } from 'lucide-react';
+import { useState } from 'react'
 import { toast } from 'sonner';
 import { BlurFade } from '@/components/magicui';
 import { AddSkillDialog } from '@/components/resume/editing';
@@ -84,22 +83,7 @@ export function Skills({
         ))}
       </ul>
 
-      {/* Add Skill */}
-      {isEditMode && onChangeSkills && (
-        <BlurFade delay={BLUR_FADE_DELAY * 10 + skills.length * 0.05}>
-          <div className="mt-4 flex justify-end">
-            <button
-              onClick={() => setIsAddSkillDialogOpen(true)}
-              className="w-full px-3 active:scale-95 py-4 flex items-center justify-center gap-2 border-2 border-dashed border-muted-foreground/25 hover:border-muted-foreground/50 rounded-lg transition-all duration-300 hover:shadow-lg bg-transparent hover:bg-muted/5 group"
-            >
-              <Plus className="size-4 text-muted-foreground group-hover:text-foreground transition-colors" />
-              <span className="text-sm text-muted-foreground group-hover:text-foreground transition-colors">
-                Add Skill
-              </span>
-            </button>
-          </div>
-        </BlurFade>
-      )}
+      
 
       {isEditMode && onChangeSkills && (
         <AddSkillDialog

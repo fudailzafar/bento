@@ -12,7 +12,6 @@ import {
 import { ResumeDataSchemaType } from '@/lib';
 import { getYear } from '@/components/resume';
 import { useMemo, useState, useRef } from 'react';
-import { Plus } from 'lucide-react';
 import { cn } from '@/lib';
 import { toast } from 'sonner';
 import { ImageIcon, LoaderIcon, PenIcon, TrashIcon } from '@/components/icons';
@@ -200,16 +199,6 @@ export function Education({
     () => educations.filter((edu) => edu.school),
     [educations]
   );
-
-  const handleAdd = () => {
-    if (onChangeEducation) {
-      onChangeEducation([
-        ...educations,
-        { degree: '', school: '', start: '', end: '' },
-      ]);
-      setEditingIndex(educations.length);
-    }
-  };
 
   const handleDelete = (index: number) => {
     if (onChangeEducation) {
@@ -405,22 +394,7 @@ export function Education({
         })}
       </div>
 
-      {/* Add Education */}
-      {isEditMode && onChangeEducation && (
-        <BlurFade delay={BLUR_FADE_DELAY * 8 + educations.length * 0.05}>
-          <div className="mt-4 flex justify-center">
-            <button
-              onClick={handleAdd}
-              className="w-full py-5 flex items-center justify-center gap-2 border-2 border-dashed border-muted-foreground/25 hover:border-muted-foreground/50 rounded-lg transition-all duration-300 hover:shadow-lg bg-transparent hover:bg-muted/5 group"
-            >
-              <Plus className="size-4 text-muted-foreground group-hover:text-foreground transition-colors" />
-              <span className="text-sm text-muted-foreground group-hover:text-foreground transition-colors">
-                Add Education
-              </span>
-            </button>
-          </div>
-        </BlurFade>
-      )}
+      
     </Section>
   );
 }

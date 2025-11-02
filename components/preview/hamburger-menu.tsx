@@ -7,7 +7,6 @@ import {
   Lightbulb,
 } from 'lucide-react';
 import React from 'react';
-import { LinkIcon } from '../icons';
 
 interface HamburgerMenuProps {
   onAddWorkExperience?: () => void;
@@ -22,7 +21,6 @@ export const HamburgerMenu = ({
   onAddEducation,
   onAddSkill,
   onAddProject,
-  onAddSocialLink,
 }: HamburgerMenuProps) => {
   return (
     <div className="flex items-center space-x-1">

@@ -11,7 +11,7 @@ import {
 } from '@/components/ui';
 import { ResumeDataSchemaType } from '@/lib';
 import { useMemo, useState, useRef } from 'react';
-import { ChevronRightIcon, Plus } from 'lucide-react';
+import { ChevronRightIcon} from 'lucide-react';
 import { cn } from '@/lib';
 import React from 'react';
 import { motion } from 'framer-motion';
@@ -68,25 +68,6 @@ export function WorkExperience({
         };
       });
   }, [work]);
-
-  const handleAdd = () => {
-    if (onChangeWork) {
-      onChangeWork([
-        ...work,
-        {
-          title: '',
-          company: '',
-          description: '',
-          location: '',
-          link: '',
-          contract: '',
-          start: '',
-          end: '',
-        },
-      ]);
-      setEditingIndex(work.length);
-    }
-  };
 
   const handleDelete = (index: number) => {
     if (onChangeWork) {
@@ -451,22 +432,7 @@ export function WorkExperience({
         })}
       </div>
 
-      {/* Add Work Experience */}
-      {isEditMode && onChangeWork && (
-        <BlurFade delay={BLUR_FADE_DELAY * 6 + work.length * 0.05}>
-          <div className="mt-4 flex justify-center">
-            <button
-              onClick={handleAdd}
-              className="w-full py-5 flex items-center justify-center gap-2 border-2 border-dashed border-muted-foreground/25 hover:border-muted-foreground/50 rounded-lg transition-all duration-300 hover:shadow-lg bg-transparent hover:bg-muted/5 group"
-            >
-              <Plus className="size-4 text-muted-foreground group-hover:text-foreground transition-colors" />
-              <span className="text-sm text-muted-foreground group-hover:text-foreground transition-colors">
-                Add Work Experience
-              </span>
-            </button>
-          </div>
-        </BlurFade>
-      )}
+      
     </Section>
   );
 }
