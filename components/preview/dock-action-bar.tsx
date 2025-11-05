@@ -42,17 +42,12 @@ export default function DockActionBar({
   onAddSocialLink?: () => void;
 }) {
   const [isEditorOpen, setIsEditorOpen] = useState(false);
-  const [isCopied, setIsCopied] = useState(false);
   const copyButtonRef = useRef<HTMLButtonElement>(null);
 
   const handleCopyLink = async () => {
     const link = getDomainUrl(initialUsername);
     try {
       await navigator.clipboard.writeText(link);
-
-      // Set copied state
-      setIsCopied(true);
-      setTimeout(() => setIsCopied(false), 2000);
 
       // Get button position for confetti origin
       if (copyButtonRef.current) {
@@ -88,13 +83,13 @@ export default function DockActionBar({
 
   return (
     <>
-      <div className="relative flex items-center gap-5 rounded-2xl border border-white/20 bg-white/70 px-3.5 py-3 shadow-[0_8px_32px_0_rgba(31,38,135,0.15)] backdrop-blur-xl backdrop-saturate-150 md:w-[66%]">
+      <div className="relative flex items-center gap-5 rounded-2xl border border-white/20 bg-white/70 px-4 py-4 shadow-[0_8px_32px_0_rgba(31,38,135,0.15)] backdrop-blur-xl backdrop-saturate-150 md:w-[66%] md:px-3.5 md:py-3">
         {/* Share Button */}
         <Button
           ref={copyButtonRef}
           onClick={handleCopyLink}
           disabled={isSaving}
-          className="group relative h-[33px] w-[33px] flex-shrink-0 !rounded-md bg-design-success !p-0 px-0 text-sm font-medium !shadow-[0px_2px_3px_rgba(0,0,0,0.06)] transition-all hover:bg-[#3dda69] active:scale-95 sm:w-[127px] sm:px-0"
+          className="group relative hidden h-[33px] w-[33px] flex-shrink-0 !rounded-md bg-design-success !p-0 px-0 text-sm font-medium !shadow-[0px_2px_3px_rgba(0,0,0,0.06)] transition-all hover:bg-[#3dda69] active:scale-95 sm:inline sm:w-[127px] sm:px-0"
         >
           <div className="flex h-full w-full items-center justify-center overflow-hidden rounded-md">
             {isSaving ? (
@@ -104,21 +99,9 @@ export default function DockActionBar({
               </>
             ) : (
               <>
-                {isCopied ? (
-                  <>
-                    <CheckmarkSmallIcon className="size-4 sm:hidden" />
-                    <span className="hidden font-semibold sm:inline">
-                      Copy my Link
-                    </span>
-                  </>
-                ) : (
-                  <>
-                    <Copy className="size-4 sm:hidden" />
-                    <span className="hidden font-semibold sm:inline">
-                      Copy my Link
-                    </span>
-                  </>
-                )}
+                <span className="hidden font-semibold sm:inline">
+                  Copy my Link
+                </span>
               </>
             )}
             {/* Shine effect */}
@@ -133,7 +116,7 @@ export default function DockActionBar({
         </Button>
 
         {/* Divider */}
-        <div className="h-4 w-[2px] flex-shrink-0 rounded-lg bg-black/[0.08]" />
+        <div className="hidden h-4 w-[2px] flex-shrink-0 rounded-lg bg-black/[0.08] sm:inline" />
 
         <div className="block">
           <SectionActionBar
@@ -190,9 +173,6 @@ export default function DockActionBar({
             </div>
           </button>
         </div>
-
-        {/* Container highlight effect
-        <div className="absolute inset-0 rounded-2xl pointer-events-none bg-gradient-to-b from-white/10 to-transparent opacity-50" /> */}
       </div>
 
       <UsernameEditorView
