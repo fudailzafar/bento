@@ -5,7 +5,7 @@ import { Label } from './label';
 import { cn } from '@/lib/utils';
 import { MonthPicker } from './monthpicker';
 import { Button } from './button';
-import { CalendarIcon} from 'lucide-react';
+import { CalendarIcon } from 'lucide-react';
 import { format } from 'date-fns';
 import { Popover, PopoverContent, PopoverTrigger } from './popover';
 import { CrossIcon } from '../icons';

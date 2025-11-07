@@ -1,9 +1,9 @@
-"use client";
+'use client';
 
-import { cn } from "@/lib/utils";
-import { type GenerationStage, useTambo } from "@tambo-ai/react";
-import { Loader2Icon } from "lucide-react";
-import * as React from "react";
+import { cn } from '@/lib/utils';
+import { type GenerationStage, useTambo } from '@tambo-ai/react';
+import { Loader2Icon } from 'lucide-react';
+import * as React from 'react';
 
 /**
  * Represents the generation stage of a message
@@ -31,14 +31,14 @@ export function MessageGenerationStage({
 
   // Map stage names to more user-friendly labels
   const stageLabels: Record<GenerationStage, string> = {
-    IDLE: "Idle",
-    CHOOSING_COMPONENT: "Choosing component",
-    FETCHING_CONTEXT: "Fetching context",
-    HYDRATING_COMPONENT: "Preparing component",
-    STREAMING_RESPONSE: "Generating response",
-    COMPLETE: "Complete",
-    ERROR: "Error",
-    CANCELLED: "Cancelled",
+    IDLE: 'Idle',
+    CHOOSING_COMPONENT: 'Choosing component',
+    FETCHING_CONTEXT: 'Fetching context',
+    HYDRATING_COMPONENT: 'Preparing component',
+    STREAMING_RESPONSE: 'Generating response',
+    COMPLETE: 'Complete',
+    ERROR: 'Error',
+    CANCELLED: 'Cancelled',
   };
 
   const label =
@@ -51,8 +51,8 @@ export function MessageGenerationStage({
   return (
     <div
       className={cn(
-        "inline-flex items-center gap-2 px-2 py-1 text-xs rounded-md bg-transparent text-muted-foreground",
-        className,
+        'inline-flex items-center gap-2 px-2 py-1 text-xs rounded-md bg-transparent text-muted-foreground',
+        className
       )}
       {...props}
     >

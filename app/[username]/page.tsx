@@ -230,8 +230,7 @@ export default async function ProfilePage({
           >
             <Image src={'/favicon.ico'} alt="" width={20} height={15} />
             <div>
-              <p className='text-base font-bold'>Create Your Portfolio</p>
-              
+              <p className="text-base font-bold">Create Your Portfolio</p>
             </div>
           </Link>
         </Button>

@@ -2,6 +2,7 @@ import { upstashRedis } from '@/lib/server/redis';
 import { ResumeDataSchema } from '@/lib/resume';
 import { z } from 'zod';
 import { PRIVATE_ROUTES } from '../routes';
+import bcrypt from 'bcryptjs';
 
 // Key prefixes for different types of data
 const REDIS_KEYS = {
@@ -9,6 +10,8 @@ const REDIS_KEYS = {
   USER_ID_PREFIX: 'user:id:',
   USER_NAME_PREFIX: 'user:name:',
   USER_PROFILE_PREFIX: 'user:profile:',
+  USER_CREDENTIALS_PREFIX: 'user:credentials:',
+  EMAIL_TO_ID_PREFIX: 'user:email:',
 } as const;
 
 // Define the file schema
@@ -38,10 +41,20 @@ const UserProfileSchema = z.object({
   updatedAt: z.string(),
 });
 
+// Define user credentials schema
+const UserCredentialsSchema = z.object({
+  email: z.string().email(),
+  passwordHash: z.string(),
+  name: z.string().optional(),
+  createdAt: z.string(),
+  updatedAt: z.string(),
+});
+
 // Type inference for the resume data
 export type ResumeData = z.infer<typeof ResumeDataSchema>;
 export type Resume = z.infer<typeof ResumeSchema>;
 export type UserProfile = z.infer<typeof UserProfileSchema>;
+export type UserCredentials = z.infer<typeof UserCredentialsSchema>;
 
 // Function to get resume data for a user
 export async function getResume(userId: string): Promise<Resume | undefined> {
@@ -273,6 +286,177 @@ export const updateUsername = async (
     return results.every((result) => result === 'OK' || result === 1);
   } catch (error) {
     console.error('Username update failed:', error);
+    return false;
+  }
+};
+
+/**
+ * Create a new user with credentials (email + password)
+ * @param email User's email address
+ * @param password User's plain text password
+ * @param name Optional user's name
+ * @returns Promise resolving to user ID or null if failed
+ */
+export const createUserWithCredentials = async (
+  email: string,
+  password: string,
+  name?: string
+): Promise<string | null> => {
+  try {
+    // Check if email already exists
+    const existingUserId = await getUserIdByEmail(email);
+    if (existingUserId) {
+      return null;
+    }
+
+    // Hash the password
+    const saltRounds = 10;
+    const passwordHash = await bcrypt.hash(password, saltRounds);
+
+    // Generate user ID from email
+    const userId = email;
+    const now = new Date().toISOString();
+
+    const credentials: UserCredentials = {
+      email,
+      passwordHash,
+      name,
+      createdAt: now,
+      updatedAt: now,
+    };
+
+    // Store credentials and email mapping
+    const transaction = upstashRedis.multi();
+    transaction.set(
+      `${REDIS_KEYS.USER_CREDENTIALS_PREFIX}${userId}`,
+      credentials
+    );
+    transaction.set(`${REDIS_KEYS.EMAIL_TO_ID_PREFIX}${email}`, userId);
+
+    await transaction.exec();
+
+    // Also create user profile
+    await storeUserProfile(userId, {
+      id: userId,
+      email,
+      name,
+    });
+
+    return userId;
+  } catch (error) {
+    console.error('User creation with credentials failed:', error);
+    return null;
+  }
+};
+
+/**
+ * Verify user credentials
+ * @param email User's email
+ * @param password User's plain text password
+ * @returns Promise resolving to user ID if credentials are valid, null otherwise
+ */
+export const verifyUserCredentials = async (
+  email: string,
+  password: string
+): Promise<string | null> => {
+  try {
+    const userId = await getUserIdByEmail(email);
+    if (!userId) {
+      return null;
+    }
+
+    const credentials = await upstashRedis.get<UserCredentials>(
+      `${REDIS_KEYS.USER_CREDENTIALS_PREFIX}${userId}`
+    );
+
+    if (!credentials) {
+      return null;
+    }
+
+    const isValid = await bcrypt.compare(password, credentials.passwordHash);
+    return isValid ? userId : null;
+  } catch (error) {
+    console.error('Credential verification failed:', error);
+    return null;
+  }
+};
+
+/**
+ * Get user ID by email
+ * @param email User's email address
+ * @returns Promise resolving to user ID or null
+ */
+export const getUserIdByEmail = async (
+  email: string
+): Promise<string | null> => {
+  return await upstashRedis.get(`${REDIS_KEYS.EMAIL_TO_ID_PREFIX}${email}`);
+};
+
+/**
+ * Get user credentials by email
+ * @param email User's email address
+ * @returns Promise resolving to user credentials or null
+ */
+export const getUserCredentials = async (
+  email: string
+): Promise<UserCredentials | null> => {
+  try {
+    const userId = await getUserIdByEmail(email);
+    if (!userId) {
+      return null;
+    }
+
+    return await upstashRedis.get<UserCredentials>(
+      `${REDIS_KEYS.USER_CREDENTIALS_PREFIX}${userId}`
+    );
+  } catch (error) {
+    console.error('Error retrieving user credentials:', error);
+    return null;
+  }
+};
+
+/**
+ * Update user password
+ * @param email User's email
+ * @param newPassword New plain text password
+ * @returns Promise resolving to boolean indicating success
+ */
+export const updateUserPassword = async (
+  email: string,
+  newPassword: string
+): Promise<boolean> => {
+  try {
+    const userId = await getUserIdByEmail(email);
+    if (!userId) {
+      return false;
+    }
+
+    const credentials = await upstashRedis.get<UserCredentials>(
+      `${REDIS_KEYS.USER_CREDENTIALS_PREFIX}${userId}`
+    );
+
+    if (!credentials) {
+      return false;
+    }
+
+    const saltRounds = 10;
+    const passwordHash = await bcrypt.hash(newPassword, saltRounds);
+    const now = new Date().toISOString();
+
+    const updatedCredentials: UserCredentials = {
+      ...credentials,
+      passwordHash,
+      updatedAt: now,
+    };
+
+    await upstashRedis.set(
+      `${REDIS_KEYS.USER_CREDENTIALS_PREFIX}${userId}`,
+      updatedCredentials
+    );
+
+    return true;
+  } catch (error) {
+    console.error('Password update failed:', error);
     return false;
   }
 };

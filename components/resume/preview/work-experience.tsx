@@ -11,7 +11,7 @@ import {
 } from '@/components/ui';
 import { ResumeDataSchemaType } from '@/lib';
 import { useMemo, useState, useRef } from 'react';
-import { ChevronRightIcon} from 'lucide-react';
+import { ChevronRightIcon } from 'lucide-react';
 import { cn } from '@/lib';
 import React from 'react';
 import { motion } from 'framer-motion';
@@ -272,7 +272,12 @@ export function WorkExperience({
                 onMouseLeave={() => setHoveredIndex(null)}
                 onClick={() => {
                   // Only disable click in edit mode (form editing)
-                  if (!isEditMode || (isEditMode && !editingIndex && typeof editingIndex !== 'number')) {
+                  if (
+                    !isEditMode ||
+                    (isEditMode &&
+                      !editingIndex &&
+                      typeof editingIndex !== 'number')
+                  ) {
                     setExpandedIndexes((prev) =>
                       prev.includes(id)
                         ? prev.filter((idx) => idx !== id)
@@ -431,8 +436,6 @@ export function WorkExperience({
           );
         })}
       </div>
-
-      
     </Section>
   );
 }

@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import {
   MessageInput,
@@ -9,25 +9,25 @@ import {
   MessageInputFileButton,
   MessageInputMcpPromptButton,
   // MessageInputMcpConfigButton,
-} from "@/components/ui/message-input";
+} from '@/components/ui/message-input';
 import {
   MessageSuggestions,
   MessageSuggestionsStatus,
   MessageSuggestionsList,
-} from "@/components/ui/message-suggestions";
-import type { messageVariants } from "@/components/ui/message";
+} from '@/components/ui/message-suggestions';
+import type { messageVariants } from '@/components/ui/message';
 import {
   ThreadContent,
   ThreadContentMessages,
-} from "@/components/ui/thread-content";
-import { ThreadDropdown } from "@/components/ui/thread-dropdown";
-import { ScrollableMessageContainer } from "@/components/ui/scrollable-message-container";
-import { cn } from "@/lib/utils";
-import { Collapsible } from "radix-ui";
-import { XIcon } from "lucide-react";
-import * as React from "react";
-import { type VariantProps } from "class-variance-authority";
-import type { Suggestion } from "@tambo-ai/react";
+} from '@/components/ui/thread-content';
+import { ThreadDropdown } from '@/components/ui/thread-dropdown';
+import { ScrollableMessageContainer } from '@/components/ui/scrollable-message-container';
+import { cn } from '@/lib/utils';
+import { Collapsible } from 'radix-ui';
+import { XIcon } from 'lucide-react';
+import * as React from 'react';
+import { type VariantProps } from 'class-variance-authority';
+import type { Suggestion } from '@tambo-ai/react';
 
 /**
  * Props for the MessageThreadCollapsible component
@@ -46,7 +46,7 @@ export interface MessageThreadCollapsibleProps
    * These values are defined in messageVariants from "@/components/ui/message".
    * @example variant="compact"
    */
-  variant?: VariantProps<typeof messageVariants>["variant"];
+  variant?: VariantProps<typeof messageVariants>['variant'];
 }
 
 /**
@@ -69,19 +69,19 @@ export interface MessageThreadCollapsibleProps
 const useCollapsibleState = (defaultOpen = false) => {
   const [isOpen, setIsOpen] = React.useState(defaultOpen);
   const isMac =
-    typeof navigator !== "undefined" && navigator.platform.startsWith("Mac");
-  const shortcutText = isMac ? "⌘K" : "Ctrl+K";
+    typeof navigator !== 'undefined' && navigator.platform.startsWith('Mac');
+  const shortcutText = isMac ? '⌘K' : 'Ctrl+K';
 
   React.useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
-      if ((event.metaKey || event.ctrlKey) && event.key === "k") {
+      if ((event.metaKey || event.ctrlKey) && event.key === 'k') {
         event.preventDefault();
         setIsOpen((prev) => !prev);
       }
     };
 
-    document.addEventListener("keydown", handleKeyDown);
-    return () => document.removeEventListener("keydown", handleKeyDown);
+    document.addEventListener('keydown', handleKeyDown);
+    return () => document.removeEventListener('keydown', handleKeyDown);
   }, []);
 
   return { isOpen, setIsOpen, shortcutText };
@@ -109,16 +109,16 @@ const CollapsibleContainer = React.forwardRef<
     open={isOpen}
     onOpenChange={onOpenChange}
     className={cn(
-      "fixed bottom-4 right-4 w-full max-w-sm sm:max-w-md md:max-w-lg rounded-lg shadow-lg bg-background border border-gray-200",
-      "transition-all duration-300 ease-in-out",
-      className,
+      'fixed bottom-4 right-4 w-full max-w-sm sm:max-w-md md:max-w-lg rounded-lg shadow-lg bg-background border border-gray-200',
+      'transition-all duration-300 ease-in-out',
+      className
     )}
     {...props}
   >
     {children}
   </Collapsible.Root>
 ));
-CollapsibleContainer.displayName = "CollapsibleContainer";
+CollapsibleContainer.displayName = 'CollapsibleContainer';
 
 /**
  * Props for the CollapsibleTrigger component
@@ -153,8 +153,8 @@ const CollapsibleTrigger = ({
       <Collapsible.Trigger asChild>
         <button
           className={cn(
-            "flex items-center justify-between w-full p-4",
-            "hover:bg-muted/50 transition-colors",
+            'flex items-center justify-between w-full p-4',
+            'hover:bg-muted/50 transition-colors'
           )}
           aria-expanded={isOpen}
           aria-controls="message-thread-content"
@@ -192,7 +192,7 @@ const CollapsibleTrigger = ({
     )}
   </>
 );
-CollapsibleTrigger.displayName = "CollapsibleTrigger";
+CollapsibleTrigger.displayName = 'CollapsibleTrigger';
 
 export const MessageThreadCollapsible = React.forwardRef<
   HTMLDivElement,
@@ -209,29 +209,29 @@ export const MessageThreadCollapsible = React.forwardRef<
    */
   const THREAD_CONFIG = {
     labels: {
-      openState: "Conversations",
-      closedState: "Start chatting with tambo",
+      openState: 'Conversations',
+      closedState: 'Start chatting with tambo',
     },
   };
 
   const defaultSuggestions: Suggestion[] = [
     {
-      id: "suggestion-1",
-      title: "Get started",
-      detailedSuggestion: "What can you help me with?",
-      messageId: "welcome-query",
+      id: 'suggestion-1',
+      title: 'Get started',
+      detailedSuggestion: 'What can you help me with?',
+      messageId: 'welcome-query',
     },
     {
-      id: "suggestion-2",
-      title: "Learn more",
-      detailedSuggestion: "Tell me about your capabilities.",
-      messageId: "capabilities-query",
+      id: 'suggestion-2',
+      title: 'Learn more',
+      detailedSuggestion: 'Tell me about your capabilities.',
+      messageId: 'capabilities-query',
     },
     {
-      id: "suggestion-3",
-      title: "Examples",
-      detailedSuggestion: "Show me some example queries I can try.",
-      messageId: "examples-query",
+      id: 'suggestion-3',
+      title: 'Examples',
+      detailedSuggestion: 'Show me some example queries I can try.',
+      messageId: 'examples-query',
     },
   ];
 
@@ -289,4 +289,4 @@ export const MessageThreadCollapsible = React.forwardRef<
     </CollapsibleContainer>
   );
 });
-MessageThreadCollapsible.displayName = "MessageThreadCollapsible";
+MessageThreadCollapsible.displayName = 'MessageThreadCollapsible';

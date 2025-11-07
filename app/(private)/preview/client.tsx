@@ -10,7 +10,6 @@ import { ResumeData } from '@/lib/server';
 import { PreviewActionbar, ViewMode } from '@/components/preview';
 import { LoadingFallback } from '@/components/utils';
 import { InteractablePortfolio } from '@/components/resume/preview';
-import { MessageThreadCollapsible } from '@/components/ui/message-thread-collapsible';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { ScrollableMessageContainer } from '@/components/ui/scrollable-message-container';
 import {

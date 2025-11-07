@@ -1,9 +1,9 @@
-"use client";
+'use client';
 
-import { cn } from "@/lib/utils";
-import { useTambo } from "@tambo-ai/react";
-import * as React from "react";
-import { useEffect, useRef, useState } from "react";
+import { cn } from '@/lib/utils';
+import { useTambo } from '@tambo-ai/react';
+import * as React from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 /**
  * Props for the ScrollableMessageContainer component
@@ -50,7 +50,7 @@ export const ScrollableMessageContainer = React.forwardRef<
     }));
   }, [thread?.messages]);
 
-  const generationStage = thread?.generationStage ?? "IDLE";
+  const generationStage = thread?.generationStage ?? 'IDLE';
 
   // Handle scroll events to detect user scrolling
   const handleScroll = () => {
@@ -79,12 +79,12 @@ export const ScrollableMessageContainer = React.forwardRef<
         if (scrollContainerRef.current) {
           scrollContainerRef.current.scrollTo({
             top: scrollContainerRef.current.scrollHeight,
-            behavior: "smooth",
+            behavior: 'smooth',
           });
         }
       };
 
-      if (generationStage === "STREAMING_RESPONSE") {
+      if (generationStage === 'STREAMING_RESPONSE') {
         // During streaming, scroll immediately
         requestAnimationFrame(scroll);
       } else {
@@ -100,11 +100,11 @@ export const ScrollableMessageContainer = React.forwardRef<
       ref={scrollContainerRef}
       onScroll={handleScroll}
       className={cn(
-        "flex-1 overflow-y-auto",
-        "[&::-webkit-scrollbar]:w-[6px]",
-        "[&::-webkit-scrollbar-thumb]:bg-gray-300",
-        "[&::-webkit-scrollbar:horizontal]:h-[4px]",
-        className,
+        'flex-1 overflow-y-auto',
+        '[&::-webkit-scrollbar]:w-[6px]',
+        '[&::-webkit-scrollbar-thumb]:bg-gray-300',
+        '[&::-webkit-scrollbar:horizontal]:h-[4px]',
+        className
       )}
       data-slot="scrollable-message-container"
       {...props}
@@ -113,4 +113,4 @@ export const ScrollableMessageContainer = React.forwardRef<
     </div>
   );
 });
-ScrollableMessageContainer.displayName = "ScrollableMessageContainer";
+ScrollableMessageContainer.displayName = 'ScrollableMessageContainer';
