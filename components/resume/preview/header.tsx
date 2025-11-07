@@ -103,11 +103,9 @@ export function Header({
               ref={nameRef}
               contentEditable={isEditingName}
               suppressContentEditableWarning={true}
-              className={`text-3xl font-bold tracking-tighter sm:text-5xl xl:text-6xl/none outline-none ${
-                isEditingName
-                  ? 'cursor-text bg-transparent p-2 -ml-2'
-                  : 'cursor-text hover:opacity-80 rounded p-2 -ml-2 transition-colors'
-              }`}
+              className={
+                'text-3xl font-bold tracking-tighter sm:text-5xl xl:text-6xl/none outline-none p-2'
+              }
               onClick={enableNameEditing}
               onBlur={handleNameBlur}
               onKeyDown={(e) => handleKeyDown('name', e)}
@@ -133,11 +131,7 @@ export function Header({
               ref={aboutRef}
               contentEditable={isEditingAbout}
               suppressContentEditableWarning={true}
-              className={`max-w-[600px] md:text-xl outline-none ${
-                isEditingAbout
-                  ? 'cursor-text bg-transparent p-2 -ml-2'
-                  : 'cursor-text hover:opacity-80 rounded p-2 -ml-2 transition-colors'
-              }`}
+              className={'max-w-[600px] md:text-xl outline-none p-2'}
               onClick={enableAboutEditing}
               onBlur={handleAboutBlur}
               onKeyDown={(e) => handleKeyDown('about', e)}
