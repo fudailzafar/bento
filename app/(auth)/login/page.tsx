@@ -79,7 +79,7 @@ export default function LoginPage() {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               disabled={isLoading}
-              className="w-full h-12 px-4 bg-[#F5F5F5] border-0 rounded-lg text-base placeholder:text-gray-400"
+              className="w-full h-12 px-4 bg-[#F5F5F5] border-0 rounded-lg text-base placeholder:text-gray-400 focus-visible:ring-0 focus-visible:ring-offset-0 outline-none"
             />
 
             <div className="relative w-full">
@@ -90,7 +90,7 @@ export default function LoginPage() {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 disabled={isLoading}
-                className="w-full h-12 px-4 pr-[76px] bg-[#F5F5F5] border-0 rounded-lg text-base placeholder:text-gray-400"
+                className="w-full h-12 px-4 pr-[76px] bg-[#F5F5F5] border-0 rounded-lg text-base placeholder:text-gray-400 focus-visible:ring-0 focus-visible:ring-offset-0 outline-none"
               />
               <button
                 type="button"
@@ -114,7 +114,7 @@ export default function LoginPage() {
               {error ? (
                 <div className="text-xs text-design-secondary">{error}</div>
               ) : (
-                <div className="invisible text-left">
+                <div className="invisible flex justify-start text-sm uppercase text-black font-semibold text-left">
                   <Link
                     href="/reset-password"
                     className="text-[#5B68F4] text-sm font-normal hover:underline"
