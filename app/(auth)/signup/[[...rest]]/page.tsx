@@ -1,6 +1,5 @@
-import Image from 'next/image';
+import { SignupAnimation, SignupContent } from '@/components/auth';
 import Link from 'next/link';
-import SignupContent from './SignupContent';
 
 export default function SignupPage() {
   return (
@@ -19,13 +18,7 @@ export default function SignupPage() {
       </div>
 
       <div className="hidden md:flex flex-1 items-center justify-center">
-        <Image
-          src="/home/cv-home.png"
-          width={450}
-          height={450}
-          alt="Portfolio Home Illustration"
-          className="max-w-[430px] w-full h-auto object-contain rounded-2xl"
-        />
+        <SignupAnimation />
       </div>
     </div>
   );
