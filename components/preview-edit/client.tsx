@@ -328,6 +328,7 @@ export default function PreviewClient({ messageTip }: { messageTip?: string }) {
                           isEditMode={true}
                           onChangeResume={handleResumeChange}
                           onImageChange={handleImageChange}
+                          username={usernameQuery.data?.username}
                         />
                       </motion.div>
                     </div>
@@ -357,6 +358,7 @@ export default function PreviewClient({ messageTip }: { messageTip?: string }) {
                     isEditMode={true}
                     onChangeResume={handleResumeChange}
                     onImageChange={handleImageChange}
+                    username={usernameQuery.data?.username}
                   />
                 </motion.div>
               </motion.div>

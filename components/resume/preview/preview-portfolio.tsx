@@ -13,19 +13,23 @@ import { SortableSections } from './sortable-sections';
 import { LoadingFallback } from '@/components/utils';
 import { ResumeData } from '@/lib/server';
 
+interface PreviewPortfolioProps {
+  resume?: ResumeData | null;
+  profilePicture?: string;
+  isEditMode?: boolean;
+  onChangeResume?: (newResume: ResumeData) => void;
+  onImageChange?: (newImageUrl: string | null) => void;
+  username?: string;
+}
+
 export const PreviewPortfolio = ({
   resume,
   profilePicture,
   isEditMode = false,
   onChangeResume,
   onImageChange,
-}: {
-  resume?: ResumeData | null;
-  profilePicture?: string;
-  isEditMode?: boolean;
-  onChangeResume?: (newResume: ResumeData) => void;
-  onImageChange?: (newImageUrl: string | null) => void;
-}) => {
+  username,
+}: PreviewPortfolioProps) => {
   if (!resume) {
     return <LoadingFallback message="Loading Portfolio..." />;
   }
@@ -167,6 +171,7 @@ export const PreviewPortfolio = ({
             header={resume?.header}
             picture={profilePicture}
             isEditMode={isEditMode}
+            username={username}
             onChangeHeader={
               isEditMode && onChangeResume
                 ? (newHeader) => {

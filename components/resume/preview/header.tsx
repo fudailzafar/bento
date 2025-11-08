@@ -4,30 +4,56 @@ import { useState, useRef } from 'react';
 import { ResumeDataSchemaType } from '@/lib';
 import { BlurFade, BlurFadeText } from '@/components/magicui';
 import { ProfileImageField } from '@/components/resume/editing';
+import { toast } from 'sonner';
+import confetti from 'canvas-confetti';
+
+interface HeaderProps {
+  header: ResumeDataSchemaType['header'];
+  picture?: string;
+  isEditMode?: boolean;
+  onChangeHeader?: (newHeader: ResumeDataSchemaType['header']) => void;
+  onImageChange?: (newImageUrl: string | null) => void;
+  username?: string;
+}
 
 // Header component displaying personal information and contact details
-
 export function Header({
   header,
   picture,
   isEditMode = false,
   onChangeHeader,
   onImageChange,
-}: {
-  header: ResumeDataSchemaType['header'];
-  picture?: string;
-  isEditMode?: boolean;
-  onChangeHeader?: (newHeader: ResumeDataSchemaType['header']) => void;
-  onImageChange?: (newImageUrl: string | null) => void;
-}) {
+  username,
+}: HeaderProps) {
   const [isEditingName, setIsEditingName] = useState(false);
   const [isEditingAbout, setIsEditingAbout] = useState(false);
   const [nameCharCount, setNameCharCount] = useState(0);
   const [aboutCharCount, setAboutCharCount] = useState(0);
+  const [isCopying, setIsCopying] = useState(false);
   const nameRef = useRef<HTMLHeadingElement>(null);
   const aboutRef = useRef<HTMLParagraphElement>(null);
 
   const BLUR_FADE_DELAY = 0.04;
+
+  const handleCopyLink = async () => {
+    if (!username) return;
+
+    setIsCopying(true);
+    try {
+      const url = `https://portfoliofy.me/${username}`;
+      await navigator.clipboard.writeText(url);
+      // Trigger confetti
+      confetti({
+        particleCount: 100,
+        spread: 70,
+        origin: { y: 0.6 },
+      });
+    } catch (error) {
+      toast.error('Failed to copy link');
+    } finally {
+      setTimeout(() => setIsCopying(false), 1000);
+    }
+  };
 
   const handleNameBlur = () => {
     if (nameRef.current && onChangeHeader) {
@@ -99,7 +125,7 @@ export function Header({
   };
 
   return (
-    <header className="flex flex-col-reverse items-start gap-2 md:px-4">
+    <header className="flex flex-col-reverse md:items-start gap-2 md:px-4">
       <div className="flex-1 space-y-1.5">
         {/* Name Field */}
         {isEditMode && onChangeHeader ? (
@@ -200,6 +226,9 @@ export function Header({
           currentImage={picture}
           onImageChange={onImageChange}
           isPublicView={!isEditMode}
+          showCopyButton={isEditMode && !!username}
+          onCopyLink={handleCopyLink}
+          isSaving={isCopying}
         />
       </BlurFade>
     </header>
