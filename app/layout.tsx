@@ -18,7 +18,7 @@ const fontSans = FontSans({
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://portfoliofy.me'),
-  title: 'Portfoliofy - Your Personal Portfolio, but Rich and Beautiful.',
+  title: 'Portfoliofy - A Portfolio, but Rich and Beautiful.',
   icons: {
     icon: '/favicon.ico',
     shortcut: '/favicon.ico',
@@ -26,7 +26,7 @@ export const metadata: Metadata = {
   description:
     'Create a beautiful personal portfolio to show your professional experience, education, and everything you are and create - in one place.',
   openGraph: {
-    title: 'Portfoliofy - Your Personal Portfolio, but Rich and Beautiful.',
+    title: 'Portfoliofy - A Portfolio, but Rich and Beautiful.',
     description:
       'Create a beautiful personal portfolio to show your professional experience, education, and everything you are and create - in one place.',
     url: 'https://portfoliofy.me',
@@ -54,7 +54,7 @@ export const metadata: Metadata = {
     },
   },
   twitter: {
-    title: 'Portfoliofy - Your Personal Portfolio, but Rich and Beautiful.',
+    title: 'Portfoliofy - A Portfolio, but Rich and Beautiful.',
     card: 'summary_large_image',
   },
   verification: {
