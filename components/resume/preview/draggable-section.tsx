@@ -49,7 +49,7 @@ export function DraggableSection({
       <div
         {...attributes}
         {...listeners}
-        className="absolute -top-4 left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity duration-200 cursor-grab active:cursor-grabbing z-10"
+        className="absolute -bottom-4 left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity duration-200 cursor-grab active:cursor-grabbing z-10"
       >
         <div className="flex items-center justify-center w-8 h-8 rounded-full bg-black hover:bg-gray-800 transition-colors duration-200">
           <MoveAbleIcon className="w-4 h-4 text-white" />
