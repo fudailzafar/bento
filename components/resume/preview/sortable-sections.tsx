@@ -8,6 +8,8 @@ import {
   useSensor,
   useSensors,
   DragEndEvent,
+  DragOverlay,
+  DragStartEvent,
 } from '@dnd-kit/core';
 import {
   arrayMove,
@@ -15,6 +17,7 @@ import {
   sortableKeyboardCoordinates,
   verticalListSortingStrategy,
 } from '@dnd-kit/sortable';
+import { useState } from 'react';
 import { DraggableSection } from './draggable-section';
 
 export const SortableSections = ({
@@ -28,6 +31,8 @@ export const SortableSections = ({
   isEditMode: boolean;
   onReorder?: (newOrder: string[]) => void;
 }) => {
+  const [activeId, setActiveId] = useState<string | null>(null);
+
   const sensors = useSensors(
     useSensor(PointerSensor, {
       activationConstraint: {
@@ -39,8 +44,14 @@ export const SortableSections = ({
     })
   );
 
+  const handleDragStart = (event: DragStartEvent) => {
+    setActiveId(event.active.id as string);
+  };
+
   const handleDragEnd = (event: DragEndEvent) => {
     const { active, over } = event;
+
+    setActiveId(null);
 
     if (!over || !onReorder) return;
 
@@ -53,11 +64,29 @@ export const SortableSections = ({
     }
   };
 
+  const handleDragCancel = () => {
+    setActiveId(null);
+  };
+
+  if (!isEditMode) {
+    return (
+      <>
+        {sectionOrder.map((sectionId) => (
+          <div key={sectionId} className="mb-6">
+            {sectionComponents[sectionId]}
+          </div>
+        ))}
+      </>
+    );
+  }
+
   return (
     <DndContext
       sensors={sensors}
       collisionDetection={closestCenter}
+      onDragStart={handleDragStart}
       onDragEnd={handleDragEnd}
+      onDragCancel={handleDragCancel}
     >
       <SortableContext
         items={sectionOrder}
@@ -73,6 +102,14 @@ export const SortableSections = ({
           </DraggableSection>
         ))}
       </SortableContext>
+
+      <DragOverlay dropAnimation={null}>
+        {activeId ? (
+          <div className="rounded-2xl shadow-2xl bg-white dark:bg-gray-900 opacity-95 px-4 py-4">
+            {sectionComponents[activeId]}
+          </div>
+        ) : null}
+      </DragOverlay>
     </DndContext>
   );
 };
