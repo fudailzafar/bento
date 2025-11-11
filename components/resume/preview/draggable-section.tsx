@@ -71,13 +71,13 @@ export function DraggableSection({
         {/* Section Content with Hover Effect */}
         <div
           className={`
-            rounded-xl
+            rounded-2xl
             transition-all duration-200
             -mx-4 px-4 -my-4 py-4
             ${
               isDragging
                 ? 'shadow-2xl scale-105 bg-white dark:bg-gray-900 opacity-90 rotate-2'
-                : 'group-hover:shadow-lg group-hover:bg-white/50 group-hover:scale-[1.01] hover:border hover:border-gray-100 hover:shadow-md dark:hover:border-gray-600'
+                : 'group-hover:shadow-[0_1px_3px_rgba(0,0,0,0.1)] group-hover:bg-white group-hover:border group-hover:border-gray-200 dark:group-hover:border-gray-700 dark:group-hover:bg-gray-900'
             }
           `}
         >

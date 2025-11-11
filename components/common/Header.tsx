@@ -42,7 +42,6 @@ export function Header() {
                 Community
               </div>
             </Link>
-
           </div>
           <Link href="/" className="flex items-center gap-2">
             <img

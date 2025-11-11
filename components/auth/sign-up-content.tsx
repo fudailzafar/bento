@@ -219,7 +219,8 @@ export default function SignupContent({
               {/* Show error messages or button based on username state */}
               {username.length > 0 && username.length < 3 ? (
                 <div className="w-full flex items-center justify-start py-3.5 text-red-600 font-light text-xs rounded-lg">
-                  This username seems to be too short... <br /> Try something longer.
+                  This username seems to be too short... <br /> Try something
+                  longer.
                 </div>
               ) : username.length >= 3 &&
                 !usernameAvailable &&

@@ -183,20 +183,6 @@ export function SocialLinks({
                   </a>
                 );
               })}
-
-              {isEditMode && !hasAnySocialLinks && (
-                <div className="col-span-full">
-                  <button
-                    onClick={() => setIsEditing(true)}
-                    className="w-full py-5 flex items-center justify-center gap-2 border-2 border-dashed border-muted-foreground/25 hover:border-muted-foreground/50 rounded-lg transition-all duration-300 hover:shadow-lg bg-transparent hover:bg-muted/5 group"
-                  >
-                    <Plus className="size-4 text-muted-foreground group-hover:text-foreground transition-colors" />
-                    <span className="text-sm text-muted-foreground group-hover:text-foreground transition-colors">
-                      Add Social Links
-                    </span>
-                  </button>
-                </div>
-              )}
             </div>
           )}
         </div>
