@@ -234,8 +234,8 @@
 }
 
 @keyframes randomMove {
-  0% {
-    transform: translate(20, 20);
+  0%, 100% {
+    transform: translate(0, 0);
   }
   50% {
     transform: translate(
@@ -243,48 +243,54 @@
       calc((var(--random-y) - 0.8) * 80px)
     );
   }
-  100% {
-    transform: translate(20, 20);
-  }
 }
 
-.signup .moving-image {
+.signup .signup-widget {
   --random-x: var(--random-x-value);
   --random-y: var(--random-y-value);
+  transition: transform 700ms ease-out;
+}
+
+.signup .signup-widget.active {
   animation-name: randomMove;
   animation-duration: 5s;
   animation-timing-function: ease-in-out;
   animation-iteration-count: infinite;
 }
 
-.signup .moving-image:nth-child(1) {
+.signup .signup-widget.paused {
+  animation: none;
+  transform: translate(0, 0);
+}
+
+.signup .signup-widget.active:nth-child(1) {
   animation-duration: 10000ms;
 }
-.signup .moving-image:nth-child(2) {
+.signup .signup-widget.active:nth-child(2) {
   animation-duration: 11000ms;
 }
 
-.signup .moving-image:nth-child(3) {
+.signup .signup-widget.active:nth-child(3) {
   animation-duration: 9000ms;
 }
 
-.signup .moving-image:nth-child(4) {
+.signup .signup-widget.active:nth-child(4) {
   animation-duration: 20000ms;
 }
 
-.signup .moving-image:nth-child(5) {
+.signup .signup-widget.active:nth-child(5) {
   animation-duration: 14000ms;
 }
 
-.signup .moving-image:nth-child(6) {
+.signup .signup-widget.active:nth-child(6) {
   animation-duration: 10000ms;
 }
 
-.signup .moving-image:nth-child(7) {
+.signup .signup-widget.active:nth-child(7) {
   animation-duration: 15000ms;
 }
 
-.signup .moving-image:nth-child(8) {
+.signup .signup-widget.active:nth-child(8) {
   animation-duration: 20000ms;
 }
 

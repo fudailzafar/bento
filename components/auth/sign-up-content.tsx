@@ -15,7 +15,7 @@ import { useDebounce } from '@/hooks/use-debounce';
 import { motion, AnimatePresence } from 'framer-motion';
 import clsx from 'clsx';
 
-export default function SignupContent() {
+export default function SignupContent({ onStepChange }: { onStepChange?: (step: 'username' | 'auth') => void } = {}) {
   const { data: session } = useSession();
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
@@ -33,6 +33,12 @@ export default function SignupContent() {
 
   const debouncedUsername = useDebounce(username, 600);
   const hasCredentials = email.length > 0 || password.length > 0;
+
+  useEffect(() => {
+    if (onStepChange) {
+      onStepChange(step);
+    }
+  }, [step, onStepChange]);
 
   useEffect(() => {
     if (session?.user) {

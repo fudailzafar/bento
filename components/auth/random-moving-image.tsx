@@ -5,10 +5,12 @@ export default function RandomMovingImage({
   cols,
   rows,
   imageSrc,
+  isActive = true,
 }: {
   cols: number;
   rows: number;
   imageSrc: StaticImageData;
+  isActive?: boolean;
 }) {
   const randomValues = useMemo(() => ({
     randomX: Math.random() * 0.7,
@@ -17,9 +19,9 @@ export default function RandomMovingImage({
 
   return (
     <div
-      className={`moving-image ${
+      className={`signup-widget ${isActive ? 'active' : 'paused'} ${
         cols == 1 ? 'col-span-1' : 'col-span-2'
-      } transition-all duration-300 w-full h-full  ${
+      } w-full h-full ${
         rows == 1 ? 'row-span-1' : 'row-span-2'
       } overflow-hidden rounded-2xl shadow-sm relative`}
       style={
