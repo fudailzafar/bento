@@ -8,8 +8,8 @@ export default function SignupPage() {
   const [currentStep, setCurrentStep] = useState<'username' | 'auth'>('username');
 
   return (
-    <div className="min-h-[90vh] md:min-h-screen flex items-center justify-center px-7 sm:px-6 lg:px-48">
-      <div className="w-full max-w-[440px] space-y-8 mx-auto">
+    <div className="min-h-[90vh] md:min-h-screen flex items-center justify-center gap-12 lg:gap-16 px-7 sm:px-6 lg:px-32">
+      <div className="w-full max-w-[440px] space-y-8">
         <SignupContent onStepChange={setCurrentStep} />
 
         <div className="text-left mt-6">
@@ -22,7 +22,7 @@ export default function SignupPage() {
         </div>
       </div>
 
-      <div className="hidden md:flex flex-1 items-center justify-center">
+      <div className="hidden md:flex flex-1 items-center justify-center max-w-[700px]">
         <SignupAnimation isActive={currentStep === 'username'} />
       </div>
     </div>

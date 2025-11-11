@@ -162,24 +162,22 @@ export default function SignupContent({ onStepChange }: { onStepChange?: (step: 
               key="username"
               custom={direction}
               initial={{
-                x: direction === 'forward' ? 0 : -300,
-                opacity: direction === 'forward' ? 1 : 0,
+                opacity: 0,
+                x: -20,
               }}
-              animate={{ x: 0, opacity: 1 }}
+              animate={{ opacity: 1, x: 0 }}
               exit={{
-                x: direction === 'forward' ? -300 : 0,
-                opacity: direction === 'forward' ? 0 : 1,
+                opacity: 0,
+                x: -20,
               }}
               transition={{
-                type: 'spring',
-                stiffness: 120,
-                damping: 20,
-                mass: 0.8,
+                duration: 0.3,
+                ease: 'easeInOut',
               }}
               className="space-y-4"
             >
               <div className="text-left">
-                <h1 className="text-[32px] md:text-[29px] lg:text-[32px] font-extrabold text-design-black mb-4">
+                <h1 className="text-[32px] font-bold text-design-black mb-4">
                   First, claim your unique link
                 </h1>
                 <h2 className="text-design-resume font-normal text-xl sm:text-xl mb-20">
@@ -261,19 +259,17 @@ export default function SignupContent({ onStepChange }: { onStepChange?: (step: 
               key="auth"
               custom={direction}
               initial={{
-                x: direction === 'forward' ? 300 : 0,
-                opacity: direction === 'forward' ? 0 : 1,
+                opacity: 0,
+                x: 20,
               }}
-              animate={{ x: 0, opacity: 1 }}
+              animate={{ opacity: 1, x: 0 }}
               exit={{
-                x: direction === 'forward' ? 0 : 300,
-                opacity: direction === 'forward' ? 1 : 0,
+                opacity: 0,
+                x: 20,
               }}
               transition={{
-                type: 'spring',
-                stiffness: 120,
-                damping: 20,
-                mass: 0.8,
+                duration: 0.3,
+                ease: 'easeInOut',
               }}
               className="space-y-6"
             >
@@ -300,7 +296,7 @@ export default function SignupContent({ onStepChange }: { onStepChange?: (step: 
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     disabled={isLoading}
-                    className="w-full h-14 px-4 bg-[#F5F5F5] border-0 rounded-xl text-base placeholder:text-gray-400 focus-visible:ring-0 focus-visible:ring-offset-0 outline-none"
+                    className="w-full h-12 px-4 bg-[#F5F5F5] border-0 rounded-lg text-base placeholder:text-gray-400 focus-visible:ring-0 focus-visible:ring-offset-0 outline-none"
                   />
 
                   <div className="relative w-full">
@@ -311,12 +307,12 @@ export default function SignupContent({ onStepChange }: { onStepChange?: (step: 
                       value={password}
                       onChange={(e) => setPassword(e.target.value)}
                       disabled={isLoading}
-                      className="w-full h-14 px-4 pr-[76px] bg-[#F5F5F5] border-0 rounded-xl text-base placeholder:text-gray-400 focus-visible:ring-0 focus-visible:ring-offset-0 outline-none"
+                      className="w-full h-12 px-4 pr-[76px] bg-[#F5F5F5] border-0 rounded-lg text-base placeholder:text-gray-400 focus-visible:ring-0 focus-visible:ring-offset-0 outline-none"
                     />
                     <button
                       type="button"
                       onClick={() => setShowPassword(!showPassword)}
-                      className="absolute right-3 top-1/2 -translate-y-1/2 h-9 px-4 flex items-center justify-center bg-white hover:bg-gray-50 text-black text-sm font-semibold rounded-lg shadow-[0_1px_2px_rgba(0,0,0,0.08)] transition-all active:scale-95"
+                      className="absolute right-2 top-1/2 -translate-y-1/2 h-8 w-[60px] flex items-center justify-center bg-white hover:bg-gray-50 text-black text-xs font-semibold rounded shadow-[0_1px_2px_rgba(0,0,0,0.08)] transition-all active:scale-95"
                     >
                       {showPassword ? 'Hide' : 'Show'}
                     </button>
@@ -347,7 +343,7 @@ export default function SignupContent({ onStepChange }: { onStepChange?: (step: 
                       : isLoading
                   }
                   className={clsx(
-                    'w-full cursor-pointer flex items-center active:scale-95 transition-all duration-300 ease-out justify-center gap-3 px-6 py-3 disabled:opacity-70 disabled:cursor-not-allowed text-white font-medium text-sm rounded-lg',
+                    'w-full cursor-pointer shadow-lg flex items-center active:scale-95 transition-all duration-300 ease-out justify-center gap-3 px-6 py-3 disabled:opacity-70 disabled:cursor-not-allowed text-white font-medium text-sm rounded-lg',
                     hasCredentials
                       ? 'bg-black hover:bg-black/80'
                       : 'bg-design-primary hover:bg-design-primaryDark'
