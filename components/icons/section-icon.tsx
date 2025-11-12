@@ -16,7 +16,7 @@ export const SectionIcon = (props: React.SVGProps<SVGSVGElement>) => {
         height="7"
         rx="2.5"
         stroke="black"
-        stroke-opacity="0.08"
+        strokeOpacity="0.08"
       ></rect>
       <rect x="13" y="12" width="7" height="8" rx="3" fill="#E3E3E3"></rect>
       <rect
@@ -26,7 +26,7 @@ export const SectionIcon = (props: React.SVGProps<SVGSVGElement>) => {
         height="7"
         rx="2.5"
         stroke="black"
-        stroke-opacity="0.08"
+        strokeOpacity="0.08"
       ></rect>
       <rect
         x="4"
@@ -45,7 +45,7 @@ export const SectionIcon = (props: React.SVGProps<SVGSVGElement>) => {
           y2="9"
           gradientUnits="userSpaceOnUse"
         >
-          <stop stop-color="#5B5B5B"></stop>
+          <stop stopColor="#5B5B5B"></stop>
           <stop offset="1"></stop>
         </linearGradient>
       </defs>

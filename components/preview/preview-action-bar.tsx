@@ -91,7 +91,7 @@ export default function PreviewActionbar({
 
   return (
     <>
-      <div className="relative md:w-[60%] rounded-2xl bg-white/95 backdrop-blur-sm border border-neutral-200 shadow-lg p-2.5 flex items-center gap-5">
+      <div className="relative md:w-[66%] rounded-2xl bg-white/95 backdrop-blur-sm border border-neutral-200 shadow-lg px-3.5 py-3 flex items-center gap-5">
         {/* Share Button */}
         {status === 'live' && (
           <Button

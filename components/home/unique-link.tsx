@@ -17,7 +17,7 @@ export function UniqueLink() {
 
       {/* Link cloud with floating cards */}
       <div className="relative w-full flex justify-center items-center">
-        <div className="relative bg-[#F6F6F6] rounded-2xl shadow-lg w-[300px] sm:w-[900px] h-[200px] sm:h-[480px] flex items-center justify-center mx-auto overflow-hidden">
+        <div className="relative bg-[#F6F6F6] md:border md:border-gray-100 rounded-2xl w-[330px] sm:w-[900px] h-[200px] sm:h-[480px] flex items-center justify-center mx-auto overflow-hidden">
           {/* Username marquee and URL layout */}
           <div className="absolute left-0 top-1/2 -translate-y-1/2 flex flex-row w-full h-full items-center justify-center p-4 md:px-12">
             {/* portfoliofy.me/ on the left */}
@@ -25,7 +25,7 @@ export function UniqueLink() {
               className="flex flex-col items-end justify-center pr-2"
               style={{ minWidth: '320px' }}
             >
-              <div className="text-2xl md:text-5xl font-normal text-gray-400 mb-2 whitespace-nowrap">
+              <div className="text-[28px] md:text-5xl font-normal text-gray-400 mb-2 whitespace-nowrap">
                 portfoliofy.me/
               </div>
             </div>
@@ -106,7 +106,7 @@ const AnimatedText = ({ phrases }: { phrases: string[] }) => {
   }, [phrases]);
 
   return (
-    <div className="relative mb-14 mt-4 md:-mt-[1px] w-full">
+    <div className="relative mb-14 mt-2 md:-mt-[1px] w-full">
       {phrases.map((phrase) => {
         const isActive = phrases[active] === phrase;
         return (
@@ -127,7 +127,7 @@ const AnimatedText = ({ phrases }: { phrases: string[] }) => {
                 scale: 0,
               },
             }}
-            className="absolute font-normal text-2xl md:text-5xl left-1/2 top-0 w-full text-black"
+            className="absolute font-normal text-[28px] md:text-5xl left-1/2 top-0 w-full text-black"
           >
             {phrase}
           </motion.div>
