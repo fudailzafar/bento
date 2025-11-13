@@ -1,7 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { Resume, ResumeData, UserProfile } from '@/lib/server';
 import { ResumeDataSchema } from '@/lib';
-import { PublishStatuses } from '@/components/preview';
 
 // Fetch resume data
 const fetchResume = async (): Promise<{
@@ -150,21 +149,6 @@ export function useUserActions() {
     },
   });
 
-  // Mutation for toggling status of publishment
-  const toggleStatusMutation = useMutation({
-    mutationFn: async (newPublishStatus: PublishStatuses) => {
-      if (!resumeQuery.data?.resume) return;
-      await internalResumeUpdate({
-        ...resumeQuery.data?.resume,
-        status: newPublishStatus,
-      });
-    },
-    onSuccess: () => {
-      // Invalidate and refetch resume data
-      queryClient.invalidateQueries({ queryKey: ['resume'] });
-    },
-  });
-
   // mutation to allow editing a username for a user_id, if it fails means that username is already taken
   const updateUsernameMutation = useMutation({
     mutationFn: internalUsernameUpdate,
@@ -229,7 +213,6 @@ export function useUserActions() {
   return {
     resumeQuery,
     uploadResumeMutation,
-    toggleStatusMutation,
     usernameQuery,
     updateUsernameMutation,
     checkUsernameMutation,
