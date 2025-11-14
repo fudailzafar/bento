@@ -129,7 +129,6 @@ export function useUserActions() {
         size: fileInfo.size,
       },
       resumeData: undefined,
-      status: 'live',
     };
 
     queryClient.setQueryData(['resume'], (oldData: any) => ({

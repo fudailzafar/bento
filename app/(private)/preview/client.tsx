@@ -369,7 +369,6 @@ export default function PreviewClient({ messageTip }: { messageTip?: string }) {
           <div className="max-w-3xl mx-auto w-full md:px-0 px-4 pointer-events-auto flex justify-center">
             <PreviewActionbar
               initialUsername={usernameQuery.data.username}
-              status={resumeQuery.data?.resume?.status}
               viewMode={viewMode}
               onViewModeChange={setViewMode}
               isSaving={saveResumeDataMutation.isPending}
