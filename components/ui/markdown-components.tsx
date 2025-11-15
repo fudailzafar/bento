@@ -67,11 +67,11 @@ const CodeHeader = ({
   };
 
   return (
-    <div className="flex items-center justify-between gap-4 rounded-t-md bg-container px-4 py-2 text-sm font-semibold text-primary">
+    <div className="bg-container flex items-center justify-between gap-4 rounded-t-md px-4 py-2 text-sm font-semibold text-primary">
       <span className="lowercase text-primary">{language}</span>
       <button
         onClick={copyToClipboard}
-        className="p-1 rounded-md hover:bg-backdrop transition-colors cursor-pointer"
+        className="hover:bg-backdrop cursor-pointer rounded-md p-1 transition-colors"
         title="Copy code"
       >
         {!copied ? (
@@ -109,17 +109,17 @@ export const createMarkdownComponents = (): Record<
 
     if (match && looksLikeCode(content)) {
       return (
-        <div className="relative border border-border rounded-md bg-muted max-w-[80ch] text-sm my-4">
+        <div className="relative my-4 max-w-[80ch] rounded-md border border-border bg-muted text-sm">
           <CodeHeader language={match[1]} code={content} />
           <div
             className={cn(
               'overflow-x-auto rounded-b-md bg-background',
               '[&::-webkit-scrollbar]:w-[6px]',
-              '[&::-webkit-scrollbar-thumb]:bg-gray-300 [&::-webkit-scrollbar-thumb]:rounded-md',
+              '[&::-webkit-scrollbar-thumb]:rounded-md [&::-webkit-scrollbar-thumb]:bg-gray-300',
               '[&::-webkit-scrollbar:horizontal]:h-[4px]'
             )}
           >
-            <pre className="p-4 whitespace-pre">
+            <pre className="whitespace-pre p-4">
               <code
                 className={className}
                 dangerouslySetInnerHTML={{
@@ -134,7 +134,7 @@ export const createMarkdownComponents = (): Record<
 
     return (
       <code
-        className={cn('bg-muted px-1.5 py-0.5 rounded text-sm', className)}
+        className={cn('rounded bg-muted px-1.5 py-0.5 text-sm', className)}
         {...props}
       >
         {children}
@@ -152,7 +152,7 @@ export const createMarkdownComponents = (): Record<
    * Used for main section headers
    */
   h1: ({ children }) => (
-    <h1 className="text-2xl font-bold mb-4 mt-6">{children}</h1>
+    <h1 className="mb-4 mt-6 text-2xl font-bold">{children}</h1>
   ),
 
   /**
@@ -160,7 +160,7 @@ export const createMarkdownComponents = (): Record<
    * Slightly smaller than h1 with adjusted spacing
    */
   h2: ({ children }) => (
-    <h2 className="text-xl font-bold mb-3 mt-5">{children}</h2>
+    <h2 className="mb-3 mt-5 text-xl font-bold">{children}</h2>
   ),
 
   /**
@@ -168,7 +168,7 @@ export const createMarkdownComponents = (): Record<
    * Used for smaller subdivisions within h2 sections
    */
   h3: ({ children }) => (
-    <h3 className="text-lg font-bold mb-2 mt-4">{children}</h3>
+    <h3 className="mb-2 mt-4 text-lg font-bold">{children}</h3>
   ),
 
   /**
@@ -176,7 +176,7 @@ export const createMarkdownComponents = (): Record<
    * Maintains consistent text size with adjusted spacing
    */
   h4: ({ children }) => (
-    <h4 className="text-base font-bold mb-2 mt-3">{children}</h4>
+    <h4 className="mb-2 mt-3 text-base font-bold">{children}</h4>
   ),
 
   /**
@@ -202,7 +202,7 @@ export const createMarkdownComponents = (): Record<
    * Features a left border and italic text with proper spacing
    */
   blockquote: ({ children }) => (
-    <blockquote className="border-l-4 border-muted pl-4 italic my-4">
+    <blockquote className="my-4 border-l-4 border-muted pl-4 italic">
       {children}
     </blockquote>
   ),
@@ -217,10 +217,10 @@ export const createMarkdownComponents = (): Record<
       href={href}
       target="_blank"
       rel="noopener noreferrer"
-      className="text-primary font-medium px-1.5 py-0.5 rounded-md bg-primary/5 hover:bg-primary/10 hover:underline transition-colors inline-flex items-center gap-1.5"
+      className="inline-flex items-center gap-1.5 rounded-md bg-primary/5 px-1.5 py-0.5 font-medium text-primary transition-colors hover:bg-primary/10 hover:underline"
     >
       {children}
-      <ExternalLink className="w-3 h-3" />
+      <ExternalLink className="h-3 w-3" />
     </a>
   ),
 
@@ -235,7 +235,7 @@ export const createMarkdownComponents = (): Record<
    * Handles overflow for wide tables with proper spacing
    */
   table: ({ children }) => (
-    <div className="overflow-x-auto my-4">
+    <div className="my-4 overflow-x-auto">
       <table className="min-w-full border border-border">{children}</table>
     </div>
   ),
@@ -245,7 +245,7 @@ export const createMarkdownComponents = (): Record<
    * Features bold text and distinct background
    */
   th: ({ children }) => (
-    <th className="border border-border px-4 py-2 bg-muted font-semibold">
+    <th className="border border-border bg-muted px-4 py-2 font-semibold">
       {children}
     </th>
   ),

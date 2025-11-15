@@ -15,7 +15,7 @@ export default function SignupAnimation({
   isActive?: boolean;
 }) {
   return (
-    <div className="grid aspect-square max-h-[640px] max-w-[640px] gap-8 grid-cols-4 grid-rows-4 p-8 signup">
+    <div className="signup grid aspect-square max-h-[640px] max-w-[640px] grid-cols-4 grid-rows-4 gap-8 p-8">
       <RandomMovingImage
         rows={2}
         cols={2}

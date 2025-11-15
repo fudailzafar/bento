@@ -65,8 +65,8 @@ const users: User[] = [
 
 export function Avatars() {
   return (
-    <section className="flex flex-col justify-center items-center mt-40 md:mt-80 mb-10">
-      <h2 className="text-[28px] text-center font-bold mb-6">
+    <section className="mb-10 mt-40 flex flex-col items-center justify-center md:mt-80">
+      <h2 className="mb-6 text-center text-[28px] font-bold">
         <span className="hidden sm:inline">
           Join hundreds of inspiring professionals
         </span>
@@ -78,24 +78,24 @@ export function Avatars() {
       {/* Responsive avatar rows */}
       <div className="mb-8">
         {/* Large screens: single row */}
-        <div className="hidden sm:flex gap-4">
+        <div className="hidden gap-4 sm:flex">
           {users.map((user, i) => (
             <a
               key={i}
               href={`/${user.username}`}
-              className="relative flex flex-col items-center group cursor-pointer"
+              className="group relative flex cursor-pointer flex-col items-center"
             >
-              <span className="absolute -top-7 left-1/2 -translate-x-1/2 px-3 py-1 rounded-full bg-design-primaryLight text-white text-xs font-medium shadow-lg opacity-0 group-hover:opacity-100 transition">
+              <span className="absolute -top-7 left-1/2 -translate-x-1/2 rounded-full bg-design-primaryLight px-3 py-1 text-xs font-medium text-white opacity-0 shadow-lg transition group-hover:opacity-100">
                 {user.name}
               </span>
               <div className="relative">
                 <img
                   src={user.avatar}
                   alt=""
-                  className="w-16 h-16 rounded-full object-cover shadow group-hover:shadow-xl group-hover:brightness-50 transition duration-200"
+                  className="h-16 w-16 rounded-full object-cover shadow transition duration-200 group-hover:shadow-xl group-hover:brightness-50"
                 />
                 {/* North-east arrow icon, shown on hover */}
-                <span className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 transition duration-200 pointer-events-none">
+                <span className="pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 opacity-0 transition duration-200 group-hover:opacity-100">
                   <svg
                     width="18"
                     height="18"
@@ -123,23 +123,23 @@ export function Avatars() {
         </div>
         {/* Small screens: two rows of 5 */}
         <div className="flex flex-col gap-4 sm:hidden">
-          <div className="flex gap-4 justify-center">
+          <div className="flex justify-center gap-4">
             {users.slice(0, 5).map((user, i) => (
               <a
                 key={i}
                 href={`/${user.username}`}
-                className="relative flex flex-col items-center group cursor-pointer"
+                className="group relative flex cursor-pointer flex-col items-center"
               >
-                <span className="absolute -top-7 left-1/2 -translate-x-1/2 px-3 py-1 rounded-full bg-design-black text-white text-xs font-medium shadow-lg opacity-0 group-hover:opacity-100 transition">
+                <span className="absolute -top-7 left-1/2 -translate-x-1/2 rounded-full bg-design-black px-3 py-1 text-xs font-medium text-white opacity-0 shadow-lg transition group-hover:opacity-100">
                   {user.name}
                 </span>
                 <div className="relative">
                   <img
                     src={user.avatar}
                     alt=""
-                    className="size-[55px] rounded-full object-cover border border-gray-200 shadow group-hover:shadow-xl group-hover:brightness-50 transition duration-200"
+                    className="size-[55px] rounded-full border border-gray-200 object-cover shadow transition duration-200 group-hover:shadow-xl group-hover:brightness-50"
                   />
-                  <span className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 transition duration-200 pointer-events-none">
+                  <span className="pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 opacity-0 transition duration-200 group-hover:opacity-100">
                     <svg
                       width="18"
                       height="18"
@@ -165,23 +165,23 @@ export function Avatars() {
               </a>
             ))}
           </div>
-          <div className="flex gap-4 justify-center">
+          <div className="flex justify-center gap-4">
             {users.slice(5, 10).map((user, i) => (
               <a
                 key={i}
                 href={`/${user.username}`}
-                className="relative flex flex-col items-center group cursor-pointer"
+                className="group relative flex cursor-pointer flex-col items-center"
               >
-                <span className="absolute -top-7 left-1/2 -translate-x-1/2 px-3 py-1 rounded-full bg-design-black text-white text-xs font-medium shadow-lg opacity-0 group-hover:opacity-100 transition">
+                <span className="absolute -top-7 left-1/2 -translate-x-1/2 rounded-full bg-design-black px-3 py-1 text-xs font-medium text-white opacity-0 shadow-lg transition group-hover:opacity-100">
                   {user.name}
                 </span>
                 <div className="relative">
                   <img
                     src={user.avatar}
                     alt=""
-                    className="size-[55px] rounded-full object-cover border border-gray-200 shadow group-hover:shadow-xl group-hover:brightness-50 transition duration-200"
+                    className="size-[55px] rounded-full border border-gray-200 object-cover shadow transition duration-200 group-hover:shadow-xl group-hover:brightness-50"
                   />
-                  <span className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 transition duration-200 pointer-events-none">
+                  <span className="pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 opacity-0 transition duration-200 group-hover:opacity-100">
                     <svg
                       width="18"
                       height="18"
@@ -210,7 +210,7 @@ export function Avatars() {
         </div>
       </div>
       <Link href={'/explore'}>
-        <Button className="bg-gray-100 hover:bg-gray-200 text-base p-3 text-black">
+        <Button className="bg-gray-100 p-3 text-base text-black hover:bg-gray-200">
           Explore the most inspiring Portfolios <ArrowRightIcon />
         </Button>
       </Link>

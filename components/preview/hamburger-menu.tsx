@@ -33,11 +33,11 @@ export const HamburgerMenu = ({
       {/* Projects Button */}
       <button
         onClick={onAddProject}
-        className="relative h-[25px] w-[25px] rounded-lg transition-all active:scale-95 group hover:shadow-[0_0_0_3px_rgba(0,0,0,0.06)]"
+        className="group relative h-[25px] w-[25px] rounded-lg transition-all hover:shadow-[0_0_0_3px_rgba(0,0,0,0.06)] active:scale-95"
         data-state="closed"
         aria-label="Add Project"
       >
-        <div className="absolute inset-0 flex items-center justify-center overflow-hidden rounded-[7px] backdrop-blur-[255px] shadow-[0_.6px_2px_rgba(0,0,0,.06)]">
+        <div className="absolute inset-0 flex items-center justify-center overflow-hidden rounded-[7px] shadow-[0_.6px_2px_rgba(0,0,0,.06)] backdrop-blur-[255px]">
           {/* Gradient - complex gradient requires inline style */}
           <div
             className="pointer-events-none absolute inset-0 rounded-[7px]"
@@ -48,14 +48,14 @@ export const HamburgerMenu = ({
           <LinkIcon />
 
           {/* Border */}
-          <div className="pointer-events-none absolute inset-0 border border-black/[0.12] rounded-[7px]" />
+          <div className="pointer-events-none absolute inset-0 rounded-[7px] border border-black/[0.12]" />
 
           {/* Hover Highlight */}
-          <div className="absolute inset-0 rounded-[7px] opacity-0 group-hover:opacity-100 transition-opacity bg-gradient-to-b from-white/20 to-transparent" />
+          <div className="absolute inset-0 rounded-[7px] bg-gradient-to-b from-white/20 to-transparent opacity-0 transition-opacity group-hover:opacity-100" />
         </div>
 
         {/* Tooltip */}
-        <div className="hidden sm:block absolute bottom-full mb-2 left-1/2 transform -translate-x-1/2 bg-white font-normal text-design-resume text-[10px] leading-tight px-2 py-1 rounded-md shadow-md border border-slate-100 opacity-0 group-hover:opacity-100 transition-opacity duration-200 delay-700 pointer-events-none z-50 min-w-max">
+        <div className="pointer-events-none absolute bottom-full left-1/2 z-50 mb-2 hidden min-w-max -translate-x-1/2 transform rounded-md border border-slate-100 bg-white px-2 py-1 text-[10px] font-normal leading-tight text-design-resume opacity-0 shadow-md transition-opacity delay-700 duration-200 group-hover:opacity-100 sm:block">
           Project
         </div>
       </button>
@@ -63,12 +63,12 @@ export const HamburgerMenu = ({
       {/* Work Experience Button */}
       <button
         onClick={onAddWorkExperience}
-        className="relative h-[25px] w-[25px] rounded-lg transition-all active:scale-95 group hover:shadow-[0_0_0_3px_rgba(0,0,0,0.06)]"
+        className="group relative h-[25px] w-[25px] rounded-lg transition-all hover:shadow-[0_0_0_3px_rgba(0,0,0,0.06)] active:scale-95"
         data-link-button="true"
         data-state="closed"
         aria-label="Add Work Experience"
       >
-        <div className="absolute inset-0 flex items-center justify-center overflow-hidden rounded-[7px] backdrop-blur-[255px] shadow-[0_.6px_2px_rgba(0,0,0,.06)]">
+        <div className="absolute inset-0 flex items-center justify-center overflow-hidden rounded-[7px] shadow-[0_.6px_2px_rgba(0,0,0,.06)] backdrop-blur-[255px]">
           <div
             className="pointer-events-none absolute inset-0 rounded-[7px]"
             style={{ background: BUTTON_GRADIENT }}
@@ -79,10 +79,10 @@ export const HamburgerMenu = ({
             width={15}
             height={15}
           />
-          <div className="pointer-events-none absolute inset-0 border border-black/[0.12] rounded-[7px]" />
-          <div className="absolute inset-0 rounded-[7px] opacity-0 group-hover:opacity-100 transition-opacity bg-gradient-to-b from-white/20 to-transparent" />
+          <div className="pointer-events-none absolute inset-0 rounded-[7px] border border-black/[0.12]" />
+          <div className="absolute inset-0 rounded-[7px] bg-gradient-to-b from-white/20 to-transparent opacity-0 transition-opacity group-hover:opacity-100" />
         </div>
-        <div className="hidden sm:block absolute bottom-full mb-2 left-1/2 transform -translate-x-1/2 bg-white font-normal text-design-resume text-[10px] leading-tight px-2 py-1 rounded-md shadow-md border border-slate-100 opacity-0 group-hover:opacity-100 transition-opacity duration-200 delay-700 pointer-events-none z-50 min-w-max">
+        <div className="pointer-events-none absolute bottom-full left-1/2 z-50 mb-2 hidden min-w-max -translate-x-1/2 transform rounded-md border border-slate-100 bg-white px-2 py-1 text-[10px] font-normal leading-tight text-design-resume opacity-0 shadow-md transition-opacity delay-700 duration-200 group-hover:opacity-100 sm:block">
           Work Experience
         </div>
       </button>
@@ -90,11 +90,11 @@ export const HamburgerMenu = ({
       {/* Education Button */}
       <button
         onClick={onAddEducation}
-        className="relative h-[25px] w-[25px] rounded-lg transition-all active:scale-95 group hover:shadow-[0_0_0_3px_rgba(0,0,0,0.06)]"
+        className="group relative h-[25px] w-[25px] rounded-lg transition-all hover:shadow-[0_0_0_3px_rgba(0,0,0,0.06)] active:scale-95"
         data-state="closed"
         aria-label="Add Education"
       >
-        <div className="absolute inset-0 flex items-center justify-center overflow-hidden rounded-[7px] backdrop-blur-[255px] shadow-[0_.6px_2px_rgba(0,0,0,.06)]">
+        <div className="absolute inset-0 flex items-center justify-center overflow-hidden rounded-[7px] shadow-[0_.6px_2px_rgba(0,0,0,.06)] backdrop-blur-[255px]">
           <div
             className="pointer-events-none absolute inset-0 rounded-[7px]"
             style={{ background: BUTTON_GRADIENT }}
@@ -105,10 +105,10 @@ export const HamburgerMenu = ({
             width={15}
             height={15}
           />
-          <div className="pointer-events-none absolute inset-0 border border-black/[0.12] rounded-[7px]" />
-          <div className="absolute inset-0 rounded-[7px] opacity-0 group-hover:opacity-100 transition-opacity bg-gradient-to-b from-white/20 to-transparent" />
+          <div className="pointer-events-none absolute inset-0 rounded-[7px] border border-black/[0.12]" />
+          <div className="absolute inset-0 rounded-[7px] bg-gradient-to-b from-white/20 to-transparent opacity-0 transition-opacity group-hover:opacity-100" />
         </div>
-        <div className="hidden sm:block absolute bottom-full mb-2 left-1/2 transform -translate-x-1/2 bg-white font-normal text-design-resume text-[10px] leading-tight px-2 py-1 rounded-md shadow-md border border-slate-100 opacity-0 group-hover:opacity-100 transition-opacity duration-200 delay-700 pointer-events-none z-50 min-w-max">
+        <div className="pointer-events-none absolute bottom-full left-1/2 z-50 mb-2 hidden min-w-max -translate-x-1/2 transform rounded-md border border-slate-100 bg-white px-2 py-1 text-[10px] font-normal leading-tight text-design-resume opacity-0 shadow-md transition-opacity delay-700 duration-200 group-hover:opacity-100 sm:block">
           Education
         </div>
       </button>
@@ -116,20 +116,20 @@ export const HamburgerMenu = ({
       {/* Skills Button */}
       <button
         onClick={onAddSkill}
-        className="relative h-[25px] w-[25px] rounded-lg transition-all active:scale-95 group hover:shadow-[0_0_0_3px_rgba(0,0,0,0.06)]"
+        className="group relative h-[25px] w-[25px] rounded-lg transition-all hover:shadow-[0_0_0_3px_rgba(0,0,0,0.06)] active:scale-95"
         data-state="closed"
         aria-label="Add Skill"
       >
-        <div className="absolute inset-0 flex items-center justify-center overflow-hidden rounded-[7px] backdrop-blur-[255px] shadow-[0_.6px_2px_rgba(0,0,0,.06)]">
+        <div className="absolute inset-0 flex items-center justify-center overflow-hidden rounded-[7px] shadow-[0_.6px_2px_rgba(0,0,0,.06)] backdrop-blur-[255px]">
           <div
             className="pointer-events-none absolute inset-0 rounded-[7px]"
             style={{ background: BUTTON_GRADIENT }}
           />
           <Image src="/image.png" alt="Add Skill" width={15} height={15} />
-          <div className="pointer-events-none absolute inset-0 border border-black/[0.12] rounded-[7px]" />
-          <div className="absolute inset-0 rounded-[7px] opacity-0 group-hover:opacity-100 transition-opacity bg-gradient-to-b from-white/20 to-transparent" />
+          <div className="pointer-events-none absolute inset-0 rounded-[7px] border border-black/[0.12]" />
+          <div className="absolute inset-0 rounded-[7px] bg-gradient-to-b from-white/20 to-transparent opacity-0 transition-opacity group-hover:opacity-100" />
         </div>
-        <div className="hidden sm:block absolute bottom-full mb-2 left-1/2 transform -translate-x-1/2 bg-white font-normal text-design-resume text-[10px] leading-tight px-2 py-1 rounded-md shadow-md border border-slate-100 opacity-0 group-hover:opacity-100 transition-opacity duration-200 delay-700 pointer-events-none z-50 min-w-max">
+        <div className="pointer-events-none absolute bottom-full left-1/2 z-50 mb-2 hidden min-w-max -translate-x-1/2 transform rounded-md border border-slate-100 bg-white px-2 py-1 text-[10px] font-normal leading-tight text-design-resume opacity-0 shadow-md transition-opacity delay-700 duration-200 group-hover:opacity-100 sm:block">
           Skill
         </div>
       </button>
@@ -137,20 +137,20 @@ export const HamburgerMenu = ({
       {/* Section Title Button */}
       <button
         onClick={onAddSkill}
-        className="relative h-[25px] w-[25px] rounded-lg transition-all active:scale-95 group hover:shadow-[0_0_0_3px_rgba(0,0,0,0.06)]"
+        className="group relative h-[25px] w-[25px] rounded-lg transition-all hover:shadow-[0_0_0_3px_rgba(0,0,0,0.06)] active:scale-95"
         data-state="closed"
         aria-label="Add Section Title"
       >
-        <div className="absolute inset-0 flex items-center justify-center overflow-hidden rounded-[7px] backdrop-blur-[255px] shadow-[0_.6px_2px_rgba(0,0,0,.06)]">
+        <div className="absolute inset-0 flex items-center justify-center overflow-hidden rounded-[7px] shadow-[0_.6px_2px_rgba(0,0,0,.06)] backdrop-blur-[255px]">
           <div
             className="pointer-events-none absolute inset-0 rounded-[7px]"
             style={{ background: BUTTON_GRADIENT }}
           />
           <SectionIcon />
-          <div className="pointer-events-none absolute inset-0 border border-black/[0.12] rounded-[7px]" />
-          <div className="absolute inset-0 rounded-[7px] opacity-0 group-hover:opacity-100 transition-opacity bg-gradient-to-b from-white/20 to-transparent" />
+          <div className="pointer-events-none absolute inset-0 rounded-[7px] border border-black/[0.12]" />
+          <div className="absolute inset-0 rounded-[7px] bg-gradient-to-b from-white/20 to-transparent opacity-0 transition-opacity group-hover:opacity-100" />
         </div>
-        <div className="hidden sm:block absolute bottom-full mb-2 left-1/2 transform -translate-x-1/2 bg-white font-normal text-design-resume text-[10px] leading-tight px-2 py-1 rounded-md shadow-md border border-slate-100 opacity-0 group-hover:opacity-100 transition-opacity duration-200 delay-700 pointer-events-none z-50 min-w-max">
+        <div className="pointer-events-none absolute bottom-full left-1/2 z-50 mb-2 hidden min-w-max -translate-x-1/2 transform rounded-md border border-slate-100 bg-white px-2 py-1 text-[10px] font-normal leading-tight text-design-resume opacity-0 shadow-md transition-opacity delay-700 duration-200 group-hover:opacity-100 sm:block">
           Section Title
         </div>
       </button>

@@ -99,7 +99,7 @@ export const ThreadDropdown = React.forwardRef<
           <div
             role="button"
             tabIndex={0}
-            className="rounded-md px-1 flex items-center gap-2 text-sm border border-gray-200 bg-background hover:bg-accent hover:text-accent-foreground cursor-pointer transition-colors"
+            className="flex cursor-pointer items-center gap-2 rounded-md border border-gray-200 bg-background px-1 text-sm transition-colors hover:bg-accent hover:text-accent-foreground"
             aria-label="Thread History"
           >
             <ChevronDownIcon className="h-4 w-4" />
@@ -164,7 +164,7 @@ export const ThreadDropdown = React.forwardRef<
                     handleSwitchThread(thread.id);
                   }}
                 >
-                  <span className="truncate max-w-[180px]">
+                  <span className="max-w-[180px] truncate">
                     {`Thread ${thread.id.substring(0, 8)}`}
                   </span>
                 </DropdownMenu.Item>

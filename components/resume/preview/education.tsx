@@ -60,9 +60,9 @@ function EducationItem({
   return (
     <Card
       className={cn(
-        'group relative -mx-2 px-2 border-2 border-transparent transition-all duration-300',
+        'group relative -mx-2 border-2 border-transparent px-2 transition-all duration-300',
         isEditMode &&
-          'hover:border-gray-100 hover:shadow-sm hover:rounded-xl hover:py-1 dark:hover:border-gray-600'
+          'hover:rounded-xl hover:border-gray-100 hover:py-1 hover:shadow-sm dark:hover:border-gray-600'
       )}
       onMouseEnter={() => isEditMode && setIsHovered(true)}
       onMouseLeave={() => isEditMode && setIsHovered(false)}
@@ -78,8 +78,8 @@ function EducationItem({
       )}
 
       <div className="flex">
-        <div className="flex-none relative group/logo">
-          <Avatar className="border size-12 m-auto bg-muted-background dark:bg-foreground">
+        <div className="group/logo relative flex-none">
+          <Avatar className="bg-muted-background m-auto size-12 border dark:bg-foreground">
             <AvatarImage
               src={logo || undefined}
               alt={school}
@@ -90,12 +90,12 @@ function EducationItem({
 
           {/* Upload/Delete buttons for logo - Only in edit mode on hover */}
           {isEditMode && !isUploading && isHovered && (
-            <div className="absolute inset-0 flex items-center justify-center bg-black/50 rounded-full opacity-0 group-hover/logo:opacity-100 transition-opacity">
+            <div className="absolute inset-0 flex items-center justify-center rounded-full bg-black/50 opacity-0 transition-opacity group-hover/logo:opacity-100">
               <div className="flex gap-1">
                 {/* Upload Button */}
                 <button
                   onClick={onLogoUpload}
-                  className="size-6 rounded-full bg-white backdrop-blur-sm border border-neutral-300 shadow-lg hover:bg-white/90 transition-all flex items-center justify-center"
+                  className="flex size-6 items-center justify-center rounded-full border border-neutral-300 bg-white shadow-lg backdrop-blur-sm transition-all hover:bg-white/90"
                   aria-label="Upload school logo"
                 >
                   <ImageIcon className="size-3 text-black" />
@@ -105,7 +105,7 @@ function EducationItem({
                 {logo && (
                   <button
                     onClick={onLogoDelete}
-                    className="size-6 rounded-full bg-white backdrop-blur-sm border border-neutral-300 shadow-lg hover:bg-white/90 transition-all flex items-center justify-center"
+                    className="flex size-6 items-center justify-center rounded-full border border-neutral-300 bg-white shadow-lg backdrop-blur-sm transition-all hover:bg-white/90"
                     aria-label="Delete school logo"
                   >
                     <TrashIcon className="size-3 text-black" />
@@ -117,23 +117,23 @@ function EducationItem({
 
           {/* Loader during Upload */}
           {isUploading && (
-            <div className="absolute inset-0 bg-black/50 rounded-full flex items-center justify-center">
-              <LoaderIcon className="text-white size-6" />
+            <div className="absolute inset-0 flex items-center justify-center rounded-full bg-black/50">
+              <LoaderIcon className="size-6 text-white" />
             </div>
           )}
         </div>
 
-        <div className="flex-grow ml-4 items-center flex-col">
+        <div className="ml-4 flex-grow flex-col items-center">
           <CardHeader className="p-0">
             <div className="flex items-center justify-between gap-x-2 text-base">
               <h3
-                className="font-semibold leading-none text-base text-left text-[#050914] dark:text-design-white"
+                className="text-left text-base font-semibold leading-none text-[#050914] dark:text-design-white"
                 id={`education-${school.toLowerCase().replace(/\s+/g, '-')}`}
               >
                 {school}
               </h3>
               <div
-                className="text-xs sm:text-sm tabular-nums text-muted-foreground text-right"
+                className="text-right text-xs tabular-nums text-muted-foreground sm:text-sm"
                 aria-label={`Period: ${period}`}
               >
                 {period}
@@ -141,7 +141,7 @@ function EducationItem({
             </div>
             {degree && (
               <div
-                className="mt-1 font-sans text-xs sm:text-sm text-design-resume"
+                className="mt-1 font-sans text-xs text-design-resume sm:text-sm"
                 aria-labelledby={`education-${school
                   .toLowerCase()
                   .replace(/\s+/g, '-')}`}
@@ -159,7 +159,7 @@ function EducationItem({
           {/* Delete */}
           <button
             onClick={onDelete}
-            className="absolute -top-4 -left-2 size-8 rounded-full hover:bg-gray-50 border border-gray-50 shadow-md hover:text-design-secondary bg-white text-gray-700 dark:text-gray-300 dark:hover:text-red-400 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300 ease-in-out z-10"
+            className="absolute -left-2 -top-4 z-10 flex size-8 items-center justify-center rounded-full border border-gray-50 bg-white text-gray-700 opacity-0 shadow-md transition-all duration-300 ease-in-out hover:bg-gray-50 hover:text-design-secondary group-hover:opacity-100 dark:text-gray-300 dark:hover:text-red-400"
             aria-label="Delete education"
           >
             <TrashIcon className="size-4 transition-transform duration-200" />
@@ -168,7 +168,7 @@ function EducationItem({
           {/* Edit */}
           <button
             onClick={onEdit}
-            className="absolute -top-4 -right-2 size-8 rounded-full bg-black border border-gray-50 shadow-md text-white dark:text-gray-300 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300 ease-in-out z-10"
+            className="absolute -right-2 -top-4 z-10 flex size-8 items-center justify-center rounded-full border border-gray-50 bg-black text-white opacity-0 shadow-md transition-all duration-300 ease-in-out group-hover:opacity-100 dark:text-gray-300"
             aria-label="Edit education"
           >
             <PenIcon className="size-4 transition-transform duration-200" />
@@ -318,7 +318,7 @@ export function Education({
     // Education Section
     <Section className={className}>
       <BlurFade delay={BLUR_FADE_DELAY * 7}>
-        <h2 className="text-xl font-bold mb-2" id="education-section">
+        <h2 className="mb-2 text-xl font-bold" id="education-section">
           Education
         </h2>
       </BlurFade>
@@ -335,7 +335,7 @@ export function Education({
             return (
               <div
                 key={idx}
-                className="rounded-lg p-4 bg-gray-50 dark:bg-gray-900"
+                className="rounded-lg bg-gray-50 p-4 dark:bg-gray-900"
               >
                 <EducationField
                   edu={item}

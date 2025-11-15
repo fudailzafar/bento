@@ -12,19 +12,19 @@ export function Header() {
     return (
       <>
         {/* Mobile Header */}
-        <header className="sm:hidden w-full py-4 pb-36 md:px-0 px-6 flex justify-between items-center max-w-4xl mx-auto h-[67px]">
+        <header className="mx-auto flex h-[67px] w-full max-w-4xl items-center justify-between px-6 py-4 pb-36 sm:hidden md:px-0">
           <div className="flex flex-row items-center justify-center gap-2">
             <SettingsPanel />
             <Link
               href="/explore"
               target="_blank"
               rel="noopener noreferrer"
-              className="relative transition-all h-8 w-8 rounded-full active:shadow-lg group flex items-center justify-center text-design-resume hover:bg-slate-100 hover:text-design-resume active:scale-95"
+              className="group relative flex h-8 w-8 items-center justify-center rounded-full text-design-resume transition-all hover:bg-slate-100 hover:text-design-resume active:scale-95 active:shadow-lg"
             >
               <CompassIcon />
 
               {/* Tooltip */}
-              <div className="absolute top-full mt-2 left-1/2 transform -translate-x-1/2 bg-white font-normal text-design-resume text-xs px-2 py-1 rounded-md shadow-md  border border-slate-100 opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none whitespace-nowrap z-50">
+              <div className="pointer-events-none absolute left-1/2 top-full z-50 mt-2 -translate-x-1/2 transform whitespace-nowrap rounded-md border border-slate-100 bg-white px-2 py-1 text-xs font-normal text-design-resume opacity-0 shadow-md transition-opacity duration-200 group-hover:opacity-100">
                 Explore
               </div>
             </Link>
@@ -33,12 +33,12 @@ export function Header() {
               href="https://discord.com"
               target="_blank"
               rel="noopener noreferrer"
-              className="relative transition-all h-8 w-8 rounded-full active:shadow-lg group flex items-center justify-center text-design-resume hover:bg-slate-100 hover:text-design-resume active:scale-95"
+              className="group relative flex h-8 w-8 items-center justify-center rounded-full text-design-resume transition-all hover:bg-slate-100 hover:text-design-resume active:scale-95 active:shadow-lg"
             >
               <DiscordIcon />
 
               {/* Tooltip */}
-              <div className="absolute top-full mt-2 left-1/2 transform -translate-x-1/2 bg-white font-normal text-design-resume text-xs px-2 py-1 rounded-md shadow-md  border border-slate-100 opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none whitespace-nowrap z-50">
+              <div className="pointer-events-none absolute left-1/2 top-full z-50 mt-2 -translate-x-1/2 transform whitespace-nowrap rounded-md border border-slate-100 bg-white px-2 py-1 text-xs font-normal text-design-resume opacity-0 shadow-md transition-opacity duration-200 group-hover:opacity-100">
                 Community
               </div>
             </Link>
@@ -53,18 +53,18 @@ export function Header() {
         </header>
 
         {/* Desktop Header */}
-        <div className="hidden sm:flex fixed bottom-12 left-10 z-50 flex-row items-center justify-center gap-2">
+        <div className="fixed bottom-12 left-10 z-50 hidden flex-row items-center justify-center gap-2 sm:flex">
           <SettingsPanel />
           <Link
             href="/explore"
             target="_blank"
             rel="noopener noreferrer"
-            className="relative transition-all h-8 w-8 rounded-full active:shadow-lg group flex items-center justify-center text-design-resume hover:bg-slate-100 hover:text-design-resume active:scale-95"
+            className="group relative flex h-8 w-8 items-center justify-center rounded-full text-design-resume transition-all hover:bg-slate-100 hover:text-design-resume active:scale-95 active:shadow-lg"
           >
             <CompassIcon />
 
             {/* Tooltip */}
-            <div className="absolute bottom-full mb-2 left-1/2 transform -translate-x-1/2 bg-white font-normal text-design-resume text-xs px-2 py-1 rounded-md shadow-md border border-slate-100 opacity-0 group-hover:opacity-100 transition-opacity duration-200 delay-500 pointer-events-none whitespace-nowrap z-50">
+            <div className="pointer-events-none absolute bottom-full left-1/2 z-50 mb-2 -translate-x-1/2 transform whitespace-nowrap rounded-md border border-slate-100 bg-white px-2 py-1 text-xs font-normal text-design-resume opacity-0 shadow-md transition-opacity delay-500 duration-200 group-hover:opacity-100">
               Explore
             </div>
           </Link>
@@ -72,12 +72,12 @@ export function Header() {
             href="https://discord.com"
             target="_blank"
             rel="noopener noreferrer"
-            className="relative transition-all h-8 w-8 rounded-full active:shadow-lg group flex items-center justify-center text-design-resume hover:bg-slate-100 hover:text-design-resume active:scale-95"
+            className="group relative flex h-8 w-8 items-center justify-center rounded-full text-design-resume transition-all hover:bg-slate-100 hover:text-design-resume active:scale-95 active:shadow-lg"
           >
             <DiscordIcon />
 
             {/* Tooltip */}
-            <div className="absolute bottom-full mb-2 left-1/2 transform -translate-x-1/2 bg-white font-normal text-design-resume text-xs px-2 py-1 rounded-md shadow-md border border-slate-100 opacity-0 group-hover:opacity-100 transition-opacity duration-200 delay-500 pointer-events-none whitespace-nowrap z-50">
+            <div className="pointer-events-none absolute bottom-full left-1/2 z-50 mb-2 -translate-x-1/2 transform whitespace-nowrap rounded-md border border-slate-100 bg-white px-2 py-1 text-xs font-normal text-design-resume opacity-0 shadow-md transition-opacity delay-500 duration-200 group-hover:opacity-100">
               Community
             </div>
           </Link>

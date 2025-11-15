@@ -79,9 +79,9 @@ export default function RootLayout({
             )} */}
           {/* rest of your scripts go under */}
         </head>
-        <body className={`${fontSans.className} min-h-screen flex flex-col`}>
+        <body className={`${fontSans.className} flex min-h-screen flex-col`}>
           <SessionProviderComponent>
-            <main className="flex-1 flex flex-col">
+            <main className="flex flex-1 flex-col">
               {children}
               <SpeedInsights />
               <Analytics />

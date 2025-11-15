@@ -157,7 +157,7 @@ export const PreviewPortfolio = ({
 
   return (
     <section
-      className="min-h-screen bg-background font-sans antialiased max-w-2xl mx-auto py-12 sm:py-24"
+      className="mx-auto min-h-screen max-w-2xl bg-background py-12 font-sans antialiased sm:py-24"
       aria-label="Preview Portfolio Content"
     >
       <Header

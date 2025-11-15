@@ -244,11 +244,11 @@ const MessageSuggestionsStatus = React.forwardRef<
     <div
       ref={ref}
       className={cn(
-        'p-2 rounded-md text-sm bg-transparent',
+        'rounded-md bg-transparent p-2 text-sm',
         !error &&
           !isGenerating &&
           (!thread?.generationStage || thread.generationStage === 'COMPLETE')
-          ? 'p-0 min-h-0 mb-0'
+          ? 'mb-0 min-h-0 p-0'
           : '',
         className
       )}
@@ -257,7 +257,7 @@ const MessageSuggestionsStatus = React.forwardRef<
     >
       {/* Error state */}
       {error && (
-        <div className="p-2 rounded-md text-sm bg-red-50 text-red-500">
+        <div className="rounded-md bg-red-50 p-2 text-sm text-red-500">
           <p>{error.message}</p>
         </div>
       )}
@@ -313,7 +313,7 @@ const MessageSuggestionsList = React.forwardRef<
     <div
       ref={ref}
       className={cn(
-        'flex space-x-2 overflow-x-auto pb-2 rounded-md bg-transparent min-h-[2.5rem]',
+        'flex min-h-[2.5rem] space-x-2 overflow-x-auto rounded-md bg-transparent pb-2',
         isGenerating ? 'opacity-70' : '',
         className
       )}
@@ -333,8 +333,8 @@ const MessageSuggestionsList = React.forwardRef<
             >
               <button
                 className={cn(
-                  'py-2 px-2.5 rounded-2xl text-xs transition-colors',
-                  'border border-flat',
+                  'rounded-2xl px-2.5 py-2 text-xs transition-colors',
+                  'border-flat border',
                   isGenerating
                     ? 'bg-muted/50 text-muted-foreground'
                     : selectedSuggestionId === suggestion.id
@@ -356,7 +356,7 @@ const MessageSuggestionsList = React.forwardRef<
           placeholders.map((_, index) => (
             <div
               key={`placeholder-${index}`}
-              className="py-2 px-2.5 rounded-2xl text-xs border border-flat bg-muted/20 text-transparent animate-pulse"
+              className="border-flat animate-pulse rounded-2xl border bg-muted/20 px-2.5 py-2 text-xs text-transparent"
               data-placeholder-index={index}
             >
               <span className="invisible">Placeholder</span>

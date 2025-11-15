@@ -27,15 +27,15 @@ export const ProjectsField: React.FC<ProjectsFieldProps> = ({
   onDelete,
 }) => {
   return (
-    <div className="relative p-4 rounded-md group">
+    <div className="group relative rounded-md p-4">
       <button
-        className="absolute top-2 right-2 text-gray-400 hover:text-red-500 transition-colors"
+        className="absolute right-2 top-2 text-gray-400 transition-colors hover:text-red-500"
         onClick={() => onDelete(index)}
       >
-        <CrossIcon className="w-5 h-5" />
+        <CrossIcon className="h-5 w-5" />
       </button>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
         <div className="md:col-span-2">
           <Label
             htmlFor={`work-title-${index}`}
@@ -127,7 +127,7 @@ export const ProjectsField: React.FC<ProjectsFieldProps> = ({
           </Label>
           <textarea
             id={`work-description-${index}`}
-            className="w-full p-2 border rounded-md  text-sm"
+            className="w-full rounded-md border p-2 text-sm"
             value={project.description}
             onChange={(e) => {
               onUpdate(index, {
@@ -143,7 +143,7 @@ export const ProjectsField: React.FC<ProjectsFieldProps> = ({
         {/* Skills Section */}
         <div className="md:col-span-2">
           <Label className="text-sm font-medium">Skills</Label>
-          <div className="flex flex-wrap gap-2 mt-2">
+          <div className="mt-2 flex flex-wrap gap-2">
             {(project.skills || []).map((skill, skillIdx) => (
               <SkillField
                 key={skillIdx}
@@ -163,7 +163,7 @@ export const ProjectsField: React.FC<ProjectsFieldProps> = ({
             ))}
             <button
               type="button"
-              className="px-2 py-1 rounded bg-gray-200 text-xs"
+              className="rounded bg-gray-200 px-2 py-1 text-xs"
               onClick={() => {
                 const newSkills = [...(project.skills || []), ''];
                 onUpdate(index, { ...project, skills: newSkills });

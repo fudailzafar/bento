@@ -60,9 +60,9 @@ export function Summary({
   return (
     <Section className={className}>
       {isEditMode && onChangeSummary ? (
-        <div className="group relative -mx-4 px-4 py-3 transition-all duration-300 rounded-lg">
+        <div className="group relative -mx-4 rounded-lg px-4 py-3 transition-all duration-300">
           <BlurFade delay={BLUR_FADE_DELAY * 3}>
-            <h2 className="text-xl font-bold mb-2" id="about-section">
+            <h2 className="mb-2 text-xl font-bold" id="about-section">
               About
             </h2>
           </BlurFade>
@@ -72,7 +72,7 @@ export function Summary({
               contentEditable={isEditing}
               suppressContentEditableWarning={true}
               className={
-                'text-pretty text-sm text-design-resume print:text-[12px] outline-none'
+                'text-pretty text-sm text-design-resume outline-none print:text-[12px]'
               }
               onClick={enableEditing}
               onBlur={handleBlur}
@@ -93,7 +93,7 @@ export function Summary({
           </BlurFade>
           <BlurFade delay={BLUR_FADE_DELAY * 4}>
             <div
-              className="text-pretty  text-sm text-design-resume print:text-[12px]"
+              className="text-pretty text-sm text-design-resume print:text-[12px]"
               aria-labelledby="about-section"
             >
               {summary}

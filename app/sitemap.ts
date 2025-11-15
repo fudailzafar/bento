@@ -91,7 +91,7 @@ async function getAllPublicPortfolios(): Promise<
         keys.map(async (key) => {
           try {
             const username = key.replace('user:name:', '');
-            
+
             // Get userId from the username lookup
             const userId = await upstashRedis.get<string>(key);
             if (!userId) return null;
@@ -114,7 +114,9 @@ async function getAllPublicPortfolios(): Promise<
       );
 
       // Filter out null results and add to portfolios
-      portfolios.push(...results.filter((r): r is NonNullable<typeof r> => r !== null));
+      portfolios.push(
+        ...results.filter((r): r is NonNullable<typeof r> => r !== null)
+      );
     } while (cursor !== '0');
 
     return portfolios;

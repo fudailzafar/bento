@@ -144,7 +144,7 @@ export function ProjectCard({
   return (
     <Card
       className={
-        'flex flex-col overflow-hidden border hover:shadow-lg transition-all duration-300 ease-out h-[370px]'
+        'flex h-[370px] flex-col overflow-hidden border transition-all duration-300 ease-out hover:shadow-lg'
       }
     >
       {/* Hidden file input */}
@@ -157,7 +157,7 @@ export function ProjectCard({
       />
 
       <div
-        className="relative group/image"
+        className="group/image relative"
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
       >
@@ -185,20 +185,20 @@ export function ProjectCard({
             />
           )}
           {!image && !video && isEditMode && (
-            <div className="h-40 w-full bg-muted flex items-center justify-center">
-              <span className="text-muted-foreground text-sm">No image</span>
+            <div className="flex h-40 w-full items-center justify-center bg-muted">
+              <span className="text-sm text-muted-foreground">No image</span>
             </div>
           )}
         </a>
 
         {/* Upload/Delete buttons - Only in edit mode on hover */}
         {isEditMode === true && !isUploading && isHovered && (
-          <div className="absolute bottom-2 left-2 flex gap-2 items-center opacity-0 group-hover/image:opacity-100 transition-opacity">
-            <div className="flex gap-1 items-center bg-black/80 backdrop-blur-sm rounded-xl p-1">
+          <div className="absolute bottom-2 left-2 flex items-center gap-2 opacity-0 transition-opacity group-hover/image:opacity-100">
+            <div className="flex items-center gap-1 rounded-xl bg-black/80 p-1 backdrop-blur-sm">
               {/* Upload Button */}
               <button
                 onClick={handleUploadClick}
-                className="size-6 rounded-md bg-transparent hover:bg-white/10 transition-all flex items-center justify-center"
+                className="flex size-6 items-center justify-center rounded-md bg-transparent transition-all hover:bg-white/10"
                 aria-label="Upload project image"
               >
                 <ImageIcon className="size-4 text-white" />
@@ -209,7 +209,7 @@ export function ProjectCard({
                   {/* Delete button */}
                   <button
                     onClick={handleDelete}
-                    className="size-6 rounded-md bg-transparent hover:bg-white/10 transition-all flex items-center justify-center"
+                    className="flex size-6 items-center justify-center rounded-md bg-transparent transition-all hover:bg-white/10"
                     aria-label="Delete project image"
                   >
                     <TrashIcon className="size-4 text-white" />
@@ -222,7 +222,7 @@ export function ProjectCard({
 
         {/* Loader during Upload */}
         {isUploading && (
-          <div className="absolute inset-0 bg-black/50 flex items-center justify-center">
+          <div className="absolute inset-0 flex items-center justify-center bg-black/50">
             <LoaderIcon className="text-white" />
           </div>
         )}
@@ -235,7 +235,7 @@ export function ProjectCard({
             {link?.replace('https://', '').replace('www.', '').replace('/', '')}
           </div>
           <div
-            className="prose max-w-full text-pretty font-sans text-xs text-muted-foreground dark:prose-invert overflow-y-auto scrollbar-hide"
+            className="prose dark:prose-invert scrollbar-hide max-w-full overflow-y-auto text-pretty font-sans text-xs text-muted-foreground"
             style={{
               maxHeight: '6rem',
               scrollbarWidth: 'none',
@@ -254,7 +254,7 @@ export function ProjectCard({
           <div className="mt-2 flex flex-wrap gap-1">
             {tags?.map((tag) => (
               <Badge
-                className="px-1 py-0 text-[10px] bg-[#F7F7F7] hover:bg-[#f7f7f7] text-black dark:text-white dark:bg-[#202020]"
+                className="bg-[#F7F7F7] px-1 py-0 text-[10px] text-black hover:bg-[#f7f7f7] dark:bg-[#202020] dark:text-white"
                 key={tag}
               >
                 {tag}

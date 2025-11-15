@@ -53,25 +53,20 @@ export function DraggableSection({
       <div
         {...attributes}
         {...listeners}
-        className="absolute -bottom-4 left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity duration-200 cursor-grab active:cursor-grabbing z-10"
+        className="absolute -bottom-4 left-1/2 z-10 -translate-x-1/2 cursor-grab opacity-0 transition-opacity duration-200 active:cursor-grabbing group-hover:opacity-100"
       >
-        <div className="flex items-center justify-center w-8 h-8 rounded-full bg-black hover:bg-gray-800 transition-colors duration-200">
-          <MoveAbleIcon className="w-4 h-4 text-white" />
+        <div className="flex h-8 w-8 items-center justify-center rounded-full bg-black transition-colors duration-200 hover:bg-gray-800">
+          <MoveAbleIcon className="h-4 w-4 text-white" />
         </div>
       </div>
 
       {/* Section Content with Hover Effect */}
       <div
-        className={`
-          rounded-2xl
-          transition-all duration-200
-          px-4 py-4
-          ${
-            isDragging
-              ? 'opacity-30 bg-gray-100 dark:bg-gray-800 border-2 border-dashed border-gray-300 dark:border-gray-600'
-              : 'group-hover:shadow-[0_1px_3px_rgba(0,0,0,0.1)] group-hover:bg-white group-hover:border group-hover:border-gray-200 dark:group-hover:border-gray-700 dark:group-hover:bg-gray-900'
-          }
-        `}
+        className={`rounded-2xl px-4 py-4 transition-all duration-200 ${
+          isDragging
+            ? 'border-2 border-dashed border-gray-300 bg-gray-100 opacity-30 dark:border-gray-600 dark:bg-gray-800'
+            : 'group-hover:border group-hover:border-gray-200 group-hover:bg-white group-hover:shadow-[0_1px_3px_rgba(0,0,0,0.1)] dark:group-hover:border-gray-700 dark:group-hover:bg-gray-900'
+        } `}
       >
         <div className={isDragging ? 'invisible' : ''}>{children}</div>
       </div>

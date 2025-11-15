@@ -27,15 +27,15 @@ export const WorkExperienceField: React.FC<WorkExperienceFieldProps> = ({
   onDelete,
 }) => {
   return (
-    <div className="relative p-4 rounded-md group">
+    <div className="group relative rounded-md p-4">
       <button
-        className="absolute top-2 right-2 text-gray-400 hover:text-red-500 transition-colors"
+        className="absolute right-2 top-2 text-gray-400 transition-colors hover:text-red-500"
         onClick={() => onDelete(index)}
       >
         <CrossIcon />
       </button>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
         <div className="md:col-span-2">
           <Label
             htmlFor={`work-title-${index}`}
@@ -128,7 +128,7 @@ export const WorkExperienceField: React.FC<WorkExperienceFieldProps> = ({
           </Label>
           <textarea
             id={`work-description-${index}`}
-            className="w-full p-2 border rounded-md  text-sm"
+            className="w-full rounded-md border p-2 text-sm"
             value={work.description}
             onChange={(e) => {
               onUpdate(index, {

@@ -9,7 +9,7 @@ export default function RootLayout({
   return (
     <>
       <ReactQueryClientProvider>
-        <section className="flex-1 flex flex-col min-h-[calc(100vh-200px)]">
+        <section className="flex min-h-[calc(100vh-200px)] flex-1 flex-col">
           {children}
         </section>
       </ReactQueryClientProvider>

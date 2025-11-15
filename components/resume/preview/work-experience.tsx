@@ -200,7 +200,7 @@ export function WorkExperience({
   return (
     <Section className={className}>
       <BlurFade delay={BLUR_FADE_DELAY * 5}>
-        <h2 className="text-xl font-bold mb-2" id="work-experience">
+        <h2 className="mb-2 text-xl font-bold" id="work-experience">
           Work Experience
         </h2>
       </BlurFade>
@@ -219,7 +219,7 @@ export function WorkExperience({
             return (
               <div
                 key={id}
-                className="rounded-lg p-4 bg-gray-50 dark:bg-gray-900"
+                className="rounded-lg bg-gray-50 p-4 dark:bg-gray-900"
               >
                 <WorkExperienceField
                   work={item}
@@ -286,9 +286,9 @@ export function WorkExperience({
                   }
                 }}
                 className={cn(
-                  'group relative -mx-2 px-2 border-2 border-transparent transition-all duration-300 cursor-pointer',
+                  'group relative -mx-2 cursor-pointer border-2 border-transparent px-2 transition-all duration-300',
                   isEditMode &&
-                    'hover:border-gray-100 hover:shadow-sm hover:rounded-xl hover:py-1 dark:hover:border-gray-600 cursor-default'
+                    'cursor-default hover:rounded-xl hover:border-gray-100 hover:py-1 hover:shadow-sm dark:hover:border-gray-600'
                 )}
               >
                 {/* Hidden file input */}
@@ -302,9 +302,9 @@ export function WorkExperience({
                   className="hidden"
                 />
 
-                <Card className="flex border-0 shadow-none bg-transparent">
-                  <div className="flex-none relative group/logo w-12 h-12">
-                    <Avatar className="border size-12 m-auto bg-muted-background dark:bg-foreground">
+                <Card className="flex border-0 bg-transparent shadow-none">
+                  <div className="group/logo relative h-12 w-12 flex-none">
+                    <Avatar className="bg-muted-background m-auto size-12 border dark:bg-foreground">
                       <AvatarImage
                         src={item.logo || undefined}
                         alt={item.company}
@@ -317,11 +317,11 @@ export function WorkExperience({
                     {isEditMode &&
                       uploadingIndex !== id &&
                       hoveredIndex === id && (
-                        <div className="absolute bottom-0 left-0 right-0 flex items-center justify-between opacity-0 group-hover/logo:opacity-100 transition-opacity">
+                        <div className="absolute bottom-0 left-0 right-0 flex items-center justify-between opacity-0 transition-opacity group-hover/logo:opacity-100">
                           {/* Upload Button - Left */}
                           <button
                             onClick={() => handleUploadClick(id)}
-                            className="size-5 rounded-full bg-white backdrop-blur-sm border border-neutral-300 shadow-lg hover:bg-white/90 transition-all flex items-center justify-center"
+                            className="flex size-5 items-center justify-center rounded-full border border-neutral-300 bg-white shadow-lg backdrop-blur-sm transition-all hover:bg-white/90"
                             aria-label="Upload company logo"
                           >
                             <ImageIcon className="size-3 text-black" />
@@ -331,7 +331,7 @@ export function WorkExperience({
                           {item.logo && (
                             <button
                               onClick={() => handleDeleteLogo(id)}
-                              className="size-5 rounded-full bg-white backdrop-blur-sm border border-neutral-300 shadow-lg hover:bg-white/90 transition-all flex items-center justify-center"
+                              className="flex size-5 items-center justify-center rounded-full border border-neutral-300 bg-white shadow-lg backdrop-blur-sm transition-all hover:bg-white/90"
                               aria-label="Delete company logo"
                             >
                               <TrashIcon className="size-3 text-black" />
@@ -342,17 +342,17 @@ export function WorkExperience({
 
                     {/* Loader during Upload */}
                     {uploadingIndex === id && (
-                      <div className="absolute inset-0 bg-black/50 rounded-full flex items-center justify-center overflow-hidden">
-                        <LoaderIcon className="text-white size-5" />
+                      <div className="absolute inset-0 flex items-center justify-center overflow-hidden rounded-full bg-black/50">
+                        <LoaderIcon className="size-5 text-white" />
                       </div>
                     )}
                   </div>
 
-                  <div className="flex-grow ml-4 items-center flex-col group">
+                  <div className="group ml-4 flex-grow flex-col items-center">
                     <CardHeader className="p-0">
                       <div className="flex items-center justify-between gap-x-2 text-base">
-                        <h3 className="inline-flex items-center justify-center font-semibold leading-none text-xs sm:text-sm">
-                          <span className="text-base font-semibold text-left text-[#050914] dark:text-design-white">
+                        <h3 className="inline-flex items-center justify-center text-xs font-semibold leading-none sm:text-sm">
+                          <span className="text-left text-base font-semibold text-[#050914] dark:text-design-white">
                             {item.company}
                           </span>
                           {/* Chevron only for hover visual, not clickable in public/preview view */}
@@ -373,19 +373,19 @@ export function WorkExperience({
                             >
                               <ChevronRightIcon
                                 className={cn(
-                                  'size-4 text-design-black dark:text-design-white transition-transform duration-500 ease-out',
+                                  'size-4 text-design-black transition-transform duration-500 ease-out dark:text-design-white',
                                   isExpanded ? 'rotate-90' : 'rotate-0'
                                 )}
                               />
                             </motion.span>
                           )}
                         </h3>
-                        <div className="text-xs sm:text-sm tabular-nums text-muted-foreground text-right">
+                        <div className="text-right text-xs tabular-nums text-muted-foreground sm:text-sm">
                           {formattedDate}
                         </div>
                       </div>
                       {item.title && (
-                        <div className="font-sans text-xs sm:text-sm font-medium text-left text-design-resume capitalize mt-1">
+                        <div className="mt-1 text-left font-sans text-xs font-medium capitalize text-design-resume sm:text-sm">
                           {item.title}
                         </div>
                       )}
@@ -415,7 +415,7 @@ export function WorkExperience({
                     {/* Delete */}
                     <button
                       onClick={() => handleDelete(id)}
-                      className="absolute -top-4 -left-2 size-8 rounded-full hover:bg-gray-50 border border-gray-50 shadow-md hover:text-design-secondary bg-white text-gray-700 dark:text-gray-300  dark:hover:text-red-400 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300 ease-in-out z-10"
+                      className="absolute -left-2 -top-4 z-10 flex size-8 items-center justify-center rounded-full border border-gray-50 bg-white text-gray-700 opacity-0 shadow-md transition-all duration-300 ease-in-out hover:bg-gray-50 hover:text-design-secondary group-hover:opacity-100 dark:text-gray-300 dark:hover:text-red-400"
                       aria-label="Delete work experience"
                     >
                       <TrashIcon className="size-4 transition-transform duration-200" />
@@ -424,7 +424,7 @@ export function WorkExperience({
                     {/* Edit */}
                     <button
                       onClick={() => setEditingIndex(id)}
-                      className="absolute -top-4 -right-2 size-8 rounded-full bg-black border border-gray-50 shadow-md text-white dark:text-gray-300 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300 ease-in-out z-10"
+                      className="absolute -right-2 -top-4 z-10 flex size-8 items-center justify-center rounded-full border border-gray-50 bg-black text-white opacity-0 shadow-md transition-all duration-300 ease-in-out group-hover:opacity-100 dark:text-gray-300"
                       aria-label="Edit work experience"
                     >
                       <PenIcon className="size-4 transition-transform duration-200" />

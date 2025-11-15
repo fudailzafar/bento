@@ -55,10 +55,10 @@ export function Contact({
 
   return (
     <section className="mt-8">
-      <div className="grid items-center justify-center gap-4 px-4 text-center md:px-6 w-full py-12">
+      <div className="grid w-full items-center justify-center gap-4 px-4 py-12 text-center md:px-6">
         <BlurFade delay={BLUR_FADE_DELAY * 16}>
           <div className="space-y-3">
-            <div className="inline-block rounded-lg bg-foreground text-background px-3 py-1 text-sm">
+            <div className="inline-block rounded-lg bg-foreground px-3 py-1 text-sm text-background">
               Contact
             </div>
             <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl">
@@ -71,7 +71,7 @@ export function Contact({
                 contentEditable={isEditMode && isEditing}
                 suppressContentEditableWarning={true}
                 className={
-                  'p-2 text-muted-foreground md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed outline-none '
+                  'p-2 text-muted-foreground outline-none md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed'
                 }
                 onClick={enableEditing}
                 onBlur={handleBlur}
