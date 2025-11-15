@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { signOut } from 'next-auth/react';
+import { useRouter } from 'next/navigation';
 import { useIsMobile, useUserActions } from '@/hooks';
 import { SettingsIcon } from '@/components/icons';
 import { UsernameEditorView, EmailEditorView, PasswordEditorView } from '@/components/preview';
@@ -22,6 +23,7 @@ import {
 
 export function SettingsActionBar() {
   const isMobile = useIsMobile();
+  const router = useRouter();
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const { usernameQuery } = useUserActions();
   const [isUsernameEditorOpen, setIsUsernameEditorOpen] = useState(false);
@@ -39,6 +41,16 @@ export function SettingsActionBar() {
       .then((data) => setAuthInfo(data))
       .catch((error) => console.error('Failed to fetch auth info:', error));
   }, []);
+
+  const handleLogout = async () => {
+    const username = usernameQuery.data?.username;
+    if (username) {
+      await signOut({ redirect: false });
+      router.push(`/${username}`);
+    } else {
+      await signOut({ callbackUrl: '/' });
+    }
+  };
 
   /* Settings - Desktop */
   if (!isMobile) {
@@ -144,7 +156,7 @@ export function SettingsActionBar() {
                 <Separator className="my-3" />
                 <div
                   className="cursor-pointer p-3 hover:rounded-xl hover:bg-slate-100"
-                  onClick={() => signOut({ callbackUrl: '/' })}
+                  onClick={handleLogout}
                 >
                   <div className="text-xs font-normal text-red-500">
                     Log Out
@@ -284,7 +296,7 @@ export function SettingsActionBar() {
 
             <div
               className="cursor-pointer rounded-lg p-3 transition-colors"
-              onClick={() => signOut({ callbackUrl: '/' })}
+              onClick={handleLogout}
             >
               <div className="mt-32 text-center text-sm font-normal text-red-500">
                 Log Out
