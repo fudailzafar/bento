@@ -1,16 +1,10 @@
 'use client';
 
-import {
-  BicepsFlexed,
-  BriefcaseBusiness,
-  GraduationCap,
-  Lightbulb,
-} from 'lucide-react';
 import React from 'react';
 import { LinkIcon, SectionIcon } from '../icons';
 import Image from 'next/image';
 
-interface HamburgerMenuProps {
+interface SectionActionBarProps {
   onAddWorkExperience?: () => void;
   onAddEducation?: () => void;
   onAddSkill?: () => void;
@@ -22,12 +16,12 @@ interface HamburgerMenuProps {
 const BUTTON_GRADIENT =
   'linear-gradient(180deg, rgba(0, 0, 0, .06), rgba(0, 0, 0, .059) 11.97%, rgba(0, 0, 0, .056) 21.38%, rgba(0, 0, 0, .051) 28.56%, rgba(0, 0, 0, .044) 34.37%, rgba(0, 0, 0, .037) 39.32%, rgba(0, 0, 0, .03) 44%, rgba(0, 0, 0, .023) 49.02%, rgba(0, 0, 0, .016) 54.96%, rgba(0, 0, 0, .009) 62.44%, rgba(0, 0, 0, .004) 72.04%, rgba(0, 0, 0, .001) 84.36%, transparent)';
 
-export const HamburgerMenu = ({
+export const SectionActionBar = ({
   onAddWorkExperience,
   onAddEducation,
   onAddSkill,
   onAddProject,
-}: HamburgerMenuProps) => {
+}: SectionActionBarProps) => {
   return (
     <div className="flex items-center space-x-2.5">
       {/* Projects Button */}

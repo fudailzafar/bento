@@ -24,7 +24,7 @@ import {
 import { PublicPortfolio } from '@/components/resume/preview';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/app/api/auth/[...nextauth]/route';
-import OwnProfileLoader from './own-profile-loader';
+import { OwnProfileLoader } from '@/components/preview';
 
 function getSocialLinks(contacts?: ResumeDataSchemaType['header']['contacts']) {
   if (!contacts) return {};

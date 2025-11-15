@@ -3,6 +3,7 @@
 import { useState, useRef } from 'react';
 import confetti from 'canvas-confetti';
 import { toast } from 'sonner';
+import { Copy } from 'lucide-react';
 import { Button } from '@/components/ui';
 import { getDomainUrl } from '@/lib';
 import {
@@ -12,13 +13,12 @@ import {
   CheckmarkSmallIcon,
 } from '@/components/icons';
 import {
+  SectionActionBar,
   UsernameEditorView,
-  HamburgerMenu,
   ViewMode,
 } from '@/components/preview';
-import { Copy } from 'lucide-react';
 
-export default function PreviewActionbar({
+export default function DockActionBar({
   initialUsername = '',
   prefix = 'portfoliofy.me/',
   viewMode = 'desktop',
@@ -136,7 +136,7 @@ export default function PreviewActionbar({
         <div className="h-4 w-[2px] flex-shrink-0 rounded-lg bg-black/[0.08]" />
 
         <div className="block">
-          <HamburgerMenu
+          <SectionActionBar
             onAddWorkExperience={onAddWorkExperience}
             onAddEducation={onAddEducation}
             onAddSkill={onAddSkill}
