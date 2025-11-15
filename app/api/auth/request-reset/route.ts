@@ -3,12 +3,11 @@ import { upstashRedis } from '@/lib/server/redis';
 import crypto from 'crypto';
 import { Resend } from 'resend';
 
-const resend = new Resend(process.env.RESEND_API_KEY);
-
 export const maxDuration = 40;
 
 export async function POST(request: NextRequest) {
   try {
+    const resend = new Resend(process.env.RESEND_API_KEY);
     const { email } = await request.json();
 
     if (!email) {
