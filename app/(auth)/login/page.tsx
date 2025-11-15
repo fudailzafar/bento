@@ -22,7 +22,11 @@ export default function LoginPage() {
 
   useEffect(() => {
     if (session?.user) {
-      router.push('/preview');
+      fetch('/api/username')
+        .then((res) => res.json())
+        .then((data) => {
+          router.push(data.username ? `/${data.username}` : '/upload');
+        });
     }
   }, [session, router]);
 
@@ -43,7 +47,9 @@ export default function LoginPage() {
         if (result?.error) {
           setError('Invalid email or password');
         } else if (result?.ok) {
-          router.push('/preview');
+          const usernameRes = await fetch('/api/username');
+          const usernameData = await usernameRes.json();
+          router.push(usernameData.username ? `/${usernameData.username}` : '/upload');
         }
       } else {
         // Otherwise use Google OAuth

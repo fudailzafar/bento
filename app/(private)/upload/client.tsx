@@ -159,9 +159,15 @@ export default function UploadPageClient() {
           <Button
             className="group relative flex cursor-pointer items-center rounded-xl bg-design-primary px-20 py-8 text-lg font-semibold transition-transform hover:bg-design-primaryDark active:scale-95 sm:px-14 sm:py-8"
             disabled={isUpdating}
-            onClick={() =>
-              router.push(fileState.status === 'saved' ? '/pdf' : '/preview')
-            }
+            onClick={async () => {
+              if (fileState.status === 'saved') {
+                router.push('/pdf');
+              } else {
+                const usernameRes = await fetch('/api/username');
+                const usernameData = await usernameRes.json();
+                router.push(usernameData.username ? `/${usernameData.username}` : '/upload');
+              }
+            }}
           >
             {isUpdating ? (
               <>
@@ -177,7 +183,11 @@ export default function UploadPageClient() {
 
         {fileState.status === 'empty' && !isUpdating && (
           <button
-            onClick={() => router.push('/preview')}
+            onClick={async () => {
+              const usernameRes = await fetch('/api/username');
+              const usernameData = await usernameRes.json();
+              router.push(usernameData.username ? `/${usernameData.username}` : '/upload');
+            }}
             className="text-sm text-gray-600 underline transition-colors hover:text-gray-900"
           >
             Skip and start from scratch
