@@ -7,7 +7,7 @@ import { toast } from 'sonner';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useUserActions } from '@/hooks';
 import { ResumeData } from '@/lib/server';
-import {  DockActionBar, ViewMode } from '@/components/preview';
+import { DockActionBar, ViewMode } from '@/components/preview';
 import { LoadingFallback } from '@/components/utils';
 import { InteractablePortfolio } from '@/components/resume/preview';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
@@ -284,7 +284,7 @@ export default function PreviewClient({ messageTip }: { messageTip?: string }) {
         )}
 
         {/* Desktop/Mobile View Toggle */}
-        <div className="flex flex-1 items-center justify-center pb-16">
+        <div className="flex flex-1 items-center justify-center pb-16 md:pb-0">
           <AnimatePresence mode="wait">
             {viewMode === 'mobile' ? (
               /* Mobile View */
@@ -339,7 +339,7 @@ export default function PreviewClient({ messageTip }: { messageTip?: string }) {
               <motion.div
                 key="desktop"
                 initial={{ opacity: 0, width: '452px', maxWidth: '452px' }}
-                animate={{ opacity: 1, width: '100%', maxWidth: '768px' }}
+                animate={{ opacity: 1, width: '100%', maxWidth: '1400px' }}
                 exit={{ opacity: 0, width: '452px', maxWidth: '452px' }}
                 transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
                 className="mx-auto flex items-center justify-between md:rounded-lg"

@@ -11,7 +11,11 @@ import { redirect } from 'next/navigation';
 import { Suspense } from 'react';
 import { LoadingFallback } from '@/components/utils';
 
-async function PdfProcessing({ userId }: { userId: string }) {
+interface PdfProcessingProps {
+  userId: string;
+}
+
+async function PdfProcessing({ userId }: PdfProcessingProps) {
   const resume = await getResume(userId);
 
   if (!resume || !resume.file || !resume.file.url) redirect('/upload');

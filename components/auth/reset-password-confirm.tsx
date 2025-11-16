@@ -7,7 +7,7 @@ import { Input } from '@/components/ui';
 import { SignupAnimation } from '@/components/auth';
 import { CheckmarkLargeIcon, LoaderIcon } from '../icons';
 
-export function ConfirmResetPasswordContent() {
+export default function ResetPasswordConfirmContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const token = searchParams.get('token');

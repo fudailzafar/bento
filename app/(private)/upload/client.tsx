@@ -14,6 +14,7 @@ import {
   DialogTrigger,
 } from '@/components/ui';
 import { LoadingFallback } from '@/components/utils';
+import { SignupAnimation } from '@/components/auth';
 
 type FileState =
   | { status: 'empty' }
@@ -64,22 +65,23 @@ export default function UploadPageClient() {
   const isUpdating = resumeQuery.isPending || uploadResumeMutation.isPending;
 
   return (
-    <div className="flex flex-1 flex-col items-center gap-6 px-4 py-12">
-      <div className="w-full max-w-[438px] text-center">
-        <h1 className="pb-6 text-center text-base">
-          Upload a PDF of your LinkedIn or your resume and generate your
-          personal site <span className="text-gray-500">(Optional)</span>
-        </h1>
+    <div className="flex min-h-screen items-center justify-center px-4 py-8 sm:justify-between sm:px-6 md:gap-12 lg:gap-16 lg:px-32">
+      <div className="w-full max-w-[440px] space-y-6 sm:space-y-8">
+        <div className="text-left">
+          <h1 className="text-xl font-semibold text-design-black sm:text-2xl md:mb-4 lg:text-2xl">
+            Now, let's upload your resume for your portfolio.
+          </h1>
+        </div>
 
-        <div className="relative mx-2.5">
-          <div className="relative flex min-h-[220px] w-full flex-col items-center justify-center rounded-xl border-2 border-dashed border-gray-300 bg-white transition-all">
+        <div className="relative">
+          <div className="relative flex min-h-[180px] w-full flex-col items-center justify-center rounded-xl border-2 border-dashed border-gray-300 bg-white transition-all sm:min-h-[220px]">
             {fileState.status === 'empty' && !isUpdating && (
               <UploadButton
                 endpoint="resumeUploader"
                 onClientUploadComplete={handleUploadThing}
                 appearance={{
                   button:
-                    'w-full h-full min-h-[220px] flex flex-col items-center justify-center bg-transparent border-none shadow-none cursor-pointer',
+                    'w-full h-full min-h-[180px] sm:min-h-[220px] flex flex-col items-center justify-center bg-transparent border-none shadow-none cursor-pointer',
                   container: 'w-full',
                 }}
                 content={{
@@ -100,9 +102,11 @@ export default function UploadPageClient() {
               />
             )}
             {isUpdating && (
-              <div className="flex h-full min-h-[220px] w-full flex-col items-center justify-center">
-                <LoaderIcon className="mb-2 h-8 w-8" />
-                <span className="text-sm text-gray-500">Uploading...</span>
+              <div className="flex h-full min-h-[180px] w-full flex-col items-center justify-center sm:min-h-[220px]">
+                <LoaderIcon className="mb-2 h-6 w-6 sm:h-8 sm:w-8" />
+                <span className="text-xs text-gray-500 sm:text-sm">
+                  Uploading...
+                </span>
               </div>
             )}
             {fileState.status === 'saved' && !isUpdating && (
@@ -114,9 +118,9 @@ export default function UploadPageClient() {
                 >
                   <CrossIcon className="h-4 w-4 text-gray-500" />
                 </button>
-                <div className="flex h-full min-h-[220px] w-full flex-col items-center justify-center gap-2">
-                  <FileText className="mx-auto size-12" />
-                  <span className="text-center text-base font-bold text-black">
+                <div className="flex h-full min-h-[180px] w-full flex-col items-center justify-center gap-2 sm:min-h-[220px]">
+                  <FileText className="mx-auto size-10 sm:size-12" />
+                  <span className="text-center text-sm font-bold text-black sm:text-base">
                     {fileState.file.name}
                   </span>
                   <span className="text-center text-xs font-light text-gray-500">
@@ -153,11 +157,10 @@ export default function UploadPageClient() {
             />
           </DialogContent>
         </Dialog>
-      </div>
-      <div className="flex flex-col items-center gap-3">
-        <div className="relative">
+
+        <div className="flex w-full flex-row items-center gap-3">
           <Button
-            className="group relative flex cursor-pointer items-center rounded-xl bg-design-primary px-20 py-8 text-lg font-semibold transition-transform hover:bg-design-primaryDark active:scale-95 sm:px-14 sm:py-8"
+            className="flex-1 cursor-pointer rounded-md bg-design-primary py-6 text-sm font-semibold tracking-tight text-white shadow-lg transition-all duration-300 ease-out hover:bg-design-primaryDark active:scale-95 disabled:cursor-not-allowed disabled:opacity-70 md:rounded-lg md:py-3"
             disabled={isUpdating}
             onClick={async () => {
               if (fileState.status === 'saved') {
@@ -165,7 +168,11 @@ export default function UploadPageClient() {
               } else {
                 const usernameRes = await fetch('/api/username');
                 const usernameData = await usernameRes.json();
-                router.push(usernameData.username ? `/${usernameData.username}` : '/upload');
+                router.push(
+                  usernameData.username
+                    ? `/${usernameData.username}`
+                    : '/upload'
+                );
               }
             }}
           >
@@ -179,20 +186,28 @@ export default function UploadPageClient() {
               <>Continue</>
             )}
           </Button>
+          {fileState.status === 'empty' && !isUpdating && (
+            <Button
+              onClick={async () => {
+                const usernameRes = await fetch('/api/username');
+                const usernameData = await usernameRes.json();
+                router.push(
+                  usernameData.username
+                    ? `/${usernameData.username}`
+                    : '/upload'
+                );
+              }}
+              className="flex-1 rounded-md py-6 text-sm text-gray-600 transition-colors hover:text-gray-900 md:py-3"
+              variant={'ghost'}
+            >
+              Skip
+            </Button>
+          )}
         </div>
+      </div>
 
-        {fileState.status === 'empty' && !isUpdating && (
-          <button
-            onClick={async () => {
-              const usernameRes = await fetch('/api/username');
-              const usernameData = await usernameRes.json();
-              router.push(usernameData.username ? `/${usernameData.username}` : '/upload');
-            }}
-            className="text-sm text-gray-600 underline transition-colors hover:text-gray-900"
-          >
-            Skip and start from scratch
-          </button>
-        )}
+      <div className="hidden max-w-[700px] flex-1 items-center justify-center md:flex">
+        <SignupAnimation />
       </div>
     </div>
   );

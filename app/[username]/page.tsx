@@ -8,7 +8,6 @@ import { getUserData } from './utils';
 import { LinkedInIcon, XIcon, GitHubIcon } from '@/components/icons';
 import {
   AnimatedThemeToggler,
-  BlurFade,
   Dock,
   DockClient,
   DockIcon,
@@ -24,7 +23,8 @@ import {
 import { PublicPortfolio } from '@/components/resume/preview';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/app/api/auth/[...nextauth]/route';
-import { OwnProfileLoader } from '@/components/preview';
+import ClaimUsername from '@/components/auth/claim-username';
+import SelfPortfolioLoader from '@/components/preview/self-portfolio-loader';
 
 function getSocialLinks(contacts?: ResumeDataSchemaType['header']['contacts']) {
   if (!contacts) return {};
@@ -124,80 +124,12 @@ export default async function ProfilePage({
 
   // If user is viewing their own profile, show preview/edit mode with initialization
   if (isOwnProfile && user_id) {
-    return <OwnProfileLoader userId={user_id} />;
+    return <SelfPortfolioLoader userId={user_id} />;
   }
 
-  // If user_id is not found, render notfound UI directly
+  // If profile is not found, render Claim Username UI
   if (!user_id) {
-    return (
-      <div className="mb-1 mt-16 flex flex-col items-center justify-center bg-white">
-        {/* Logo */}
-        <BlurFade delay={3} duration={0.5}>
-          <div className="mb-10 rounded-2xl bg-design-primary p-3">
-            <div className="rounded-full">
-              <Image
-                src={'/icons/android-chrome-512x512.png'}
-                alt="portfoliofy logo"
-                className="rounded-lg"
-                width={40}
-                height={20}
-              />
-            </div>
-          </div>
-        </BlurFade>
-
-        {/* Username display */}
-        <BlurFade delay={0.5} duration={2}>
-          <div className="relative mb-2 flex items-center rounded-xl bg-gray-100 px-6 py-4">
-            <span className="text-[24px] font-semibold text-design-gray md:text-[40px]">
-              portfoliofy.me/
-              <span className="overflow-hidden text-design-black">
-                {username}
-                <div className="absolute inset-0 translate-x-[-100%] animate-[shine_4s_ease-in-out_infinite] bg-gradient-to-r from-transparent via-white/40 to-transparent" />
-              </span>
-            </span>
-            <BlurFade delay={2} duration={0.5}>
-              <h1 className="absolute -right-12 -top-14 ml-2 rotate-2 rounded-lg bg-design-success px-3 py-1.5 text-base font-semibold text-white shadow">
-                Available!
-              </h1>
-            </BlurFade>
-          </div>
-        </BlurFade>
-        <BlurFade delay={3} duration={0.5}>
-          <div className="mb-5 mt-2 text-center">
-            <p className="text-center text-design-gray">
-              Portfoliofy is the most beautiful portfolio.
-            </p>
-            <p className="text-design-gray">
-              And it’s all free.{' '}
-              <Link href={'/'}>
-                <span className="cursor-pointer text-design-primaryLight underline">
-                  Learn more
-                </span>
-              </Link>
-            </p>
-          </div>
-        </BlurFade>
-        <BlurFade delay={3} duration={0.5}>
-          <div className="mt-2">
-            <Link href="/signup">
-              <Button className="group relative flex h-auto cursor-pointer items-center overflow-hidden rounded-lg bg-design-primary px-4 py-3 text-lg font-bold text-white transition-transform hover:bg-design-primaryDark active:scale-95">
-                <span className="relative">Claim Handle Now</span>
-              </Button>
-            </Link>
-          </div>
-        </BlurFade>
-        <BlurFade delay={2.5}>
-          <Image
-            src={'/user/cv-not-found.png'}
-            alt="not-found"
-            width={450}
-            height={450}
-            className="bottom-0 mt-10"
-          />
-        </BlurFade>
-      </div>
-    );
+    return <ClaimUsername username={username} />;
   }
 
   if (!resume?.resumeData) redirect(`/?idNotFound=${user_id}`);

@@ -5,9 +5,8 @@ import { ResumeDataSchemaType } from '@/lib';
 import { BlurFade, BlurFadeText } from '@/components/magicui';
 import { ProfileImageField } from '@/components/resume/editing';
 
-/**
- * Header component displaying personal information and contact details
- */
+// Header component displaying personal information and contact details
+
 export function Header({
   header,
   picture,
@@ -23,6 +22,8 @@ export function Header({
 }) {
   const [isEditingName, setIsEditingName] = useState(false);
   const [isEditingAbout, setIsEditingAbout] = useState(false);
+  const [nameCharCount, setNameCharCount] = useState(0);
+  const [aboutCharCount, setAboutCharCount] = useState(0);
   const nameRef = useRef<HTMLHeadingElement>(null);
   const aboutRef = useRef<HTMLParagraphElement>(null);
 
@@ -34,6 +35,7 @@ export function Header({
       onChangeHeader({ ...header, name: newContent });
     }
     setIsEditingName(false);
+    setNameCharCount(0);
   };
 
   const handleAboutBlur = () => {
@@ -42,6 +44,7 @@ export function Header({
       onChangeHeader({ ...header, shortAbout: newContent });
     }
     setIsEditingAbout(false);
+    setAboutCharCount(0);
   };
 
   const handleKeyDown = (field: 'name' | 'about', e: React.KeyboardEvent) => {
@@ -66,6 +69,7 @@ export function Header({
       setIsEditingName(true);
       setTimeout(() => {
         if (nameRef.current) {
+          setNameCharCount(nameRef.current.textContent?.length || 0);
           nameRef.current.focus();
           const range = document.createRange();
           range.selectNodeContents(nameRef.current);
@@ -82,6 +86,7 @@ export function Header({
       setIsEditingAbout(true);
       setTimeout(() => {
         if (aboutRef.current) {
+          setAboutCharCount(aboutRef.current.textContent?.length || 0);
           aboutRef.current.focus();
           const range = document.createRange();
           range.selectNodeContents(aboutRef.current);
@@ -94,31 +99,39 @@ export function Header({
   };
 
   return (
-    <header className="flex items-start justify-between gap-4 md:items-center">
+    <header className="flex flex-col-reverse items-start md:px-4 gap-2">
       <div className="flex-1 space-y-1.5">
         {/* Name Field */}
         {isEditMode && onChangeHeader ? (
           <div className="group relative">
             <h1
               ref={nameRef}
-              contentEditable={isEditingName}
+              contentEditable={true}
               suppressContentEditableWarning={true}
               className={
-                'p-2 text-3xl font-bold tracking-tighter outline-none sm:text-5xl xl:text-6xl/none'
+                'p-2 text-[32px] font-bold tracking-tighter outline-none md:text-5xl empty:before:content-[attr(data-placeholder)] empty:before:text-black/30'
               }
+              data-placeholder="Your name"
               onClick={enableNameEditing}
+              onFocus={() => {
+                setIsEditingName(true);
+                setNameCharCount(nameRef.current?.textContent?.length || 0);
+              }}
               onBlur={handleNameBlur}
               onKeyDown={(e) => handleKeyDown('name', e)}
-              dangerouslySetInnerHTML={{
-                __html:
-                  header.name?.length > 0 ? header.name : 'Enter your name',
+              onInput={(e) => {
+                const target = e.currentTarget;
+                const currentLength = target.textContent?.length || 0;
+                setNameCharCount(currentLength);
               }}
-            />
+            >
+              {header.name || ''}
+            </h1>
           </div>
         ) : (
           <BlurFadeText
             delay={BLUR_FADE_DELAY}
-            className="text-3xl font-bold tracking-tighter sm:text-5xl xl:text-6xl/none"
+            className="p-2 text-[32px] font-bold tracking-tighter outline-none md:text-5xl"
             yOffset={8}
             text={header.name}
           />
@@ -129,23 +142,51 @@ export function Header({
           <div className="group relative">
             <p
               ref={aboutRef}
-              contentEditable={isEditingAbout}
+              contentEditable={true}
               suppressContentEditableWarning={true}
-              className={'max-w-[600px] p-2 outline-none md:text-xl'}
+              className={'max-w-[600px] p-2 outline-none text-base text-[#565656] md:text-xl empty:before:content-[attr(data-placeholder)] empty:before:text-gray-300'}
+              data-placeholder="Your bio..."
               onClick={enableAboutEditing}
+              onFocus={() => {
+                setIsEditingAbout(true);
+                setAboutCharCount(aboutRef.current?.textContent?.length || 0);
+              }}
               onBlur={handleAboutBlur}
               onKeyDown={(e) => handleKeyDown('about', e)}
-              dangerouslySetInnerHTML={{
-                __html:
-                  header.shortAbout?.length > 0
-                    ? header.shortAbout
-                    : 'Enter short description',
+              onInput={(e) => {
+                const target = e.currentTarget;
+                const currentLength = target.textContent?.length || 0;
+                setAboutCharCount(currentLength);
+                
+                if (target.textContent && target.textContent.length > 280) {
+                  target.textContent = target.textContent.slice(0, 280);
+                  setAboutCharCount(280);
+                  // Move cursor to end
+                  const range = document.createRange();
+                  const selection = window.getSelection();
+                  range.selectNodeContents(target);
+                  range.collapse(false);
+                  selection?.removeAllRanges();
+                  selection?.addRange(range);
+                }
               }}
-            />
+            >
+              {header.shortAbout || ''}
+            </p>
+            {aboutCharCount >= 225 && (
+              <div 
+                className="mt-1 p-2 text-xs font-semibold transition-colors duration-200"
+                style={{
+                  color: `rgb(${Math.max(160, 191 - (aboutCharCount - 225) * 0.8)}, ${Math.max(160, 191 - (aboutCharCount - 225) * 0.8)}, ${Math.max(160, 191 - (aboutCharCount - 225) * 0.8)})`
+                }}
+              >
+                {aboutCharCount}/280 characters
+              </div>
+            )}
           </div>
         ) : (
           <BlurFadeText
-            className="max-w-[600px] md:text-xl"
+            className="max-w-[600px] p-2 outline-none text-base text-[#565656] md:text-xl"
             delay={BLUR_FADE_DELAY}
             text={header.shortAbout}
           />

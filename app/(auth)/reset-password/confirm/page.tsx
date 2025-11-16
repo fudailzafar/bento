@@ -1,10 +1,10 @@
+import ResetPasswordConfirmContent from '@/components/auth/reset-password-confirm';
 import { Suspense } from 'react';
-import { ConfirmResetPasswordContent } from '@/components/auth/confirm-reset-password-content';
 
-export default function ConfirmResetPasswordPage() {
+export default function ResetPasswordConfirmPage() {
   return (
     <Suspense fallback={<div>Loading...</div>}>
-      <ConfirmResetPasswordContent />
+      <ResetPasswordConfirmContent />
     </Suspense>
   );
 }

@@ -12,7 +12,7 @@ export function Header() {
     return (
       <>
         {/* Mobile Header */}
-        <header className="mx-auto flex h-[67px] w-full max-w-4xl items-center justify-between px-6 py-4 pb-36 sm:hidden md:px-0">
+        <div className="mx-auto flex h-[67px] w-full items-center justify-between border-t border-gray-200 bg-white px-6 py-4 sm:hidden">
           <div className="flex flex-row items-center justify-center gap-2">
             <SettingsActionBar/>
             <Link
@@ -50,7 +50,7 @@ export function Header() {
               className="h-[30px] w-auto"
             />
           </Link>
-        </header>
+        </div>
 
         {/* Desktop Header */}
         <div className="fixed bottom-12 left-10 z-50 hidden flex-row items-center justify-center gap-2 sm:flex">

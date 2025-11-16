@@ -268,7 +268,7 @@ async function InitializeAndPreview({ userId }: { userId: string }) {
   return <PreviewWrapper messageTip={messageTip} />;
 }
 
-export default async function OwnProfileLoader({ userId }: { userId: string }) {
+export default async function SelfPortfolioLoader({ userId }: { userId: string }) {
   return (
     <Suspense fallback={<LoadingFallback />}>
       <InitializeAndPreview userId={userId} />
