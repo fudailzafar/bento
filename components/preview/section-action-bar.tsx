@@ -23,11 +23,11 @@ export const SectionActionBar = ({
   onAddProject,
 }: SectionActionBarProps) => {
   return (
-    <div className="flex items-center space-x-2.5">
+    <div className="flex items-center space-x-3.5 md:space-x-2.5">
       {/* Projects Button */}
       <button
         onClick={onAddProject}
-        className="group relative h-[25px] w-[25px] rounded-lg transition-all hover:shadow-[0_0_0_3px_rgba(0,0,0,0.06)] active:scale-95"
+        className="group relative size-[30px] md:size-[25px] rounded-lg transition-all hover:shadow-[0_0_0_3px_rgba(0,0,0,0.06)] active:scale-95"
         data-state="closed"
         aria-label="Add Project"
       >
@@ -39,7 +39,7 @@ export const SectionActionBar = ({
           />
 
           {/* Icon */}
-          <LinkIcon />
+          <LinkIcon/>
 
           {/* Border */}
           <div className="pointer-events-none absolute inset-0 rounded-[7px] border border-black/[0.12]" />
@@ -57,7 +57,7 @@ export const SectionActionBar = ({
       {/* Work Experience Button */}
       <button
         onClick={onAddWorkExperience}
-        className="group relative h-[25px] w-[25px] rounded-lg transition-all hover:shadow-[0_0_0_3px_rgba(0,0,0,0.06)] active:scale-95"
+        className="group relative size-[30px] md:size-[25px] rounded-lg transition-all hover:shadow-[0_0_0_3px_rgba(0,0,0,0.06)] active:scale-95"
         data-link-button="true"
         data-state="closed"
         aria-label="Add Work Experience"
@@ -84,7 +84,7 @@ export const SectionActionBar = ({
       {/* Education Button */}
       <button
         onClick={onAddEducation}
-        className="group relative h-[25px] w-[25px] rounded-lg transition-all hover:shadow-[0_0_0_3px_rgba(0,0,0,0.06)] active:scale-95"
+        className="group relative size-[30px] md:size-[25px] rounded-lg transition-all hover:shadow-[0_0_0_3px_rgba(0,0,0,0.06)] active:scale-95"
         data-state="closed"
         aria-label="Add Education"
       >
@@ -110,7 +110,7 @@ export const SectionActionBar = ({
       {/* Skills Button */}
       <button
         onClick={onAddSkill}
-        className="group relative h-[25px] w-[25px] rounded-lg transition-all hover:shadow-[0_0_0_3px_rgba(0,0,0,0.06)] active:scale-95"
+        className="group relative size-[30px] md:size-[25px] rounded-lg transition-all hover:shadow-[0_0_0_3px_rgba(0,0,0,0.06)] active:scale-95"
         data-state="closed"
         aria-label="Add Skill"
       >
@@ -131,7 +131,7 @@ export const SectionActionBar = ({
       {/* Section Title Button */}
       <button
         onClick={onAddSkill}
-        className="group relative h-[25px] w-[25px] rounded-lg transition-all hover:shadow-[0_0_0_3px_rgba(0,0,0,0.06)] active:scale-95"
+        className="group relative size-[30px] md:size-[25px] rounded-lg transition-all hover:shadow-[0_0_0_3px_rgba(0,0,0,0.06)] active:scale-95"
         data-state="closed"
         aria-label="Add Section Title"
       >
