@@ -99,7 +99,7 @@ export function Header({
   };
 
   return (
-    <header className="flex flex-col-reverse items-start md:px-4 gap-2">
+    <header className="flex flex-col-reverse items-start gap-2 md:px-4">
       <div className="flex-1 space-y-1.5">
         {/* Name Field */}
         {isEditMode && onChangeHeader ? (
@@ -109,7 +109,7 @@ export function Header({
               contentEditable={true}
               suppressContentEditableWarning={true}
               className={
-                'p-2 text-[32px] font-bold tracking-tighter outline-none md:text-5xl empty:before:content-[attr(data-placeholder)] empty:before:text-black/30'
+                'p-2 text-[32px] font-bold tracking-tighter outline-none empty:before:text-black/30 empty:before:content-[attr(data-placeholder)] md:text-5xl'
               }
               data-placeholder="Your name"
               onClick={enableNameEditing}
@@ -144,7 +144,9 @@ export function Header({
               ref={aboutRef}
               contentEditable={true}
               suppressContentEditableWarning={true}
-              className={'max-w-[600px] p-2 outline-none text-base text-[#565656] md:text-xl empty:before:content-[attr(data-placeholder)] empty:before:text-gray-300'}
+              className={
+                'max-w-[600px] p-2 text-base text-[#565656] outline-none empty:before:text-gray-300 empty:before:content-[attr(data-placeholder)] md:text-xl'
+              }
               data-placeholder="Your bio..."
               onClick={enableAboutEditing}
               onFocus={() => {
@@ -157,7 +159,7 @@ export function Header({
                 const target = e.currentTarget;
                 const currentLength = target.textContent?.length || 0;
                 setAboutCharCount(currentLength);
-                
+
                 if (target.textContent && target.textContent.length > 280) {
                   target.textContent = target.textContent.slice(0, 280);
                   setAboutCharCount(280);
@@ -174,10 +176,10 @@ export function Header({
               {header.shortAbout || ''}
             </p>
             {aboutCharCount >= 225 && (
-              <div 
+              <div
                 className="mt-1 p-2 text-xs font-semibold transition-colors duration-200"
                 style={{
-                  color: `rgb(${Math.max(160, 191 - (aboutCharCount - 225) * 0.8)}, ${Math.max(160, 191 - (aboutCharCount - 225) * 0.8)}, ${Math.max(160, 191 - (aboutCharCount - 225) * 0.8)})`
+                  color: `rgb(${Math.max(160, 191 - (aboutCharCount - 225) * 0.8)}, ${Math.max(160, 191 - (aboutCharCount - 225) * 0.8)}, ${Math.max(160, 191 - (aboutCharCount - 225) * 0.8)})`,
                 }}
               >
                 {aboutCharCount}/280 characters
@@ -186,7 +188,7 @@ export function Header({
           </div>
         ) : (
           <BlurFadeText
-            className="max-w-[600px] p-2 outline-none text-base text-[#565656] md:text-xl"
+            className="max-w-[600px] p-2 text-base text-[#565656] outline-none md:text-xl"
             delay={BLUR_FADE_DELAY}
             text={header.shortAbout}
           />

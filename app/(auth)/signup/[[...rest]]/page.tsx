@@ -1,8 +1,8 @@
 'use client';
 
-import { SignupAnimation, SignupContent } from '@/components/auth';
 import Link from 'next/link';
 import { useState } from 'react';
+import { AuthAnimation, SignupContent } from '@/components/auth';
 
 export default function SignupPage() {
   const [currentStep, setCurrentStep] = useState<'username' | 'auth'>(
@@ -24,9 +24,7 @@ export default function SignupPage() {
         </div>
       </div>
 
-      <div className="hidden max-w-[700px] flex-1 items-center justify-center md:flex">
-        <SignupAnimation isActive={currentStep === 'username'} />
-      </div>
+      <AuthAnimation isActive={currentStep === 'username'} />
     </div>
   );
 }

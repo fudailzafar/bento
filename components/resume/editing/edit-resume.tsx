@@ -3,7 +3,6 @@ import { toast } from 'sonner';
 import { ResumeData } from '@/lib/server';
 import { Input, Label } from '@/components/ui';
 import {
-  AddButton,
   WorkExperienceField,
   EducationField,
   SkillField,
@@ -314,27 +313,6 @@ export const EditResume = ({
                 }}
               />
             ))}
-            <AddButton
-              label="Add Work Experience"
-              onClick={() => {
-                onChangeResume({
-                  ...resume,
-                  workExperience: [
-                    ...resume.workExperience,
-                    {
-                      title: '',
-                      company: '',
-                      description: '',
-                      location: '',
-                      link: '',
-                      contract: '',
-                      start: '',
-                      end: '',
-                    },
-                  ],
-                });
-              }}
-            />
           </div>
         </div>
 
@@ -369,18 +347,6 @@ export const EditResume = ({
                 }}
               />
             ))}
-            <AddButton
-              label="Add Education"
-              onClick={() => {
-                onChangeResume({
-                  ...resume,
-                  education: [
-                    ...resume.education,
-                    { degree: '', school: '', start: '', end: '' },
-                  ],
-                });
-              }}
-            />
           </div>
         </div>
 
@@ -422,10 +388,6 @@ export const EditResume = ({
               />
             ))}
           </div>
-          <AddButton
-            label="Add Skill"
-            onClick={() => setIsAddSkillDialogOpen(true)}
-          />
           <AddSkillDialog
             open={isAddSkillDialogOpen}
             onOpenChange={setIsAddSkillDialogOpen}
@@ -473,28 +435,6 @@ export const EditResume = ({
                 />
               </div>
             ))}
-            <AddButton
-              label="Add Projects"
-              onClick={() => {
-                onChangeResume(
-                  normalizeResume({
-                    ...resume,
-                    projects: [
-                      ...(resume.projects || []),
-                      {
-                        title: '',
-                        description: '',
-                        githubLink: '',
-                        liveLink: '',
-                        start: '',
-                        end: '',
-                        skills: [],
-                      },
-                    ],
-                  })
-                );
-              }}
-            />
           </div>
         </div>
 
