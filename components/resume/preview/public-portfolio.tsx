@@ -2,10 +2,11 @@
 
 import { Header } from './header';
 import { Education } from './education';
+import { EducationEntry } from './education';
 import { Projects } from './projects';
 import { Contact } from './contact';
 import { Summary } from './summary';
-import { WorkExperience } from './work-experience';
+import { WorkExperienceEntry } from './work-experience';
 import { Skills } from './skills';
 import { SocialLinks } from './social-links';
 import { SectionTitle } from './section-title';
@@ -26,7 +27,6 @@ export const PublicPortfolio = ({
     resume?.sectionOrder || [
       'summary',
       'workExperience',
-      'education',
       'skills',
       'projects',
       'contact',
@@ -35,9 +35,6 @@ export const PublicPortfolio = ({
 
   const sectionComponents: Record<string, React.ReactNode> = {
     summary: <Summary summary={resume?.summary} className="pb-5" />,
-    workExperience: (
-      <WorkExperience work={resume?.workExperience} className="py-5" />
-    ),
     education: <Education educations={resume.education} className="py-5" />,
     skills: <Skills skills={resume.header.skills} className="py-5" />,
     projects: <Projects projects={resume?.projects} />,
@@ -53,6 +50,32 @@ export const PublicPortfolio = ({
           title={resume?.sectionTitles?.[titleId] || ''}
           isEditMode={false}
           className='mt-10 mb-3'
+        />
+      );
+    }
+  });
+
+  // Add dynamic education entries
+  sectionOrder.forEach((sectionId) => {
+    if (sectionId.startsWith('education-')) {
+      const educationId = sectionId;
+      sectionComponents[educationId] = (
+        <EducationEntry
+          education={resume?.educations?.[educationId] || { school: '', degree: '', start: '', end: '' }}
+          isEditMode={false}
+        />
+      );
+    }
+  });
+
+  // Add dynamic work experience entries
+  sectionOrder.forEach((sectionId) => {
+    if (sectionId.startsWith('work-')) {
+      const workId = sectionId;
+      sectionComponents[workId] = (
+        <WorkExperienceEntry
+          work={resume?.works?.[workId] || { location: '', company: '', title: '', start: '', end: '', description: '' }}
+          isEditMode={false}
         />
       );
     }

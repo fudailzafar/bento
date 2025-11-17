@@ -42,7 +42,13 @@ export default function PreviewClient({ messageTip }: { messageTip?: string }) {
 
   useEffect(() => {
     if (resumeQuery.data?.resume?.resumeData) {
-      setLocalResumeData(resumeQuery.data?.resume?.resumeData);
+      // Ensure education field exists for schema validation
+      const resumeData = resumeQuery.data.resume.resumeData;
+      const resumeWithEducation = {
+        ...resumeData,
+        education: resumeData.education || [],
+      };
+      setLocalResumeData(resumeWithEducation);
     }
   }, [resumeQuery.data?.resume?.resumeData]);
 
@@ -77,7 +83,13 @@ export default function PreviewClient({ messageTip }: { messageTip?: string }) {
   );
 
   const handleResumeChange = (newResume: ResumeData) => {
-    setLocalResumeData(newResume);
+    // Ensure education field exists for schema validation
+    const resumeWithEducation = {
+      ...newResume,
+      education: newResume.education || [],
+    };
+
+    setLocalResumeData(resumeWithEducation);
 
     // Clear existing timer
     if (debounceTimerRef.current) {
@@ -86,7 +98,7 @@ export default function PreviewClient({ messageTip }: { messageTip?: string }) {
 
     // Set new timer for debounced save (500ms)
     debounceTimerRef.current = setTimeout(() => {
-      debouncedSave(newResume);
+      debouncedSave(resumeWithEducation);
     }, 3000);
   };
 
@@ -99,41 +111,46 @@ export default function PreviewClient({ messageTip }: { messageTip?: string }) {
   // Handlers for adding items
   const handleAddWorkExperience = () => {
     if (!localResumeData) return;
-    const newWork = [
-      ...(localResumeData.workExperience || []),
-      {
-        title: 'Your position',
-        company: 'Your company',
-        description: '1-2 lines on what you did (if u did something lol)',
-        location: '',
-        link: '',
-        contract: '',
-        start: 'March 2024',
-        end: 'Jan 2025',
-        logo: null,
-      },
+    const currentOrder = localResumeData.sectionOrder || [
+      'summary',
+      'workExperience',
+      'skills',
+      'projects',
+      'contact',
     ];
-    handleResumeChange({
-      ...localResumeData,
-      workExperience: newWork,
-    });
-  };
 
-  const handleAddEducation = () => {
-    if (!localResumeData) return;
-    const newEducation = [
-      ...(localResumeData.education || []),
-      {
-        degree: 'Your degree',
-        school: 'Your school',
-        start: 'August 2025',
-        end: '',
-        logo: null,
-      },
+    // Find the next available work ID
+    let nextId = 1;
+    while (currentOrder.includes(`work-${nextId}`)) {
+      nextId++;
+    }
+
+    // Insert work entry after summary, or at the beginning if summary not found
+    const summaryIndex = currentOrder.indexOf('summary');
+    const insertIndex = summaryIndex >= 0 ? summaryIndex + 1 : 0;
+    const newOrder = [
+      ...currentOrder.slice(0, insertIndex),
+      `work-${nextId}`,
+      ...currentOrder.slice(insertIndex),
     ];
+
+    const newWorks = {
+      ...localResumeData.works,
+      [`work-${nextId}`]: {
+        location: 'New York, NY',
+        company: 'Tech Corp',
+        title: 'Software Engineer',
+        start: '2020',
+        end: '2023',
+        description: 'Developed web applications using React and Node.js',
+        logo: 'https://res.cloudinary.com/dxfq3iotg/image/upload/v1696202181/portfoliofy/companies/techcorp.png',
+      },
+    };
+
     handleResumeChange({
       ...localResumeData,
-      education: newEducation,
+      sectionOrder: newOrder,
+      works: newWorks,
     });
   };
 
@@ -174,7 +191,6 @@ export default function PreviewClient({ messageTip }: { messageTip?: string }) {
     const currentOrder = localResumeData.sectionOrder || [
       'summary',
       'workExperience',
-      'education',
       'skills',
       'projects',
       'contact',
@@ -193,7 +209,49 @@ export default function PreviewClient({ messageTip }: { messageTip?: string }) {
     });
   };
 
-  // Cleanup timer on unmount
+  const handleAddEducation = () => {
+    if (!localResumeData) return;
+    const currentOrder = localResumeData.sectionOrder || [
+      'summary',
+      'workExperience',
+      'skills',
+      'projects',
+      'contact',
+    ];
+
+    // Find the next available education ID
+    let nextId = 1;
+    while (currentOrder.includes(`education-${nextId}`)) {
+      nextId++;
+    }
+
+    // Insert education entry after workExperience, or at the beginning if workExperience not found
+    const workExperienceIndex = currentOrder.indexOf('workExperience');
+    const insertIndex = workExperienceIndex >= 0 ? workExperienceIndex + 1 : 0;
+    const newOrder = [
+      ...currentOrder.slice(0, insertIndex),
+      `education-${nextId}`,
+      ...currentOrder.slice(insertIndex),
+    ];
+
+    const newEducations = {
+      ...localResumeData.educations,
+      [`education-${nextId}`]: {
+        school: 'Al Hira',
+        degree: 'Bachelor of Science in Computer Science',
+        start: '  2020',
+        end: '2024',
+        logo: 'https://res.cloudinary.com/dxfq3iotg/image/upload/v1696202181/portfoliofy/schools/alhira_ubfx6h.png',
+      },
+    };
+
+    handleResumeChange({
+      ...localResumeData,
+      sectionOrder: newOrder,
+      educations: newEducations,
+    });
+  };
+
   useEffect(() => {
     return () => {
       if (debounceTimerRef.current) {
