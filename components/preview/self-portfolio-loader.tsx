@@ -140,6 +140,7 @@ async function InitializeAndPreview({ userId }: { userId: string }) {
           end: '2019',
         },
       ],
+      works: {}, // Changed to empty object to match expected type
       contact: 'Write a catchy phrase here for people to contact you... 👀',
       projects: [
         {
