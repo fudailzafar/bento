@@ -38,7 +38,7 @@ export default function PreviewClient({ messageTip }: { messageTip?: string }) {
   const [viewMode, setViewMode] = useState<ViewMode>('desktop');
   const [isAddSkillDialogOpen, setIsAddSkillDialogOpen] = useState(false);
   const debounceTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const [isChatOpen, setIsChatOpen] = useState(true);
+  const [isChatOpen, setIsChatOpen] = useState(false);
 
   useEffect(() => {
     if (resumeQuery.data?.resume?.resumeData) {
