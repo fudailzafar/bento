@@ -169,6 +169,30 @@ export default function PreviewClient({ messageTip }: { messageTip?: string }) {
     toast.info('Click on Edit button right next to the Social links section');
   };
 
+  const handleAddSectionTitle = () => {
+    if (!localResumeData) return;
+    const currentOrder = localResumeData.sectionOrder || [
+      'summary',
+      'workExperience',
+      'education',
+      'skills',
+      'projects',
+      'contact',
+    ];
+
+    // Find the next available sectionTitle ID
+    let nextId = 1;
+    while (currentOrder.includes(`sectionTitle-${nextId}`)) {
+      nextId++;
+    }
+
+    const newOrder = [...currentOrder, `sectionTitle-${nextId}`];
+    handleResumeChange({
+      ...localResumeData,
+      sectionOrder: newOrder,
+    });
+  };
+
   // Cleanup timer on unmount
   useEffect(() => {
     return () => {
@@ -379,6 +403,7 @@ export default function PreviewClient({ messageTip }: { messageTip?: string }) {
               onAddSkill={handleAddSkill}
               onAddProject={handleAddProject}
               onAddSocialLink={handleAddSocialLink}
+              onAddSectionTitle={handleAddSectionTitle}
             />
           </div>
         </div>

@@ -133,6 +133,11 @@ export const ResumeDataSchema = z.object({
       'contact',
     ])
     .describe('Order of sections in the resume'),
+  sectionTitles: z
+    .record(z.string())
+    .optional()
+    .default({})
+    .describe('Dynamic section titles with their IDs as keys'),
 });
 
 export type ResumeDataSchemaType = z.infer<typeof ResumeDataSchema>;

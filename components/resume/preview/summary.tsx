@@ -62,11 +62,6 @@ export function Summary({
       {isEditMode && onChangeSummary ? (
         <div className="group relative -mx-4 rounded-lg px-4 py-3 transition-all duration-300">
           <div>
-            <h2 className="mb-2 text-xl font-bold" id="about-section">
-              About
-            </h2>
-          </div>
-          <div>
             <div
               ref={summaryRef}
               contentEditable={isEditing}
@@ -86,11 +81,6 @@ export function Summary({
         </div>
       ) : (
         <>
-          <BlurFade delay={BLUR_FADE_DELAY * 3}>
-            <h2 className="text-xl font-bold" id="about-section">
-              About
-            </h2>
-          </BlurFade>
           <BlurFade delay={BLUR_FADE_DELAY * 4}>
             <div
               className="text-pretty text-sm text-design-resume print:text-[12px]"

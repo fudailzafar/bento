@@ -8,6 +8,7 @@ import { Summary } from './summary';
 import { WorkExperience } from './work-experience';
 import { Skills } from './skills';
 import { SocialLinks } from './social-links';
+import { SectionTitle } from './section-title';
 import { ResumeData } from '@/lib/server';
 
 export const PublicPortfolio = ({
@@ -42,6 +43,20 @@ export const PublicPortfolio = ({
     projects: <Projects projects={resume?.projects} />,
     contact: <Contact cta={resume?.contact} />,
   };
+
+  // Add dynamic section titles
+  sectionOrder.forEach((sectionId) => {
+    if (sectionId.startsWith('sectionTitle-')) {
+      const titleId = sectionId;
+      sectionComponents[titleId] = (
+        <SectionTitle
+          title={resume?.sectionTitles?.[titleId] || ''}
+          isEditMode={false}
+          className='mt-10 mb-3'
+        />
+      );
+    }
+  });
 
   return (
     <>

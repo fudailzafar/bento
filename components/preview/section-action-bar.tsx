@@ -10,9 +10,10 @@ interface SectionActionBarProps {
   onAddSkill?: () => void;
   onAddProject?: () => void;
   onAddSocialLink?: () => void;
+  onAddSectionTitle?: () => void;
 }
 
-// Shared gradient style (can't be expressed in Tailwind)
+// Gradient Style (can't be expressed in Tailwind)
 const BUTTON_GRADIENT =
   'linear-gradient(180deg, rgba(0, 0, 0, .06), rgba(0, 0, 0, .059) 11.97%, rgba(0, 0, 0, .056) 21.38%, rgba(0, 0, 0, .051) 28.56%, rgba(0, 0, 0, .044) 34.37%, rgba(0, 0, 0, .037) 39.32%, rgba(0, 0, 0, .03) 44%, rgba(0, 0, 0, .023) 49.02%, rgba(0, 0, 0, .016) 54.96%, rgba(0, 0, 0, .009) 62.44%, rgba(0, 0, 0, .004) 72.04%, rgba(0, 0, 0, .001) 84.36%, transparent)';
 
@@ -21,6 +22,7 @@ export const SectionActionBar = ({
   onAddEducation,
   onAddSkill,
   onAddProject,
+  onAddSectionTitle,
 }: SectionActionBarProps) => {
   return (
     <div className="flex items-center space-x-3.5 md:space-x-2.5">
@@ -130,7 +132,7 @@ export const SectionActionBar = ({
 
       {/* Section Title Button */}
       <button
-        onClick={onAddSkill}
+        onClick={onAddSectionTitle}
         className="group relative size-[30px] md:size-[25px] rounded-lg transition-all hover:shadow-[0_0_0_3px_rgba(0,0,0,0.06)] active:scale-95"
         data-state="closed"
         aria-label="Add Section Title"

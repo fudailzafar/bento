@@ -70,39 +70,6 @@ export function Projects({
   return (
     <Section>
       <div className="w-full space-y-12 py-12">
-        {isEditMode ? (
-          <div className="flex flex-col items-center justify-center space-y-4 text-center">
-            <div className="space-y-2">
-              <div className="inline-block rounded-lg bg-foreground px-3 py-1 text-sm text-background">
-                My Projects
-              </div>
-              <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl">
-                Check out my latest work
-              </h2>
-              <p className="text-muted-foreground md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
-                I&apos;ve worked on a variety of projects, from simple ones to
-                complex. Here are a few of my favorites.
-              </p>
-            </div>
-          </div>
-        ) : (
-          <BlurFade delay={BLUR_FADE_DELAY * 11}>
-            <div className="flex flex-col items-center justify-center space-y-4 text-center">
-              <div className="space-y-2">
-                <div className="inline-block rounded-lg bg-foreground px-3 py-1 text-sm text-background">
-                  My Projects
-                </div>
-                <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl">
-                  Check out my latest work
-                </h2>
-                <p className="text-muted-foreground md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
-                  I&apos;ve worked on a variety of projects, from simple ones to
-                  complex. Here are a few of my favorites.
-                </p>
-              </div>
-            </div>
-          </BlurFade>
-        )}
 
         <div className="mx-auto grid max-w-[800px] grid-cols-1 gap-3 sm:grid-cols-2">
           {(projects || []).map((project, id) => {
