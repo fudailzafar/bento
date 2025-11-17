@@ -126,10 +126,7 @@ function SortableWorkItem({
   }
 
   return (
-    <BlurFade
-      key={item.company + item.location + item.title}
-      delay={BLUR_FADE_DELAY * 6 + id * 0.05}
-    >
+    isEditMode ? (
       <div
         ref={setNodeRef}
         style={style}
@@ -263,7 +260,146 @@ function SortableWorkItem({
           </>
         )}
       </div>
-    </BlurFade>
+    ) : (
+      <BlurFade
+        key={item.company + item.location + item.title}
+        delay={BLUR_FADE_DELAY * 6 + id * 0.05}
+      >
+        <div
+          ref={setNodeRef}
+          style={style}
+          onMouseEnter={() => setHoveredIndex(id)}
+          onMouseLeave={() => setHoveredIndex(null)}
+          className={cn(
+            'group relative -mx-2 border-2 border-transparent px-2 transition-all duration-300',
+            isEditMode &&
+              'hover:rounded-xl hover:border-gray-100 hover:py-1 hover:shadow-sm dark:hover:border-gray-600',
+            isDragging && 'z-50'
+          )}
+        >
+          {/* Hidden file input */}
+          <input
+            ref={(el) => {
+              fileInputRefs.current[id] = el;
+            }}
+            type="file"
+            accept="image/*"
+            onChange={(e) => handleFileChange(id, e)}
+            className="hidden"
+          />
+
+          {/* Drag Handle - Only visible in edit mode */}
+          {isEditMode && isHovered && (
+            <button
+              {...attributes}
+              {...listeners}
+              onClick={(e) => e.stopPropagation()}
+              className="absolute left-1/2 bottom-1 z-10 flex size-6 -translate-y-1/2 cursor-grab items-center justify-center rounded bg-gray-100 text-gray-600 opacity-0 shadow-sm transition-all hover:bg-gray-200 group-hover:opacity-100 active:cursor-grabbing"
+              aria-label="Drag to reorder"
+            >
+              <GripVertical className="size-4" />
+            </button>
+          )}
+
+          <div className="cursor-pointer">
+            <Card className="flex border-0 bg-transparent shadow-none">
+              <div className="group/logo relative h-12 w-12 flex-none">
+              <Avatar className="bg-muted-background m-auto size-12 border dark:bg-foreground">
+                <AvatarImage
+                  src={item.logo || undefined}
+                  alt={item.company}
+                  className="object-contain"
+                />
+                <AvatarFallback>{item.company[0]}</AvatarFallback>
+              </Avatar>
+
+              {/* Upload/Delete buttons for logo - Only in edit mode on hover */}
+              {isEditMode &&
+                uploadingIndex !== id &&
+                isHovered && (
+                  <div className="absolute bottom-0 left-0 right-0 flex items-center justify-between opacity-0 transition-opacity group-hover/logo:opacity-100">
+                    {/* Upload Button - Left */}
+                    <button
+                      onClick={() => handleUploadClick(id)}
+                      className="flex size-5 items-center justify-center rounded-full border border-neutral-300 bg-white shadow-lg backdrop-blur-sm transition-all hover:bg-white/90"
+                      aria-label="Upload company logo"
+                    >
+                      <ImageIcon className="size-3 text-black" />
+                    </button>
+
+                    {/* Delete button - Right */}
+                    {item.logo && (
+                      <button
+                        onClick={() => handleDeleteLogo(id)}
+                        className="flex size-5 items-center justify-center rounded-full border border-neutral-300 bg-white shadow-lg backdrop-blur-sm transition-all hover:bg-white/90"
+                        aria-label="Delete company logo"
+                      >
+                        <TrashIcon className="size-3 text-black" />
+                      </button>
+                    )}
+                  </div>
+                )}
+
+              {/* Loader during Upload */}
+              {uploadingIndex === id && (
+                <div className="absolute inset-0 flex items-center justify-center overflow-hidden rounded-full bg-black/50">
+                  <LoaderIcon className="size-5 text-white" />
+                </div>
+              )}
+            </div>
+
+            <div className="group ml-4 flex-grow flex-col items-center">
+              <CardHeader className="p-0">
+                <div className="flex items-center justify-between gap-x-2 text-base">
+                  <h3 className="inline-flex items-center justify-center text-xs font-semibold leading-none sm:text-sm">
+                    <span className="text-left text-base font-semibold text-[#050914] dark:text-design-white">
+                      {item.company}
+                    </span>
+                  </h3>
+                  <div className="text-right text-xs tabular-nums text-muted-foreground sm:text-sm">
+                    {formattedDate}
+                  </div>
+                </div>
+                {item.title && (
+                  <div className="mt-1 text-left font-sans text-xs font-medium capitalize text-design-resume sm:text-sm">
+                    {item.title}
+                  </div>
+                )}
+              </CardHeader>
+              {item.description && (
+                <div className="mt-2 text-xs sm:text-sm">
+                  {item.description}
+                </div>
+              )}
+            </div>
+            </Card>
+          </div>
+
+          {/* Edit/Delete buttons for work experience - positioned on top */}
+          {isEditMode && isHovered && (
+            <>
+              {/* Delete */}
+              <button
+                onClick={() => handleDelete(id)}
+                className="absolute -left-2 -top-4 z-10 flex size-8 items-center justify-center rounded-full border border-gray-50 bg-white text-gray-700 opacity-0 shadow-md transition-all duration-300 ease-in-out hover:bg-gray-50 hover:text-design-secondary group-hover:opacity-100 dark:text-gray-300 dark:hover:text-red-400"
+                aria-label="Delete work experience"
+              >
+                <TrashIcon className="size-4 transition-transform duration-200" />
+              </button>
+
+              {/* Edit */}
+              <button
+                onClick={() => setEditingIndex(id)}
+                className="absolute -right-2 -top-4 z-10 flex size-8 items-center justify-center rounded-full border border-gray-50 bg-black text-white opacity-0 shadow-md transition-all duration-300 ease-in-out group-hover:opacity-100 dark:text-gray-300"
+                aria-label="Edit work experience"
+              >
+                <PenIcon className="size-4 transition-transform duration-200" />
+              </button>
+            </>
+          )}
+        </div>
+      </BlurFade>
+    )
   );
 }
 
@@ -476,11 +612,17 @@ export function WorkExperience({
 
   return (
     <Section className={className}>
-      <BlurFade delay={BLUR_FADE_DELAY * 5}>
+      {isEditMode ? (
         <h2 className="mb-2 text-xl font-bold" id="work-experience">
           Work Experience
         </h2>
-      </BlurFade>
+      ) : (
+        <BlurFade delay={BLUR_FADE_DELAY * 5}>
+          <h2 className="mb-2 text-xl font-bold" id="work-experience">
+            Work Experience
+          </h2>
+        </BlurFade>
+      )}
       <DndContext
         sensors={sensors}
         collisionDetection={closestCenter}
