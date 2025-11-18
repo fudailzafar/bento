@@ -11,10 +11,9 @@ import {
 } from '@/components/ui';
 import { ResumeDataSchemaType } from '@/lib';
 import { useMemo, useState, useRef } from 'react';
-import { ChevronRightIcon, GripVertical } from 'lucide-react';
+import { GripVertical } from 'lucide-react';
 import { cn } from '@/lib';
 import React from 'react';
-import { motion } from 'framer-motion';
 import { getShortMonth, getYear } from '@/components/resume';
 import { toast } from 'sonner';
 import { ImageIcon, LoaderIcon, PenIcon, TrashIcon } from '@/components/icons';
@@ -45,12 +44,10 @@ function SortableWorkItem({
   item,
   id,
   isEditMode,
-  isExpanded,
   isHovered,
   isEditing,
   uploadingIndex,
   setHoveredIndex,
-  setExpandedIndexes,
   setEditingIndex,
   editingIndex,
   handleUpdate,
@@ -169,24 +166,7 @@ function SortableWorkItem({
           </button>
         )}
 
-        <div
-          onClick={() => {
-            // Only disable click in edit mode (form editing)
-            if (
-              !isEditMode ||
-              (isEditMode &&
-                !editingIndex &&
-                typeof editingIndex !== 'number')
-            ) {
-              setExpandedIndexes((prev: number[]) =>
-                prev.includes(id)
-                  ? prev.filter((idx) => idx !== id)
-                  : [...prev, id]
-              );
-            }
-          }}
-          className="cursor-pointer"
-        >
+        <div className="cursor-pointer">
           <Card className="flex border-0 bg-transparent shadow-none">
             <div className="group/logo relative h-12 w-12 flex-none">
             <Avatar className="bg-muted-background m-auto size-12 border dark:bg-foreground">
@@ -240,30 +220,6 @@ function SortableWorkItem({
                   <span className="text-left text-base font-semibold text-[#050914] dark:text-design-white">
                     {item.company}
                   </span>
-                  {/* Chevron only for hover visual, not clickable in public/preview view */}
-                  {isHovered && (
-                    <motion.span
-                      key="chevron"
-                      className="ml-1"
-                      initial={{ opacity: 0, x: -8 }}
-                      animate={{ opacity: 1, x: 0 }}
-                      exit={{
-                        opacity: 0,
-                        x: -8,
-                        transition: { duration: 0.5 },
-                      }}
-                      transition={{
-                        duration: 0.5,
-                      }}
-                    >
-                      <ChevronRightIcon
-                        className={cn(
-                          'size-4 text-design-black transition-transform duration-500 ease-out dark:text-design-white',
-                          isExpanded ? 'rotate-90' : 'rotate-0'
-                        )}
-                      />
-                    </motion.span>
-                  )}
                 </h3>
                 <div className="text-right text-xs tabular-nums text-muted-foreground sm:text-sm">
                   {formattedDate}
@@ -276,20 +232,9 @@ function SortableWorkItem({
               )}
             </CardHeader>
             {item.description && (
-              <motion.div
-                initial={{ opacity: 0, height: 0 }}
-                animate={{
-                  opacity: isExpanded ? 1 : 0,
-                  height: isExpanded ? 'auto' : 0,
-                }}
-                transition={{
-                  duration: 0.7,
-                  ease: [0.16, 1, 0.3, 1],
-                }}
-                className="mt-2 text-xs sm:text-sm"
-              >
+              <div className="mt-2 text-xs sm:text-sm">
                 {item.description}
-              </motion.div>
+              </div>
             )}
           </div>
           </Card>
@@ -333,7 +278,6 @@ export function WorkExperience({
   onChangeWork?: (newWork: ResumeDataSchemaType['workExperience']) => void;
   className?: string;
 }) {
-  const [expandedIndexes, setExpandedIndexes] = React.useState<number[]>([]);
   const [hoveredIndex, setHoveredIndex] = React.useState<number | null>(null);
   const [editingIndex, setEditingIndex] = useState<number | null>(null);
   const [uploadingIndex, setUploadingIndex] = useState<number | null>(null);
@@ -553,7 +497,6 @@ export function WorkExperience({
           >
             {workItems.map((item) => {
               const id = item.index;
-              const isExpanded = expandedIndexes.includes(id);
               const isHovered = hoveredIndex === id;
               const isEditing = editingIndex === id;
 
@@ -563,12 +506,10 @@ export function WorkExperience({
                   item={item}
                   id={id}
                   isEditMode={isEditMode}
-                  isExpanded={isExpanded}
                   isHovered={isHovered}
                   isEditing={isEditing}
                   uploadingIndex={uploadingIndex}
                   setHoveredIndex={setHoveredIndex}
-                  setExpandedIndexes={setExpandedIndexes}
                   setEditingIndex={setEditingIndex}
                   editingIndex={editingIndex}
                   handleUpdate={handleUpdate}
