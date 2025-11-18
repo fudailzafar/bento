@@ -61,12 +61,12 @@ export function Summary({
     <Section className={className}>
       {isEditMode && onChangeSummary ? (
         <div className="group relative -mx-4 rounded-lg px-4 py-3 transition-all duration-300">
-          <BlurFade delay={BLUR_FADE_DELAY * 3}>
+          <div>
             <h2 className="mb-2 text-xl font-bold" id="about-section">
               About
             </h2>
-          </BlurFade>
-          <BlurFade delay={BLUR_FADE_DELAY * 4}>
+          </div>
+          <div>
             <div
               ref={summaryRef}
               contentEditable={isEditing}
@@ -82,7 +82,7 @@ export function Summary({
                 __html: summary?.length > 0 ? summary : 'Add your summary...',
               }}
             />
-          </BlurFade>
+          </div>
         </div>
       ) : (
         <>

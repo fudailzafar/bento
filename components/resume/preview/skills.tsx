@@ -48,9 +48,15 @@ export function Skills({
   return (
     // Skills Section
     <Section className={className}>
-      <BlurFade delay={BLUR_FADE_DELAY * 9} className="my-2">
-        <h2 className="text-xl font-bold">Skills</h2>
-      </BlurFade>
+      {isEditMode ? (
+        <div className="my-2">
+          <h2 className="text-xl font-bold">Skills</h2>
+        </div>
+      ) : (
+        <BlurFade delay={BLUR_FADE_DELAY * 9} className="my-2">
+          <h2 className="text-xl font-bold">Skills</h2>
+        </BlurFade>
+      )}
       <ul
         className={cn('flex list-none flex-wrap gap-1 gap-y-1 p-0')}
         aria-label="List of skills"
@@ -58,7 +64,7 @@ export function Skills({
       >
         {skills.map((skill, id) => (
           <li key={skill + id}>
-            <BlurFade key={skill} delay={BLUR_FADE_DELAY * 10 + id * 0.05}>
+            {isEditMode ? (
               <div className="group relative inline-block">
                 {/* Skill Card */}
                 <Badge
@@ -78,7 +84,29 @@ export function Skills({
                   </button>
                 )}
               </div>
-            </BlurFade>
+            ) : (
+              <BlurFade key={skill} delay={BLUR_FADE_DELAY * 10 + id * 0.05}>
+                <div className="group relative inline-block">
+                  {/* Skill Card */}
+                  <Badge
+                    className="print:text-[10px]"
+                    aria-label={`Skill: ${skill}`}
+                  >
+                    {skill}
+                  </Badge>
+                  {/* Delete on Hover */}
+                  {isEditMode && onChangeSkills && (
+                    <button
+                      onClick={() => handleDeleteSkill(id)}
+                      className="absolute -left-2 -top-2 flex size-5 items-center justify-center rounded-full border border-gray-50 bg-white text-gray-700 opacity-0 shadow-md transition-all duration-200 hover:bg-gray-50 hover:text-design-secondary group-hover:opacity-100"
+                      aria-label={`Remove ${skill}`}
+                    >
+                      <TrashIcon className="size-3" />
+                    </button>
+                  )}
+                </div>
+              </BlurFade>
+            )}
           </li>
         ))}
       </ul>

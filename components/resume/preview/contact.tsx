@@ -56,7 +56,7 @@ export function Contact({
   return (
     <section className="mt-8">
       <div className="grid w-full items-center justify-center gap-4 px-4 py-12 text-center md:px-6">
-        <BlurFade delay={BLUR_FADE_DELAY * 16}>
+        {isEditMode ? (
           <div className="space-y-3">
             <div className="inline-block rounded-lg bg-foreground px-3 py-1 text-sm text-background">
               Contact
@@ -82,7 +82,35 @@ export function Contact({
               />
             </div>
           </div>
-        </BlurFade>
+        ) : (
+          <BlurFade delay={BLUR_FADE_DELAY * 16}>
+            <div className="space-y-3">
+              <div className="inline-block rounded-lg bg-foreground px-3 py-1 text-sm text-background">
+                Contact
+              </div>
+              <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl">
+                Get in Touch
+              </h2>
+
+              <div className="mx-auto max-w-[600px]">
+                <p
+                  ref={ctaRef}
+                  contentEditable={isEditMode && isEditing}
+                  suppressContentEditableWarning={true}
+                  className={
+                    'p-2 text-muted-foreground outline-none md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed'
+                  }
+                  onClick={enableEditing}
+                  onBlur={handleBlur}
+                  onKeyDown={handleKeyDown}
+                  dangerouslySetInnerHTML={{
+                    __html: cta?.length > 0 ? cta : 'Add note...',
+                  }}
+                />
+              </div>
+            </div>
+          </BlurFade>
+        )}
       </div>
     </section>
   );

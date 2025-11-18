@@ -317,11 +317,17 @@ export function Education({
   return (
     // Education Section
     <Section className={className}>
-      <BlurFade delay={BLUR_FADE_DELAY * 7}>
+      {isEditMode ? (
         <h2 className="mb-2 text-xl font-bold" id="education-section">
           Education
         </h2>
-      </BlurFade>
+      ) : (
+        <BlurFade delay={BLUR_FADE_DELAY * 7}>
+          <h2 className="mb-2 text-xl font-bold" id="education-section">
+            Education
+          </h2>
+        </BlurFade>
+      )}
       <div
         className="space-y-4"
         role="feed"
@@ -363,10 +369,7 @@ export function Education({
 
           return (
             // Education Card with Animation
-            <BlurFade
-              key={item.school + idx}
-              delay={BLUR_FADE_DELAY * 8 + idx * 0.05}
-            >
+            isEditMode ? (
               <article key={idx} role="article">
                 {/* Hidden file input */}
                 <input
@@ -389,7 +392,35 @@ export function Education({
                   fileInputRef={{ current: fileInputRefs.current[idx] }}
                 />
               </article>
-            </BlurFade>
+            ) : (
+              <BlurFade
+                key={item.school + idx}
+                delay={BLUR_FADE_DELAY * 8 + idx * 0.05}
+              >
+                <article key={idx} role="article">
+                  {/* Hidden file input */}
+                  <input
+                    ref={(el) => {
+                      fileInputRefs.current[idx] = el;
+                    }}
+                    type="file"
+                    accept="image/*"
+                    onChange={(e) => handleFileChange(idx, e)}
+                    className="hidden"
+                  />
+                  <EducationItem
+                    education={item}
+                    isEditMode={isEditMode}
+                    onEdit={() => setEditingIndex(idx)}
+                    onDelete={() => handleDelete(idx)}
+                    onLogoUpload={() => handleUploadClick(idx)}
+                    onLogoDelete={() => handleDeleteLogo(idx)}
+                    isUploading={uploadingIndex === idx}
+                    fileInputRef={{ current: fileInputRefs.current[idx] }}
+                  />
+                </article>
+              </BlurFade>
+            )
           );
         })}
       </div>
