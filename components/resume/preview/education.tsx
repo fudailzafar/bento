@@ -317,17 +317,6 @@ export function Education({
   return (
     // Education Section
     <Section className={className}>
-      {isEditMode ? (
-        <h2 className="mb-2 text-xl font-bold" id="education-section">
-          Education
-        </h2>
-      ) : (
-        <BlurFade delay={BLUR_FADE_DELAY * 7}>
-          <h2 className="mb-2 text-xl font-bold" id="education-section">
-            Education
-          </h2>
-        </BlurFade>
-      )}
       <div
         className="space-y-4"
         role="feed"

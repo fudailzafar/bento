@@ -3,20 +3,28 @@
 import { useState, useRef } from 'react';
 import confetti from 'canvas-confetti';
 import { toast } from 'sonner';
-import { Copy } from 'lucide-react';
 import { Button } from '@/components/ui';
 import { getDomainUrl } from '@/lib';
-import {
-  LaptopIcon,
-  LoaderIcon,
-  MobileIcon,
-  CheckmarkSmallIcon,
-} from '@/components/icons';
+import { LaptopIcon, LoaderIcon, MobileIcon } from '@/components/icons';
 import {
   SectionActionBar,
   UsernameEditorView,
   ViewMode,
 } from '@/components/preview';
+
+interface DockActionBarProps {
+  initialUsername: string;
+  prefix?: string;
+  viewMode?: ViewMode;
+  onViewModeChange?: (mode: ViewMode) => void;
+  isSaving?: boolean;
+  onAddWorkExperience?: () => void;
+  onAddEducation?: () => void;
+  onAddSkill?: () => void;
+  onAddProject?: () => void;
+  onAddSocialLink?: () => void;
+  onAddSectionTitle?: () => void;
+}
 
 export default function DockActionBar({
   initialUsername = '',
@@ -29,18 +37,8 @@ export default function DockActionBar({
   onAddSkill,
   onAddProject,
   onAddSocialLink,
-}: {
-  initialUsername: string;
-  prefix?: string;
-  viewMode?: ViewMode;
-  onViewModeChange?: (mode: ViewMode) => void;
-  isSaving?: boolean;
-  onAddWorkExperience?: () => void;
-  onAddEducation?: () => void;
-  onAddSkill?: () => void;
-  onAddProject?: () => void;
-  onAddSocialLink?: () => void;
-}) {
+  onAddSectionTitle,
+}: DockActionBarProps) {
   const [isEditorOpen, setIsEditorOpen] = useState(false);
   const copyButtonRef = useRef<HTMLButtonElement>(null);
 
@@ -125,6 +123,7 @@ export default function DockActionBar({
             onAddSkill={onAddSkill}
             onAddProject={onAddProject}
             onAddSocialLink={onAddSocialLink}
+            onAddSectionTitle={onAddSectionTitle}
           />
         </div>
 

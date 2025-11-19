@@ -71,12 +71,12 @@ export function DraggableSection({
         onClick={() => setIsMobileActive(!isMobileActive)}
         {...attributes}
         {...listeners}
-        className={`rounded-2xl border px-4 py-4 transition-all duration-200 md:cursor-grab ${
+        className={`rounded-2xl ${id.startsWith('sectionTitle-') ? '' : 'border'} px-4 py-4 md:px-3 md:py-1 transition-all duration-200 md:cursor-grab ${
           isDragging
-            ? 'md:cursor-grabbing md:shadow-[0_1px_3px_rgba(0,0,0,0.1)] border-gray-200 bg-gray-200 opacity-30 dark:border-gray-700 dark:bg-gray-800'
+            ? `md:cursor-grabbing md:shadow-[0_1px_3px_rgba(0,0,0,0.1)] border-gray-200 bg-gray-200 opacity-30 dark:border-gray-700 dark:bg-gray-800`
             : isMobileActive
-              ? 'border-2 border-black shadow-md md:border md:border-gray-200 md:bg-white md:shadow-[0_1px_3px_rgba(0,0,0,0.1)] dark:md:border-gray-700 dark:md:bg-gray-900'
-              : 'border-gray-200 bg-white shadow-[0_1px_3px_rgba(0,0,0,0.1)]  dark:border-gray-700 dark:bg-gray-900'
+              ? `border-2 border-black shadow-md md:border md:border-gray-200 md:bg-white md:shadow-[0_1px_3px_rgba(0,0,0,0.1)] dark:md:border-gray-700 dark:md:bg-gray-900`
+              : `${id.startsWith('sectionTitle-') ? 'bg-transparent hover:border' : 'border-gray-200 bg-white shadow-[0_1px_3px_rgba(0,0,0,0.1)] dark:border-gray-700 dark:bg-gray-900'}`
         } `}
       >
         <div className={isDragging ? 'invisible' : ''}>{children}</div>

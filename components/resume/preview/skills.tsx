@@ -48,15 +48,6 @@ export function Skills({
   return (
     // Skills Section
     <Section className={className}>
-      {isEditMode ? (
-        <div className="my-2">
-          <h2 className="text-xl font-bold">Skills</h2>
-        </div>
-      ) : (
-        <BlurFade delay={BLUR_FADE_DELAY * 9} className="my-2">
-          <h2 className="text-xl font-bold">Skills</h2>
-        </BlurFade>
-      )}
       <ul
         className={cn('flex list-none flex-wrap gap-1 gap-y-1 p-0')}
         aria-label="List of skills"

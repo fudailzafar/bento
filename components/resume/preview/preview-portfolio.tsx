@@ -9,6 +9,7 @@ import { Summary } from './summary';
 import { WorkExperience } from './work-experience';
 import { Skills } from './skills';
 import { SocialLinks } from './social-links';
+import { SectionTitle } from './section-title';
 import { SortableSections } from './sortable-sections';
 import { LoadingFallback } from '@/components/utils';
 import { ResumeData } from '@/lib/server';
@@ -55,110 +56,156 @@ export const PreviewPortfolio = ({
   };
 
   // Define all section components
-  const sectionComponents: Record<string, React.ReactNode> = {
-    summary: (
-      <Summary
-        summary={resume?.summary}
-        isEditMode={isEditMode}
-        onChangeSummary={
-          isEditMode && onChangeResume
-            ? (newSummary) => {
-                onChangeResume({
-                  ...resume,
-                  summary: newSummary,
-                });
-              }
-            : undefined
-        }
-      />
-    ),
-    workExperience: (
-      <WorkExperience
-        work={resume?.workExperience}
-        isEditMode={isEditMode}
-        className="py-5"
-        onChangeWork={
-          isEditMode && onChangeResume
-            ? (newWork) => {
-                onChangeResume({
-                  ...resume,
-                  workExperience: newWork,
-                });
-              }
-            : undefined
-        }
-      />
-    ),
-    education: (
-      <Education
-        educations={resume?.education || []}
-        isEditMode={isEditMode}
-        className="py-5"
-        onChangeEducation={
-          isEditMode && onChangeResume
-            ? (newEducation) => {
-                onChangeResume({
-                  ...resume,
-                  education: newEducation,
-                });
-              }
-            : undefined
-        }
-      />
-    ),
-    skills: (
-      <Skills
-        skills={resume?.header?.skills || []}
-        isEditMode={isEditMode}
-        className="py-5"
-        onChangeSkills={
-          isEditMode && onChangeResume
-            ? (newSkills) => {
-                onChangeResume({
-                  ...resume,
-                  header: {
-                    ...resume.header,
-                    skills: newSkills,
-                  },
-                });
-              }
-            : undefined
-        }
-      />
-    ),
-    projects: (
-      <Projects
-        projects={resume?.projects}
-        isEditMode={isEditMode}
-        onChangeProjects={
-          isEditMode && onChangeResume
-            ? (newProjects) => {
-                onChangeResume({
-                  ...resume,
-                  projects: newProjects,
-                });
-              }
-            : undefined
-        }
-      />
-    ),
-    contact: (
-      <Contact
-        cta={resume?.contact}
-        isEditMode={isEditMode}
-        onChangeContact={
-          isEditMode && onChangeResume
-            ? (newContact) => {
-                onChangeResume({
-                  ...resume,
-                  contact: newContact,
-                });
-              }
-            : undefined
-        }
-      />
-    ),
-  };
+  const sectionComponents: Record<string, React.ReactNode> = {};
+
+  // Add standard sections
+  sectionComponents.summary = (
+    <Summary
+      summary={resume?.summary}
+      isEditMode={isEditMode}
+      onChangeSummary={
+        isEditMode && onChangeResume
+          ? (newSummary) => {
+              onChangeResume({
+                ...resume,
+                summary: newSummary,
+              });
+            }
+          : undefined
+      }
+    />
+  );
+
+  sectionComponents.workExperience = (
+    <WorkExperience
+      work={resume?.workExperience}
+      isEditMode={isEditMode}
+      className="py-5"
+      onChangeWork={
+        isEditMode && onChangeResume
+          ? (newWork) => {
+              onChangeResume({
+                ...resume,
+                workExperience: newWork,
+              });
+            }
+          : undefined
+      }
+    />
+  );
+
+  sectionComponents.education = (
+    <Education
+      educations={resume?.education || []}
+      isEditMode={isEditMode}
+      className="py-5"
+      onChangeEducation={
+        isEditMode && onChangeResume
+          ? (newEducation) => {
+              onChangeResume({
+                ...resume,
+                education: newEducation,
+              });
+            }
+          : undefined
+      }
+    />
+  );
+
+  sectionComponents.skills = (
+    <Skills
+      skills={resume?.header?.skills || []}
+      isEditMode={isEditMode}
+      className="py-5"
+      onChangeSkills={
+        isEditMode && onChangeResume
+          ? (newSkills) => {
+              onChangeResume({
+                ...resume,
+                header: {
+                  ...resume.header,
+                  skills: newSkills,
+                },
+              });
+            }
+          : undefined
+      }
+    />
+  );
+
+  sectionComponents.projects = (
+    <Projects
+      projects={resume?.projects}
+      isEditMode={isEditMode}
+      onChangeProjects={
+        isEditMode && onChangeResume
+          ? (newProjects) => {
+              onChangeResume({
+                ...resume,
+                projects: newProjects,
+              });
+            }
+          : undefined
+      }
+    />
+  );
+
+  sectionComponents.contact = (
+    <Contact
+      cta={resume?.contact}
+      isEditMode={isEditMode}
+      onChangeContact={
+        isEditMode && onChangeResume
+          ? (newContact) => {
+              onChangeResume({
+                ...resume,
+                contact: newContact,
+              });
+            }
+          : undefined
+      }
+    />
+  );
+
+  // Add dynamic section titles
+  sectionOrder.forEach((sectionId) => {
+    if (sectionId.startsWith('sectionTitle-')) {
+      const titleId = sectionId;
+      sectionComponents[titleId] = (
+        <SectionTitle
+          title={resume?.sectionTitles?.[titleId] || ''}
+          isEditMode={isEditMode}
+          onTitleChange={
+            isEditMode && onChangeResume
+              ? (newTitle) => {
+                  onChangeResume({
+                    ...resume,
+                    sectionTitles: {
+                      ...resume.sectionTitles,
+                      [titleId]: newTitle,
+                    },
+                  });
+                }
+              : undefined
+          }
+          onDelete={
+            isEditMode && onChangeResume
+              ? () => {
+                  const newSectionOrder = sectionOrder.filter(id => id !== titleId);
+                  const newSectionTitles = { ...resume.sectionTitles };
+                  delete newSectionTitles[titleId];
+                  onChangeResume({
+                    ...resume,
+                    sectionOrder: newSectionOrder,
+                    sectionTitles: newSectionTitles,
+                  });
+                }
+              : undefined
+          }
+        />
+      );
+    }
+  });
 
   return (
     <>
@@ -186,7 +233,7 @@ export const PreviewPortfolio = ({
           />
         </section>
         <section
-          className="scrollbar-hide w-full bg-background py-1 font-sans antialiased sm:py-8 md:w-[820px] md:overflow-y-auto"
+          className="scrollbar-hide w-full bg-background py-1 md:px-4 font-sans antialiased sm:py-8 md:w-[820px] md:overflow-y-auto"
           aria-label="Preview Portfolio Content"
         >
           <div className="flex flex-col gap-6 md:pb-36">

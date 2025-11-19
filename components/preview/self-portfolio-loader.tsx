@@ -15,11 +15,54 @@ import { MAX_USERNAME_LENGTH } from '@/lib';
 import { LoadingFallback } from '@/components/utils';
 import PreviewWrapper from './preview-wrapper';
 
+// Function to migrate old section title data to new format
+function migrateSectionTitles(resumeData: any) {
+  if (!resumeData) return resumeData;
+
+  const migratedData = { ...resumeData };
+  const sectionTitles: Record<string, string> = {};
+
+  // Find all sectionTitle-* keys and extract them
+  Object.keys(migratedData).forEach(key => {
+    if (key.startsWith('sectionTitle-') && typeof migratedData[key] === 'string') {
+      sectionTitles[key] = migratedData[key];
+      delete migratedData[key];
+    }
+  });
+
+  // Add sectionTitles if any were found
+  if (Object.keys(sectionTitles).length > 0) {
+    migratedData.sectionTitles = { ...migratedData.sectionTitles, ...sectionTitles };
+  }
+
+  // Remove 'sectionTitles' from sectionOrder if it exists
+  if (migratedData.sectionOrder && Array.isArray(migratedData.sectionOrder)) {
+    migratedData.sectionOrder = migratedData.sectionOrder.filter(
+      (section: string) => section !== 'sectionTitles'
+    );
+  }
+
+  return migratedData;
+}
+
 async function InitializeAndPreview({ userId }: { userId: string }) {
   const resume = await getResume(userId);
   const session = await getServerSession(authOptions);
 
   let messageTip: string | undefined;
+
+  // Migrate existing resume data if it has old section title format
+  if (resume?.resumeData) {
+    const migratedResumeData = migrateSectionTitles(resume.resumeData);
+    if (migratedResumeData !== resume.resumeData) {
+      // Save the migrated data
+      await storeResume(userId, {
+        ...resume,
+        resumeData: migratedResumeData,
+      });
+      resume.resumeData = migratedResumeData;
+    }
+  }
 
   // If no resume exists at all, create a default one
   if (!resume) {
@@ -103,6 +146,7 @@ async function InitializeAndPreview({ userId }: { userId: string }) {
             'Another project that solves a real problem and demonstrates your ability to deliver.',
         },
       ],
+      sectionTitles: {},
       sectionOrder: [
         'summary',
         'workExperience',

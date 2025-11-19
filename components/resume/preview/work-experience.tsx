@@ -612,17 +612,7 @@ export function WorkExperience({
 
   return (
     <Section className={className}>
-      {isEditMode ? (
-        <h2 className="mb-2 text-xl font-bold" id="work-experience">
-          Work Experience
-        </h2>
-      ) : (
-        <BlurFade delay={BLUR_FADE_DELAY * 5}>
-          <h2 className="mb-2 text-xl font-bold" id="work-experience">
-            Work Experience
-          </h2>
-        </BlurFade>
-      )}
+
       <DndContext
         sensors={sensors}
         collisionDetection={closestCenter}
