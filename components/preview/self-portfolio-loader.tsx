@@ -35,11 +35,26 @@ function migrateSectionTitles(resumeData: any) {
     migratedData.sectionTitles = { ...migratedData.sectionTitles, ...sectionTitles };
   }
 
-  // Remove 'sectionTitles' from sectionOrder if it exists
+  // Remove 'sectionTitles' and 'education' from sectionOrder if they exist
   if (migratedData.sectionOrder && Array.isArray(migratedData.sectionOrder)) {
     migratedData.sectionOrder = migratedData.sectionOrder.filter(
-      (section: string) => section !== 'sectionTitles'
+      (section: string) => section !== 'sectionTitles' && section !== 'education'
     );
+  }
+
+  // Migrate education array to individual educations
+  if (migratedData.education && Array.isArray(migratedData.education)) {
+    const educations: Record<string, any> = {};
+    migratedData.education.forEach((edu: any, index: number) => {
+      const eduId = `education-${index + 1}`;
+      educations[eduId] = edu;
+      // Add to sectionOrder if not already present
+      if (!migratedData.sectionOrder.includes(eduId)) {
+        migratedData.sectionOrder.push(eduId);
+      }
+    });
+    migratedData.educations = educations;
+    delete migratedData.education;
   }
 
   return migratedData;
@@ -147,6 +162,7 @@ async function InitializeAndPreview({ userId }: { userId: string }) {
         },
       ],
       sectionTitles: {},
+      educations: {},
       sectionOrder: [
         'summary',
         'workExperience',

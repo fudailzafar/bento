@@ -3,10 +3,11 @@
 import { Header } from './header';
 import { Header as CommonHeader } from '@/components/common';
 import { Education } from './education';
+import { EducationEntry } from './education';
 import { Projects } from './projects';
 import { Contact } from './contact';
 import { Summary } from './summary';
-import { WorkExperience } from './work-experience';
+import { WorkExperienceEntry } from './work-experience';
 import { Skills } from './skills';
 import { SocialLinks } from './social-links';
 import { SectionTitle } from './section-title';
@@ -39,7 +40,6 @@ export const PreviewPortfolio = ({
     resume?.sectionOrder || [
       'summary',
       'workExperience',
-      'education',
       'skills',
       'projects',
       'contact',
@@ -69,24 +69,6 @@ export const PreviewPortfolio = ({
               onChangeResume({
                 ...resume,
                 summary: newSummary,
-              });
-            }
-          : undefined
-      }
-    />
-  );
-
-  sectionComponents.workExperience = (
-    <WorkExperience
-      work={resume?.workExperience}
-      isEditMode={isEditMode}
-      className="py-5"
-      onChangeWork={
-        isEditMode && onChangeResume
-          ? (newWork) => {
-              onChangeResume({
-                ...resume,
-                workExperience: newWork,
               });
             }
           : undefined
@@ -167,22 +149,40 @@ export const PreviewPortfolio = ({
     />
   );
 
-  // Add dynamic section titles
+  // Remove the old work experience section since we now use individual work entries
+  delete sectionComponents.workExperience;
+
+  // Add dynamic education entries
   sectionOrder.forEach((sectionId) => {
-    if (sectionId.startsWith('sectionTitle-')) {
-      const titleId = sectionId;
-      sectionComponents[titleId] = (
-        <SectionTitle
-          title={resume?.sectionTitles?.[titleId] || ''}
+    if (sectionId.startsWith('education-')) {
+      const educationId = sectionId;
+      sectionComponents[educationId] = (
+        <EducationEntry
+          education={
+            resume?.educations?.[educationId] || {
+              school: 'Al Hira Model School',
+              degree: 'High School Diploma',
+              start: '2017',
+              end: '2023',
+            }
+          }
           isEditMode={isEditMode}
-          onTitleChange={
+          onEdit={
+            isEditMode
+              ? () => {
+                  // TODO: Open education edit modal/form
+                  console.log('Edit education:', educationId);
+                }
+              : undefined
+          }
+          onSave={
             isEditMode && onChangeResume
-              ? (newTitle) => {
+              ? (updatedEducation) => {
                   onChangeResume({
                     ...resume,
-                    sectionTitles: {
-                      ...resume.sectionTitles,
-                      [titleId]: newTitle,
+                    educations: {
+                      ...resume.educations,
+                      [educationId]: updatedEducation,
                     },
                   });
                 }
@@ -191,13 +191,15 @@ export const PreviewPortfolio = ({
           onDelete={
             isEditMode && onChangeResume
               ? () => {
-                  const newSectionOrder = sectionOrder.filter(id => id !== titleId);
-                  const newSectionTitles = { ...resume.sectionTitles };
-                  delete newSectionTitles[titleId];
+                  const newSectionOrder = sectionOrder.filter(
+                    (id) => id !== educationId
+                  );
+                  const newEducations = { ...resume.educations };
+                  delete newEducations[educationId];
                   onChangeResume({
                     ...resume,
                     sectionOrder: newSectionOrder,
-                    sectionTitles: newSectionTitles,
+                    educations: newEducations,
                   });
                 }
               : undefined
@@ -206,6 +208,108 @@ export const PreviewPortfolio = ({
       );
     }
   });
+
+  // Add dynamic work experience entries
+  sectionOrder.forEach((sectionId) => {
+    if (sectionId.startsWith('work-')) {
+      const workId = sectionId;
+      sectionComponents[workId] = (
+        <WorkExperienceEntry
+          work={
+            resume?.works?.[workId] || {
+              location: 'New York, NY',
+              company: 'Tech Corp',
+              title: 'Software Engineer',
+              start: '2020',
+              end: '2023',
+              description: 'Developed web applications using React and Node.js',
+            }
+          }
+          isEditMode={isEditMode}
+          onEdit={
+            isEditMode
+              ? () => {
+                  // TODO: Open work edit modal/form
+                  console.log('Edit work:', workId);
+                }
+              : undefined
+          }
+          onSave={
+            isEditMode && onChangeResume
+              ? (updatedWork) => {
+                  onChangeResume({
+                    ...resume,
+                    works: {
+                      ...resume.works,
+                      [workId]: updatedWork,
+                    },
+                  });
+                }
+              : undefined
+          }
+          onDelete={
+            isEditMode && onChangeResume
+              ? () => {
+                  const newSectionOrder = sectionOrder.filter(
+                    (id) => id !== workId
+                  );
+                  const newWorks = { ...resume.works };
+                  delete newWorks[workId];
+                  onChangeResume({
+                    ...resume,
+                    sectionOrder: newSectionOrder,
+                    works: newWorks,
+                  });
+                }
+              : undefined
+          }
+        />
+      );
+    }
+  });
+
+  // Add dynamic section titles
+sectionOrder.forEach((sectionId) => {
+  if (sectionId.startsWith('sectionTitle-')) {
+    const titleId = sectionId;
+    sectionComponents[titleId] = (
+      <SectionTitle
+        title={resume?.sectionTitles?.[titleId] || ''}
+        isEditMode={isEditMode}
+        onTitleChange={
+          isEditMode && onChangeResume
+            ? (newTitle) => {
+                onChangeResume({
+                  ...resume,
+                  sectionTitles: {
+                    ...resume.sectionTitles,
+                    [titleId]: newTitle,
+                  },
+                });
+              }
+            : undefined
+        }
+        onDelete={
+          isEditMode && onChangeResume
+            ? () => {
+                const newSectionOrder = sectionOrder.filter(
+                  (id) => id !== titleId
+                );
+                const newSectionTitles = { ...resume.sectionTitles };
+                delete newSectionTitles[titleId];
+                onChangeResume({
+                  ...resume,
+                  sectionOrder: newSectionOrder,
+                  sectionTitles: newSectionTitles,
+                });
+              }
+            : undefined
+        }
+      />
+    );
+  }
+});
+
 
   return (
     <>
@@ -233,7 +337,7 @@ export const PreviewPortfolio = ({
           />
         </section>
         <section
-          className="scrollbar-hide w-full bg-background py-1 md:px-4 font-sans antialiased sm:py-8 md:w-[820px] md:overflow-y-auto"
+          className="scrollbar-hide w-full bg-background py-1 font-sans antialiased sm:py-8 md:w-[820px] md:overflow-y-auto md:px-4"
           aria-label="Preview Portfolio Content"
         >
           <div className="flex flex-col gap-6 md:pb-36">
