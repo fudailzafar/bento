@@ -180,7 +180,7 @@ function EducationItem({
 }
 
 export function Education({
-  educations,
+  educations = [],
   isEditMode,
   onChangeEducation,
   className,
@@ -211,7 +211,7 @@ export function Education({
 
   const handleUpdate = (
     index: number,
-    updatedEdu: ResumeDataSchemaType['education'][0]
+    updatedEdu: ResumeDataSchemaType['education'][number]
   ) => {
     if (onChangeEducation) {
       const newEducation = [...educations];
@@ -322,7 +322,7 @@ export function Education({
         role="feed"
         aria-labelledby="education-section"
       >
-        {(educations ?? []).map((item, idx) => {
+        {educations.map((item, idx) => {
           const isEditing = editingIndex === idx;
 
           // Show edit form if editing
@@ -438,7 +438,7 @@ export function EducationEntry({
   onSave,
 }: EducationEntryProps & {
   onSave?: (
-    updatedEducation: ResumeDataSchemaType['educations'][string]
+    updatedEducation: ResumeDataSchemaType['education'][number]
   ) => void;
 }) {
   const { school, start, end, degree, logo } = education;

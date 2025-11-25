@@ -183,7 +183,7 @@ export function ProfileImageField({
             </>
           ) : isPublicView ? (
             // Public view - Show placeholder
-            <Avatar className="size-28 border">
+            <Avatar className="hidden size-32 border">
               <AvatarImage
                 src="/user/placeholder.svg"
                 alt={`${name}'s profile picture`}
