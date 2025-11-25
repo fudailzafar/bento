@@ -229,7 +229,7 @@ export function Hero() {
               Log In
             </Link>
           </div>
-          <div className="flex h-auto select-none flex-nowrap items-center justify-center gap-4 sm:h-[500px] sm:gap- ">
+          <div className="flex h-auto select-none flex-nowrap items-center justify-center gap-4 sm:h-[500px] sm:gap-1">
             <motion.img
               src="/home/Device-1.png"
               alt="iPhone"
@@ -237,7 +237,7 @@ export function Hero() {
               animate={{ opacity: 1, x: 0 }}
               style={{ y: y1 }}
               transition={{ duration: 1, delay: 1 }}
-              className="h-[333px] w-40 flex-shrink-0 sm:h-[500px] sm:w-64"
+              className="h-[333px] w-40 flex-shrink-0 sm:h-[500px] sm:w-72"
             />
             <motion.img
               src="/home/Device-2.png"
@@ -246,7 +246,7 @@ export function Hero() {
               animate={{ opacity: 1, x: 0 }}
               style={{ y: y2 }}
               transition={{ duration: 1, delay: 1 }}
-              className="h-[333px] w-40 flex-shrink-0 sm:h-[500px] sm:w-64"
+              className="h-[333px] w-40 flex-shrink-0 sm:h-[500px] sm:w-72"
             />
             <motion.img
               src="/home/Device-3.png"
@@ -255,7 +255,7 @@ export function Hero() {
               animate={{ opacity: 1 }}
               style={{ y: y3 }}
               transition={{ duration: 1, delay: 1 }}
-              className="h-[333px] w-40 flex-shrink-0 sm:h-[500px] sm:w-64"
+              className="h-[333px] w-40 flex-shrink-0 sm:h-[500px] sm:w-72"
             />
             <motion.img
               src="/home/Device-4.png"
@@ -264,7 +264,7 @@ export function Hero() {
               animate={{ opacity: 1, x: 0 }}
               style={{ y: y4 }}
               transition={{ duration: 1, delay: 1 }}
-              className="h-[333px] w-40 flex-shrink-0 sm:h-[500px] sm:w-64"
+              className="h-[333px] w-40 flex-shrink-0 sm:h-[500px] sm:w-72"
             />
             <motion.img
               src="/home/Device-5.png"
@@ -273,7 +273,7 @@ export function Hero() {
               animate={{ opacity: 1, x: 0 }}
               style={{ y: y5 }}
               transition={{ duration: 1, delay: 1 }}
-              className="h-[333px] w-40 flex-shrink-0 sm:h-[500px] sm:w-64"
+              className="h-[333px] w-40 flex-shrink-0 sm:h-[500px] sm:w-72"
             />
           </div>
         </main>
