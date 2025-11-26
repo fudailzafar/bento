@@ -68,7 +68,10 @@ export function Hero() {
         </motion.div>
       </a>
       {/* Main hero section - Mobile */}
-      <Section id="hero" className="block md:hidden min-h-[100vh] w-full overflow-hidden">
+      <Section
+        id="hero"
+        className="block min-h-[100vh] w-full overflow-hidden md:hidden"
+      >
         <main className="relative mx-auto px-4 pt-14 text-center sm:pt-24 md:pt-32">
           <div className="relative">
             <motion.div
@@ -107,11 +110,12 @@ export function Hero() {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 0.8, delay: 0.5, ease: easeInOutCubic }}
-              className="mb-4 text-4xl font-bold tracking-tighter sm:text-6xl"
+              className="mb-4 text-4xl font-bold tracking-tighter"
             >
-              <div className="flex flex-col gap-y-2 sm:gap-y-4">
+              <div className="flex flex-col gap-y-2 tracking-normal">
                 <div>A Portfolio.</div>
-                <div>But Rich and Beautiful.</div>
+                <div>But Rich and </div>
+                <div>Beautiful. </div>
               </div>
             </motion.h1>
             <motion.p
@@ -143,9 +147,11 @@ export function Hero() {
         </main>
       </Section>
 
-
       {/* Main hero section - Desktop*/}
-      <Section id="hero" className="hidden md:block min-h-[100vh] w-full overflow-hidden md:pb-32">
+      <Section
+        id="hero"
+        className="hidden min-h-[100vh] w-full overflow-hidden md:block md:pb-32"
+      >
         <a
           href="https://portfoliofy.me/fudail"
           target="_blank"
@@ -188,9 +194,9 @@ export function Hero() {
               initial={{ y: -20, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
               transition={{ duration: 0.6, delay: 1.2 }}
-              className="absolute inset-0 top-20 z-10"
+              className="absolute inset-0 top-24 z-10"
             >
-              Portfoliofy
+              <h1 className='font-semibold text-xl'>Portfoliofy</h1>
             </motion.div>
           </div>
 
@@ -199,10 +205,10 @@ export function Hero() {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 0.8, delay: 0.5, ease: easeInOutCubic }}
-              className="mb-4 text-5xl font-bold tracking-tighter"
+              className="mb-4 text-6xl space-y-3 py-6 font-bold leading-none tracking-tight"
             >
-              A Portfolio. <br />
-              But Rich and Beautiful.
+              <div>A Portfolio.</div> 
+              <div>But Rich and Beautiful.</div>
             </motion.h1>
             <motion.p
               initial={{ opacity: 0 }}
@@ -278,7 +284,6 @@ export function Hero() {
           </div>
         </main>
       </Section>
-
     </>
   );
 }
