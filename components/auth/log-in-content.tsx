@@ -41,9 +41,9 @@ export default function LoginContent({
       </div>
 
       {/* Authentication Form */}
-      <form onSubmit={handleSubmit} className="space-y-8 pt-10">
+      <form onSubmit={handleSubmit} className="pt-10">
         {/* Input Fields */}
-        <div className="flex flex-col gap-3 md:flex-row md:gap-4">
+        <div className="flex flex-col gap-3 sm:flex-row md:gap-4">
           <Input
             id="email"
             type="email"
@@ -51,7 +51,7 @@ export default function LoginContent({
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             disabled={isLoading}
-            className="h-12 w-full rounded-lg border-0 bg-[#F5F5F5] px-4 text-base outline-none placeholder:text-gray-400 focus-visible:ring-0 focus-visible:ring-offset-0"
+            className="h-12 w-full rounded-xl border-0 bg-[#F5F5F5] px-4 text-base outline-none placeholder:text-gray-400 focus-visible:ring-0 focus-visible:ring-offset-0 sm:rounded-lg"
           />
 
           <div className="relative w-full">
@@ -62,7 +62,7 @@ export default function LoginContent({
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               disabled={isLoading}
-              className="h-12 w-full rounded-lg border-0 bg-[#F5F5F5] px-4 pr-[76px] text-base outline-none placeholder:text-gray-400 focus-visible:ring-0 focus-visible:ring-offset-0"
+              className="h-12 w-full rounded-xl border-0 bg-[#F5F5F5] px-4 pr-[76px] text-base outline-none placeholder:text-gray-400 focus-visible:ring-0 focus-visible:ring-offset-0 sm:rounded-lg"
             />
             <button
               type="button"
@@ -75,17 +75,19 @@ export default function LoginContent({
         </div>
 
         {/* Reset Password Link */}
-        <Link
-          href="/reset-password"
-          className="pt-1 text-xs font-normal text-design-primaryLight underline"
-        >
-          Reset Password
-        </Link>
+        <div className="ml-0.5 mt-2">
+          <Link
+            href="/reset-password"
+            className="text-xs font-normal text-design-primaryLight underline"
+          >
+            Reset Password
+          </Link>
+        </div>
 
         {/* OR Divider - only show when not in credentials mode */}
         {!hasCredentials ? (
           <div className="relative">
-            <div className="flex justify-start text-sm font-semibold uppercase text-black">
+            <div className="ml-0.5 h-[64px] flex items-center text-sm font-semibold uppercase text-black">
               OR
             </div>
           </div>
@@ -125,7 +127,7 @@ export default function LoginContent({
           <button
             type="submit"
             disabled={isLoading}
-            className="flex w-full items-center justify-center gap-3 rounded-xl bg-design-primary px-6 py-5 text-sm font-semibold tracking-tight text-white shadow-lg transition-all duration-300 ease-out hover:bg-design-primaryDark active:scale-95 disabled:cursor-not-allowed disabled:opacity-70 md:rounded-lg md:py-3"
+            className="flex w-full items-center justify-center gap-3 rounded-xl bg-design-primary px-6 py-5 text-sm font-semibold tracking-tight text-white shadow-lg transition-all duration-300 ease-out hover:bg-design-primaryDark active:scale-95 disabled:cursor-not-allowed disabled:opacity-70 sm:py-3 xl:rounded-lg"
           >
             {isLoading ? (
               <>

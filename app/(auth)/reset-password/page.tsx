@@ -99,7 +99,7 @@ export default function ResetPasswordPage() {
           </div>
         </div>
 
-        <div className="hidden max-w-[700px] flex-1 items-center justify-center md:flex">
+        <div className="hidden max-w-[700px] flex-1 items-center justify-center lg:flex">
           <AuthAnimation />
         </div>
       </div>

@@ -15,7 +15,7 @@ export default function AuthAnimation({
   isActive?: boolean;
 }) {
   return (
-    <div className="hidden max-w-[750px] flex-1 items-center justify-center md:flex">
+    <div className="hidden max-w-[750px] flex-1 items-center justify-center lg:flex">
       <div className="signup grid aspect-square max-h-[640px] max-w-[640px] grid-cols-4 grid-rows-4 gap-8 p-8">
         <RandomMovingImage
           rows={2}
