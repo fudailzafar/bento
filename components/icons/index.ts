@@ -14,6 +14,7 @@ export * from './laptop-icon';
 export * from './link-icon';
 export * from './linkedin-icon';
 export * from './loader-icon';
+export * from './mail-icon';
 export * from './mobile-icon';
 export * from './move-able-icon';
 export * from './pen-icon';
