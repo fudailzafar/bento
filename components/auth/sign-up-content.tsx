@@ -14,6 +14,7 @@ import { Input } from '@/components/ui/input';
 import { useDebounce } from '@/hooks/use-debounce';
 import { motion, AnimatePresence } from 'framer-motion';
 import clsx from 'clsx';
+import Link from 'next/link';
 
 export default function SignupContent({
   onStepChange,
@@ -160,6 +161,7 @@ export default function SignupContent({
       <div className="relative overflow-hidden">
         <AnimatePresence mode="wait" initial={false} custom={direction}>
           {step === 'username' ? (
+            // Choosing Username
             <motion.div
               key="username"
               custom={direction}
@@ -178,11 +180,11 @@ export default function SignupContent({
               }}
               className="space-y-4"
             >
-              <div className="text-left">
-                <h1 className="mb-4 text-[32px] font-bold text-design-black">
+              <div className="mt-14 text-left sm:mt-0">
+                <h1 className="text-[32px] font-bold leading-10 text-design-black">
                   First, claim your unique link
                 </h1>
-                <h2 className="mb-20 text-xl font-light text-design-resume sm:text-xl">
+                <h2 className="mb-20 mt-4 text-xl font-light text-design-resume sm:text-xl">
                   The good ones are still available!
                 </h2>
               </div>
@@ -236,7 +238,7 @@ export default function SignupContent({
                   disabled={
                     !username || username.length < 3 || !usernameAvailable
                   }
-                  className="flex w-full cursor-pointer items-center justify-center gap-3 rounded-lg bg-black px-6 py-3.5 text-sm font-medium tracking-tight text-white transition-all duration-300 ease-out hover:bg-black/80 active:scale-95 disabled:cursor-not-allowed disabled:opacity-70"
+                  className="flex w-full cursor-pointer items-center justify-center gap-3 rounded-xl bg-black px-6 py-5 text-sm font-medium tracking-tight text-white transition-all duration-300 ease-out hover:bg-black/80 active:scale-95 disabled:cursor-not-allowed disabled:opacity-70 sm:rounded-lg sm:py-3.5"
                 >
                   Grab my Link
                 </button>
@@ -252,8 +254,17 @@ export default function SignupContent({
                   Grab my Link
                 </button>
               )}
+              <div className="mt-6 text-left">
+                <Link
+                  href="/login"
+                  className="text-xs font-normal text-design-resume transition-colors"
+                >
+                  or log in
+                </Link>
+              </div>
             </motion.div>
           ) : (
+            // Signing up
             <motion.div
               key="auth"
               custom={direction}
@@ -290,7 +301,7 @@ export default function SignupContent({
                 onSubmit={handleCredentialsSignup}
                 className="space-y-6 pt-8"
               >
-                <div className="flex flex-col gap-3 md:flex-row md:gap-4">
+                <div className="flex flex-col gap-3 sm:flex-row md:gap-4">
                   <Input
                     id="email"
                     type="email"
