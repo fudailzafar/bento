@@ -67,7 +67,7 @@ export default function LoginContent({
             <button
               type="button"
               onClick={() => setShowPassword(!showPassword)}
-              className="absolute right-2 top-1/2 flex h-8 w-[60px] -translate-y-1/2 items-center justify-center rounded bg-white text-xs font-semibold text-black shadow-[0_1px_2px_rgba(0,0,0,0.08)] transition-all hover:bg-gray-50 active:scale-95"
+              className="absolute right-2 top-1/2 flex h-8 w-[60px] -translate-y-1/2 items-center justify-center rounded bg-white text-xs font-semibold text-black shadow-[0_1px_2px_rgba(0,0,0,0.08)] transition-all hover:bg-gray-50 active:scale-95 active:bg-gray-200 active:shadow-none"
             >
               {showPassword ? 'Hide' : 'Show'}
             </button>
@@ -87,7 +87,7 @@ export default function LoginContent({
         {/* OR Divider - only show when not in credentials mode */}
         {!hasCredentials ? (
           <div className="relative">
-            <div className="ml-0.5 h-[64px] flex items-center text-sm font-semibold uppercase text-black">
+            <div className="ml-0.5 flex h-[64px] items-center text-sm font-semibold uppercase text-black">
               OR
             </div>
           </div>
