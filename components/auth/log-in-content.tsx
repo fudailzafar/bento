@@ -29,10 +29,10 @@ export default function LoginContent({
   error,
 }: LogInPageProps) {
   return (
-    <div className="w-full max-w-[440px] space-y-8">
+    <div className="w-full max-w-[440px] space-y-8 mx-auto">
       {/* Header for Login */}
       <div className="text-left">
-        <h1 className="my-6 text-[28px] font-semibold text-design-black md:mb-4 lg:text-[32px]">
+        <h1 className="my-6 text-[28px] font-semibold text-design-black sm:mb-4 lg:text-[32px]">
           Log in to your Portfolio
         </h1>
         <h2 className="text-xl font-normal text-design-resume sm:text-xl">
@@ -43,7 +43,7 @@ export default function LoginContent({
       {/* Authentication Form */}
       <form onSubmit={handleSubmit} className="pt-10">
         {/* Input Fields */}
-        <div className="flex flex-col gap-3 sm:flex-row md:gap-4">
+        <div className="flex flex-col gap-3 sm:flex-row sm:gap-4">
           <Input
             id="email"
             type="email"
@@ -127,7 +127,7 @@ export default function LoginContent({
           <button
             type="submit"
             disabled={isLoading}
-            className="flex w-full items-center justify-center gap-3 rounded-xl bg-design-primary px-6 py-5 text-sm font-semibold tracking-tight text-white shadow-lg transition-all duration-300 ease-out hover:bg-design-primaryDark active:scale-95 disabled:cursor-not-allowed disabled:opacity-70 sm:py-3 xl:rounded-lg"
+            className="flex w-full items-center justify-center gap-3 rounded-xl bg-[#1d9bf0] px-6 py-5 text-sm font-semibold tracking-tight text-white shadow-lg transition-all duration-300 ease-out hover:bg-[#1a96eb] active:scale-95 disabled:cursor-not-allowed disabled:opacity-70 sm:py-3 xl:rounded-lg"
           >
             {isLoading ? (
               <>

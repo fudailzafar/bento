@@ -63,7 +63,7 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="flex min-h-[90vh] items-center justify-between gap-12 px-7 sm:px-6 md:min-h-screen lg:gap-16 lg:px-32">
+    <div className="flex min-h-[90vh] items-center justify-between gap-12 px-7 sm:px-6 lg:gap-16 lg:px-32">
       {/* Login Content Component */}
       <LoginContent
         handleSubmit={handleSubmit}

@@ -449,7 +449,7 @@ export default function PreviewClient({ messageTip }: { messageTip?: string }) {
         </div>
 
         {/* Action Bar */}
-        <div className="pointer-events-none fixed bottom-10 left-0 right-0 z-50">
+        <div className="pointer-events-none fixed bottom-1 md:bottom-10 left-0 right-0 z-50">
           <div className="pointer-events-auto mx-auto flex w-full max-w-3xl justify-center px-4 md:px-0">
             <DockActionBar
               initialUsername={usernameQuery.data.username}
