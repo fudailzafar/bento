@@ -68,7 +68,7 @@ export function Skills({
                 {isEditMode && onChangeSkills && (
                   <button
                     onClick={() => handleDeleteSkill(id)}
-                    className="absolute -left-2 -top-2 flex size-5 items-center justify-center rounded-full border border-gray-50 bg-white text-gray-700 opacity-0 shadow-md transition-all duration-200 hover:bg-gray-50 hover:text-design-secondary group-hover:opacity-100"
+                    className="absolute -left-2 -top-2 flex size-5 items-center justify-center rounded-full border border-gray-100 bg-white text-black opacity-0 shadow-md transition-all duration-300 ease-in-out hover:bg-gray-50 active:scale-95 active:bg-gray-100 group-hover:opacity-100"
                     aria-label={`Remove ${skill}`}
                   >
                     <TrashIcon className="size-3" />
@@ -89,7 +89,7 @@ export function Skills({
                   {isEditMode && onChangeSkills && (
                     <button
                       onClick={() => handleDeleteSkill(id)}
-                      className="absolute -left-2 -top-2 flex size-5 items-center justify-center rounded-full border border-gray-50 bg-white text-gray-700 opacity-0 shadow-md transition-all duration-200 hover:bg-gray-50 hover:text-design-secondary group-hover:opacity-100"
+                      className="absolute -left-2 -top-2 flex size-5 items-center justify-center rounded-full border border-gray-100 bg-white text-black opacity-0 shadow-md transition-all duration-300 ease-in-out hover:bg-gray-50 active:scale-95 active:bg-gray-100 group-hover:opacity-100"
                       aria-label={`Remove ${skill}`}
                     >
                       <TrashIcon className="size-3" />

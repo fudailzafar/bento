@@ -19,7 +19,7 @@ export function DraggableSection({
   className = '',
 }: DraggableSectionProps) {
   const [isMobileActive, setIsMobileActive] = useState(false);
-  
+
   const {
     attributes,
     listeners,
@@ -49,15 +49,15 @@ export function DraggableSection({
     <div
       ref={setNodeRef}
       style={style}
-      className={`group relative mb-6 transition-transform duration-200 md:mb-6 ${
-        isMobileActive ? '-translate-y-2 md:translate-y-0' : ''
+      className={`group relative mb-6 transition-transform duration-200 xl:mb-6 ${
+        isMobileActive ? '-translate-y-2 xl:translate-y-0' : ''
       } ${className}`}
     >
       {/* Mobile Drag Handle - Shows on tap/click on mobile */}
       <div
         {...attributes}
         {...listeners}
-        className={`absolute -bottom-3 left-1/2 z-10 -translate-x-1/2 touch-none transition-opacity duration-200 md:hidden ${
+        className={`absolute -bottom-3 left-1/2 z-10 -translate-x-1/2 touch-none transition-opacity duration-200 xl:hidden ${
           isMobileActive || isDragging ? 'opacity-100' : 'opacity-0'
         }`}
       >
@@ -71,12 +71,12 @@ export function DraggableSection({
         onClick={() => setIsMobileActive(!isMobileActive)}
         {...attributes}
         {...listeners}
-        className={`rounded-2xl ${id.startsWith('sectionTitle-') ? '' : 'border'} px-4 py-4 md:px-3 md:py-1 transition-all duration-200 md:cursor-grab ${
+        className={`rounded-2xl ${id.startsWith('sectionTitle-') || id === 'projects' ? '' : 'border'} px-4 py-4 transition-all duration-200 xl:cursor-grab xl:px-3 xl:py-1 ${
           isDragging
-            ? `md:cursor-grabbing md:shadow-[0_1px_3px_rgba(0,0,0,0.1)] border-gray-200 bg-gray-200 opacity-30 dark:border-gray-700 dark:bg-gray-800`
+            ? `border-gray-200 bg-gray-200 opacity-30 dark:border-gray-700 dark:bg-gray-800 xl:cursor-grabbing xl:shadow-[0_1px_3px_rgba(0,0,0,0.1)]`
             : isMobileActive
-              ? `border-2 border-black shadow-md md:border md:border-gray-200 md:bg-white md:shadow-[0_1px_3px_rgba(0,0,0,0.1)] dark:md:border-gray-700 dark:md:bg-gray-900`
-              : `${id.startsWith('sectionTitle-') ? 'bg-transparent hover:border' : 'border-gray-200 bg-white shadow-[0_1px_3px_rgba(0,0,0,0.1)] dark:border-gray-700 dark:bg-gray-900'}`
+              ? `border-2 border-black shadow-md xl:border xl:border-gray-200 xl:bg-white xl:shadow-[0_1px_3px_rgba(0,0,0,0.1)] dark:xl:border-gray-700 dark:xl:bg-gray-900`
+              : `${id.startsWith('sectionTitle-') || id === 'projects' ? 'bg-transparent hover:border' : 'border-gray-200 bg-white shadow-[0_1px_3px_rgba(0,0,0,0.1)] dark:border-gray-700 dark:bg-gray-900'}`
         } `}
       >
         <div className={isDragging ? 'invisible' : ''}>{children}</div>

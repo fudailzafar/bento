@@ -55,7 +55,7 @@ export function Contact({
 
   return (
     <section className="mt-8">
-      <div className="grid w-full items-center justify-center gap-4 px-4 py-12 text-center md:px-6">
+      <div className="grid w-full items-center justify-center gap-4 px-4 py-12 text-center xl:px-6">
         {isEditMode ? (
           <div className="space-y-3">
             <div className="inline-block rounded-lg bg-foreground px-3 py-1 text-sm text-background">
@@ -71,7 +71,7 @@ export function Contact({
                 contentEditable={isEditMode && isEditing}
                 suppressContentEditableWarning={true}
                 className={
-                  'p-2 text-muted-foreground outline-none md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed'
+                  'p-2 text-muted-foreground outline-none lg:text-base/relaxed xl:text-xl/relaxed'
                 }
                 onClick={enableEditing}
                 onBlur={handleBlur}
@@ -98,7 +98,7 @@ export function Contact({
                   contentEditable={isEditMode && isEditing}
                   suppressContentEditableWarning={true}
                   className={
-                    'p-2 text-muted-foreground outline-none md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed'
+                    'p-2 text-muted-foreground outline-none lg:text-base/relaxed xl:text-xl/relaxed'
                   }
                   onClick={enableEditing}
                   onBlur={handleBlur}

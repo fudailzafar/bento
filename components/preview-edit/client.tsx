@@ -366,7 +366,7 @@ export default function PreviewClient({ messageTip }: { messageTip?: string }) {
         )}
 
         {/* Desktop/Mobile View Toggle */}
-        <div className="flex flex-1 items-center justify-center pb-16 md:pb-0">
+        <div className="flex flex-1 items-center justify-center pb-24">
           <AnimatePresence mode="wait">
             {viewMode === 'mobile' ? (
               /* Mobile View */
@@ -382,10 +382,10 @@ export default function PreviewClient({ messageTip }: { messageTip?: string }) {
                 <div className="relative h-full w-full">
                   <motion.div
                     initial={{ borderRadius: '0.5rem' }}
-                    animate={{ borderRadius: '2.5rem' }}
+                    animate={{ borderRadius: '4.5rem' }}
                     exit={{ borderRadius: '0.5rem' }}
                     transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
-                    className="relative h-full w-full overflow-hidden border border-gray-200 bg-white shadow-2xl"
+                    className="relative h-full w-full overflow-hidden border border-gray-200 bg-white shadow-lg"
                   >
                     {/* Scrollable Content */}
                     <div className="scrollbar-hide h-full w-full overflow-y-auto overflow-x-hidden bg-background">
@@ -411,6 +411,7 @@ export default function PreviewClient({ messageTip }: { messageTip?: string }) {
                           onChangeResume={handleResumeChange}
                           onImageChange={handleImageChange}
                           username={usernameQuery.data?.username}
+                          viewMode={viewMode}
                         />
                       </motion.div>
                     </div>
@@ -425,7 +426,7 @@ export default function PreviewClient({ messageTip }: { messageTip?: string }) {
                 animate={{ opacity: 1, width: '100%', maxWidth: '1400px' }}
                 exit={{ opacity: 0, width: '452px', maxWidth: '452px' }}
                 transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
-                className="mx-auto flex items-center justify-between md:rounded-lg"
+                className="mx-auto flex items-center justify-between xl:rounded-lg"
               >
                 <motion.div
                   initial={{ borderRadius: '2.5rem' }}
@@ -441,6 +442,7 @@ export default function PreviewClient({ messageTip }: { messageTip?: string }) {
                     onChangeResume={handleResumeChange}
                     onImageChange={handleImageChange}
                     username={usernameQuery.data?.username}
+                    viewMode={viewMode}
                   />
                 </motion.div>
               </motion.div>
@@ -449,7 +451,7 @@ export default function PreviewClient({ messageTip }: { messageTip?: string }) {
         </div>
 
         {/* Action Bar */}
-        <div className="pointer-events-none fixed bottom-1 md:bottom-10 left-0 right-0 z-50">
+        <div className="pointer-events-none fixed bottom-1 left-0 right-0 z-50 xl:bottom-10">
           <div className="pointer-events-auto mx-auto flex w-full max-w-3xl justify-center px-4 md:px-0">
             <DockActionBar
               initialUsername={usernameQuery.data.username}

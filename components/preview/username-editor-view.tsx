@@ -262,7 +262,7 @@ export default function UsernameEditorView({
   if (!isMobile) {
     return (
       <Dialog open={isOpen} onOpenChange={onClose}>
-        <DialogContent className="sm:max-w-[400px]">
+        <DialogContent className="xl:max-w-[400px]">
           <DialogHeader>
             <DialogTitle>Change Username</DialogTitle>
             <DialogDescription>

@@ -22,6 +22,7 @@ interface PreviewPortfolioProps {
   onChangeResume?: (newResume: ResumeData) => void;
   onImageChange?: (newImageUrl: string | null) => void;
   username?: string;
+  viewMode?: 'desktop' | 'mobile';
 }
 
 export const PreviewPortfolio = ({
@@ -31,6 +32,7 @@ export const PreviewPortfolio = ({
   onChangeResume,
   onImageChange,
   username,
+  viewMode = 'desktop',
 }: PreviewPortfolioProps) => {
   if (!resume) {
     return <LoadingFallback message="Loading Portfolio..." />;
@@ -119,6 +121,7 @@ export const PreviewPortfolio = ({
     <Projects
       projects={resume?.projects}
       isEditMode={isEditMode}
+      viewMode={viewMode}
       onChangeProjects={
         isEditMode && onChangeResume
           ? (newProjects) => {
@@ -269,53 +272,52 @@ export const PreviewPortfolio = ({
   });
 
   // Add dynamic section titles
-sectionOrder.forEach((sectionId) => {
-  if (sectionId.startsWith('sectionTitle-')) {
-    const titleId = sectionId;
-    sectionComponents[titleId] = (
-      <SectionTitle
-        title={resume?.sectionTitles?.[titleId] || ''}
-        isEditMode={isEditMode}
-        onTitleChange={
-          isEditMode && onChangeResume
-            ? (newTitle) => {
-                onChangeResume({
-                  ...resume,
-                  sectionTitles: {
-                    ...resume.sectionTitles,
-                    [titleId]: newTitle,
-                  },
-                });
-              }
-            : undefined
-        }
-        onDelete={
-          isEditMode && onChangeResume
-            ? () => {
-                const newSectionOrder = sectionOrder.filter(
-                  (id) => id !== titleId
-                );
-                const newSectionTitles = { ...resume.sectionTitles };
-                delete newSectionTitles[titleId];
-                onChangeResume({
-                  ...resume,
-                  sectionOrder: newSectionOrder,
-                  sectionTitles: newSectionTitles,
-                });
-              }
-            : undefined
-        }
-      />
-    );
-  }
-});
-
+  sectionOrder.forEach((sectionId) => {
+    if (sectionId.startsWith('sectionTitle-')) {
+      const titleId = sectionId;
+      sectionComponents[titleId] = (
+        <SectionTitle
+          title={resume?.sectionTitles?.[titleId] || ''}
+          isEditMode={isEditMode}
+          onTitleChange={
+            isEditMode && onChangeResume
+              ? (newTitle) => {
+                  onChangeResume({
+                    ...resume,
+                    sectionTitles: {
+                      ...resume.sectionTitles,
+                      [titleId]: newTitle,
+                    },
+                  });
+                }
+              : undefined
+          }
+          onDelete={
+            isEditMode && onChangeResume
+              ? () => {
+                  const newSectionOrder = sectionOrder.filter(
+                    (id) => id !== titleId
+                  );
+                  const newSectionTitles = { ...resume.sectionTitles };
+                  delete newSectionTitles[titleId];
+                  onChangeResume({
+                    ...resume,
+                    sectionOrder: newSectionOrder,
+                    sectionTitles: newSectionTitles,
+                  });
+                }
+              : undefined
+          }
+        />
+      );
+    }
+  });
 
   return (
     <>
-      <div className="scrollbar-hide flex h-screen w-full flex-col md:flex-row md:gap-7">
+      <div className={`scrollbar-hide flex h-screen w-full flex-col ${viewMode === 'mobile' ? 'flex-col' : 'xl:flex-row xl:gap-7'}`}>
         <section
-          className="top-0 w-full self-start bg-background pt-8 font-sans antialiased sm:py-16 md:sticky md:w-[500px]"
+          className={`top-0 w-full self-start bg-background pt-8 font-sans antialiased ${viewMode === 'mobile' ? 'w-full' : 'xl:sticky xl:w-[500px] xl:py-16'}`}
           aria-label="Preview Portfolio Header"
         >
           <Header
@@ -323,6 +325,7 @@ sectionOrder.forEach((sectionId) => {
             picture={profilePicture}
             isEditMode={isEditMode}
             username={username}
+            viewMode={viewMode}
             onChangeHeader={
               isEditMode && onChangeResume
                 ? (newHeader) => {
@@ -337,10 +340,10 @@ sectionOrder.forEach((sectionId) => {
           />
         </section>
         <section
-          className="scrollbar-hide w-full bg-background py-1 font-sans antialiased sm:py-8 md:w-[820px] md:overflow-y-auto md:px-4"
+          className={`scrollbar-hide w-full bg-background py-1 font-sans antialiased ${viewMode === 'mobile' ? 'w-full px-4' : 'xl:w-[820px] xl:overflow-y-auto xl:px-4 xl:py-8'}`}
           aria-label="Preview Portfolio Content"
         >
-          <div className="flex flex-col gap-6 md:pb-36">
+          <div className="flex flex-col gap-6 xl:pb-36">
             <div className="mt-10">
               <SortableSections
                 sectionOrder={sectionOrder}
