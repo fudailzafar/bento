@@ -160,6 +160,9 @@ export {
 // Label
 export { Label } from './label';
 
+// Marquee
+export { Marquee } from './marquee';
+
 // Month Picker
 export { MonthPicker } from './monthpicker';
 

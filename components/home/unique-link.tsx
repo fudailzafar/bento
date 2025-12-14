@@ -61,7 +61,7 @@ export function UniqueLink() {
           alt="Twitter card"
           width={175}
           height={175}
-          className="absolute -top-10 left-32 z-20 hidden rotate-[-5deg] rounded-3xl shadow-[0_18px_44px_0_rgba(0,0,0,0.06)] md:block"
+          className="absolute -top-10 left-32 z-20 hidden rotate-[-5deg] rounded-3xl shadow-[0_18px_44px_0_rgba(0,0,0,0.06)] xl:block"
         />
 
         {/* Floating Substack card - top right, rotated, overlapping */}
@@ -70,7 +70,7 @@ export function UniqueLink() {
           alt="Substack card"
           width={175}
           height={175}
-          className="absolute right-36 top-20 z-20 hidden rotate-[4deg] rounded-3xl shadow-[0_18px_44px_0_rgba(0,0,0,0.06)] md:block"
+          className="absolute right-36 top-20 z-20 hidden rotate-[4deg] rounded-3xl shadow-[0_18px_44px_0_rgba(0,0,0,0.06)] xl:block"
         />
 
         {/* Floating Spotify card - bottom left, rotated, overlapping */}
@@ -79,7 +79,7 @@ export function UniqueLink() {
           alt="Spotify card"
           width={396}
           height={189}
-          className="absolute -bottom-20 left-72 z-20 hidden rotate-[2deg] rounded-3xl shadow-[0_18px_44px_0_rgba(0,0,0,0.06)] md:block"
+          className="absolute -bottom-20 left-72 z-20 hidden rotate-[2deg] rounded-3xl shadow-[0_18px_44px_0_rgba(0,0,0,0.06)] xl:block"
         />
       </div>
     </section>

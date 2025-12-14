@@ -4,6 +4,7 @@ import {
   Demo,
   Footer,
   Hero,
+  Logo,
   UniqueLink,
   VideoDialog,
 } from '@/components/home';
@@ -15,6 +16,7 @@ export default function Home() {
       <VideoDialog />
       <Avatars />
       <Demo />
+      <Logo />
       <UniqueLink />
       <Cta />
       <Footer />
