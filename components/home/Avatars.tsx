@@ -66,13 +66,13 @@ const users: User[] = [
 export function Avatars() {
   return (
     <section className="mb-10 mt-40 flex flex-col items-center justify-center md:mt-80">
-      <h2 className="mb-6 text-center text-[28px] font-bold">
+      <h2 className="mb-6 text-center text-[#333333] text-[28px] font-bold">
         <span className="hidden sm:inline">
-          Join hundreds of inspiring professionals
+          Join hundreds of inspiring creatives
         </span>
         <span className="block sm:hidden">
           <p className="-mb-2">Join hundreds of </p>
-          <p>inspiring professionals</p>
+          <p>inspiring creatives</p>
         </span>
       </h2>
       {/* Responsive avatar rows */}
@@ -85,7 +85,7 @@ export function Avatars() {
               href={`/${user.username}`}
               className="group relative flex cursor-pointer flex-col items-center"
             >
-              <span className="absolute -top-7 left-1/2 -translate-x-1/2 rounded-full bg-design-primaryLight px-3 py-1 text-xs font-medium text-white opacity-0 shadow-lg transition group-hover:opacity-100">
+              <span className="absolute -top-8 left-1/2 -translate-x-1/2 rounded-full bg-design-primaryLight px-3 py-1 text-xs font-medium text-white opacity-0 shadow-lg transition group-hover:opacity-100">
                 {user.name}
               </span>
               <div className="relative">
@@ -211,7 +211,7 @@ export function Avatars() {
       </div>
       <Link href={'/explore'}>
         <Button className="bg-gray-100 p-3 text-base text-black hover:bg-gray-200">
-          Explore the most inspiring Portfolios <ArrowRightIcon />
+          Explore the most creative Portfolios <ArrowRightIcon />
         </Button>
       </Link>
     </section>

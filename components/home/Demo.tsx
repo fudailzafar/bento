@@ -8,7 +8,7 @@ export function Demo() {
         <div className="relative flex w-full flex-col items-center">
           <div className="max-w-[340px] text-center text-[40px] font-bold leading-tight sm:text-6xl md:max-w-full">
             <div
-              className="bg-gradient-to-b from-black to-gray-400 bg-clip-text text-transparent"
+              className="bg-gradient-to-b from-black to-gray-400 bg-clip-text text-transparent leading-tight"
               style={{
                 WebkitMaskImage:
                   'linear-gradient(to bottom, black 20%, transparent 95%)',
@@ -16,13 +16,13 @@ export function Demo() {
                   'linear-gradient(to bottom, black 55%, transparent 92%)',
               }}
             >
-              Your Career. About.
+              Your Videos. Podcasts.
               <br />
-              Experience. Projects.
+              Newsletters. Photos.
               <br />
-              Socials. Achievements.
+              Paid Products. Streams.
               <br />
-              And more
+              Calendar.
             </div>
           </div>
           <div className="mx-auto flex max-w-[350px] flex-col text-center text-[26px] font-light text-gray-700 md:mt-12 md:max-w-full md:gap-y-2 md:text-3xl">
