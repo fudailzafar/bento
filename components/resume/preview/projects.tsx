@@ -15,10 +15,12 @@ export function Projects({
   projects,
   isEditMode,
   onChangeProjects,
+  viewMode = 'desktop',
 }: {
   projects?: ResumeDataSchemaType['projects'];
   isEditMode?: boolean;
   onChangeProjects?: (newProjects: ResumeDataSchemaType['projects']) => void;
+  viewMode?: 'desktop' | 'mobile';
 }) {
   const [editingIndex, setEditingIndex] = useState<number | null>(null);
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
@@ -69,9 +71,8 @@ export function Projects({
 
   return (
     <Section>
-      <div className="w-full space-y-12 py-12">
-
-        <div className="mx-auto grid max-w-[800px] grid-cols-1 gap-3 sm:grid-cols-2">
+      <div className="">
+        <div className={`mx-auto grid max-w-[800px] gap-3 ${viewMode === 'mobile' ? 'grid-cols-1' : 'grid-cols-1 xl:grid-cols-2'}`}>
           {(projects || []).map((project, id) => {
             const isEditing = editingIndex === id;
             const isHovered = hoveredIndex === id;
@@ -81,7 +82,7 @@ export function Projects({
               return (
                 <div
                   key={id}
-                  className="col-span-1 rounded-lg bg-gray-50 p-4 dark:bg-gray-900 sm:col-span-2"
+                  className="col-span-1 rounded-lg bg-gray-50 p-4 dark:bg-gray-900 xl:col-span-2"
                 >
                   <ProjectsField
                     project={{
@@ -121,8 +122,57 @@ export function Projects({
                 : 'Present'
             }`;
 
-            return (
-              isEditMode ? (
+            return isEditMode ? (
+              <div
+                className="group relative"
+                onMouseEnter={() => setHoveredIndex(id)}
+                onMouseLeave={() => setHoveredIndex(null)}
+              >
+                {/* Edit/Delete buttons for edit mode - positioned on top */}
+                {isEditMode && isHovered && (
+                  <>
+                    {/* Delete button - top left */}
+                    <button
+                      onClick={() => handleDelete(id)}
+                      className="absolute -left-2 -top-2 z-10 flex size-8 items-center justify-center rounded-full border border-gray-100 bg-white text-black opacity-0 shadow-md transition-all duration-300 ease-in-out hover:bg-gray-50 active:scale-95 active:bg-gray-100 group-hover:opacity-100"
+                      aria-label="Delete project"
+                    >
+                      <TrashIcon className="size-4" />
+                    </button>
+
+                    {/* Edit button - top right */}
+                    <button
+                      onClick={() => setEditingIndex(id)}
+                      className="absolute -right-2 -top-2 z-10 flex size-8 items-center justify-center rounded-full border-gray-50 bg-black text-white opacity-0 shadow-md transition-all duration-200 group-hover:opacity-100"
+                      aria-label="Edit project"
+                    >
+                      <PenIcon className="size-4" />
+                    </button>
+                  </>
+                )}
+
+                <ProjectCard
+                  liveLink={project.liveLink}
+                  title={project.title}
+                  description={project.description}
+                  dates={formattedDate}
+                  githubLink={project.githubLink}
+                  tags={project.skills}
+                  image={project.image || undefined}
+                  isEditMode={isEditMode}
+                  onImageChange={(newImageUrl) => {
+                    handleUpdate(id, {
+                      ...project,
+                      image: newImageUrl,
+                    });
+                  }}
+                />
+              </div>
+            ) : (
+              <BlurFade
+                key={project.title + id}
+                delay={BLUR_FADE_DELAY * 12 + id * 0.05}
+              >
                 <div
                   className="group relative"
                   onMouseEnter={() => setHoveredIndex(id)}
@@ -134,7 +184,7 @@ export function Projects({
                       {/* Delete button - top left */}
                       <button
                         onClick={() => handleDelete(id)}
-                        className="absolute -left-2 -top-2 z-10 flex size-8 items-center justify-center rounded-full border border-gray-50 bg-white text-gray-700 opacity-0 shadow-md transition-all duration-200 hover:bg-gray-50 hover:text-design-secondary group-hover:opacity-100"
+                        className="absolute -left-2 -top-2 z-10 flex size-8 items-center justify-center rounded-full border border-gray-100 bg-white text-black opacity-0 shadow-md transition-all duration-300 ease-in-out hover:bg-gray-50 active:scale-95 active:bg-gray-100 group-hover:opacity-100"
                         aria-label="Delete project"
                       >
                         <TrashIcon className="size-4" />
@@ -168,58 +218,7 @@ export function Projects({
                     }}
                   />
                 </div>
-              ) : (
-                <BlurFade
-                  key={project.title + id}
-                  delay={BLUR_FADE_DELAY * 12 + id * 0.05}
-                >
-                  <div
-                    className="group relative"
-                    onMouseEnter={() => setHoveredIndex(id)}
-                    onMouseLeave={() => setHoveredIndex(null)}
-                  >
-                    {/* Edit/Delete buttons for edit mode - positioned on top */}
-                    {isEditMode && isHovered && (
-                      <>
-                        {/* Delete button - top left */}
-                        <button
-                          onClick={() => handleDelete(id)}
-                          className="absolute -left-2 -top-2 z-10 flex size-8 items-center justify-center rounded-full border border-gray-50 bg-white text-gray-700 opacity-0 shadow-md transition-all duration-200 hover:bg-gray-50 hover:text-design-secondary group-hover:opacity-100"
-                          aria-label="Delete project"
-                        >
-                          <TrashIcon className="size-4" />
-                        </button>
-
-                        {/* Edit button - top right */}
-                        <button
-                          onClick={() => setEditingIndex(id)}
-                          className="absolute -right-2 -top-2 z-10 flex size-8 items-center justify-center rounded-full border-gray-50 bg-black text-white opacity-0 shadow-md transition-all duration-200 group-hover:opacity-100"
-                          aria-label="Edit project"
-                        >
-                          <PenIcon className="size-4" />
-                        </button>
-                      </>
-                    )}
-
-                    <ProjectCard
-                      liveLink={project.liveLink}
-                      title={project.title}
-                      description={project.description}
-                      dates={formattedDate}
-                      githubLink={project.githubLink}
-                      tags={project.skills}
-                      image={project.image || undefined}
-                      isEditMode={isEditMode}
-                      onImageChange={(newImageUrl) => {
-                        handleUpdate(id, {
-                          ...project,
-                          image: newImageUrl,
-                        });
-                      }}
-                    />
-                  </div>
-                </BlurFade>
-              )
+              </BlurFade>
             );
           })}
         </div>

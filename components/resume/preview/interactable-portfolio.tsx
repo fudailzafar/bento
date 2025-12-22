@@ -20,6 +20,7 @@ const PortfolioWrapper = ({
   onChangeResume,
   onImageChange,
   username,
+  viewMode,
   onPropsUpdate,
 }: {
   resume?: ResumeData | null;
@@ -28,6 +29,7 @@ const PortfolioWrapper = ({
   onChangeResume?: (newResume: ResumeData) => void;
   onImageChange?: (newImageUrl: string | null) => void;
   username?: string;
+  viewMode?: 'desktop' | 'mobile';
 } & WithTamboInteractableProps) => {
   // Listen for prop updates from Tambo and apply them via callbacks
   useEffect(() => {
@@ -88,6 +90,7 @@ const PortfolioWrapper = ({
       onChangeResume={onChangeResume}
       onImageChange={onImageChange}
       username={username}
+      viewMode={viewMode}
     />
   );
 };

@@ -66,12 +66,12 @@ export function SectionTitle({
       {isEditMode && onDelete && (
         <button
           onClick={onDelete}
-          className={`absolute -left-7 -top-8 z-50 flex size-8 items-center justify-center rounded-full border border-gray-50 bg-white text-gray-700 opacity-0 shadow-md transition-all duration-300 ease-in-out hover:bg-gray-50 hover:text-design-secondary md:-left-6 md:-top-5 md:group-hover:opacity-100 ${
+          className={`absolute -left-7 -top-8 z-50 flex size-8 items-center justify-center rounded-full border border-gray-100 bg-white text-black opacity-0 shadow-md active:scale-95 active:bg-gray-100 transition-all duration-300 ease-in-out hover:bg-gray-50 xl:-left-6 xl:-top-5 xl:group-hover:opacity-100 ${
             isMobileActive ? 'opacity-100' : 'opacity-0'
           }`}
           aria-label="Delete section title"
         >
-          <TrashIcon className="size-4 md:size-4" />
+          <TrashIcon className="size-4 xl:size-4" />
         </button>
       )}
 
@@ -80,10 +80,10 @@ export function SectionTitle({
         contentEditable={isEditMode && isEditing}
         suppressContentEditableWarning={true}
         className={cn(
-          'text-start text-2xl font-semibold text-foreground outline-none md:text-[18px]',
+          'text-start text-2xl font-semibold text-foreground outline-none xl:text-[18px]',
           'transition-colors duration-200 empty:before:text-black/30 empty:before:content-[attr(data-placeholder)]',
           isEditMode &&
-            'cursor-text rounded-[10px] hover:bg-muted/80 md:px-4 md:py-2',
+            'cursor-text rounded-[10px] hover:bg-muted/80 xl:px-4 xl:py-2',
           !isEditMode && 'cursor-default'
         )}
         data-placeholder="Add a title..."

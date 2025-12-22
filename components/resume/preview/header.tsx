@@ -14,6 +14,7 @@ interface HeaderProps {
   onChangeHeader?: (newHeader: ResumeDataSchemaType['header']) => void;
   onImageChange?: (newImageUrl: string | null) => void;
   username?: string;
+  viewMode?: 'desktop' | 'mobile';
 }
 
 // Header component displaying personal information and contact details
@@ -24,6 +25,7 @@ export function Header({
   onChangeHeader,
   onImageChange,
   username,
+  viewMode = 'desktop',
 }: HeaderProps) {
   const [isEditingName, setIsEditingName] = useState(false);
   const [isEditingAbout, setIsEditingAbout] = useState(false);
@@ -125,7 +127,7 @@ export function Header({
   };
 
   return (
-    <header className="flex flex-col-reverse md:items-start gap-2 md:px-4">
+    <header className={`flex flex-col-reverse gap-2 ${viewMode === 'mobile' ? 'items-start px-4' : 'xl:items-start xl:px-4'}`}>
       <div className="flex-1 space-y-1.5">
         {/* Name Field */}
         {isEditMode && onChangeHeader ? (
@@ -135,7 +137,9 @@ export function Header({
               contentEditable={true}
               suppressContentEditableWarning={true}
               className={
-                'p-2 text-[32px] font-bold tracking-tighter outline-none empty:before:text-black/30 empty:before:content-[attr(data-placeholder)] md:text-5xl'
+                viewMode === 'mobile'
+                  ? 'p-2 text-[32px] font-bold tracking-tighter outline-none empty:before:text-black/30 empty:before:content-[attr(data-placeholder)]'
+                  : 'p-2 text-[32px] font-bold tracking-tighter outline-none empty:before:text-black/30 empty:before:content-[attr(data-placeholder)] xl:text-5xl'
               }
               data-placeholder="Your name"
               onClick={enableNameEditing}
@@ -157,7 +161,7 @@ export function Header({
         ) : (
           <BlurFadeText
             delay={BLUR_FADE_DELAY}
-            className="p-2 text-[32px] font-bold tracking-tighter outline-none md:text-5xl"
+            className={viewMode === 'mobile' ? 'p-2 text-[32px] font-bold tracking-tighter outline-none' : 'p-2 text-[32px] font-bold tracking-tighter outline-none xl:text-5xl'}
             yOffset={8}
             text={header.name}
           />
@@ -171,7 +175,9 @@ export function Header({
               contentEditable={true}
               suppressContentEditableWarning={true}
               className={
-                'max-w-[600px] p-2 text-base text-[#565656] outline-none empty:before:text-gray-300 empty:before:content-[attr(data-placeholder)] md:text-xl'
+                viewMode === 'mobile'
+                  ? 'max-w-[600px] p-2 text-base text-[#565656] outline-none empty:before:text-gray-300 empty:before:content-[attr(data-placeholder)]'
+                  : 'max-w-[600px] p-2 text-base text-[#565656] outline-none empty:before:text-gray-300 empty:before:content-[attr(data-placeholder)] xl:text-xl'
               }
               data-placeholder="Your bio..."
               onClick={enableAboutEditing}
@@ -214,7 +220,7 @@ export function Header({
           </div>
         ) : (
           <BlurFadeText
-            className="max-w-[600px] p-2 text-base text-[#565656] outline-none md:text-xl"
+            className={viewMode === 'mobile' ? 'max-w-[600px] p-2 text-base text-[#565656] outline-none' : 'max-w-[600px] p-2 text-base text-[#565656] outline-none xl:text-xl'}
             delay={BLUR_FADE_DELAY}
             text={header.shortAbout}
           />
@@ -229,6 +235,7 @@ export function Header({
           showCopyButton={isEditMode && !!username}
           onCopyLink={handleCopyLink}
           isSaving={isCopying}
+          viewMode={viewMode}
         />
       </BlurFade>
     </header>

@@ -11,6 +11,7 @@ export * from './google-icon';
 export * from './icon-library';
 export * from './image-icon';
 export * from './laptop-icon';
+export * from './link-fetch-icon';
 export * from './link-icon';
 export * from './linkedin-icon';
 export * from './loader-icon';

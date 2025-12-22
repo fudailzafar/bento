@@ -5,7 +5,11 @@ import { signOut } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import { useIsMobile, useUserActions } from '@/hooks';
 import { SettingsIcon } from '@/components/icons';
-import { UsernameEditorView, EmailEditorView, PasswordEditorView } from '@/components/preview';
+import {
+  UsernameEditorView,
+  EmailEditorView,
+  PasswordEditorView,
+} from '@/components/preview';
 import {
   Button,
   DropdownMenu,
@@ -61,7 +65,7 @@ export function SettingsActionBar() {
             <DropdownMenuTrigger asChild>
               <Button
                 variant="ghost"
-                className={`group relative h-8 w-8 rounded-full transition-transform active:scale-95 active:shadow-lg ${
+                className={`group relative h-8 w-8 rounded-full transition-all active:!scale-95 ${
                   isDropdownOpen
                     ? 'bg-slate-100 text-black'
                     : 'text-design-gray hover:bg-slate-100 hover:text-design-gray'
@@ -194,16 +198,16 @@ export function SettingsActionBar() {
           <DrawerTrigger asChild>
             <Button
               variant="ghost"
-              className={`group relative h-8 w-8 rounded-full transition-all active:shadow-lg ${
+              className={`group relative h-8 w-8 rounded-full transition-all active:scale-95 ${
                 isDropdownOpen
                   ? 'bg-slate-100 text-black'
-                  : 'text-design-resume hover:bg-slate-100 hover:text-design-resume active:scale-95'
+                  : 'text-design-resume hover:bg-slate-100 hover:text-design-resume'
               }`}
             >
               <SettingsIcon />
 
               {/* Tooltip */}
-              <div className="pointer-events-none absolute left-1/2 top-full z-50 mt-2 hidden -translate-x-1/2 transform whitespace-nowrap rounded-md border border-slate-100 bg-white px-2 py-1 text-xs font-normal text-design-resume opacity-0 shadow-md transition-opacity duration-200 group-hover:opacity-100 md:block">
+              <div className="pointer-events-none absolute left-1/2 top-full z-50 mt-2 hidden -translate-x-1/2 transform whitespace-nowrap rounded-md border border-slate-100 bg-white px-2 py-1 text-xs font-normal text-design-resume opacity-0 shadow-md transition-opacity duration-200 group-hover:opacity-100 xl:block">
                 Settings
               </div>
             </Button>

@@ -83,15 +83,15 @@ export const PublicPortfolio = ({
 
   return (
     <>
-      <div className="flex h-screen w-full flex-col px-5 md:flex-row md:gap-7 md:px-10">
+      <div className="flex h-screen w-full flex-col px-5 xl:flex-row xl:gap-7 xl:px-10">
         <section
-          className="top-0 w-full self-start bg-background pt-8 font-sans antialiased sm:py-16 md:sticky md:w-[500px]"
+          className="top-0 w-full self-start bg-background pt-8 font-sans antialiased xl:py-16 xl:sticky xl:w-[500px]"
           aria-label="Preview Portfolio Header"
         >
           <Header header={resume?.header} picture={profilePicture} />
         </section>
         <section
-          className="scrollbar-hide w-full bg-background font-sans antialiased md:w-[820px] md:overflow-y-auto md:py-8"
+          className="scrollbar-hide w-full bg-background font-sans antialiased xl:w-[820px] xl:overflow-y-auto xl:py-8"
           aria-label="Preview Portfolio Content"
         >
           <div className="flex flex-col gap-6">

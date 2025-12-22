@@ -94,7 +94,7 @@ export default function LoginContent({
         ) : (
           <>
             {error ? (
-              <div className="text-xs text-design-secondary">{error}</div>
+              <div className="text-xs text-[#ed3a51]">{error}</div>
             ) : (
               <div className="invisible flex justify-start text-left text-sm font-semibold uppercase text-black">
                 <Link

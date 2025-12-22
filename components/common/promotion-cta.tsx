@@ -6,7 +6,7 @@ import Image from 'next/image';
 export const PromotionCtaMobile = () => {
   return (
     <div className="w-full">
-      <div className="z-10 hidden flex-col items-center justify-center gap-5 bg-slate-100 py-10 pb-24 text-center dark:bg-[#020817] sm:hidden">
+      <div className="z-10 hidden flex-col items-center justify-center gap-5 bg-slate-100 py-10 pb-24 text-center dark:bg-[#020817] xl:hidden">
         <Button className="bg-design-primary text-design-white hover:bg-design-primaryDark">
           <Link
             href={'/signup'}
@@ -33,7 +33,7 @@ export const PromotionCtaMobile = () => {
 
 export const PromotionCtaDesktop = () => {
   return (
-    <div className="fixed bottom-10 left-10 z-50 hidden flex-row items-center justify-center gap-2 sm:flex">
+    <div className="fixed bottom-10 left-10 z-50 hidden flex-row items-center justify-center gap-2 xl:flex">
       <Button className="relative h-8 overflow-hidden bg-design-primary px-3 text-design-white hover:bg-design-primaryDark">
         <Link
           href={'/signup'}

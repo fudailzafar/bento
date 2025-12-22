@@ -897,7 +897,7 @@ export function WorkExperienceEntry({
       {isEditMode && onDelete && (
         <button
           onClick={onDelete}
-          className={`absolute -left-7 -top-8 z-50 flex size-8 items-center justify-center rounded-full border border-gray-50 bg-white text-gray-700 opacity-0 shadow-md transition-all duration-300 ease-in-out hover:bg-gray-50 hover:text-design-secondary md:-left-6 md:-top-5 md:group-hover:opacity-100 ${
+          className={`absolute -left-7 -top-8 z-50 flex size-8 items-center justify-center rounded-full border border-gray-100 bg-white text-black opacity-0 shadow-md active:scale-95 active:bg-gray-100 transition-all duration-300 ease-in-out hover:bg-gray-50 md:-left-6 md:-top-5 md:group-hover:opacity-100 ${
             isMobileActive ? 'opacity-100' : 'opacity-0'
           }`}
           aria-label="Delete work experience entry"
