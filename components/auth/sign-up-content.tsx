@@ -359,7 +359,7 @@ export default function SignupContent({
                     'flex w-full cursor-pointer items-center justify-center gap-3 rounded-lg px-6 py-3 text-sm font-medium text-white shadow-lg transition-all duration-300 ease-out active:scale-95 disabled:cursor-not-allowed disabled:opacity-70',
                     hasCredentials
                       ? 'bg-black hover:bg-black/80'
-                      : 'bg-design-primary hover:bg-design-primaryDark'
+                      : 'bg-[#1a96eb] hover:bg-[#1a96eb]'
                   )}
                 >
                   {isLoading ? (

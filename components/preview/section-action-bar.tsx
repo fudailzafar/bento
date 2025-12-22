@@ -25,11 +25,11 @@ export const SectionActionBar = ({
   onAddSectionTitle,
 }: SectionActionBarProps) => {
   return (
-    <div className="flex items-center space-x-3.5 md:space-x-2.5">
+    <div className="flex items-center space-x-5 rounded-2xl bg-white px-4 py-4 shadow-[0_0_0_1px_rgba(0,0,0,.04),0_27px_54px_rgba(0,0,0,.04),0_17.5px_31.625px_rgba(0,0,0,.03),0_10.4px_17.2px_rgba(0,0,0,.024),0_5.4px_8.775px_rgba(0,0,0,.02),0_2.2px_4.4px_rgba(0,0,0,.016),0_.5px_2.125px_rgba(0,0,0,.01)] lg:space-x-2.5 lg:p-0 lg:shadow-none">
       {/* Projects Button */}
       <button
         onClick={onAddProject}
-        className="group relative size-[30px] md:size-[25px] rounded-lg transition-all hover:shadow-[0_0_0_3px_rgba(0,0,0,0.06)] active:scale-95"
+        className="group relative size-[25px] rounded-lg transition-all hover:shadow-[0_0_0_3px_rgba(0,0,0,0.06)] active:scale-95 lg:size-[25px]"
         data-state="closed"
         aria-label="Add Project"
       >
@@ -41,7 +41,7 @@ export const SectionActionBar = ({
           />
 
           {/* Icon */}
-          <LinkIcon/>
+          <LinkIcon />
 
           {/* Border */}
           <div className="pointer-events-none absolute inset-0 rounded-[7px] border border-black/[0.12]" />
@@ -59,7 +59,7 @@ export const SectionActionBar = ({
       {/* Work Experience Button */}
       <button
         onClick={onAddWorkExperience}
-        className="group relative size-[30px] md:size-[25px] rounded-lg transition-all hover:shadow-[0_0_0_3px_rgba(0,0,0,0.06)] active:scale-95"
+        className="group relative size-[25px] rounded-lg transition-all hover:shadow-[0_0_0_3px_rgba(0,0,0,0.06)] active:scale-95 lg:size-[25px]"
         data-link-button="true"
         data-state="closed"
         aria-label="Add Work Experience"
@@ -70,13 +70,13 @@ export const SectionActionBar = ({
             style={{ background: BUTTON_GRADIENT }}
           />
           <Image
-            src={'/suitcase.png'}
+            src={'/image_copy.png'}
             alt="Work Experience"
-            width={15}
+            width={30}
             height={15}
           />
           <div className="pointer-events-none absolute inset-0 rounded-[7px] border border-black/[0.12]" />
-          <div className="absolute inset-0 rounded-[7px] bg-gradient-to-b from-white/20 to-transparent opacity-0 transition-opacity group-hover:opacity-100" />
+          {/* <div className="absolute inset-0 rounded-[7px] bg-gradient-to-b from-white/20 to-transparent opacity-0 transition-opacity group-hover:opacity-100" /> */}
         </div>
         <div className="pointer-events-none absolute bottom-full left-1/2 z-50 mb-2 hidden min-w-max -translate-x-1/2 transform rounded-md border border-slate-100 bg-white px-2 py-1 text-[10px] font-normal leading-tight text-design-resume opacity-0 shadow-md transition-opacity delay-700 duration-200 group-hover:opacity-100 sm:block">
           Work Experience
@@ -86,7 +86,7 @@ export const SectionActionBar = ({
       {/* Education Button */}
       <button
         onClick={onAddEducation}
-        className="group relative size-[30px] md:size-[25px] rounded-lg transition-all hover:shadow-[0_0_0_3px_rgba(0,0,0,0.06)] active:scale-95"
+        className="group relative size-[25px] rounded-lg transition-all hover:shadow-[0_0_0_3px_rgba(0,0,0,0.06)] active:scale-95"
         data-state="closed"
         aria-label="Add Education"
       >
@@ -95,14 +95,9 @@ export const SectionActionBar = ({
             className="pointer-events-none absolute inset-0 rounded-[7px]"
             style={{ background: BUTTON_GRADIENT }}
           />
-          <Image
-            src={'/education.png'}
-            alt="Education"
-            width={15}
-            height={15}
-          />
+          <Image src={'/text.png'} alt="Education" width={25} height={15} />
           <div className="pointer-events-none absolute inset-0 rounded-[7px] border border-black/[0.12]" />
-          <div className="absolute inset-0 rounded-[7px] bg-gradient-to-b from-white/20 to-transparent opacity-0 transition-opacity group-hover:opacity-100" />
+          {/* <div className="absolute inset-0 rounded-[7px] bg-gradient-to-b from-white/20 to-transparent opacity-0 transition-opacity group-hover:opacity-100" /> */}
         </div>
         <div className="pointer-events-none absolute bottom-full left-1/2 z-50 mb-2 hidden min-w-max -translate-x-1/2 transform rounded-md border border-slate-100 bg-white px-2 py-1 text-[10px] font-normal leading-tight text-design-resume opacity-0 shadow-md transition-opacity delay-700 duration-200 group-hover:opacity-100 sm:block">
           Education
@@ -112,7 +107,7 @@ export const SectionActionBar = ({
       {/* Skills Button */}
       <button
         onClick={onAddSkill}
-        className="group relative size-[30px] md:size-[25px] rounded-lg transition-all hover:shadow-[0_0_0_3px_rgba(0,0,0,0.06)] active:scale-95"
+        className="group relative size-[25px] rounded-lg transition-all hover:shadow-[0_0_0_3px_rgba(0,0,0,0.06)] active:scale-95 lg:size-[25px]"
         data-state="closed"
         aria-label="Add Skill"
       >
@@ -121,9 +116,9 @@ export const SectionActionBar = ({
             className="pointer-events-none absolute inset-0 rounded-[7px]"
             style={{ background: BUTTON_GRADIENT }}
           />
-          <Image src="/image.png" alt="Add Skill" width={15} height={15} />
+          <Image src="/map.png" alt="Add Skill" width={25} height={15} />
           <div className="pointer-events-none absolute inset-0 rounded-[7px] border border-black/[0.12]" />
-          <div className="absolute inset-0 rounded-[7px] bg-gradient-to-b from-white/20 to-transparent opacity-0 transition-opacity group-hover:opacity-100" />
+          {/* <div className="absolute inset-0 rounded-[7px] bg-gradient-to-b from-white/20 to-transparent opacity-0 transition-opacity group-hover:opacity-100" /> */}
         </div>
         <div className="pointer-events-none absolute bottom-full left-1/2 z-50 mb-2 hidden min-w-max -translate-x-1/2 transform rounded-md border border-slate-100 bg-white px-2 py-1 text-[10px] font-normal leading-tight text-design-resume opacity-0 shadow-md transition-opacity delay-700 duration-200 group-hover:opacity-100 sm:block">
           Skill
@@ -133,7 +128,7 @@ export const SectionActionBar = ({
       {/* Section Title Button */}
       <button
         onClick={onAddSectionTitle}
-        className="group relative size-[30px] md:size-[25px] rounded-lg transition-all hover:shadow-[0_0_0_3px_rgba(0,0,0,0.06)] active:scale-95"
+        className="group relative size-[25px] rounded-lg transition-all hover:shadow-[0_0_0_3px_rgba(0,0,0,0.06)] active:scale-95 lg:size-[25px]"
         data-state="closed"
         aria-label="Add Section Title"
       >

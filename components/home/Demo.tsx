@@ -26,7 +26,7 @@ export function Demo() {
             </div>
           </div>
           <div className="mx-auto flex max-w-[350px] flex-col text-center text-[26px] font-light text-gray-700 md:mt-12 md:max-w-full md:gap-y-2 md:text-3xl">
-            <p>All your story integrated into A page.</p>
+            <p>All your content integrated into your personal page.</p>
           </div>
           <div className="mx-auto max-w-[340px] text-center text-[26px] font-light text-gray-700 md:mt-2 md:max-w-full md:text-3xl">
             <p>No more hiding your content behind links.</p>

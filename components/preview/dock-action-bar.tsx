@@ -81,7 +81,7 @@ export default function DockActionBar({
 
   return (
     <>
-      <div className="relative flex items-center gap-5 rounded-2xl border border-white/20 bg-white/70 px-4 py-4 shadow-[0_8px_32px_0_rgba(31,38,135,0.15)] backdrop-blur-xl backdrop-saturate-150 md:w-[66%] md:px-3.5 md:py-3">
+      <div className="relative flex items-center gap-5 px-4 py-4 lg:w-[66%] lg:px-3.5 lg:py-3 lg:rounded-2xl lg:border lg:border-white/20 lg:bg-white/70 lg:shadow-[0_8px_32px_0_rgba(31,38,135,0.15)] lg:backdrop-blur-xl lg:backdrop-saturate-150">
         {/* Share Button */}
         <Button
           ref={copyButtonRef}
