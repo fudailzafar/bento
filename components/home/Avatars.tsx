@@ -66,9 +66,9 @@ const users: User[] = [
 export function Avatars() {
   return (
     <section className="mb-10 mt-40 flex flex-col items-center justify-center md:mt-80">
-      <h2 className="mb-6 text-center text-[#333333] text-[28px] font-bold">
+      <h2 className="mb-6 text-center text-[28px] font-bold text-[#333333]">
         <span className="hidden sm:inline">
-          Join hundreds of inspiring creatives
+          Join thousands of inspiring creatives
         </span>
         <span className="block sm:hidden">
           <p className="-mb-2">Join hundreds of </p>
@@ -210,7 +210,7 @@ export function Avatars() {
         </div>
       </div>
       <Link href={'/explore'}>
-        <Button className="bg-gray-100 p-3 text-base text-black hover:bg-gray-200">
+        <Button className="rounded-lg bg-[#f6f6f6] p-3 text-base text-black transition-all hover:bg-[#EBEBEB] active:scale-95 active:bg-[#dbdbdb]">
           Explore the most creative Portfolios <ArrowRightIcon />
         </Button>
       </Link>
