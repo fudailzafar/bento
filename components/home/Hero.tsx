@@ -124,7 +124,7 @@ export function Hero() {
               transition={{ duration: 0.8, delay: 0.7, ease: easeInOutCubic }}
               className="mx-auto mb-8 mt-7 max-w-2xl text-balance text-xl font-light tracking-tight text-design-gray sm:text-[22px]"
             >
-              Your personal page to show your work, skills, and story.
+              Your personal page to show everything you are and create.
             </motion.p>
           </div>
 
@@ -196,7 +196,7 @@ export function Hero() {
               transition={{ duration: 0.6, delay: 1.2 }}
               className="absolute inset-0 top-24 z-10"
             >
-              <h1 className='font-semibold text-xl'>Portfoliofy</h1>
+              <h1 className="text-xl font-semibold">Portfoliofy</h1>
             </motion.div>
           </div>
 
@@ -205,9 +205,9 @@ export function Hero() {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 0.8, delay: 0.5, ease: easeInOutCubic }}
-              className="mb-4 text-6xl space-y-3 py-6 font-bold leading-none tracking-tight"
+              className="mb-4 space-y-3 py-6 text-6xl font-bold leading-none tracking-tight"
             >
-              <div>A Portfolio.</div> 
+              <div>A Portfolio.</div>
               <div>But Rich and Beautiful.</div>
             </motion.h1>
             <motion.p
@@ -216,7 +216,7 @@ export function Hero() {
               transition={{ duration: 0.8, delay: 0.7, ease: easeInOutCubic }}
               className="mx-auto mb-8 max-w-2xl text-balance text-[22px] font-light text-design-resume"
             >
-              Your personal page to show your work, skills, and story.
+              Your personal page to show everything you are and create.
             </motion.p>
           </div>
           <div className="mt-16 flex flex-col gap-3 md:pb-14">
