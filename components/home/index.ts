@@ -1,11 +1,7 @@
-export { Avatars } from './Avatars';
-export { Cta } from './Cta';
-export { default as DemoResumeDesktop } from './demo-resume-desktop';
-export { DemoResume } from './demo-resume';
-export { Demo } from './Demo';
+export { AllTheWidgets } from './all-the-widgets';
+export { FamiliarFaces } from './familiar-faces';
 export { Footer } from './footer';
 export { Hero } from './Hero';
 export { Logo } from './logo-marquee';
-export { DATA } from './resume';
 export { UniqueLink } from './unique-link';
 export { VideoDialog } from './video-dialog';

@@ -1,7 +1,6 @@
 import {
-  Avatars,
-  Cta,
-  Demo,
+  AllTheWidgets,
+  FamiliarFaces,
   Footer,
   Hero,
   Logo,
@@ -14,11 +13,10 @@ export default function Home() {
     <>
       <Hero />
       <VideoDialog />
-      <Avatars />
-      <Demo />
+      <FamiliarFaces />
+      <AllTheWidgets />
       <Logo />
       <UniqueLink />
-      <Cta />
       <Footer />
     </>
   );
