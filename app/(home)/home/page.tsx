@@ -3,7 +3,7 @@ import {
   FamiliarFaces,
   Footer,
   Hero,
-  Logo,
+  LogoMarquee,
   UniqueLink,
   VideoDialog,
 } from '@/components/home';
@@ -15,7 +15,7 @@ export default function Home() {
       <VideoDialog />
       <FamiliarFaces />
       <AllTheWidgets />
-      <Logo />
+      <LogoMarquee />
       <UniqueLink />
       <Footer />
     </>

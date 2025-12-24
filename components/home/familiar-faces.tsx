@@ -63,7 +63,7 @@ const users: User[] = [
   },
 ];
 
-const FamiliarFacesHeading = () => {
+function FamiliarFacesHeading() {
   return (
     <>
       <h2 className="mb-6 text-center text-[28px] font-bold text-[#333333]">
@@ -77,9 +77,9 @@ const FamiliarFacesHeading = () => {
       </h2>
     </>
   );
-};
+}
 
-const FamiliarFacesButton = () => {
+function FamiliarFacesButton() {
   return (
     <>
       <Link href={'/explore'}>
@@ -89,9 +89,9 @@ const FamiliarFacesButton = () => {
       </Link>
     </>
   );
-};
+}
 
-const FamiliarFacesAvatars = () => {
+function FamiliarFacesAvatars() {
   return (
     <>
       {/* Responsive avatar rows */}
@@ -175,7 +175,7 @@ const FamiliarFacesAvatars = () => {
       </div>
     </>
   );
-};
+}
 
 export function FamiliarFaces() {
   return (

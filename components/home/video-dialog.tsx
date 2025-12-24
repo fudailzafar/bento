@@ -1,7 +1,6 @@
-export function VideoDialog() {
+function VideoDesktop() {
   return (
-    <div className="flex w-full flex-col items-center justify-center">
-      {/* Desktop Video */}
+    <>
       <div className="hidden sm:block">
         <video
           autoPlay
@@ -21,8 +20,13 @@ export function VideoDialog() {
           Your browser does not support the video tag.
         </video>
       </div>
+    </>
+  );
+}
 
-      {/* Mobile Video */}
+function VideoMobile() {
+  return (
+    <>
       <div className="block sm:hidden">
         <video
           autoPlay
@@ -43,6 +47,15 @@ export function VideoDialog() {
           Your browser does not support the video tag.
         </video>
       </div>
+    </>
+  );
+}
+
+export function VideoDialog() {
+  return (
+    <div className="flex w-full flex-col items-center justify-center">
+      <VideoDesktop />
+      <VideoMobile />
     </div>
   );
 }

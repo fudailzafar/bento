@@ -18,15 +18,15 @@ const usernames = [
   'adeline',
 ];
 
-const UsernameCard = ({ username }: { username: string }) => {
+function UsernameCard({ username }: { username: string }) {
   return (
     <div className="my-[-2px] whitespace-nowrap text-[26px] font-normal leading-none text-black md:my-[-2px] md:text-[46px]">
       {username}
     </div>
   );
-};
+}
 
-const UniqueLinkHeading = () => {
+function UniqueLinkHeading() {
   return (
     <>
       <h2 className="mb-2 text-center text-2xl font-semibold md:mb-[6px] md:text-[32px]">
@@ -37,9 +37,9 @@ const UniqueLinkHeading = () => {
       </p>
     </>
   );
-};
+}
 
-const UniqueLinkBox = () => {
+function UniqueLinkBox() {
   return (
     <>
       <div className="relative mx-auto flex h-[200px] w-[330px] items-center justify-center overflow-hidden rounded-2xl bg-[#F8F8F8] sm:h-[496px] sm:w-[1100px] md:rounded-3xl md:border-2 md:border-[#F2F2F2] md:bg-[#FCFCFC]">
@@ -68,9 +68,9 @@ const UniqueLinkBox = () => {
       </div>
     </>
   );
-};
+}
 
-const UniqueLinkFloatingCards = () => {
+function UniqueLinkFloatingCards() {
   return (
     <>
       {/* Twitter - top left, rotated, overlapping */}
@@ -101,21 +101,21 @@ const UniqueLinkFloatingCards = () => {
       />
     </>
   );
-};
+}
 
-const UniqueLinkButton = () => {
+function UniqueLinkButton() {
   return (
     <>
-      <div className="flex mt-12 items-center justify-center">
+      <div className="mt-12 flex items-center justify-center">
         <Link href="/signup">
-          <Button className="group relative mb-2 flex cursor-pointer items-center rounded-[14px] bg-design-primary px-20 lg:w-[300px] lg:h-[62px] py-8 text-lg font-semibold shadow-md transition-transform hover:bg-design-primaryDark active:scale-95 sm:px-14 sm:py-8">
+          <Button className="group relative mb-2 flex cursor-pointer items-center rounded-[14px] bg-design-primary px-20 py-8 text-lg font-semibold shadow-md transition-transform hover:bg-design-primaryDark active:scale-95 sm:px-14 sm:py-8 lg:h-[62px] lg:w-[300px]">
             Create Your Portfolio
           </Button>
         </Link>
       </div>
     </>
   );
-};
+}
 
 export function UniqueLink() {
   return (
