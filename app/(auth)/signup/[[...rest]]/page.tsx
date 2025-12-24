@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { AuthAnimation, SignupContent } from '@/components/auth';
+import { SignUpAnimation, SignupContent } from '@/components/auth';
 
 export default function SignupPage() {
   const [currentStep, setCurrentStep] = useState<'username' | 'auth'>(
@@ -13,7 +13,7 @@ export default function SignupPage() {
       <div className="w-full max-w-[440px] space-y-8">
         <SignupContent onStepChange={setCurrentStep} />
       </div>
-      <AuthAnimation isActive={currentStep === 'username'} />
+      <SignUpAnimation isActive={currentStep === 'username'} />
     </div>
   );
 }

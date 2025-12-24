@@ -324,7 +324,7 @@ interface FloatingWidgetsGridProps {
   isActive?: boolean;
 }
 
-export default function FloatingWidgetsGrid({
+export default function LogInAnimation({
   isActive = true,
 }: FloatingWidgetsGridProps) {
   return (
