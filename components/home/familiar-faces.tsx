@@ -179,7 +179,7 @@ const FamiliarFacesAvatars = () => {
 
 export function FamiliarFaces() {
   return (
-    <section className="mt-40 flex flex-col items-center justify-center md:mb-10 md:mt-80">
+    <section className="mt-40 flex flex-col items-center justify-center md:mt-80">
       <FamiliarFacesHeading />
       <FamiliarFacesAvatars />
       <FamiliarFacesButton />
