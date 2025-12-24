@@ -29,13 +29,13 @@ export default function LoginContent({
   error,
 }: LogInPageProps) {
   return (
-    <div className="mx-auto w-full max-w-[440px] space-y-8">
+    <div className="mx-auto lg:ml-10 w-full max-w-[440px] space-y-8">
       {/* Header for Login */}
       <div className="text-left">
-        <h1 className="my-6 text-[28px] font-semibold text-design-black sm:mb-4 lg:text-[32px]">
-          Log in to your Portfolio
+        <h1 className="my-6 text-[28px] font-semibold leading-[40px] text-design-black sm:mb-4 lg:text-[32px]">
+          Log in to your Bento
         </h1>
-        <h2 className="text-xl font-normal text-design-resume sm:text-xl">
+        <h2 className="text-xl font-light text-[#6C6C6C] sm:text-xl">
           Good to have you back!
         </h2>
       </div>
@@ -51,7 +51,7 @@ export default function LoginContent({
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             disabled={isLoading}
-            className="h-12 w-full rounded-xl border-0 bg-[#F5F5F5] px-4 text-base outline-none placeholder:text-gray-400 focus-visible:ring-0 focus-visible:ring-offset-0 sm:rounded-lg"
+            className="h-12 w-full rounded-xl border-0 bg-[#F7F7F7] px-4 text-base font-light outline-none placeholder:text-[#BFBFBF] focus-visible:ring-0 focus-visible:ring-offset-0 sm:rounded-lg"
           />
 
           <div className="relative w-full">
@@ -62,7 +62,7 @@ export default function LoginContent({
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               disabled={isLoading}
-              className="h-12 w-full rounded-xl border-0 bg-[#F5F5F5] px-4 pr-[76px] text-base outline-none placeholder:text-gray-400 focus-visible:ring-0 focus-visible:ring-offset-0 sm:rounded-lg"
+              className="h-12 w-full rounded-xl border-0 bg-[#F7F7F7] px-4 pr-[76px] text-base font-light outline-none placeholder:text-[#BFBFBF] focus-visible:ring-0 focus-visible:ring-offset-0 sm:rounded-lg"
             />
             <button
               type="button"
@@ -78,7 +78,7 @@ export default function LoginContent({
         <div className="ml-0.5 mt-2">
           <Link
             href="/reset-password"
-            className="text-xs font-normal text-design-primaryLight underline"
+            className="text-xs font-light text-design-primaryLight underline"
           >
             Reset Password
           </Link>
@@ -147,7 +147,7 @@ export default function LoginContent({
       <div className="mt-6 text-left">
         <Link
           href="/signup"
-          className="text-xs font-normal text-design-resume transition-colors"
+          className="text-xs font-normal text-[#6c6c6c] transition-colors"
         >
           or sign up
         </Link>

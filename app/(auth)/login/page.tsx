@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import { signIn, useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import LoginContent from '@/components/auth/log-in-content';
-import { AuthAnimation } from '@/components/auth';
+import { AuthAnimation, FloatingWidgetsGrid } from '@/components/auth';
 
 export default function LoginPage() {
   const { data: session } = useSession();
@@ -63,7 +63,7 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="flex min-h-[90vh] items-center justify-between gap-12 px-7 sm:px-6 lg:gap-16 lg:px-32">
+    <div className="flex min-h-[90vh] items-center justify-between gap-12 px-7 sm:px-6 lg:min-h-[100vh] lg:gap-48 lg:px-32">
       {/* Login Content Component */}
       <LoginContent
         handleSubmit={handleSubmit}
@@ -77,9 +77,8 @@ export default function LoginPage() {
         hasCredentials={hasCredentials}
         error={error}
       />
-
       {/* Animation Component */}
-      <AuthAnimation />
+        <FloatingWidgetsGrid isActive={true} />
     </div>
   );
 }
