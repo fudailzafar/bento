@@ -3,7 +3,6 @@
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { Button, Input } from '@/components/ui';
-import { AuthAnimation } from '@/components/auth';
 import {
   ArrowLeftIcon,
   CheckmarkLargeIcon,
@@ -14,6 +13,7 @@ import {
 } from '@/components/icons';
 import { Notebook, Plus, X } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { SignUpAnimation } from '@/components/auth';
 
 // Shared gradient style (can't be expressed in Tailwind)
 const BUTTON_GRADIENT =
@@ -379,7 +379,7 @@ export default function SocialMediaPage() {
       </div>
 
       <div className="hidden max-w-[700px] flex-1 items-center justify-center md:flex">
-        <AuthAnimation isActive={step === 'social'} />
+        <SignUpAnimation isActive={step === 'social'} />
       </div>
     </div>
   );
