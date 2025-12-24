@@ -1,5 +1,5 @@
-import { LoaderIcon } from "../icons";
-import { Input } from "../ui";
+import { LoaderIcon } from '../icons';
+import { Input } from '../ui';
 
 interface ResetPasswordConfirmContentProps {
   userEmail: string;

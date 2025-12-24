@@ -1,52 +1,27 @@
 'use client';
-import { useEffect, useState } from 'react';
-import { motion } from 'framer-motion';
 import Image from 'next/image';
 import Link from 'next/link';
-import { Button } from '../ui';
+import { Button, Marquee } from '../ui';
 
-const ONE_SECOND = 1000;
-const WAIT_TIME = ONE_SECOND * 1;
+const usernames = [
+  'dennis',
+  'michele',
+  'eike',
+  'may-li',
+  'clara',
+  'tito',
+  'selim',
+  'mary',
+  'valerie',
+  'mugeeb',
+  'silvan',
+  'adeline',
+];
 
-const AnimatedText = ({ phrases }: { phrases: string[] }) => {
-  const [active, setActive] = useState(0);
-
-  useEffect(() => {
-    const intervalRef = setInterval(() => {
-      setActive((pv) => (pv + 1) % phrases.length);
-    }, WAIT_TIME);
-
-    return () => clearInterval(intervalRef);
-  }, [phrases]);
-
+const UsernameCard = ({ username }: { username: string }) => {
   return (
-    <div className="relative mb-14 mt-2 w-full md:-mt-[1px]">
-      {phrases.map((phrase) => {
-        const isActive = phrases[active] === phrase;
-        return (
-          <motion.div
-            key={phrase}
-            initial={false}
-            animate={isActive ? 'active' : 'inactive'}
-            style={{
-              x: '-50%',
-            }}
-            variants={{
-              active: {
-                opacity: 1,
-                scale: 1,
-              },
-              inactive: {
-                opacity: 0,
-                scale: 0,
-              },
-            }}
-            className="absolute left-1/2 top-0 w-full text-[28px] font-normal text-black md:text-5xl"
-          >
-            {phrase}
-          </motion.div>
-        );
-      })}
+    <div className="my-[-2px] whitespace-nowrap text-[26px] font-normal leading-none text-black md:my-[-2px] md:text-[46px]">
+      {username}
     </div>
   );
 };
@@ -75,32 +50,19 @@ const UniqueLinkBox = () => {
             className="flex flex-col items-end justify-center pr-2"
             style={{ minWidth: '320px' }}
           >
-            <div className="mb-2 whitespace-nowrap text-[28px] font-normal text-[#AAAAAA] md:text-5xl">
+            <div className="whitespace-nowrap text-[28px] font-normal text-[#AAAAAA] md:text-[46px]">
               portfoliofy.me/
             </div>
           </div>
           {/* Vertical marquee on the right, usernames close to slash */}
-          <div
-            className="relative flex flex-col items-start justify-center"
-            style={{ minWidth: '220px' }}
-          >
-            <AnimatedText
-              phrases={[
-                'dennis',
-                'michele',
-                'eike',
-                'may-li',
-                'clara',
-                'tito',
-                'selim',
-                'alex',
-                'jordan',
-                'sam',
-                'lisa',
-                'fudail',
-                'zafar',
-              ]}
-            />
+          <div className="relative flex h-[100px] min-w-[200px] flex-col items-start justify-center overflow-hidden md:h-[400px] md:min-w-[250px]">
+            <Marquee vertical className="p-0 [--duration:25s]">
+              {usernames.map((username) => (
+                <UsernameCard key={username} username={username} />
+              ))}
+            </Marquee>
+            <div className="pointer-events-none absolute inset-x-0 top-0 h-1/4 bg-gradient-to-b from-[#F8F8F8] md:from-[#FCFCFC]"></div>
+            <div className="pointer-events-none absolute inset-x-0 bottom-0 h-1/4 bg-gradient-to-t from-[#F8F8F8] md:from-[#FCFCFC]"></div>
           </div>
         </div>
       </div>

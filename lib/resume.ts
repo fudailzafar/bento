@@ -139,36 +139,42 @@ export const ResumeDataSchema = z.object({
     .default({})
     .describe('Dynamic section titles with their IDs as keys'),
   educations: z
-    .record(z.string(), z.object({
-      school: z.string().describe('School or university name'),
-      degree: z.string().describe('Degree or certification obtained'),
-      start: z.string().describe('Start year'),
-      end: z.string().describe('End year'),
-      logo: z
-        .string()
-        .optional()
-        .nullable()
-        .describe('Cloudinary URL for school logo'),
-    }))
+    .record(
+      z.string(),
+      z.object({
+        school: z.string().describe('School or university name'),
+        degree: z.string().describe('Degree or certification obtained'),
+        start: z.string().describe('Start year'),
+        end: z.string().describe('End year'),
+        logo: z
+          .string()
+          .optional()
+          .nullable()
+          .describe('Cloudinary URL for school logo'),
+      })
+    )
     .optional()
     .default({})
     .describe('Individual education entries with their IDs as keys'),
   works: z
-    .record(z.string(), z.object({
-      location: z.string().describe('Location of the job'),
-      company: z.string().describe('Company name'),
-      link: z.string().optional().describe('Company website link'),
-      contract: z.string().optional().describe('Contract type'),
-      title: z.string().describe('Job title'),
-      start: z.string().describe('Start date'),
-      end: z.string().nullable().optional().describe('End date'),
-      description: z.string().describe('Job description'),
-      logo: z
-        .string()
-        .optional()
-        .nullable()
-        .describe('Cloudinary URL for company logo'),
-    }))
+    .record(
+      z.string(),
+      z.object({
+        location: z.string().describe('Location of the job'),
+        company: z.string().describe('Company name'),
+        link: z.string().optional().describe('Company website link'),
+        contract: z.string().optional().describe('Contract type'),
+        title: z.string().describe('Job title'),
+        start: z.string().describe('Start date'),
+        end: z.string().nullable().optional().describe('End date'),
+        description: z.string().describe('Job description'),
+        logo: z
+          .string()
+          .optional()
+          .nullable()
+          .describe('Cloudinary URL for company logo'),
+      })
+    )
     .optional()
     .default({})
     .describe('Individual work experience entries with their IDs as keys'),

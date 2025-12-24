@@ -5,7 +5,7 @@ import { useState } from 'react';
 import { Button, Input } from '@/components/ui';
 import { AuthAnimation } from '@/components/auth';
 import {
-    ArrowLeftIcon,
+  ArrowLeftIcon,
   CheckmarkLargeIcon,
   GitHubIcon,
   LinkedInIcon,
@@ -243,12 +243,12 @@ export default function SocialMediaPage() {
                 }}
                 className="space-y-6 sm:space-y-12"
               >
-                <div className="text-left space-y-10">
+                <div className="space-y-10 text-left">
                   <button
                     onClick={handleBackToSocial}
                     className="mb-4 flex items-center gap-2 text-sm text-gray-600 transition-colors hover:text-gray-900"
                   >
-                    <ArrowLeftIcon className='size-5'/>
+                    <ArrowLeftIcon className="size-5" />
                   </button>
                   <h1 className="text-xl font-semibold text-design-black sm:text-2xl md:mb-4 lg:text-2xl">
                     You can also add projects, work experiences, and photos.

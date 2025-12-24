@@ -897,7 +897,7 @@ export function WorkExperienceEntry({
       {isEditMode && onDelete && (
         <button
           onClick={onDelete}
-          className={`absolute -left-7 -top-8 z-50 flex size-8 items-center justify-center rounded-full border border-gray-100 bg-white text-black opacity-0 shadow-md active:scale-95 active:bg-gray-100 transition-all duration-300 ease-in-out hover:bg-gray-50 md:-left-6 md:-top-5 md:group-hover:opacity-100 ${
+          className={`absolute -left-7 -top-8 z-50 flex size-8 items-center justify-center rounded-full border border-gray-100 bg-white text-black opacity-0 shadow-md transition-all duration-300 ease-in-out hover:bg-gray-50 active:scale-95 active:bg-gray-100 md:-left-6 md:-top-5 md:group-hover:opacity-100 ${
             isMobileActive ? 'opacity-100' : 'opacity-0'
           }`}
           aria-label="Delete work experience entry"
@@ -932,12 +932,14 @@ export function WorkExperienceEntry({
         <div className="flex-1 space-y-1">
           <div className="flex items-start justify-between">
             <div className="flex flex-col">
-              <h3 className="font-semibold text-lg text-foreground">{company}</h3>
+              <h3 className="text-lg font-semibold text-foreground">
+                {company}
+              </h3>
               <div className="flex flex-row items-center justify-center gap-4">
-                <h3 className="font-medium text-sm text-foreground">{title}</h3>
+                <h3 className="text-sm font-medium text-foreground">{title}</h3>
               </div>
             </div>
-            <div className='space-y-3'>
+            <div className="space-y-3">
               {period && (
                 <p className="text-xs text-muted-foreground">{period}</p>
               )}

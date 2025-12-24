@@ -315,7 +315,9 @@ export const PreviewPortfolio = ({
 
   return (
     <>
-      <div className={`scrollbar-hide flex h-screen w-full flex-col ${viewMode === 'mobile' ? 'flex-col' : 'xl:flex-row xl:gap-7'}`}>
+      <div
+        className={`scrollbar-hide flex h-screen w-full flex-col ${viewMode === 'mobile' ? 'flex-col' : 'xl:flex-row xl:gap-7'}`}
+      >
         <section
           className={`top-0 w-full self-start bg-background pt-8 font-sans antialiased ${viewMode === 'mobile' ? 'w-full' : 'xl:sticky xl:w-[500px] xl:py-16'}`}
           aria-label="Preview Portfolio Header"

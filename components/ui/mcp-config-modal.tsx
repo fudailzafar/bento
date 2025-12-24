@@ -301,7 +301,7 @@ function MyApp() {
                     </button>
                   </DropdownMenuTrigger>
                   <DropdownMenuContent
-                    className="animate-in fade-in-0 zoom-in-95 z-50 w-full min-w-[200px] rounded-lg border border-muted bg-card py-1 shadow-lg duration-100"
+                    className="z-50 w-full min-w-[200px] rounded-lg border border-muted bg-card py-1 shadow-lg duration-100 animate-in fade-in-0 zoom-in-95"
                     align="start"
                   >
                     <DropdownMenuItem
@@ -331,7 +331,7 @@ function MyApp() {
 
           {/* Success Message */}
           {savedSuccess && (
-            <div className="animate-in slide-in-from-top-1 mb-6 rounded-lg border border-green-200 bg-green-50 p-3 text-sm text-green-800 duration-200">
+            <div className="mb-6 rounded-lg border border-green-200 bg-green-50 p-3 text-sm text-green-800 duration-200 animate-in slide-in-from-top-1">
               <div className="flex items-center">
                 <span className="mr-2 text-green-600">✓</span>
                 Servers saved to browser storage

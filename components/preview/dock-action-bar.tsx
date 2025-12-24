@@ -87,7 +87,7 @@ export default function DockActionBar({
           ref={copyButtonRef}
           onClick={handleCopyLink}
           disabled={isSaving}
-          className="group relative hidden h-[33px] w-[33px] flex-shrink-0 !rounded-md bg-design-success !p-0 px-0 text-sm font-medium !shadow-[0px_2px_3px_rgba(0,0,0,0.06)] transition-all hover:bg-[#3dda69] active:scale-95 xl:w-[127px] xl:px-0 xl:inline"
+          className="group relative hidden h-[33px] w-[33px] flex-shrink-0 !rounded-md bg-design-success !p-0 px-0 text-sm font-medium !shadow-[0px_2px_3px_rgba(0,0,0,0.06)] transition-all hover:bg-[#3dda69] active:scale-95 xl:inline xl:w-[127px] xl:px-0"
         >
           <div className="flex h-full w-full items-center justify-center overflow-hidden rounded-md">
             {isSaving ? (

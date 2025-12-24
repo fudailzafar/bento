@@ -585,7 +585,7 @@ export function EducationEntry({
       {isEditMode && onDelete && (
         <button
           onClick={onDelete}
-          className={`absolute -left-7 -top-8 z-50 flex size-8 items-center justify-center rounded-full border border-gray-100 bg-white text-black opacity-0 shadow-md active:scale-95 active:bg-gray-100 transition-all duration-300 ease-in-out hover:bg-gray-50 md:-left-6 md:-top-5 md:group-hover:opacity-100 ${
+          className={`absolute -left-7 -top-8 z-50 flex size-8 items-center justify-center rounded-full border border-gray-100 bg-white text-black opacity-0 shadow-md transition-all duration-300 ease-in-out hover:bg-gray-50 active:scale-95 active:bg-gray-100 md:-left-6 md:-top-5 md:group-hover:opacity-100 ${
             isMobileActive ? 'opacity-100' : 'opacity-0'
           }`}
           aria-label="Delete education entry"
@@ -621,11 +621,9 @@ export function EducationEntry({
           <div className="flex items-start justify-between">
             <div>
               <h3 className="font-semibold">{school}</h3>
-              <p className="text-sm ">{degree}</p>
+              <p className="text-sm">{degree}</p>
             </div>
-            {period && (
-              <p className="text-xs">{period}</p>
-            )}
+            {period && <p className="text-xs">{period}</p>}
           </div>
         </div>
       </article>
