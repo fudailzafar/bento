@@ -1,4 +1,4 @@
-export * from './arrow-north-east-icon';
+export * from './arrow-top-right-icon';
 export * from './arrow-right-icon';
 export * from './arrow-left-icon';
 export * from './checkmark-icon';
