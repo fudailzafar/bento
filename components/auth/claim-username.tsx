@@ -88,13 +88,20 @@ function ClaimUsernameButton() {
 function ClaimUsernameImage() {
   return (
     <>
-      <BlurFade delay={2.5}>
+      <BlurFade delay={3.5}>
         <Image
-          src={'/user/cv-not-found.png'}
+          src={'/home/claim-username-mobile.png'}
+          alt="claim username"
+          width={360}
+          height={255}
+          className="bottom-0 mt-10 block lg:hidden"
+        />
+        <Image
+          src={'/home/claim-username-desktop.png'}
           alt="not-found"
-          width={450}
+          width={1100}
           height={450}
-          className="bottom-0 mt-10"
+          className="bottom-0 mt-10 hidden lg:block"
         />
       </BlurFade>
     </>
@@ -103,11 +110,15 @@ function ClaimUsernameImage() {
 
 export default function ClaimUsername({ username }: { username: string }) {
   return (
-    <div className="mb-1 mt-16 flex flex-col items-center justify-center bg-white">
-      <ClaimUsernameLogo />
-      <ClaimUsernameMain username={username} />
-      <ClaimUsernameDescription />
-      <ClaimUsernameButton />
+    <div className="flex h-screen w-screen flex-col items-center overflow-hidden bg-white">
+      <div className="flex-1"></div>
+      <div className="flex flex-col items-center pt-[100px]">
+        <ClaimUsernameLogo />
+        <ClaimUsernameMain username={username} />
+        <ClaimUsernameDescription />
+        <ClaimUsernameButton />
+      </div>
+      <div className="flex-1"></div>
       <ClaimUsernameImage />
     </div>
   );
