@@ -1,7 +1,6 @@
 'use client';
 
 import { Header } from './header';
-import { Header as CommonHeader } from '@/components/common';
 import { Education } from './education';
 import { EducationEntry } from './education';
 import { Projects } from './projects';
@@ -14,6 +13,7 @@ import { SectionTitle } from './section-title';
 import { SortableSections } from './sortable-sections';
 import { LoadingFallback } from '@/components/utils';
 import { ResumeData } from '@/lib/server';
+import { Settings } from '@/components/common';
 
 interface PreviewPortfolioProps {
   resume?: ResumeData | null;
@@ -342,7 +342,7 @@ export const PreviewPortfolio = ({
           />
         </section>
         <section
-          className={`scrollbar-hide w-full bg-background py-1 font-sans antialiased ${viewMode === 'mobile' ? 'w-full px-4' : 'xl:w-[820px] xl:overflow-y-auto xl:px-4 xl:py-8'}`}
+          className={`scrollbar-hide w-full bg-background py-1 font-sans antialiased ${viewMode === 'mobile' ? 'w-full px-4' : 'xl:w-[860px] xl:overflow-y-auto xl:px-4 xl:py-8'}`}
           aria-label="Preview Portfolio Content"
         >
           <div className="flex flex-col gap-6 xl:pb-36">
@@ -374,7 +374,7 @@ export const PreviewPortfolio = ({
             />
 
             {/* Mobile Header at bottom */}
-            <CommonHeader />
+            <Settings />
           </div>
         </section>
       </div>
