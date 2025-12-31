@@ -1,8 +1,6 @@
 'use client';
 import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
-import { GitHubLogoIcon, TwitterLogoIcon } from '@radix-ui/react-icons';
-import { MailIcon } from 'lucide-react';
 import Image from 'next/image';
 
 export function UniqueLink() {
