@@ -1,26 +1,22 @@
 import {
-  Avatars,
-  Cta,
-  Demo,
+  AllTheWidgets,
+  FamiliarFaces,
   Footer,
   Hero,
   Logo,
   UniqueLink,
   VideoDialog,
 } from '@/components/home';
-import { AllTheWidgets } from '@/components/home/all-the-widgets';
 
 export default function Home() {
   return (
     <>
       <Hero />
       <VideoDialog />
-      <Avatars />
-      <Demo />
+      <FamiliarFaces />
       <AllTheWidgets />
       <Logo />
       <UniqueLink />
-      <Cta />
       <Footer />
     </>
   );

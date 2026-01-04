@@ -24,47 +24,47 @@ export const Logo = () => {
 
 const logos = [
   {
-    img: '/logo/webflow.svg',
+    img: '/home/logo-marquee/webflow.svg',
     alt: 'Webflow',
   },
   {
-    img: '/logo/reddit.svg',
+    img: '/home/logo-marquee/reddit.svg',
     alt: 'Reddit',
   },
   {
-    img: '/logo/buymeacoffee.svg',
+    img: '/home/logo-marquee/buymeacoffee.svg',
     alt: 'Buy Me a Coffee',
   },
   {
-    img: '/logo/twitch.svg',
+    img: '/home/logo-marquee/twitch.svg',
     alt: 'Twitch',
   },
   {
-    img: '/logo/behance.svg',
+    img: '/home/logo-marquee/behance.svg',
     alt: 'Behance',
   },
   {
-    img: '/logo/pinterest.svg',
+    img: '/home/logo-marquee/pinterest.svg',
     alt: 'Pinterest',
   },
   {
-    img: '/logo/dev.svg',
+    img: '/home/logo-marquee/dev.svg',
     alt: 'DEV',
   },
   {
-    img: '/logo/mastodon.svg',
+    img: '/home/logo-marquee/mastodon.svg',
     alt: 'Mastodon',
   },
   {
-    img: '/logo/producthunt.svg',
+    img: '/home/logo-marquee/producthunt.svg',
     alt: 'Product Hunt',
   },
   {
-    img: '/logo/discord.svg',
+    img: '/home/logo-marquee/discord.svg',
     alt: 'Discord',
   },
   {
-    img: '/logo/medium.svg',
+    img: '/home/logo-marquee/medium.svg',
     alt: 'Medium',
   },
 ];
