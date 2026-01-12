@@ -49,7 +49,7 @@ export const PublicPortfolio = ({
         <SectionTitle
           title={resume?.sectionTitles?.[titleId] || ''}
           isEditMode={false}
-          className='mt-10 mb-3'
+          className="mb-3 mt-10"
         />
       );
     }
@@ -61,7 +61,14 @@ export const PublicPortfolio = ({
       const educationId = sectionId;
       sectionComponents[educationId] = (
         <EducationEntry
-          education={resume?.educations?.[educationId] || { school: '', degree: '', start: '', end: '' }}
+          education={
+            resume?.educations?.[educationId] || {
+              school: '',
+              degree: '',
+              start: '',
+              end: '',
+            }
+          }
           isEditMode={false}
         />
       );
@@ -74,7 +81,16 @@ export const PublicPortfolio = ({
       const workId = sectionId;
       sectionComponents[workId] = (
         <WorkExperienceEntry
-          work={resume?.works?.[workId] || { location: '', company: '', title: '', start: '', end: '', description: '' }}
+          work={
+            resume?.works?.[workId] || {
+              location: '',
+              company: '',
+              title: '',
+              start: '',
+              end: '',
+              description: '',
+            }
+          }
           isEditMode={false}
         />
       );
@@ -85,7 +101,7 @@ export const PublicPortfolio = ({
     <>
       <div className="flex h-screen w-full flex-col px-5 xl:flex-row xl:gap-7 xl:px-10">
         <section
-          className="top-0 w-full self-start bg-background pt-8 font-sans antialiased xl:py-16 xl:sticky xl:w-[500px]"
+          className="top-0 w-full self-start bg-background pt-8 font-sans antialiased xl:sticky xl:w-[500px] xl:py-16"
           aria-label="Preview Portfolio Header"
         >
           <Header header={resume?.header} picture={profilePicture} />

@@ -15,22 +15,26 @@ export async function POST(request: NextRequest) {
     }
 
     // Check if user exists with this email
-    const userId = await upstashRedis.get<string>(`user:email:${email.toLowerCase()}`);
-    
+    const userId = await upstashRedis.get<string>(
+      `user:email:${email.toLowerCase()}`
+    );
+
     if (!userId) {
       // Don't reveal if email exists or not for security
-      return NextResponse.json({ 
-        message: 'If an account exists with this email, you will receive a password reset link.' 
+      return NextResponse.json({
+        message:
+          'If an account exists with this email, you will receive a password reset link.',
       });
     }
 
     // Check if user has credentials (not a Google OAuth user)
     const credentials = await upstashRedis.get(`user:credentials:${userId}`);
-    
+
     if (!credentials) {
       // User signed up with Google, can't reset password
-      return NextResponse.json({ 
-        message: 'Looks like you signed up via Google. Try using the "Sign in with Google" button.' 
+      return NextResponse.json({
+        message:
+          'Looks like you signed up via Google. Try using the "Sign in with Google" button.',
       });
     }
 
@@ -46,12 +50,14 @@ export async function POST(request: NextRequest) {
     );
 
     // Get user profile for name
-    const profile = await upstashRedis.get<{ name?: string }>(`user:profile:${userId}`);
+    const profile = await upstashRedis.get<{ name?: string }>(
+      `user:profile:${userId}`
+    );
     const userName = profile?.name || 'there';
 
     // Send email directly
     const resetUrl = `${process.env.NEXTAUTH_URL}/reset-password/confirm?token=${resetToken}`;
-    
+
     const htmlContent = `
       <!DOCTYPE html>
       <html>
@@ -96,20 +102,23 @@ export async function POST(request: NextRequest) {
       if (emailError) {
         console.error('Resend error:', emailError);
         // Still return success message for security (don't reveal if email exists)
-        return NextResponse.json({ 
-          message: 'If an account exists with this email, you will receive a password reset link.' 
+        return NextResponse.json({
+          message:
+            'If an account exists with this email, you will receive a password reset link.',
         });
       }
     } catch (emailErr) {
       console.error('Email send error:', emailErr);
       // Still return success message for security
-      return NextResponse.json({ 
-        message: 'If an account exists with this email, you will receive a password reset link.' 
+      return NextResponse.json({
+        message:
+          'If an account exists with this email, you will receive a password reset link.',
       });
     }
 
-    return NextResponse.json({ 
-      message: 'If an account exists with this email, you will receive a password reset link.' 
+    return NextResponse.json({
+      message:
+        'If an account exists with this email, you will receive a password reset link.',
     });
   } catch (error) {
     console.error('Reset password request error:', error);

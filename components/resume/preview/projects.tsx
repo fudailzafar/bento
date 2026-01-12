@@ -72,7 +72,9 @@ export function Projects({
   return (
     <Section>
       <div className="">
-        <div className={`mx-auto grid max-w-[800px] gap-3 ${viewMode === 'mobile' ? 'grid-cols-1' : 'grid-cols-1 xl:grid-cols-2'}`}>
+        <div
+          className={`mx-auto grid max-w-[800px] gap-3 ${viewMode === 'mobile' ? 'grid-cols-1' : 'grid-cols-1 xl:grid-cols-2'}`}
+        >
           {(projects || []).map((project, id) => {
             const isEditing = editingIndex === id;
             const isHovered = hoveredIndex === id;

@@ -29,7 +29,7 @@ export default function LoginContent({
   error,
 }: LogInPageProps) {
   return (
-    <div className="w-full max-w-[440px] space-y-8 mx-auto">
+    <div className="mx-auto w-full max-w-[440px] space-y-8">
       {/* Header for Login */}
       <div className="text-left">
         <h1 className="my-6 text-[28px] font-semibold text-design-black sm:mb-4 lg:text-[32px]">

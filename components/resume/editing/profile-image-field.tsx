@@ -129,7 +129,9 @@ export function ProfileImageField({
           </Button>
         )}
       </div>
-      <div className={`flex w-full flex-col items-start gap-3 ${viewMode === 'mobile' ? 'inline-block' : 'xl:inline-block'}`}>
+      <div
+        className={`flex w-full flex-col items-start gap-3 ${viewMode === 'mobile' ? 'inline-block' : 'xl:inline-block'}`}
+      >
         {/* Copy Link Button - Mobile Only - TOP RIGHT */}
 
         {/* Profile Image */}
@@ -149,7 +151,13 @@ export function ProfileImageField({
           {currentImage ? (
             // Avatar with image
             <>
-              <Avatar className={viewMode === 'mobile' ? 'size-32 border' : 'size-32 border xl:size-48'}>
+              <Avatar
+                className={
+                  viewMode === 'mobile'
+                    ? 'size-32 border'
+                    : 'size-32 border xl:size-48'
+                }
+              >
                 <AvatarImage
                   src={currentImage}
                   alt={`${name}'s profile picture`}
@@ -164,11 +172,17 @@ export function ProfileImageField({
 
               {/* Action Buttons - Always visible on mobile, hover on desktop */}
               {!isUploading && !isPublicView && (
-                <div className={`absolute bottom-0 right-0 flex items-center justify-between px-3 transition-opacity ${viewMode === 'mobile' ? 'opacity-100' : 'xl:opacity-0 xl:group-hover:opacity-100 xl:bottom-2 xl:left-0'}`}>
+                <div
+                  className={`absolute bottom-0 right-0 flex items-center justify-between px-3 transition-opacity ${viewMode === 'mobile' ? 'opacity-100' : 'xl:bottom-2 xl:left-0 xl:opacity-0 xl:group-hover:opacity-100'}`}
+                >
                   {/* Upload - Desktop only */}
                   <button
                     onClick={handleUploadClick}
-                    className={viewMode === 'mobile' ? 'hidden' : 'hidden size-9 items-center justify-center rounded-full border border-neutral-300 bg-white shadow-lg backdrop-blur-sm transition-all hover:bg-white/90 xl:flex'}
+                    className={
+                      viewMode === 'mobile'
+                        ? 'hidden'
+                        : 'hidden size-9 items-center justify-center rounded-full border border-neutral-300 bg-white shadow-lg backdrop-blur-sm transition-all hover:bg-white/90 xl:flex'
+                    }
                   >
                     <CircleArrowUpIcon className="size-4 text-black" />
                   </button>
@@ -178,7 +192,13 @@ export function ProfileImageField({
                     onClick={handleDelete}
                     className={`flex size-9 items-center justify-center rounded-full border border-neutral-300 bg-white shadow-lg backdrop-blur-sm transition-all hover:bg-white/90`}
                   >
-                    <TrashIcon className={viewMode === 'mobile' ? 'size-4 text-black' : 'size-4 text-black xl:size-4'} />
+                    <TrashIcon
+                      className={
+                        viewMode === 'mobile'
+                          ? 'size-4 text-black'
+                          : 'size-4 text-black xl:size-4'
+                      }
+                    />
                   </button>
                 </div>
               )}
@@ -204,7 +224,13 @@ export function ProfileImageField({
               className={`flex cursor-pointer flex-col items-center justify-center rounded-full border-2 border-dashed border-black/[0.08] bg-[#FAFAFA] transition-all duration-200 ease-in-out hover:bg-[#F6F6F6] active:scale-95 active:bg-[#F1F1F1] ${viewMode === 'mobile' ? 'size-28' : 'size-28 xl:size-48'}`}
             >
               <CircleArrowUpIcon className="mb-2 size-8 text-black/10" />
-              <span className={viewMode === 'mobile' ? 'text-xs font-medium text-black/60' : 'text-xs font-medium text-black/60 xl:text-sm xl:font-semibold'}>
+              <span
+                className={
+                  viewMode === 'mobile'
+                    ? 'text-xs font-medium text-black/60'
+                    : 'text-xs font-medium text-black/60 xl:text-sm xl:font-semibold'
+                }
+              >
                 Add Avatar
               </span>
             </button>

@@ -395,7 +395,7 @@ export const AllTheWidgetsGrid = () => {
 export function AllTheWidgets() {
   return (
     <>
-      <div className="mx-auto mt-[210px] md:my-36 flex flex-col items-center justify-center">
+      <div className="mx-auto mt-[210px] flex flex-col items-center justify-center">
         <div className="relative flex w-full flex-col items-center">
           <AllTheWidgetsHeading />
           <div className="mt-28">

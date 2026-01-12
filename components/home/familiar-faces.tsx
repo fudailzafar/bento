@@ -71,7 +71,7 @@ const FamiliarFacesHeading = () => {
           Join thousands of inspiring creatives
         </span>
         <span className="block sm:hidden">
-          <p className="-mb-2">Join hundreds of </p>
+          <p className="-mb-2">Join thousands of </p>
           <p>inspiring creatives</p>
         </span>
       </h2>
@@ -179,7 +179,7 @@ const FamiliarFacesAvatars = () => {
 
 export function FamiliarFaces() {
   return (
-    <section className="md:mb-10 mt-40 flex flex-col items-center justify-center md:mt-80">
+    <section className="mt-40 flex flex-col items-center justify-center md:mb-10 md:mt-80">
       <FamiliarFacesHeading />
       <FamiliarFacesAvatars />
       <FamiliarFacesButton />

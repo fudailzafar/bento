@@ -4,8 +4,7 @@ export default function manifest(): MetadataRoute.Manifest {
   return {
     name: 'Porfoliofy',
     short_name: 'Porfoliofy',
-    description:
-      'Portfoliofy - A Portfolio, but Rich and Beautiful.',
+    description: 'Portfoliofy - A Portfolio, but Rich and Beautiful.',
     start_url: '/',
     display: 'standalone',
     background_color: '#ffffff',

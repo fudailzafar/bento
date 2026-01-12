@@ -156,7 +156,7 @@ export function useUserActions() {
     onSuccess: (data, newUsername) => {
       // Invalidate and refetch username data
       queryClient.invalidateQueries({ queryKey: ['username'] });
-      
+
       // Update the URL without triggering navigation
       if (typeof window !== 'undefined') {
         window.history.replaceState(null, '', `/${newUsername}`);

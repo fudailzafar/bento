@@ -23,8 +23,11 @@ function migrateSectionTitles(resumeData: any) {
   const sectionTitles: Record<string, string> = {};
 
   // Find all sectionTitle-* keys and extract them
-  Object.keys(migratedData).forEach(key => {
-    if (key.startsWith('sectionTitle-') && typeof migratedData[key] === 'string') {
+  Object.keys(migratedData).forEach((key) => {
+    if (
+      key.startsWith('sectionTitle-') &&
+      typeof migratedData[key] === 'string'
+    ) {
       sectionTitles[key] = migratedData[key];
       delete migratedData[key];
     }
@@ -32,13 +35,17 @@ function migrateSectionTitles(resumeData: any) {
 
   // Add sectionTitles if any were found
   if (Object.keys(sectionTitles).length > 0) {
-    migratedData.sectionTitles = { ...migratedData.sectionTitles, ...sectionTitles };
+    migratedData.sectionTitles = {
+      ...migratedData.sectionTitles,
+      ...sectionTitles,
+    };
   }
 
   // Remove 'sectionTitles' and 'education' from sectionOrder if they exist
   if (migratedData.sectionOrder && Array.isArray(migratedData.sectionOrder)) {
     migratedData.sectionOrder = migratedData.sectionOrder.filter(
-      (section: string) => section !== 'sectionTitles' && section !== 'education'
+      (section: string) =>
+        section !== 'sectionTitles' && section !== 'education'
     );
   }
 
@@ -329,7 +336,11 @@ async function InitializeAndPreview({ userId }: { userId: string }) {
   return <PreviewWrapper messageTip={messageTip} />;
 }
 
-export default async function SelfPortfolioLoader({ userId }: { userId: string }) {
+export default async function SelfPortfolioLoader({
+  userId,
+}: {
+  userId: string;
+}) {
   return (
     <Suspense fallback={<LoadingFallback />}>
       <InitializeAndPreview userId={userId} />

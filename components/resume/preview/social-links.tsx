@@ -3,7 +3,7 @@
 import React, { useState } from 'react';
 import { Section, Input, Label, Button } from '@/components/ui';
 import { ResumeDataSchemaType } from '@/lib/resume';
-import { Notebook, Plus } from 'lucide-react';
+import { Notebook } from 'lucide-react';
 import { BlurFade } from '@/components/magicui';
 import { GitHubIcon, LinkedInIcon, PenIcon, XIcon } from '@/components/icons';
 

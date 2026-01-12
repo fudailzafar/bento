@@ -127,7 +127,9 @@ export function Header({
   };
 
   return (
-    <header className={`flex flex-col-reverse gap-2 ${viewMode === 'mobile' ? 'items-start px-4' : 'xl:items-start xl:px-4'}`}>
+    <header
+      className={`flex flex-col-reverse gap-2 ${viewMode === 'mobile' ? 'items-start px-4' : 'xl:items-start xl:px-4'}`}
+    >
       <div className="flex-1 space-y-1.5">
         {/* Name Field */}
         {isEditMode && onChangeHeader ? (
@@ -161,7 +163,11 @@ export function Header({
         ) : (
           <BlurFadeText
             delay={BLUR_FADE_DELAY}
-            className={viewMode === 'mobile' ? 'p-2 text-[32px] font-bold tracking-tighter outline-none' : 'p-2 text-[32px] font-bold tracking-tighter outline-none xl:text-5xl'}
+            className={
+              viewMode === 'mobile'
+                ? 'p-2 text-[32px] font-bold tracking-tighter outline-none'
+                : 'p-2 text-[32px] font-bold tracking-tighter outline-none xl:text-5xl'
+            }
             yOffset={8}
             text={header.name}
           />
@@ -220,7 +226,11 @@ export function Header({
           </div>
         ) : (
           <BlurFadeText
-            className={viewMode === 'mobile' ? 'max-w-[600px] p-2 text-base text-[#565656] outline-none' : 'max-w-[600px] p-2 text-base text-[#565656] outline-none xl:text-xl'}
+            className={
+              viewMode === 'mobile'
+                ? 'max-w-[600px] p-2 text-base text-[#565656] outline-none'
+                : 'max-w-[600px] p-2 text-base text-[#565656] outline-none xl:text-xl'
+            }
             delay={BLUR_FADE_DELAY}
             text={header.shortAbout}
           />

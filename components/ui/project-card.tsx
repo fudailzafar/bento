@@ -297,7 +297,7 @@ export function ProjectCard({
 
           {/* Loader during Upload */}
           {isUploading && (
-            <div className="absolute inset-0 rounded-lg flex items-center justify-center bg-black/50">
+            <div className="absolute inset-0 flex items-center justify-center rounded-lg bg-black/50">
               <LoaderIcon className="text-white" />
             </div>
           )}

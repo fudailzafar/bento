@@ -8,7 +8,7 @@ export const MailIcon = (props: React.SVGProps<SVGSVGElement>) => {
         viewBox="0 0 26 26"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
-         {...props}
+        {...props}
       >
         <mask id="path-1-inside-1_5434_16670" fill="currentColor">
           <rect y="3" width="26" height="20" rx="2"></rect>
