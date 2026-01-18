@@ -4,7 +4,7 @@ import { Suspense } from 'react';
 import { useState, useEffect } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { signIn } from 'next-auth/react';
-import { AuthAnimation, ResetPasswordConfirmContent } from '@/components/auth';
+import { AuthAnimation, FloatingWidgetsGrid, ResetPasswordConfirmContent } from '@/components/auth';
 import { CheckmarkLargeIcon } from '@/components/icons';
 
 function ResetPasswordConfirmContent_Internal() {
@@ -149,7 +149,7 @@ function ResetPasswordConfirmContent_Internal() {
         handleSubmit={handleSubmit}
       />
 
-      <AuthAnimation />
+      <FloatingWidgetsGrid isActive={true} />
     </div>
   );
 }
