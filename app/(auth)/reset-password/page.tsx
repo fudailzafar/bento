@@ -1,8 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { AuthAnimation, FloatingWidgetsGrid } from '@/components/auth';
-import ResetPasswordContent from '@/components/auth/reset-password-content';
+import { LogInAnimation, ResetPasswordContent } from '@/components/auth';
 import { MailIcon } from '@/components/icons';
 
 export default function ResetPasswordPage() {
@@ -80,7 +79,7 @@ export default function ResetPasswordPage() {
         </div>
 
         <div className="hidden max-w-[700px] flex-1 items-center justify-center lg:flex">
-          <FloatingWidgetsGrid isActive={true} />
+          <LogInAnimation isActive={true} />
         </div>
       </div>
     );
@@ -96,7 +95,7 @@ export default function ResetPasswordPage() {
         message={message}
       />
 
-      <FloatingWidgetsGrid isActive={true} />
+      <LogInAnimation isActive={true} />
     </div>
   );
 }

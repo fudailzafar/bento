@@ -3,8 +3,7 @@
 import { useEffect, useState } from 'react';
 import { signIn, useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
-import LoginContent from '@/components/auth/log-in-content';
-import { AuthAnimation, FloatingWidgetsGrid } from '@/components/auth';
+import { LogInAnimation, LoginContent } from '@/components/auth';
 
 export default function LoginPage() {
   const { data: session } = useSession();
@@ -78,7 +77,7 @@ export default function LoginPage() {
         error={error}
       />
       {/* Animation Component */}
-        <FloatingWidgetsGrid isActive={true} />
+      <LogInAnimation isActive={true} />
     </div>
   );
 }
