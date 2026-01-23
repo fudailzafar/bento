@@ -122,7 +122,7 @@ export function Hero() {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 0.8, delay: 0.7, ease: easeInOutCubic }}
-              className="mx-auto mb-8 mt-7 max-w-2xl text-balance text-xl font-light tracking-tight text-design-gray sm:text-[22px]"
+              className="mx-auto mb-8 mt-7 max-w-2xl text-balance text-xl font-light tracking-[-0.5px] text-design-gray sm:text-[22px]"
             >
               Your personal page to show everything you are and create.
             </motion.p>
@@ -132,7 +132,7 @@ export function Hero() {
             <Link href="/signup">
               <Button
                 variant="default"
-                className="mb-2 cursor-pointer rounded-xl bg-design-primary px-20 py-8 text-lg font-semibold shadow-md transition-all hover:bg-design-primaryDark active:scale-95 sm:px-14 sm:py-8"
+                className="mb-2 w-[327px] cursor-pointer rounded-xl bg-design-primary px-20 py-8 text-lg font-semibold shadow-md transition-all hover:bg-design-primaryDark active:scale-95 sm:px-20 sm:py-8 lg:w-[300px]"
               >
                 Create Your Portfolio
               </Button>
@@ -223,7 +223,7 @@ export function Hero() {
             <Link href="/signup">
               <Button
                 variant="default"
-                className="mb-2 cursor-pointer rounded-xl bg-design-primary px-20 py-8 text-lg font-semibold shadow-md transition-all hover:bg-design-primaryDark active:scale-95 sm:px-14 sm:py-8"
+                className="mb-2 cursor-pointer rounded-[14px] bg-design-primary px-20 py-8 text-lg font-semibold shadow-md transition-all hover:bg-design-primaryDark active:scale-95 sm:px-14 sm:py-8 lg:h-[62px] lg:w-[300px]"
               >
                 Create Your Portfolio
               </Button>
