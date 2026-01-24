@@ -1,7 +1,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
 
-const FooterImage = () => {
+function FooterImage() {
   return (
     <>
       <Image
@@ -13,9 +13,9 @@ const FooterImage = () => {
       />
     </>
   );
-};
+}
 
-const FooterSubHeading = () => {
+function FooterSubHeading() {
   return (
     <>
       <div className="mb-20 text-xs font-normal leading-5 tracking-tighter text-design-gray sm:text-sm">
@@ -23,9 +23,9 @@ const FooterSubHeading = () => {
       </div>
     </>
   );
-};
+}
 
-const FooterLinks = () => {
+function FooterLinks() {
   return (
     <>
       <div className="flex flex-col items-center justify-center gap-9 text-center text-xs font-normal leading-5 tracking-tight text-design-gray sm:flex-row sm:text-sm">
@@ -85,7 +85,7 @@ const FooterLinks = () => {
       </div>
     </>
   );
-};
+}
 
 export function Footer() {
   return (

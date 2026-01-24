@@ -3,7 +3,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
 
-export const AllTheWidgetsHeading = () => {
+function AllTheWidgetsHeading() {
   return (
     <>
       <div className="max-w-[340px] text-center text-[40px] font-bold leading-tight sm:text-6xl md:max-w-full">
@@ -32,12 +32,11 @@ export const AllTheWidgetsHeading = () => {
       </div>
     </>
   );
-};
+}
 
-export const AllTheWidgetsGrid = () => {
+function AllTheWidgetsMobile() {
   return (
-    <div className="relative mx-auto mb-24 px-6 md:px-4">
-      {/* Mobile Grid */}
+    <>
       <div className="relative mx-auto grid max-w-[1280px] grid-cols-2 gap-6 md:hidden">
         {/* YouTube Widget */}
         <Link
@@ -170,8 +169,13 @@ export const AllTheWidgetsGrid = () => {
           />
         </Link>
       </div>
+    </>
+  );
+}
 
-      {/* Desktop Grid */}
+function AllTheWidgetsDesktop() {
+  return (
+    <>
       <div className="relative mx-auto hidden max-w-[1280px] grid-cols-6 gap-10 md:grid">
         {/* Column 1 - Medium & Spotify widgets */}
         <div className="col-span-1 flex w-full flex-col gap-5 md:w-[175px] md:gap-10">
@@ -388,18 +392,19 @@ export const AllTheWidgetsGrid = () => {
           </Link>
         </div>
       </div>
-    </div>
+    </>
   );
-};
+}
 
 export function AllTheWidgets() {
   return (
     <>
-      <div className="mx-auto mt-[210px] md:mt-[190px] flex flex-col items-center justify-center">
+      <div className="mx-auto mt-[210px] flex flex-col items-center justify-center md:mt-[190px]">
         <div className="relative flex w-full flex-col items-center">
           <AllTheWidgetsHeading />
-          <div className="mt-28">
-            <AllTheWidgetsGrid />
+          <div className="relative mx-auto mb-24 mt-28 px-6 md:px-4">
+            <AllTheWidgetsMobile />
+            <AllTheWidgetsDesktop />
           </div>
         </div>
       </div>
