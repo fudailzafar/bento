@@ -366,7 +366,9 @@ export default function PreviewClient({ messageTip }: { messageTip?: string }) {
         )}
 
         {/* Desktop/Mobile View Toggle */}
-        <div className="flex flex-1 items-center justify-center pb-24">
+        <div
+          className={`flex flex-1 items-center justify-center pb-24 ${viewMode === 'mobile' ? 'bg-[#f8f8f8]' : ''}`}
+        >
           <AnimatePresence mode="wait">
             {viewMode === 'mobile' ? (
               /* Mobile View */
