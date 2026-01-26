@@ -2,6 +2,8 @@
 
 import Image from 'next/image';
 import Link from 'next/link';
+import { motion, useScroll, useTransform } from 'framer-motion';
+import { useRef } from 'react';
 
 function AllTheWidgetsHeading() {
   return (
@@ -174,9 +176,30 @@ function AllTheWidgetsMobile() {
 }
 
 function AllTheWidgetsDesktop() {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ['start start', 'end start'],
+  });
+
+  // Column 1 parallax values
+  const col1Y1 = useTransform(scrollYProgress, [0, 1], [40, -100]);
+  const col1Y2 = useTransform(scrollYProgress, [0, 1], [40, -100]);
+  const col1Y3 = useTransform(scrollYProgress, [0, 1], [40, -100]);
+
+  // Column 4 & 5 parallax values
+  const col45Y1 = useTransform(scrollYProgress, [0, 1], [40, -100]);
+  const col45Y2 = useTransform(scrollYProgress, [0, 1], [0, -100]);
+  const col45Y3 = useTransform(scrollYProgress, [0, 1], [0, -100]);
+  const col45Y4 = useTransform(scrollYProgress, [0, 1], [0, -100]);
+  const col45Y5 = useTransform(scrollYProgress, [0, 1], [0, -100]);
+
   return (
     <>
-      <div className="relative mx-auto hidden max-w-[1280px] grid-cols-6 gap-10 md:grid">
+      <div
+        ref={containerRef}
+        className="relative mx-auto hidden max-w-[1280px] grid-cols-6 gap-10 md:grid"
+      >
         {/* Column 1 - Medium & Spotify widgets */}
         <div className="col-span-1 flex w-full flex-col gap-5 md:w-[175px] md:gap-10">
           {/* Medium Widget */}
@@ -185,17 +208,22 @@ function AllTheWidgetsDesktop() {
             target="_blank"
             rel="noopener noreferrer"
           >
-            <Image
-              src="/home/all-the-widgets/medium.png"
-              alt=""
-              width={175}
-              height={390}
-              className="hidden h-full w-full cursor-pointer overflow-hidden rounded-2xl object-cover shadow-[0_2px_2px_rgba(0,0,0,0.04)] transition-all hover:rotate-2 md:block md:h-[390px] md:rounded-3xl"
-            />
+            <motion.div style={{ y: col1Y1 }}>
+              <Image
+                src="/home/all-the-widgets/medium.png"
+                alt=""
+                width={175}
+                height={390}
+                className="hidden h-full w-full cursor-pointer overflow-hidden rounded-2xl object-cover shadow-[0_2px_2px_rgba(0,0,0,0.04)] transition-all hover:rotate-2 md:block md:h-[390px] md:rounded-3xl"
+              />
+            </motion.div>
           </Link>
 
           {/* Decorative spacer */}
-          <div className="hidden h-[175px] overflow-hidden rounded-2xl bg-[#F2FFFE] md:block md:rounded-3xl"></div>
+          <motion.div
+            style={{ y: col1Y2 }}
+            className="hidden h-[175px] overflow-hidden rounded-2xl bg-[#F2FFFE] md:block md:rounded-3xl"
+          ></motion.div>
 
           {/* Spotify Widget */}
           <Link
@@ -203,13 +231,15 @@ function AllTheWidgetsDesktop() {
             target="_blank"
             rel="noopener noreferrer"
           >
-            <Image
-              src="/home/all-the-widgets/spotify.png"
-              alt=""
-              width={175}
-              height={390}
-              className="hidden h-full w-full cursor-pointer overflow-hidden rounded-2xl object-cover shadow-[0_2px_2px_rgba(0,0,0,0.04)] transition-all hover:rotate-2 md:block md:h-[390px] md:rounded-3xl"
-            />
+            <motion.div style={{ y: col1Y3 }}>
+              <Image
+                src="/home/all-the-widgets/spotify.png"
+                alt=""
+                width={175}
+                height={390}
+                className="hidden h-full w-full cursor-pointer overflow-hidden rounded-2xl object-cover shadow-[0_2px_2px_rgba(0,0,0,0.04)] transition-all hover:rotate-2 md:block md:h-[390px] md:rounded-3xl"
+              />
+            </motion.div>
           </Link>
         </div>
 
@@ -277,13 +307,15 @@ function AllTheWidgetsDesktop() {
             rel="noopener noreferrer"
             className="cursor-pointer overflow-hidden rounded-2xl transition-all hover:-rotate-2 md:h-[390px] md:rounded-3xl"
           >
-            <Image
-              src="/home/all-the-widgets/youtube.png"
-              alt=""
-              width={390}
-              height={390}
-              className="hidden h-full w-full object-cover md:block"
-            />
+            <motion.div style={{ y: col45Y1 }}>
+              <Image
+                src="/home/all-the-widgets/youtube.png"
+                alt=""
+                width={390}
+                height={390}
+                className="hidden h-full w-full object-cover md:block"
+              />
+            </motion.div>
           </Link>
 
           {/* GitHub Widget */}
@@ -292,13 +324,15 @@ function AllTheWidgetsDesktop() {
             target="_blank"
             rel="noopener noreferrer"
           >
-            <Image
-              src="/home/all-the-widgets/github.png"
-              alt=""
-              width={390}
-              height={175}
-              className="hidden h-[200px] w-full cursor-pointer overflow-hidden rounded-2xl object-cover shadow-[0_2px_2px_rgba(0,0,0,0.04)] transition-all hover:-rotate-1 md:block md:h-[175px] md:rounded-3xl"
-            />
+            <motion.div style={{ y: col45Y2 }}>
+              <Image
+                src="/home/all-the-widgets/github.png"
+                alt=""
+                width={390}
+                height={175}
+                className="hidden h-[200px] w-full cursor-pointer overflow-hidden rounded-2xl object-cover shadow-[0_2px_2px_rgba(0,0,0,0.04)] transition-all hover:-rotate-1 md:block md:h-[175px] md:rounded-3xl"
+              />
+            </motion.div>
           </Link>
 
           {/* The Verge Widget */}
@@ -307,13 +341,15 @@ function AllTheWidgetsDesktop() {
             target="_blank"
             rel="noopener noreferrer"
           >
-            <Image
-              src="/home/all-the-widgets/theverge.png"
-              alt=""
-              width={390}
-              height={390}
-              className="hidden h-[300px] w-full cursor-pointer overflow-hidden rounded-2xl object-cover shadow-[0_2px_2px_rgba(0,0,0,0.04)] transition-all hover:-rotate-2 md:block md:h-[390px] md:rounded-3xl"
-            />
+            <motion.div style={{ y: col45Y3 }}>
+              <Image
+                src="/home/all-the-widgets/theverge.png"
+                alt=""
+                width={390}
+                height={390}
+                className="hidden h-[300px] w-full cursor-pointer overflow-hidden rounded-2xl object-cover shadow-[0_2px_2px_rgba(0,0,0,0.04)] transition-all hover:-rotate-2 md:block md:h-[390px] md:rounded-3xl"
+              />
+            </motion.div>
           </Link>
 
           {/* Google Maps Widget  */}
@@ -321,14 +357,33 @@ function AllTheWidgetsDesktop() {
             href="https://www.google.com/maps/place/Berlin/@52.5069704,13.2846518,11z/data=!3m1!4b1!4m5!3m4!1s0x47a84e373f035901:0x42120465b5e3b70!8m2!3d52.5200066!4d13.404954"
             target="_blank"
             rel="noopener noreferrer"
+            className="relative"
           >
-            <Image
-              src="/home/all-the-widgets/map.png"
-              alt=""
-              width={390}
-              height={390}
-              className="hidden h-[300px] w-full cursor-pointer overflow-hidden rounded-2xl object-cover shadow-[0_2px_2px_rgba(0,0,0,0.04)] transition-all hover:-rotate-2 md:block md:h-[390px] md:rounded-3xl"
-            />
+            <motion.div style={{ y: col45Y4 }} className="relative">
+              <Image
+                src="/home/all-the-widgets/map.png"
+                alt=""
+                width={390}
+                height={390}
+                className="hidden h-[300px] w-full cursor-pointer overflow-hidden rounded-2xl object-cover shadow-[0_2px_2px_rgba(0,0,0,0.04)] transition-all hover:-rotate-2 md:block md:h-[390px] md:rounded-3xl"
+              />
+              {/* Location pointer with ping animation */}
+              <div className="absolute left-1/2 top-1/2 hidden -translate-x-1/2 -translate-y-1/2 md:flex md:items-center md:justify-center">
+                {/* Pinging circle */}
+                <span
+                  className="absolute inline-flex h-[120px] w-[120px] animate-ping rounded-full bg-[#5871FF] opacity-30"
+                  style={{ animationDuration: '5s' }}
+                ></span>
+                {/* Location pin icon */}
+                <Image
+                  src="/home/all-the-widgets/map-pointer.png"
+                  alt="Location"
+                  width={26}
+                  height={26}
+                  className="relative z-10"
+                />
+              </div>
+            </motion.div>
           </Link>
 
           {/* Figma Widget + custom cursor */}
@@ -340,13 +395,15 @@ function AllTheWidgetsDesktop() {
               cursor: 'url(/home/all-the-widgets/figma-cursor.png), pointer', // Custom 32x32px cursor
             }}
           >
-            <Image
-              src="/home/all-the-widgets/figma.png"
-              alt=""
-              width={390}
-              height={70}
-              className="h-[56px] w-full rounded-2xl object-cover shadow-[0_2px_2px_rgba(0,0,0,0.04)] transition-all hover:-rotate-2 md:block md:h-[67px] md:rounded-3xl"
-            />
+            <motion.div style={{ y: col45Y5 }}>
+              <Image
+                src="/home/all-the-widgets/figma.png"
+                alt=""
+                width={390}
+                height={70}
+                className="h-[56px] w-full rounded-2xl object-cover shadow-[0_2px_2px_rgba(0,0,0,0.04)] transition-all hover:-rotate-2 md:block md:h-[67px] md:rounded-3xl"
+              />
+            </motion.div>
           </Link>
         </div>
 
