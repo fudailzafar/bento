@@ -5,7 +5,7 @@ function FooterImage() {
   return (
     <>
       <Image
-        src={'/icons/apple-touch-icon.png'}
+        src={'/icons/android-chrome-192x192.png'}
         alt="portfoliofy logo"
         width={50}
         height={50}
