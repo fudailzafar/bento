@@ -5,7 +5,7 @@ import { useSession } from 'next-auth/react';
 import { CompassIcon, DiscordIcon } from '@/components/icons';
 import { SettingsActionBar } from '../preview';
 
-function HeaderMobile() {
+function SettingsMobile() {
   return (
     <>
       <div className="mx-auto flex h-[67px] w-full items-center justify-between border-t border-gray-200 bg-white px-6 py-4 xl:hidden">
@@ -51,7 +51,7 @@ function HeaderMobile() {
   );
 }
 
-function HeaderDesktop() {
+function SettingsDesktop() {
   return (
     <>
       <div className="fixed bottom-14 left-14 z-50 hidden flex-row items-center justify-center gap-2 xl:flex">
@@ -87,14 +87,14 @@ function HeaderDesktop() {
   );
 }
 
-export function Header() {
+export function Settings() {
   const { data: session } = useSession();
 
   if (session?.user) {
     return (
       <>
-        <HeaderMobile />
-        <HeaderDesktop />
+        <SettingsMobile />
+        <SettingsDesktop />
       </>
     );
   }
