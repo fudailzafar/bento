@@ -40,7 +40,7 @@ export const PromotionCtaDesktop = () => {
           className="relative z-10 flex flex-row items-center gap-2 text-xs font-semibold"
         >
           <Image src={'/favicon.ico'} alt="" width={16} height={16} />
-          <span>Create Your Portfolio</span>
+          <span>Create Your Bento</span>
         </Link>
         {/* Shine effect */}
         <div className="absolute inset-0 translate-x-[-100%] animate-[shine_4s_ease-in-out_infinite] bg-gradient-to-r from-transparent via-design-primaryLight/30 to-transparent" />

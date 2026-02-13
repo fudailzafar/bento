@@ -62,7 +62,7 @@ function HeroLogo() {
           transition={{ duration: 0.6, delay: 1.2 }}
           className="absolute inset-0 top-20 z-10 mt-3 text-2xl font-semibold md:top-24 md:mt-0 md:text-xl"
         >
-          Portfoliofy
+          Bento
         </motion.div>
       </div>
     </>
@@ -81,7 +81,7 @@ function HeroSubHeading() {
         >
           {/* Mobile layout: 3 lines */}
           <div className="flex flex-col gap-y-2 tracking-normal md:hidden">
-            <div>A Portfolio.</div>
+            <div>A Link in Bio.</div>
             <div>But Rich and </div>
             <div>Beautiful. </div>
           </div>
@@ -113,7 +113,7 @@ function HeroButtons() {
             variant="default"
             className="mb-2 w-[327px] cursor-pointer rounded-xl bg-design-primary px-20 py-8 text-lg font-semibold shadow-md transition-all hover:bg-design-primaryDark active:scale-95 sm:px-20 sm:py-8 md:w-auto md:rounded-[14px] md:px-14 lg:h-[62px] lg:w-[300px]"
           >
-            Create Your Portfolio
+            Create Your Bento
           </Button>
         </Link>
         <Link
