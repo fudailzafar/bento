@@ -191,7 +191,7 @@ export default function SignupContent({
 
               <div className="relative w-full">
                 <div className="pointer-events-none absolute left-0 top-0 flex h-12 items-center pl-4 text-base text-design-gray">
-                  portfoliofy.me/
+                  bento.me/
                 </div>
                 <Input
                   id="username"
@@ -290,7 +290,7 @@ export default function SignupContent({
                   </button>
                 </div>
                 <p className="text-base font-normal text-design-black">
-                  portfoliofy.me/{username} is yours!
+                  bento.me/{username} is yours!
                 </p>
                 <h2 className="text-[32px] font-bold leading-tight text-design-black md:text-[48px] lg:text-[32px]">
                   Now, create your account.
