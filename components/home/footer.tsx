@@ -19,7 +19,7 @@ function FooterSubHeading() {
   return (
     <>
       <div className="mb-20 text-xs font-normal leading-5 tracking-tighter text-design-gray sm:text-sm">
-        Designed in Chennai. Built for Professionals.
+        Designed in Berlin. Built for Creatives.
       </div>
     </>
   );
