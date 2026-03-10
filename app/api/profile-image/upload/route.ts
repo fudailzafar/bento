@@ -1,12 +1,12 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { getServerSession } from 'next-auth';
-import { authOptions } from '@/app/api/auth/[...nextauth]/route';
+import { createClient } from '@/lib/supabase/server';
 import { getUserProfile, storeUserProfile } from '@/lib/server';
 
 export async function POST(request: NextRequest) {
   try {
-    const session = await getServerSession(authOptions);
-    if (!session?.user?.email) {
+    const supabase = await createClient();
+    const { data: { user } } = await supabase.auth.getUser();
+    if (!user?.email) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
@@ -68,11 +68,11 @@ export async function POST(request: NextRequest) {
     const imageUrl = cloudinaryData.secure_url;
 
     // Update user profile with new image
-    const userProfile = await getUserProfile(session.user.email);
-    await storeUserProfile(session.user.email, {
-      id: session.user.email,
-      email: session.user.email,
-      name: userProfile?.name || session.user.name || '',
+    const userProfile = await getUserProfile(user.id);
+    await storeUserProfile(user.id, {
+      id: user.id,
+      email: user.email,
+      name: userProfile?.name || user.name || '',
       image: imageUrl,
     });
 

@@ -3,8 +3,13 @@ import { UploadThingError } from 'uploadthing/server';
 
 const f = createUploadthing();
 
-const auth = (req: Request) => ({ id: 'fakeId' }); // Fake auth function
+import { createClient } from '@/lib/supabase/server';
 
+const auth = async () => {
+  const supabase = await createClient();
+  const { data: { user } } = await supabase.auth.getUser();
+  return user;
+};
 // FileRouter for your app, can contain multiple FileRoutes
 export const ourFileRouter = {
   // Only allow PDF uploads for resumes
@@ -15,9 +20,9 @@ export const ourFileRouter = {
     },
   })
     // Set permissions and file types for this FileRoute
-    .middleware(async ({ req }) => {
+    .middleware(async () => {
       // This code runs on your server before upload
-      const user = await auth(req);
+      const user = await auth();
 
       // If you throw, the user will not be able to upload
       if (!user) throw new UploadThingError('Unauthorized');

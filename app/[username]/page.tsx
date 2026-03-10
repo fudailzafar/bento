@@ -19,8 +19,7 @@ import {
   TooltipTrigger,
 } from '@/components/ui';
 import { PublicPortfolio } from '@/components/resume/preview';
-import { getServerSession } from 'next-auth';
-import { authOptions } from '@/app/api/auth/[...nextauth]/route';
+import { createClient } from '@/lib/supabase/server';
 import { PromotionCtaDesktop, PromotionCtaMobile } from '@/components/common';
 import { SelfPortfolioLoader } from '@/components/preview';
 import { ClaimUsername } from '@/components/auth';
@@ -118,8 +117,9 @@ export default async function ProfilePage({
   const { user_id, resume, userData } = await getUserData(username);
 
   // Check if the logged-in user is viewing their own profile
-  const session = await getServerSession(authOptions);
-  const isOwnProfile = session?.user?.email === user_id;
+  const supabase = await createClient();
+  const { data: { user } } = await supabase.auth.getUser();
+  const isOwnProfile = user?.id === user_id;
 
   // If user is viewing their own profile, show preview/edit mode with initialization
   if (isOwnProfile && user_id) {

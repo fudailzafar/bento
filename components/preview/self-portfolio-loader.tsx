@@ -1,7 +1,6 @@
 'use server';
 
-import { getServerSession } from 'next-auth';
-import { authOptions } from '@/app/api/auth/[...nextauth]/route';
+import { createClient } from '@/lib/supabase/server';
 import {
   createUsernameLookup,
   getResume,
@@ -69,7 +68,8 @@ function migrateSectionTitles(resumeData: any) {
 
 async function InitializeAndPreview({ userId }: { userId: string }) {
   const resume = await getResume(userId);
-  const session = await getServerSession(authOptions);
+  const supabase = await createClient();
+  const { data: { user } } = await supabase.auth.getUser();
 
   let messageTip: string | undefined;
 
@@ -90,11 +90,11 @@ async function InitializeAndPreview({ userId }: { userId: string }) {
   if (!resume) {
     const defaultResumeData = {
       header: {
-        name: session?.user?.name || session?.user?.email || 'user',
+        name: user?.user_metadata?.name || user?.email || 'user',
         shortAbout: 'A one-liner on who you are, what you do',
         location: 'Your City, Your Country',
         contacts: {
-          email: session?.user?.email || 'your@email.com',
+          email: user?.email || 'your@email.com',
           phone: '+1 234 567 890',
           website: 'your-portfolio.com',
           linkedin: 'yourusername',
@@ -206,11 +206,11 @@ async function InitializeAndPreview({ userId }: { userId: string }) {
     if (!resumeObject) {
       resumeObject = {
         header: {
-          name: session?.user?.name || session?.user?.email || 'user',
+          name: user?.user_metadata?.name || user?.email || 'user',
           shortAbout: 'A one-liner on who you are, what you do',
           location: 'Your City, Your Country',
           contacts: {
-            email: session?.user?.email || 'your@email.com',
+            email: user?.email || 'your@email.com',
             phone: '+1 234 567 890',
             website: 'your-portfolio.com',
             linkedin: 'yourusername',

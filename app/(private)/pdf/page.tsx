@@ -1,5 +1,4 @@
-import { getServerSession } from 'next-auth';
-import { authOptions } from '@/app/api/auth/[...nextauth]/route';
+import { createClient } from '@/lib/supabase/server';
 import {
   getResume,
   storeResume,
@@ -53,14 +52,15 @@ async function PdfProcessing({ userId }: PdfProcessingProps) {
 }
 
 export default async function Pdf() {
-  const session = await getServerSession(authOptions);
+  const supabase = await createClient();
+  const { data: { user } } = await supabase.auth.getUser();
 
-  if (!session?.user?.email) {
+  if (!user?.email) {
     redirect('/login');
   }
 
   // Use email as userId or create a consistent user identifier
-  const userId = session.user.email;
+  const userId = user.email;
 
   return (
     <>

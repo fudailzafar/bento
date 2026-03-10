@@ -1,6 +1,6 @@
 'use client';
 
-import { useSession } from 'next-auth/react';
+import { createClient } from '@/lib/supabase/client';
 import { useEffect, useState, useRef, useCallback } from 'react';
 import { AddSkillDialog } from '@/components/resume/editing';
 import { toast } from 'sonner';
@@ -24,7 +24,7 @@ import {
 } from '@/components/ui/message-input';
 
 export default function PreviewClient({ messageTip }: { messageTip?: string }) {
-  const { data: session } = useSession();
+
   const {
     resumeQuery,
     usernameQuery,
@@ -52,14 +52,16 @@ export default function PreviewClient({ messageTip }: { messageTip?: string }) {
     }
   }, [resumeQuery.data?.resume?.resumeData]);
 
-  // Update local profile picture when query data changes
   useEffect(() => {
-    const profilePic =
-      userProfileQuery.data?.profile?.image ||
-      session?.user?.image ||
-      undefined;
-    setLocalProfilePicture(profilePic);
-  }, [userProfileQuery.data?.profile?.image, session?.user?.image]);
+    const supabase = createClient();
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      const profilePic =
+        userProfileQuery.data?.profile?.image ||
+        session?.user?.user_metadata?.avatar_url ||
+        undefined;
+      setLocalProfilePicture(profilePic);
+    });
+  }, [userProfileQuery.data?.profile?.image]);
 
   console.log('resumeQuery', resumeQuery.data);
 

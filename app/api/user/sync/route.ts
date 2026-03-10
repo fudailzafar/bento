@@ -1,0 +1,41 @@
+import { NextResponse } from 'next/server';
+import { prisma } from '@/lib/server/db';
+import { createClient } from '@/lib/supabase/server';
+import { createUsernameLookup } from '@/lib/server';
+
+export async function POST(req: Request) {
+  try {
+    const supabase = await createClient();
+    const { data: { user } } = await supabase.auth.getUser();
+
+    if (!user) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
+
+    const { username, email, id } = await req.json();
+
+    // Ensure they match the authenticated user
+    if (user.id !== id || user.email !== email) {
+      return NextResponse.json({ error: 'Unauthorized mismatch' }, { status: 401 });
+    }
+
+    // Insert into Prisma User table if not exists
+    await prisma.user.upsert({
+      where: { id: user.id },
+      update: { email: user.email },
+      create: {
+        id: user.id,
+        email: user.email!,
+      },
+    });
+
+    if (username) {
+      await createUsernameLookup({ userId: user.id, username });
+    }
+
+    return NextResponse.json({ success: true });
+  } catch (error) {
+    console.error('Sync error:', error);
+    return NextResponse.json({ error: 'Internal error' }, { status: 500 });
+  }
+}

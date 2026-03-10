@@ -1,12 +1,12 @@
-import { getServerSession } from 'next-auth';
+import { createClient } from '@/lib/supabase/server';
 import UploadPageClient from './client';
-import { authOptions } from '@/app/api/auth/[...nextauth]/route';
 import { redirect } from 'next/navigation';
 
 export default async function UploadPage() {
-  const session = await getServerSession(authOptions);
+  const supabase = await createClient();
+  const { data: { user } } = await supabase.auth.getUser();
 
-  if (!session?.user?.email) {
+  if (!user?.email) {
     redirect('/login');
   }
   return <UploadPageClient />;

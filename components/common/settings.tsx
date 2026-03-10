@@ -1,7 +1,8 @@
 'use client';
 
 import Link from 'next/link';
-import { useSession } from 'next-auth/react';
+import { useState, useEffect } from 'react';
+import { createClient } from '@/lib/supabase/client';
 import { CompassIcon, DiscordIcon } from '@/components/icons';
 import { SettingsActionBar } from '../preview';
 
@@ -88,9 +89,16 @@ function SettingsDesktop() {
 }
 
 export function Settings() {
-  const { data: session } = useSession();
+  const [hasSession, setHasSession] = useState(false);
 
-  if (session?.user) {
+  useEffect(() => {
+    const supabase = createClient();
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      setHasSession(!!session?.user);
+    });
+  }, []);
+
+  if (hasSession) {
     return (
       <>
         <SettingsMobile />

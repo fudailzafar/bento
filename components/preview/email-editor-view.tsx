@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { toast } from 'sonner';
-import { signOut } from 'next-auth/react';
+
 import { useIsMobile } from '@/hooks';
 import {
   Button,
@@ -57,9 +57,11 @@ function EmailEditorContent({
       }
 
       setShowSuccess(true);
-      // Sign out after 2 seconds to re-authenticate with new email
-      setTimeout(() => {
-        signOut({ callbackUrl: '/login' });
+      setTimeout(async () => {
+        const { createClient } = await import('@/lib/supabase/client');
+        const supabase = createClient();
+        await supabase.auth.signOut();
+        window.location.href = '/login';
       }, 2000);
     } catch (error) {
       toast.error('Failed to Update My Email');

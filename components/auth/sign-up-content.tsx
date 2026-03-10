@@ -7,7 +7,7 @@ import {
   GoogleIcon,
   LoaderIcon,
 } from '@/components/icons';
-import { signIn, useSession } from 'next-auth/react';
+import { createClient } from '@/lib/supabase/client';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { Input } from '@/components/ui/input';
@@ -19,7 +19,6 @@ import Link from 'next/link';
 export default function SignupContent({
   onStepChange,
 }: { onStepChange?: (step: 'username' | 'auth') => void } = {}) {
-  const { data: session } = useSession();
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
   const [username, setUsername] = useState('');
@@ -44,10 +43,13 @@ export default function SignupContent({
   }, [step, onStepChange]);
 
   useEffect(() => {
-    if (session?.user) {
-      router.push('/upload');
-    }
-  }, [session, router]);
+    const supabase = createClient();
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      if (session?.user) {
+        router.push('/upload');
+      }
+    });
+  }, [router]);
 
   useEffect(() => {
     const checkUsername = async () => {
@@ -106,8 +108,12 @@ export default function SignupContent({
     }
 
     setIsLoading(true);
-    await signIn('google', {
-      callbackUrl: `/signup/callback?username=${username}`,
+    const supabase = createClient();
+    await supabase.auth.signInWithOAuth({
+      provider: 'google',
+      options: {
+        redirectTo: `${window.location.origin}/auth/callback?next=/upload&username=${username}`,
+      },
     });
   };
 
@@ -123,30 +129,34 @@ export default function SignupContent({
         return;
       }
 
-      const response = await fetch('/api/auth/signup', {
+      const supabase = createClient();
+      const { data, error: signUpError } = await supabase.auth.signUp({
+        email,
+        password,
+        options: {
+          data: {
+            username: username,
+          }
+        }
+      });
+
+      if (signUpError) {
+        setError(signUpError.message || 'Signup failed. Please try again.');
+        return;
+      }
+
+      // Now call an internal API to sync this user with Prisma and set the username
+      const response = await fetch('/api/user/sync', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ username, email, password }),
+        body: JSON.stringify({ username, email, id: data.user?.id }),
       });
-
-      const data = await response.json();
 
       if (!response.ok) {
-        setError(data.error || 'Signup failed. Please try again.');
-        return;
-      }
-
-      const result = await signIn('credentials', {
-        email,
-        password,
-        redirect: false,
-      });
-
-      if (result?.error) {
-        setError('Account created but login failed. Please try logging in.');
-      } else if (result?.ok) {
+        setError('Account created but syncing failed. Please try logging in.');
+      } else {
         router.push('/upload');
       }
     } catch {
@@ -201,7 +211,7 @@ export default function SignupContent({
                   onChange={(e) => handleUsernameChange(e.target.value)}
                   disabled={isLoading}
                   autoFocus
-                  className="h-12 w-full rounded-lg border-0 bg-[#F5F5F5] pl-[95jpx] pr-12 text-base outline-none placeholder:text-gray-400 focus-visible:ring-0 focus-visible:ring-offset-0"
+                  className="h-12 w-full rounded-lg border-0 bg-[#F5F5F5] pl-[95px] pr-12 text-base outline-none placeholder:text-gray-400 focus-visible:ring-0 focus-visible:ring-offset-0"
                 />
                 {username.length >= 3 && (
                   <div className="absolute right-3 top-1/2 -translate-y-1/2">

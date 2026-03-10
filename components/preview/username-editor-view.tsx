@@ -249,7 +249,7 @@ export default function UsernameEditorView({
   initialUsername,
   isOpen,
   onClose,
-  prefix = 'portfoliofy.me/',
+  prefix = 'bento.me/',
 }: {
   initialUsername: string;
   isOpen: boolean;
@@ -266,7 +266,7 @@ export default function UsernameEditorView({
           <DialogHeader>
             <DialogTitle>Change Username</DialogTitle>
             <DialogDescription>
-              Choose a new username for your Portfolio.
+              Choose a new username for your Bento.
             </DialogDescription>
           </DialogHeader>
           <UsernameEditorContent
@@ -306,7 +306,7 @@ export default function UsernameEditorView({
               Change Username
             </DrawerTitle>
             <DrawerDescription className="mb-4">
-              Choose a new username for your Portfolio.
+              Choose a new username for your Bento.
             </DrawerDescription>
           </DrawerHeader>
         )}

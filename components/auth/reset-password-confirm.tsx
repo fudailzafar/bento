@@ -2,33 +2,29 @@ import { LoaderIcon } from '../icons';
 import { Input } from '../ui';
 
 interface ResetPasswordConfirmContentProps {
-  userEmail: string;
   password: string;
   setPassword: (password: string) => void;
   showPassword: boolean;
   setShowPassword: (show: boolean) => void;
   isLoading: boolean;
   error: string;
-  token: string | null;
   handleSubmit: (e: React.FormEvent) => void;
 }
 
 export default function ResetPasswordConfirmContent({
-  userEmail,
   password,
   setPassword,
   showPassword,
   setShowPassword,
   isLoading,
   error,
-  token,
   handleSubmit,
 }: ResetPasswordConfirmContentProps) {
   return (
     <div className="w-full max-w-[440px] space-y-8">
       <div className="text-left">
         <h2 className="mb-3 text-[18px] font-normal text-design-black">
-          {userEmail || 'Reset Password'}
+          Reset Password
         </h2>
         <h2 className="mb-6 text-[29px] font-bold text-design-black md:mb-4 md:font-semibold lg:text-[32px]">
           Choose a new password
@@ -46,7 +42,7 @@ export default function ResetPasswordConfirmContent({
               onChange={(e) => setPassword(e.target.value)}
               required
               minLength={6}
-              disabled={isLoading || !token}
+              disabled={isLoading}
               className="h-12 w-full rounded-lg border-0 bg-[#F5F5F5] px-4 pr-[76px] text-base outline-none placeholder:text-gray-400 focus-visible:ring-0 focus-visible:ring-offset-0"
             />
             <button
@@ -63,7 +59,7 @@ export default function ResetPasswordConfirmContent({
 
         <button
           type="submit"
-          disabled={isLoading || !token || !password}
+          disabled={isLoading || !password}
           className="flex w-full items-center justify-center gap-3 rounded-lg bg-design-black px-6 py-3 text-sm font-semibold tracking-tight text-white shadow-lg transition-all duration-300 ease-out hover:bg-design-black/80 active:scale-95 disabled:cursor-not-allowed disabled:opacity-70"
         >
           {isLoading ? (

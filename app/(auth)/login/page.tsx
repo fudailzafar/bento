@@ -1,12 +1,12 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { signIn, useSession } from 'next-auth/react';
+import { createClient } from '@/lib/supabase/client';
 import { useRouter } from 'next/navigation';
 import { LogInAnimation, LoginContent } from '@/components/auth';
 
 export default function LoginPage() {
-  const { data: session } = useSession();
+  const supabase = createClient();
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
   const [email, setEmail] = useState('');
@@ -18,14 +18,16 @@ export default function LoginPage() {
   const hasCredentials = email.length > 0 || password.length > 0;
 
   useEffect(() => {
-    if (session?.user) {
-      fetch('/api/username')
-        .then((res) => res.json())
-        .then((data) => {
-          router.push(data.username ? `/${data.username}` : '/upload');
-        });
-    }
-  }, [session, router]);
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      if (session?.user) {
+        fetch('/api/username')
+          .then((res) => res.json())
+          .then((data) => {
+            router.push(data.username ? `/${data.username}` : '/upload');
+          });
+      }
+    });
+  }, [router, supabase.auth]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -33,17 +35,15 @@ export default function LoginPage() {
     setIsLoading(true);
 
     try {
-      // If user has entered credentials, use credentials login
       if (hasCredentials && email && password) {
-        const result = await signIn('credentials', {
+        const { error: signInError } = await supabase.auth.signInWithPassword({
           email,
           password,
-          redirect: false,
         });
 
-        if (result?.error) {
+        if (signInError) {
           setError('Invalid email or password');
-        } else if (result?.ok) {
+        } else {
           const usernameRes = await fetch('/api/username');
           const usernameData = await usernameRes.json();
           router.push(
@@ -51,8 +51,12 @@ export default function LoginPage() {
           );
         }
       } else {
-        // Otherwise use Google OAuth
-        await signIn('google');
+        await supabase.auth.signInWithOAuth({
+          provider: 'google',
+          options: {
+            redirectTo: `${window.location.origin}/auth/callback`,
+          },
+        });
       }
     } catch {
       setError('An error occurred. Please try again.');

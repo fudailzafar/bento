@@ -1,6 +1,5 @@
 import { getUsernameById, updateUsername } from '@/lib/server';
-import { getServerSession } from 'next-auth';
-import { authOptions } from '@/app/api/auth/[...nextauth]/route';
+import { createClient } from '@/lib/supabase/server';
 import { NextResponse } from 'next/server';
 
 // API Response Types
@@ -10,12 +9,13 @@ export type PostResponse = { success: true } | { error: string };
 // GET endpoint to retrieve username
 export async function GET(): Promise<NextResponse<GetResponse>> {
   try {
-    const session = await getServerSession(authOptions);
-    if (!session?.user?.email) {
+    const supabase = await createClient();
+    const { data: { user } } = await supabase.auth.getUser();
+    if (!user?.email) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
-    const username = await getUsernameById(session.user.email);
+    const username = await getUsernameById(user.id);
     return NextResponse.json({ username });
   } catch (error) {
     console.error('Error retrieving username:', error);
@@ -31,8 +31,9 @@ export async function POST(
   request: Request
 ): Promise<NextResponse<PostResponse>> {
   try {
-    const session = await getServerSession(authOptions);
-    if (!session?.user?.email) {
+    const supabase = await createClient();
+    const { data: { user } } = await supabase.auth.getUser();
+    if (!user?.email) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
@@ -45,7 +46,7 @@ export async function POST(
       );
     }
 
-    const success = await updateUsername(session.user.email, username);
+    const success = await updateUsername(user.id, username);
 
     if (!success) {
       return NextResponse.json(
