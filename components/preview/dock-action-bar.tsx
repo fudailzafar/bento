@@ -147,7 +147,7 @@ export default function DockActionBar({
             </div>
             {/* Tooltip */}
             <div className="pointer-events-none absolute bottom-full left-1/2 z-50 mb-2 min-w-max -translate-x-1/2 transform rounded-md border border-slate-100 bg-white px-2 py-1 text-[10px] font-normal leading-tight text-design-resume opacity-0 shadow-md transition-opacity delay-700 duration-200 group-hover:opacity-100">
-              <div>Edit how your Portfolio</div>
+              <div>Edit how your Bento</div>
               <div>looks on computers</div>
             </div>
           </button>
@@ -167,7 +167,7 @@ export default function DockActionBar({
             </div>
             {/* Tooltip */}
             <div className="pointer-events-none absolute bottom-full left-1/2 z-50 mb-2 min-w-max -translate-x-1/2 transform rounded-md border border-slate-100 bg-white px-2 py-1 text-[10px] font-normal leading-tight text-design-resume opacity-0 shadow-md transition-opacity delay-700 duration-200 group-hover:opacity-100">
-              <div>Edit how your Portfolio</div>
+              <div>Edit how your Bento</div>
               <div>looks on phones</div>
             </div>
           </button>

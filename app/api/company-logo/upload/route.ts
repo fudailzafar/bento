@@ -32,39 +32,29 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Convert file to base64 for Cloudinary upload
-    const bytes = await file.arrayBuffer();
-    const buffer = Buffer.from(bytes);
-    const base64 = buffer.toString('base64');
-    const dataURI = `data:${file.type};base64,${base64}`;
+    
+    const fileExt = file.name.split('.').pop() || 'png';
+    const fileName = `${user.id}-${Date.now()}.${fileExt}`;
+    const { data, error } = await supabase.storage
+      .from('images')
+      .upload(`company-logos/${fileName}`, file, {
+        cacheControl: '3600',
+        upsert: false,
+      });
 
-    // Upload to Cloudinary
-    const cloudinaryResponse = await fetch(
-      `https://api.cloudinary.com/v1_1/${process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME}/image/upload`,
-      {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          file: dataURI,
-          upload_preset: process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET,
-          folder: 'company-logos',
-        }),
-      }
-    );
-
-    if (!cloudinaryResponse.ok) {
-      const error = await cloudinaryResponse.text();
-      console.error('Cloudinary upload failed:', error);
+    if (error) {
+      console.error('Supabase upload failed:', error);
       return NextResponse.json(
         { error: 'Failed to upload image' },
         { status: 500 }
       );
     }
 
-    const cloudinaryData = await cloudinaryResponse.json();
-    const imageUrl = cloudinaryData.secure_url;
+    const { data: publicUrlData } = supabase.storage
+      .from('images')
+      .getPublicUrl(`company-logos/${fileName}`);
+
+    const imageUrl = publicUrlData.publicUrl;
 
     return NextResponse.json({ imageUrl });
   } catch (error) {
