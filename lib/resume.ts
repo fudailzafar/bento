@@ -121,6 +121,21 @@ export const ResumeDataSchema = z.object({
   education: EducationSection.optional(),
   contact: ContactSection,
   projects: ProjectSection,
+  layout: z
+    .array(
+      z.object({
+        id: z.string(),
+        type: z.enum(['project', 'link', 'image', 'text', 'map', 'experience', 'education', 'sectionTitle']),
+        w: z.number(),
+        h: z.number(),
+        x: z.number(),
+        y: z.number(),
+        data: z.any(),
+      })
+    )
+    .optional()
+    .default([])
+    .describe('Bento grid layout array'),
   sectionOrder: z
     .array(z.string())
     .optional()

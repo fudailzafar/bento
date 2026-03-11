@@ -18,11 +18,10 @@ interface DockActionBarProps {
   viewMode?: ViewMode;
   onViewModeChange?: (mode: ViewMode) => void;
   isSaving?: boolean;
-  onAddWorkExperience?: () => void;
-  onAddEducation?: () => void;
-  onAddSkill?: () => void;
-  onAddProject?: () => void;
-  onAddSocialLink?: () => void;
+  onAddLink?: () => void;
+  onAddImage?: () => void;
+  onAddText?: () => void;
+  onAddMap?: () => void;
   onAddSectionTitle?: () => void;
 }
 
@@ -32,11 +31,10 @@ export default function DockActionBar({
   viewMode = 'desktop',
   onViewModeChange,
   isSaving,
-  onAddWorkExperience,
-  onAddEducation,
-  onAddSkill,
-  onAddProject,
-  onAddSocialLink,
+  onAddLink,
+  onAddImage,
+  onAddText,
+  onAddMap,
   onAddSectionTitle,
 }: DockActionBarProps) {
   const [isEditorOpen, setIsEditorOpen] = useState(false);
@@ -118,11 +116,10 @@ export default function DockActionBar({
 
         <div className="block">
           <SectionActionBar
-            onAddWorkExperience={onAddWorkExperience}
-            onAddEducation={onAddEducation}
-            onAddSkill={onAddSkill}
-            onAddProject={onAddProject}
-            onAddSocialLink={onAddSocialLink}
+            onAddLink={onAddLink}
+            onAddImage={onAddImage}
+            onAddText={onAddText}
+            onAddMap={onAddMap}
             onAddSectionTitle={onAddSectionTitle}
           />
         </div>
