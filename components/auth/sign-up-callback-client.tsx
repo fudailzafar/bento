@@ -1,15 +1,24 @@
 'use client';
 
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { useSession } from 'next-auth/react';
 import { LoaderIcon } from '@/components/icons';
+import { createClient } from '@/lib/supabase/client';
 
 export default function SignupCallbackClient() {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const { data: session, status } = useSession();
+  const [status, setStatus] = useState<'loading' | 'authenticated' | 'unauthenticated'>('loading');
+  const [session, setSession] = useState<any>(null);
   const username = searchParams.get('username');
+
+  useEffect(() => {
+    const supabase = createClient();
+    supabase.auth.getSession().then(({ data }) => {
+      setSession(data.session);
+      setStatus(data.session ? 'authenticated' : 'unauthenticated');
+    });
+  }, []);
 
   useEffect(() => {
     const claimUsername = async () => {

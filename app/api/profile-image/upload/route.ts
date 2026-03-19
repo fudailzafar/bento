@@ -62,7 +62,7 @@ export async function POST(request: NextRequest) {
     await storeUserProfile(user.id, {
       id: user.id,
       email: user.email,
-      name: userProfile?.name || user.name || '',
+      name: userProfile?.name || user.user_metadata?.name || '',
       image: imageUrl,
     });
 

@@ -179,6 +179,7 @@ async function InitializeAndPreview({ userId }: { userId: string }) {
         'projects',
         'contact',
       ],
+      layout: [],
     };
 
     await storeResume(userId, {
@@ -292,6 +293,7 @@ async function InitializeAndPreview({ userId }: { userId: string }) {
           'projects',
           'contact',
         ],
+        layout: [],
       };
 
       if (!messageTip && !resume.fileContent) {
