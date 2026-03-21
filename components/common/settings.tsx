@@ -66,7 +66,7 @@ function SettingsDesktop() {
           <CompassIcon />
 
           {/* Tooltip */}
-          <div className="active:slate-95 pointer-events-none absolute bottom-full left-1/2 z-50 mb-2 -translate-x-1/2 transform whitespace-nowrap rounded-md border border-slate-100 bg-white px-2 py-1 text-xs font-normal text-design-resume opacity-0 transition-opacity delay-500 duration-200 hover:bg-slate-100 active:bg-slate-200 group-hover:opacity-100">
+          <div className="pointer-events-none absolute bottom-full left-1/2 z-50 mb-2 -translate-x-1/2 transform whitespace-nowrap rounded-md border border-slate-100 bg-white px-2 py-1 text-xs font-normal text-design-resume opacity-0 shadow-md transition-opacity delay-500 duration-200 group-hover:opacity-100">
             Explore
           </div>
         </Link>
