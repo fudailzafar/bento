@@ -53,7 +53,7 @@ function ClaimUsernameDescription() {
       <BlurFade delay={3} duration={0.5}>
         <div className="mb-5 mt-2 text-center">
           <p className="text-center text-design-gray">
-            Portfoliofy is the most beautiful portfolio.
+            Bento is the most beautiful link in bio.
           </p>
           <p className="text-design-gray">
             And it’s all free.{' '}

@@ -15,7 +15,6 @@ import {
 } from '@/components/ui';
 import { LoadingFallback } from '@/components/utils';
 import { LogInAnimation } from '@/components/auth';
-import { UsernameEditorView } from '@/components/preview';
 
 type FileState =
   | { status: 'empty' }
@@ -26,7 +25,6 @@ export default function UploadPageClient() {
 
   const { resumeQuery, uploadResumeMutation } = useUserActions();
   const [fileState, setFileState] = useState<FileState>({ status: 'empty' });
-  const [isUsernameEditorOpen, setIsUsernameEditorOpen] = useState(false);
 
   const resume = resumeQuery.data?.resume;
 
@@ -168,15 +166,36 @@ export default function UploadPageClient() {
               const usernameRes = await fetch('/api/username');
               const usernameData = await usernameRes.json();
               
-              if (!usernameData.username) {
-                setIsUsernameEditorOpen(true);
-                return;
+              let username = usernameData.username;
+              if (!username) {
+                try {
+                  // Fallback: generate a random username on the client side
+                  const randomString = Math.random().toString(36).substring(2, 8);
+                  const generated = `user-${randomString}`;
+                  
+                  const saveRes = await fetch('/api/username', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ username: generated })
+                  });
+                  
+                  const saveData = await saveRes.json();
+                  if (saveData.success) {
+                    username = generated;
+                  } else {
+                    alert('Error saving generated username: ' + (saveData.error || 'Unknown'));
+                    return;
+                  }
+                } catch (e) {
+                  alert('Network error while generating username');
+                  return;
+                }
               }
 
               if (fileState.status === 'saved') {
                 router.push('/pdf');
               } else {
-                router.push(`/${usernameData.username}`);
+                router.push(`/${username}`);
               }
             }}
           >
@@ -196,12 +215,32 @@ export default function UploadPageClient() {
                 const usernameRes = await fetch('/api/username');
                 const usernameData = await usernameRes.json();
                 
-                if (!usernameData.username) {
-                  setIsUsernameEditorOpen(true);
-                  return;
+                let username = usernameData.username;
+                if (!username) {
+                  try {
+                    const randomString = Math.random().toString(36).substring(2, 8);
+                    const generated = `user-${randomString}`;
+                    
+                    const saveRes = await fetch('/api/username', {
+                      method: 'POST',
+                      headers: { 'Content-Type': 'application/json' },
+                      body: JSON.stringify({ username: generated })
+                    });
+                    
+                    const saveData = await saveRes.json();
+                    if (saveData.success) {
+                      username = generated;
+                    } else {
+                      alert('Error saving generated username: ' + (saveData.error || 'Unknown'));
+                      return;
+                    }
+                  } catch (e) {
+                    alert('Network error while generating username');
+                    return;
+                  }
                 }
                 
-                router.push(`/${usernameData.username}`);
+                router.push(`/${username}`);
               }}
               className="flex-1 rounded-md py-6 text-sm text-gray-600 transition-colors hover:text-gray-900 md:py-3"
               variant={'ghost'}
@@ -211,26 +250,6 @@ export default function UploadPageClient() {
           )}
         </div>
       </div>
-
-      <UsernameEditorView
-        initialUsername={""}
-        isOpen={isUsernameEditorOpen}
-        onClose={() => {
-          setIsUsernameEditorOpen(false);
-          // Check if they successfully set it
-          fetch('/api/username')
-            .then(res => res.json())
-            .then(data => {
-              if (data.username) {
-                 if (fileState.status === 'saved') {
-                    router.push('/pdf');
-                 } else {
-                    router.push(`/${data.username}`);
-                 }
-              }
-            });
-        }}
-      />
 
       <div className="hidden max-w-[700px] flex-1 items-center justify-center md:flex">
         <LogInAnimation />

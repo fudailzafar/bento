@@ -90,7 +90,7 @@ export default function PreviewClient({ messageTip }: { messageTip?: string }) {
     // Set new timer for debounced save (500ms)
     debounceTimerRef.current = setTimeout(() => {
       debouncedSave(resumeWithEducation);
-    }, 3000);
+    }, 500);
   };
 
   const handleImageChange = (newImageUrl: string | null) => {
@@ -112,11 +112,14 @@ export default function PreviewClient({ messageTip }: { messageTip?: string }) {
       h = 1;
     }
 
+    // Find the current max y position to place it at the bottom
+    const maxY = localResumeData.layout?.reduce((max, item) => Math.max(max, item.y + item.h), 0) || 0;
+
     const newWidget = {
       id: Math.random().toString(36).substr(2, 9),
       type,
       x: 0,
-      y: Infinity, // Places it at the bottom
+      y: maxY, // Place at the bottom
       w,
       h,
       data: {},

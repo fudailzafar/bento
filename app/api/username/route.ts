@@ -1,3 +1,4 @@
+import { prisma } from '@/lib/server/db';
 import { getUsernameById, updateUsername } from '@/lib/server';
 import { createClient } from '@/lib/supabase/server';
 import { NextResponse } from 'next/server';
@@ -45,6 +46,19 @@ export async function POST(
         { status: 400 }
       );
     }
+
+    // Ensure the Prisma User record exists before updating the username
+    // Since Supabase handles auth, we need to sync the user to our public.User table
+    await prisma.user.upsert({
+      where: { id: user.id },
+      create: {
+        id: user.id,
+        email: user.email,
+        name: user.user_metadata?.name || '',
+        image: user.user_metadata?.avatar_url || user.user_metadata?.picture || '',
+      },
+      update: {}, // Do nothing if it already exists, updateUsername handles the username
+    });
 
     const success = await updateUsername(user.id, username);
 
