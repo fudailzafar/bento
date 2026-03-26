@@ -16,7 +16,6 @@ function VideoDesktop() {
           }}
         >
           <source src="/home/video-dialog/desktop-video.mp4" type="video/mp4" />
-          <source src="/home/desktop-demo.webm" type="video/webm" />
           Your browser does not support the video tag.
         </video>
       </div>
@@ -43,7 +42,6 @@ function VideoMobile() {
           }}
         >
           <source src="/home/video-dialog/mobile-video.mp4" type="video/mp4" />
-          <source src="/home/mobile-video.webm" type="video/webm" />
           Your browser does not support the video tag.
         </video>
       </div>
