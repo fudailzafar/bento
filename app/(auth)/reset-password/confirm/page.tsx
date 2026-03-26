@@ -4,7 +4,7 @@ import { Suspense } from 'react';
 import { useState, useEffect } from 'react';
 import { createClient } from '@/lib/supabase/client';
 import { useRouter } from 'next/navigation';
-import { LogInAnimation, ResetPasswordConfirmContent } from '@/components/auth';
+import { LogInAnimation, ResetPasswordConfirmContent, goToOwnPage } from '@/components/auth';
 import { CheckmarkLargeIcon } from '@/components/icons';
 
 function ResetPasswordConfirmContent_Internal() {
@@ -59,14 +59,7 @@ function ResetPasswordConfirmContent_Internal() {
           <button
             onClick={async () => {
               try {
-                // Get username after signing in
-                const usernameRes = await fetch('/api/username');
-                const usernameData = await usernameRes.json();
-                if (usernameData.username) {
-                  router.push(`/${usernameData.username}`);
-                } else {
-                  router.push('/upload');
-                }
+                await goToOwnPage(router);
               } catch {
                 router.push('/login');
               }

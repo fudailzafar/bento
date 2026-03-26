@@ -2,44 +2,29 @@
 
 import { createClient } from '@/lib/supabase/client';
 import { useEffect, useState, useRef, useCallback } from 'react';
-import { AddSkillDialog } from '@/components/resume/editing';
 import { toast } from 'sonner';
 import { motion, AnimatePresence } from 'framer-motion';
-import { useUserActions } from '@/hooks';
-import { ResumeData } from '@/lib/server';
+import { usePageActions } from '@/hooks';
+import { PageData, BlockType } from '@/lib';
 import { DockActionBar, ViewMode } from '@/components/preview';
 import { LoadingFallback } from '@/components/utils';
-import { InteractablePortfolio } from '@/components/resume/preview';
-import { ChatSidebar } from './chat-sidebar';
+import { PreviewPortfolio, newBlock } from '@/components/bento';
 
 export default function PreviewClient({ messageTip }: { messageTip?: string }) {
-
-  const {
-    resumeQuery,
-    usernameQuery,
-    saveResumeDataMutation,
-    userProfileQuery,
-  } = useUserActions();
-  const [localResumeData, setLocalResumeData] = useState<ResumeData>();
+  const { pageQuery, usernameQuery, savePageMutation, userProfileQuery } =
+    usePageActions();
+  const [localPage, setLocalPage] = useState<PageData>();
   const [localProfilePicture, setLocalProfilePicture] = useState<
     string | undefined
   >();
   const [viewMode, setViewMode] = useState<ViewMode>('desktop');
-  const [isAddSkillDialogOpen, setIsAddSkillDialogOpen] = useState(false);
   const debounceTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const [isChatOpen, setIsChatOpen] = useState(false);
 
   useEffect(() => {
-    if (resumeQuery.data?.resume?.resumeData) {
-      // Ensure education field exists for schema validation
-      const resumeData = resumeQuery.data.resume.resumeData;
-      const resumeWithEducation = {
-        ...resumeData,
-        education: resumeData.education || [],
-      };
-      setLocalResumeData(resumeWithEducation);
+    if (pageQuery.data?.page) {
+      setLocalPage(pageQuery.data.page);
     }
-  }, [resumeQuery.data?.resume?.resumeData]);
+  }, [pageQuery.data?.page]);
 
   useEffect(() => {
     const supabase = createClient();
@@ -52,16 +37,12 @@ export default function PreviewClient({ messageTip }: { messageTip?: string }) {
     });
   }, [userProfileQuery.data?.profile?.image]);
 
-  console.log('resumeQuery', resumeQuery.data);
-
-  // Get profile picture: custom uploaded image > Google image > undefined
   const profilePicture = localProfilePicture;
 
-  // Debounced save function
   const debouncedSave = useCallback(
-    async (newResume: ResumeData) => {
+    async (newPage: PageData) => {
       try {
-        await saveResumeDataMutation.mutateAsync(newResume);
+        await savePageMutation.mutateAsync(newPage);
       } catch (error) {
         if (error instanceof Error) {
           toast.error(`Failed to save changes: ${error.message}`);
@@ -70,64 +51,37 @@ export default function PreviewClient({ messageTip }: { messageTip?: string }) {
         }
       }
     },
-    [saveResumeDataMutation]
+    [savePageMutation]
   );
 
-  const handleResumeChange = (newResume: ResumeData) => {
-    // Ensure education field exists for schema validation
-    const resumeWithEducation = {
-      ...newResume,
-      education: newResume.education || [],
-    };
+  const handlePageChange = (newPage: PageData) => {
+    setLocalPage(newPage);
 
-    setLocalResumeData(resumeWithEducation);
-
-    // Clear existing timer
     if (debounceTimerRef.current) {
       clearTimeout(debounceTimerRef.current);
     }
 
-    // Set new timer for debounced save (500ms)
     debounceTimerRef.current = setTimeout(() => {
-      debouncedSave(resumeWithEducation);
+      debouncedSave(newPage);
     }, 500);
   };
 
   const handleImageChange = (newImageUrl: string | null) => {
     setLocalProfilePicture(newImageUrl || undefined);
-    // Invalidate the user profile query to refetch the data
     userProfileQuery.refetch();
   };
 
-  // Add widget for Bento Grid
-  const handleAddWidget = (type: string) => {
-    if (!localResumeData) return;
-    
-    // Default size is "Small Square" (1x2)
-    let w = 1;
-    let h = 2;
-    
-    if (type === 'sectionTitle') {
-      w = 4;
-      h = 1;
-    }
+  const handleAddBlock = (type: BlockType) => {
+    if (!localPage) return;
 
-    // Find the current max y position to place it at the bottom
-    const maxY = localResumeData.layout?.reduce((max, item) => Math.max(max, item.y + item.h), 0) || 0;
+    const maxY = (localPage.blocks || []).reduce(
+      (max, block) => Math.max(max, block.y + block.h),
+      0
+    );
 
-    const newWidget = {
-      id: Math.random().toString(36).substr(2, 9),
-      type,
-      x: 0,
-      y: maxY, // Place at the bottom
-      w,
-      h,
-      data: {},
-    };
-    
-    handleResumeChange({
-      ...localResumeData,
-      layout: [...(localResumeData.layout || []), newWidget as any],
+    handlePageChange({
+      ...localPage,
+      blocks: [...(localPage.blocks || []), newBlock(type, maxY)],
     });
   };
 
@@ -140,42 +94,17 @@ export default function PreviewClient({ messageTip }: { messageTip?: string }) {
   }, []);
 
   if (
-    resumeQuery.isLoading ||
+    pageQuery.isLoading ||
     usernameQuery.isLoading ||
     !usernameQuery.data ||
-    !localResumeData
+    !localPage
   ) {
     return <LoadingFallback />;
   }
 
   return (
     <div className="flex min-h-screen w-full bg-background">
-      <ChatSidebar isChatOpen={isChatOpen} setIsChatOpen={setIsChatOpen} />
-
-      {/* Main Content Area */}
       <div className="flex flex-1 flex-col">
-        {/* Add Skill Dialog */}
-        <AddSkillDialog
-          open={isAddSkillDialogOpen}
-          onOpenChange={setIsAddSkillDialogOpen}
-          onAddSkill={(skillToAdd) => {
-            if (!localResumeData) return;
-            if ((localResumeData.header.skills || []).includes(skillToAdd)) {
-              toast.warning('This skill is already added.');
-            } else {
-              handleResumeChange({
-                ...localResumeData,
-                header: {
-                  ...localResumeData.header,
-                  skills: [
-                    ...(localResumeData.header.skills || []),
-                    skillToAdd,
-                  ],
-                },
-              });
-            }
-          }}
-        />
         {messageTip && (
           <div className="mx-auto w-full max-w-3xl px-4 pt-4 md:px-0">
             <div className="flex items-start rounded-md border border-amber-200 bg-amber-50 p-4 text-amber-800">
@@ -237,11 +166,11 @@ export default function PreviewClient({ messageTip }: { messageTip?: string }) {
                           ease: [0.16, 1, 0.3, 1],
                         }}
                       >
-                        <InteractablePortfolio
-                          resume={localResumeData}
+                        <PreviewPortfolio
+                          page={localPage}
                           profilePicture={profilePicture}
                           isEditMode={true}
-                          onChangeResume={handleResumeChange}
+                          onChangePage={handlePageChange}
                           onImageChange={handleImageChange}
                           username={usernameQuery.data?.username}
                           viewMode={viewMode}
@@ -268,11 +197,11 @@ export default function PreviewClient({ messageTip }: { messageTip?: string }) {
                   transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
                   className="w-full px-4"
                 >
-                  <InteractablePortfolio
-                    resume={localResumeData}
+                  <PreviewPortfolio
+                    page={localPage}
                     profilePicture={profilePicture}
                     isEditMode={true}
-                    onChangeResume={handleResumeChange}
+                    onChangePage={handlePageChange}
                     onImageChange={handleImageChange}
                     username={usernameQuery.data?.username}
                     viewMode={viewMode}
@@ -290,12 +219,12 @@ export default function PreviewClient({ messageTip }: { messageTip?: string }) {
               initialUsername={usernameQuery.data.username}
               viewMode={viewMode}
               onViewModeChange={setViewMode}
-              isSaving={saveResumeDataMutation.isPending}
-              onAddLink={() => handleAddWidget('link')}
-              onAddImage={() => handleAddWidget('image')}
-              onAddText={() => handleAddWidget('text')}
-              onAddMap={() => handleAddWidget('map')}
-              onAddSectionTitle={() => handleAddWidget('sectionTitle')}
+              isSaving={savePageMutation.isPending}
+              onAddLink={() => handleAddBlock('LINK')}
+              onAddImage={() => handleAddBlock('IMAGE')}
+              onAddText={() => handleAddBlock('TEXT')}
+              onAddMap={() => handleAddBlock('MAP')}
+              onAddSectionTitle={() => handleAddBlock('SECTION_TITLE')}
             />
           </div>
         </div>

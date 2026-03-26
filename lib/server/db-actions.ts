@@ -1,25 +1,9 @@
 import { prisma } from '@/lib/server/db';
-import { ResumeDataSchema } from '@/lib/resume';
+import { PageDataSchema, parseBlockData, type PageData } from '@/lib/blocks';
 import { z } from 'zod';
 import { PRIVATE_ROUTES } from '../routes';
-import bcrypt from 'bcryptjs';
 
 const FORBIDDEN_USERNAMES = PRIVATE_ROUTES;
-
-// Define the file schema
-const FileSchema = z.object({
-  name: z.string(),
-  url: z.string().nullish(),
-  size: z.number(),
-});
-
-// Define the complete resume schema
-const ResumeSchema = z.object({
-  file: FileSchema.nullish(),
-  fileContent: z.string().nullish(),
-  resumeData: ResumeDataSchema.nullish(),
-  updatedAt: z.string().optional(),
-});
 
 // Define user profile schema
 const UserProfileSchema = z.object({
@@ -31,67 +15,99 @@ const UserProfileSchema = z.object({
   updatedAt: z.string(),
 });
 
-// Define user credentials schema
-const UserCredentialsSchema = z.object({
-  email: z.string().email(),
-    name: z.string().optional(),
-  createdAt: z.string(),
-  updatedAt: z.string(),
-});
-
-export type ResumeData = z.infer<typeof ResumeDataSchema>;
-export type Resume = z.infer<typeof ResumeSchema>;
 export type UserProfile = z.infer<typeof UserProfileSchema>;
-export type UserCredentials = z.infer<typeof UserCredentialsSchema>;
+export type { PageData };
 
-export async function getResume(userId: string): Promise<Resume | undefined> {
+export async function getPage(userId: string): Promise<PageData | undefined> {
   try {
-    const resume = await prisma.resume.findUnique({
+    const page = await prisma.page.findUnique({
       where: { userId },
+      include: { blocks: { orderBy: { y: 'asc' } } },
     });
-    if (!resume) return undefined;
+    if (!page) return undefined;
 
     return {
-      file: resume.file as any,
-      fileContent: resume.fileContent,
-      resumeData: resume.resumeData as any,
-      updatedAt: resume.updatedAt.toISOString(),
+      name: page.name,
+      headline: page.headline,
+      bio: page.bio,
+      website: page.website,
+      email: page.email,
+      twitter: page.twitter,
+      linkedin: page.linkedin,
+      github: page.github,
+      blocks: page.blocks.map((block) => ({
+        id: block.id,
+        type: block.type,
+        x: block.x,
+        y: block.y,
+        w: block.w,
+        h: block.h,
+        data: block.data as Record<string, unknown>,
+      })),
     };
   } catch (error) {
-    console.error('Error retrieving resume:', error);
-    throw new Error('Failed to retrieve resume');
+    console.error('Error retrieving page:', error);
+    throw new Error('Failed to retrieve page');
   }
 }
 
-export async function storeResume(userId: string, resumeData: Resume): Promise<void> {
+export async function savePage(userId: string, pageData: PageData): Promise<void> {
   try {
-    const validatedData = ResumeSchema.parse(resumeData);
-    
-    // We parse the data using JSON.parse(JSON.stringify) to ensure it's compatible with Prisma Json type
-    // and strips out any undefined values that Prisma doesn't accept inside Json
-    const fileJson = validatedData.file ? JSON.parse(JSON.stringify(validatedData.file)) : null;
-    const resumeDataJson = validatedData.resumeData ? JSON.parse(JSON.stringify(validatedData.resumeData)) : null;
-    
-    await prisma.resume.upsert({
-      where: { userId },
-      update: {
-        file: fileJson,
-        fileContent: validatedData.fileContent,
-        resumeData: resumeDataJson,
-      },
-      create: {
-        userId,
-        file: fileJson,
-        fileContent: validatedData.fileContent,
-        resumeData: resumeDataJson,
-      },
+    const validated = PageDataSchema.parse(pageData);
+
+    // Validate each block's data against its type-specific schema before persisting
+    for (const block of validated.blocks) {
+      parseBlockData(block.type, block.data);
+    }
+
+    await prisma.$transaction(async (tx) => {
+      const page = await tx.page.upsert({
+        where: { userId },
+        update: {
+          name: validated.name,
+          headline: validated.headline,
+          bio: validated.bio,
+          website: validated.website,
+          email: validated.email,
+          twitter: validated.twitter,
+          linkedin: validated.linkedin,
+          github: validated.github,
+        },
+        create: {
+          userId,
+          name: validated.name,
+          headline: validated.headline,
+          bio: validated.bio,
+          website: validated.website,
+          email: validated.email,
+          twitter: validated.twitter,
+          linkedin: validated.linkedin,
+          github: validated.github,
+        },
+      });
+
+      // Replace all blocks in one go — matches the editor's "save whole page" pattern
+      await tx.block.deleteMany({ where: { pageId: page.id } });
+      if (validated.blocks.length > 0) {
+        await tx.block.createMany({
+          data: validated.blocks.map((block) => ({
+            pageId: page.id,
+            type: block.type,
+            x: block.x,
+            y: block.y,
+            w: block.w,
+            h: block.h,
+            data: JSON.parse(JSON.stringify(block.data)),
+          })),
+        });
+      }
     });
   } catch (error) {
     if (error instanceof z.ZodError) {
       throw error;
     }
-    console.error('Error storing resume:', error);
-    throw new Error('Failed to store resume');
+    console.error('Error storing page:', error);
+    throw new Error('Failed to store page');
   }
 }
 

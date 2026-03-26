@@ -1,17 +1,13 @@
 import { ThemeProvider, TooltipProvider } from '@/components/ui';
 
-export default function RootLayout({
+export default function UsernameLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" suppressHydrationWarning>
-      <body>
-        <ThemeProvider attribute="class" defaultTheme="light">
-          <TooltipProvider delayDuration={0}>{children}</TooltipProvider>
-        </ThemeProvider>
-      </body>
-    </html>
+    <ThemeProvider attribute="class" forcedTheme="light">
+      <TooltipProvider delayDuration={0}>{children}</TooltipProvider>
+    </ThemeProvider>
   );
 }

@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react';
 import { createClient } from '@/lib/supabase/client';
 import { useRouter } from 'next/navigation';
-import { LogInAnimation, LoginContent } from '@/components/auth';
+import { LogInAnimation, LoginContent, goToOwnPage } from '@/components/auth';
 
 export default function LoginPage() {
   const supabase = createClient();
@@ -20,11 +20,7 @@ export default function LoginPage() {
   useEffect(() => {
     supabase.auth.getSession().then(({ data: { session } }) => {
       if (session?.user) {
-        fetch('/api/username')
-          .then((res) => res.json())
-          .then((data) => {
-            router.push(data.username ? `/${data.username}` : '/upload');
-          });
+        goToOwnPage(router);
       }
     });
   }, [router, supabase.auth]);
@@ -44,11 +40,7 @@ export default function LoginPage() {
         if (signInError) {
           setError('Invalid email or password');
         } else {
-          const usernameRes = await fetch('/api/username');
-          const usernameData = await usernameRes.json();
-          router.push(
-            usernameData.username ? `/${usernameData.username}` : '/upload'
-          );
+          await goToOwnPage(router);
         }
       } else {
         await supabase.auth.signInWithOAuth({

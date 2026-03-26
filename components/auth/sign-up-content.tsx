@@ -15,6 +15,7 @@ import { useDebounce } from '@/hooks/use-debounce';
 import { motion, AnimatePresence } from 'framer-motion';
 import clsx from 'clsx';
 import Link from 'next/link';
+import { goToOwnPage } from './go-to-own-page';
 
 export default function SignupContent({
   onStepChange,
@@ -46,7 +47,7 @@ export default function SignupContent({
     const supabase = createClient();
     supabase.auth.getSession().then(({ data: { session } }) => {
       if (session?.user) {
-        router.push('/upload');
+        goToOwnPage(router);
       }
     });
   }, [router]);
@@ -112,7 +113,7 @@ export default function SignupContent({
     await supabase.auth.signInWithOAuth({
       provider: 'google',
       options: {
-        redirectTo: `${window.location.origin}/auth/callback?next=/upload&username=${username}`,
+        redirectTo: `${window.location.origin}/auth/callback?next=/${username}&username=${username}`,
       },
     });
   };
@@ -157,7 +158,7 @@ export default function SignupContent({
       if (!response.ok) {
         setError('Account created but syncing failed. Please try logging in.');
       } else {
-        router.push('/upload');
+        router.push(`/${username}`);
       }
     } catch {
       setError('An error occurred. Please try again.');

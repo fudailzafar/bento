@@ -1,5 +1,5 @@
 import { MetadataRoute } from 'next';
-import { upstashRedis } from '@/lib/server';
+import { prisma } from '@/lib/server/db';
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const baseUrl = 'https://portfoliofy.me';
@@ -68,60 +68,23 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   return [...staticPages, ...legalPages, ...portfolioPages];
 }
 
-// Optimized helper using SCAN instead of KEYS
 async function getAllPublicPortfolios(): Promise<
   Array<{ username: string; lastModified: Date }>
 > {
-  const portfolios: Array<{ username: string; lastModified: Date }> = [];
-  let cursor = '0';
-
   try {
-    do {
-      // Use SCAN instead of KEYS for better performance
-      const result = await upstashRedis.scan(cursor, {
-        match: 'user:name:*',
-        count: 100,
-      });
+    const users = await prisma.user.findMany({
+      where: { username: { not: null } },
+      select: { username: true, page: { select: { updatedAt: true } } },
+    });
 
-      cursor = result[0];
-      const keys = result[1];
-
-      // Process keys in parallel
-      const results = await Promise.all(
-        keys.map(async (key) => {
-          try {
-            const username = key.replace('user:name:', '');
-
-            // Get userId from the username lookup
-            const userId = await upstashRedis.get<string>(key);
-            if (!userId) return null;
-
-            // Get resume data to get updatedAt timestamp
-            const resume = await upstashRedis.get<any>(`resume:${userId}`);
-            if (!resume) return null;
-
-            return {
-              username,
-              lastModified: resume.updatedAt
-                ? new Date(resume.updatedAt)
-                : new Date(),
-            };
-          } catch (error) {
-            console.error(`Error processing key ${key}:`, error);
-            return null;
-          }
-        })
-      );
-
-      // Filter out null results and add to portfolios
-      portfolios.push(
-        ...results.filter((r): r is NonNullable<typeof r> => r !== null)
-      );
-    } while (cursor !== '0');
-
-    return portfolios;
+    return users
+      .filter((u): u is typeof u & { username: string } => !!u.username)
+      .map((u) => ({
+        username: u.username,
+        lastModified: u.page?.updatedAt ?? new Date(),
+      }));
   } catch (error) {
-    console.error('Error fetching portfolios from Redis:', error);
+    console.error('Error fetching portfolios from database:', error);
     return [];
   }
 }
