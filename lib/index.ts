@@ -1,5 +1,13 @@
 // Animation utilities
-export { easeInOutCubic, easeOutCubic } from './animation';
+export {
+  easeInOutCubic,
+  easeOutCubic,
+  bentoEase,
+  bentoBlurEase,
+  bentoVideoEase,
+  bentoLoginEase,
+  bentoScrollEase,
+} from './animation';
 
 // Configuration constants
 export { MAX_USERNAME_LENGTH } from './config';

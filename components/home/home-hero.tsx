@@ -1,323 +1,352 @@
 'use client';
 
-import { easeInOutCubic } from '@/lib';
-import { motion, useScroll, useTransform, MotionValue } from 'framer-motion';
+import {
+  bentoBlurEase,
+  bentoEase,
+  bentoLoginEase,
+  bentoScrollEase,
+} from '@/lib';
+import { useMediaQuery } from '@/hooks';
+import {
+  motion,
+  useScroll,
+  useTransform,
+  MotionValue,
+} from 'framer-motion';
 import Link from 'next/link';
 import Image from 'next/image';
-import { Button, Section } from '@/components/ui';
 import { ArrowRightIcon } from '@/components/icons';
 
-function HeroBanner() {
-  return (
-    <>
-      <a
-        href="https://portfoliofy.me/fudail"
-        target="_blank"
-        rel="noopener noreferrer"
-        className="flex items-center gap-1"
-      >
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.8, delay: 1.2, ease: easeInOutCubic }}
-          className="flex w-full items-center justify-center bg-design-primary py-5 text-center text-base font-light text-design-white hover:bg-design-primaryDark"
-        >
-          Big news! Portfoliofy just launched!{' '}
-          <ArrowRightIcon width={20} className="text-white" />
-        </motion.div>
-      </a>
-    </>
+// Timings, offsets and curves mirror bento.me's landing page interactions
+// ("New Hero Appear" on load, "New Hero Fade Out" and "NavBar Appear" on scroll).
+
+const LOGO_SRC = '/icons/android-chrome-512x512.png';
+
+// Function transforms keep opacity off framer's accelerated scroll timeline,
+// which ignores the clamped/eased range we need here.
+function scrollOpacity(
+  p: number,
+  start: number,
+  end: number,
+  from: number,
+  to: number,
+  ease: (t: number) => number = (t) => t
+) {
+  const t = Math.min(Math.max((p - start) / (end - start), 0), 1);
+  return from + (to - from) * ease(t);
+}
+
+export function HomeNavbar() {
+  const { scrollYProgress } = useScroll();
+  const opacity = useTransform(scrollYProgress, (p) =>
+    scrollOpacity(p, 0.1, 0.24, 0, 1)
   );
-}
 
-function HeroLogo() {
-  return (
-    <>
-      <div className="relative">
-        <motion.div
-          initial={{ scale: 4.5, height: '80vh' }}
-          animate={{ scale: 1, height: '10vh' }}
-          transition={{
-            scale: { delay: 0, duration: 1.8, ease: easeInOutCubic },
-            height: { delay: 0, duration: 1.8, ease: easeInOutCubic },
-          }}
-          className="relative z-20 mb-16"
-          style={{ transformOrigin: 'top' }}
-        >
-          <div className="mx-auto mt-3 flex h-20 w-20 items-center justify-center rounded-3xl bg-design-primary p-0 text-xl font-bold text-white shadow-md sm:-mt-[72px] md:mt-0 md:p-4">
-            <Image
-              src={'/icons/android-chrome-512x512.png'}
-              alt="Portfoliofy logo"
-              width={1}
-              height={1}
-              className="h-[40px] w-auto rounded-xl"
-            />
-          </div>
-        </motion.div>
-
-        <motion.div
-          initial={{ y: -20, opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
-          transition={{ duration: 0.6, delay: 1.2 }}
-          className="absolute inset-0 top-20 z-10 mt-3 text-2xl font-semibold md:top-24 md:mt-0 md:text-xl"
-        >
-          Bento
-        </motion.div>
-      </div>
-    </>
-  );
-}
-
-function HeroSubHeading() {
-  return (
-    <>
-      <div className="mx-auto mt-24 max-w-5xl md:mt-0">
-        <motion.h1
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.8, delay: 0.5, ease: easeInOutCubic }}
-          className="mb-4 text-4xl font-bold tracking-tighter md:space-y-3 md:py-6 md:text-6xl md:leading-none md:tracking-tight"
-        >
-          {/* Mobile layout: 3 lines */}
-          <div className="flex flex-col gap-y-2 tracking-normal md:hidden">
-            <div>A Link in Bio.</div>
-            <div>But Rich and </div>
-            <div>Beautiful. </div>
-          </div>
-          {/* Desktop layout: 2 lines */}
-          <div className="hidden md:block">
-            <div>A Link in Bio.</div>
-            <div>But Rich and Beautiful.</div>
-          </div>
-        </motion.h1>
-        <motion.p
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.8, delay: 0.7, ease: easeInOutCubic }}
-          className="mx-auto mb-8 mt-7 max-w-2xl text-balance text-xl font-light tracking-[-0.5px] text-design-gray sm:text-[22px] md:mt-0 md:text-design-resume"
-        >
-          Your personal page to show everything you are and create.
-        </motion.p>
-      </div>
-    </>
-  );
-}
-
-function HeroButtons() {
-  return (
-    <>
-      <div className="mt-16 flex flex-col gap-3 md:pb-14">
-        <Link href="/signup">
-          <Button
-            variant="default"
-            className="mb-2 w-[327px] cursor-pointer rounded-xl bg-design-primary px-20 py-8 text-lg font-semibold shadow-md transition-all hover:bg-design-primaryDark active:scale-95 sm:px-20 sm:py-8 md:w-auto md:rounded-[14px] md:px-14 lg:h-[62px] lg:w-[300px]"
-          >
-            Create Your Bento
-          </Button>
-        </Link>
-        <Link
-          href={'/login'}
-          className="text-sm text-design-gray hover:underline sm:text-xs"
-        >
-          Log In
-        </Link>
-      </div>
-    </>
-  );
-}
-
-function HeroAnimationMobile() {
-  const { scrollY } = useScroll({
-    offset: ['start start', 'end start'],
-  });
-  const y1 = useTransform(scrollY, [0, 300], [100, 0]);
-  const y2 = useTransform(scrollY, [0, 300], [50, 0]);
-  const y3 = useTransform(scrollY, [0, 300], [0, 0]);
-  const y4 = useTransform(scrollY, [0, 300], [50, 0]);
-  const y5 = useTransform(scrollY, [0, 300], [100, 0]);
-  return (
-    <>
-      <div className="hidden h-auto select-none flex-nowrap items-center justify-center gap-4 sm:h-[500px] sm:gap-1 md:flex">
-        <motion.img
-          src="/home/Device-1.png"
-          alt="iPhone showcase 1"
-          initial={{ opacity: 0, x: -200 }}
-          animate={{ opacity: 1, x: 0 }}
-          style={{ y: y1 }}
-          transition={{ duration: 1, delay: 1 }}
-          className="h-[333px] w-40 flex-shrink-0 sm:h-[500px] sm:w-72"
-        />
-        <motion.img
-          src="/home/Device-2.png"
-          alt="iPhone showcase 2"
-          initial={{ opacity: 0, x: -100 }}
-          animate={{ opacity: 1, x: 0 }}
-          style={{ y: y2 }}
-          transition={{ duration: 1, delay: 1 }}
-          className="h-[333px] w-40 flex-shrink-0 sm:h-[500px] sm:w-72"
-        />
-        <motion.img
-          src="/home/Device-3.png"
-          alt="iPhone showcase 3"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          style={{ y: y3 }}
-          transition={{ duration: 1, delay: 1 }}
-          className="h-[333px] w-40 flex-shrink-0 sm:h-[500px] sm:w-72"
-        />
-        <motion.img
-          src="/home/Device-4.png"
-          alt="iPhone showcase 4"
-          initial={{ opacity: 0, x: 100 }}
-          animate={{ opacity: 1, x: 0 }}
-          style={{ y: y4 }}
-          transition={{ duration: 1, delay: 1 }}
-          className="h-[333px] w-40 flex-shrink-0 sm:h-[500px] sm:w-72"
-        />
-        <motion.img
-          src="/home/Device-5.png"
-          alt="iPhone showcase 5"
-          initial={{ opacity: 0, x: 200 }}
-          animate={{ opacity: 1, x: 0 }}
-          style={{ y: y5 }}
-          transition={{ duration: 1, delay: 1 }}
-          className="h-[333px] w-40 flex-shrink-0 sm:h-[500px] sm:w-72"
-        />
-      </div>
-    </>
-  );
-}
-
-interface HeroCard {
-  id: string;
-  src: string;
-  width: number;
-  height: number;
-}
-
-const LEFT_CARDS: HeroCard[] = [
-  { id: 'support', src: '/home/all-the-widgets/buymeacoffee-mobile.png', width: 500, height: 500 },
-  { id: 'verge', src: '/home/all-the-widgets/theverge.png', width: 1170, height: 1170 },
-  { id: 'youtube', src: '/home/all-the-widgets/youtube-mobile.png', width: 500, height: 500 },
-];
-
-const RIGHT_CARDS: HeroCard[] = [
-  { id: 'medium', src: '/home/all-the-widgets/medium-mobile.png', width: 500, height: 1114 },
-  { id: 'spotify', src: '/home/all-the-widgets/spotify.png', width: 525, height: 1170 },
-  { id: 'calendly', src: '/home/all-the-widgets/calendly-mobile.png', width: 500, height: 500 },
-];
-
-function FloatingCard({
-  card,
-  y,
-  opacity,
-  className,
-}: {
-  card: HeroCard;
-  y: MotionValue<number>;
-  opacity: MotionValue<number>;
-  className: string;
-}) {
   return (
     <motion.div
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      transition={{ duration: 0.8, delay: 1, ease: easeInOutCubic }}
-      style={{ y, opacity }}
-      className={`pointer-events-none absolute w-32 overflow-hidden rounded-2xl shadow-xl sm:w-44 lg:w-56 ${className}`}
+      style={{ opacity }}
+      className="fixed top-0 z-[2] flex w-full p-8 max-[479px]:hidden"
     >
-      <Image
-        src={card.src}
-        alt=""
-        width={card.width}
-        height={card.height}
-        className="h-full w-full object-cover"
-      />
+      <a href="#" className="block">
+        <div className="flex h-10 w-10 items-center justify-center rounded-[10px] bg-design-primary">
+          <Image
+            src={LOGO_SRC}
+            alt="Portfoliofy logo"
+            width={64}
+            height={64}
+            className="h-5 w-auto"
+          />
+        </div>
+      </a>
     </motion.div>
   );
 }
 
-function FloatingCards() {
-  const { scrollY } = useScroll({
-    offset: ['start start', 'end start'],
-  });
-  // Parallax transforms for floating cards (layered depth)
-  const leftParallax = [
-    useTransform(scrollY, [0, 500], [0, -130]), // top card moves fastest
-    useTransform(scrollY, [0, 500], [0, -90]), // middle card
-    useTransform(scrollY, [0, 500], [0, -50]), // bottom card slowest
-  ];
-  const rightParallax = [
-    useTransform(scrollY, [0, 600], [0, -100]),
-    useTransform(scrollY, [0, 600], [0, -70]),
-    useTransform(scrollY, [0, 600], [0, -35]),
-  ];
+export function HeroBanner() {
+  return (
+    <a
+      href="https://portfoliofy.me/fudail"
+      target="_blank"
+      rel="noopener noreferrer"
+      className="relative z-[3] flex w-full items-center gap-1"
+    >
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 2, delay: 2.4, ease: bentoEase }}
+        className="flex w-full items-center justify-center bg-design-primary py-5 text-center text-base font-light text-design-white hover:bg-design-primaryDark"
+      >
+        Big news! Portfoliofy just launched!{' '}
+        <ArrowRightIcon width={20} className="text-white" />
+      </motion.div>
+    </a>
+  );
+}
 
-  // Fade out cards as user scrolls down (disappear when leaving hero)
-  const cardOpacity = useTransform(scrollY, [0, 300, 500], [1, 0.5, 0]);
+const CARD_SHADOW =
+  'shadow-[0_49px_74px_rgba(0,0,0,.02),0_32px_43px_rgba(0,0,0,.02),0_19px_24px_rgba(0,0,0,.02),0_10px_12px_rgba(0,0,0,.01),0_4px_6px_rgba(0,0,0,.01),0_1px_3px_rgba(0,0,0,.01)]';
+
+interface HeroCard {
+  src: string;
+  width: number;
+  height: number;
+  position: string;
+  // Rotation the card starts from on load and settles at.
+  rotateFrom: number;
+  rotate: number;
+  delay: number;
+  duration: number;
+  // Where the card drifts to (and its extra rotation) by 12% page scroll.
+  scrollX: number;
+  scrollY: number;
+  scrollRotate: number;
+}
+
+const HERO_CARDS: HeroCard[] = [
+  {
+    src: '/home/bento/hero-buymeacoffee.png',
+    width: 175,
+    height: 175,
+    position: 'top-[60px] left-[-300px]',
+    rotateFrom: 24,
+    rotate: 3,
+    delay: 1.4,
+    duration: 1.2,
+    scrollX: -130,
+    scrollY: -170,
+    scrollRotate: 20,
+  },
+  {
+    src: '/home/bento/hero-verge.png',
+    width: 390,
+    height: 175,
+    position: 'bottom-[350px] left-[-540px]',
+    rotateFrom: -20,
+    rotate: -2,
+    delay: 1.5,
+    duration: 1.4,
+    scrollX: -90,
+    scrollY: 0,
+    scrollRotate: -10,
+  },
+  {
+    src: '/home/bento/hero-youtube.png',
+    width: 175,
+    height: 175,
+    position: 'bottom-[240px] left-[-380px]',
+    rotateFrom: 30,
+    rotate: 3,
+    delay: 1.6,
+    duration: 1.4,
+    scrollX: -110,
+    scrollY: 140,
+    scrollRotate: 30,
+  },
+  {
+    src: '/home/bento/hero-substack.png',
+    width: 175,
+    height: 390,
+    position: 'top-[180px] right-[-440px]',
+    rotateFrom: -30,
+    rotate: -3,
+    delay: 1.7,
+    duration: 1.4,
+    scrollX: 100,
+    scrollY: -180,
+    scrollRotate: -15,
+  },
+  {
+    src: '/home/bento/hero-twitter.png',
+    width: 175,
+    height: 175,
+    position: 'bottom-[200px] right-[-370px]',
+    rotateFrom: 16,
+    rotate: 3,
+    delay: 1.8,
+    duration: 1.4,
+    scrollX: 150,
+    scrollY: 130,
+    scrollRotate: 10,
+  },
+];
+
+function FloatingCard({
+  card,
+  progress,
+  scrollEnabled,
+}: {
+  card: HeroCard;
+  progress: MotionValue<number>;
+  scrollEnabled: boolean;
+}) {
+  const x = useTransform(progress, [0, 0.12], [0, card.scrollX], {
+    ease: bentoScrollEase,
+  });
+  const y = useTransform(progress, [0, 0.12], [0, card.scrollY], {
+    ease: bentoScrollEase,
+  });
+  const rotate = useTransform(
+    progress,
+    [0, 0.12],
+    [0, card.scrollRotate - card.rotate]
+  );
 
   return (
-    <div aria-hidden className="absolute inset-0 z-0 overflow-hidden">
-      {/* Left: one card top, two overlapping lower */}
-      <FloatingCard
-        card={LEFT_CARDS[0]}
-        y={leftParallax[0]}
-        opacity={cardOpacity}
-        className="-left-10 top-12 -rotate-6 sm:left-2 sm:top-16 lg:left-10"
-      />
-      <FloatingCard
-        card={LEFT_CARDS[1]}
-        y={leftParallax[1]}
-        opacity={cardOpacity}
-        className="-left-20 top-[22rem] rotate-2 sm:-left-6 sm:top-[26rem] lg:left-2"
-      />
-      <FloatingCard
-        card={LEFT_CARDS[2]}
-        y={leftParallax[2]}
-        opacity={cardOpacity}
-        className="-left-6 top-[30rem] -rotate-3 sm:left-16 sm:top-[34rem] lg:left-24"
-      />
-      {/* Right: one tall card top, two overlapping lower */}
-      <FloatingCard
-        card={RIGHT_CARDS[0]}
-        y={rightParallax[0]}
-        opacity={cardOpacity}
-        className="-right-10 top-8 rotate-6 sm:right-2 sm:top-10 lg:right-10"
-      />
-      <FloatingCard
-        card={RIGHT_CARDS[1]}
-        y={rightParallax[1]}
-        opacity={cardOpacity}
-        className="-right-24 top-[26rem] -rotate-3 sm:-right-8 sm:top-[30rem] lg:right-0"
-      />
-      <FloatingCard
-        card={RIGHT_CARDS[2]}
-        y={rightParallax[2]}
-        opacity={cardOpacity}
-        className="-right-4 top-[34rem] rotate-3 sm:right-16 sm:top-[38rem] lg:right-24"
-      />
-    </div>
+    <motion.div
+      aria-hidden
+      style={scrollEnabled ? { x, y, rotate } : undefined}
+      className={`pointer-events-none absolute max-[479px]:hidden ${card.position}`}
+    >
+      <motion.div
+        initial={{ scale: 0.4, opacity: 0, rotate: card.rotateFrom }}
+        animate={{ scale: 1, opacity: 1, rotate: card.rotate }}
+        transition={{
+          delay: card.delay,
+          duration: card.duration,
+          ease: bentoEase,
+        }}
+        className={`rounded-[28px] bg-white ${CARD_SHADOW}`}
+      >
+        <Image
+          src={card.src}
+          alt=""
+          width={card.width}
+          height={card.height}
+          priority
+          style={{ width: card.width, height: card.height }}
+        />
+      </motion.div>
+    </motion.div>
   );
 }
 
 export function Hero() {
+  const { scrollYProgress } = useScroll();
+  // bento only runs the scroll fade-out on its "main" breakpoint (>= 992px).
+  const scrollEnabled = useMediaQuery('(min-width: 992px)');
+
+  const contentY = useTransform(scrollYProgress, [0, 0.12], [0, -70], {
+    ease: bentoScrollEase,
+  });
+  const contentOpacity = useTransform(scrollYProgress, (p) =>
+    scrollOpacity(p, 0, 0.12, 1, 0, bentoScrollEase)
+  );
+  const headingWeight = useTransform(
+    scrollYProgress,
+    [0, 0.12],
+    [700, 900],
+    { clamp: true }
+  );
+  const headingVariation = useTransform(
+    headingWeight,
+    (w) => `"wght" ${Math.round(w)}`
+  );
+
   return (
-    <>
-      {/* Top banner section */}
-      <HeroBanner />
-      {/* Main hero section - Unified responsive */}
-      <Section
-        id="hero"
-        className="min-h-[100vh] w-full overflow-hidden md:pb-32"
+    <div className="-mt-20 flex h-[200vh] min-h-[1900px] w-full flex-col items-center justify-start max-[479px]:mt-0 max-[479px]:h-screen max-[479px]:min-h-0">
+      <motion.div
+        style={
+          scrollEnabled ? { y: contentY, opacity: contentOpacity } : undefined
+        }
+        className="sticky top-0 flex h-screen flex-col items-center justify-center max-[479px]:relative max-[479px]:mt-[60px] max-[479px]:h-auto max-[479px]:min-h-[600px]"
       >
-        <main className="relative mx-auto px-4 pt-14 text-center sm:pt-24 md:pt-16">
-          <FloatingCards />
-          <HeroLogo />
-          <HeroSubHeading />
-          <HeroButtons />
-          <HeroAnimationMobile />
-        </main>
-      </Section>
-    </>
+        {HERO_CARDS.map((card) => (
+          <FloatingCard
+            key={card.src}
+            card={card}
+            progress={scrollYProgress}
+            scrollEnabled={scrollEnabled}
+          />
+        ))}
+
+        <motion.div
+          initial={{ scale: 2, rotate: -40, opacity: 0, filter: 'blur(8px)' }}
+          animate={{ scale: 1, rotate: 0, opacity: 1, filter: 'blur(0px)' }}
+          transition={{ delay: 0.8, duration: 2, ease: bentoEase }}
+          className="flex h-20 w-20 items-center justify-center rounded-[22px] bg-design-primary max-[479px]:h-16 max-[479px]:w-16 max-[479px]:rounded-[18px]"
+        >
+          <Image
+            src={LOGO_SRC}
+            alt="Portfoliofy logo"
+            width={128}
+            height={128}
+            priority
+            className="h-10 w-auto max-[479px]:h-8"
+          />
+        </motion.div>
+
+        <motion.h2
+          initial={{ opacity: 0, filter: 'blur(16px)' }}
+          animate={{ opacity: 1, filter: 'blur(0px)' }}
+          transition={{ delay: 1.4, duration: 2, ease: bentoEase }}
+          className="mb-2.5 mt-4 text-2xl font-semibold leading-8 text-black"
+        >
+          Bento
+        </motion.h2>
+
+        <motion.h1
+          initial={{ opacity: 0, y: 32, filter: 'blur(8px)' }}
+          animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
+          transition={{
+            duration: 2,
+            ease: bentoEase,
+            filter: { duration: 2, ease: bentoBlurEase },
+          }}
+          style={{
+            fontVariationSettings: scrollEnabled ? headingVariation : '"wght" 700',
+          }}
+          className="my-6 max-w-[760px] text-center text-[60px] font-bold leading-[72px] tracking-[-2px] text-black max-[479px]:px-6 max-[479px]:text-[37px] max-[479px]:leading-[48px] max-[479px]:tracking-normal"
+        >
+          A Link in Bio.
+          <br />
+          But Rich and Beautiful.
+        </motion.h1>
+
+        <motion.h3
+          initial={{ opacity: 0, y: 32, filter: 'blur(8px)' }}
+          animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
+          transition={{ duration: 2, ease: bentoEase }}
+          className="flex text-center text-[22px] font-light leading-10 text-[#636363] max-[479px]:px-6 max-[479px]:text-xl max-[479px]:leading-7"
+        >
+          Your personal page to show everything you are and create.
+        </motion.h3>
+
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 1.4, duration: 2, ease: bentoEase }}
+          className="mt-16 max-[479px]:w-screen max-[479px]:px-6"
+        >
+          <CreateYourBentoButton />
+        </motion.div>
+
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 2.4, duration: 1.4, ease: bentoLoginEase }}
+          className="mt-4"
+        >
+          <Link
+            href="/login"
+            className="block text-xs text-[#747474] transition-all duration-200 [transition-timing-function:cubic-bezier(.52,.02,.25,1)] hover:underline active:scale-90 active:text-[#5a5a5a] max-[479px]:text-sm"
+          >
+            Log In
+          </Link>
+        </motion.div>
+      </motion.div>
+    </div>
+  );
+}
+
+export function CreateYourBentoButton() {
+  return (
+    <Link
+      href="/signup"
+      className="flex min-w-[300px] justify-center rounded-[14px] bg-design-primaryLight px-6 py-5 shadow-[0_2px_4px_rgba(0,0,0,.1)] transition-all duration-200 [transition-timing-function:cubic-bezier(.532,.003,.094,.997)] hover:bg-design-primaryDark active:scale-[.98] active:bg-[#576ddf] active:shadow-none max-[479px]:min-w-0"
+    >
+      <span className="text-lg font-semibold leading-[22px] text-white max-[479px]:leading-6">
+        Create Your Bento
+      </span>
+    </Link>
   );
 }

@@ -1,8 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { ArrowRightIcon, ArrowTopRightIcon } from '@/components/icons';
-import { Button } from '@/components/ui';
+import { ArrowTopRightIcon } from '@/components/icons';
 
 type User = {
   name: string;
@@ -66,7 +65,7 @@ const users: User[] = [
 function FamiliarFacesHeading() {
   return (
     <>
-      <h2 className="mb-6 text-center text-[28px] font-bold text-[#333333]">
+      <h2 className="mb-[30px] mt-2.5 text-center text-[28px] font-bold leading-9 text-[#333333]">
         <span className="hidden sm:inline">
           Join thousands of inspiring creatives
         </span>
@@ -82,10 +81,14 @@ function FamiliarFacesHeading() {
 function FamiliarFacesButton() {
   return (
     <>
-      <Link href={'/explore'}>
-        <Button className="rounded-lg bg-[#f6f6f6] p-3 text-base text-black transition-all hover:bg-[#EBEBEB] active:scale-95 active:bg-[#dbdbdb]">
-          Explore the most creative Bentos <ArrowRightIcon />
-        </Button>
+      <Link
+        href={'/explore'}
+        className="mt-10 flex items-center gap-2 rounded-lg bg-[#f6f6f6] px-3 py-2.5 transition-all duration-200 [transition-timing-function:cubic-bezier(.474,.009,.25,1)] hover:bg-[#ebebeb] active:scale-[.97] active:bg-[#dbdbdb]"
+      >
+        <span className="text-base font-medium text-black">
+          Explore the most creative Bentos
+        </span>
+        <img src="/home/bento/miniarrow.svg" alt="" />
       </Link>
     </>
   );
@@ -95,7 +98,7 @@ function FamiliarFacesAvatars() {
   return (
     <>
       {/* Responsive avatar rows */}
-      <div className="mb-8">
+      <div>
         {/* Desktop - single row */}
         <div className="hidden gap-4 sm:flex">
           {users.map((user, i) => (
@@ -179,7 +182,7 @@ function FamiliarFacesAvatars() {
 
 export function FamiliarFaces() {
   return (
-    <section className="mt-40 flex flex-col items-center justify-center md:mt-80">
+    <section className="relative z-10 mt-[300px] flex flex-col items-center justify-start max-[479px]:mt-10">
       <FamiliarFacesHeading />
       <FamiliarFacesAvatars />
       <FamiliarFacesButton />

@@ -1,14 +1,7 @@
-'use client';
 import Image from 'next/image';
-import Link from 'next/link';
-import { Button, Marquee } from '../ui';
+import { CreateYourBentoButton } from './home-hero';
 
 const usernames = [
-  'dennis',
-  'michele',
-  'eike',
-  'may-li',
-  'clara',
   'tito',
   'selim',
   'mary',
@@ -16,118 +9,94 @@ const usernames = [
   'mugeeb',
   'silvan',
   'adeline',
+  'dennis',
+  'michele',
+  'eike',
+  'may-li',
+  'clara',
 ];
 
-function UsernameCard({ username }: { username: string }) {
-  return (
-    <div className="my-[-2px] whitespace-nowrap text-[26px] font-normal leading-none text-black md:my-[-2px] md:text-[46px]">
-      {username}
-    </div>
-  );
-}
+const CARD = 'absolute rounded-[28px] shadow-[0_18px_44px_rgba(0,0,0,.06)]';
 
 function UniqueLinkHeading() {
   return (
-    <>
-      <h2 className="mb-2 text-center text-2xl font-semibold md:mb-[6px] md:text-[32px]">
+    <div className="flex flex-col items-center justify-center gap-1">
+      <h2 className="m-0 flex text-center text-[32px] font-semibold leading-9 text-black max-[479px]:text-2xl max-[479px]:leading-8">
         Your unique link.
       </h2>
-      <p className="mb-6 text-center text-base font-light text-design-black md:mb-16">
+      <p className="m-0 flex text-center text-base font-light leading-6 text-black">
         And btw, the good ones are still free.
       </p>
-    </>
+    </div>
   );
 }
 
 function UniqueLinkBox() {
   return (
-    <>
-      <div className="relative mx-auto flex h-[200px] w-[330px] items-center justify-center overflow-hidden rounded-2xl bg-[#F8F8F8] sm:h-[496px] sm:w-[1100px] md:rounded-3xl md:border-2 md:border-[#F2F2F2] md:bg-[#FCFCFC]">
-        {/* Username marquee and URL layout */}
-        <div className="absolute left-0 top-1/2 flex h-full w-full -translate-y-1/2 flex-row items-center justify-center p-4 md:px-12">
-          {/* portfoliofy.me/ on the left */}
-          <div
-            className="flex flex-col items-end justify-center pr-2"
-            style={{ minWidth: '320px' }}
-          >
-            <div className="whitespace-nowrap text-[28px] font-normal text-[#AAAAAA] md:text-[46px]">
-              bento.me/
+    <div className="relative mb-20 flex h-[496px] w-[1096px] items-center justify-center gap-1 rounded-3xl border-2 border-black/[.04] bg-[#fcfcfc] max-[991px]:w-full max-[991px]:border-none max-[991px]:bg-white max-[479px]:mt-5 max-[479px]:h-[220px] max-[479px]:gap-2 max-[479px]:rounded-2xl max-[479px]:bg-[#f8f8f8]">
+      <div className="m-0 flex text-left text-[46px] font-normal leading-[54px] text-[#aaa] max-[479px]:text-[32px] max-[479px]:leading-[48px]">
+        bento.me/
+      </div>
+      <div className="relative flex max-h-[400px] flex-col justify-center overflow-hidden max-[479px]:max-h-[140px]">
+        <div className="bento-username-carousel flex h-full flex-col gap-1">
+          {[...usernames, ...usernames].map((username, i) => (
+            <div
+              key={i}
+              className="m-0 flex text-left text-[46px] font-normal leading-[54px] text-black max-[479px]:text-[32px] max-[479px]:leading-[48px]"
+            >
+              {username}
             </div>
-          </div>
-          {/* Vertical marquee on the right, usernames close to slash */}
-          <div className="relative flex h-[100px] min-w-[200px] flex-col items-start justify-center overflow-hidden md:h-[400px] md:min-w-[250px]">
-            <Marquee vertical className="p-0 [--duration:25s]">
-              {usernames.map((username) => (
-                <UsernameCard key={username} username={username} />
-              ))}
-            </Marquee>
-            <div className="pointer-events-none absolute inset-x-0 top-0 h-1/4 bg-gradient-to-b from-[#F8F8F8] md:from-[#FCFCFC]"></div>
-            <div className="pointer-events-none absolute inset-x-0 bottom-0 h-1/4 bg-gradient-to-t from-[#F8F8F8] md:from-[#FCFCFC]"></div>
-          </div>
+          ))}
         </div>
+        <div className="absolute left-0 top-0 h-[40%] w-full bg-[linear-gradient(#fcfcfc,rgba(252,252,252,0))] max-[479px]:bg-[linear-gradient(#f8f8f8,rgba(248,248,248,0))]" />
+        <div className="absolute bottom-0 left-0 h-[40%] w-full bg-[linear-gradient(rgba(252,252,252,0),#fcfcfc)] max-[479px]:bg-[linear-gradient(rgba(248,248,248,0),#f8f8f8)]" />
       </div>
-    </>
-  );
-}
 
-function UniqueLinkFloatingCards() {
-  return (
-    <>
-      {/* Twitter - top left, rotated, overlapping */}
-      <Image
-        src="/home/unique-link/twitter.png"
-        alt="Twitter card"
-        width={175}
-        height={175}
-        className="absolute -top-10 left-32 z-20 hidden rotate-[-5deg] rounded-3xl shadow-[0_18px_44px_0_rgba(0,0,0,0.06)] xl:block"
-      />
-
-      {/* Substack - top right, rotated, overlapping */}
-      <Image
-        src="/home/unique-link/substack.png"
-        alt="Substack card"
-        width={175}
-        height={175}
-        className="absolute right-36 top-20 z-20 hidden rotate-[4deg] rounded-3xl shadow-[0_18px_44px_0_rgba(0,0,0,0.06)] xl:block"
-      />
-
-      {/* Spotify - bottom left, rotated, overlapping */}
-      <Image
-        src="/home/unique-link/spotify.png"
-        alt="Spotify card"
-        width={396}
-        height={189}
-        className="absolute -bottom-20 left-72 z-20 hidden rotate-[2deg] rounded-3xl shadow-[0_18px_44px_0_rgba(0,0,0,0.06)] xl:block"
-      />
-    </>
-  );
-}
-
-function UniqueLinkButton() {
-  return (
-    <>
-      <div className="mt-12 flex items-center justify-center">
-        <Link href="/signup">
-          <Button className="group relative mb-2 flex cursor-pointer items-center rounded-[14px] bg-design-primary px-20 py-8 text-lg font-semibold shadow-md transition-transform hover:bg-design-primaryDark active:scale-95 sm:px-14 sm:py-8 lg:h-[62px] lg:w-[300px]">
-            Create Your Bento
-          </Button>
-        </Link>
+      <div
+        className={`${CARD} -bottom-[15%] left-[10%] rotate-2 max-[991px]:left-[6%] max-[479px]:hidden`}
+      >
+        <Image
+          src="/home/bento/spotifywidget2.png"
+          alt=""
+          width={390}
+          height={175}
+          className="block w-[390px] max-[991px]:hidden"
+        />
       </div>
-    </>
+      <div
+        className={`${CARD} -left-[6%] -top-[9%] -rotate-[5deg] max-[991px]:left-[6%] max-[479px]:hidden`}
+      >
+        <Image
+          src="/home/bento/hero-twitter.png"
+          alt=""
+          width={175}
+          height={175}
+          className="block w-[175px] max-[991px]:hidden"
+        />
+      </div>
+      <div
+        className={`${CARD} -right-[4%] top-[16%] rotate-[4deg] max-[991px]:-right-[6%] max-[479px]:hidden`}
+      >
+        <Image
+          src="/home/bento/substackwidget2.png"
+          alt=""
+          width={175}
+          height={175}
+          className="block w-[175px]"
+        />
+      </div>
+    </div>
   );
 }
 
 export function UniqueLink() {
   return (
-    <>
-      <section className="mb-24 flex flex-col items-center justify-center py-16">
-        <UniqueLinkHeading />
-        <div className="relative flex w-full items-center justify-center">
-          <UniqueLinkBox />
-          <UniqueLinkFloatingCards />
-        </div>
-      </section>
-      <UniqueLinkButton />
-    </>
+    <section className="mx-auto mt-[260px] flex w-[1600px] max-w-full flex-col items-center justify-center gap-[72px] pb-[50px] max-[479px]:mt-[180px] max-[479px]:gap-0 max-[479px]:px-6">
+      <UniqueLinkHeading />
+      <UniqueLinkBox />
+      <div className="mt-16 max-[479px]:w-full">
+        <CreateYourBentoButton />
+      </div>
+    </section>
   );
 }
