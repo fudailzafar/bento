@@ -36,7 +36,15 @@ function scrollOpacity(
   return from + (to - from) * ease(t);
 }
 
-export function HomeNavbar() {
+// The landing page fades this in on scroll; other pages (e.g. /jointheteam)
+// show it from the start and link back home.
+export function HomeNavbar({
+  alwaysVisible = false,
+  href = '#',
+}: {
+  alwaysVisible?: boolean;
+  href?: string;
+}) {
   const { scrollYProgress } = useScroll();
   const opacity = useTransform(scrollYProgress, (p) =>
     scrollOpacity(p, 0.1, 0.24, 0, 1)
@@ -44,10 +52,10 @@ export function HomeNavbar() {
 
   return (
     <motion.div
-      style={{ opacity }}
+      style={alwaysVisible ? undefined : { opacity }}
       className="fixed top-0 z-[2] flex w-full p-8 max-[479px]:hidden"
     >
-      <a href="#" className="block">
+      <a href={href} className="block">
         <div className="flex h-10 w-10 items-center justify-center rounded-[10px] bg-design-primary">
           <Image
             src={LOGO_SRC}
