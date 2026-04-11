@@ -62,7 +62,7 @@ function TeamAvatar({
   return (
     <a
       href={href}
-      className="group relative flex h-16 w-16 flex-col items-center justify-center transition-all duration-200 active:scale-[.96] max-[479px]:h-10 max-[479px]:w-10"
+      className="group relative flex h-16 w-16 flex-col items-center justify-center transition-all duration-200 active:scale-[.96] max-[479px]:h-auto max-[479px]:w-full"
     >
       <img
         src={avatar}
@@ -102,8 +102,8 @@ function TeamAvatar({
 
 function TeamAvatars() {
   return (
-    <div className="mx-auto mt-[220px] inline-block max-[479px]:mt-[130px]">
-      <div className="relative flex flex-nowrap justify-center gap-4 overflow-visible max-[479px]:gap-3">
+    <div className="mx-auto mt-[220px] inline-block max-[479px]:mt-[130px] max-[479px]:w-full">
+      <div className="relative flex flex-nowrap justify-center gap-4 overflow-visible max-[479px]:w-full max-[479px]:gap-3">
         {team.map((member) => (
           <TeamAvatar key={member.href} {...member} />
         ))}
@@ -183,17 +183,24 @@ function PhotoCarousel() {
       ref={ref}
       className="group relative mx-auto mb-10 flex h-[540px] w-screen max-w-[2000px] flex-col items-start justify-start overflow-hidden py-10 max-[991px]:h-[480px] max-[479px]:mb-6 max-[479px]:h-[330px]"
     >
-      <div
-        key={fast ? 'fast' : 'slow'}
-        className={cn(
-          'relative flex h-full w-auto flex-row gap-[30px] overflow-visible pl-[30px]',
-          fast ? 'bento-team-carousel-fast' : 'bento-team-carousel'
-        )}
-      >
-        {[...slides, ...slides].map((slide, i) => (
-          <SlideFrame key={i} slide={slide} />
-        ))}
-      </div>
+      {/* Like bento, both tracks loop from page load and the toggle only swaps
+          which one is shown, so the slow track resumes where it would be.
+          visibility (not display) keeps the hidden track's animation running. */}
+      {(['slow', 'fast'] as const).map((speed) => (
+        <div
+          key={speed}
+          aria-hidden={(speed === 'fast') !== fast}
+          className={cn(
+            'absolute inset-y-10 left-0 flex w-auto flex-row gap-[30px] overflow-visible pl-[30px]',
+            speed === 'fast' ? 'bento-team-carousel-fast' : 'bento-team-carousel',
+            (speed === 'fast') === fast ? 'visible' : 'invisible'
+          )}
+        >
+          {[...slides, ...slides].map((slide, i) => (
+            <SlideFrame key={i} slide={slide} />
+          ))}
+        </div>
+      ))}
       <div className="absolute inset-y-0 left-0 block w-[400px] bg-[linear-gradient(90deg,#fff,rgba(255,255,255,.94)_12%,rgba(255,255,255,.85)_22%,rgba(255,255,255,.07)_81%,rgba(255,255,255,.03)_91%,rgba(255,255,255,0)_100%,#fff)] max-[479px]:hidden" />
       <div className="absolute inset-y-0 right-0 block w-[400px] rotate-180 bg-[linear-gradient(90deg,#fff,rgba(255,255,255,.94)_12%,rgba(255,255,255,.85)_22%,rgba(255,255,255,0)_100%,#fff)] max-[479px]:hidden" />
 
@@ -273,7 +280,7 @@ export function JoinTheTeam() {
           href="http://bento.me/2022"
           className="flex gap-2 rounded-lg bg-white px-3 py-1.5 text-xl font-light leading-8 text-[#536ae2] no-underline transition-all [transition-duration:300ms] [transition-timing-function:cubic-bezier(.345,.003,.25,1)] hover:bg-[#fafafa] active:scale-[.97] active:bg-[#f0f0f0] max-[479px]:items-center"
         >
-          <span className="max-[479px]:text-lg">Our Founding Story</span>
+          <span className="max-[479px]:text-[18px]">Our Founding Story</span>
           <img src={`${T}/chevron.svg`} alt="" />
         </a>
       </div>

@@ -85,7 +85,7 @@ function FamiliarFacesButton() {
         href={'/explore'}
         className="mt-10 flex items-center gap-2 rounded-lg bg-[#f6f6f6] px-3 py-2.5 transition-all duration-200 [transition-timing-function:cubic-bezier(.474,.009,.25,1)] hover:bg-[#ebebeb] active:scale-[.97] active:bg-[#dbdbdb]"
       >
-        <span className="text-base font-medium text-black">
+        <span className="text-base font-medium leading-5 text-black">
           Explore the most creative Bentos
         </span>
         <img src="/home/bento/miniarrow.svg" alt="" />

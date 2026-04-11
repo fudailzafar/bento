@@ -29,7 +29,7 @@ function VideoMobile() {
       muted
       playsInline
       poster="/home/video-dialog/mobile-demo-poster.jpg"
-      className="hidden rounded-3xl object-cover shadow-[inset_0_0_0_1px_rgba(0,0,0,.08)] max-[479px]:block max-[479px]:h-[169vw] max-[479px]:w-[88vw]"
+      className="hidden max-w-none rounded-3xl object-cover shadow-[inset_0_0_0_1px_rgba(0,0,0,.08)] max-[479px]:block max-[479px]:h-[169vw] max-[479px]:w-[88vw]"
     >
       <source src="/home/video-dialog/mobile-video.mp4" type="video/mp4" />
     </video>

@@ -168,7 +168,7 @@ function WidgetsHeading() {
   return (
     <div className="flex max-w-[64%] flex-col items-center gap-6 max-[991px]:max-w-none max-[991px]:px-6 max-[479px]:w-full max-[479px]:gap-2 max-[479px]:px-0">
       <div className="relative">
-        <h2 className="m-0 flex w-[930px] justify-center text-center text-[60px] font-bold leading-[68px] text-black max-[991px]:w-full max-[479px]:text-[40px] max-[479px]:leading-[48px]">
+        <h2 className="m-0 flex w-[930px] justify-center text-center text-[60px] font-bold leading-[68px] text-black max-[479px]:w-full max-[479px]:text-[40px] max-[479px]:leading-[48px]">
           Your Videos. Podcasts. Newsletters. Photos. Paid&nbsp;Products.
           Streams. Calendar.
           <br />

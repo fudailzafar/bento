@@ -22,7 +22,7 @@ export function Footer() {
         width={44}
         height={44}
       />
-      <div className="relative m-0 flex justify-center text-left text-sm font-normal leading-5 text-[#6f6f6f] max-[479px]:px-6 max-[479px]:text-xs">
+      <div className="relative m-0 flex justify-center text-left text-sm font-normal leading-5 text-[#6f6f6f] max-[479px]:px-6 max-[479px]:text-[12px]">
         Designed in Berlin. Built for Creatives.
       </div>
       <div className="mt-[50px] flex items-center justify-center gap-8 max-[479px]:flex-col">
@@ -32,7 +32,7 @@ export function Footer() {
             target="_blank"
             rel="noopener noreferrer"
             href={link.href}
-            className="text-[#6f6f6f] no-underline transition-all [transition-duration:240ms] [transition-timing-function:cubic-bezier(.409,.02,.25,1)] hover:underline active:scale-[.92] active:text-[#4b4b4b] max-[479px]:text-xs"
+            className="text-[#6f6f6f] no-underline transition-all [transition-duration:240ms] [transition-timing-function:cubic-bezier(.409,.02,.25,1)] hover:underline active:scale-[.92] active:text-[#4b4b4b] max-[479px]:text-[12px]"
           >
             {link.label}
           </Link>

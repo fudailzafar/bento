@@ -9,7 +9,7 @@ export function FeatureForm() {
 
   return (
     <div className="mx-auto my-20 flex w-full max-w-[1532px] flex-row justify-between gap-4 px-10 max-[991px]:flex-col max-[479px]:mb-0 max-[479px]:mt-[120px] max-[479px]:w-auto max-[479px]:max-w-[100vw] max-[479px]:gap-[50px] max-[479px]:px-0">
-      <div className="mx-auto flex w-auto flex-1 flex-col justify-between gap-3 bg-transparent text-[#272727] max-[991px]:w-full max-[479px]:h-[400px] max-[479px]:w-full">
+      <div className="mx-auto flex w-auto flex-1 flex-col justify-between gap-3 bg-transparent text-[#272727] max-[991px]:w-full max-[479px]:h-[400px] max-[479px]:w-full max-[479px]:flex-initial">
         {!submitted && (
           <>
             <div className="relative z-[2] flex flex-col gap-3 bg-white px-6 pb-5 max-[479px]:gap-5 max-[479px]:px-8">
