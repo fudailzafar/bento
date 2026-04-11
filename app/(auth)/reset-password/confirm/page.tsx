@@ -70,7 +70,7 @@ function ResetPasswordConfirmContent_Internal() {
           </button>
         </div>
         <div className="hidden max-w-[700px] flex-1 items-center justify-center md:flex">
-          <LogInAnimation isActive={true} />
+          <LogInAnimation />
         </div>
       </div>
     );
@@ -88,7 +88,7 @@ function ResetPasswordConfirmContent_Internal() {
         handleSubmit={handleSubmit}
       />
 
-      <LogInAnimation isActive={true} />
+      <LogInAnimation />
     </div>
   );
 }

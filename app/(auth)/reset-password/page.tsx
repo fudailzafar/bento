@@ -77,7 +77,7 @@ export default function ResetPasswordPage() {
         </div>
 
         <div className="hidden max-w-[700px] flex-1 items-center justify-center lg:flex">
-          <LogInAnimation isActive={true} />
+          <LogInAnimation />
         </div>
       </div>
     );
@@ -93,7 +93,7 @@ export default function ResetPasswordPage() {
         message={message}
       />
 
-      <LogInAnimation isActive={true} />
+      <LogInAnimation />
     </div>
   );
 }
