@@ -416,6 +416,15 @@
 .bento-check svg polyline { animation: bento-checkmark .33s ease-in-out 0s backwards; }
 .bento-check svg circle { animation: bento-checkmark-circle .75s ease-in-out backwards; }
 @keyframes bento-colored-circle { 0% { opacity: 0; } to { opacity: 1; } }
+/* bento.me profile CTA: glare across "Create Your Bento", and tooltips */
+@keyframes bento-shine { 0% { left: -110%; } 60% { left: 120%; } to { left: 120%; } }
+.bento-shine { animation: bento-shine 4s ease-in-out infinite; backface-visibility: hidden; }
+@keyframes bento-tooltip-in-top { 0% { opacity: 0; transform: translateY(8px) scale(.96); } to { opacity: 1; transform: translateY(0) scale(1); } }
+@keyframes bento-tooltip-in-bottom { 0% { opacity: 0; transform: translateY(-8px) scale(.96); } to { opacity: 1; transform: translateY(0) scale(1); } }
+@keyframes bento-tooltip-out { 0% { opacity: 1; } to { opacity: 0; } }
+.bento-tooltip[data-state=delayed-open][data-side=top] { animation: bento-tooltip-in-top .45s cubic-bezier(.16,1,.3,1); }
+.bento-tooltip[data-state=delayed-open][data-side=bottom] { animation: bento-tooltip-in-bottom .45s cubic-bezier(.16,1,.3,1); }
+.bento-tooltip[data-state=closed] { animation: bento-tooltip-out .3s cubic-bezier(.16,1,.3,1); }
 .bento-check-delayed svg polyline { animation: bento-checkmark .33s ease-in-out .4s backwards; }
 .bento-check-delayed svg circle { animation: bento-colored-circle .75s ease-in-out .55s backwards; }
 
