@@ -51,7 +51,11 @@ function HandleMarquee({
           }
         >
           {(overflowing ? [0, 1] : [0]).map((i) => (
-            <div key={i} ref={i === 0 ? inner : undefined} className="flex items-center">
+            <div
+              key={i}
+              ref={i === 0 ? inner : undefined}
+              className="flex items-center"
+            >
               {children}
             </div>
           ))}
@@ -67,7 +71,14 @@ function HandleMarquee({
   );
 }
 
-export default function ClaimUsername({ username }: { username: string }) {
+export default function ClaimUsername({
+  username,
+  unavailable = false,
+}: {
+  username: string;
+  // Reserved or invalid handles: bento's red "Unavailable" badge, no claim button.
+  unavailable?: boolean;
+}) {
   return (
     <div className="flex h-screen w-screen flex-col items-center overflow-hidden bg-white">
       <div className="flex-1" />
@@ -92,24 +103,31 @@ export default function ClaimUsername({ username }: { username: string }) {
               </div>
             </div>
           </HandleMarquee>
-          <div className="bento-claim-badge absolute right-0 top-0 z-20 -translate-y-1/2 translate-x-6 rotate-2 rounded-md border border-black/[.08] bg-[#4edd76] px-3 py-[7px] text-base font-semibold leading-[1.2] text-white shadow-[0_22px_42px_rgba(0,0,0,.05),0_14.2593px_24.5972px_rgba(0,0,0,.038),0_8.47407px_13.3778px_rgba(0,0,0,.03),0_4.4px_6.825px_rgba(0,0,0,.025),0_1.79259px_3.42222px_rgba(0,0,0,.02),0_.407407px_1.65278px_rgba(0,0,0,.012)]">
-            Available!
+          <div
+            className={`bento-claim-badge absolute right-0 top-0 z-20 -translate-y-1/2 translate-x-6 rotate-2 rounded-md border border-black/[.08] ${unavailable ? 'bg-[#ff2222]' : 'bg-[#4edd76]'} px-3 py-[7px] text-base font-semibold leading-[1.2] text-white shadow-[0_22px_42px_rgba(0,0,0,.05),0_14.2593px_24.5972px_rgba(0,0,0,.038),0_8.47407px_13.3778px_rgba(0,0,0,.03),0_4.4px_6.825px_rgba(0,0,0,.025),0_1.79259px_3.42222px_rgba(0,0,0,.02),0_.407407px_1.65278px_rgba(0,0,0,.012)]`}
+          >
+            {unavailable ? 'Unavailable' : 'Available!'}
           </div>
         </div>
 
         <div className="bento-claim-peripheral mt-4 max-w-[288px] text-center text-base leading-6 text-[#7d7878]">
           Bento is the most beautiful link in bio. And it’s all free.{' '}
-          <a href="/" className="text-design-primaryLight underline underline-offset-[3px]">
+          <a
+            href="/"
+            className="text-design-primaryLight underline underline-offset-[3px]"
+          >
             Learn more
           </a>
         </div>
 
-        <a
-          href={`/signup?handle=${encodeURIComponent(username)}`}
-          className="bento-claim-peripheral relative mt-8 flex h-[54px] select-none items-center overflow-hidden rounded-[10px] bg-design-primaryLight px-2.5 py-2 font-semibold text-white shadow-[0_3px_4px_rgba(0,0,0,.06)] [transition:transform_.1s_cubic-bezier(.427,.073,.105,.997),color_.1s_cubic-bezier(.427,.073,.105,.997)] hover:bg-[#6a80f6] active:scale-[.96] active:bg-[#667df5] active:shadow-none"
-        >
-          <span className="px-2 text-lg">Claim Handle Now</span>
-        </a>
+        {!unavailable && (
+          <a
+            href={`/signup?handle=${encodeURIComponent(username)}`}
+            className="bento-claim-peripheral relative mt-8 flex h-[54px] select-none items-center overflow-hidden rounded-[10px] bg-design-primaryLight px-2.5 py-2 font-semibold text-white shadow-[0_3px_4px_rgba(0,0,0,.06)] [transition:transform_.1s_cubic-bezier(.427,.073,.105,.997),color_.1s_cubic-bezier(.427,.073,.105,.997)] hover:bg-[#6a80f6] active:scale-[.96] active:bg-[#667df5] active:shadow-none"
+          >
+            <span className="px-2 text-lg">Claim Handle Now</span>
+          </a>
+        )}
       </div>
       <div className="flex-1" />
       <img

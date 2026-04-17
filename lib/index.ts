@@ -25,7 +25,12 @@ export {
 } from './blocks';
 
 // Route constants
-export { PRIVATE_ROUTES } from './routes';
+export {
+  PRIVATE_ROUTES,
+  RESERVED_USERNAMES,
+  isReservedUsername,
+  isValidUsername,
+} from './routes';
 
 // Utility functions
 export { cn, getDomainUrl } from './utils';
