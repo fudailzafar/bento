@@ -83,6 +83,13 @@ function SettingsDesktop() {
             Community
           </div>
         </Link>
+        {/* bento's visit counter. No tracking yet, so this is its empty state. */}
+        <div className="px-2">
+          <div className="h-[14px] w-[2px] rounded-[2px] bg-[#EBEBEB]" />
+        </div>
+        <div className="rounded-lg px-2.5 py-2 text-xs text-[#6c6c6c]">
+          No Views Yesterday
+        </div>
       </div>
     </>
   );
