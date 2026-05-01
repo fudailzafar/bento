@@ -13,12 +13,19 @@ export const LinkBlockData = z.object({
   url: z.string(),
   title: z.string(),
   icon: z.string().optional(),
+  // Open Graph details fetched when the link is added.
+  image: z.string().optional(),
+  description: z.string().optional(),
 });
 export type LinkBlockData = z.infer<typeof LinkBlockData>;
 
 export const ImageBlockData = z.object({
   url: z.string(),
   alt: z.string().optional(),
+  // bento's media widget also plays short looping videos.
+  kind: z.enum(['image', 'video']).optional(),
+  // The uncropped upload, so a crop can be redone.
+  original: z.string().optional(),
   // Where the tile links to (bento's linkable widgets).
   href: z.string().optional(),
 });
