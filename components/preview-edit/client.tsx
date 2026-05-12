@@ -6,6 +6,14 @@ import { toast } from 'sonner';
 import { motion, AnimatePresence } from 'framer-motion';
 import { usePageActions } from '@/hooks';
 import { PageData, BlockType } from '@/lib';
+import {
+  asUrl,
+  checkMediaFile,
+  fetchLinkPreview,
+  isVideoFile,
+  uploadBlockMedia,
+} from '@/lib/media';
+import { findPlatform } from '@/lib/platforms';
 import { DockActionBar, ViewMode } from '@/components/preview';
 import { LoadingFallback } from '@/components/utils';
 import { PreviewPortfolio, newBlock } from '@/components/bento';
@@ -19,6 +27,10 @@ export default function PreviewClient({ messageTip }: { messageTip?: string }) {
   >();
   const [viewMode, setViewMode] = useState<ViewMode>('desktop');
   const debounceTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  // The latest page, for edits that land after an upload or fetch finishes.
+  const pageRef = useRef<PageData | undefined>(undefined);
+  pageRef.current = localPage;
+  const [isDragging, setIsDragging] = useState(false);
 
   useEffect(() => {
     if (pageQuery.data?.page) {
@@ -55,6 +67,7 @@ export default function PreviewClient({ messageTip }: { messageTip?: string }) {
   );
 
   const handlePageChange = (newPage: PageData) => {
+    pageRef.current = newPage;
     setLocalPage(newPage);
 
     if (debounceTimerRef.current) {
@@ -71,19 +84,139 @@ export default function PreviewClient({ messageTip }: { messageTip?: string }) {
     userProfileQuery.refetch();
   };
 
-  const handleAddBlock = (type: BlockType) => {
-    if (!localPage) return;
+  const handleAddBlock = (type: BlockType, data?: Record<string, unknown>) => {
+    const page = pageRef.current;
+    if (!page) return;
 
-    const maxY = (localPage.blocks || []).reduce(
+    const maxY = (page.blocks || []).reduce(
       (max, block) => Math.max(max, block.y + block.h),
       0
     );
 
+    const block = newBlock(type, maxY, data);
     handlePageChange({
-      ...localPage,
-      blocks: [...(localPage.blocks || []), newBlock(type, maxY)],
+      ...page,
+      blocks: [...(page.blocks || []), block],
+    });
+    return block.id;
+  };
+
+  const patchBlockData = (id: string, patch: Record<string, unknown>) => {
+    const page = pageRef.current;
+    if (!page) return;
+    handlePageChange({
+      ...page,
+      blocks: (page.blocks || []).map((block) =>
+        block.id === id
+          ? { ...block, data: { ...block.data, ...patch } }
+          : block
+      ),
     });
   };
+
+  // bento's quick add: paste a link anywhere to make a link widget, and its
+  // preview fills in once fetched.
+  const addLink = async (url: string) => {
+    const id = handleAddBlock('LINK', { url, title: 'New link' });
+    if (!id) return;
+    const preview = await fetchLinkPreview(url);
+    patchBlockData(id, {
+      image: preview.image,
+      description: preview.description,
+      ...(preview.title && !findPlatform(url) ? { title: preview.title } : {}),
+    });
+  };
+
+  // Pasted or dropped images and videos become media widgets.
+  const addMedia = async (files: File[]) => {
+    for (const file of files) {
+      const invalid = checkMediaFile(file);
+      if (invalid) {
+        toast.error(invalid);
+        continue;
+      }
+      const uploading = toast.loading(`Uploading ${file.name || 'file'}...`);
+      try {
+        const url = await uploadBlockMedia(file);
+        handleAddBlock('IMAGE', {
+          url,
+          kind: isVideoFile(file) ? 'video' : 'image',
+        });
+        toast.dismiss(uploading);
+      } catch (error) {
+        toast.error(
+          error instanceof Error ? error.message : 'Failed to upload file',
+          { id: uploading }
+        );
+      }
+    }
+  };
+
+  const addMediaRef = useRef(addMedia);
+  addMediaRef.current = addMedia;
+  const addLinkRef = useRef(addLink);
+  addLinkRef.current = addLink;
+
+  useEffect(() => {
+    const isTyping = (target: EventTarget | null) =>
+      target instanceof HTMLElement &&
+      (target.isContentEditable ||
+        ['INPUT', 'TEXTAREA', 'SELECT'].includes(target.tagName));
+
+    const onPaste = (event: ClipboardEvent) => {
+      if (isTyping(event.target) || document.querySelector('[role="dialog"]'))
+        return;
+      const files = Array.from(event.clipboardData?.files ?? []);
+      if (files.length) {
+        event.preventDefault();
+        addMediaRef.current(files);
+        return;
+      }
+      const url = asUrl(event.clipboardData?.getData('text') ?? '');
+      if (url) {
+        event.preventDefault();
+        addLinkRef.current(url);
+      }
+    };
+
+    const hasFiles = (event: DragEvent) =>
+      event.dataTransfer?.types.includes('Files') ?? false;
+    let depth = 0;
+    const onDragEnter = (event: DragEvent) => {
+      if (!hasFiles(event)) return;
+      depth++;
+      setIsDragging(true);
+    };
+    const onDragLeave = (event: DragEvent) => {
+      if (!hasFiles(event)) return;
+      depth = Math.max(0, depth - 1);
+      if (depth === 0) setIsDragging(false);
+    };
+    const onDragOver = (event: DragEvent) => {
+      if (hasFiles(event)) event.preventDefault();
+    };
+    const onDrop = (event: DragEvent) => {
+      if (!hasFiles(event)) return;
+      event.preventDefault();
+      depth = 0;
+      setIsDragging(false);
+      if (document.querySelector('[role="dialog"]')) return;
+      addMediaRef.current(Array.from(event.dataTransfer?.files ?? []));
+    };
+
+    window.addEventListener('paste', onPaste);
+    window.addEventListener('dragenter', onDragEnter);
+    window.addEventListener('dragleave', onDragLeave);
+    window.addEventListener('dragover', onDragOver);
+    window.addEventListener('drop', onDrop);
+    return () => {
+      window.removeEventListener('paste', onPaste);
+      window.removeEventListener('dragenter', onDragEnter);
+      window.removeEventListener('dragleave', onDragLeave);
+      window.removeEventListener('dragover', onDragOver);
+      window.removeEventListener('drop', onDrop);
+    };
+  }, []);
 
   useEffect(() => {
     return () => {
@@ -104,6 +237,13 @@ export default function PreviewClient({ messageTip }: { messageTip?: string }) {
 
   return (
     <div className="flex min-h-screen w-full bg-background">
+      {isDragging && (
+        <div className="pointer-events-none fixed inset-4 z-[60] flex items-center justify-center rounded-[32px] border-2 border-dashed border-black/20 bg-white/70 backdrop-blur-sm">
+          <p className="text-sm font-semibold text-black/60">
+            Drop images or videos to add them
+          </p>
+        </div>
+      )}
       <div className="flex flex-1 flex-col">
         {messageTip && (
           <div className="mx-auto w-full max-w-3xl px-4 pt-4 md:px-0">
