@@ -5,6 +5,7 @@ import { useState, useEffect } from 'react';
 import { createClient } from '@/lib/supabase/client';
 import { CompassIcon, DiscordIcon } from '@/components/icons';
 import { SettingsActionBar } from '../preview';
+import { useAnalytics } from '@/hooks';
 
 function SettingsMobile() {
   return (
@@ -52,6 +53,22 @@ function SettingsMobile() {
   );
 }
 
+// bento's footer visit counter.
+function ViewsYesterday() {
+  const { data } = useAnalytics();
+  const count = data?.viewsYesterday ?? 0;
+  return (
+    <div
+      className="rounded-lg px-2.5 py-2 text-xs text-[#6c6c6c]"
+      title={data ? `${data.views} views in total` : undefined}
+    >
+      {count === 0
+        ? 'No Views Yesterday'
+        : `${count} ${count === 1 ? 'View' : 'Views'} Yesterday`}
+    </div>
+  );
+}
+
 function SettingsDesktop() {
   return (
     <>
@@ -83,13 +100,10 @@ function SettingsDesktop() {
             Community
           </div>
         </Link>
-        {/* bento's visit counter. No tracking yet, so this is its empty state. */}
         <div className="px-2">
           <div className="h-[14px] w-[2px] rounded-[2px] bg-[#EBEBEB]" />
         </div>
-        <div className="rounded-lg px-2.5 py-2 text-xs text-[#6c6c6c]">
-          No Views Yesterday
-        </div>
+        <ViewsYesterday />
       </div>
     </>
   );

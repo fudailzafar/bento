@@ -6,6 +6,7 @@ import { LoadingFallback } from '@/components/utils';
 import { PageData, Block } from '@/lib';
 import { Settings } from '@/components/common';
 import { BentoGrid } from '../grid';
+import { useAnalytics } from '@/hooks';
 
 interface PreviewPortfolioProps {
   page?: PageData | null;
@@ -26,6 +27,7 @@ export const PreviewPortfolio = ({
   username,
   viewMode = 'desktop',
 }: PreviewPortfolioProps) => {
+  const analytics = useAnalytics(isEditMode);
   if (!page) {
     return <LoadingFallback message="Loading Portfolio..." />;
   }
@@ -66,12 +68,13 @@ export const PreviewPortfolio = ({
         className={`relative w-full bg-background py-1 font-sans antialiased ${viewMode === 'mobile' ? 'w-full px-4' : 'xl:w-[860px] xl:px-4 xl:py-8'}`}
         aria-label="Preview Portfolio Content"
       >
-        <div className="flex flex-col gap-6 xl:pb-36 relative">
+        <div className="relative flex flex-col gap-6 xl:pb-36">
           <div className="mt-10">
             <BentoGrid
               isEditMode={isEditMode}
               blocks={page.blocks || []}
               onBlocksChange={handleBlocksChange}
+              clicks={analytics.data?.clicks}
             />
           </div>
 

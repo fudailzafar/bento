@@ -97,6 +97,8 @@ export async function savePage(
       if (validated.blocks.length > 0) {
         await tx.block.createMany({
           data: validated.blocks.map((block) => ({
+            // Keep the editor's ids so click counts follow a block across saves.
+            id: block.id,
             pageId: page.id,
             type: block.type,
             x: block.x,

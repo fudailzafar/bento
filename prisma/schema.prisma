@@ -29,6 +29,8 @@ model Page {
   linkedin  String?
   github    String?
   blocks    Block[]
+  views     PageView[]
+  clicks    BlockClick[]
   updatedAt DateTime @updatedAt
   user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
@@ -55,4 +57,23 @@ model Block {
   page      Page      @relation(fields: [pageId], references: [id], onDelete: Cascade)
 
   @@index([pageId])
+}
+
+model PageView {
+  id        String   @id @default(uuid())
+  pageId    String
+  createdAt DateTime @default(now())
+  page      Page     @relation(fields: [pageId], references: [id], onDelete: Cascade)
+
+  @@index([pageId, createdAt])
+}
+
+model BlockClick {
+  id        String   @id @default(uuid())
+  pageId    String
+  blockId   String
+  createdAt DateTime @default(now())
+  page      Page     @relation(fields: [pageId], references: [id], onDelete: Cascade)
+
+  @@index([pageId, createdAt])
 }

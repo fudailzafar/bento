@@ -15,7 +15,7 @@ import {
 } from '@/components/ui';
 import { PublicPortfolio } from '@/components/bento';
 import { createClient } from '@/lib/supabase/server';
-import { ProfileCta, type ProfileViewer } from '@/components/common';
+import { ProfileCta, TrackView, type ProfileViewer } from '@/components/common';
 import { prisma } from '@/lib/server/db';
 import { SelfPortfolioLoader } from '@/components/preview';
 import { ClaimUsername } from '@/components/auth';
@@ -174,6 +174,7 @@ export default async function ProfilePage({
       <PublicPortfolio page={page} profilePicture={profilePicture} />
 
       <ProfileCta viewer={viewer} />
+      <TrackView username={username} />
 
       {/* Dock */}
       <div className="pointer-events-none fixed inset-x-0 bottom-0 z-30 mx-auto mb-4 flex h-full max-h-14 origin-bottom">
