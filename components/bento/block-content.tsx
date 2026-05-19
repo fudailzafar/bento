@@ -1,10 +1,13 @@
 'use client';
 
+import { useLayoutEffect, useRef, useState } from 'react';
 import { Block } from '@/lib';
 import { LinkTile } from './link-tile';
+import { NO_DRAG } from './editing/no-drag';
 import { embedFor } from '@/lib/embeds';
-import { isVideoUrl } from '@/lib/media';
-import { ImageOff, MapPin } from 'lucide-react';
+import { asUrl, isVideoUrl } from '@/lib/media';
+import { cn } from '@/lib/utils';
+import { ImagePlus, LoaderCircle, MapPin } from 'lucide-react';
 
 // Dark note colours get white text.
 function isDark(hex?: string) {
@@ -65,12 +68,121 @@ function Linked({
   );
 }
 
+// What the editor passes in so a widget can be edited where it sits.
+export interface BlockEditing {
+  onPatch: (patch: Record<string, unknown>) => void;
+  // Sets a link widget's address and fetches its preview.
+  onSetUrl: (url: string) => void;
+  // Uploads a file into a data field ("url" for media, "image" for a
+  // link's preview).
+  onUpload: (file: File, field: 'url' | 'image') => void;
+  uploading?: boolean;
+}
+
+// Text that is typed straight into the widget, styled exactly as it shows on
+// the public profile.
+function InlineText({
+  value,
+  placeholder,
+  onChange,
+  className,
+  size,
+}: {
+  value: string;
+  placeholder: string;
+  onChange: (value: string) => void;
+  className?: string;
+  // Width in characters, for inputs that hug their text.
+  size?: number;
+}) {
+  return (
+    <input
+      value={value}
+      placeholder={placeholder}
+      size={size}
+      onChange={(e) => onChange(e.target.value)}
+      onKeyDown={(e) => {
+        if (e.key === 'Enter') e.currentTarget.blur();
+      }}
+      className={cn(
+        NO_DRAG,
+        'w-full border-0 bg-transparent p-0 outline-none placeholder:text-current placeholder:opacity-40 focus:ring-0',
+        className
+      )}
+    />
+  );
+}
+
+function FilePicker({
+  accept,
+  onFile,
+  children,
+  className,
+}: {
+  accept: string;
+  onFile: (file: File) => void;
+  children: React.ReactNode;
+  className?: string;
+}) {
+  const input = useRef<HTMLInputElement>(null);
+  return (
+    <button
+      type="button"
+      onClick={() => input.current?.click()}
+      className={cn(NO_DRAG, className)}
+    >
+      {children}
+      <input
+        ref={input}
+        type="file"
+        accept={accept}
+        className="hidden"
+        onChange={(e) => {
+          const file = e.target.files?.[0];
+          if (file) onFile(file);
+          e.target.value = '';
+        }}
+      />
+    </button>
+  );
+}
+
+// An empty link widget asks for its address in place.
+function LinkUrlInput({ onSetUrl }: { onSetUrl: (url: string) => void }) {
+  const [value, setValue] = useState('');
+  const submit = () => {
+    const url = asUrl(value);
+    if (url) onSetUrl(url);
+  };
+  return (
+    <div className="flex h-full w-full flex-col justify-center gap-2 p-4 xl:p-6">
+      <span className="text-sm font-semibold text-black">Add a link</span>
+      <input
+        autoFocus
+        value={value}
+        placeholder="Paste a link..."
+        onChange={(e) => setValue(e.target.value)}
+        onKeyDown={(e) => {
+          if (e.key === 'Enter') submit();
+        }}
+        onBlur={submit}
+        className={cn(
+          NO_DRAG,
+          'w-full rounded-lg bg-black/[.04] px-3 py-2 text-sm text-black outline-none placeholder:text-black/40 focus:bg-black/[.06]'
+        )}
+      />
+    </div>
+  );
+}
+
 export function BlockContent({
   block,
   interactive = false,
+  edit,
 }: {
   block: Block;
   interactive?: boolean;
+  edit?: BlockEditing;
 }) {
   switch (block.type) {
     case 'LINK': {
@@ -79,9 +191,12 @@ export function BlockContent({
         title?: string;
         image?: string;
       };
+      if (edit && !url) return <LinkUrlInput onSetUrl={edit.onSetUrl} />;
       // Videos and players play inside wide and tall tiles, as on bento.
       const embed =
-        url && (block.w >= 2 || block.h >= 4) ? embedFor(url) : null;
+        url && (block.w >= 2 || block.h >= 4) && block.h > 1
+          ? embedFor(url)
+          : null;
       if (embed) {
         return (
           <div className="relative h-full w-full bg-black/[.04]">
@@ -93,7 +208,7 @@ export function BlockContent({
               loading="lazy"
               allowFullScreen
             />
-            {/* In the editor the tile stays draggable and opens its settings. */}
+            {/* In the editor the tile stays draggable. */}
             {!interactive && <div className="absolute inset-0" />}
           </div>
         );
@@ -105,6 +220,14 @@ export function BlockContent({
           image={image}
           w={block.w}
           h={block.h}
+          edit={
+            edit && {
+              onTitle: (value) => edit.onPatch({ title: value }),
+              onImage: (file) => edit.onUpload(file, 'image'),
+              onClearImage: () => edit.onPatch({ image: undefined }),
+              uploading: edit.uploading,
+            }
+          }
         />
       );
       if (interactive && url) {
@@ -123,28 +246,48 @@ export function BlockContent({
     }
 
     case 'IMAGE': {
-      const { url, alt, href, kind } = block.data as {
+      const { url, alt, href, kind, caption } = block.data as {
         url?: string;
         alt?: string;
         href?: string;
         kind?: 'image' | 'video';
+        caption?: string;
       };
       if (!url) {
-        return (
-          <div className="flex h-full w-full flex-col items-center justify-center gap-2 bg-muted text-muted-foreground">
-            <ImageOff className="size-6" />
-            <span className="text-xs font-medium">Add an image or video</span>
-          </div>
+        const empty = (
+          <>
+            {edit?.uploading ? (
+              <LoaderCircle className="size-6 animate-spin" />
+            ) : (
+              <ImagePlus className="size-6" />
+            )}
+            <span className="text-xs font-medium">
+              {edit?.uploading ? 'Uploading...' : 'Add an image or video'}
+            </span>
+          </>
+        );
+        const emptyClass =
+          'flex h-full w-full flex-col items-center justify-center gap-2 bg-black/[.03] text-black/40';
+        return edit ? (
+          <FilePicker
+            accept="image/*,video/mp4,video/webm,video/quicktime"
+            onFile={(file) => edit.onUpload(file, 'url')}
+            className={cn(emptyClass, 'transition-colors hover:bg-black/[.05]')}
+          >
+            {empty}
+          </FilePicker>
+        ) : (
+          <div className={emptyClass}>{empty}</div>
         );
       }
       return (
         <Linked href={href} interactive={interactive}>
-          <div className="h-full w-full overflow-hidden bg-muted">
+          <div className="relative h-full w-full overflow-hidden bg-muted">
             {kind === 'video' || isVideoUrl(url) ? (
               // bento's video widget: muted, looping, no controls.
               <video
                 src={url}
-                aria-label={alt || undefined}
+                aria-label={caption || alt || undefined}
                 className="h-full w-full object-cover"
                 autoPlay
                 muted
@@ -155,9 +298,34 @@ export function BlockContent({
               // eslint-disable-next-line @next/next/no-img-element
               <img
                 src={url}
-                alt={alt || ''}
+                alt={caption || alt || ''}
                 className="h-full w-full object-cover"
               />
+            )}
+            {edit ? (
+              // The caption pill is typed into directly; empty, it shows on
+              // hover as a "Caption..." prompt.
+              <div
+                className={cn(
+                  'absolute bottom-3 left-3 max-w-[calc(100%-24px)] rounded-[10px] bg-white px-3 py-1.5 shadow-[0_1px_3px_rgba(0,0,0,.12)]',
+                  !caption &&
+                    'opacity-0 focus-within:opacity-100 group-hover:opacity-100'
+                )}
+              >
+                <InlineText
+                  value={caption ?? ''}
+                  placeholder="Caption..."
+                  onChange={(value) => edit.onPatch({ caption: value })}
+                  size={Math.max((caption ?? '').length, 8)}
+                  className="w-auto max-w-full text-sm leading-5 text-black"
+                />
+              </div>
+            ) : (
+              caption && (
+                <span className="absolute bottom-3 left-3 max-w-[calc(100%-24px)] truncate rounded-[10px] bg-white px-3 py-1.5 text-sm leading-5 text-black shadow-[0_1px_3px_rgba(0,0,0,.12)]">
+                  {caption}
+                </span>
+              )
             )}
           </div>
         </Linked>
@@ -165,11 +333,12 @@ export function BlockContent({
     }
 
     case 'TEXT': {
-      const { content, href, color, align } = block.data as {
+      const { content, href, color, align, valign } = block.data as {
         content?: string;
         href?: string;
         color?: string;
         align?: 'left' | 'center' | 'right';
+        valign?: 'top' | 'middle' | 'bottom';
       };
       const dark = isDark(color);
       const tone = dark ? 'text-white' : 'text-black';
@@ -178,6 +347,12 @@ export function BlockContent({
           ? 'text-center items-center'
           : align === 'right'
             ? 'text-right items-end'
+            : '';
+      const valignClass =
+        valign === 'middle'
+          ? 'justify-center'
+          : valign === 'bottom'
+            ? 'justify-end'
             : '';
       const text = content?.trim() ?? '';
       // bento's quote note: a closing "— Author" line turns the note into a
@@ -188,34 +363,56 @@ export function BlockContent({
         /^[—–-]\s*\S/.test(last) && lines.length > 1
           ? last.replace(/^[—–-]\s*/, '')
           : null;
+      const quote = author ? (
+        <div
+          className={`flex h-full w-full flex-col overflow-hidden p-6 ${alignClass} ${valignClass}`}
+          style={{ background: color ?? '#FFFFFF' }}
+        >
+          <span
+            className={`font-serif text-[32px] font-bold leading-none ${dark ? 'text-white' : 'text-black'}`}
+          >
+            &ldquo;
+          </span>
+          <p
+            className={`mt-3 line-clamp-[10] whitespace-pre-wrap text-sm italic leading-5 ${tone}`}
+          >
+            {lines.slice(0, -1).join('\n').trim()}
+          </p>
+          <p
+            className={`mt-4 text-sm italic leading-5 ${dark ? 'text-white/70' : 'text-black/60'}`}
+          >
+            &mdash; {author}
+          </p>
+        </div>
+      ) : null;
+      if (edit) {
+        return (
+          <NoteEditor
+            content={content ?? ''}
+            color={color}
+            className={cn(alignClass, valignClass)}
+            textClass={cn(
+              tone,
+              author && 'italic',
+              align === 'center' && 'text-center',
+              align === 'right' && 'text-right'
+            )}
+            onChange={(value) => edit.onPatch({ content: value })}
+            preview={quote}
+          />
+        );
+      }
       if (author) {
         return (
           <Linked href={href} interactive={interactive}>
-            <div
-              className={`flex h-full w-full flex-col overflow-hidden p-6 ${alignClass}`}
-              style={{ background: color ?? '#FFFFFF' }}
-            >
-              <span className="font-serif text-[32px] font-bold leading-none text-black">
-                &ldquo;
-              </span>
-              <p
-                className={`mt-3 line-clamp-[10] whitespace-pre-wrap text-sm italic leading-5 ${tone}`}
-              >
-                {lines.slice(0, -1).join('\n').trim()}
-              </p>
-              <p
-                className={`mt-4 text-sm italic leading-5 ${dark ? 'text-white/70' : 'text-black/60'}`}
-              >
-                &mdash; {author}
-              </p>
-            </div>
+            {quote}
           </Linked>
         );
       }
       return (
         <Linked href={href} interactive={interactive}>
           <div
-            className={`flex h-full w-full flex-col overflow-hidden p-6 ${alignClass}`}
+            className={`flex h-full w-full flex-col overflow-hidden p-6 ${alignClass} ${valignClass}`}
             style={{ background: color ?? '#FFFFFF' }}
           >
             <p
@@ -247,11 +444,9 @@ export function BlockContent({
             color: 'hsl(var(--muted-foreground) / 0.35)',
           }}
         >
-          <div className="absolute bottom-4 left-4 flex items-center gap-1.5 rounded-full bg-card/90 px-3 py-1.5 text-xs font-semibold text-card-foreground shadow-sm backdrop-blur-md">
+          <div className="absolute bottom-4 left-4 flex items-center gap-1.5 rounded-[10px] bg-white/90 px-3 py-1.5 text-sm text-black shadow-sm backdrop-blur-md">
             <MapPin className="size-4" />
-            {location
-              ? `${label || 'Where I live'} · ${location}`
-              : label || 'Where I live'}
+            {location || label || 'Where I live'}
           </div>
         </div>
       );
@@ -261,11 +456,85 @@ export function BlockContent({
       const { title } = block.data as { title?: string };
       return (
         <div className="flex h-full w-full items-end px-2 pb-1">
-          <h2 className="text-sm font-semibold leading-[17px] text-black">
-            {title || 'Section'}
-          </h2>
+          {edit ? (
+            <InlineText
+              value={title ?? ''}
+              placeholder="Section title"
+              onChange={(value) => edit.onPatch({ title: value })}
+              className="text-sm font-semibold leading-[17px] text-black"
+            />
+          ) : (
+            <h2 className="text-sm font-semibold leading-[17px] text-black">
+              {title || 'Section'}
+            </h2>
+          )}
         </div>
       );
     }
   }
+}
+
+// A note in the editor: typed into directly. A quote note shows its quote
+// layout until clicked, then the raw text with its "— Author" line.
+function NoteEditor({
+  content,
+  color,
+  className,
+  textClass,
+  onChange,
+  preview,
+}: {
+  content: string;
+  color?: string;
+  className: string;
+  textClass: string;
+  onChange: (value: string) => void;
+  preview: React.ReactNode;
+}) {
+  const [focused, setFocused] = useState(false);
+  const textarea = useRef<HTMLTextAreaElement>(null);
+  // Grow with the text, so vertical alignment works as on the profile.
+  useLayoutEffect(() => {
+    const el = textarea.current;
+    if (!el) return;
+    el.style.height = '0px';
+    el.style.height = `${el.scrollHeight}px`;
+  });
+  if (preview && !focused) {
+    return (
+      <div
+        className="h-full w-full cursor-text"
+        onClick={() => setFocused(true)}
+      >
+        {preview}
+      </div>
+    );
+  }
+  return (
+    <div
+      className={cn(
+        'flex h-full w-full cursor-text flex-col overflow-hidden p-6',
+        className
+      )}
+      style={{ background: color ?? '#FFFFFF' }}
+      onClick={() => textarea.current?.focus()}
+    >
+      {/* Grows with its text, so vertical alignment works as on the profile. */}
+      <textarea
+        ref={textarea}
+        autoFocus={!!preview}
+        value={content}
+        placeholder="Add note..."
+        rows={1}
+        onFocus={() => setFocused(true)}
+        onBlur={() => setFocused(false)}
+        onChange={(e) => onChange(e.target.value)}
+        className={cn(
+          NO_DRAG,
+          'max-h-full w-full resize-none border-0 bg-transparent p-0 text-sm leading-5 outline-none placeholder:opacity-40 focus:ring-0',
+          textClass
+        )}
+      />
+    </div>
+  );
 }
