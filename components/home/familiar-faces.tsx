@@ -1,64 +1,58 @@
 'use client';
 
 import Link from 'next/link';
-import { ArrowTopRightIcon } from '@/components/icons';
+import { cn } from '@/lib/utils';
 
 type User = {
   name: string;
   avatar: string;
-  username: string;
+  href: string;
 };
 
+// bento.me/home's creatives, linking to their Bentos.
+const F = '/home/creatives';
 const users: User[] = [
+  { name: 'Rogie', avatar: `${F}/rogie.png`, href: 'http://bento.me/rogie' },
   {
-    name: 'Fudail',
-    avatar: '/home/familiar-faces/fudail.png',
-    username: 'fudail',
+    name: 'Josh Miller',
+    avatar: `${F}/josh-miller.jpg`,
+    href: 'http://bento.me/browsercompany',
   },
   {
-    name: 'Zainab',
-    avatar: '/home/familiar-faces/zainab-zafar.png',
-    username: 'zainab-zafar',
+    name: 'Andreas Storm',
+    avatar: `${F}/andreas-storm.png`,
+    href: 'http://bento.me/storm',
   },
   {
-    name: 'Arshee',
-    avatar: '/home/familiar-faces/arshee-fathima-tp8kj3.png',
-    username: 'arshee-fathima-tp8kj3',
+    name: 'Greg Isenberg',
+    avatar: `${F}/greg-isenberg.jpg`,
+    href: 'http://bento.me/greg',
   },
   {
-    name: 'Demo',
-    avatar: '/home/familiar-faces/demo.png',
-    username: 'demo',
+    name: 'Tru Narla',
+    avatar: `${F}/tru-narla.jpg`,
+    href: 'http://bento.me/mewtru',
   },
   {
-    name: 'Fareeha',
-    avatar: '/home/familiar-faces/fareeha.png',
-    username: 'fareeha',
+    name: 'Josh Dunsterville',
+    avatar: `${F}/josh-dunsterville.jpg`,
+    href: 'http://bento.me/josh',
   },
   {
-    name: 'Sabeer',
-    avatar: '/home/familiar-faces/sabeerg.png',
-    username: 'sabeerg',
+    name: 'Hustlerani',
+    avatar: `${F}/hustlerani.png`,
+    href: 'http://bento.me/hustlerani',
   },
   {
-    name: 'Khadhija',
-    avatar: '/home/familiar-faces/khadhija.png',
-    username: 'khadhija',
+    name: 'Andy Adams',
+    avatar: `${F}/andy-adams.jpg`,
+    href: 'http://bento.me/flakphoto',
   },
+  { name: 'Micode', avatar: `${F}/micode.jpg`, href: 'http://bento.me/micode' },
   {
-    name: 'Taylor',
-    avatar: '/home/familiar-faces/fudail.png',
-    username: 'taylor',
-  },
-  {
-    name: 'Jordan',
-    avatar: '/home/familiar-faces/fudail.png',
-    username: 'jordan',
-  },
-  {
-    name: 'Morgan',
-    avatar: '/home/familiar-faces/fudail.png',
-    username: 'morgan',
+    name: 'Jordi Bruin',
+    avatar: `${F}/jordi-bruin.png`,
+    href: 'http://bento.me/jordi',
   },
 ];
 
@@ -94,87 +88,56 @@ function FamiliarFacesButton() {
   );
 }
 
+// bento's avatar link: a hairline ring, and on hover a dark overlay, the
+// arrow sliding in from the bottom left and the name pill above.
+function Avatar({ user, size }: { user: User; size: string }) {
+  return (
+    <a
+      href={user.href}
+      target="_blank"
+      rel="noopener noreferrer"
+      className={cn(
+        'group relative flex shrink-0 transition-transform duration-200 active:scale-95',
+        size
+      )}
+    >
+      <img
+        src={user.avatar}
+        alt=""
+        className="size-full rounded-full object-cover"
+      />
+      <span className="pointer-events-none absolute inset-0 rounded-full shadow-[inset_0_0_0_1px_rgba(0,0,0,.06)]" />
+      <span className="pointer-events-none absolute inset-0 rounded-full bg-black opacity-0 transition-opacity duration-200 group-hover:opacity-40" />
+      <img
+        src="/home/bento/arrowwhite.svg"
+        alt=""
+        className="pointer-events-none absolute left-1/2 top-1/2 -ml-2 -mt-2 size-4 -translate-x-0.5 translate-y-0.5 opacity-0 transition duration-200 group-hover:translate-x-0 group-hover:translate-y-0 group-hover:opacity-100"
+      />
+      <span className="pointer-events-none absolute bottom-full left-1/2 mb-1.5 -translate-x-1/2 whitespace-nowrap rounded-full bg-[#768CFF] px-3.5 py-1.5 text-[10px] font-medium leading-[14px] text-white opacity-0 shadow-[0_3px_3px_rgba(0,0,0,.04),0_15px_10px_rgba(0,0,0,.06),0_40px_31px_rgba(0,0,0,.08)] transition-opacity duration-200 group-hover:opacity-100">
+        {user.name}
+      </span>
+    </a>
+  );
+}
+
 function FamiliarFacesAvatars() {
   return (
     <>
-      {/* Responsive avatar rows */}
-      <div>
-        {/* Desktop - single row */}
-        <div className="hidden gap-4 sm:flex">
-          {users.map((user, i) => (
-            <a
-              key={i}
-              href={`/${user.username}`}
-              className="group relative flex cursor-pointer flex-col items-center transition-all active:scale-95"
-            >
-              <span className="absolute -top-8 left-1/2 -translate-x-1/2 rounded-full bg-design-primaryLight px-3 py-1 text-xs font-medium text-white opacity-0 shadow-lg transition group-hover:opacity-100">
-                {user.name}
-              </span>
-              <div className="relative">
-                <img
-                  src={user.avatar}
-                  alt=""
-                  className="h-16 w-16 rounded-full object-cover shadow transition duration-200 group-hover:shadow-xl group-hover:brightness-50"
-                />
-                {/* North-east arrow icon, shown on hover */}
-                <span className="pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 opacity-0 transition duration-200 group-hover:opacity-100">
-                  <ArrowTopRightIcon className="text-white" />
-                </span>
-              </div>
-            </a>
-          ))}
-        </div>
-        {/* Mobile Row Design */}
-        <div className="flex flex-col gap-4 sm:hidden">
-          {/* Row 1 */}
-          <div className="flex justify-center gap-4">
-            {users.slice(0, 5).map((user, i) => (
-              <a
-                key={i}
-                href={`/${user.username}`}
-                className="group relative flex cursor-pointer flex-col items-center transition-all active:scale-95"
-              >
-                <span className="absolute -top-7 left-1/2 -translate-x-1/2 rounded-full bg-design-black px-3 py-1 text-xs font-medium text-white opacity-0 shadow-lg transition group-hover:opacity-100">
-                  {user.name}
-                </span>
-                <div className="relative">
-                  <img
-                    src={user.avatar}
-                    alt=""
-                    className="size-[55px] rounded-full border border-gray-200 object-cover shadow transition duration-200 group-hover:shadow-xl group-hover:brightness-50"
-                  />
-                  <span className="pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 opacity-0 transition duration-200 group-hover:opacity-100">
-                    <ArrowTopRightIcon className="text-white" />
-                  </span>
-                </div>
-              </a>
+      {/* Desktop - single row */}
+      <div className="hidden gap-4 sm:flex">
+        {users.map((user) => (
+          <Avatar key={user.name} user={user} size="size-16" />
+        ))}
+      </div>
+      {/* Mobile - two rows of five */}
+      <div className="flex flex-col gap-4 sm:hidden">
+        {[users.slice(0, 5), users.slice(5, 10)].map((row, i) => (
+          <div key={i} className="flex justify-center gap-4">
+            {row.map((user) => (
+              <Avatar key={user.name} user={user} size="size-[55px]" />
             ))}
           </div>
-          {/* Row 2 */}
-          <div className="flex justify-center gap-4">
-            {users.slice(5, 10).map((user, i) => (
-              <a
-                key={i}
-                href={`/${user.username}`}
-                className="group relative flex cursor-pointer flex-col items-center transition-all active:scale-95"
-              >
-                <span className="absolute -top-7 left-1/2 -translate-x-1/2 rounded-full bg-design-black px-3 py-1 text-xs font-medium text-white opacity-0 shadow-lg transition group-hover:opacity-100">
-                  {user.name}
-                </span>
-                <div className="relative">
-                  <img
-                    src={user.avatar}
-                    alt=""
-                    className="size-[55px] rounded-full border border-gray-200 object-cover shadow transition duration-200 group-hover:shadow-xl group-hover:brightness-50"
-                  />
-                  <span className="pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 opacity-0 transition duration-200 group-hover:opacity-100">
-                    <ArrowTopRightIcon className="text-white" />
-                  </span>
-                </div>
-              </a>
-            ))}
-          </div>
-        </div>
+        ))}
       </div>
     </>
   );
