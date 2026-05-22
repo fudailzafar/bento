@@ -234,7 +234,7 @@ function DesktopColumns() {
           variant="wide"
         />
         <Widget
-          href="#"
+          href="/home/mugeeb"
           src={`${W}/mediumphotowidget.png`}
           width={390}
           height={175}
@@ -393,7 +393,7 @@ function MobileColumn() {
         wide
       />
       <MobileTile
-        href="#"
+        href="/home/mugeeb"
         src={`${W}/mediumphotowidget.png`}
         width={390}
         height={175}
