@@ -33,7 +33,7 @@ export function HeaderExplore() {
           </div>
         </div>
         <h1 className="my-4 text-start text-3xl font-bold md:my-10">
-          Get inspired by the most impressive Portfolios.
+          Get inspired by the most impressive Bentos.
         </h1>
       </Section>
     </>
