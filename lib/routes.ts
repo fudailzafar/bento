@@ -8,6 +8,7 @@ export const RESERVED_USERNAMES = [
   'signup',
   'explore',
   'jointheteam',
+  'changelog',
   'reset-password',
   'set-password',
   'privacy-policy',
