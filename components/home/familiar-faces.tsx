@@ -84,7 +84,7 @@ function FamiliarFacesButton() {
     <>
       <Link href={'/explore'}>
         <Button className="rounded-lg bg-[#f6f6f6] p-3 text-base text-black transition-all hover:bg-[#EBEBEB] active:scale-95 active:bg-[#dbdbdb]">
-          Explore the most creative Portfolios <ArrowRightIcon />
+          Explore the most creative Bentos <ArrowRightIcon />
         </Button>
       </Link>
     </>

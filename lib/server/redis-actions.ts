@@ -271,7 +271,15 @@ export const updateUsername = async (
 
   // Get current username
   const currentUsername = await getUsernameById(userId);
-  if (!currentUsername) return false;
+
+  // First-time username assignment for users who don't have a mapping yet.
+  // This avoids trapping new users in the upload flow.
+  if (!currentUsername) {
+    return await createUsernameLookup({
+      userId,
+      username: newUsername,
+    });
+  }
 
   // Check if new username is already taken
   const newUsernameExists = await upstashRedis.exists(

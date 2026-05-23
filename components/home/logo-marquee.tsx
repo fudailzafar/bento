@@ -1,4 +1,5 @@
 import React from 'react';
+import Image from 'next/image';
 import { Marquee } from '../ui';
 
 const logos = [
@@ -61,9 +62,11 @@ function LogoMarqueeHeading() {
 function LogoCard({ img, alt }: { img: string; alt: string }) {
   return (
     <div className="flex size-10 items-center justify-center transition-all">
-      <img
+      <Image
         src={img}
         alt={alt}
+        width={40}
+        height={40}
         className="h-full w-full rounded-lg object-contain"
       />
     </div>

@@ -51,7 +51,7 @@ function UniqueLinkBox() {
             style={{ minWidth: '320px' }}
           >
             <div className="whitespace-nowrap text-[28px] font-normal text-[#AAAAAA] md:text-[46px]">
-              portfoliofy.me/
+              bento.me/
             </div>
           </div>
           {/* Vertical marquee on the right, usernames close to slash */}
@@ -109,7 +109,7 @@ function UniqueLinkButton() {
       <div className="mt-12 flex items-center justify-center">
         <Link href="/signup">
           <Button className="group relative mb-2 flex cursor-pointer items-center rounded-[14px] bg-design-primary px-20 py-8 text-lg font-semibold shadow-md transition-transform hover:bg-design-primaryDark active:scale-95 sm:px-14 sm:py-8 lg:h-[62px] lg:w-[300px]">
-            Create Your Portfolio
+            Create Your Bento
           </Button>
         </Link>
       </div>
