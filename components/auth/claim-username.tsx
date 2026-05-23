@@ -30,7 +30,7 @@ function ClaimUsernameMain({ username }: { username: string }) {
       <BlurFade delay={0.5} duration={2}>
         <div className="relative mb-2 flex items-center rounded-xl bg-gray-100 px-6 py-4">
           <span className="text-[24px] font-semibold text-design-gray md:text-[40px]">
-            portfoliofy.me/
+            bento.me/
             <span className="overflow-hidden text-design-black">
               {username}
               <div className="absolute inset-0 translate-x-[-100%] animate-[shine_4s_ease-in-out_infinite] bg-gradient-to-r from-transparent via-white/40 to-transparent" />

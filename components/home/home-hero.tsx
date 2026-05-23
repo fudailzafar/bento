@@ -87,7 +87,7 @@ function HeroSubHeading() {
           </div>
           {/* Desktop layout: 2 lines */}
           <div className="hidden md:block">
-            <div>A Portfolio.</div>
+            <div>A Link in Bio.</div>
             <div>But Rich and Beautiful.</div>
           </div>
         </motion.h1>
