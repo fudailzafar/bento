@@ -201,7 +201,7 @@ export default function SignupContent({
                   onChange={(e) => handleUsernameChange(e.target.value)}
                   disabled={isLoading}
                   autoFocus
-                  className="h-12 w-full rounded-lg border-0 bg-[#F5F5F5] pl-[130px] pr-12 text-base outline-none placeholder:text-gray-400 focus-visible:ring-0 focus-visible:ring-offset-0"
+                  className="h-12 w-full rounded-lg border-0 bg-[#F5F5F5] pl-[95jpx] pr-12 text-base outline-none placeholder:text-gray-400 focus-visible:ring-0 focus-visible:ring-offset-0"
                 />
                 {username.length >= 3 && (
                   <div className="absolute right-3 top-1/2 -translate-y-1/2">
