@@ -1,13 +1,5 @@
 export { Header } from './header';
-export { WorkExperience } from './work-experience';
-export { Education } from './education';
-export { Skills } from './skills';
-export { Projects } from './projects';
-export { Contact } from './contact';
-export { Summary } from './summary';
 export { SocialLinks } from './social-links';
 export { PreviewPortfolio } from './preview-portfolio';
 export { InteractablePortfolio } from './interactable-portfolio';
 export { PublicPortfolio } from './public-portfolio';
-export { DraggableSection } from './draggable-section';
-export { SortableSections } from './sortable-sections';

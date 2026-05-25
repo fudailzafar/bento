@@ -428,3 +428,10 @@
 .floating-widget.paused {
   animation-play-state: paused !important;
 }
+
+/* Bento Grid Drag Placeholder Override */
+.react-grid-item.react-grid-placeholder {
+  background: #f9fafb !important; /* gray-50 */
+  opacity: 1 !important;
+  border-radius: 2rem !important; /* match widget border radius */
+}

@@ -110,147 +110,32 @@ export default function PreviewClient({ messageTip }: { messageTip?: string }) {
     userProfileQuery.refetch();
   };
 
-  // Handlers for adding items
-  const handleAddWorkExperience = () => {
+  // Add widget for Bento Grid
+  const handleAddWidget = (type: string) => {
     if (!localResumeData) return;
-    const currentOrder = localResumeData.sectionOrder || [
-      'summary',
-      'workExperience',
-      'skills',
-      'projects',
-      'contact',
-    ];
-
-    // Find the next available work ID
-    let nextId = 1;
-    while (currentOrder.includes(`work-${nextId}`)) {
-      nextId++;
+    
+    // Default size is "Small Square" (1x2)
+    let w = 1;
+    let h = 2;
+    
+    if (type === 'sectionTitle') {
+      w = 4;
+      h = 1;
     }
 
-    // Insert work entry after summary, or at the beginning if summary not found
-    const summaryIndex = currentOrder.indexOf('summary');
-    const insertIndex = summaryIndex >= 0 ? summaryIndex + 1 : 0;
-    const newOrder = [
-      ...currentOrder.slice(0, insertIndex),
-      `work-${nextId}`,
-      ...currentOrder.slice(insertIndex),
-    ];
-
-    const newWorks = {
-      ...localResumeData.works,
-      [`work-${nextId}`]: {
-        location: 'New York, NY',
-        company: 'Tech Corp',
-        title: 'Software Engineer',
-        start: '2020',
-        end: '2023',
-        description: 'Developed web applications using React and Node.js',
-        logo: 'https://res.cloudinary.com/dxfq3iotg/image/upload/v1696202181/portfoliofy/companies/techcorp.png',
-      },
+    const newWidget = {
+      id: Math.random().toString(36).substr(2, 9),
+      type,
+      x: 0,
+      y: Infinity, // Places it at the bottom
+      w,
+      h,
+      data: {},
     };
-
+    
     handleResumeChange({
       ...localResumeData,
-      sectionOrder: newOrder,
-      works: newWorks,
-    });
-  };
-
-  const handleAddSkill = () => {
-    if (!localResumeData) return;
-    setIsAddSkillDialogOpen(true);
-  };
-
-  const handleAddProject = () => {
-    if (!localResumeData) return;
-    const newProjects = [
-      ...(localResumeData.projects || []),
-      {
-        title: 'Your Project',
-        description:
-          '2-3 lines on what this project does, impact, and numbers.',
-        githubLink: 'https://github.com',
-        liveLink: 'https://example.com',
-        start: 'Oct 2025',
-        end: null,
-        skills: ['list', 'project', 'skills', 'here'],
-        image: null,
-      },
-    ];
-    handleResumeChange({
-      ...localResumeData,
-      projects: newProjects,
-    });
-  };
-
-  const handleAddSocialLink = () => {
-    if (!localResumeData) return;
-    toast.info('Click on Edit button right next to the Social links section');
-  };
-
-  const handleAddSectionTitle = () => {
-    if (!localResumeData) return;
-    const currentOrder = localResumeData.sectionOrder || [
-      'summary',
-      'workExperience',
-      'skills',
-      'projects',
-      'contact',
-    ];
-
-    // Find the next available sectionTitle ID
-    let nextId = 1;
-    while (currentOrder.includes(`sectionTitle-${nextId}`)) {
-      nextId++;
-    }
-
-    const newOrder = [...currentOrder, `sectionTitle-${nextId}`];
-    handleResumeChange({
-      ...localResumeData,
-      sectionOrder: newOrder,
-    });
-  };
-
-  const handleAddEducation = () => {
-    if (!localResumeData) return;
-    const currentOrder = localResumeData.sectionOrder || [
-      'summary',
-      'workExperience',
-      'skills',
-      'projects',
-      'contact',
-    ];
-
-    // Find the next available education ID
-    let nextId = 1;
-    while (currentOrder.includes(`education-${nextId}`)) {
-      nextId++;
-    }
-
-    // Insert education entry after workExperience, or at the beginning if workExperience not found
-    const workExperienceIndex = currentOrder.indexOf('workExperience');
-    const insertIndex = workExperienceIndex >= 0 ? workExperienceIndex + 1 : 0;
-    const newOrder = [
-      ...currentOrder.slice(0, insertIndex),
-      `education-${nextId}`,
-      ...currentOrder.slice(insertIndex),
-    ];
-
-    const newEducations = {
-      ...localResumeData.educations,
-      [`education-${nextId}`]: {
-        school: 'Al Hira',
-        degree: 'Bachelor of Science in Computer Science',
-        start: '  2020',
-        end: '2024',
-        logo: 'https://res.cloudinary.com/dxfq3iotg/image/upload/v1696202181/portfoliofy/schools/alhira_ubfx6h.png',
-      },
-    };
-
-    handleResumeChange({
-      ...localResumeData,
-      sectionOrder: newOrder,
-      educations: newEducations,
+      layout: [...(localResumeData.layout || []), newWidget as any],
     });
   };
 
@@ -462,12 +347,11 @@ export default function PreviewClient({ messageTip }: { messageTip?: string }) {
               viewMode={viewMode}
               onViewModeChange={setViewMode}
               isSaving={saveResumeDataMutation.isPending}
-              onAddWorkExperience={handleAddWorkExperience}
-              onAddEducation={handleAddEducation}
-              onAddSkill={handleAddSkill}
-              onAddProject={handleAddProject}
-              onAddSocialLink={handleAddSocialLink}
-              onAddSectionTitle={handleAddSectionTitle}
+              onAddLink={() => handleAddWidget('link')}
+              onAddImage={() => handleAddWidget('image')}
+              onAddText={() => handleAddWidget('text')}
+              onAddMap={() => handleAddWidget('map')}
+              onAddSectionTitle={() => handleAddWidget('sectionTitle')}
             />
           </div>
         </div>
