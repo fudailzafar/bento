@@ -30,42 +30,27 @@ export async function DELETE(request: NextRequest) {
     }
 
     const fileNameWithExt = urlParts.slice(uploadIndex + 2).join('/');
-    const publicId = fileNameWithExt.substring(
-      0,
-      fileNameWithExt.lastIndexOf('.')
-    );
-
-    const timestamp = Math.round(new Date().getTime() / 1000);
-    const crypto = require('crypto');
-
-    const signature = crypto
-      .createHash('sha1')
-      .update(
-        `public_id=${publicId}&timestamp=${timestamp}${process.env.CLOUDINARY_API_SECRET}`
-      )
-      .digest('hex');
-
-    const cloudinaryResponse = await fetch(
-      `https://api.cloudinary.com/v1_1/${process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME}/image/destroy`,
-      {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          public_id: publicId,
-          signature: signature,
-          api_key: process.env.CLOUDINARY_API_KEY,
-          timestamp: timestamp,
-        }),
+    
+    // Extract file path from URL
+    let filePathToDelete = imageUrl;
+    try {
+      const url = new URL(imageUrl);
+      const parts = url.pathname.split('/images/');
+      if (parts.length > 1) {
+        filePathToDelete = parts[1];
       }
-    );
+    } catch (e) {
+      console.error('Failed to parse imageUrl', e);
+    }
 
-    if (!cloudinaryResponse.ok) {
-      const error = await cloudinaryResponse.text();
-      console.error('Cloudinary delete failed:', error);
+    const { error } = await supabase.storage
+      .from('images')
+      .remove([filePathToDelete]);
+
+    if (error) {
+      console.error('Supabase delete failed:', error);
       return NextResponse.json(
-        { error: 'Failed to delete image from Cloudinary' },
+        { error: 'Failed to delete image' },
         { status: 500 }
       );
     }
