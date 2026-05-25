@@ -2,50 +2,19 @@
 
 import { Suspense } from 'react';
 import { useState, useEffect } from 'react';
-import { useRouter, useSearchParams } from 'next/navigation';
-import { signIn } from 'next-auth/react';
+import { createClient } from '@/lib/supabase/client';
+import { useRouter } from 'next/navigation';
 import { LogInAnimation, ResetPasswordConfirmContent } from '@/components/auth';
 import { CheckmarkLargeIcon } from '@/components/icons';
 
 function ResetPasswordConfirmContent_Internal() {
   const router = useRouter();
-  const searchParams = useSearchParams();
-  const token = searchParams.get('token');
 
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState(false);
-  const [userEmail, setUserEmail] = useState('');
-
-  useEffect(() => {
-    if (!token) {
-      setError('Invalid or missing reset token');
-    }
-  }, [token]);
-
-  useEffect(() => {
-    // Fetch user email from the reset token
-    const fetchUserEmail = async () => {
-      if (!token) return;
-
-      try {
-        const response = await fetch('/api/auth/get-reset-email', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ token }),
-        });
-        const data = await response.json();
-        if (data.email) {
-          setUserEmail(data.email);
-        }
-      } catch (error) {
-        console.error('Failed to fetch email:', error);
-      }
-    };
-    fetchUserEmail();
-  }, [token]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -59,19 +28,13 @@ function ResetPasswordConfirmContent_Internal() {
     setIsLoading(true);
 
     try {
-      const response = await fetch('/api/auth/confirm-reset', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ token, password }),
-      });
+      const supabase = createClient();
+      const { error: updateError } = await supabase.auth.updateUser({ password });
 
-      const data = await response.json();
-
-      if (response.ok) {
+      if (!updateError) {
         setSuccess(true);
-        // Sign in and redirect after a short delay
       } else {
-        setError(data.error || 'Failed to reset password');
+        setError(updateError.message || 'Failed to reset password');
       }
     } catch (error) {
       console.error('Reset error:', error);
@@ -96,28 +59,13 @@ function ResetPasswordConfirmContent_Internal() {
           <button
             onClick={async () => {
               try {
-                // Sign in with the new password
-                if (userEmail && password) {
-                  const result = await signIn('credentials', {
-                    email: userEmail,
-                    password: password,
-                    redirect: false,
-                  });
-
-                  if (result?.ok) {
-                    // Get username after signing in
-                    const usernameRes = await fetch('/api/username');
-                    const usernameData = await usernameRes.json();
-                    if (usernameData.username) {
-                      router.push(`/${usernameData.username}`);
-                    } else {
-                      router.push('/upload');
-                    }
-                  } else {
-                    router.push('/login');
-                  }
+                // Get username after signing in
+                const usernameRes = await fetch('/api/username');
+                const usernameData = await usernameRes.json();
+                if (usernameData.username) {
+                  router.push(`/${usernameData.username}`);
                 } else {
-                  router.push('/login');
+                  router.push('/upload');
                 }
               } catch {
                 router.push('/login');
@@ -138,14 +86,12 @@ function ResetPasswordConfirmContent_Internal() {
   return (
     <div className="flex min-h-[90vh] items-center justify-between gap-12 px-7 sm:px-6 md:min-h-screen lg:gap-16 lg:px-32">
       <ResetPasswordConfirmContent
-        userEmail={userEmail}
         password={password}
         setPassword={setPassword}
         showPassword={showPassword}
         setShowPassword={setShowPassword}
         isLoading={isLoading}
         error={error}
-        token={token}
         handleSubmit={handleSubmit}
       />
 

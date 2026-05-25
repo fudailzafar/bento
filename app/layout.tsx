@@ -8,7 +8,6 @@ import { Toaster } from 'sonner';
 import './globals.css';
 import {
   ReactQueryClientProvider,
-  SessionProviderComponent,
 } from '@/components/utils';
 
 const fontSans = FontSans({
@@ -80,7 +79,6 @@ export default function RootLayout({
           {/* rest of your scripts go under */}
         </head>
         <body className={`${fontSans.className} flex min-h-screen flex-col`}>
-          <SessionProviderComponent>
             <main className="flex flex-1 flex-col">
               {children}
               <SpeedInsights />
@@ -88,7 +86,6 @@ export default function RootLayout({
             </main>
             <Toaster richColors position="bottom-center" />
             <GoogleAnalytics gaId="G-B99MN9ZMBL" />
-          </SessionProviderComponent>
         </body>
       </html>
     </ReactQueryClientProvider>

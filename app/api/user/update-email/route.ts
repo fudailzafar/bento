@@ -1,16 +1,16 @@
-import { getServerSession } from 'next-auth';
-import { authOptions } from '@/app/api/auth/[...nextauth]/route';
+import { createClient } from '@/lib/supabase/server';
 import { NextResponse } from 'next/server';
 import { upstashRedis as redis } from '@/lib/server';
 
 export async function POST(request: Request) {
   try {
-    const session = await getServerSession(authOptions);
-    if (!session?.user?.email) {
+    const supabase = await createClient();
+    const { data: { user } } = await supabase.auth.getUser();
+    if (!user?.email) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
-    const userId = session.user.email;
+    const userId = user.id;
 
     // Check if user has credentials (credentials user)
     const hasCredentials = await redis.exists(`user:credentials:${userId}`);

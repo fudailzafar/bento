@@ -19,16 +19,12 @@ export {
   checkUsernameAvailability,
   deleteUser,
   updateUsername,
-  createUserWithCredentials,
-  verifyUserCredentials,
-  getUserIdByEmail,
-  getUserCredentials,
-  updateUserPassword,
+
   type ResumeData,
   type Resume,
   type UserProfile,
   type UserCredentials,
-} from './redis-actions';
+} from './db-actions';
 
 // PDF scraping
 export { scrapePdfContent } from './scrape-pdf-actions';

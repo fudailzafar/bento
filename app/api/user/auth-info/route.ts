@@ -1,16 +1,16 @@
-import { getServerSession } from 'next-auth';
-import { authOptions } from '@/app/api/auth/[...nextauth]/route';
+import { createClient } from '@/lib/supabase/server';
 import { NextResponse } from 'next/server';
 import { upstashRedis as redis } from '@/lib/server';
 
 export async function GET() {
   try {
-    const session = await getServerSession(authOptions);
-    if (!session?.user?.email) {
+    const supabase = await createClient();
+    const { data: { user } } = await supabase.auth.getUser();
+    if (!user?.email) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
-    const userId = session.user.email;
+    const userId = user.id;
 
     // Get user profile data
     const userProfile = await redis.get<{
@@ -24,7 +24,7 @@ export async function GET() {
     const hasCredentials = await redis.exists(`user:credentials:${userId}`);
 
     return NextResponse.json({
-      email: session.user.email,
+      email: user.email,
       provider: hasCredentials ? 'credentials' : 'google',
       name: userProfile?.name || null,
       image: userProfile?.image || null,

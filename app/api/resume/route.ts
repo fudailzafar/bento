@@ -1,6 +1,5 @@
 import { getResume, Resume, storeResume } from '@/lib/server';
-import { getServerSession } from 'next-auth';
-import { authOptions } from '@/app/api/auth/[...nextauth]/route';
+import { createClient } from '@/lib/supabase/server';
 import { NextResponse } from 'next/server';
 
 import { z } from 'zod';
@@ -14,12 +13,13 @@ export type PostResumeResponse =
 // GET endpoint to retrieve resume
 export async function GET(): Promise<NextResponse<GetResumeResponse>> {
   try {
-    const session = await getServerSession(authOptions);
-    if (!session?.user?.email) {
+    const supabase = await createClient();
+    const { data: { user } } = await supabase.auth.getUser();
+    if (!user?.email) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
-    const resume = await getResume(session.user.email);
+    const resume = await getResume(user.id);
     return NextResponse.json({ resume });
   } catch (error) {
     console.error('Error retrieving resume:', error);
@@ -35,13 +35,14 @@ export async function POST(
   request: Request
 ): Promise<NextResponse<PostResumeResponse>> {
   try {
-    const session = await getServerSession(authOptions);
-    if (!session?.user?.email) {
+    const supabase = await createClient();
+    const { data: { user } } = await supabase.auth.getUser();
+    if (!user?.email) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
     const body = await request.json();
-    await storeResume(session.user.email, body);
+    await storeResume(user.id, body);
 
     return NextResponse.json({ success: true });
   } catch (error) {

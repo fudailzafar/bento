@@ -1,13 +1,13 @@
 import { createUsernameLookup, checkUsernameAvailability } from '@/lib/server';
-import { getServerSession } from 'next-auth';
-import { authOptions } from '../[...nextauth]/route';
+import { createClient } from '@/lib/supabase/server';
 import { NextRequest, NextResponse } from 'next/server';
 
 export async function POST(req: NextRequest) {
   try {
-    const session = await getServerSession(authOptions);
+    const supabase = await createClient();
+    const { data: { user } } = await supabase.auth.getUser();
 
-    if (!session?.user?.email) {
+    if (!user?.email) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
@@ -30,7 +30,7 @@ export async function POST(req: NextRequest) {
     }
 
     // Create username lookup
-    const userId = session.user.email;
+    const userId = user.id;
     const success = await createUsernameLookup({ userId, username });
 
     if (!success) {

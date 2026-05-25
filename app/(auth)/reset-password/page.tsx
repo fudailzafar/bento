@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { LogInAnimation, ResetPasswordContent } from '@/components/auth';
 import { MailIcon } from '@/components/icons';
+import { createClient } from '@/lib/supabase/client';
 
 export default function ResetPasswordPage() {
   const [email, setEmail] = useState('');
@@ -17,20 +18,17 @@ export default function ResetPasswordPage() {
     setMessage('');
 
     try {
-      const response = await fetch('/api/auth/request-reset', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email: email.toLowerCase() }),
+      const supabase = createClient();
+      const { error } = await supabase.auth.resetPasswordForEmail(email.toLowerCase(), {
+        redirectTo: `${window.location.origin}/reset-password/confirm`,
       });
 
-      const data = await response.json();
-
-      if (response.ok) {
+      if (!error) {
         setSentToEmail(email.toLowerCase());
         setEmailSent(true);
         setEmail('');
       } else {
-        setMessage(data.error || 'Something went wrong. Please try again.');
+        setMessage(error.message || 'Something went wrong. Please try again.');
       }
     } catch (error) {
       console.error('Reset request error:', error);

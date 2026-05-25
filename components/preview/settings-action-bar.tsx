@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { signOut } from 'next-auth/react';
+
 import { useRouter } from 'next/navigation';
 import { useIsMobile, useUserActions } from '@/hooks';
 import { SettingsIcon } from '@/components/icons';
@@ -47,12 +47,14 @@ export function SettingsActionBar() {
   }, []);
 
   const handleLogout = async () => {
+    const { createClient } = await import('@/lib/supabase/client');
+    const supabase = createClient();
+    await supabase.auth.signOut();
     const username = usernameQuery.data?.username;
     if (username) {
-      await signOut({ redirect: false });
       router.push(`/${username}`);
     } else {
-      await signOut({ callbackUrl: '/' });
+      window.location.href = '/';
     }
   };
 
