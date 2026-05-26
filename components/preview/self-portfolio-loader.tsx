@@ -186,7 +186,6 @@ async function InitializeAndPreview({ userId }: { userId: string }) {
       resumeData: defaultResumeData,
     });
 
-    messageTip = 'Start building your portfolio from scratch!';
   }
 
   // If resume exists but no resumeData, try to generate from PDF or use default
@@ -295,10 +294,6 @@ async function InitializeAndPreview({ userId }: { userId: string }) {
         ],
         layout: [],
       };
-
-      if (!messageTip && !resume.fileContent) {
-        messageTip = 'Start building your portfolio from scratch!';
-      }
     }
 
     await storeResume(userId, {

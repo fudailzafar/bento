@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Responsive, WidthProvider, Layout } from 'react-grid-layout';
 import 'react-grid-layout/css/styles.css';
 import 'react-resizable/css/styles.css';
@@ -31,6 +31,8 @@ export function BentoGrid({
   onLayoutChange,
 }: BentoGridProps) {
   const [mounted, setMounted] = useState(false);
+  const layoutDataRef = useRef(layoutData);
+  layoutDataRef.current = layoutData; // Always keep the latest layout data
 
   useEffect(() => {
     setMounted(true);
@@ -40,7 +42,7 @@ export function BentoGrid({
   const gridLayouts: Layout[] = layoutData.map((widget) => ({
     i: widget.id,
     x: widget.x,
-    y: widget.y,
+    y: widget.y === Infinity ? 9999 : widget.y, // Prevent infinity just in case
     w: widget.w,
     h: widget.h,
     minW: 1,
@@ -55,16 +57,19 @@ export function BentoGrid({
     if (!onLayoutChange) return;
 
     let hasChanges = false;
-    const newLayoutData = layoutData.map((widget) => {
+    const newLayoutData = layoutDataRef.current.map((widget) => {
       const match = currentLayout.find((l) => l.i === widget.id);
-      if (match && (match.x !== widget.x || match.y !== widget.y || match.w !== widget.w || match.h !== widget.h)) {
+      
+      // ONLY sync x and y coordinates! 
+      // Since isResizable={false}, any changes to w/h in currentLayout are purely 
+      // automatic compaction by React-Grid-Layout on smaller screens/breakpoints.
+      // We must ignore w/h here to preserve the true size of the widget in the DB.
+      if (match && (match.x !== widget.x || match.y !== widget.y)) {
         hasChanges = true;
         return {
           ...widget,
           x: match.x,
           y: match.y,
-          w: match.w,
-          h: match.h,
         };
       }
       return widget;
@@ -77,7 +82,7 @@ export function BentoGrid({
 
   const updateWidgetSize = (id: string, w: number, h: number) => {
     if (!onLayoutChange) return;
-    const newLayout = layoutData.map((widget) =>
+    const newLayout = layoutDataRef.current.map((widget) =>
       widget.id === id ? { ...widget, w, h } : widget
     );
     onLayoutChange(newLayout);
@@ -85,7 +90,7 @@ export function BentoGrid({
 
   const deleteWidget = (id: string) => {
     if (!onLayoutChange) return;
-    const newLayout = layoutData.filter((widget) => widget.id !== id);
+    const newLayout = layoutDataRef.current.filter((widget) => widget.id !== id);
     onLayoutChange(newLayout);
   };
 
