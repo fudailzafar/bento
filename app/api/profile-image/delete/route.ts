@@ -21,12 +21,12 @@ export async function DELETE(request: NextRequest) {
     }
 
     // Reset to default Google image (if available) or null
-    const defaultImage = user.image || null;
+    const defaultImage = user.user_metadata?.avatar_url || user.user_metadata?.picture || null;
 
     await storeUserProfile(user.id, {
       id: user.id,
       email: user.email,
-      name: userProfile.name || user.name || '',
+      name: userProfile.name || user.user_metadata?.name || '',
       image: defaultImage || undefined,
     });
 

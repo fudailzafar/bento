@@ -1,8 +1,2 @@
-export { WorkExperienceField } from './work-experience-field';
-export { SkillField } from './skills-field';
-export { ProjectsField } from './projects-field';
-export { EducationField } from './education-field';
-export { ProfileImageField } from './profile-image-field';
-export { EditResume } from './edit-resume';
-export { ContactField } from './contact-field';
 export { AddSkillDialog } from './add-skill-dialog';
+export { ProfileImageField } from './profile-image-field';
