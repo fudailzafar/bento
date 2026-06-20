@@ -100,17 +100,38 @@ function PlayIcon() {
   );
 }
 
-function Icon({ icon, url }: { icon?: string; url: string }) {
+function Icon({
+  icon,
+  url,
+  small,
+}: {
+  icon?: string;
+  url: string;
+  // bento's bar links use a 28px icon with 7px corners.
+  small?: boolean;
+}) {
   const svg = icon ? PLATFORM_ICONS[icon] : undefined;
   return (
-    <div className="relative h-10 w-10 min-w-10 shrink-0 overflow-hidden rounded-[10px] shadow-[0_1px_2px_rgba(0,0,0,.1)]">
+    <div
+      className={cn(
+        'relative shrink-0 overflow-hidden shadow-[0_1px_2px_rgba(0,0,0,.1)]',
+        small
+          ? 'h-7 w-7 min-w-7 rounded-[7px]'
+          : 'h-10 w-10 min-w-10 rounded-[10px]'
+      )}
+    >
       {svg ? (
         <div
           className="h-full w-full"
           dangerouslySetInnerHTML={{ __html: svg }}
         />
       ) : (
-        <div className="flex h-full w-full items-center justify-center bg-white p-2">
+        <div
+          className={cn(
+            'flex h-full w-full items-center justify-center bg-white',
+            small ? 'p-1.5' : 'p-2'
+          )}
+        >
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src={`https://www.google.com/s2/favicons?domain=${hostOf(url)}&sz=64`}
@@ -263,7 +284,7 @@ export function LinkTile({
   if (size === 'bar') {
     return (
       <div
-        className="flex h-full w-full items-center gap-3 overflow-hidden bg-[var(--tile-bg)] px-4 transition-colors duration-100 group-hover/card:bg-[var(--tile-hover)] group-active/card:bg-[var(--tile-active)]"
+        className="[transition-timing-function:cubic-bezier(.43,.01,.29,1)] flex h-full w-full items-center gap-3 overflow-hidden bg-[var(--tile-bg)] px-6 py-5 transition-colors duration-200 group-hover/card:bg-[var(--tile-hover)] group-active/card:bg-[var(--tile-active)]"
         style={
           {
             '--tile-bg': platform?.bg ?? '#ffffff',
@@ -272,9 +293,7 @@ export function LinkTile({
           } as React.CSSProperties
         }
       >
-        <div className="scale-[.8]">
-          <Icon icon={platform?.icon} url={url} />
-        </div>
+        <Icon icon={platform?.icon} url={url} small />
         <div className="line-clamp-1 min-w-0 flex-1 text-sm leading-5 text-black">
           {titleText}
         </div>
@@ -284,12 +303,12 @@ export function LinkTile({
   }
 
   const meta = (
-    <div className="mt-2 flex w-full min-w-0 shrink-0 flex-col xl:mt-3">
-      <div className="line-clamp-1 text-sm leading-5 text-black xl:line-clamp-2">
+    <div className="mt-2 flex w-full min-w-0 shrink-0 flex-col min-[1260px]:mt-3">
+      <div className="line-clamp-1 text-sm leading-[1.2] text-black min-[1260px]:line-clamp-2">
         {titleText}
       </div>
       {sub && (
-        <div className="mt-0.5 line-clamp-1 text-xs leading-4 text-black/60">
+        <div className="mt-1 line-clamp-1 text-xs leading-4 text-black/60">
           {sub}
         </div>
       )}
@@ -298,7 +317,7 @@ export function LinkTile({
 
   return (
     <div
-      className="flex h-full w-full flex-col overflow-hidden bg-[var(--tile-bg)] p-4 transition-colors duration-100 group-hover/card:bg-[var(--tile-hover)] group-active/card:bg-[var(--tile-active)] xl:p-6"
+      className="[transition-timing-function:cubic-bezier(.43,.01,.29,1)] flex h-full w-full flex-col overflow-hidden bg-[var(--tile-bg)] p-4 transition-colors duration-200 group-hover/card:bg-[var(--tile-hover)] group-active/card:bg-[var(--tile-active)] min-[1260px]:p-6"
       style={
         {
           '--tile-bg': platform?.bg ?? '#ffffff',
@@ -319,8 +338,8 @@ export function LinkTile({
 
       {size === 'wide' && preview ? (
         // Text and button on the left, preview on the right.
-        <div className="-mt-10 flex min-h-0 flex-1 gap-5">
-          <div className="flex w-[45%] min-w-0 flex-col pt-10">
+        <div className="-mt-10 flex min-h-0 flex-1 gap-6">
+          <div className="flex w-[41%] min-w-0 shrink-0 flex-col pt-10">
             {meta}
             {cta && <div className="mt-3 flex">{cta}</div>}
           </div>
@@ -332,16 +351,30 @@ export function LinkTile({
         <>
           {meta}
           {size === 'small' && cta && (
-            <div className="mt-2 flex shrink-0 xl:mt-3">{cta}</div>
+            <div className="mt-2 flex shrink-0 min-[1260px]:mt-3">{cta}</div>
           )}
           {(size === 'tall' || size === 'large') && preview && (
-            <div className="mt-4 min-h-0 flex-1">
-              <Preview
-                posts={platform?.posts}
-                large={size === 'large'}
-                image={image}
-                edit={edit}
-              />
+            <div
+              className={
+                size === 'large' && !platform?.posts
+                  ? 'mt-auto w-full shrink-0 pt-2'
+                  : 'mt-4 min-h-0 flex-1'
+              }
+            >
+              <div
+                className={
+                  size === 'large' && !platform?.posts
+                    ? 'aspect-[1200/630] w-full'
+                    : 'h-full w-full'
+                }
+              >
+                <Preview
+                  posts={platform?.posts}
+                  large={size === 'large'}
+                  image={image}
+                  edit={edit}
+                />
+              </div>
             </div>
           )}
           {size === 'tall' && cta && (
