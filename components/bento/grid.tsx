@@ -335,19 +335,33 @@ export function BentoGrid({
         useCSSTransforms={true}
       >
         {blocks.map((block) => {
+          const data = block.data as { url?: string; href?: string };
+          // Any widget with a link tints and presses down, as on bento.
           const clickable =
-            publicMode &&
-            block.type === 'LINK' &&
-            !!(block.data as { url?: string })?.url;
+            publicMode && (block.type === 'LINK' ? !!data?.url : !!data?.href);
           // Section titles are bento's plain labels above a group, not cards.
           const label = block.type === 'SECTION_TITLE';
+          const selected = isEditMode && selectedId === block.id;
           const card = (
-            // bento's widget: 24px corners, 8% black hairline, 0 2px 4px shadow;
-            // links tint on hover (inside the tile) and press down to 97%.
+            // bento's widget: corners by size, 8% black hairline with a faint
+            // white top highlight, 0 2px 4px shadow. Linked widgets tint on
+            // hover (inside the tile) and press down to 97%; in the editor the
+            // selected widget lifts 4px with a 2px outline.
             <div
-              className={`relative h-full w-full rounded-[24px] [transition:transform_.1s_cubic-bezier(.427,.073,.105,.997)] ${
-                label ? '' : 'bg-card shadow-[0_2px_4px_rgba(0,0,0,.04)]'
-              } ${clickable ? 'group/card active:scale-[.97] active:shadow-none' : ''}`}
+              data-widget
+              style={
+                {
+                  '--widget-radius': `${widgetRadius(block)}px`,
+                } as React.CSSProperties
+              }
+              className={cn(
+                'relative h-full w-full rounded-[var(--widget-radius)] [transition:box-shadow_.2s_ease-in-out,transform_.24s_cubic-bezier(.43,.01,.29,1),background_.2s_cubic-bezier(.43,.01,.29,1)]',
+                !label && 'bg-card shadow-[0_2px_4px_rgba(0,0,0,.04)]',
+                clickable &&
+                  'group/card cursor-pointer active:scale-[.97] active:shadow-none',
+                selected &&
+                  '-translate-y-1 shadow-[0_25px_31px_rgba(0,0,0,.06),0_16.2px_18.16px_rgba(0,0,0,.046),0_9.63px_9.87px_rgba(0,0,0,.036),0_5px_5.04px_rgba(0,0,0,.03),0_2.04px_2.53px_rgba(0,0,0,.024),0_.46px_1.22px_rgba(0,0,0,.014)]'
+              )}
             >
               <div className="h-full w-full overflow-hidden rounded-[inherit]">
                 <BlockContent
@@ -357,7 +371,15 @@ export function BentoGrid({
                 />
               </div>
               {!label && (
-                <div className="pointer-events-none absolute inset-0 rounded-[inherit] border border-black/[.08]" />
+                <>
+                  <div className="pointer-events-none absolute inset-px rounded-[calc(var(--widget-radius)-1px)] border border-white/[.22] [mask-image:linear-gradient(0deg,transparent,#000)]" />
+                  <div
+                    className={cn(
+                      'pointer-events-none absolute inset-0 rounded-[inherit] border transition-[border,opacity] duration-200 ease-in-out',
+                      selected ? 'border-2 border-black' : 'border-black/[.08]'
+                    )}
+                  />
+                </>
               )}
             </div>
           );
@@ -369,7 +391,7 @@ export function BentoGrid({
                 if (isEditMode) setSelectedId(block.id);
               }}
               className={cn(
-                'group relative overflow-visible rounded-[24px]',
+                'group relative overflow-visible',
                 isEditMode && 'cursor-grab hover:z-50 active:cursor-grabbing',
                 selectedId === block.id && 'z-50'
               )}
@@ -479,6 +501,15 @@ export function BentoGrid({
       />
     </div>
   );
+}
+
+// bento's corner radius per widget size: 16px section titles, 20px bars,
+// 28px large squares, 24px for everything else.
+function widgetRadius(block: Block) {
+  if (block.type === 'SECTION_TITLE') return 16;
+  if (block.h <= 1) return 20;
+  if (block.w >= 2 && block.h >= 4) return 28;
+  return 24;
 }
 
 export function newBlock(

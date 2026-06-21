@@ -347,7 +347,19 @@
 .react-grid-item.react-grid-placeholder {
   background: #f9fafb !important; /* gray-50 */
   opacity: 1 !important;
-  border-radius: 2rem !important; /* match widget border radius */
+  border-radius: 24px !important; /* match widget border radius */
+}
+
+/* bento's dragged widget: a deep, soft shadow. */
+.react-grid-item.react-draggable-dragging [data-widget] {
+  box-shadow:
+    0 0 1px 1px rgba(0, 0, 0, 0.04),
+    0 36px 92px rgba(0, 0, 0, 0.06),
+    0 23.33px 53.88px rgba(0, 0, 0, 0.046),
+    0 13.87px 29.3px rgba(0, 0, 0, 0.036),
+    0 7.2px 14.95px rgba(0, 0, 0, 0.03),
+    0 2.93px 7.5px rgba(0, 0, 0, 0.024),
+    0 0.67px 3.62px rgba(0, 0, 0, 0.014);
 }
 
 /* bento.me landing loops — durations include Webflow's 500ms hold before each pass */
