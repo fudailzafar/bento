@@ -3,7 +3,6 @@ import {
   FamiliarFaces,
   Footer,
   Hero,
-  HeroBanner,
   HomeNavbar,
   UniqueLink,
   VideoDialog,
@@ -15,7 +14,6 @@ export default function Home() {
     // off-canvas hero cards don't cause sideways scrolling.
     <div className="flex w-full flex-col items-center overflow-x-clip bg-white text-sm leading-5 text-[#333]">
       <HomeNavbar />
-      <HeroBanner />
       <Hero />
       <VideoDialog />
       <FamiliarFaces />
