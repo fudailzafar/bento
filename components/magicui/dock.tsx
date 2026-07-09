@@ -5,7 +5,7 @@ import { cva, type VariantProps } from 'class-variance-authority';
 import { motion, useMotionValue, useSpring, useTransform } from 'framer-motion';
 import React, { PropsWithChildren, useRef } from 'react';
 
-export interface DockProps extends VariantProps<typeof dockVariants> {
+interface DockProps extends VariantProps<typeof dockVariants> {
   className?: string;
   magnification?: number;
   distance?: number;
@@ -61,7 +61,7 @@ const Dock = React.forwardRef<HTMLDivElement, DockProps>(
 
 Dock.displayName = 'Dock';
 
-export interface DockIconProps {
+interface DockIconProps {
   size?: number;
   magnification?: number;
   distance?: number;
@@ -132,4 +132,4 @@ const DockIcon = ({
 
 DockIcon.displayName = 'DockIcon';
 
-export { Dock, DockIcon, dockVariants };
+export { Dock, DockIcon };

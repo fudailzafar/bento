@@ -1,7 +1,5 @@
 // Animation utilities
 export {
-  easeInOutCubic,
-  easeOutCubic,
   bentoEase,
   bentoBlurEase,
   bentoVideoEase,
@@ -15,9 +13,6 @@ export { MAX_USERNAME_LENGTH } from './config';
 // Page/Block schema and types
 export {
   PageDataSchema,
-  BlockSchema,
-  BlockTypeEnum,
-  parseBlockData,
   defaultBlockData,
   type PageData,
   type Block,
@@ -25,12 +20,7 @@ export {
 } from './blocks';
 
 // Route constants
-export {
-  PRIVATE_ROUTES,
-  RESERVED_USERNAMES,
-  isReservedUsername,
-  isValidUsername,
-} from './routes';
+export { PRIVATE_ROUTES } from './routes';
 
 // Utility functions
 export { cn, getDomainUrl } from './utils';

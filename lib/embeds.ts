@@ -1,7 +1,7 @@
 // Links bento played inline instead of showing a link card: YouTube and Vimeo
 // videos, Spotify and SoundCloud players.
 
-export interface Embed {
+interface Embed {
   provider: 'youtube' | 'vimeo' | 'spotify' | 'soundcloud';
   src: string;
 }

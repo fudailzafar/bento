@@ -10,7 +10,7 @@ import LogInAnimation from './log-in-animation';
 
 // bento.me/reset-password: the email form, or "Check your Email" once the
 // link is sent. "expired-token" is shown when a reset link has expired.
-export type ResetState = 'expired-token';
+type ResetState = 'expired-token';
 
 const EMAIL = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
 

@@ -218,25 +218,6 @@ export const checkUsernameAvailability = async (
   return { available: !userId };
 };
 
-export const deleteUser = async (opts: {
-  userId?: string;
-  username?: string;
-}): Promise<boolean> => {
-  try {
-    if (opts.userId) {
-      await prisma.user.delete({ where: { id: opts.userId } });
-      return true;
-    } else if (opts.username) {
-      await prisma.user.delete({ where: { username: opts.username } });
-      return true;
-    }
-    return false;
-  } catch (error) {
-    console.error('User deletion failed:', error);
-    return false;
-  }
-};
-
 export const updateUsername = async (
   userId: string,
   newUsername: string
@@ -265,11 +246,4 @@ export const updateUsername = async (
     console.error('Username update failed:', error);
     return false;
   }
-};
-
-export const getUserIdByEmail = async (
-  email: string
-): Promise<string | null> => {
-  const user = await prisma.user.findUnique({ where: { email } });
-  return user?.id || null;
 };

@@ -9,7 +9,7 @@ export const BlockTypeEnum = z.enum([
 ]);
 export type BlockType = z.infer<typeof BlockTypeEnum>;
 
-export const LinkBlockData = z.object({
+const LinkBlockData = z.object({
   url: z.string(),
   title: z.string(),
   icon: z.string().optional(),
@@ -17,9 +17,9 @@ export const LinkBlockData = z.object({
   image: z.string().optional(),
   description: z.string().optional(),
 });
-export type LinkBlockData = z.infer<typeof LinkBlockData>;
+type LinkBlockData = z.infer<typeof LinkBlockData>;
 
-export const ImageBlockData = z.object({
+const ImageBlockData = z.object({
   url: z.string(),
   alt: z.string().optional(),
   // bento's media widget also plays short looping videos.
@@ -31,9 +31,9 @@ export const ImageBlockData = z.object({
   // Where the tile links to (bento's linkable widgets).
   href: z.string().optional(),
 });
-export type ImageBlockData = z.infer<typeof ImageBlockData>;
+type ImageBlockData = z.infer<typeof ImageBlockData>;
 
-export const TextBlockData = z.object({
+const TextBlockData = z.object({
   content: z.string(),
   href: z.string().optional(),
   // bento's note colours and alignment.
@@ -41,18 +41,18 @@ export const TextBlockData = z.object({
   align: z.enum(['left', 'center', 'right']).optional(),
   valign: z.enum(['top', 'middle', 'bottom']).optional(),
 });
-export type TextBlockData = z.infer<typeof TextBlockData>;
+type TextBlockData = z.infer<typeof TextBlockData>;
 
-export const MapBlockData = z.object({
+const MapBlockData = z.object({
   location: z.string(),
   label: z.string().optional(),
 });
-export type MapBlockData = z.infer<typeof MapBlockData>;
+type MapBlockData = z.infer<typeof MapBlockData>;
 
-export const SectionTitleBlockData = z.object({
+const SectionTitleBlockData = z.object({
   title: z.string(),
 });
-export type SectionTitleBlockData = z.infer<typeof SectionTitleBlockData>;
+type SectionTitleBlockData = z.infer<typeof SectionTitleBlockData>;
 
 const BLOCK_DATA_SCHEMAS = {
   LINK: LinkBlockData,

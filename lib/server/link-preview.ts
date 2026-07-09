@@ -83,7 +83,7 @@ function meta(html: string, ...names: string[]) {
   return undefined;
 }
 
-export interface LinkPreviewResult {
+interface LinkPreviewResult {
   title?: string;
   description?: string;
   image?: string;
