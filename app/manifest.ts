@@ -2,8 +2,8 @@ import type { MetadataRoute } from 'next';
 
 export default function manifest(): MetadataRoute.Manifest {
   return {
-    name: 'Porfoliofy',
-    short_name: 'Porfoliofy',
+    name: 'Portfoliofy',
+    short_name: 'Portfoliofy',
     description: 'Portfoliofy - A Portfolio, but Rich and Beautiful.',
     start_url: '/',
     display: 'standalone',
