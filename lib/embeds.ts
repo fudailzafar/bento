@@ -1,8 +1,8 @@
 // Links bento played inline instead of showing a link card: YouTube and Vimeo
-// videos, Spotify and SoundCloud players.
+// videos and SoundCloud players. Spotify links are smart widgets instead.
 
 interface Embed {
-  provider: 'youtube' | 'vimeo' | 'spotify' | 'soundcloud';
+  provider: 'youtube' | 'vimeo' | 'soundcloud';
   src: string;
 }
 
@@ -36,23 +36,6 @@ export function embedFor(url: string): Embed | null {
       provider: 'vimeo',
       src: `https://player.vimeo.com/video/${path[0]}`,
     };
-  }
-
-  if (host === 'open.spotify.com') {
-    // Skip a locale prefix such as /intl-de/.
-    const parts = path[0]?.startsWith('intl-') ? path.slice(1) : path;
-    const [kind, id] = parts;
-    if (
-      ['track', 'album', 'playlist', 'episode', 'show', 'artist'].includes(
-        kind
-      ) &&
-      id
-    ) {
-      return {
-        provider: 'spotify',
-        src: `https://open.spotify.com/embed/${kind}/${id}`,
-      };
-    }
   }
 
   if (host === 'soundcloud.com' && path.length >= 2) {

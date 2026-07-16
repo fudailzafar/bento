@@ -43,6 +43,8 @@ export async function middleware(req: NextRequest) {
     pathname.startsWith('/api/check-username') ||
     // Visitors' profile views and link clicks.
     pathname.startsWith('/api/track') ||
+    // Smart widget data, loaded on public profiles.
+    pathname.startsWith('/api/rich-data') ||
     pathname.startsWith('/auth/callback')
   ) {
     return supabaseResponse;
