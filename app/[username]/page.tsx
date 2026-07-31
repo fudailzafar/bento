@@ -81,7 +81,7 @@ export async function generateMetadata({
     return {
       title: 'Portfoliofy - A Portfolio, but Rich and Beautiful.',
       description:
-        'Create a beautiful personal portfolio to show your professional experience, education, and everything you are and create - in one place.',
+        'Create a beautiful page to show your audience everything you are, create, and sell in one link. Designed in Berlin.',
     };
   }
 
@@ -144,9 +144,9 @@ export default async function ProfilePage({
   // A signed-in visitor gets bento's "My Bento" link instead of the sign-up CTA.
   const viewerRow = user
     ? await prisma.user.findUnique({
-        where: { id: user.id },
-        select: { username: true, image: true },
-      })
+      where: { id: user.id },
+      select: { username: true, image: true },
+    })
     : null;
   const viewer: ProfileViewer = viewerRow?.username
     ? { username: viewerRow.username, image: viewerRow.image }
