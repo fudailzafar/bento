@@ -1,8 +1,11 @@
 'use client';
 
-import { useLayoutEffect, useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 import { Block } from '@/lib';
 import { LinkTile } from './link-tile';
+import { MapTiles } from './map-tiles';
+import { NoteEditor, RichText } from './rich-text';
+import { plainRich } from '@/lib/rich-text';
 import { NO_DRAG } from './editing/no-drag';
 import { embedFor } from '@/lib/embeds';
 import { asUrl, isVideoUrl } from '@/lib/media';
@@ -75,7 +78,7 @@ export interface BlockEditing {
   onSetUrl: (url: string) => void;
   // Uploads a file into a data field ("url" for media, "image" for a
   // link's preview).
-  onUpload: (file: File, field: 'url' | 'image') => void;
+  onUpload: (file: File, field: 'url' | 'image' | 'gallery') => void;
   uploading?: boolean;
 }
 
@@ -186,10 +189,12 @@ export function BlockContent({
 }) {
   switch (block.type) {
     case 'LINK': {
-      const { url, title, image } = block.data as {
+      const { url, title, image, images, bio } = block.data as {
         url?: string;
         title?: string;
         image?: string;
+        images?: string[];
+        bio?: string;
       };
       if (edit && !url) return <LinkUrlInput onSetUrl={edit.onSetUrl} />;
       // Videos and players play inside wide and tall tiles, as on bento.
@@ -218,12 +223,20 @@ export function BlockContent({
           url={url ?? ''}
           title={title}
           image={image}
+          images={images}
+          bio={bio}
           w={block.w}
           h={block.h}
           edit={
             edit && {
               onTitle: (value) => edit.onPatch({ title: value }),
+              onBio: (value) => edit.onPatch({ bio: value }),
               onImage: (file) => edit.onUpload(file, 'image'),
+              onGallery: (file) => edit.onUpload(file, 'gallery'),
+              onRemoveGallery: (index) =>
+                edit.onPatch({
+                  images: (images ?? []).filter((_, i) => i !== index),
+                }),
               onClearImage: () => edit.onPatch({ image: undefined }),
               uploading: edit.uploading,
             }
@@ -253,6 +266,13 @@ export function BlockContent({
         kind?: 'image' | 'video';
         caption?: string;
       };
+      // bento's advice for the two square sizes.
+      const recommended =
+        block.w === 1 && block.h === 2
+          ? '400×400px'
+          : block.w === 2 && block.h === 4
+            ? '800×800px'
+            : null;
       if (!url) {
         const empty = (
           <>
@@ -264,6 +284,11 @@ export function BlockContent({
             <span className="text-xs font-medium">
               {edit?.uploading ? 'Uploading...' : 'Add an image or video'}
             </span>
+            {!edit?.uploading && recommended && (
+              <span className="text-[10px] leading-3 opacity-70">
+                Best at {recommended} or larger
+              </span>
+            )}
           </>
         );
         const emptyClass =
@@ -354,7 +379,9 @@ export function BlockContent({
           : valign === 'bottom'
             ? 'justify-end'
             : '';
-      const text = content?.trim() ?? '';
+      const raw = content?.trim() ?? '';
+      // Without the bold, italic and link marks.
+      const text = plainRich(raw);
       const size =
         /^(\p{Extended_Pictographic}|\p{Emoji_Component}|\u200d|\ufe0f){1,8}$/u.test(
           text
@@ -365,6 +392,7 @@ export function BlockContent({
       // bento's quote note: a closing "— Author" line turns the note into a
       // quote with a big opening mark and italic text.
       const lines = text.split('\n');
+      const rawLines = raw.split('\n');
       const last = lines[lines.length - 1]?.trim() ?? '';
       const author =
         /^[—–-]\s*\S/.test(last) && lines.length > 1
@@ -383,7 +411,10 @@ export function BlockContent({
           <p
             className={`mt-3 line-clamp-[8] whitespace-pre-wrap text-[20px] italic leading-[26px] ${tone}`}
           >
-            {lines.slice(0, -1).join('\n').trim()}
+            <RichText
+              text={rawLines.slice(0, -1).join('\n').trim()}
+              plainLinks={!!href}
+            />
           </p>
           <p
             className={`mt-4 text-[20px] italic leading-[26px] ${dark ? 'text-white/70' : 'text-black/60'}`}
@@ -430,7 +461,11 @@ export function BlockContent({
                   : `text-[20px] leading-[26px] ${dark ? 'text-white/50' : 'text-black/30'}`
               }
             >
-              {text || 'Add note...'}
+              {raw ? (
+                <RichText text={raw} plainLinks={!!href} />
+              ) : (
+                'Add note...'
+              )}
             </p>
           </div>
         </Linked>
@@ -438,10 +473,28 @@ export function BlockContent({
     }
 
     case 'MAP': {
-      const { location, label } = block.data as {
+      const { location, label, lat, lng } = block.data as {
         location?: string;
         label?: string;
+        lat?: number;
+        lng?: number;
       };
+      if (typeof lat === 'number' && typeof lng === 'number') {
+        // Zoomed out a little on large maps, as bento framed them.
+        return (
+          <div className="relative h-full w-full overflow-hidden">
+            <MapTiles
+              lat={lat}
+              lng={lng}
+              zoom={block.h >= 4 ? 10 : 11}
+              interactive={interactive}
+            />
+            <span className="pointer-events-none absolute bottom-4 left-4 line-clamp-2 max-w-[calc(100%-32px)] rounded-[8px] bg-white px-2 py-1.5 text-sm leading-[21px] text-black">
+              {label || location}
+            </span>
+          </div>
+        );
+      }
       return (
         <div
           className="relative h-full w-full overflow-hidden bg-muted"
@@ -480,69 +533,4 @@ export function BlockContent({
       );
     }
   }
-}
-
-// A note in the editor: typed into directly. A quote note shows its quote
-// layout until clicked, then the raw text with its "— Author" line.
-function NoteEditor({
-  content,
-  color,
-  className,
-  textClass,
-  onChange,
-  preview,
-}: {
-  content: string;
-  color?: string;
-  className: string;
-  textClass: string;
-  onChange: (value: string) => void;
-  preview: React.ReactNode;
-}) {
-  const [focused, setFocused] = useState(false);
-  const textarea = useRef<HTMLTextAreaElement>(null);
-  // Grow with the text, so vertical alignment works as on the profile.
-  useLayoutEffect(() => {
-    const el = textarea.current;
-    if (!el) return;
-    el.style.height = '0px';
-    el.style.height = `${el.scrollHeight}px`;
-  });
-  if (preview && !focused) {
-    return (
-      <div
-        className="h-full w-full cursor-text"
-        onClick={() => setFocused(true)}
-      >
-        {preview}
-      </div>
-    );
-  }
-  return (
-    <div
-      className={cn(
-        'flex h-full w-full cursor-text flex-col overflow-hidden',
-        className
-      )}
-      style={{ background: color ?? '#FFFFFF' }}
-      onClick={() => textarea.current?.focus()}
-    >
-      {/* Grows with its text, so vertical alignment works as on the profile. */}
-      <textarea
-        ref={textarea}
-        autoFocus={!!preview}
-        value={content}
-        placeholder="Add note..."
-        rows={1}
-        onFocus={() => setFocused(true)}
-        onBlur={() => setFocused(false)}
-        onChange={(e) => onChange(e.target.value)}
-        className={cn(
-          NO_DRAG,
-          'max-h-full w-full resize-none border-0 bg-transparent p-0 outline-none placeholder:opacity-40 focus:ring-0',
-          textClass
-        )}
-      />
-    </div>
-  );
 }
