@@ -367,6 +367,9 @@ export function BentoGrid({
               style={
                 {
                   '--widget-radius': `${widgetRadius(block)}px`,
+                  // bento's caption tag: 10px on the large square, else 8px.
+                  '--caption-radius':
+                    block.w >= 2 && block.h >= 4 ? '10px' : '8px',
                 } as React.CSSProperties
               }
               className={cn(
