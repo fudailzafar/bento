@@ -51,6 +51,11 @@ model Block {
   y         Int
   w         Int
   h         Int
+  // The phone layout's own position and size; null until it is set.
+  mx        Int?
+  my        Int?
+  mw        Int?
+  mh        Int?
   data      Json
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt

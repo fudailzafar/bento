@@ -45,6 +45,10 @@ export async function getPage(userId: string): Promise<PageData | undefined> {
         y: block.y,
         w: block.w,
         h: block.h,
+        mx: block.mx,
+        my: block.my,
+        mw: block.mw,
+        mh: block.mh,
         data: block.data as Record<string, unknown>,
       })),
     };
@@ -105,6 +109,10 @@ export async function savePage(
             y: block.y,
             w: block.w,
             h: block.h,
+            mx: block.mx ?? null,
+            my: block.my ?? null,
+            mw: block.mw ?? null,
+            mh: block.mh ?? null,
             data: JSON.parse(JSON.stringify(block.data)),
           })),
         });
