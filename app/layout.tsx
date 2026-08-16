@@ -68,7 +68,7 @@ export default function RootLayout({
 }) {
   return (
     <ReactQueryClientProvider>
-      <html lang="en">
+      <html lang="en" suppressHydrationWarning>
         <head>
           {/* {process.env.NODE_ENV === "development" && (
               <script

@@ -1,16 +1,11 @@
-import { Notebook } from 'lucide-react';
 import { redirect } from 'next/navigation';
 import Link from 'next/link';
 import { Metadata } from 'next';
-import { ResumeDataSchemaType, cn } from '@/lib';
+import { cn } from '@/lib';
 import { getUserData } from './utils';
 import { LinkedInIcon, XIcon, GitHubIcon } from '@/components/icons';
-import {
-  AnimatedThemeToggler,
-  Dock,
-  DockClient,
-  DockIcon,
-} from '@/components/magicui';
+import { Notebook } from 'lucide-react';
+import { Dock, DockClient, DockIcon } from '@/components/magicui';
 import {
   buttonVariants,
   Separator,
@@ -18,23 +13,28 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from '@/components/ui';
-import { PublicPortfolio } from '@/components/resume/preview';
+import { PublicPortfolio } from '@/components/bento';
 import { createClient } from '@/lib/supabase/server';
 import { PromotionCtaDesktop, PromotionCtaMobile } from '@/components/common';
 import { SelfPortfolioLoader } from '@/components/preview';
 import { ClaimUsername } from '@/components/auth';
 
-function getSocialLinks(contacts?: ResumeDataSchemaType['header']['contacts']) {
-  if (!contacts) return {};
+function getSocialLinks(page?: {
+  website?: string | null;
+  github?: string | null;
+  twitter?: string | null;
+  linkedin?: string | null;
+}) {
+  if (!page) return {};
 
-  const prefixUrl = (stringToFix?: string) => {
+  const prefixUrl = (stringToFix?: string | null) => {
     if (!stringToFix) return undefined;
     const url = stringToFix.trim();
     return url.startsWith('http') ? url : `https://${url}`;
   };
 
   const formatSocialUrl = (
-    url: string | undefined,
+    url: string | null | undefined,
     platform: 'github' | 'twitter' | 'linkedin'
   ) => {
     if (!url) return undefined;
@@ -59,10 +59,10 @@ function getSocialLinks(contacts?: ResumeDataSchemaType['header']['contacts']) {
   };
 
   return {
-    website: prefixUrl(contacts.website),
-    github: formatSocialUrl(contacts.github, 'github'),
-    twitter: formatSocialUrl(contacts.twitter, 'twitter'),
-    linkedin: formatSocialUrl(contacts.linkedin, 'linkedin'),
+    website: prefixUrl(page.website),
+    github: formatSocialUrl(page.github, 'github'),
+    twitter: formatSocialUrl(page.twitter, 'twitter'),
+    linkedin: formatSocialUrl(page.linkedin, 'linkedin'),
   };
 }
 
@@ -72,11 +72,10 @@ export async function generateMetadata({
   params: Promise<{ username: string }>;
 }): Promise<Metadata> {
   const { username } = await params;
-  const { user_id, resume, userData } = await getUserData(username);
+  const { user_id, page, userData } = await getUserData(username);
   const profilePicture = userData?.image;
 
-  // If no user or no resume data, return a safe default metadata
-  if (!user_id || !resume?.resumeData) {
+  if (!user_id || !page) {
     return {
       title: 'Portfoliofy - A Portfolio, but Rich and Beautiful.',
       description:
@@ -84,18 +83,16 @@ export async function generateMetadata({
     };
   }
 
-  const header = resume?.resumeData?.header;
-
   return {
-    title: `${header?.name ?? 'Portfoliofy'}`,
-    description: header?.shortAbout ?? '',
+    title: `${page.name ?? 'Portfoliofy'}`,
+    description: page.headline ?? '',
     icons: {
       icon: profilePicture,
       shortcut: profilePicture,
     },
     openGraph: {
-      title: `${header?.name ?? 'Portfoliofy'}`,
-      description: header?.shortAbout ?? '',
+      title: `${page.name ?? 'Portfoliofy'}`,
+      description: page.headline ?? '',
       images: [
         {
           url: `https://portfoliofy.me/${username}/og`,
@@ -114,7 +111,7 @@ export default async function ProfilePage({
   params: Promise<{ username: string }>;
 }) {
   const { username } = await params;
-  const { user_id, resume, userData } = await getUserData(username);
+  const { user_id, page, userData } = await getUserData(username);
 
   // Check if the logged-in user is viewing their own profile
   const supabase = await createClient();
@@ -131,22 +128,20 @@ export default async function ProfilePage({
     return <ClaimUsername username={username} />;
   }
 
-  if (!resume?.resumeData) redirect(`/?idNotFound=${user_id}`);
+  if (!page) redirect(`/?idNotFound=${user_id}`);
 
   const profilePicture = userData?.image;
-  const header = resume.resumeData.header;
-  const socialLinks = getSocialLinks(header.contacts);
+  const socialLinks = getSocialLinks(page);
 
   const jsonLd = {
     '@context': 'https://schema.org',
     '@type': 'Person',
-    name: header.name,
+    name: page.name,
     image: profilePicture,
-    jobTitle: header.shortAbout,
-    description: resume.resumeData.summary,
-    email: header.contacts.email && `mailto:${header.contacts.email}`,
+    jobTitle: page.headline,
+    description: page.bio,
+    email: page.email && `mailto:${page.email}`,
     url: `https://portfoliofy.me/${username}`,
-    skills: header.skills,
   };
 
   return (
@@ -156,10 +151,7 @@ export default async function ProfilePage({
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
 
-      <PublicPortfolio
-        resume={resume?.resumeData}
-        profilePicture={profilePicture}
-      />
+      <PublicPortfolio page={page} profilePicture={profilePicture} />
 
       {/* Desktop CTA Section */}
       <PromotionCtaDesktop />
@@ -272,19 +264,6 @@ export default async function ProfilePage({
               </Tooltip>
             </DockIcon>
           )}
-
-          <Separator orientation="vertical" className="h-full" />
-          {/* Theme Toggle */}
-          <DockIcon>
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <AnimatedThemeToggler />
-              </TooltipTrigger>
-              <TooltipContent>
-                <p>Theme</p>
-              </TooltipContent>
-            </Tooltip>
-          </DockIcon>
         </Dock>
       </div>
     </>

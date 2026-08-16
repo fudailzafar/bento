@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { LoaderIcon } from '@/components/icons';
 import { createClient } from '@/lib/supabase/client';
+import { goToOwnPage } from './go-to-own-page';
 
 export default function SignupCallbackClient() {
   const router = useRouter();
@@ -31,14 +32,14 @@ export default function SignupCallbackClient() {
       }
 
       if (!username) {
-        // No username provided, redirect to upload (will generate random username)
-        router.push('/upload');
+        // No username provided — generate one
+        await goToOwnPage(router);
         return;
       }
 
       try {
         // Claim the username
-        const response = await fetch('/api/auth/claim-username', {
+        await fetch('/api/auth/claim-username', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -46,11 +47,11 @@ export default function SignupCallbackClient() {
           body: JSON.stringify({ username }),
         });
 
-        // Redirect to upload regardless of success (preview handles missing mapping)
-        router.push('/upload');
+        // Redirect regardless of claim success (goToOwnPage handles the missing case)
+        await goToOwnPage(router);
       } catch (error) {
         console.error('Error claiming username:', error);
-        router.push('/upload');
+        await goToOwnPage(router);
       }
     };
 

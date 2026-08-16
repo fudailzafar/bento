@@ -57,12 +57,7 @@ function EmailEditorContent({
       }
 
       setShowSuccess(true);
-      setTimeout(async () => {
-        const { createClient } = await import('@/lib/supabase/client');
-        const supabase = createClient();
-        await supabase.auth.signOut();
-        window.location.href = '/login';
-      }, 2000);
+      setIsLoading(false);
     } catch (error) {
       toast.error('Failed to Update My Email');
       setIsLoading(false);
@@ -78,11 +73,12 @@ function EmailEditorContent({
         </span>
       </div>
       <h3 className="mb-4 text-center text-lg font-semibold">
-        Email Updated Successfully
+        Confirmation Email Sent
       </h3>
       <p className="mb-4 text-center text-sm text-gray-600">
-        Your email has been updated to{' '}
-        <span className="font-semibold">{newEmail}</span>
+        Click the link we sent to{' '}
+        <span className="font-semibold">{newEmail}</span> to finish changing
+        your email.
       </p>
     </div>
   );

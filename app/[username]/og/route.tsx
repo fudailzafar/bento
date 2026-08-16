@@ -24,9 +24,9 @@ async function loadGoogleFont(font: string, text: string, weight: number) {
 export async function GET(request: NextRequest) {
   try {
     const username = request.nextUrl.pathname.split('/')[1];
-    const { resume, userData } = await getUserData(username);
-    const name = resume?.resumeData?.header?.name;
-    const role = resume?.resumeData?.header?.shortAbout;
+    const { page, userData } = await getUserData(username);
+    const name = page?.name || undefined;
+    const role = page?.headline || undefined;
     const profileImageUrl = userData?.image;
 
     // Load Inter font for the text that will be displayed
@@ -111,7 +111,7 @@ export async function GET(request: NextRequest) {
               <img
                 src={
                   profileImageUrl ||
-                  'https://portfoliofy.me/user/placeholder.svg'
+                  `${request.nextUrl.origin}/user/placeholder.svg`
                 }
                 alt="Profile"
                 style={{

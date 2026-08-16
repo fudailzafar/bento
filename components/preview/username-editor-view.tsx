@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useRef } from 'react';
 import { toast } from 'sonner';
-import { useUserActions, useIsMobile } from '@/hooks';
+import { usePageActions, useIsMobile } from '@/hooks';
 import { MAX_USERNAME_LENGTH } from '@/lib';
 import {
   Button,
@@ -42,7 +42,7 @@ function UsernameEditorContent({
   const [newUsername, setNewUsername] = useState<string>('');
   const [showSuccess, setShowSuccess] = useState(false);
   const debounceTimerRef = useRef<NodeJS.Timeout | null>(null);
-  const { updateUsernameMutation, checkUsernameMutation } = useUserActions();
+  const { updateUsernameMutation, checkUsernameMutation } = usePageActions();
   const isMobile = useIsMobile();
 
   // Notify parent component about success state changes

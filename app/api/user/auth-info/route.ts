@@ -1,6 +1,5 @@
 import { createClient } from '@/lib/supabase/server';
 import { NextResponse } from 'next/server';
-import { upstashRedis as redis } from '@/lib/server';
 
 export async function GET() {
   try {
@@ -10,24 +9,15 @@ export async function GET() {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
-    const userId = user.id;
-
-    // Get user profile data
-    const userProfile = await redis.get<{
-      id: string;
-      email: string;
-      name?: string;
-      image?: string;
-    }>(`user:id:${userId}`);
-
-    // Check if user has credentials stored (credentials user)
-    const hasCredentials = await redis.exists(`user:credentials:${userId}`);
+    // Supabase sets app_metadata.provider to 'email' for password signups,
+    // or the OAuth provider name (e.g. 'google') otherwise.
+    const provider = user.app_metadata?.provider === 'email' ? 'credentials' : 'google';
 
     return NextResponse.json({
       email: user.email,
-      provider: hasCredentials ? 'credentials' : 'google',
-      name: userProfile?.name || null,
-      image: userProfile?.image || null,
+      provider,
+      name: user.user_metadata?.name || null,
+      image: user.user_metadata?.avatar_url || null,
     });
   } catch (error) {
     console.error('Error getting auth info:', error);

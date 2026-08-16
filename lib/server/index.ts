@@ -1,33 +1,17 @@
-// Cached functions
-export { getCachedUser, getCachedResume } from './cached-functions';
-
-// UploadThing file deletion
-export { deleteUploadThingFile } from './delete-uploadthing-file';
-
-// Redis client
-export { upstashRedis } from './redis';
-
-// Redis actions and types
+// Page and user actions
 export {
-  getResume,
-  storeResume,
+  getPage,
+  savePage,
   storeUserProfile,
   getUserProfile,
   createUsernameLookup,
   getUsernameById,
   getUserIdByUsername,
+  getUserIdByEmail,
   checkUsernameAvailability,
   deleteUser,
   updateUsername,
 
-  type ResumeData,
-  type Resume,
+  type PageData,
   type UserProfile,
-  type UserCredentials,
 } from './db-actions';
-
-// PDF scraping
-export { scrapePdfContent } from './scrape-pdf-actions';
-
-// AI utilities
-export { generateResumeObject } from './ai/generate-resume-object-gemini';

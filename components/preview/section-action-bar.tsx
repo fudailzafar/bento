@@ -103,7 +103,7 @@ export const SectionActionBar = ({
         </div>
       </button>
 
-      {/* Skills Button */}
+      {/* Map Button */}
       <button
         onClick={onAddMap}
         className="group relative size-[25px] rounded-lg transition-all hover:shadow-[0_0_0_3px_rgba(0,0,0,0.06)] active:scale-95 lg:size-[25px]"
@@ -117,7 +117,6 @@ export const SectionActionBar = ({
           />
           <Image src="/map.png" alt="Map" width={25} height={15} />
           <div className="pointer-events-none absolute inset-0 rounded-[7px] border border-black/[0.12]" />
-          {/* <div className="absolute inset-0 rounded-[7px] bg-gradient-to-b from-white/20 to-transparent opacity-0 transition-opacity group-hover:opacity-100" /> */}
         </div>
         <div className="pointer-events-none absolute bottom-full left-1/2 z-50 mb-2 hidden min-w-max -translate-x-1/2 transform rounded-md border border-slate-100 bg-white px-2 py-1 text-[10px] font-normal leading-tight text-design-resume opacity-0 shadow-md transition-opacity delay-700 duration-200 group-hover:opacity-100 xl:block">
           Map

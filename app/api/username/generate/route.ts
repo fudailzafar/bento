@@ -1,4 +1,4 @@
-import { createUsernameLookup, getUsernameById, getResume, storeResume } from '@/lib/server';
+import { createUsernameLookup, getUsernameById } from '@/lib/server';
 import { createClient } from '@/lib/supabase/server';
 import { NextResponse } from 'next/server';
 import { MAX_USERNAME_LENGTH } from '@/lib';
@@ -23,12 +23,7 @@ export async function POST() {
     const saltLength = 6;
     const createSalt = () => Math.random().toString(36).substring(2, 2 + saltLength);
 
-    const updatedResume = await getResume(userId);
-    
-    // If no resume data exists at all, initialize default structure for name extraction
-    const defaultName = user.user_metadata?.name || user.email.split('@')[0] || 'user';
-    
-    const baseName = updatedResume?.resumeData?.header?.name || defaultName;
+    const baseName = user.user_metadata?.name || user.email.split('@')[0] || 'user';
 
     const generatedUsername =
       (

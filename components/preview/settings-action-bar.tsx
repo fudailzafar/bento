@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 
 import { useRouter } from 'next/navigation';
-import { useIsMobile, useUserActions } from '@/hooks';
+import { useIsMobile, usePageActions } from '@/hooks';
 import { SettingsIcon } from '@/components/icons';
 import {
   UsernameEditorView,
@@ -29,7 +29,7 @@ export function SettingsActionBar() {
   const isMobile = useIsMobile();
   const router = useRouter();
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-  const { usernameQuery } = useUserActions();
+  const { usernameQuery } = usePageActions();
   const [isUsernameEditorOpen, setIsUsernameEditorOpen] = useState(false);
   const [isEmailEditorOpen, setIsEmailEditorOpen] = useState(false);
   const [isPasswordEditorOpen, setIsPasswordEditorOpen] = useState(false);
