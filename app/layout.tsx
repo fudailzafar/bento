@@ -4,11 +4,9 @@ import { Metadata } from 'next';
 import { GoogleAnalytics } from '@next/third-parties/google';
 import { SpeedInsights } from '@vercel/speed-insights/next';
 import { Analytics } from '@vercel/analytics/next';
-import { Toaster } from 'sonner';
 import './globals.css';
-import {
-  ReactQueryClientProvider,
-} from '@/components/utils';
+import { BentoToaster } from '@/components/common/bento-toaster';
+import { ReactQueryClientProvider } from '@/components/utils';
 
 const fontSans = FontSans({
   subsets: ['latin'],
@@ -84,7 +82,7 @@ export default function RootLayout({
             <SpeedInsights />
             <Analytics />
           </main>
-          <Toaster richColors position="bottom-center" />
+          <BentoToaster />
           <GoogleAnalytics gaId="G-B99MN9ZMBL" />
         </body>
       </html>
