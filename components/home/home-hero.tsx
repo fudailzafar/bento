@@ -1,8 +1,7 @@
 'use client';
 
-import { useEffect, useState } from 'react';
 import { easeInOutCubic } from '@/lib';
-import { motion, useScroll, useTransform } from 'framer-motion';
+import { motion, useScroll, useTransform, MotionValue } from 'framer-motion';
 import Link from 'next/link';
 import Image from 'next/image';
 import { Button, Section } from '@/components/ui';
@@ -189,40 +188,119 @@ function HeroAnimationMobile() {
   );
 }
 
+interface HeroCard {
+  id: string;
+  src: string;
+  width: number;
+  height: number;
+}
+
+const LEFT_CARDS: HeroCard[] = [
+  { id: 'support', src: '/home/all-the-widgets/buymeacoffee-mobile.png', width: 500, height: 500 },
+  { id: 'verge', src: '/home/all-the-widgets/theverge.png', width: 1170, height: 1170 },
+  { id: 'youtube', src: '/home/all-the-widgets/youtube-mobile.png', width: 500, height: 500 },
+];
+
+const RIGHT_CARDS: HeroCard[] = [
+  { id: 'medium', src: '/home/all-the-widgets/medium-mobile.png', width: 500, height: 1114 },
+  { id: 'spotify', src: '/home/all-the-widgets/spotify.png', width: 525, height: 1170 },
+  { id: 'calendly', src: '/home/all-the-widgets/calendly-mobile.png', width: 500, height: 500 },
+];
+
+function FloatingCard({
+  card,
+  y,
+  opacity,
+  className,
+}: {
+  card: HeroCard;
+  y: MotionValue<number>;
+  opacity: MotionValue<number>;
+  className: string;
+}) {
+  return (
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.8, delay: 1, ease: easeInOutCubic }}
+      style={{ y, opacity }}
+      className={`pointer-events-none absolute w-32 overflow-hidden rounded-2xl shadow-xl sm:w-44 lg:w-56 ${className}`}
+    >
+      <Image
+        src={card.src}
+        alt=""
+        width={card.width}
+        height={card.height}
+        className="h-full w-full object-cover"
+      />
+    </motion.div>
+  );
+}
+
+function FloatingCards() {
+  const { scrollY } = useScroll({
+    offset: ['start start', 'end start'],
+  });
+  // Parallax transforms for floating cards (layered depth)
+  const leftParallax = [
+    useTransform(scrollY, [0, 500], [0, -130]), // top card moves fastest
+    useTransform(scrollY, [0, 500], [0, -90]), // middle card
+    useTransform(scrollY, [0, 500], [0, -50]), // bottom card slowest
+  ];
+  const rightParallax = [
+    useTransform(scrollY, [0, 600], [0, -100]),
+    useTransform(scrollY, [0, 600], [0, -70]),
+    useTransform(scrollY, [0, 600], [0, -35]),
+  ];
+
+  // Fade out cards as user scrolls down (disappear when leaving hero)
+  const cardOpacity = useTransform(scrollY, [0, 300, 500], [1, 0.5, 0]);
+
+  return (
+    <div aria-hidden className="absolute inset-0 z-0 overflow-hidden">
+      {/* Left: one card top, two overlapping lower */}
+      <FloatingCard
+        card={LEFT_CARDS[0]}
+        y={leftParallax[0]}
+        opacity={cardOpacity}
+        className="-left-10 top-12 -rotate-6 sm:left-2 sm:top-16 lg:left-10"
+      />
+      <FloatingCard
+        card={LEFT_CARDS[1]}
+        y={leftParallax[1]}
+        opacity={cardOpacity}
+        className="-left-20 top-[22rem] rotate-2 sm:-left-6 sm:top-[26rem] lg:left-2"
+      />
+      <FloatingCard
+        card={LEFT_CARDS[2]}
+        y={leftParallax[2]}
+        opacity={cardOpacity}
+        className="-left-6 top-[30rem] -rotate-3 sm:left-16 sm:top-[34rem] lg:left-24"
+      />
+      {/* Right: one tall card top, two overlapping lower */}
+      <FloatingCard
+        card={RIGHT_CARDS[0]}
+        y={rightParallax[0]}
+        opacity={cardOpacity}
+        className="-right-10 top-8 rotate-6 sm:right-2 sm:top-10 lg:right-10"
+      />
+      <FloatingCard
+        card={RIGHT_CARDS[1]}
+        y={rightParallax[1]}
+        opacity={cardOpacity}
+        className="-right-24 top-[26rem] -rotate-3 sm:-right-8 sm:top-[30rem] lg:right-0"
+      />
+      <FloatingCard
+        card={RIGHT_CARDS[2]}
+        y={rightParallax[2]}
+        opacity={cardOpacity}
+        className="-right-4 top-[34rem] rotate-3 sm:right-16 sm:top-[38rem] lg:right-24"
+      />
+    </div>
+  );
+}
+
 export function Hero() {
-  // const { scrollY } = useScroll({
-  //   offset: ['start start', 'end start'],
-  // });
-  // // Parallax transforms for floating cards (layered depth)
-  // const leftParallax = [
-  //   useTransform(scrollY, [0, 500], [0, -130]), // top card moves fastest
-  //   useTransform(scrollY, [0, 500], [0, -90]), // middle card
-  //   useTransform(scrollY, [0, 500], [0, -50]), // bottom card slowest
-  // ];
-  // const rightParallax = [
-  //   useTransform(scrollY, [0, 600], [0, -100]),
-  //   useTransform(scrollY, [0, 600], [0, -70]),
-  //   useTransform(scrollY, [0, 600], [0, -35]),
-  // ];
-
-  // // Fade out cards as user scrolls down (disappear when leaving hero)
-  // const cardOpacity = useTransform(scrollY, [0, 300, 500], [1, 0.5, 0]);
-
-  // // play animation only on first visit per user (localStorage flag)
-  // const [playAnim, setPlayAnim] = useState(false);
-  // useEffect(() => {
-  //   try {
-  //     const seen = localStorage.getItem('heroAnimated');
-  //     if (!seen) {
-  //       setPlayAnim(true);
-  //       localStorage.setItem('heroAnimated', '1');
-  //     }
-  //   } catch (e) {
-  //     // ignore (SSR safety)
-  //     setPlayAnim(true);
-  //   }
-  // }, []);
-
   return (
     <>
       {/* Top banner section */}
@@ -233,6 +311,7 @@ export function Hero() {
         className="min-h-[100vh] w-full overflow-hidden md:pb-32"
       >
         <main className="relative mx-auto px-4 pt-14 text-center sm:pt-24 md:pt-16">
+          <FloatingCards />
           <HeroLogo />
           <HeroSubHeading />
           <HeroButtons />

@@ -50,7 +50,7 @@ function FooterLinks() {
         <Link
           target="_blank"
           rel="noopener noreferrer"
-          href="explore"
+          href="/explore"
           className=""
         >
           <span className="hover:underline">Explore</span>
@@ -68,7 +68,7 @@ function FooterLinks() {
         <Link
           target="_blank"
           rel="noopener noreferrer"
-          href="privacy-policy"
+          href="/privacy-policy"
           className=""
         >
           <span className="hover:underline">Privacy Policy</span>
