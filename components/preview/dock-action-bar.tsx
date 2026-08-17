@@ -11,6 +11,7 @@ import {
   UsernameEditorView,
   ViewMode,
 } from '@/components/preview';
+import { BentoTooltip } from '@/components/common/bento-tooltip';
 import { ShareSheet } from './share-sheet';
 
 interface DockActionBarProps {
@@ -82,7 +83,7 @@ export default function DockActionBar({
 
   return (
     <>
-      <div className="relative flex items-center gap-5 px-4 py-3 xl:w-[499px] xl:rounded-2xl xl:bg-white/70 xl:shadow-[0_0_0_1px_rgba(0,0,0,.04),0_27px_54px_rgba(0,0,0,.04),0_17.5px_31.625px_rgba(0,0,0,.03),0_10.4px_17.2px_rgba(0,0,0,.024),0_5.4px_8.775px_rgba(0,0,0,.02),0_2.2px_4.4px_rgba(0,0,0,.016),0_.5px_2.125px_rgba(0,0,0,.01)] xl:backdrop-blur-xl xl:backdrop-saturate-150">
+      <div className="relative flex items-center gap-5 px-4 py-3 xl:w-[500px] xl:gap-0 xl:rounded-2xl xl:bg-white/70 xl:px-[13px] xl:shadow-[0_0_0_1px_rgba(0,0,0,.04),0_27px_54px_rgba(0,0,0,.04),0_17.5px_31.625px_rgba(0,0,0,.03),0_10.4px_17.2px_rgba(0,0,0,.024),0_5.4px_8.775px_rgba(0,0,0,.02),0_2.2px_4.4px_rgba(0,0,0,.016),0_.5px_2.125px_rgba(0,0,0,.01)] xl:backdrop-blur-xl xl:backdrop-saturate-150">
         <ShareSheet
           link={getDomainUrl(initialUsername)}
           username={initialUsername}
@@ -91,41 +92,40 @@ export default function DockActionBar({
           onCopy={handleCopyLink}
         />
         {/* Share Button */}
-        <Button
-          ref={copyButtonRef}
-          data-share-toggle
-          onClick={() => setIsShareOpen((open) => !open)}
-          disabled={isSaving}
-          className="group relative hidden h-[33px] w-[33px] flex-shrink-0 !rounded-md bg-design-success !p-0 px-0 text-sm font-medium !shadow-[0px_2px_3px_rgba(0,0,0,0.06)] transition-all hover:bg-[#3dda69] active:scale-95 xl:inline xl:w-[127px] xl:px-0"
+        <BentoTooltip
+          content="Share your Portfolio"
+          disabled={isSaving || isShareOpen}
         >
-          <div className="flex h-full w-full items-center justify-center overflow-hidden rounded-md">
-            {isSaving ? (
-              <>
-                <LoaderIcon className="size-4" />
-                <span className="ml-1.5 hidden xl:inline">Saving...</span>
-              </>
-            ) : (
-              <>
-                <span className="hidden font-semibold xl:inline">
-                  Share my Link
-                </span>
-              </>
-            )}
-            {/* Shine effect */}
-            <div className="absolute inset-0 translate-x-[-100%] animate-[shine_4s_ease-in-out_infinite] bg-gradient-to-r from-transparent via-white/20 to-transparent" />
-          </div>
-          {/* Tooltip */}
-          {!isSaving && !isShareOpen && (
-            <div className="pointer-events-none absolute bottom-full left-1/2 z-50 mb-2 hidden min-w-max -translate-x-1/2 transform rounded-md border border-slate-100 bg-white px-2 py-1 text-[10px] font-normal leading-tight text-design-resume opacity-0 shadow-md transition-opacity delay-700 duration-200 group-hover:opacity-100 xl:block">
-              Share your Portfolio
+          <Button
+            ref={copyButtonRef}
+            data-share-toggle
+            onClick={() => setIsShareOpen((open) => !open)}
+            disabled={isSaving}
+            className="group relative hidden h-[33px] w-[33px] flex-shrink-0 !rounded-md bg-design-success !p-0 px-0 text-sm font-medium !shadow-[0px_2px_3px_rgba(0,0,0,0.06)] transition-all hover:bg-[#3dda69] active:scale-95 xl:inline xl:w-[125px] xl:px-0"
+          >
+            <div className="flex h-full w-full items-center justify-center overflow-hidden rounded-md">
+              {isSaving ? (
+                <>
+                  <LoaderIcon className="size-4" />
+                  <span className="ml-1.5 hidden xl:inline">Saving...</span>
+                </>
+              ) : (
+                <>
+                  <span className="hidden font-semibold xl:inline">
+                    Share my Link
+                  </span>
+                </>
+              )}
+              {/* bento's glare: a blurred white bar sweeping across every 4s */}
+              <div className="bento-shine pointer-events-none absolute -top-5 h-[calc(100%+40px)] w-[50px] rotate-[20deg] bg-white/60 blur-[20px]" />
             </div>
-          )}
-        </Button>
+          </Button>
+        </BentoTooltip>
 
         {/* Divider */}
-        <div className="hidden h-4 w-[2px] flex-shrink-0 rounded-lg bg-black/[0.08] xl:inline" />
+        <div className="hidden h-4 w-[2px] flex-shrink-0 rounded-lg bg-black/[0.08] xl:ml-4 xl:inline" />
 
-        <div className="block">
+        <div className="block xl:ml-[19.5px]">
           <SectionActionBar
             onAddLink={onAddLink}
             onAddImage={onAddImage}
@@ -136,49 +136,43 @@ export default function DockActionBar({
         </div>
 
         {/* Divider */}
-        <div className="hidden h-4 w-[2px] flex-shrink-0 rounded-lg bg-black/[0.08] xl:block" />
+        <div className="hidden h-4 w-[2px] flex-shrink-0 rounded-lg bg-black/[0.08] xl:ml-[19.5px] xl:block" />
 
         {/* Desktop/Mobile Toggle */}
-        <div className="hidden flex-shrink-0 items-center space-x-1 xl:flex">
-          <button
-            onClick={() => onViewModeChange?.('desktop')}
-            className={`group relative h-[33px] w-[50px] !rounded-md transition-all active:scale-95 ${
-              viewMode === 'desktop'
-                ? 'bg-black text-white'
-                : 'bg-transparent text-black hover:bg-black/5'
-            }`}
-          >
-            <div className="flex h-full items-center justify-center overflow-hidden rounded-md">
-              <LaptopIcon className="size-4" />
-              {/* Shine effect */}
-              <div className="absolute inset-0 translate-x-[-100%] animate-[shine_4s_ease-in-out_infinite] bg-gradient-to-r from-transparent via-white/10 to-transparent" />
-            </div>
-            {/* Tooltip */}
-            <div className="pointer-events-none absolute bottom-full left-1/2 z-50 mb-2 min-w-max -translate-x-1/2 transform rounded-md border border-slate-100 bg-white px-2 py-1 text-[10px] font-normal leading-tight text-design-resume opacity-0 shadow-md transition-opacity delay-700 duration-200 group-hover:opacity-100">
-              <div>Edit how your Bento</div>
-              <div>looks on computers</div>
-            </div>
-          </button>
+        <div className="hidden flex-shrink-0 items-center space-x-1 xl:ml-[16.5px] xl:flex">
+          <BentoTooltip content="Edit how your Bento looks on computers">
+            <button
+              onClick={() => onViewModeChange?.('desktop')}
+              className={`group relative h-[33px] w-[50px] !rounded-md transition-all active:scale-95 ${
+                viewMode === 'desktop'
+                  ? 'bg-black text-white'
+                  : 'bg-transparent text-black hover:bg-black/5'
+              }`}
+            >
+              <div className="flex h-full items-center justify-center overflow-hidden rounded-md">
+                <LaptopIcon className="size-4" />
+                {/* Shine effect */}
+                <div className="absolute inset-0 translate-x-[-100%] animate-[shine_4s_ease-in-out_infinite] bg-gradient-to-r from-transparent via-white/10 to-transparent" />
+              </div>
+            </button>
+          </BentoTooltip>
 
-          <button
-            onClick={() => onViewModeChange?.('mobile')}
-            className={`group relative h-[33px] w-[50px] !rounded-md transition-all active:scale-95 ${
-              viewMode === 'mobile'
-                ? 'bg-black text-white'
-                : 'bg-transparent text-black hover:bg-black/5'
-            }`}
-          >
-            <div className="flex h-full items-center justify-center overflow-hidden rounded-md">
-              <MobileIcon className="size-4" />
-              {/* Shine effect */}
-              <div className="absolute inset-0 translate-x-[-100%] animate-[shine_4s_ease-in-out_infinite] bg-gradient-to-r from-transparent via-white/10 to-transparent" />
-            </div>
-            {/* Tooltip */}
-            <div className="pointer-events-none absolute bottom-full left-1/2 z-50 mb-2 min-w-max -translate-x-1/2 transform rounded-md border border-slate-100 bg-white px-2 py-1 text-[10px] font-normal leading-tight text-design-resume opacity-0 shadow-md transition-opacity delay-700 duration-200 group-hover:opacity-100">
-              <div>Edit how your Bento</div>
-              <div>looks on phones</div>
-            </div>
-          </button>
+          <BentoTooltip content="Edit how your Bento looks on phones">
+            <button
+              onClick={() => onViewModeChange?.('mobile')}
+              className={`group relative h-[33px] w-[50px] !rounded-md transition-all active:scale-95 ${
+                viewMode === 'mobile'
+                  ? 'bg-black text-white'
+                  : 'bg-transparent text-black hover:bg-black/5'
+              }`}
+            >
+              <div className="flex h-full items-center justify-center overflow-hidden rounded-md">
+                <MobileIcon className="size-4" />
+                {/* Shine effect */}
+                <div className="absolute inset-0 translate-x-[-100%] animate-[shine_4s_ease-in-out_infinite] bg-gradient-to-r from-transparent via-white/10 to-transparent" />
+              </div>
+            </button>
+          </BentoTooltip>
         </div>
       </div>
 
