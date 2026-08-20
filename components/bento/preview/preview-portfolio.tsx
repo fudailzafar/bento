@@ -1,10 +1,9 @@
 'use client';
 
 import { Header } from './header';
-import { LoadingFallback } from '@/components/utils';
 import { PageData, Block } from '@/lib';
 import { Settings } from '@/components/common';
-import { BentoGrid } from '../grid';
+import { BentoGrid, type UploadState } from '../grid';
 import { useAnalytics } from '@/hooks';
 
 interface PreviewPortfolioProps {
@@ -15,6 +14,7 @@ interface PreviewPortfolioProps {
   onImageChange?: (newImageUrl: string | null) => void;
   username?: string;
   viewMode?: 'desktop' | 'mobile';
+  uploads?: Record<string, UploadState>;
 }
 
 export const PreviewPortfolio = ({
@@ -25,10 +25,11 @@ export const PreviewPortfolio = ({
   onImageChange,
   username,
   viewMode = 'desktop',
+  uploads,
 }: PreviewPortfolioProps) => {
   const analytics = useAnalytics(isEditMode);
   if (!page) {
-    return <LoadingFallback message="Loading Portfolio..." />;
+    return null;
   }
 
   const handleBlocksChange = (newBlocks: Block[]) => {
@@ -37,7 +38,7 @@ export const PreviewPortfolio = ({
 
   return (
     <div
-      className={`flex min-h-screen w-full flex-col ${viewMode === 'mobile' ? 'flex-col' : 'xl:flex-row xl:gap-7'}`}
+      className={`flex min-h-screen w-full flex-col ${viewMode === 'mobile' ? 'flex-col' : 'mx-auto max-w-[380px] xl:max-w-none xl:flex-row xl:gap-7'}`}
     >
       <section
         className={`top-0 w-full self-start bg-background pt-8 font-sans antialiased ${viewMode === 'mobile' ? 'w-full' : 'xl:sticky xl:w-[500px] xl:py-16'}`}
@@ -64,7 +65,7 @@ export const PreviewPortfolio = ({
         />
       </section>
       <section
-        className={`relative w-full bg-background py-1 font-sans antialiased ${viewMode === 'mobile' ? 'w-full px-4' : 'xl:w-[860px] xl:px-4 xl:py-8'}`}
+        className={`relative w-full bg-background py-1 font-sans antialiased ${viewMode === 'mobile' ? 'w-full' : 'xl:w-[860px] xl:px-4 xl:py-8'}`}
         aria-label="Preview Portfolio Content"
       >
         <div className="relative flex flex-col gap-6 xl:pb-36">
@@ -74,9 +75,10 @@ export const PreviewPortfolio = ({
               blocks={page.blocks || []}
               onBlocksChange={handleBlocksChange}
               clicks={analytics.data?.clicks}
+              forceMobile={viewMode === 'mobile'}
+              uploads={uploads}
             />
           </div>
-
 
           {/* Mobile Header at bottom */}
           <Settings />

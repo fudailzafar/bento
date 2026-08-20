@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
-import { Responsive, WidthProvider, Layout } from 'react-grid-layout';
+import { Responsive, Layout } from 'react-grid-layout';
 import 'react-grid-layout/css/styles.css';
 import { Block, BlockType, defaultBlockData } from '@/lib';
 import { MousePointerClick } from 'lucide-react';
@@ -12,46 +12,28 @@ import { fetchLinkPreview, isVideoFile, uploadBlockMedia } from '@/lib/media';
 import { findPlatform } from '@/lib/platforms';
 import { cn } from '@/lib/utils';
 import { BlockContent, type BlockEditing } from './block-content';
+import {
+  DESKTOP_MIN_WIDTH,
+  PHONE_COLUMNS,
+  packInOrder,
+  phonePlacements,
+  readingOrder,
+  withPhoneLayout,
+} from '@/lib/layout';
 import { CropDialog } from './editing/crop-dialog';
 import { NO_DRAG } from './editing/no-drag';
 import { WidgetToolbar } from './editing/widget-toolbar';
 import { tileAspect } from './link-tile';
 
-const ResponsiveGridLayout = WidthProvider(Responsive);
-
 type GridProps = React.ComponentProps<typeof Responsive>;
 
-// bento.me's grid engine switches to the desktop layout at this width.
-const DESKTOP_MIN_WIDTH = 1260;
 const MOBILE_GAP = 24;
 
-// bento's phone layout: two columns, so a small square is half the width and
-// anything wider spans both. Blocks are re-flowed in reading order.
-function toMobileLayout(layout: Layout[]): Layout[] {
-  const filled: boolean[][] = [];
-  const free = (x: number, y: number, w: number, h: number) => {
-    for (let row = y; row < y + h; row++)
-      for (let col = x; col < x + w; col++)
-        if (filled[row]?.[col]) return false;
-    return true;
-  };
-  return [...layout]
-    .sort((a, b) => a.y - b.y || a.x - b.x)
-    .map((item) => {
-      const w = Math.min(item.w, 2);
-      let y = 0;
-      for (; ; y++) {
-        for (let x = 0; x + w <= 2; x++) {
-          if (free(x, y, w, item.h)) {
-            for (let row = y; row < y + item.h; row++) {
-              filled[row] ??= [];
-              for (let col = x; col < x + w; col++) filled[row][col] = true;
-            }
-            return { ...item, x, y, w, maxW: 2 };
-          }
-        }
-      }
-    });
+// A file on its way up: its picture, and how far along it is (0–1).
+export interface UploadState {
+  preview?: string;
+  kind: 'image' | 'video';
+  progress: number;
 }
 
 interface BentoGridProps {
@@ -60,6 +42,10 @@ interface BentoGridProps {
   onBlocksChange?: (newBlocks: Block[]) => void;
   // Link clicks per block, shown on hover in the editor.
   clicks?: Record<string, number>;
+  // The editor's phone view: the phone layout whatever the window's width.
+  forceMobile?: boolean;
+  // Uploads started outside the grid (a new widget made from a chosen file).
+  uploads?: Record<string, UploadState>;
 }
 
 export function BentoGrid({
@@ -67,18 +53,24 @@ export function BentoGrid({
   blocks = [],
   onBlocksChange,
   clicks,
+  forceMobile = false,
+  uploads: externalUploads,
 }: BentoGridProps) {
   const [mounted, setMounted] = useState(false);
   // The widget being edited in place: its toolbar stays open.
   const [selectedId, setSelectedId] = useState<string | null>(null);
-  const [uploadingIds, setUploadingIds] = useState<string[]>([]);
+  // Files being uploaded: the picture shows straight away, with a progress ring.
+  const [ownUploads, setUploads] = useState<Record<string, UploadState>>({});
+  const uploads = { ...ownUploads, ...externalUploads };
   const [croppingBlockId, setCroppingBlockId] = useState<string | null>(null);
   const blocksRef = useRef(blocks);
+  // The widgets there when the grid first shows: only they animate in.
+  const loadedIds = useRef<Set<string> | null>(null);
   blocksRef.current = blocks;
 
-  // Public profile only: which bento layout to use, and the phone grid width
-  // (tile height follows width there, so squares stay square).
-  const [desktop, setDesktop] = useState<boolean | null>(null);
+  // Which bento layout to use, and the grid's width (tile height follows it,
+  // so squares stay square).
+  const [wideScreen, setWideScreen] = useState<boolean | null>(null);
   const [width, setWidth] = useState(0);
   const wrapper = useRef<HTMLDivElement>(null);
 
@@ -105,9 +97,8 @@ export function BentoGrid({
   }, [selectedId]);
 
   useEffect(() => {
-    if (isEditMode) return;
     const mql = window.matchMedia(`(min-width: ${DESKTOP_MIN_WIDTH}px)`);
-    const onChange = () => setDesktop(mql.matches);
+    const onChange = () => setWideScreen(mql.matches);
     onChange();
     mql.addEventListener('change', onChange);
     const observer = new ResizeObserver(([entry]) =>
@@ -122,7 +113,8 @@ export function BentoGrid({
       mql.removeEventListener('change', onChange);
       observer.disconnect();
     };
-  }, [isEditMode, mounted]);
+  }, [mounted]);
+  const desktop = wideScreen === null ? null : wideScreen && !forceMobile;
 
   const gridLayouts: Layout[] = blocks.map((block) => ({
     i: block.id,
@@ -161,6 +153,19 @@ export function BentoGrid({
 
   const updateBlockSize = (id: string, w: number, h: number) => {
     if (!onBlocksChange) return;
+    if (desktop === false) {
+      // A size set in the phone view is the phone layout's own.
+      const resized = phonePlacements(blocksRef.current).map((p) =>
+        p.id === id ? { ...p, w: Math.min(w, PHONE_COLUMNS), h } : p
+      );
+      onBlocksChange(
+        withPhoneLayout(
+          blocksRef.current,
+          packInOrder(readingOrder(resized), PHONE_COLUMNS)
+        )
+      );
+      return;
+    }
     onBlocksChange(
       blocksRef.current.map((block) =>
         block.id === id ? { ...block, w, h } : block
@@ -187,9 +192,19 @@ export function BentoGrid({
     file: File,
     field: 'url' | 'image' | 'gallery'
   ) => {
-    setUploadingIds((ids) => [...ids, id]);
+    const preview = field === 'url' ? URL.createObjectURL(file) : undefined;
+    setUploads((u) => ({
+      ...u,
+      [id]: {
+        preview,
+        kind: isVideoFile(file) ? 'video' : 'image',
+        progress: 0,
+      },
+    }));
     try {
-      const url = await uploadBlockMedia(file);
+      const url = await uploadBlockMedia(file, 'image.jpg', (progress) =>
+        setUploads((u) => (u[id] ? { ...u, [id]: { ...u[id], progress } } : u))
+      );
       patchBlock(
         id,
         field === 'url'
@@ -216,7 +231,10 @@ export function BentoGrid({
         error instanceof Error ? error.message : 'Failed to upload file'
       );
     } finally {
-      setUploadingIds((ids) => ids.filter((x) => x !== id));
+      setUploads(({ [id]: done, ...rest }) => {
+        if (done?.preview) URL.revokeObjectURL(done.preview);
+        return rest;
+      });
     }
   };
 
@@ -242,7 +260,11 @@ export function BentoGrid({
     onPatch: (patch) => patchBlock(block.id, patch),
     onSetUrl: (url) => setLinkUrl(block.id, url),
     onUpload: (file, field) => uploadInto(block.id, file, field),
-    uploading: uploadingIds.includes(block.id),
+    uploading: block.id in uploads,
+    preview: uploads[block.id]?.preview
+      ? { url: uploads[block.id].preview!, kind: uploads[block.id].kind }
+      : undefined,
+    progress: uploads[block.id]?.progress,
   });
 
   const deleteBlock = (id: string) => {
@@ -284,44 +306,72 @@ export function BentoGrid({
   const croppingData = croppingBlock?.data as
     { url?: string; original?: string } | undefined;
 
-  // The public profile uses bento's two layouts: 4 columns with 40px gaps from
-  // 1260px, otherwise 2 columns with 24px gaps and tiles scaled to the width.
-  // The editor keeps its own breakpoints so saved positions stay untouched.
+  // bento's two layouts, in the editor and on the public profile alike: 4
+  // columns with 40px gaps from 1280px, otherwise 2 columns with 24px gaps
+  // and tiles scaled to the width (a phone, a tablet and the editor's phone
+  // view are the same layout). Tile height follows width, so squares stay
+  // square.
   const publicMode = !isEditMode;
-  if (publicMode && (desktop === null || width === 0)) {
+  if (desktop === null || width === 0) {
     return <div ref={wrapper} className="w-full" />;
   }
-  const mobileRow = ((width - MOBILE_GAP) / 2 - MOBILE_GAP) / 2;
-  const publicLayout = desktop ? gridLayouts : toMobileLayout(gridLayouts);
-  const gridProps: Partial<GridProps> = publicMode
-    ? {
-        layouts: { lg: publicLayout },
-        breakpoints: { lg: 0 },
-        width,
-        cols: { lg: desktop ? 4 : 2 },
-        rowHeight: desktop ? 67.5 : mobileRow,
-        margin: (desktop ? [40, 40] : [MOBILE_GAP, MOBILE_GAP]) as [
-          number,
-          number,
-        ],
-      }
-    : {
-        layouts: {
-          lg: gridLayouts,
-          md: gridLayouts,
-          sm: gridLayouts,
-          xs: gridLayouts,
-          xxs: gridLayouts,
-        },
-        breakpoints: { lg: 1200, md: 800, sm: 530, xs: 400, xxs: 0 },
-        cols: { lg: 4, md: 4, sm: 2, xs: 1, xxs: 1 },
-        rowHeight: 67.5,
-        margin: [40, 40] as [number, number],
-      };
-  // The public grid is sized from the measured wrapper width.
-  const Grid = (
-    publicMode ? Responsive : ResponsiveGridLayout
-  ) as React.ComponentType<GridProps>;
+  const cols = desktop ? 4 : 2;
+  const gap = desktop ? 40 : MOBILE_GAP;
+  const colWidth = (width - gap * (cols - 1)) / cols;
+  const rowHeight = (colWidth - gap) / 2;
+  // How much wider or narrower than bento's 175px tile this one is: notes
+  // scale their text and padding by it.
+  const scale = colWidth / 175;
+  // The phone layout has its own positions and sizes (derived from the desktop
+  // one until it is first edited).
+  const phoneById = new Map(
+    (desktop ? [] : phonePlacements(blocks)).map((p) => [p.id, p])
+  );
+  const publicLayout: Layout[] = desktop
+    ? gridLayouts
+    : blocks.map((b) => {
+        const p = phoneById.get(b.id)!;
+        return {
+          i: b.id,
+          x: p.x,
+          y: p.y,
+          w: p.w,
+          h: p.h,
+          minW: 1,
+          minH: 1,
+          maxW: PHONE_COLUMNS,
+          maxH: 4,
+          isDraggable: isEditMode,
+          isResizable: false,
+        };
+      });
+  // The blocks as the current layout sees them: their size there decides how
+  // a widget draws.
+  const viewBlocks = blocks.map((b) => {
+    const p = phoneById.get(b.id);
+    return p ? { ...b, x: p.x, y: p.y, w: p.w, h: p.h } : b;
+  });
+  const gridProps: Partial<GridProps> = {
+    layouts: { lg: publicLayout },
+    breakpoints: { lg: 0 },
+    width,
+    cols: { lg: cols },
+    rowHeight,
+    margin: [gap, gap] as [number, number],
+  };
+  const Grid = Responsive as React.ComponentType<GridProps>;
+  // Dropping a widget in the phone layout saves the phone layout; the desktop
+  // one is left as it is.
+  const commitPhoneLayout = (layout: Layout[]) => {
+    if (!onBlocksChange) return;
+    onBlocksChange(
+      withPhoneLayout(
+        blocksRef.current,
+        layout.map((l) => ({ id: l.i, x: l.x, y: l.y, w: l.w, h: l.h }))
+      )
+    );
+  };
+  loadedIds.current ??= new Set(blocks.map((b) => b.id));
   // bento staggers each widget by its grid position: 0.15s per tile across
   // and down, after 0.2s (0.5s on phones).
   const entranceDelay = (id: string) => {
@@ -333,15 +383,24 @@ export function BentoGrid({
   return (
     <div
       ref={wrapper}
-      className={publicMode ? 'w-full' : 'mx-auto w-full max-w-[820px] pb-32'}
+      className={
+        publicMode
+          ? 'w-full'
+          : cn(
+              'mx-auto w-full pb-32',
+              desktop ? 'max-w-[820px]' : 'max-w-[380px]'
+            )
+      }
     >
       <Grid
-        key={publicMode ? (desktop ? 'desktop' : 'mobile') : 'editor'}
         className="layout"
         {...gridProps}
         containerPadding={[0, 0]}
         onLayoutChange={(layout) => {
-          if (isEditMode) handleGridLayoutChange(layout);
+          if (isEditMode && desktop) handleGridLayoutChange(layout);
+        }}
+        onDragStop={(layout) => {
+          if (isEditMode && !desktop) commitPhoneLayout(layout);
         }}
         isDraggable={isEditMode}
         draggableCancel={`.${NO_DRAG}`}
@@ -349,7 +408,7 @@ export function BentoGrid({
         compactType="vertical"
         useCSSTransforms={true}
       >
-        {blocks.map((block) => {
+        {viewBlocks.map((block) => {
           const data = block.data as { url?: string; href?: string };
           // Any widget with a link tints and presses down, as on bento.
           const clickable =
@@ -367,14 +426,24 @@ export function BentoGrid({
               style={
                 {
                   '--widget-radius': `${widgetRadius(block)}px`,
+                  // Notes scale with the tile; link tiles pad 24px, or 20px
+                  // on phones.
+                  '--ws': scale,
+                  '--tile-pad': desktop ? '24px' : '20px',
                   // bento's caption tag: 10px on the large square, else 8px.
                   '--caption-radius':
                     block.w >= 2 && block.h >= 4 ? '10px' : '8px',
                 } as React.CSSProperties
               }
               className={cn(
-                'relative h-full w-full rounded-[var(--widget-radius)] [transition:box-shadow_.2s_ease-in-out,transform_.24s_cubic-bezier(.43,.01,.29,1),background_.2s_cubic-bezier(.43,.01,.29,1)]',
+                'rounded-[var(--widget-radius)] [transition:box-shadow_.2s_ease-in-out,transform_.24s_cubic-bezier(.43,.01,.29,1),background_.2s_cubic-bezier(.43,.01,.29,1)]',
+                // bento's section title is 60px tall, sitting on the bottom
+                // of its row so it stays 40px above what it introduces.
+                label
+                  ? 'absolute inset-x-0 bottom-0 h-[60px]'
+                  : 'relative h-full w-full',
                 !label && 'bg-card shadow-[0_2px_4px_rgba(0,0,0,.04)]',
+                label && selected && 'bg-card',
                 clickable &&
                   'group/card cursor-pointer active:scale-[.97] active:shadow-none',
                 selected &&
@@ -388,6 +457,18 @@ export function BentoGrid({
                   edit={isEditMode ? editingFor(block) : undefined}
                 />
               </div>
+              {label && isEditMode && (
+                // The title shows its outline while editing: a hairline on
+                // hover, 2px black when selected.
+                <div
+                  className={cn(
+                    'pointer-events-none absolute inset-0 rounded-[inherit] border transition-[border,opacity] duration-200 ease-in-out',
+                    selected
+                      ? 'border-2 border-black'
+                      : 'border-black/[.08] opacity-0 group-hover:opacity-100'
+                  )}
+                />
+              )}
               {!label && (
                 <>
                   <div className="pointer-events-none absolute inset-px rounded-[calc(var(--widget-radius)-1px)] border border-white/[.22] [mask-image:linear-gradient(0deg,transparent,#000)]" />
@@ -411,11 +492,13 @@ export function BentoGrid({
               className={cn(
                 'group relative overflow-visible',
                 isEditMode && 'cursor-grab hover:z-50 active:cursor-grabbing',
-                selectedId === block.id && 'z-50'
+                selectedId === block.id && 'z-[60] hover:z-[60]'
               )}
             >
-              {publicMode ? (
-                // bento's entrance: fade in and rise 60px over 1s, slight overshoot.
+              {publicMode || loadedIds.current?.has(block.id) ? (
+                // bento's entrance, on the public profile and in the editor:
+                // fade in and rise 60px over 1s, slight overshoot. A widget
+                // added in the editor just appears.
                 <motion.div
                   className="h-full w-full"
                   initial={{ opacity: 0, y: 60 }}
@@ -458,7 +541,7 @@ export function BentoGrid({
                   {block.type !== 'SECTION_TITLE' && (
                     <div
                       className={cn(
-                        'absolute -bottom-6 left-1/2 z-50 -translate-x-1/2 opacity-0 transition-opacity group-hover:opacity-100',
+                        'absolute -bottom-7 left-1/2 z-50 -translate-x-1/2 opacity-0 transition-opacity group-hover:opacity-100',
                         selectedId === block.id
                           ? 'opacity-100'
                           : 'pointer-events-none group-hover:pointer-events-auto'
@@ -469,8 +552,6 @@ export function BentoGrid({
                         block={block}
                         onResize={(w, h) => updateBlockSize(block.id, w, h)}
                         onPatch={(patch) => patchBlock(block.id, patch)}
-                        onSetUrl={(url) => setLinkUrl(block.id, url)}
-                        onReplace={(file) => uploadInto(block.id, file, 'url')}
                         onCrop={() => setCroppingBlockId(block.id)}
                       />
                     </div>
