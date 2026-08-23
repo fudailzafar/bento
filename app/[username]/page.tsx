@@ -1,18 +1,6 @@
 import { redirect } from 'next/navigation';
-import Link from 'next/link';
 import { Metadata } from 'next';
-import { cn } from '@/lib';
 import { getUserData } from './utils';
-import { LinkedInIcon, XIcon, GitHubIcon } from '@/components/icons';
-import { Notebook } from 'lucide-react';
-import { Dock, DockClient, DockIcon } from '@/components/magicui';
-import {
-  buttonVariants,
-  Separator,
-  Tooltip,
-  TooltipContent,
-  TooltipTrigger,
-} from '@/components/ui';
 import { PublicPortfolio } from '@/components/bento';
 import { createClient } from '@/lib/supabase/server';
 import { ProfileCta, TrackView, type ProfileViewer } from '@/components/common';
@@ -20,53 +8,6 @@ import { prisma } from '@/lib/server/db';
 import { SelfPortfolioLoader } from '@/components/preview';
 import { ClaimUsername } from '@/components/auth';
 import { isReservedUsername, isValidUsername } from '@/lib/routes';
-
-function getSocialLinks(page?: {
-  website?: string | null;
-  github?: string | null;
-  twitter?: string | null;
-  linkedin?: string | null;
-}) {
-  if (!page) return {};
-
-  const prefixUrl = (stringToFix?: string | null) => {
-    if (!stringToFix) return undefined;
-    const url = stringToFix.trim();
-    return url.startsWith('http') ? url : `https://${url}`;
-  };
-
-  const formatSocialUrl = (
-    url: string | null | undefined,
-    platform: 'github' | 'twitter' | 'linkedin'
-  ) => {
-    if (!url) return undefined;
-
-    const cleanUrl = url.trim();
-    if (cleanUrl.startsWith('http')) return cleanUrl;
-
-    if (
-      platform === 'twitter' &&
-      (cleanUrl.startsWith('twitter.com') || cleanUrl.startsWith('x.com'))
-    ) {
-      return `https://${cleanUrl}`;
-    }
-
-    const platformUrls = {
-      github: 'github.com',
-      twitter: 'x.com',
-      linkedin: 'linkedin.com/in',
-    } as const;
-
-    return `https://${platformUrls[platform]}/${cleanUrl}`;
-  };
-
-  return {
-    website: prefixUrl(page.website),
-    github: formatSocialUrl(page.github, 'github'),
-    twitter: formatSocialUrl(page.twitter, 'twitter'),
-    linkedin: formatSocialUrl(page.linkedin, 'linkedin'),
-  };
-}
 
 export async function generateMetadata({
   params,
@@ -144,14 +85,13 @@ export default async function ProfilePage({
   // A signed-in visitor gets bento's "My Bento" link instead of the sign-up CTA.
   const viewerRow = user
     ? await prisma.user.findUnique({
-      where: { id: user.id },
-      select: { username: true, image: true },
-    })
+        where: { id: user.id },
+        select: { username: true, image: true },
+      })
     : null;
   const viewer: ProfileViewer = viewerRow?.username
     ? { username: viewerRow.username, image: viewerRow.image }
     : null;
-  const socialLinks = getSocialLinks(page);
 
   const jsonLd = {
     '@context': 'https://schema.org',
@@ -175,114 +115,6 @@ export default async function ProfilePage({
 
       <ProfileCta viewer={viewer} />
       <TrackView username={username} />
-
-      {/* Dock */}
-      <div className="pointer-events-none fixed inset-x-0 bottom-0 z-30 mx-auto mb-4 flex h-full max-h-14 origin-bottom">
-        <div className="fixed inset-x-0 bottom-0 h-16 w-full bg-background to-transparent backdrop-blur-lg [-webkit-mask-image:linear-gradient(to_top,black,transparent)] dark:bg-background"></div>
-
-        <Dock className="pointer-events-auto relative z-50 mx-auto flex h-full min-h-full transform-gpu items-center bg-background px-1 [box-shadow:0_0_0_1px_rgba(0,0,0,.03),0_2px_4px_rgba(0,0,0,.05),0_12px_24px_rgba(0,0,0,.05)] dark:[border:1px_solid_rgba(255,255,255,.1)] dark:[box-shadow:0_-20px_80px_-20px_#ffffff1f_inset]">
-          <DockClient />
-
-          {/* Social Links */}
-          {socialLinks.website && (
-            <DockIcon>
-              <Tooltip>
-                <TooltipTrigger asChild>
-                  <Link
-                    href={socialLinks.website}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    aria-label="Website"
-                    className={cn(
-                      buttonVariants({ variant: 'ghost', size: 'icon' }),
-                      'size-12 rounded-full'
-                    )}
-                  >
-                    <Notebook className="size-4" />
-                  </Link>
-                </TooltipTrigger>
-                <TooltipContent>
-                  <p>Blog</p>
-                </TooltipContent>
-              </Tooltip>
-            </DockIcon>
-          )}
-
-          <Separator orientation="vertical" className="h-full" />
-
-          {socialLinks.github && (
-            <DockIcon>
-              <Tooltip>
-                <TooltipTrigger asChild>
-                  <Link
-                    href={socialLinks.github}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    aria-label="GitHub"
-                    className={cn(
-                      buttonVariants({ variant: 'ghost', size: 'icon' }),
-                      'size-12 rounded-full'
-                    )}
-                  >
-                    <GitHubIcon className="size-4" />
-                  </Link>
-                </TooltipTrigger>
-                <TooltipContent>
-                  <p>GitHub</p>
-                </TooltipContent>
-              </Tooltip>
-            </DockIcon>
-          )}
-
-          {socialLinks.twitter && (
-            <DockIcon>
-              <Tooltip>
-                <TooltipTrigger asChild>
-                  <Link
-                    href={socialLinks.twitter}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    aria-label="Twitter"
-                    className={cn(
-                      buttonVariants({ variant: 'ghost', size: 'icon' }),
-                      'size-12 rounded-full'
-                    )}
-                  >
-                    <XIcon className="size-4" />
-                  </Link>
-                </TooltipTrigger>
-                <TooltipContent>
-                  <p>Twitter</p>
-                </TooltipContent>
-              </Tooltip>
-            </DockIcon>
-          )}
-
-          {socialLinks.linkedin && (
-            <DockIcon>
-              <Tooltip>
-                <TooltipTrigger asChild>
-                  <Link
-                    href={socialLinks.linkedin}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    aria-label="LinkedIn"
-                    className={cn(
-                      buttonVariants({ variant: 'ghost', size: 'icon' }),
-                      'size-12 rounded-full'
-                    )}
-                  >
-                    <LinkedInIcon className="size-4" />
-                  </Link>
-                </TooltipTrigger>
-                <TooltipContent>
-                  <p>LinkedIn</p>
-                </TooltipContent>
-              </Tooltip>
-            </DockIcon>
-          )}
-        </Dock>
-      </div>
     </>
   );
 }

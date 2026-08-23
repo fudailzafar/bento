@@ -1,7 +1,8 @@
 'use client';
 
 import { useState, useRef } from 'react';
-import { BlurFade, BlurFadeText } from '@/components/magicui';
+import { BlurFadeText } from '@/components/magicui';
+import { useProfileEntrance } from './profile-entrance';
 import { ProfileImageField } from '@/components/bento/editing';
 import { toast } from 'sonner';
 import confetti from 'canvas-confetti';
@@ -40,6 +41,7 @@ export function Header({
   const aboutRef = useRef<HTMLParagraphElement>(null);
 
   const BLUR_FADE_DELAY = 0.04;
+  const { column, avatar } = useProfileEntrance();
 
   const handleCopyLink = async () => {
     if (!username) return;
@@ -132,6 +134,8 @@ export function Header({
 
   return (
     <header
+      ref={column}
+      style={{ opacity: 0 }}
       className={`flex flex-col-reverse gap-2 ${viewMode === 'mobile' ? 'items-start px-4' : 'xl:items-start xl:px-4'}`}
     >
       <div className="flex-1 space-y-1.5">
@@ -240,7 +244,7 @@ export function Header({
           />
         )}
       </div>
-      <BlurFade delay={BLUR_FADE_DELAY}>
+      <div ref={avatar} className="w-fit">
         <ProfileImageField
           name={header.name || 'Your Name'}
           currentImage={picture}
@@ -251,7 +255,7 @@ export function Header({
           isSaving={isCopying}
           viewMode={viewMode}
         />
-      </BlurFade>
+      </div>
     </header>
   );
 }

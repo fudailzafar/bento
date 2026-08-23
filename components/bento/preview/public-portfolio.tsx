@@ -1,11 +1,8 @@
 'use client';
 
-import { useEffect, useRef } from 'react';
 import { PageData } from '@/lib';
 import { BentoGrid } from '../grid';
-
-// Desktop starts here, as in bento's grid engine.
-const DESKTOP_MIN_WIDTH = 1260;
+import { useProfileEntrance } from './profile-entrance';
 
 // bento.me's profile column: avatar, name and bio. On load it fades in;
 // on desktop it also rises 40px and the avatar straightens from -8°.
@@ -18,32 +15,7 @@ function PublicProfile({
   bio?: string | null;
   picture?: string;
 }) {
-  const column = useRef<HTMLDivElement>(null);
-  const avatar = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const el = column.current;
-    if (!el) return;
-    const desktop = window.innerWidth >= DESKTOP_MIN_WIDTH;
-    if (desktop) el.style.transform = 'translate(0, 40px)';
-    if (avatar.current) {
-      avatar.current.style.transform = desktop
-        ? 'rotateZ(-8deg)'
-        : 'rotateZ(0deg)';
-    }
-    const timeout = setTimeout(() => {
-      el.style.transition =
-        'opacity 1s cubic-bezier(0.42, 0, 0.25, 1), transform 1s cubic-bezier(0.2, 1.18, 0.47, 1)';
-      el.style.opacity = '1';
-      el.style.transform = 'translate(0, 0px)';
-      if (avatar.current) {
-        avatar.current.style.transition =
-          'transform 1s cubic-bezier(0.2, 1.18, 0.47, 1)';
-        avatar.current.style.transform = 'rotateZ(0deg)';
-      }
-    }, 0);
-    return () => clearTimeout(timeout);
-  }, []);
+  const { column, avatar } = useProfileEntrance();
 
   return (
     <div
@@ -110,7 +82,9 @@ export const PublicPortfolio = ({
           </div>
           <div className="flex h-full w-full max-w-[428px] flex-1 flex-col p-6 pt-0 xl:max-w-[1728px] xl:flex-row xl:p-16">
             <div className="mb-10 flex flex-col px-4 xl:mb-0 xl:mr-20 xl:flex-1 xl:px-0" />
-            <div className="relative flex-1 xl:w-[820px] xl:flex-none">
+            {/* bento leaves 73px under the grid on phones and tablets, and 190px
+                beside the profile, so the last row clears the visitor bar. */}
+            <div className="relative flex-1 pb-[73px] xl:w-[820px] xl:flex-none xl:pb-[190px]">
               <BentoGrid isEditMode={false} blocks={page.blocks || []} />
             </div>
           </div>
