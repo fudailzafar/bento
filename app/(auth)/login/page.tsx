@@ -56,7 +56,10 @@ export default function LoginPage() {
     setLoggingIn('google');
     const { error: oauthError } = await supabase.auth.signInWithOAuth({
       provider: 'google',
-      options: { redirectTo: `${window.location.origin}/auth/callback` },
+      // Back to the login page, which fades out into the signed-in profile.
+      options: {
+        redirectTo: `${window.location.origin}/auth/callback?next=/login`,
+      },
     });
     if (oauthError) {
       setError(`Something went wrong. Try again later. (Code: ${oauthError.code ?? oauthError.status})`);
