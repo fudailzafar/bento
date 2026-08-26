@@ -1,12 +1,14 @@
 'use client';
 
-import { useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { ImagePlus, X } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { findPlatform, handleFrom, hostOf } from '@/lib/platforms';
 import { PLATFORM_ICONS } from '@/lib/platform-icons';
 import { NO_DRAG } from './editing/no-drag';
+import { Skeleton } from './skeleton';
 import {
+  LinkIcon,
   DeletePictureIcon,
   UploadPictureIcon,
   WebsitePictureIcon,
@@ -151,14 +153,22 @@ function Icon({
   src,
   url,
   small,
+  favicon,
+  loading,
 }: {
   icon?: string;
   src?: string;
   url: string;
   // bento's bar links use a 28px icon with 7px corners.
   small?: boolean;
+  // The site's icon; unset or failing to load, bento's link icon shows.
+  favicon?: string;
+  // The link's details are still being fetched.
+  loading?: boolean;
 }) {
   const svg = icon ? PLATFORM_ICONS[icon] : undefined;
+  const [state, setState] = useState<'loading' | 'ready' | 'failed'>('loading');
+  useEffect(() => setState('loading'), [favicon]);
   return (
     <div
       className={cn(
@@ -176,19 +186,41 @@ function Icon({
       ) : src ? (
         // eslint-disable-next-line @next/next/no-img-element
         <img src={src} alt="" className="h-full w-full" />
-      ) : (
+      ) : favicon ? (
         <div
           className={cn(
             'flex h-full w-full items-center justify-center bg-white',
-            small ? 'p-1.5' : 'p-2'
+            // bento pads a favicon, but not its link icon fallback.
+            state !== 'failed' && (small ? 'p-1' : 'p-2')
           )}
         >
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
-            src={`https://www.google.com/s2/favicons?domain=${hostOf(url)}&sz=64`}
-            alt=""
-            className="h-full w-full rounded-[4px] object-contain"
-          />
+          {state !== 'failed' && (
+            // eslint-disable-next-line @next/next/no-img-element
+            <img
+              src={favicon}
+              alt=""
+              referrerPolicy="no-referrer"
+              onLoad={() => setState('ready')}
+              onError={() => setState('failed')}
+              className={cn(
+                'h-full w-full object-contain',
+                small ? 'rounded-[6px]' : 'rounded-[4px]',
+                state !== 'ready' && 'opacity-0'
+              )}
+            />
+          )}
+          {state === 'loading' && (
+            <Skeleton className="absolute inset-0 rounded-[inherit]" />
+          )}
+          {state === 'failed' && (
+            <LinkIcon size={18} className="h-full w-full p-2.5 text-black" />
+          )}
+        </div>
+      ) : loading ? (
+        <Skeleton className="h-full w-full rounded-[inherit]" />
+      ) : (
+        <div className="flex h-full w-full items-center justify-center bg-white">
+          <LinkIcon size={18} className="h-full w-full p-2.5 text-black" />
         </div>
       )}
       <div className="pointer-events-none absolute inset-0 rounded-[inherit] shadow-[inset_0_0_0_1px_rgba(0,0,0,.06)]" />
@@ -202,6 +234,7 @@ function Preview(props: {
   images?: string[];
   large?: boolean;
   image?: string;
+  loading?: boolean;
   edit?: LinkTileEditing;
   // Live platform content, in place of the image.
   smart?: React.ReactNode;
@@ -335,6 +368,7 @@ function PreviewArea({
   images,
   large,
   image,
+  loading,
   edit,
 }: {
   posts?: boolean;
@@ -342,23 +376,11 @@ function PreviewArea({
   images?: string[];
   large?: boolean;
   image?: string;
+  loading?: boolean;
   edit?: LinkTileEditing;
 }) {
   // The page's Open Graph image, fetched when the link was added.
-  if (image) {
-    return (
-      <div className="relative h-full w-full overflow-hidden rounded-[10px] bg-black/[.04]">
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img
-          src={image}
-          alt=""
-          className="h-full w-full object-cover"
-          referrerPolicy="no-referrer"
-        />
-        <div className="pointer-events-none absolute inset-0 rounded-[inherit] shadow-[inset_0_0_0_1px_rgba(0,0,0,.06)]" />
-      </div>
-    );
-  }
+  if (image) return <PreviewImage src={image} />;
   if (posts) {
     return (
       <PostsGrid
@@ -369,9 +391,38 @@ function PreviewArea({
       />
     );
   }
+  // Still fetching: a skeleton the size of the preview.
+  if (loading) return <Skeleton className="h-full w-full rounded-[10px]" />;
+  // Visitors see nothing where there is no picture; the owner is told.
+  if (!edit) return null;
   return (
     <div className="flex h-full w-full items-center justify-center rounded-[10px] border border-black/[.08] bg-black/[.04] px-4 py-6 text-center text-xs text-black/60">
       Seems like there&apos;s no preview image.
+    </div>
+  );
+}
+
+// The picture, under a skeleton until it has loaded. A picture that fails
+// to load leaves the card blank.
+function PreviewImage({ src }: { src: string }) {
+  const [state, setState] = useState<'loading' | 'ready' | 'failed'>('loading');
+  useEffect(() => setState('loading'), [src]);
+  if (state === 'failed') return null;
+  return (
+    <div className="relative h-full w-full overflow-hidden rounded-[10px] bg-black/[.04]">
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img
+        src={src}
+        alt=""
+        className="h-full w-full object-cover"
+        referrerPolicy="no-referrer"
+        onLoad={() => setState('ready')}
+        onError={() => setState('failed')}
+      />
+      {state === 'loading' && (
+        <Skeleton className="absolute inset-0 rounded-[inherit]" />
+      )}
+      <div className="pointer-events-none absolute inset-0 rounded-[inherit] shadow-[inset_0_0_0_1px_rgba(0,0,0,.06)]" />
     </div>
   );
 }
@@ -384,6 +435,8 @@ export function LinkTile({
   bio,
   w,
   h,
+  favicon,
+  fetching,
   edit,
 }: {
   url: string;
@@ -393,6 +446,9 @@ export function LinkTile({
   bio?: string;
   w: number;
   h: number;
+  favicon?: string;
+  // The link's details are being fetched: skeletons show meanwhile.
+  fetching?: boolean;
   // In the editor: the title is typed into, the preview image can be set.
   edit?: LinkTileEditing;
 }) {
@@ -497,7 +553,14 @@ export function LinkTile({
           } as React.CSSProperties
         }
       >
-        <Icon icon={platform?.icon} src={platform?.iconSrc} url={url} small />
+        <Icon
+          icon={platform?.icon}
+          src={platform?.iconSrc}
+          url={url}
+          favicon={favicon}
+          loading={fetching}
+          small
+        />
         <div className="line-clamp-1 min-w-0 flex-1 text-sm leading-5 text-black">
           {titleText}
         </div>
@@ -522,7 +585,13 @@ export function LinkTile({
           data={rich}
           size={size}
           icon={
-            <Icon icon={platform?.icon} src={platform?.iconSrc} url={url} />
+            <Icon
+              icon={platform?.icon}
+              src={platform?.iconSrc}
+              url={url}
+              favicon={favicon}
+              loading={fetching}
+            />
           }
           title={titleText}
         />
@@ -575,12 +644,24 @@ export function LinkTile({
     >
       {topRight ? (
         <div className="flex w-full items-start">
-          <Icon icon={platform?.icon} src={platform?.iconSrc} url={url} />
+          <Icon
+            icon={platform?.icon}
+            src={platform?.iconSrc}
+            url={url}
+            favicon={favicon}
+            loading={fetching}
+          />
           <div className="flex-1" />
           {cta}
         </div>
       ) : (
-        <Icon icon={platform?.icon} src={platform?.iconSrc} url={url} />
+        <Icon
+          icon={platform?.icon}
+          src={platform?.iconSrc}
+          url={url}
+          favicon={favicon}
+          loading={fetching}
+        />
       )}
 
       {size === 'wide' && preview ? (
@@ -598,6 +679,7 @@ export function LinkTile({
               portrait={platform?.portrait}
               images={images}
               image={image}
+              loading={fetching}
               edit={edit}
               smart={smart}
             />
@@ -643,6 +725,7 @@ export function LinkTile({
                     images={images}
                     large={size === 'large'}
                     image={image}
+                    loading={fetching}
                     edit={edit}
                     smart={smart}
                   />
