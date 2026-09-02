@@ -46,6 +46,23 @@ const checkUsernameAvailability = async (
   return await response.json();
 };
 
+// Posts the page. `keepalive` lets the request finish after the tab closes.
+export async function postPage(page: PageData, keepalive = false) {
+  PageDataSchema.parse(page);
+  const response = await fetch('/api/page', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(page),
+    keepalive,
+  });
+  if (!response.ok) {
+    const error = await response.json().catch(() => null);
+    throw new Error(
+      (error && typeof error === 'object' && error.error) || 'Failed to save'
+    );
+  }
+}
+
 export function usePageActions() {
   const queryClient = useQueryClient();
   const router = useRouter();
@@ -53,6 +70,10 @@ export function usePageActions() {
   const pageQuery = useQuery({
     queryKey: ['page'],
     queryFn: fetchPage,
+    // Loaded once: the editor owns the page from then on.
+    staleTime: Infinity,
+    refetchOnWindowFocus: false,
+    refetchOnReconnect: false,
   });
 
   const usernameQuery = useQuery({
@@ -98,39 +119,12 @@ export function usePageActions() {
     },
   });
 
-  const savePageChanges = async (newPageData: PageData) => {
-    try {
-      PageDataSchema.parse(newPageData);
-
-      const response = await fetch('/api/page', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(newPageData),
-      });
-
-      if (!response.ok) {
-        const error = await response.json();
-        const message =
-          typeof error === 'object' && error !== null
-            ? (error.error || 'Unknown error') +
-              (error.details ? ': ' + JSON.stringify(error.details) : '')
-            : String(error);
-        throw new Error(message);
-      }
-
-      return { success: true };
-    } catch (error) {
-      if (error instanceof Error) {
-        throw new Error(`Validation failed: ${error.message}`);
-      }
-      throw error;
-    }
-  };
-
   const savePageMutation = useMutation({
-    mutationFn: savePageChanges,
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['page'] });
+    mutationFn: (page: PageData) => postPage(page),
+    // The editor keeps its own copy while editing; only the cache is
+    // updated, so no refetch ever replaces what is being typed.
+    onSuccess: (_data, page) => {
+      queryClient.setQueryData(['page'], { page });
     },
   });
 
