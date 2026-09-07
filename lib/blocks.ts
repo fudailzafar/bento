@@ -33,7 +33,10 @@ const ImageBlockData = z.object({
   alt: z.string().optional(),
   // bento's media widget also plays short looping videos.
   kind: z.enum(['image', 'video']).optional(),
-  // The uncropped upload, so a crop can be redone.
+  // Where the picture sits in its frame (bento's crop), 0 to 1.
+  posX: z.number().min(0).max(1).optional(),
+  posY: z.number().min(0).max(1).optional(),
+  // Older crops re-uploaded the picture; their uncropped upload.
   original: z.string().optional(),
   // bento's caption pill in the bottom-left corner.
   caption: z.string().optional(),

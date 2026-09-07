@@ -9,6 +9,8 @@ import { isQuote } from '@/lib/rich-text';
 import { cn } from '@/lib/utils';
 import { useDebounce } from '@/hooks/use-debounce';
 import { NO_DRAG } from './no-drag';
+import { BentoTooltip } from '@/components/common/bento-tooltip';
+import { tileAspect } from '../link-tile';
 import {
   AlignBottomIcon,
   AlignCenterIcon,
@@ -58,6 +60,27 @@ export const NOTE_COLORS = [
   '#1B7865',
 ];
 
+// Natural width over height of a picture, loaded once per address.
+const aspects = new Map<string, number>();
+function useImageAspect(src?: string) {
+  const [aspect, setAspect] = useState<number | null>(
+    src ? (aspects.get(src) ?? null) : null
+  );
+  useEffect(() => {
+    if (!src) return setAspect(null);
+    const known = aspects.get(src);
+    if (known !== undefined) return setAspect(known);
+    const image = new Image();
+    image.onload = () => {
+      const value = image.naturalWidth / image.naturalHeight;
+      aspects.set(src, value);
+      setAspect(value);
+    };
+    image.src = src;
+  }, [src]);
+  return aspect;
+}
+
 interface Place {
   name: string;
   lat: number;
@@ -74,6 +97,7 @@ const MENU_SURFACE =
 function StyleButton({
   label,
   selected,
+  mode,
   disabled,
   onClick,
   className,
@@ -81,6 +105,8 @@ function StyleButton({
 }: {
   label: string;
   selected?: boolean;
+  // bento's green on-state, for modes such as crop.
+  mode?: boolean;
   disabled?: boolean;
   onClick: () => void;
   className?: string;
@@ -97,11 +123,13 @@ function StyleButton({
       onMouseDown={(e) => e.preventDefault()}
       onClick={onClick}
       className={cn(
-        'flex size-9 shrink-0 items-center justify-center rounded-[6px] outline-none transition-[transform,color] duration-100 [transition-timing-function:cubic-bezier(.427,.073,.105,.997)] disabled:bg-transparent disabled:text-white/40',
+        'flex size-[26px] shrink-0 items-center justify-center rounded-[4px] outline-none transition-[transform,color] duration-100 [transition-timing-function:cubic-bezier(.427,.073,.105,.997)] disabled:bg-transparent disabled:text-white/40',
         !disabled && 'active:scale-90',
-        selected
-          ? 'bg-white text-black hover:bg-[#fafafa] active:bg-[#f2f2f2]'
-          : 'not-disabled:active:bg-white/30 text-white',
+        selected && mode
+          ? 'bg-[#4ED975] text-white'
+          : selected
+            ? 'bg-white text-black hover:bg-[#fafafa] active:bg-[#f2f2f2]'
+            : 'not-disabled:active:bg-white/30 text-white',
         className
       )}
     >
@@ -215,6 +243,8 @@ interface WidgetToolbarProps {
   onResize: (w: number, h: number) => void;
   onPatch: (patch: Record<string, unknown>) => void;
   onCrop: () => void;
+  // Crop mode is on for this widget.
+  cropping: boolean;
   // Whether the widget is selected; its option panels close when it isn't.
   selected: boolean;
 }
@@ -226,6 +256,7 @@ export function WidgetToolbar({
   onResize,
   onPatch,
   onCrop,
+  cropping,
   selected,
 }: WidgetToolbarProps) {
   const [panel, setPanel] = useState<Panel>(null);
@@ -264,6 +295,11 @@ export function WidgetToolbar({
     ['bottom', AlignBottomIcon, bar || quote],
   ] as const;
 
+  const aspect = useImageAspect(isImage ? data.url : undefined);
+  // A picture already the shape of its frame has nothing to crop.
+  const fits =
+    aspect !== null && Math.abs(aspect - tileAspect(block.w, block.h)) <= 0.05;
+
   const linkIcon = data.href ? (
     <LinkSetIcon size={18} />
   ) : (
@@ -301,9 +337,19 @@ export function WidgetToolbar({
           <>
             <Divider />
             {isImage && (
-              <StyleButton label="Crop" onClick={onCrop}>
-                <CropIcon size={18} />
-              </StyleButton>
+              <BentoTooltip content="Fits perfectly already" disabled={!fits}>
+                <span>
+                  <StyleButton
+                    label="Crop"
+                    mode
+                    selected={cropping}
+                    disabled={fits}
+                    onClick={onCrop}
+                  >
+                    <CropIcon size={18} />
+                  </StyleButton>
+                </span>
+              </BentoTooltip>
             )}
             <StyleButton
               label="Link"
