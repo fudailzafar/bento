@@ -203,6 +203,13 @@
   border-radius: 24px !important; /* match widget border radius */
 }
 
+/* While a widget is being moved, everything in it shows the grabbing hand,
+   not the text cursor of a note or an input. */
+.react-grid-item.react-draggable-dragging,
+.react-grid-item.react-draggable-dragging * {
+  cursor: grabbing !important;
+}
+
 /* bento's dragged widget: a deep, soft shadow. */
 .react-grid-item.react-draggable-dragging [data-widget] {
   box-shadow:
