@@ -20,7 +20,7 @@ interface DockActionBarProps {
   viewMode?: ViewMode;
   onViewModeChange?: (mode: ViewMode) => void;
   isSaving?: boolean;
-  onAddLink?: () => void;
+  onAddLink?: (url: string) => void;
   onAddImage?: () => void;
   onAddText?: () => void;
   onAddMap?: () => void;

@@ -322,7 +322,7 @@ export default function PreviewClient({ messageTip }: { messageTip?: string }) {
               viewMode={viewMode}
               onViewModeChange={setViewMode}
               isSaving={savePageMutation.isPending}
-              onAddLink={() => handleAddBlock('LINK')}
+              onAddLink={(url) => addLink(url)}
               onAddImage={() => fileInput.current?.click()}
               onAddText={() => handleAddBlock('TEXT')}
               onAddMap={() => handleAddBlock('MAP')}

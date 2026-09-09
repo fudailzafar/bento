@@ -4,9 +4,10 @@ import React from 'react';
 import { LinkIcon, SectionIcon } from '../icons';
 import Image from 'next/image';
 import { BentoTooltip } from '@/components/common/bento-tooltip';
+import { LinkPopover } from './link-popover';
 
 interface SectionActionBarProps {
-  onAddLink?: () => void;
+  onAddLink?: (url: string) => void;
   onAddImage?: () => void;
   onAddText?: () => void;
   onAddMap?: () => void;
@@ -25,33 +26,35 @@ export const SectionActionBar = ({
   onAddSectionTitle,
 }: SectionActionBarProps) => {
   return (
-    <div className="flex items-center space-x-5 rounded-2xl bg-white px-4 py-4 shadow-[0_0_0_1px_rgba(0,0,0,.04),0_27px_54px_rgba(0,0,0,.04),0_17.5px_31.625px_rgba(0,0,0,.03),0_10.4px_17.2px_rgba(0,0,0,.024),0_5.4px_8.775px_rgba(0,0,0,.02),0_2.2px_4.4px_rgba(0,0,0,.016),0_.5px_2.125px_rgba(0,0,0,.01)] xl:space-x-[11px] xl:p-0 xl:shadow-none">
+    <div className="flex items-center space-x-5 rounded-2xl bg-white px-4 py-4 shadow-[0_0_0_1px_rgba(0,0,0,.04),0_27px_54px_rgba(0,0,0,.04),0_17.5px_31.625px_rgba(0,0,0,.03),0_10.4px_17.2px_rgba(0,0,0,.024),0_5.4px_8.775px_rgba(0,0,0,.02),0_2.2px_4.4px_rgba(0,0,0,.016),0_.5px_2.125px_rgba(0,0,0,.01)] xl:space-x-[11px] xl:bg-transparent xl:p-0 xl:shadow-none">
       {/* Projects Button */}
-      <BentoTooltip content="Link">
-        <button
-          onClick={onAddLink}
-          className="group relative size-[25px] rounded-lg transition-all hover:shadow-[0_0_0_3px_rgba(0,0,0,0.06)] active:scale-95 lg:size-[25px]"
-          data-state="closed"
-          aria-label="Add Link"
-        >
-          <div className="absolute inset-0 flex items-center justify-center overflow-hidden rounded-[7px] shadow-[0_.6px_2px_rgba(0,0,0,.06)] backdrop-blur-[255px]">
-            {/* Gradient - complex gradient requires inline style */}
-            <div
-              className="pointer-events-none absolute inset-0 rounded-[7px]"
-              style={{ background: BUTTON_GRADIENT }}
-            />
+      <LinkPopover onAdd={onAddLink}>
+        {(toggle) => (
+          <button
+            onClick={toggle}
+            className="group relative size-[25px] rounded-lg transition-all hover:shadow-[0_0_0_3px_rgba(0,0,0,0.06)] active:scale-95 lg:size-[25px]"
+            data-state="closed"
+            aria-label="Add Link"
+          >
+            <div className="absolute inset-0 flex items-center justify-center overflow-hidden rounded-[7px] shadow-[0_.6px_2px_rgba(0,0,0,.06)] backdrop-blur-[255px]">
+              {/* Gradient - complex gradient requires inline style */}
+              <div
+                className="pointer-events-none absolute inset-0 rounded-[7px]"
+                style={{ background: BUTTON_GRADIENT }}
+              />
 
-            {/* Icon */}
-            <LinkIcon />
+              {/* Icon */}
+              <LinkIcon />
 
-            {/* Border */}
-            <div className="pointer-events-none absolute inset-0 rounded-[7px] border border-black/[0.12]" />
+              {/* Border */}
+              <div className="pointer-events-none absolute inset-0 rounded-[7px] border border-black/[0.12]" />
 
-            {/* Hover Highlight */}
-            <div className="absolute inset-0 rounded-[7px] bg-gradient-to-b from-white/20 to-transparent opacity-0 transition-opacity group-hover:opacity-100" />
-          </div>
-        </button>
-      </BentoTooltip>
+              {/* Hover Highlight */}
+              <div className="absolute inset-0 rounded-[7px] bg-gradient-to-b from-white/20 to-transparent opacity-0 transition-opacity group-hover:opacity-100" />
+            </div>
+          </button>
+        )}
+      </LinkPopover>
 
       {/* Work Experience Button */}
       <BentoTooltip content="Image & Video">
