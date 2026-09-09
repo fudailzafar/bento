@@ -98,20 +98,19 @@ function InlineText({
   placeholder,
   onChange,
   className,
-  size,
+  hug,
 }: {
   value: string;
   placeholder: string;
   onChange: (value: string) => void;
   className?: string;
-  // Width in characters, for inputs that hug their text.
-  size?: number;
+  // The input hugs its text exactly, with no spare room after it.
+  hug?: boolean;
 }) {
-  return (
+  const input = (
     <input
       value={value}
       placeholder={placeholder}
-      size={size}
       onChange={(e) => onChange(e.target.value)}
       onKeyDown={(e) => {
         if (e.key === 'Enter') e.currentTarget.blur();
@@ -119,9 +118,76 @@ function InlineText({
       className={cn(
         NO_DRAG,
         'w-full border-0 bg-transparent p-0 outline-none placeholder:text-current placeholder:opacity-40 focus:ring-0',
-        className
+        className,
+        // Zero width, stretched to the grid column the hidden copy sets.
+        hug && 'col-start-1 row-start-1 w-0 min-w-full max-w-none'
       )}
     />
+  );
+  if (!hug) return input;
+  // An invisible copy of the text sizes the input to fit it.
+  return (
+    <div className="inline-grid max-w-full">
+      <span
+        aria-hidden="true"
+        className={cn(
+          'invisible col-start-1 row-start-1 whitespace-pre',
+          className
+        )}
+      >
+        {value || placeholder}
+      </span>
+      {input}
+    </div>
+  );
+}
+
+// The section title, draggable from anywhere like any other widget. It becomes
+// a text field only when clicked (not dragged), and goes back on blur.
+function SectionTitleEditor({
+  value,
+  onChange,
+}: {
+  value: string;
+  onChange: (value: string) => void;
+}) {
+  const [editing, setEditing] = useState(false);
+  const down = useRef<{ x: number; y: number } | null>(null);
+  const text = 'text-[18px] font-semibold leading-7 text-black';
+  if (editing) {
+    return (
+      <input
+        autoFocus
+        value={value}
+        placeholder="Section title"
+        onChange={(e) => onChange(e.target.value)}
+        onBlur={() => setEditing(false)}
+        onKeyDown={(e) => {
+          if (e.key === 'Enter') e.currentTarget.blur();
+        }}
+        className={cn(
+          NO_DRAG,
+          'w-full border-0 bg-transparent p-0 outline-none placeholder:text-current placeholder:opacity-40 focus:ring-0',
+          text
+        )}
+      />
+    );
+  }
+  return (
+    <h2
+      onMouseDown={(e) => (down.current = { x: e.clientX, y: e.clientY })}
+      onClick={(e) => {
+        const start = down.current;
+        down.current = null;
+        // A drag that ends over the title is not a click.
+        if (start && Math.hypot(e.clientX - start.x, e.clientY - start.y) > 4)
+          return;
+        setEditing(true);
+      }}
+      className={cn('w-full', text, !value && 'opacity-40')}
+    >
+      {value || 'Section title'}
+    </h2>
   );
 }
 
@@ -374,7 +440,7 @@ export function BlockContent({
                   value={caption ?? ''}
                   placeholder="Caption..."
                   onChange={(value) => edit.onPatch({ caption: value })}
-                  size={Math.max((caption ?? '').length, 8)}
+                  hug
                   className="w-auto max-w-full text-sm leading-[21px] text-black"
                 />
               </div>
@@ -564,11 +630,9 @@ export function BlockContent({
         // text starts 24px in and 16px down in its 60px box.
         <div className="flex h-full w-full items-start px-6 py-4">
           {edit ? (
-            <InlineText
+            <SectionTitleEditor
               value={title ?? ''}
-              placeholder="Section title"
               onChange={(value) => edit.onPatch({ title: value })}
-              className="text-[18px] font-semibold leading-7 text-black"
             />
           ) : (
             <h2 className="text-[18px] font-semibold leading-7 text-black">
