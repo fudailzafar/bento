@@ -89,6 +89,9 @@ export interface BlockEditing {
   // The chosen file, shown while it uploads, and how far along it is (0–1).
   preview?: { url: string; kind: 'image' | 'video' };
   progress?: number;
+  // false on phones: the widget shows as it will look, and is edited in a
+  // drawer instead of in place.
+  inline?: boolean;
 }
 
 // Text that is typed straight into the widget, styled exactly as it shows on
@@ -262,6 +265,8 @@ export function BlockContent({
   interactive?: boolean;
   edit?: BlockEditing;
 }) {
+  // Editing in place, as on desktop.
+  const live = edit && edit.inline !== false ? edit : undefined;
   switch (block.type) {
     case 'LINK': {
       const {
@@ -281,7 +286,7 @@ export function BlockContent({
         images?: string[];
         bio?: string;
       };
-      if (edit && !url) return <LinkUrlInput onSetUrl={edit.onSetUrl} />;
+      if (live && !url) return <LinkUrlInput onSetUrl={live.onSetUrl} />;
       // The owner's picture wins over the website's; '' means none at all.
       const image =
         edit?.preview?.url ??
@@ -319,21 +324,21 @@ export function BlockContent({
           favicon={favicon || undefined}
           fetching={edit?.fetching}
           edit={
-            edit && {
-              onTitle: (value) => edit.onPatch({ title: value }),
-              onBio: (value) => edit.onPatch({ bio: value }),
-              onImage: (file) => edit.onUpload(file, 'customImage'),
-              onGallery: (file) => edit.onUpload(file, 'gallery'),
+            live && {
+              onTitle: (value) => live.onPatch({ title: value }),
+              onBio: (value) => live.onPatch({ bio: value }),
+              onImage: (file) => live.onUpload(file, 'customImage'),
+              onGallery: (file) => live.onUpload(file, 'gallery'),
               onRemoveGallery: (index) =>
-                edit.onPatch({
+                live.onPatch({
                   images: (images ?? []).filter((_, i) => i !== index),
                 }),
-              onResetImage: () => edit.onPatch({ customImage: undefined }),
-              onDeleteImage: () => edit.onPatch({ customImage: '' }),
+              onResetImage: () => live.onPatch({ customImage: undefined }),
+              onDeleteImage: () => live.onPatch({ customImage: '' }),
               hasWebsiteImage: !!websiteImage,
               hasCustomImage: customImage !== undefined,
-              uploading: edit.uploading,
-              progress: edit.progress,
+              uploading: live.uploading,
+              progress: live.progress,
             }
           }
         />
@@ -383,10 +388,10 @@ export function BlockContent({
         );
         const emptyClass =
           'flex h-full w-full flex-col items-center justify-center gap-2 bg-black/[.03] text-black/40';
-        return edit ? (
+        return live ? (
           <FilePicker
             accept="image/*,video/mp4,video/webm,video/quicktime"
-            onFile={(file) => edit.onUpload(file, 'url')}
+            onFile={(file) => live.onUpload(file, 'url')}
             className={cn(emptyClass, 'transition-colors hover:bg-black/[.05]')}
           >
             {empty}
@@ -426,7 +431,7 @@ export function BlockContent({
                 <UploadRing progress={edit.progress} />
               </>
             )}
-            {edit ? (
+            {live ? (
               // The caption pill is typed into directly; empty, it shows on
               // hover as a "Caption..." prompt.
               <div
@@ -439,7 +444,7 @@ export function BlockContent({
                 <InlineText
                   value={caption ?? ''}
                   placeholder="Caption..."
-                  onChange={(value) => edit.onPatch({ caption: value })}
+                  onChange={(value) => live.onPatch({ caption: value })}
                   hug
                   className="w-auto max-w-full text-sm leading-[21px] text-black"
                 />
@@ -538,7 +543,7 @@ export function BlockContent({
           )}
         </div>
       ) : null;
-      if (edit) {
+      if (live) {
         return (
           <NoteEditor
             content={content ?? ''}
@@ -550,7 +555,7 @@ export function BlockContent({
               halign === 'center' && 'text-center',
               halign === 'right' && 'text-right'
             )}
-            onChange={(value) => edit.onPatch({ content: value })}
+            onChange={(value) => live.onPatch({ content: value })}
             preview={quoteView}
           />
         );
@@ -629,10 +634,10 @@ export function BlockContent({
         // bento's section title: 16px padding and 8px more indent, so the
         // text starts 24px in and 16px down in its 60px box.
         <div className="flex h-full w-full items-start px-6 py-4">
-          {edit ? (
+          {live ? (
             <SectionTitleEditor
               value={title ?? ''}
-              onChange={(value) => edit.onPatch({ title: value })}
+              onChange={(value) => live.onPatch({ title: value })}
             />
           ) : (
             <h2 className="text-[18px] font-semibold leading-7 text-black">

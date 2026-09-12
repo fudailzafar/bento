@@ -31,13 +31,17 @@ import {
 
 // bento's widget sizes, as w×h on the editor grid. Notes and links also come
 // as a slim bar.
-const SIZES = [
+export const SIZES = [
   { w: 1, h: 2, label: 'Small', Icon: SizeSmallIcon },
   { w: 2, h: 1, label: 'Bar', Icon: SizeBarIcon },
   { w: 2, h: 2, label: 'Wide', Icon: SizeWideIcon },
   { w: 1, h: 4, label: 'Tall', Icon: SizeTallIcon },
   { w: 2, h: 4, label: 'Large', Icon: SizeLargeIcon },
 ];
+
+// The sizes a widget can take: only notes and links come as a slim bar.
+export const sizesFor = (type: string) =>
+  SIZES.filter((s) => s.h > 1 || type === 'TEXT' || type === 'LINK');
 
 // bento's note palette: 16 colours, and the text on a note is white on
 // anything darker than brightness 190, black otherwise.
@@ -62,7 +66,7 @@ export const NOTE_COLORS = [
 
 // Natural width over height of a picture, loaded once per address.
 const aspects = new Map<string, number>();
-function useImageAspect(src?: string) {
+export function useImageAspect(src?: string) {
   const [aspect, setAspect] = useState<number | null>(
     src ? (aspects.get(src) ?? null) : null
   );
@@ -81,7 +85,7 @@ function useImageAspect(src?: string) {
   return aspect;
 }
 
-interface Place {
+export interface Place {
   name: string;
   lat: number;
   lng: number;
@@ -514,7 +518,7 @@ export function WidgetToolbar({
   );
 }
 
-async function searchPlaces(query: string): Promise<Place[]> {
+export async function searchPlaces(query: string): Promise<Place[]> {
   const response = await fetch(`/api/geocode?q=${encodeURIComponent(query)}`);
   return response.ok ? response.json() : [];
 }
