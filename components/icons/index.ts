@@ -16,3 +16,4 @@ export * from './section-icon';
 export * from './settings-icon';
 export * from './trash-icon';
 export * from './x-icon';
+export * from './move-able-icon';

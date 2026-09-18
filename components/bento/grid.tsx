@@ -5,8 +5,8 @@ import { motion } from 'framer-motion';
 import { Responsive, Layout } from 'react-grid-layout';
 import 'react-grid-layout/css/styles.css';
 import { Block, BlockType, defaultBlockData } from '@/lib';
-import { MousePointerClick, Move, Pencil } from 'lucide-react';
-import { TrashIcon } from '@/components/icons';
+import { MousePointerClick } from 'lucide-react';
+import { MoveAbleIcon, PenIcon, TrashIcon } from '@/components/icons';
 import { toast } from 'sonner';
 import { fetchLinkPreview, isVideoFile, uploadBlockMedia } from '@/lib/media';
 import { findPlatform } from '@/lib/platforms';
@@ -620,9 +620,9 @@ export function BentoGrid({
                       // The same delete button as the profile picture's.
                       'absolute -left-3 -top-3 z-50 flex size-9 items-center justify-center rounded-full border border-neutral-300 bg-white opacity-0 shadow-lg backdrop-blur-sm transition-all hover:bg-white/90 group-hover:opacity-100',
                       selectedId === block.id && 'opacity-100',
-                      // Bigger to tap, and only on the selected widget.
+                      // On a phone: 32px, and only on the selected widget.
                       mobileEdit &&
-                        'size-11 group-hover:pointer-events-none group-hover:opacity-0',
+                        'size-8 group-hover:pointer-events-none group-hover:opacity-0',
                       mobileEdit &&
                         selectedId === block.id &&
                         '!pointer-events-auto !opacity-100',
@@ -640,21 +640,21 @@ export function BentoGrid({
                         onClick={() => setDrawerId(block.id)}
                         className={cn(
                           NO_DRAG,
-                          'absolute -right-3 -top-3 z-50 flex size-11 items-center justify-center rounded-full bg-black text-white shadow-[0_6px_14px_rgba(0,0,0,.2)] active:scale-95',
+                          'absolute -right-3 -top-3 z-50 flex size-8 items-center justify-center rounded-full bg-black text-white shadow-[0_6px_14px_rgba(0,0,0,.2)] active:scale-95',
                           label && 'top-[calc(100%-72px)]'
                         )}
                       >
-                        <Pencil className="size-[18px]" />
+                        <PenIcon className="size-4" />
                       </button>
                       <div
                         aria-label="Move"
                         role="button"
                         className={cn(
-                          'bento-drag-handle absolute -bottom-5 left-1/2 z-50 flex size-11 -translate-x-1/2 cursor-grab touch-none items-center justify-center rounded-full bg-black text-white shadow-[0_6px_14px_rgba(0,0,0,.2)] active:cursor-grabbing',
+                          'bento-drag-handle absolute -bottom-5 left-1/2 z-50 flex size-8 -translate-x-1/2 cursor-grab touch-none items-center justify-center rounded-full bg-black text-white shadow-[0_6px_14px_rgba(0,0,0,.2)] active:cursor-grabbing',
                           label && 'bottom-[-14px]'
                         )}
                       >
-                        <Move className="size-5" />
+                        <MoveAbleIcon className="size-4 text-white" />
                       </div>
                     </>
                   )}
