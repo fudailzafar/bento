@@ -244,7 +244,12 @@ export function Header({
           />
         )}
       </div>
-      <div ref={avatar} className="w-fit">
+      <div
+        ref={avatar}
+        // Full width on phones so Copy Link can sit at the right edge; the
+        // avatar still turns about its own centre.
+        className="w-full origin-[64px_50%] xl:w-fit xl:origin-center"
+      >
         <ProfileImageField
           name={header.name || 'Your Name'}
           currentImage={picture}

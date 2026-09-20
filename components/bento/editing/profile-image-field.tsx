@@ -117,7 +117,7 @@ export function ProfileImageField({
 
   return (
     <>
-      <div className="flex justify-end">
+      <div className="flex w-full justify-end">
         {showCopyButton && onCopyLink && (
           <Button
             onClick={onCopyLink}
