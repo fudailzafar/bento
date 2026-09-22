@@ -459,8 +459,8 @@ export function BentoGrid({
         publicMode
           ? 'w-full'
           : cn(
-              'mx-auto w-full pb-32',
-              desktop ? 'max-w-[820px]' : 'max-w-[380px]'
+              'mx-auto w-full',
+              desktop ? 'max-w-[820px] pb-32' : 'max-w-[380px]'
             )
       }
     >
@@ -622,7 +622,7 @@ export function BentoGrid({
                       selectedId === block.id && 'opacity-100',
                       // On a phone: 32px, and only on the selected widget.
                       mobileEdit &&
-                        'size-8 group-hover:pointer-events-none group-hover:opacity-0',
+                        'size-[38px] group-hover:pointer-events-none group-hover:opacity-0',
                       mobileEdit &&
                         selectedId === block.id &&
                         '!pointer-events-auto !opacity-100',
@@ -640,7 +640,7 @@ export function BentoGrid({
                         onClick={() => setDrawerId(block.id)}
                         className={cn(
                           NO_DRAG,
-                          'absolute -right-3 -top-3 z-50 flex size-8 items-center justify-center rounded-full bg-black text-white shadow-[0_6px_14px_rgba(0,0,0,.2)] active:scale-95',
+                          'absolute -right-3 -top-3 z-50 flex size-[38px] items-center justify-center rounded-full bg-black text-white shadow-[0_6px_14px_rgba(0,0,0,.2)] active:scale-95',
                           label && 'top-[calc(100%-72px)]'
                         )}
                       >
@@ -650,7 +650,7 @@ export function BentoGrid({
                         aria-label="Move"
                         role="button"
                         className={cn(
-                          'bento-drag-handle absolute -bottom-5 left-1/2 z-50 flex size-8 -translate-x-1/2 cursor-grab touch-none items-center justify-center rounded-full bg-black text-white shadow-[0_6px_14px_rgba(0,0,0,.2)] active:cursor-grabbing',
+                          'bento-drag-handle absolute -bottom-5 left-1/2 z-50 flex size-[38px] -translate-x-1/2 cursor-grab touch-none items-center justify-center rounded-full bg-black text-white shadow-[0_6px_14px_rgba(0,0,0,.2)] active:cursor-grabbing',
                           label && 'bottom-[-14px]'
                         )}
                       >
