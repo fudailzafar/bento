@@ -10,7 +10,10 @@ import { useAnalytics } from '@/hooks';
 function SettingsMobile() {
   return (
     <>
-      <div className="mx-auto flex h-[67px] w-full items-center justify-between border-t border-gray-200 bg-white px-6 py-4 xl:hidden">
+      <div
+        data-page-footer
+        className="mx-auto mt-auto flex h-[67px] w-full items-center justify-between border-t border-gray-200 bg-white px-6 py-4 xl:hidden"
+      >
         <div className="flex flex-row items-center justify-center gap-2">
           <SettingsActionBar />
           <Link
@@ -41,25 +44,23 @@ function SettingsMobile() {
             </div>
           </Link>
         </div>
-        <Link href="/" className="flex items-center gap-2">
-          <img
-            src="/icons/android-chrome-512x512.png"
-            alt="Brand Logo"
-            className="h-[30px] w-auto"
-          />
-        </Link>
+        <ViewsYesterday className="text-sm" />
       </div>
     </>
   );
 }
 
 // bento's footer visit counter.
-function ViewsYesterday() {
+function ViewsYesterday({
+  className = 'rounded-lg px-2.5 py-2 text-xs',
+}: {
+  className?: string;
+}) {
   const { data } = useAnalytics();
   const count = data?.viewsYesterday ?? 0;
   return (
     <div
-      className="rounded-lg px-2.5 py-2 text-xs text-[#6c6c6c]"
+      className={`${className} text-[#6c6c6c]`}
       title={data ? `${data.views} views in total` : undefined}
     >
       {count === 0
