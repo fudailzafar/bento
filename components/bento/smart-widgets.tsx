@@ -197,45 +197,76 @@ export function GithubGraph({
 
 // ---------------------------------------------------------------- YouTube
 
-// bento's grid of the channel's latest videos, 8px corners.
+// bento's grid of the channel's latest four videos, 8px corners. While the
+// videos aren't there yet, or can't be fetched, grey boxes hold their places.
 export function YoutubeVideos({
   data,
   columns,
   rows,
+  shape = 'landscape',
 }: {
-  data: YoutubeData;
+  data: YoutubeData | null;
   columns: number;
   rows: number;
+  // landscape: 163:106 thumbnails; square: tall tiles' small squares; fill:
+  // the thumbnails share the height they are given (wide tiles).
+  shape?: 'landscape' | 'square' | 'fill';
 }) {
+  const count = columns * rows;
+  const videos = data?.videos.slice(0, count) ?? [];
   return (
     <div
-      className="grid w-full gap-4"
-      style={{ gridTemplateColumns: `repeat(${columns}, minmax(0, 1fr))` }}
+      className={cn(
+        'grid w-full',
+        shape === 'square' ? 'gap-2' : 'gap-4',
+        shape === 'fill' && 'h-full'
+      )}
+      style={{
+        gridTemplateColumns: `repeat(${columns}, minmax(0, 1fr))`,
+        ...(shape === 'fill'
+          ? { gridTemplateRows: `repeat(${rows}, minmax(0, 1fr))` }
+          : {}),
+      }}
     >
-      {data.videos.slice(0, columns * rows).map((video) => (
-        <span
-          key={video.id}
-          role="link"
-          title={video.title}
-          onClick={own(() =>
-            window.open(
-              `https://www.youtube.com/watch?v=${video.id}`,
-              '_blank',
-              'noopener,noreferrer'
-            )
-          )}
-          className="relative block aspect-[163/106] overflow-hidden rounded-[8px] bg-black/[.04]"
-        >
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
-            src={video.thumbnail}
-            alt={video.title}
-            className="h-full w-full object-cover"
-            referrerPolicy="no-referrer"
-          />
-          <span className="pointer-events-none absolute inset-0 rounded-[inherit] shadow-[inset_0_0_0_1px_rgba(0,0,0,.08)]" />
-        </span>
-      ))}
+      {Array.from({ length: count }, (_, i) => videos[i] ?? null).map(
+        (video, i) => (
+          <span
+            key={video?.id ?? `empty-${i}`}
+            role={video ? 'link' : undefined}
+            title={video?.title}
+            onClick={
+              video
+                ? own(() =>
+                    window.open(
+                      `https://www.youtube.com/watch?v=${video.id}`,
+                      '_blank',
+                      'noopener,noreferrer'
+                    )
+                  )
+                : undefined
+            }
+            className={cn(
+              'relative block overflow-hidden rounded-[8px] bg-black/[.04]',
+              shape === 'square'
+                ? 'aspect-square'
+                : shape === 'fill'
+                  ? 'h-full'
+                  : 'aspect-[163/106]'
+            )}
+          >
+            {video && (
+              // eslint-disable-next-line @next/next/no-img-element
+              <img
+                src={video.thumbnail}
+                alt={video.title}
+                className="h-full w-full object-cover"
+                referrerPolicy="no-referrer"
+              />
+            )}
+            <span className="pointer-events-none absolute inset-0 rounded-[inherit] shadow-[inset_0_0_0_1px_rgba(0,0,0,.08)]" />
+          </span>
+        )
+      )}
     </div>
   );
 }

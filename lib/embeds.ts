@@ -6,6 +6,13 @@ interface Embed {
   src: string;
 }
 
+// The id of a YouTube video link, or null for anything else (a channel, say).
+export function youtubeVideoId(url: string): string | null {
+  const embed = embedFor(url);
+  if (embed?.provider !== 'youtube') return null;
+  return embed.src.split('/embed/')[1] ?? null;
+}
+
 export function embedFor(url: string): Embed | null {
   let parsed: URL;
   try {
