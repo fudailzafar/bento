@@ -271,6 +271,42 @@ export function findPlatform(url: string): Platform | undefined {
   );
 }
 
+// Whether a link is someone's profile or channel, as opposed to one thing
+// they made (a Dribbble shot, a Behance project, an Instagram post, a YouTube
+// video). Profiles get bento's grid of pictures and a Follow or Subscribe
+// button; a single item is a plain link with its own one picture.
+export function isProfileUrl(url: string): boolean {
+  const platform = findPlatform(url);
+  if (!platform) return true;
+  let parts: string[] = [];
+  try {
+    parts = new URL(url.startsWith('http') ? url : `https://${url}`).pathname
+      .split('/')
+      .filter(Boolean);
+  } catch {
+    return true;
+  }
+  const [first = '', second] = parts;
+  switch (platform.id) {
+    case 'youtube':
+      return first.startsWith('@') || ['channel', 'c', 'user'].includes(first);
+    case 'dribbble':
+      return parts.length === 1 && first !== 'shots';
+    case 'behance':
+      return parts.length === 1 && first !== 'gallery';
+    case 'figma':
+      return first.startsWith('@');
+    case 'instagram':
+      return !['p', 'reel', 'reels', 'tv', 'stories', 'explore'].includes(
+        first
+      );
+    case 'tiktok':
+      return first.startsWith('@') && !second;
+    default:
+      return true;
+  }
+}
+
 // "@name" / "name" from the first path segment, as bento showed under the title.
 export function handleFrom(
   url: string,

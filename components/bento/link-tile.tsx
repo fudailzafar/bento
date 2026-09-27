@@ -3,7 +3,13 @@
 import { useEffect, useRef, useState } from 'react';
 import { ImagePlus, X } from 'lucide-react';
 import { cn } from '@/lib/utils';
-import { findPlatform, handleFrom, hostOf } from '@/lib/platforms';
+import {
+  findPlatform,
+  handleFrom,
+  hostOf,
+  isProfileUrl,
+} from '@/lib/platforms';
+import { richSourceFor } from '@/lib/rich-data';
 import { PLATFORM_ICONS } from '@/lib/platform-icons';
 import { NO_DRAG } from './editing/no-drag';
 import { Skeleton } from './skeleton';
@@ -236,8 +242,9 @@ export function Icon({
 function Preview(props: {
   posts?: boolean;
   portrait?: boolean;
+  landscape?: boolean;
   images?: string[];
-  large?: boolean;
+  size: TileSize;
   image?: string;
   loading?: boolean;
   edit?: LinkTileEditing;
@@ -263,16 +270,16 @@ function Preview(props: {
 function PostCell({
   src,
   index,
-  portrait,
+  shape,
   edit,
 }: {
   src?: string;
   index: number;
-  portrait?: boolean;
+  // The cell's shape, as a class: a square, a video's 163:106, a portrait.
+  shape: string;
   edit?: LinkTileEditing;
 }) {
   const input = useRef<HTMLInputElement>(null);
-  const shape = portrait ? 'aspect-[9/16]' : 'aspect-square';
   if (src) {
     return (
       <div
@@ -304,13 +311,8 @@ function PostCell({
     'flex items-center justify-center rounded-[8px] bg-black/[.04] text-black/40 shadow-[inset_0_0_0_1px_rgba(0,0,0,.04)]',
     shape
   );
-  if (!edit) {
-    return (
-      <div className={cell}>
-        <ImagePlus className="size-4 opacity-50" />
-      </div>
-    );
-  }
+  // Visitors see grey boxes where pictures aren't yet.
+  if (!edit) return <div className={cell} />;
   return (
     <button
       type="button"
@@ -335,31 +337,54 @@ function PostCell({
 }
 
 function PostsGrid({
-  large,
+  size,
   portrait,
+  landscape,
   images,
   edit,
 }: {
-  large?: boolean;
+  size: TileSize;
   portrait?: boolean;
+  // Figma's cells are shaped like videos (163:106) instead of squares.
+  landscape?: boolean;
   images?: string[];
   edit?: LinkTileEditing;
 }) {
-  const full = portrait ? (large ? 3 : 2) : large ? 6 : 4;
-  const columns = portrait ? full : large ? 3 : 2;
-  // Visitors see only the pictures the owner added.
-  const count = edit ? full : Math.min(images?.length ?? 0, full);
+  const large = size === 'large';
+  // Squares: 2x2 on tall and wide tiles, 3x2 on large ones. Figma and
+  // TikTok keep their own shapes.
+  const full = portrait ? (large ? 3 : 2) : landscape ? 4 : large ? 6 : 4;
+  const columns = portrait ? full : landscape ? 2 : large ? 3 : 2;
+  const fill = landscape && size === 'wide';
+  const shape = portrait
+    ? 'aspect-[9/16]'
+    : landscape
+      ? large
+        ? 'aspect-[163/106]'
+        : fill
+          ? 'h-full'
+          : 'aspect-square'
+      : 'aspect-square';
   return (
     <div
-      className="grid h-full w-full content-start gap-2"
-      style={{ gridTemplateColumns: `repeat(${columns}, minmax(0, 1fr))` }}
+      className={cn(
+        'grid w-full',
+        large ? 'content-end' : 'content-start',
+        landscape && size !== 'tall' ? 'gap-4' : 'gap-2',
+        (large || fill) && 'h-full',
+        !large && !fill && 'h-full'
+      )}
+      style={{
+        gridTemplateColumns: `repeat(${columns}, minmax(0, 1fr))`,
+        ...(fill ? { gridTemplateRows: 'repeat(2, minmax(0, 1fr))' } : {}),
+      }}
     >
-      {Array.from({ length: count }).map((_, i) => (
+      {Array.from({ length: full }).map((_, i) => (
         <PostCell
           key={i}
           index={i}
           src={images?.[i]}
-          portrait={portrait}
+          shape={shape}
           edit={edit}
         />
       ))}
@@ -370,32 +395,36 @@ function PostsGrid({
 function PreviewArea({
   posts,
   portrait,
+  landscape,
   images,
-  large,
+  size,
   image,
   loading,
   edit,
 }: {
   posts?: boolean;
   portrait?: boolean;
+  landscape?: boolean;
   images?: string[];
-  large?: boolean;
+  size: TileSize;
   image?: string;
   loading?: boolean;
   edit?: LinkTileEditing;
 }) {
-  // The page's Open Graph image, fetched when the link was added.
-  if (image) return <PreviewImage src={image} />;
+  // Post-based profiles show their grid, not the page's one picture.
   if (posts) {
     return (
       <PostsGrid
-        large={large}
+        size={size}
         portrait={portrait}
+        landscape={landscape}
         images={images}
         edit={edit}
       />
     );
   }
+  // The page's Open Graph image, fetched when the link was added.
+  if (image) return <PreviewImage src={image} />;
   // Still fetching: a skeleton the size of the preview.
   if (loading) return <Skeleton className="h-full w-full rounded-[10px]" />;
   // Visitors see nothing where there is no picture; the owner is told.
@@ -458,23 +487,32 @@ export function LinkTile({
   edit?: LinkTileEditing;
 }) {
   const platform = findPlatform(url);
+  // One shot, post or video: a plain link with its one picture.
+  const individual = !!platform && !isProfileUrl(url);
+  const postsGrid = !!platform?.posts && !individual;
   const size = tileSize(w, h);
   const rich = useRichData(url);
   const name =
     title && title !== 'New link' && title !== 'Untitled link'
       ? title
-      : (platform?.name ?? (hostOf(url) || 'New link'));
+      : (rich?.kind === 'youtube' && rich.channelName) ||
+        (platform?.name ?? (hostOf(url) || 'New link'));
   const sub = platform
-    ? platform.handle
-      ? handleFrom(url, platform.handle)
-      : undefined
+    ? individual
+      ? hostOf(url)
+      : platform.handle
+        ? handleFrom(url, platform.handle)
+        : undefined
     : hostOf(url);
-  const button = platform?.button;
+  const button = individual ? undefined : platform?.button;
   // Previews: post thumbnails for post-based platforms, otherwise the og
   // image slot for plain links. Platforms with a button but no posts (Twitter,
   // GitHub, TikTok, Spotify) show no preview, as on bento.
   const github = rich?.kind === 'github' ? rich : null;
   const youtube = rich?.kind === 'youtube' && rich.videos.length ? rich : null;
+  // A channel link shows four videos (grey boxes until they load); a link to
+  // one video is an ordinary link with its thumbnail as the picture.
+  const youtubeChannel = richSourceFor(url)?.kind === 'youtube';
   // The graph or videos in the preview slot, by tile size.
   const smart =
     github && size === 'wide' ? (
@@ -485,21 +523,29 @@ export function LinkTile({
           <GithubGraph data={github} weeks={6} />
         </div>
       </div>
-    ) : youtube && size !== 'small' ? (
-      <div className="flex h-full items-end">
+    ) : youtubeChannel && size !== 'small' && size !== 'bar' ? (
+      <div
+        className={cn(
+          'flex h-full',
+          size === 'large' ? 'items-end' : 'items-start'
+        )}
+      >
         <YoutubeVideos
           data={youtube}
-          columns={size === 'tall' ? 1 : 2}
+          columns={2}
           rows={2}
+          shape={
+            size === 'tall' ? 'square' : size === 'wide' ? 'fill' : 'landscape'
+          }
         />
       </div>
     ) : null;
   const preview =
-    (platform?.posts && (!!edit || !!images?.length)) ||
+    postsGrid ||
     !button ||
     !!image ||
     !!smart ||
-    (!!edit && !!platform?.bio) ||
+    (!!edit && !!platform?.bio && !individual) ||
     (!!github && size === 'large');
   // Button sits top-right on large tiles, and on wide tiles without a preview.
   const topRight = size === 'large' || (size === 'wide' && !preview);
@@ -532,7 +578,10 @@ export function LinkTile({
       value={
         title === 'New link' || title === 'Untitled link' ? '' : (title ?? '')
       }
-      placeholder={platform?.name ?? (hostOf(url) || 'Title')}
+      placeholder={
+        (rich?.kind === 'youtube' && rich.channelName) ||
+        (platform?.name ?? (hostOf(url) || 'Title'))
+      }
       onChange={(e) => edit.onTitle(e.target.value)}
       onKeyDown={(e) => {
         if (e.key === 'Enter') e.currentTarget.blur();
@@ -678,10 +727,19 @@ export function LinkTile({
           </div>
           {/* The preview is 1.4 wide for every height, so the text takes
               what is left, as on bento's phone grid. */}
-          <div className="aspect-[1.4] h-full shrink-0">
+          <div
+            className={cn(
+              'h-full shrink-0',
+              postsGrid && platform?.id !== 'figma'
+                ? 'aspect-square'
+                : 'aspect-[1.4]'
+            )}
+          >
             <Preview
-              posts={platform?.posts}
+              posts={postsGrid}
               portrait={platform?.portrait}
+              landscape={platform?.id === 'figma'}
+              size={size}
               images={images}
               image={image}
               loading={fetching}
@@ -712,23 +770,24 @@ export function LinkTile({
             !(github && size === 'large') && (
               <div
                 className={
-                  size === 'large' && !platform?.posts && !smart
+                  size === 'large' && !postsGrid && !smart
                     ? 'mt-auto w-full shrink-0 pt-2'
                     : 'mt-4 min-h-0 flex-1'
                 }
               >
                 <div
                   className={
-                    size === 'large' && !platform?.posts && !smart
+                    size === 'large' && !postsGrid && !smart
                       ? 'aspect-[1200/630] w-full'
                       : 'h-full w-full'
                   }
                 >
                   <Preview
-                    posts={platform?.posts}
+                    posts={postsGrid}
                     portrait={platform?.portrait}
+                    landscape={platform?.id === 'figma'}
+                    size={size}
                     images={images}
-                    large={size === 'large'}
                     image={image}
                     loading={fetching}
                     edit={edit}
