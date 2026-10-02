@@ -6,3 +6,4 @@ export { default as LogInAnimation } from './log-in-animation';
 export { default as LoginContent } from './log-in-content';
 export { default as SignupCallbackClient } from './sign-up-callback-client';
 export { goToOwnPage } from './go-to-own-page';
+export { default as OnboardingContent } from './onboarding-content';
