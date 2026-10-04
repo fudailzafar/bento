@@ -572,6 +572,14 @@ export function BentoGrid({
               onClick={() => {
                 if (mobileEdit) setSelectedId(block.id);
               }}
+              // On desktop the widget's controls show while the pointer is on
+              // it: pressing or dragging it doesn't keep them up once the
+              // pointer leaves. Only a crop in progress keeps its widget.
+              onMouseLeave={() => {
+                if (mobileEdit || selectedId !== block.id) return;
+                if (croppingBlockId === block.id) return;
+                setSelectedId(null);
+              }}
               className={cn(
                 'group relative overflow-visible',
                 isEditMode && 'cursor-grab hover:z-50 active:cursor-grabbing',
