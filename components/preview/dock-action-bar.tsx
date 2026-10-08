@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useRef, useCallback } from 'react';
+import { useState, useRef } from 'react';
 import confetti from 'canvas-confetti';
 import { toast } from 'sonner';
 import { Button } from '@/components/ui';
@@ -12,7 +12,6 @@ import {
   ViewMode,
 } from '@/components/preview';
 import { BentoTooltip } from '@/components/common/bento-tooltip';
-import { ShareSheet } from './share-sheet';
 
 interface DockActionBarProps {
   initialUsername: string;
@@ -40,8 +39,6 @@ export default function DockActionBar({
   onAddSectionTitle,
 }: DockActionBarProps) {
   const [isEditorOpen, setIsEditorOpen] = useState(false);
-  const [isShareOpen, setIsShareOpen] = useState(false);
-  const closeShare = useCallback(() => setIsShareOpen(false), []);
   const copyButtonRef = useRef<HTMLButtonElement>(null);
 
   const handleCopyLink = async () => {
@@ -84,22 +81,11 @@ export default function DockActionBar({
   return (
     <>
       <div className="relative flex items-center gap-5 px-4 py-3 xl:w-[500px] xl:gap-0 xl:rounded-2xl xl:bg-white/70 xl:px-[13px] xl:shadow-[0_0_0_1px_rgba(0,0,0,.04),0_27px_54px_rgba(0,0,0,.04),0_17.5px_31.625px_rgba(0,0,0,.03),0_10.4px_17.2px_rgba(0,0,0,.024),0_5.4px_8.775px_rgba(0,0,0,.02),0_2.2px_4.4px_rgba(0,0,0,.016),0_.5px_2.125px_rgba(0,0,0,.01)] xl:backdrop-blur-xl xl:backdrop-saturate-150">
-        <ShareSheet
-          link={getDomainUrl(initialUsername)}
-          username={initialUsername}
-          open={isShareOpen}
-          onClose={closeShare}
-          onCopy={handleCopyLink}
-        />
-        {/* Share Button */}
-        <BentoTooltip
-          content="Share your Portfolio"
-          disabled={isSaving || isShareOpen}
-        >
+        {/* Copy Link Button */}
+        <BentoTooltip content="Copy your link" disabled={isSaving}>
           <Button
             ref={copyButtonRef}
-            data-share-toggle
-            onClick={() => setIsShareOpen((open) => !open)}
+            onClick={handleCopyLink}
             disabled={isSaving}
             className="group relative hidden h-[33px] w-[33px] flex-shrink-0 !rounded-md bg-design-success !p-0 px-0 text-sm font-medium !shadow-[0px_2px_3px_rgba(0,0,0,0.06)] transition-all hover:bg-[#3dda69] active:scale-95 xl:inline xl:w-[125px] xl:px-0"
           >
@@ -112,7 +98,7 @@ export default function DockActionBar({
               ) : (
                 <>
                   <span className="hidden font-semibold xl:inline">
-                    Share my Link
+                    Copy my Link
                   </span>
                 </>
               )}
