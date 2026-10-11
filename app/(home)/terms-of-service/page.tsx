@@ -1,5 +1,6 @@
 import { Metadata } from 'next';
 import { BreadcrumbSchema } from '@/components/seo';
+import { SITE_URL } from '@/lib/site';
 
 export const metadata: Metadata = {
   title: 'Terms of Service | Bento',
@@ -8,12 +9,12 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'Terms of Service | Bento',
     description: 'Read our terms and conditions for using Bento.',
-    url: 'https://bento.me/terms-of-service',
+    url: `${SITE_URL}/terms-of-service`,
     siteName: 'Bento',
     type: 'website',
   },
   alternates: {
-    canonical: 'https://bento.me/terms-of-service',
+    canonical: `${SITE_URL}/terms-of-service`,
   },
 };
 
@@ -22,10 +23,10 @@ export default function TermsOfService() {
     <>
       <BreadcrumbSchema
         items={[
-          { name: 'Home', url: 'https://bento.me' },
+          { name: 'Home', url: SITE_URL },
           {
             name: 'Terms of Service',
-            url: 'https://bento.me/terms-of-service',
+            url: `${SITE_URL}/terms-of-service`,
           },
         ]}
       />
@@ -121,12 +122,12 @@ export default function TermsOfService() {
                 <strong className="font-semibold">Website</strong> refers to
                 Bento, accessible from
                 <a
-                  href="https://www.bento.me"
+                  href={SITE_URL}
                   rel="external nofollow noopener"
                   target="_blank"
                   className="text-blue-600 hover:underline"
                 >
-                  https://www.bento.me
+                  {SITE_URL}
                 </a>
               </p>
             </li>

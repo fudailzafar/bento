@@ -1,8 +1,9 @@
 import { MetadataRoute } from 'next';
 import { prisma } from '@/lib/server/db';
+import { SITE_URL } from '@/lib/site';
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const baseUrl = 'https://bento.me';
+  const baseUrl = SITE_URL;
 
   // Every claimed username has a public profile.
   const portfolios = await getAllPublicPortfolios();

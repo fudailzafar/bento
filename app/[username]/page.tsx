@@ -8,6 +8,7 @@ import { prisma } from '@/lib/server/db';
 import { SelfPortfolioLoader } from '@/components/preview';
 import { ClaimUsername } from '@/components/auth';
 import { isReservedUsername, isValidUsername } from '@/lib/routes';
+import { SITE_URL } from '@/lib/site';
 
 export async function generateMetadata({
   params,
@@ -38,7 +39,7 @@ export async function generateMetadata({
       description: page.headline ?? '',
       images: [
         {
-          url: `https://bento.me/${username}/og`,
+          url: `${SITE_URL}/${username}/og`,
           width: 1200,
           height: 630,
           alt: 'bento.me Profile',
@@ -101,7 +102,7 @@ export default async function ProfilePage({
     jobTitle: page.headline,
     description: page.bio,
     email: page.email && `mailto:${page.email}`,
-    url: `https://bento.me/${username}`,
+    url: `${SITE_URL}/${username}`,
   };
 
   return (
