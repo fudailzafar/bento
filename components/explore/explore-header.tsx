@@ -10,7 +10,7 @@ export function HeaderExplore() {
           <Link href="/" className="block">
             <Image
               src="/icons/android-chrome-192x192.png"
-              alt="Portfoliofy logo"
+              alt="Bento logo"
               width={40}
               height={40}
               className="relative block w-10 max-[479px]:w-9"

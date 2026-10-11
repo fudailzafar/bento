@@ -130,7 +130,7 @@ export async function getLinkPreview(
         signal: AbortSignal.timeout(5000),
         headers: {
           'user-agent':
-            'Mozilla/5.0 (compatible; PortfoliofyBot/1.0; +https://portfoliofy.me)',
+            'Mozilla/5.0 (compatible; BentoBot/1.0; +https://bento.me)',
           accept: 'text/html',
         },
       });

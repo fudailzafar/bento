@@ -24,7 +24,6 @@ export const RESERVED_USERNAMES = [
   'pricing',
   'status',
   'bento',
-  'portfoliofy',
   'sitemap.xml',
   'robots.txt',
   'manifest.webmanifest',

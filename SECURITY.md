@@ -8,7 +8,7 @@ Only the latest version on the `main` branch is currently supported.
 
 Please do not report security vulnerabilities in a public issue. Open a
 private report through
-[GitHub's private vulnerability reporting](https://github.com/fudailzafar/portfoliofy-v1/security/advisories/new).
+[GitHub's private vulnerability reporting](https://github.com/fudailzafar/bento/security/advisories/new).
 
 Include:
 

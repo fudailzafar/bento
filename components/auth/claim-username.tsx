@@ -86,7 +86,7 @@ export default function ClaimUsername({
         <div className="bento-claim-peripheral flex h-[72px] w-[72px] items-center justify-center rounded-[18px] bg-design-primaryLight shadow-[0_13px_9px_rgba(0,0,0,.03),0_8.42593px_5.27083px_rgba(0,0,0,.023),0_5.00741px_2.86667px_rgba(0,0,0,.018),0_2.6px_1.4625px_rgba(0,0,0,.015),0_1.05926px_.733333px_rgba(0,0,0,.012),0_.240741px_.354167px_rgba(0,0,0,.007)]">
           <Image
             src="/icons/android-chrome-192x192.png"
-            alt="Portfoliofy logo"
+            alt="Bento logo"
             width={42}
             height={42}
             className="h-[42px] w-[42px]"

@@ -28,7 +28,7 @@ interface DockActionBarProps {
 
 export default function DockActionBar({
   initialUsername = '',
-  prefix = 'portfoliofy.me/',
+  prefix = 'bento.me/',
   viewMode = 'desktop',
   onViewModeChange,
   isSaving,

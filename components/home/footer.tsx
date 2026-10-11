@@ -18,7 +18,7 @@ export function Footer() {
     <footer className="mx-auto flex w-[1680px] max-w-full flex-col items-center justify-start gap-6 pb-[280px] pt-[240px] text-sm leading-5 max-[479px]:py-[110px]">
       <Image
         src={'/icons/android-chrome-192x192.png'}
-        alt="portfoliofy logo"
+        alt="bento logo"
         width={44}
         height={44}
       />

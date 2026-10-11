@@ -20,28 +20,28 @@ export async function generateMetadata({
 
   if (!user_id || !page) {
     return {
-      title: 'Portfoliofy - A Portfolio, but Rich and Beautiful.',
+      title: 'Bento - A Portfolio, but Rich and Beautiful.',
       description:
         'Create a beautiful page to show your audience everything you are, create, and sell in one link. Designed in Berlin.',
     };
   }
 
   return {
-    title: `${page.name ?? 'Portfoliofy'}`,
+    title: `${page.name ?? 'Bento'}`,
     description: page.headline ?? '',
     icons: {
       icon: profilePicture,
       shortcut: profilePicture,
     },
     openGraph: {
-      title: `${page.name ?? 'Portfoliofy'}`,
+      title: `${page.name ?? 'Bento'}`,
       description: page.headline ?? '',
       images: [
         {
-          url: `https://portfoliofy.me/${username}/og`,
+          url: `https://bento.me/${username}/og`,
           width: 1200,
           height: 630,
-          alt: 'portfoliofy.me Profile',
+          alt: 'bento.me Profile',
         },
       ],
     },
@@ -101,7 +101,7 @@ export default async function ProfilePage({
     jobTitle: page.headline,
     description: page.bio,
     email: page.email && `mailto:${page.email}`,
-    url: `https://portfoliofy.me/${username}`,
+    url: `https://bento.me/${username}`,
   };
 
   return (

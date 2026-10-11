@@ -2,7 +2,7 @@ import { Footer, HomeNavbar } from '@/components/home';
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Portfoliofy - Changelog',
+  title: 'Bento - Changelog',
 };
 
 // Newest first. Add an entry here when a release ships.

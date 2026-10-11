@@ -2,18 +2,18 @@ import { Metadata } from 'next';
 import { BreadcrumbSchema } from '@/components/seo';
 
 export const metadata: Metadata = {
-  title: 'Terms of Service | Portfoliofy',
+  title: 'Terms of Service | Bento',
   description:
-    'Read our terms and conditions for using Portfoliofy. Learn about user agreements, service usage, and legal guidelines.',
+    'Read our terms and conditions for using Bento. Learn about user agreements, service usage, and legal guidelines.',
   openGraph: {
-    title: 'Terms of Service | Portfoliofy',
-    description: 'Read our terms and conditions for using Portfoliofy.',
-    url: 'https://portfoliofy.me/terms-of-service',
-    siteName: 'Portfoliofy',
+    title: 'Terms of Service | Bento',
+    description: 'Read our terms and conditions for using Bento.',
+    url: 'https://bento.me/terms-of-service',
+    siteName: 'Bento',
     type: 'website',
   },
   alternates: {
-    canonical: 'https://portfoliofy.me/terms-of-service',
+    canonical: 'https://bento.me/terms-of-service',
   },
 };
 
@@ -22,10 +22,10 @@ export default function TermsOfService() {
     <>
       <BreadcrumbSchema
         items={[
-          { name: 'Home', url: 'https://portfoliofy.me' },
+          { name: 'Home', url: 'https://bento.me' },
           {
             name: 'Terms of Service',
-            url: 'https://portfoliofy.me/terms-of-service',
+            url: 'https://bento.me/terms-of-service',
           },
         ]}
       />
@@ -82,7 +82,7 @@ export default function TermsOfService() {
                 <strong className="font-semibold">Company</strong> (referred to
                 as either &quot;the Company&quot;, &quot;We&quot;,
                 &quot;Us&quot; or &quot;Our&quot; in this Agreement) refers to
-                Portfoliofy.
+                Bento.
               </p>
             </li>
             <li>
@@ -119,14 +119,14 @@ export default function TermsOfService() {
             <li>
               <p>
                 <strong className="font-semibold">Website</strong> refers to
-                Portfoliofy, accessible from
+                Bento, accessible from
                 <a
-                  href="https://www.portfoliofy.me"
+                  href="https://www.bento.me"
                   rel="external nofollow noopener"
                   target="_blank"
                   className="text-blue-600 hover:underline"
                 >
-                  https://www.portfoliofy.me
+                  https://www.bento.me
                 </a>
               </p>
             </li>

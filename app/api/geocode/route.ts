@@ -26,7 +26,7 @@ export async function GET(request: NextRequest) {
       })}`,
       {
         // Nominatim's usage policy asks for an identifying user agent.
-        headers: { 'user-agent': 'Portfoliofy (https://portfoliofy.me)' },
+        headers: { 'user-agent': 'Bento (https://bento.me)' },
         signal: AbortSignal.timeout(6000),
         next: { revalidate: 24 * 60 * 60 },
       }

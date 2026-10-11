@@ -1,13 +1,13 @@
-<a href="https://portfoliofy.me">
+<a href="https://bento.me">
   <img alt="Open Graph Image" src="./app/opengraph-image.png">
-  <h1 align="center">Portfoliofy</h1>
+  <h1 align="center">Bento</h1>
 </a>
 
 <p align="center">
   A link in bio, but rich and beautiful. An open-source learning project inspired by bento.me.
 </p>
 
-Portfoliofy lets people build a visual portfolio page from links, media, notes,
+Bento lets people build a visual portfolio page from links, media, notes,
 maps, and embeds. The project is designed to be self-hosted with Supabase and
 Vercel, but can also be run locally for development.
 
@@ -42,8 +42,8 @@ Vercel, but can also be run locally for development.
 1. Clone the repository:
 
    ```sh
-   git clone https://github.com/fudailzafar/portfoliofy-v1.git
-   cd portfoliofy-v1
+   git clone https://github.com/fudailzafar/bento.git
+   cd bento
    ```
 
 2. Install dependencies:

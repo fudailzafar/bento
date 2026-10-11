@@ -58,7 +58,7 @@ export function HomeNavbar({
         <div className="flex h-10 w-10 items-center justify-center rounded-[10px] bg-design-primary">
           <Image
             src={LOGO_SRC}
-            alt="Portfoliofy logo"
+            alt="Bento logo"
             width={64}
             height={64}
             className="h-5 w-auto"
@@ -253,7 +253,7 @@ export function Hero() {
         >
           <Image
             src={LOGO_SRC}
-            alt="Portfoliofy logo"
+            alt="Bento logo"
             width={128}
             height={128}
             priority
