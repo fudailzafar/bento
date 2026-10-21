@@ -251,6 +251,9 @@ interface WidgetToolbarProps {
   cropping: boolean;
   // Whether the widget is selected; its option panels close when it isn't.
   selected: boolean;
+  // Told when an option panel opens or closes, so the widget can stay
+  // selected while one is open.
+  onPanelChange?: (open: boolean) => void;
 }
 
 // The black bar under a selected widget: its sizes, plus that widget's own
@@ -262,11 +265,17 @@ export function WidgetToolbar({
   onCrop,
   cropping,
   selected,
+  onPanelChange,
 }: WidgetToolbarProps) {
   const [panel, setPanel] = useState<Panel>(null);
   useEffect(() => {
     if (!selected) setPanel(null);
   }, [selected]);
+  const panelChange = useRef(onPanelChange);
+  panelChange.current = onPanelChange;
+  useEffect(() => {
+    panelChange.current?.(panel !== null);
+  }, [panel]);
   const toggle = (next: Panel) => setPanel((p) => (p === next ? null : next));
   const data = block.data as Record<string, string | undefined>;
 
@@ -523,7 +532,7 @@ export async function searchPlaces(query: string): Promise<Place[]> {
   return response.ok ? response.json() : [];
 }
 
-// Live place search (OpenStreetMap), plus the browser's own location.
+// Live place search (Mapbox), plus the browser's own location.
 function MapSearch({
   current,
   onPick,
