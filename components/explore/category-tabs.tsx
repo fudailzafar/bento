@@ -14,7 +14,7 @@ function BentoCard({ bento }: { bento: ExploreBento }) {
         rel="noopener noreferrer"
         className={cn(
           PREVIEW_CARD,
-          'px-4 pb-10 pt-4 max-[479px]:w-screen max-[479px]:px-2'
+          'px-4 pb-10 pt-4 max-[479px]:w-screen max-[479px]:max-w-full max-[479px]:px-2'
         )}
       >
         <div className="relative w-full rounded-xl shadow-[0_2px_2px_rgba(0,0,0,.02)]">
