@@ -435,3 +435,54 @@
   opacity: 1 !important;
   border-radius: 2rem !important; /* match widget border radius */
 }
+
+/* bento.me landing loops — durations include Webflow's 500ms hold before each pass */
+@keyframes bento-icon-carousel {
+  0%, 2.7% { transform: translateX(231px); }
+  100% { transform: translateX(-296px); }
+}
+.bento-icon-carousel { animation: bento-icon-carousel 18.5s linear infinite; }
+
+@keyframes bento-username-carousel {
+  0%, 2.04% { transform: translateY(31%); }
+  100% { transform: translateY(-19.1%); }
+}
+.bento-username-carousel { animation: bento-username-carousel 24.5s linear infinite; }
+
+@keyframes bento-spotify-pulse {
+  0%, 17.24% { transform: scale(1); opacity: .5; animation-timing-function: cubic-bezier(0, .512, .216, .997); }
+  100% { transform: scale(5); opacity: 0; filter: blur(.4px); }
+}
+.bento-spotify-pulse { animation: bento-spotify-pulse 2.9s infinite; }
+
+@keyframes bento-location-pulse {
+  0%, 30% { width: 26px; height: 26px; transform: translate(-13px, -13px); opacity: .3; animation-timing-function: cubic-bezier(0, .5, .497, .997); }
+  90% { width: 240px; height: 240px; transform: translate(-120px, -120px); opacity: 0; }
+  90.01% { width: 26px; height: 26px; transform: translate(-13px, -13px); opacity: 0; }
+  100% { width: 26px; height: 26px; transform: translate(-13px, -13px); opacity: .3; }
+}
+.bento-location-pulse { animation: bento-location-pulse 5s infinite; }
+
+@keyframes bento-note-1 {
+  0%, 13.16% { transform: translate(37px, 37px) rotate(-40deg); opacity: 1; filter: blur(0); animation-timing-function: cubic-bezier(0, .436, .298, .985); }
+  55.26%, 73.68% { transform: translate(80px, 7px) rotate(0deg); opacity: 0; filter: blur(3px); }
+  73.69% { transform: translate(37px, 37px) rotate(0deg); opacity: 1; filter: blur(0); }
+  100% { transform: translate(37px, 37px) rotate(-40deg); opacity: 1; filter: blur(0); }
+}
+@keyframes bento-note-2 {
+  0% { transform: translate(37px, 37px) rotate(-30deg); opacity: 1; filter: blur(0); }
+  13.16%, 21.05% { transform: translate(37px, 37px) rotate(60deg); opacity: 1; filter: blur(0); animation-timing-function: cubic-bezier(0, .436, .298, .985); }
+  63.16%, 73.68% { transform: translate(5px, 73px) rotate(0deg); opacity: 0; filter: blur(3px); }
+  73.69% { transform: translate(37px, 37px) rotate(0deg); opacity: 1; filter: blur(0); }
+  100% { transform: translate(37px, 37px) rotate(-30deg); opacity: 1; filter: blur(0); }
+}
+@keyframes bento-note-3 {
+  0% { transform: translate(37px, 37px) rotate(60deg); opacity: 1; filter: blur(0); }
+  13.16%, 31.58% { transform: translate(37px, 37px) rotate(-30deg); opacity: 1; filter: blur(0); animation-timing-function: cubic-bezier(0, .436, .298, .985); }
+  73.68% { transform: translate(11px, -11px) rotate(0deg); opacity: 0; filter: blur(3px); }
+  73.69% { transform: translate(37px, 37px) rotate(0deg); opacity: 1; filter: blur(0); }
+  100% { transform: translate(37px, 37px) rotate(60deg); opacity: 1; filter: blur(0); }
+}
+.bento-note-1 { left: 0; top: 0; animation: bento-note-1 3.8s infinite; }
+.bento-note-2 { left: 0; top: 0; animation: bento-note-2 3.8s infinite; }
+.bento-note-3 { left: 0; top: 0; animation: bento-note-3 3.8s infinite; }
