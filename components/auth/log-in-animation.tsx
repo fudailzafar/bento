@@ -1,21 +1,13 @@
 'use client';
 
-import React, { useMemo } from 'react';
+import { StylizedCloud, type StylizedTile } from './widget-cloud';
 
-interface Widget {
-  id: string;
-  background: string;
-  icon: React.ReactNode;
-  cols: number;
-  rows: number;
-}
-
-const widgets: Widget[] = [
+// Brand tiles in bento.me's login order: Twitter, YouTube, Gumroad, Dribbble,
+// Substack, GitHub, Buy Me a Coffee.
+const widgets: StylizedTile[] = [
   {
     id: 'twitter-link',
     background: '#55ACEE',
-    cols: 1,
-    rows: 2,
     icon: (
       <svg
         width="64"
@@ -48,8 +40,6 @@ const widgets: Widget[] = [
   {
     id: 'youtube-link',
     background: '#FF0000',
-    cols: 1,
-    rows: 1,
     icon: (
       <svg
         width="64"
@@ -71,8 +61,6 @@ const widgets: Widget[] = [
   {
     id: 'gumroad-link',
     background: '#FF90E8',
-    cols: 1,
-    rows: 1,
     icon: (
       <svg
         width="64"
@@ -116,8 +104,6 @@ const widgets: Widget[] = [
     ),
   },
   {
-    cols: 2,
-    rows: 1,
     id: 'dribbble-link',
     background: '#FFABE7',
     icon: (
@@ -157,8 +143,6 @@ const widgets: Widget[] = [
     ),
   },
   {
-    cols: 2,
-    rows: 2,
     id: 'substack-link',
     background: '#FF6719',
     icon: (
@@ -209,12 +193,10 @@ const widgets: Widget[] = [
         </defs>
       </svg>
     ),
-    cols: 1,
-    rows: 1,
   },
   {
     id: 'buymeacoffee-link',
-    background: '#FFDD06',
+    background: '#FFDD00',
     icon: (
       <svg
         width="64"
@@ -223,7 +205,7 @@ const widgets: Widget[] = [
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
       >
-        <rect width="40" height="40" rx="10" fill="#FFDD06" />
+        <rect width="40" height="40" rx="10" fill="#FFDD00" />
         <path
           d="M26.8709 13.5812L26.8562 13.5738L26.8195 13.5592C26.8268 13.5738 26.8489 13.5812 26.8709 13.5812Z"
           fill="#010202"
@@ -274,71 +256,14 @@ const widgets: Widget[] = [
         />
       </svg>
     ),
-    cols: 1,
-    rows: 1,
   },
 ];
 
-interface FloatingWidgetProps {
-  widget: Widget;
-  index: number;
-  isActive?: boolean;
-}
 
-const FloatingWidget: React.FC<FloatingWidgetProps> = ({
-  widget,
-  index,
-  isActive = true,
-}) => {
-  const randomValues = useMemo(
-    () => ({
-      randomX: Math.random() * 1.2 - 0.6, // Range: -0.6 to 0.6 (more movement)
-      randomY: Math.random() * 1.2 - 0.6,
-      randomRotate: Math.random() * 30 - 15, // Range: -15 to 15 degrees (more rotation)
-      delay: index * 0.4, // Stagger animation
-    }),
-    [index]
-  );
-
-  return (
-    <div
-      id={widget.id}
-      className={`floating-widget ${isActive ? 'active' : 'paused'} pointer-events-none relative flex flex-col items-center justify-center rounded-[22px] p-[22px] shadow-[0_22px_42px_rgba(0,0,0,.02),0_14.2593px_24.5972px_rgba(0,0,0,.015),0_8.47407px_13.3778px_rgba(0,0,0,.012),0_4.4px_6.825px_rgba(0,0,0,.01),0_1.79259px_3.42222px_rgba(0,0,0,.008),0_.407407px_1.65278px_rgba(0,0,0,.005)] ${widget.cols === 1 ? 'col-span-1' : 'col-span-2'} ${widget.rows === 1 ? 'row-span-1' : 'row-span-2'}`}
-      style={
-        {
-          background: widget.background,
-          '--random-x-value': randomValues.randomX,
-          '--random-y-value': randomValues.randomY,
-          '--random-rotate-value': randomValues.randomRotate,
-          '--animation-delay': `${randomValues.delay}s`,
-        } as React.CSSProperties
-      }
-    >
-      <div>{widget.icon}</div>
-      <div className="pointer-events-none absolute inset-0 rounded-[inherit] shadow-[inset_0px_0px_0px_1px_rgba(0,0,0,0.09)]"></div>
-    </div>
-  );
-};
-
-interface FloatingWidgetsGridProps {
-  isActive?: boolean;
-}
-
-export default function LogInAnimation({
-  isActive = true,
-}: FloatingWidgetsGridProps) {
+export default function LogInAnimation() {
   return (
     <div className="hidden flex-1 items-center justify-center lg:flex">
-      <div className="grid grid-cols-3 grid-rows-4 gap-5" style={{ width: '320px', height: '420px' }}>
-        {widgets.map((widget, index) => (
-          <FloatingWidget
-            key={widget.id}
-            widget={widget}
-            index={index}
-            isActive={isActive}
-          />
-        ))}
-      </div>
+      <StylizedCloud tiles={widgets} state="gas" />
     </div>
   );
 }

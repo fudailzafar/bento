@@ -1,154 +1,154 @@
-import React from 'react';
-import { Input } from '../ui';
-import Link from 'next/link';
-import { GoogleIcon, LoaderIcon } from '../icons';
+'use client';
 
-interface LogInPageProps {
-  handleSubmit: (e: React.FormEvent) => void;
+import Link from 'next/link';
+import { AnimatePresence, motion } from 'framer-motion';
+import {
+  BentoButton,
+  BentoInput,
+  GoogleIcon,
+  PasswordInput,
+  fade,
+} from './bento-ui';
+
+export type LoginMethod = 'credentials' | 'google';
+
+interface LoginContentProps {
   email: string;
   setEmail: (email: string) => void;
   password: string;
   setPassword: (password: string) => void;
-  showPassword: boolean;
-  setShowPassword: (show: boolean) => void;
-  isLoading: boolean;
-  hasCredentials: boolean;
-  error: string;
+  onSubmit: (e: React.FormEvent) => void;
+  onGoogle: () => void;
+  loggingIn?: LoginMethod;
+  error?: string;
+  clearError: () => void;
 }
 
+// Left column of bento.me/login. Typing an email swaps "OR" + Google for the
+// black "Log in" button, exactly like bento.
 export default function LoginContent({
-  handleSubmit,
   email,
   setEmail,
   password,
   setPassword,
-  showPassword,
-  setShowPassword,
-  isLoading,
-  hasCredentials,
+  onSubmit,
+  onGoogle,
+  loggingIn,
   error,
-}: LogInPageProps) {
+  clearError,
+}: LoginContentProps) {
+  const hasEmail = !!email;
+
   return (
-    <div className="mx-auto lg:ml-10 w-full max-w-[440px] space-y-8">
-      {/* Header for Login */}
-      <div className="text-left">
-        <h1 className="my-6 text-[28px] font-semibold leading-[40px] text-design-black sm:mb-4 lg:text-[32px]">
+    <div className="relative flex flex-1 flex-col items-center justify-center">
+      <div className="flex w-full max-w-[448px] flex-col">
+        <h1 className="mt-2 text-[32px] font-semibold leading-10 text-black">
           Log in to your Bento
         </h1>
-        <h2 className="text-xl font-light text-[#6C6C6C] sm:text-xl">
+        <p className="mt-4 text-xl leading-9 text-[#6c6c6c]">
           Good to have you back!
-        </h2>
-      </div>
+        </p>
 
-      {/* Authentication Form */}
-      <form onSubmit={handleSubmit} className="pt-10">
-        {/* Input Fields */}
-        <div className="flex flex-col gap-3 sm:flex-row sm:gap-4">
-          <Input
-            id="email"
-            type="email"
-            placeholder="Email address"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            disabled={isLoading}
-            className="h-12 w-full rounded-xl border-0 bg-[#F7F7F7] px-4 text-base font-light outline-none placeholder:text-[#BFBFBF] focus-visible:ring-0 focus-visible:ring-offset-0 sm:rounded-lg"
-          />
-
-          <div className="relative w-full">
-            <Input
-              id="password"
-              type={showPassword ? 'text' : 'password'}
+        <form className="flex flex-col" onSubmit={onSubmit}>
+          <div className="mt-20 grid w-full grid-cols-1 gap-3 sm:grid-cols-2">
+            <BentoInput
+              className="flex-1"
+              autoFocus
+              placeholder="Email address"
+              type="email"
+              autoComplete="username"
+              value={email}
+              onChange={(e) => {
+                setEmail(e.target.value);
+                clearError();
+              }}
+            />
+            <PasswordInput
+              autoComplete="current-password"
               placeholder="Password"
               value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              disabled={isLoading}
-              className="h-12 w-full rounded-xl border-0 bg-[#F7F7F7] px-4 pr-[76px] text-base font-light outline-none placeholder:text-[#BFBFBF] focus-visible:ring-0 focus-visible:ring-offset-0 sm:rounded-lg"
+              onChange={(e) => {
+                setPassword(e.target.value);
+                clearError();
+              }}
             />
-            <button
-              type="button"
-              onClick={() => setShowPassword(!showPassword)}
-              className="absolute right-2 top-1/2 flex h-8 w-[60px] -translate-y-1/2 items-center justify-center rounded bg-white text-xs font-semibold text-black shadow-[0_1px_2px_rgba(0,0,0,0.08)] transition-all hover:bg-gray-50 active:scale-95 active:bg-gray-200 active:shadow-none"
+          </div>
+
+          <div className="ml-0.5 mt-2">
+            <Link
+              href={`/reset-password?email=${encodeURIComponent(email)}`}
+              className="text-xs text-design-primaryLight underline"
             >
-              {showPassword ? 'Hide' : 'Show'}
-            </button>
+              Reset Password
+            </Link>
           </div>
-        </div>
 
-        {/* Reset Password Link */}
-        <div className="ml-0.5 mt-2">
-          <Link
-            href="/reset-password"
-            className="text-xs font-light text-design-primaryLight underline"
-          >
-            Reset Password
-          </Link>
-        </div>
-
-        {/* OR Divider - only show when not in credentials mode */}
-        {!hasCredentials ? (
-          <div className="relative">
-            <div className="ml-0.5 flex h-[64px] items-center text-sm font-semibold uppercase text-black">
-              OR
-            </div>
-          </div>
-        ) : (
-          <>
-            {error ? (
-              <div className="text-xs text-[#ed3a51]">{error}</div>
-            ) : (
-              <div className="invisible flex justify-start text-left text-sm font-semibold uppercase text-black">
-                <Link
-                  href="/reset-password"
-                  className="text-sm font-normal text-[#5B68F4] hover:underline"
+          <div className="relative ml-0.5 flex h-16">
+            <AnimatePresence mode="wait">
+              {!error && !hasEmail && (
+                <motion.div
+                  key="or"
+                  {...fade}
+                  className="flex h-full items-center text-sm font-semibold"
                 >
-                  Reset Password
-                </Link>
-              </div>
-            )}
-          </>
-        )}
+                  OR
+                </motion.div>
+              )}
+              {error && (
+                <motion.div
+                  key="error"
+                  {...fade}
+                  className="flex h-full flex-col items-start justify-center"
+                >
+                  <p className="text-xs text-[#ff2222]">{error}</p>
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </div>
 
-        {/* Conditional Buttons */}
-        {hasCredentials ? (
-          <button
-            type="submit"
-            disabled={isLoading || !email || !password}
-            className="flex w-full cursor-pointer items-center justify-center gap-3 rounded-lg bg-black px-6 py-3 text-sm font-semibold tracking-tight text-white transition-all duration-300 ease-out hover:bg-black/80 active:scale-95 disabled:cursor-not-allowed disabled:opacity-70"
-          >
-            {isLoading ? (
-              <>
-                <LoaderIcon />
-              </>
-            ) : (
-              'Log in'
-            )}
-          </button>
-        ) : (
-          <button
-            type="submit"
-            disabled={isLoading}
-            className="flex w-full items-center justify-center gap-3 rounded-xl bg-[#1d9bf0] px-6 py-5 text-sm font-semibold tracking-tight text-white shadow-lg transition-all duration-300 ease-out hover:bg-[#1a96eb] active:scale-95 disabled:cursor-not-allowed disabled:opacity-70 sm:py-3 xl:rounded-lg"
-          >
-            {isLoading ? (
-              <>
-                <LoaderIcon />
-              </>
-            ) : (
-              <>
-                <GoogleIcon />
-                Sign in with Google
-              </>
-            )}
-          </button>
-        )}
-      </form>
+          <div className="relative h-[58px] sm:h-[45px]">
+            <AnimatePresence mode="sync">
+              {hasEmail && (
+                <motion.div
+                  key="withMail"
+                  className="flex h-full w-full flex-col"
+                  {...fade}
+                  exit={{ opacity: 0, position: 'absolute' }}
+                >
+                  <BentoButton
+                    className="h-full"
+                    type="submit"
+                    loading={loggingIn === 'credentials'}
+                    disabled={!!loggingIn}
+                  >
+                    Log in
+                  </BentoButton>
+                </motion.div>
+              )}
+              {!hasEmail && (
+                <motion.div
+                  key="withGoogle"
+                  className="flex h-full w-full flex-col"
+                  {...fade}
+                  exit={{ opacity: 0, position: 'absolute' }}
+                >
+                  <BentoButton
+                    icon={<GoogleIcon />}
+                    variant="oauth"
+                    className="h-full"
+                    loading={loggingIn === 'google'}
+                    disabled={!!loggingIn}
+                    onClick={onGoogle}
+                  >
+                    Sign in with Google
+                  </BentoButton>
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </div>
+        </form>
 
-      {/* Redirect to Sign Up */}
-      <div className="mt-6 text-left">
-        <Link
-          href="/signup"
-          className="text-xs font-normal text-[#6c6c6c] transition-colors"
-        >
+        <Link href="/signup" className="ml-0.5 mt-8 text-xs text-[#6c6c6c]">
           or sign up
         </Link>
       </div>

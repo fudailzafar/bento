@@ -1,19 +1,16 @@
-'use client';
+import { SignupContent } from '@/components/auth';
 
-import { useState } from 'react';
-import { SignUpAnimation, SignupContent } from '@/components/auth';
+// Like bento, /signup?handle=name (from an unclaimed handle's "Claim Handle
+// Now") opens directly on the account step with that handle.
+export default async function SignupPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ handle?: string | string[] }>;
+}) {
+  const { handle } = await searchParams;
+  const initialHandle = (Array.isArray(handle) ? handle[0] : handle ?? '')
+    .toLowerCase()
+    .replace(/[^a-z0-9-_]/g, '');
 
-export default function SignupPage() {
-  const [currentStep, setCurrentStep] = useState<'username' | 'auth'>(
-    'username'
-  );
-
-  return (
-    <div className="flex min-h-[90vh] items-center justify-center gap-12 px-7 sm:px-6 md:min-h-screen lg:gap-16 lg:px-32">
-      <div className="w-full max-w-[440px] space-y-8">
-        <SignupContent onStepChange={setCurrentStep} />
-      </div>
-      <SignUpAnimation isActive={currentStep === 'username'} />
-    </div>
-  );
+  return <SignupContent initialHandle={initialHandle} />;
 }

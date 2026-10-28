@@ -1,394 +1,429 @@
 'use client';
 
-import {
-  ArrowLeftIcon,
-  CheckmarkSmallIcon,
-  CrossIcon,
-  GoogleIcon,
-  LoaderIcon,
-} from '@/components/icons';
 import { createClient } from '@/lib/supabase/client';
 import { useRouter } from 'next/navigation';
-import { useEffect, useState } from 'react';
-import { Input } from '@/components/ui/input';
+import { useEffect, useState, type ReactNode } from 'react';
 import { useDebounce } from '@/hooks/use-debounce';
+import { useMediaQuery } from '@/hooks';
 import { motion, AnimatePresence } from 'framer-motion';
-import clsx from 'clsx';
 import Link from 'next/link';
 import { goToOwnPage } from './go-to-own-page';
+import SignUpAnimation from './sign-up-animation';
+import {
+  AnimatedCheck,
+  BackArrowIcon,
+  BentoButton,
+  BentoInput,
+  CrossIcon,
+  FADE_EASE,
+  GoogleIcon,
+  PasswordInput,
+  Spinner,
+  fade,
+} from './bento-ui';
 
-export default function SignupContent({
-  onStepChange,
-}: { onStepChange?: (step: 'username' | 'auth') => void } = {}) {
+type Step = 'handle' | 'account';
+type Direction = 1 | -1;
+type SigningUp = 'credentials' | 'google' | undefined;
+
+const stepVariants = {
+  initial: ({ dir, narrow }: { dir: Direction; narrow: boolean }) => ({
+    opacity: 0,
+    x: (narrow ? 16 : 40) * dir,
+    pointerEvents: 'auto' as const,
+  }),
+  animate: {
+    opacity: 1,
+    x: 0,
+    transition: { delay: 0, duration: 0.5, ease: FADE_EASE },
+  },
+  exit: ({ dir, narrow }: { dir: Direction; narrow: boolean }) => ({
+    opacity: 0,
+    x: (narrow ? -8 : -20) * dir,
+    pointerEvents: 'none' as const,
+    transition: { duration: 0.35, ease: FADE_EASE },
+  }),
+};
+
+// One step of bento.me/signup's flow (their "bold-step").
+function StepFrame({
+  children,
+  custom,
+}: {
+  children: ReactNode;
+  custom: { dir: Direction; narrow: boolean };
+}) {
+  return (
+    <motion.div
+      custom={custom}
+      variants={stepVariants}
+      initial="initial"
+      animate="animate"
+      exit="exit"
+      className="absolute inset-0 flex flex-col items-center justify-center [&_h1]:font-bold"
+    >
+      {children}
+    </motion.div>
+  );
+}
+
+const statusFade = {
+  initial: { opacity: 0 },
+  animate: { opacity: 1, transition: { duration: 0.3 } },
+  exit: { opacity: 0, transition: { duration: 0.3 } },
+};
+
+function HandleStep({
+  value,
+  setValue,
+  onNext,
+}: {
+  value: string;
+  setValue: (value: string) => void;
+  onNext: () => void;
+}) {
+  const handle = useDebounce(value, 400);
+  const [checked, setChecked] = useState<{ handle: string; free: boolean }>();
+
+  useEffect(() => {
+    if (!handle) return;
+    if (handle.length < 3) {
+      setChecked({ handle, free: false });
+      return;
+    }
+    let cancelled = false;
+    fetch(`/api/check-username?username=${encodeURIComponent(handle)}`)
+      .then((res) => (res.ok ? res.json() : { available: false }))
+      .then((data) => {
+        if (!cancelled) setChecked({ handle, free: !!data.available });
+      })
+      .catch(() => {
+        if (!cancelled) setChecked({ handle, free: false });
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, [handle]);
+
+  // Still "loading" while the debounce or the request is in flight.
+  const loading = value !== handle || checked?.handle !== handle;
+  const free = !loading && !!checked?.free;
+  const tooShort = !loading && value.length > 0 && value.length < 3;
+
+  return (
+    <>
+      <div className="flex w-full flex-col">
+        <h1 className="text-[32px] leading-10 text-black">
+          First, claim your unique link
+        </h1>
+        <p className="mt-4 text-xl leading-9 text-[#6c6c6c]">
+          The good ones are still available!
+        </p>
+        <form
+          onSubmit={(e) => {
+            e.preventDefault();
+            if (free) onNext();
+          }}
+        >
+          <BentoInput
+            autoFocus
+            className="mt-20"
+            placeholder="your-name"
+            value={value}
+            onChange={(e) =>
+              setValue(e.target.value.toLowerCase().replace(/[^a-z0-9-_]/g, ''))
+            }
+            addonLeft={
+              <div className="-mr-2.5 whitespace-nowrap text-[#6c6c6c]">
+                bento.me/
+              </div>
+            }
+            addonRight={
+              value ? (
+                <AnimatePresence mode="wait">
+                  {loading && (
+                    <motion.span key="loading" {...statusFade}>
+                      <Spinner size={12} />
+                    </motion.span>
+                  )}
+                  {!loading && free && (
+                    <motion.span key="free" {...statusFade}>
+                      <AnimatedCheck size={16} />
+                    </motion.span>
+                  )}
+                  {!loading && !free && (
+                    <motion.button
+                      key="taken"
+                      type="button"
+                      {...statusFade}
+                      onClick={() => setValue('')}
+                    >
+                      <CrossIcon size={14} />
+                    </motion.button>
+                  )}
+                </AnimatePresence>
+              ) : undefined
+            }
+          />
+          <div className="mt-4 h-[58px] sm:h-12">
+            {value && (loading || free) && (
+              <BentoButton className="h-full w-full" disabled={loading} type="submit">
+                Grab my Link
+              </BentoButton>
+            )}
+            {value && !loading && !free && (
+              <div className="text-xs text-[#ff2222]">
+                {tooShort
+                  ? 'This username seems to be too short...'
+                  : 'This username seems to be taken already...'}
+                <br />
+                {tooShort ? 'Try something longer.' : 'Try something similar.'}
+              </div>
+            )}
+          </div>
+        </form>
+        <Link href="/login" className="mt-8 text-xs text-[#6c6c6c]">
+          or log in
+        </Link>
+      </div>
+    </>
+  );
+}
+
+function AccountStep({
+  handle,
+  onBack,
+}: {
+  handle: string;
+  onBack: () => void;
+}) {
   const router = useRouter();
-  const [isLoading, setIsLoading] = useState(false);
-  const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState('');
-  const [usernameAvailable, setUsernameAvailable] = useState<boolean | null>(
-    null
-  );
-  const [checkingUsername, setCheckingUsername] = useState(false);
-  const [step, setStep] = useState<'username' | 'auth'>('username');
-  const [direction, setDirection] = useState<'forward' | 'backward'>('forward');
+  const [signingUp, setSigningUp] = useState<SigningUp>();
+  const hasEmail = !!email;
 
-  const debouncedUsername = useDebounce(username, 600);
-  const hasCredentials = email.length > 0 || password.length > 0;
+  const handleCredentials = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (signingUp) return;
+    setSigningUp('credentials');
 
-  useEffect(() => {
-    if (onStepChange) {
-      onStepChange(step);
-    }
-  }, [step, onStepChange]);
-
-  useEffect(() => {
     const supabase = createClient();
-    supabase.auth.getSession().then(({ data: { session } }) => {
-      if (session?.user) {
-        goToOwnPage(router);
-      }
+    const { data, error: signUpError } = await supabase.auth.signUp({
+      email,
+      password,
+      options: { data: { username: handle } },
     });
-  }, [router]);
 
-  useEffect(() => {
-    const checkUsername = async () => {
-      if (debouncedUsername.length < 3) {
-        setUsernameAvailable(null);
-        return;
-      }
-
-      setCheckingUsername(true);
-      try {
-        const response = await fetch(
-          `/api/check-username?username=${debouncedUsername}`
-        );
-
-        if (!response.ok) {
-          console.error('Username check failed:', response.status);
-          setUsernameAvailable(null);
-          return;
-        }
-
-        const data = await response.json();
-        console.log('Username check response:', data);
-        setUsernameAvailable(data.available);
-      } catch (error) {
-        console.error('Username check error:', error);
-        setUsernameAvailable(null);
-      } finally {
-        setCheckingUsername(false);
-      }
-    };
-
-    checkUsername();
-  }, [debouncedUsername]);
-
-  const handleUsernameChange = (value: string) => {
-    const sanitized = value.toLowerCase().replace(/[^a-z0-9-_]/g, '');
-    setUsername(sanitized);
-  };
-
-  const handleContinueWithUsername = () => {
-    if (username.length >= 3 && usernameAvailable) {
-      setDirection('forward');
-      setStep('auth');
-    }
-  };
-
-  const handleBackToUsername = () => {
-    setDirection('backward');
-    setStep('username');
-  };
-
-  const handleGoogleSignup = async () => {
-    if (!username || !usernameAvailable) {
-      setError('Please select a valid username first');
+    if (signUpError) {
+      setError(
+        signUpError.code === 'user_already_exists' || signUpError.code === 'email_exists'
+          ? 'This email address is already taken. Try another one'
+          : signUpError.message || 'Something went wrong. Try again later.'
+      );
+      setSigningUp(undefined);
       return;
     }
 
-    setIsLoading(true);
-    const supabase = createClient();
-    await supabase.auth.signInWithOAuth({
-      provider: 'google',
-      options: {
-        redirectTo: `${window.location.origin}/auth/callback?next=/${username}&username=${username}`,
-      },
+    const response = await fetch('/api/user/sync', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ username: handle, email, id: data.user?.id }),
     });
+
+    if (!response.ok) {
+      setError('Account created but syncing failed. Please try logging in.');
+      setSigningUp(undefined);
+      return;
+    }
+    router.push(`/${handle}`);
   };
 
-  const handleCredentialsSignup = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setError('');
-    setIsLoading(true);
-
-    try {
-      if (!usernameAvailable) {
-        setError('Please choose an available username');
-        setIsLoading(false);
-        return;
-      }
-
-      const supabase = createClient();
-      const { data, error: signUpError } = await supabase.auth.signUp({
-        email,
-        password,
-        options: {
-          data: {
-            username: username,
-          }
-        }
-      });
-
-      if (signUpError) {
-        setError(signUpError.message || 'Signup failed. Please try again.');
-        return;
-      }
-
-      // Now call an internal API to sync this user with Prisma and set the username
-      const response = await fetch('/api/user/sync', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ username, email, id: data.user?.id }),
-      });
-
-      if (!response.ok) {
-        setError('Account created but syncing failed. Please try logging in.');
-      } else {
-        router.push(`/${username}`);
-      }
-    } catch {
-      setError('An error occurred. Please try again.');
-    } finally {
-      setIsLoading(false);
+  const handleGoogle = async () => {
+    if (signingUp) return;
+    setSigningUp('google');
+    const supabase = createClient();
+    const { error: oauthError } = await supabase.auth.signInWithOAuth({
+      provider: 'google',
+      options: {
+        redirectTo: `${window.location.origin}/auth/callback?next=/${handle}&username=${handle}`,
+      },
+    });
+    if (oauthError) {
+      setError(oauthError.message || 'Something went wrong. Try again later.');
+      setSigningUp(undefined);
     }
   };
 
   return (
     <>
-      <div className="relative overflow-hidden">
-        <AnimatePresence mode="wait" initial={false} custom={direction}>
-          {step === 'username' ? (
-            // Choosing Username
-            <motion.div
-              key="username"
-              custom={direction}
-              initial={{
-                opacity: 0,
-                x: -20,
+      <div className="absolute left-0 top-0 sm:hidden">
+        <button type="button" onClick={onBack} className="active:scale-90" aria-label="Back">
+          <BackArrowIcon />
+        </button>
+      </div>
+      <div className="relative flex w-full flex-col">
+        <div className="absolute -top-10 left-0 hidden sm:block">
+          <button type="button" onClick={onBack} className="active:scale-90" aria-label="Back">
+            <BackArrowIcon />
+          </button>
+        </div>
+        <div className="text-base leading-6 text-black">
+          bento.me/{handle} is yours!
+        </div>
+        <h1 className="mt-2 text-[32px] leading-10 text-black">
+          Now, create your account.
+        </h1>
+        <form className="flex flex-col" onSubmit={handleCredentials}>
+          <div className="mt-20 grid w-full grid-cols-1 gap-3 sm:grid-cols-2">
+            <BentoInput
+              autoFocus
+              className="flex-1"
+              placeholder="Email address"
+              type="email"
+              error={error.startsWith('This email address is already taken')}
+              autoComplete="username"
+              value={email}
+              onChange={(e) => {
+                setEmail(e.target.value);
+                setError('');
               }}
-              animate={{ opacity: 1, x: 0 }}
-              exit={{
-                opacity: 0,
-                x: -20,
+            />
+            <PasswordInput
+              className="flex-1"
+              autoComplete="new-password"
+              placeholder="Password"
+              value={password}
+              onChange={(e) => {
+                setPassword(e.target.value);
+                setError('');
               }}
-              transition={{
-                duration: 0.3,
-                ease: 'easeInOut',
-              }}
-              className="space-y-4"
-            >
-              <div className="mt-14 text-left sm:mt-0">
-                <h1 className="text-[32px] font-bold leading-10 text-design-black">
-                  First, claim your unique link
-                </h1>
-                <h2 className="mb-20 mt-4 text-xl font-light text-design-resume sm:text-xl">
-                  The good ones are still available!
-                </h2>
-              </div>
+            />
+          </div>
 
-              <div className="relative w-full">
-                <div className="pointer-events-none absolute left-0 top-0 flex h-12 items-center pl-4 text-base text-design-gray">
-                  bento.me/
-                </div>
-                <Input
-                  id="username"
-                  type="text"
-                  placeholder="your-name"
-                  value={username}
-                  onChange={(e) => handleUsernameChange(e.target.value)}
-                  disabled={isLoading}
-                  autoFocus
-                  className="h-12 w-full rounded-lg border-0 bg-[#F5F5F5] pl-[95px] pr-12 text-base outline-none placeholder:text-gray-400 focus-visible:ring-0 focus-visible:ring-offset-0"
-                />
-                {username.length >= 3 && (
-                  <div className="absolute right-3 top-1/2 -translate-y-1/2">
-                    {checkingUsername ? (
-                      <LoaderIcon className="h-4 w-4" />
-                    ) : usernameAvailable ? (
-                      <CheckmarkSmallIcon />
-                    ) : (
-                      <button onClick={() => handleUsernameChange('')}>
-                        <CrossIcon />
-                      </button>
-                    )}
-                  </div>
-                )}
-              </div>
-
-              {/* Show error messages or button based on username state */}
-              {username.length > 0 && username.length < 3 ? (
-                <div className="flex w-full items-center justify-start rounded-lg py-3.5 text-xs font-light text-red-600">
-                  This username seems to be too short... <br /> Try something
-                  longer.
-                </div>
-              ) : username.length >= 3 &&
-                !usernameAvailable &&
-                !checkingUsername ? (
-                <div className="flex w-full items-center justify-start rounded-lg py-3.5 text-xs font-light text-red-600">
-                  This username seems to be taken already... <br /> Try
-                  something similar.
-                </div>
-              ) : username.length > 0 ? (
-                <button
-                  type="button"
-                  onClick={handleContinueWithUsername}
-                  disabled={
-                    !username || username.length < 3 || !usernameAvailable
-                  }
-                  className="flex w-full cursor-pointer items-center justify-center gap-3 rounded-xl bg-black px-6 py-5 text-sm font-medium tracking-tight text-white transition-all duration-300 ease-out hover:bg-black/80 active:scale-95 disabled:cursor-not-allowed disabled:opacity-70 sm:rounded-lg sm:py-3.5"
-                >
-                  Grab my Link
-                </button>
-              ) : (
-                <button
-                  type="button"
-                  onClick={handleContinueWithUsername}
-                  disabled={
-                    !username || username.length < 3 || !usernameAvailable
-                  }
-                  className="invisible flex w-full cursor-pointer items-center justify-center gap-3 rounded-lg bg-black px-6 py-3.5 text-sm font-bold tracking-tight text-white transition-all duration-300 ease-out hover:bg-black/80 active:scale-95 disabled:cursor-not-allowed disabled:opacity-70"
-                >
-                  Grab my Link
-                </button>
+          <div className="relative h-16">
+            <AnimatePresence mode="wait">
+              {!error && !hasEmail && (
+                <motion.div key="or" {...fade} className="flex h-full items-center text-sm font-semibold">
+                  OR
+                </motion.div>
               )}
-              <div className="mt-6 text-left">
-                <Link
-                  href="/login"
-                  className="text-xs font-normal text-design-resume transition-colors"
+              {error && (
+                <motion.div
+                  key="error"
+                  {...fade}
+                  className="flex h-full items-center text-xs font-semibold text-[#ff2222]"
                 >
-                  or log in
-                </Link>
-              </div>
-            </motion.div>
-          ) : (
-            // Signing up
-            <motion.div
-              key="auth"
-              custom={direction}
-              initial={{
-                opacity: 0,
-                x: 20,
-              }}
-              animate={{ opacity: 1, x: 0 }}
-              exit={{
-                opacity: 0,
-                x: 20,
-              }}
-              transition={{
-                duration: 0.3,
-                ease: 'easeInOut',
-              }}
-              className="space-y-6"
-            >
-              <div className="space-y-2 text-left">
-                <div className="mb-6">
-                  <button type="button" onClick={handleBackToUsername}>
-                    <ArrowLeftIcon />
-                  </button>
-                </div>
-                <p className="text-base font-normal text-design-black">
-                  bento.me/{username} is yours!
-                </p>
-                <h2 className="text-[32px] font-bold leading-tight text-design-black md:text-[48px] lg:text-[32px]">
-                  Now, create your account.
-                </h2>
-              </div>
+                  {error}
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </div>
 
-              <form
-                onSubmit={handleCredentialsSignup}
-                className="space-y-6 pt-8"
-              >
-                <div className="flex flex-col gap-3 sm:flex-row md:gap-4">
-                  <Input
-                    id="email"
-                    type="email"
-                    placeholder="Email address"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    disabled={isLoading}
-                    className="h-12 w-full rounded-lg border-0 bg-[#F5F5F5] px-4 text-base outline-none placeholder:text-gray-400 focus-visible:ring-0 focus-visible:ring-offset-0"
-                  />
-
-                  <div className="relative w-full">
-                    <Input
-                      id="password"
-                      type={showPassword ? 'text' : 'password'}
-                      placeholder="Password"
-                      value={password}
-                      onChange={(e) => setPassword(e.target.value)}
-                      disabled={isLoading}
-                      className="h-12 w-full rounded-lg border-0 bg-[#F5F5F5] px-4 pr-[76px] text-base outline-none placeholder:text-gray-400 focus-visible:ring-0 focus-visible:ring-offset-0"
-                    />
-                    <button
-                      type="button"
-                      onClick={() => setShowPassword(!showPassword)}
-                      className="absolute right-2 top-1/2 flex h-8 w-[60px] -translate-y-1/2 items-center justify-center rounded bg-white text-xs font-semibold text-black shadow-[0_1px_2px_rgba(0,0,0,0.08)] transition-all hover:bg-gray-50 active:scale-95 active:bg-gray-200 active:shadow-none"
-                    >
-                      {showPassword ? 'Hide' : 'Show'}
-                    </button>
-                  </div>
-                </div>
-
-                {error && <div className="text-sm text-red-600">{error}</div>}
-
-                <div
-                  className={clsx(
-                    'relative py-2 transition-opacity duration-200',
-                    hasCredentials
-                      ? 'invisible opacity-0'
-                      : 'visible opacity-100'
-                  )}
+          <div className="relative h-[58px] sm:h-[45px]">
+            <AnimatePresence mode="sync">
+              {hasEmail && (
+                <motion.div
+                  key="withMail"
+                  className="flex h-full w-full flex-col"
+                  {...fade}
+                  exit={{ opacity: 0, position: 'absolute' }}
                 >
-                  <div className="flex justify-start text-base font-bold text-black">
-                    OR
-                  </div>
-                </div>
-
-                <button
-                  type={hasCredentials ? 'submit' : 'button'}
-                  onClick={hasCredentials ? undefined : handleGoogleSignup}
-                  disabled={
-                    hasCredentials
-                      ? isLoading || !email || !password || password.length < 6
-                      : isLoading
-                  }
-                  className={clsx(
-                    'flex w-full cursor-pointer items-center justify-center gap-3 rounded-lg px-6 py-3 text-sm font-medium text-white shadow-lg transition-all duration-300 ease-out active:scale-95 disabled:cursor-not-allowed disabled:opacity-70',
-                    hasCredentials
-                      ? 'bg-black hover:bg-black/80'
-                      : 'bg-[#1a96eb] hover:bg-[#1a96eb]'
-                  )}
+                  <BentoButton
+                    className="h-full"
+                    type="submit"
+                    loading={signingUp === 'credentials'}
+                    disabled={!!signingUp}
+                  >
+                    Create Account
+                  </BentoButton>
+                </motion.div>
+              )}
+              {!hasEmail && (
+                <motion.div
+                  key="withGoogle"
+                  className="flex h-full w-full flex-col"
+                  {...fade}
+                  exit={{ opacity: 0, position: 'absolute' }}
                 >
-                  {isLoading ? (
-                    <LoaderIcon />
-                  ) : hasCredentials ? (
-                    'Create Account'
-                  ) : (
-                    <>
-                      <GoogleIcon />
-                      Sign up with Google
-                    </>
-                  )}
-                </button>
-              </form>
-            </motion.div>
-          )}
-        </AnimatePresence>
+                  <BentoButton
+                    icon={<GoogleIcon />}
+                    variant="oauth"
+                    className="h-full"
+                    disabled={!!signingUp}
+                    loading={signingUp === 'google'}
+                    onClick={handleGoogle}
+                  >
+                    Sign up with Google
+                  </BentoButton>
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </div>
+        </form>
       </div>
     </>
+  );
+}
+
+// bento.me/signup: claim a handle, then create the account. The widget cloud
+// floats during the first step and snaps into its grid on the second.
+export default function SignupContent({
+  initialHandle = '',
+}: {
+  initialHandle?: string;
+}) {
+  const router = useRouter();
+  const [step, setStep] = useState<Step>(initialHandle ? 'account' : 'handle');
+  const [dir, setDir] = useState<Direction>(1);
+  const [handle, setHandle] = useState(initialHandle);
+  const narrow = useMediaQuery('(max-width: 579px)');
+
+  useEffect(() => {
+    createClient()
+      .auth.getSession()
+      .then(({ data: { session } }) => {
+        if (session?.user) goToOwnPage(router);
+      });
+  }, [router]);
+
+  return (
+    <div className="relative flex min-h-screen w-full flex-col">
+      <motion.div
+        className="flex min-h-screen flex-col items-center will-change-transform"
+        animate={{ opacity: 1, transition: { ease: [0.62, 0.03, 0.31, 0.99], duration: 1 } }}
+      >
+        <div className="flex min-h-screen w-full max-w-[1728px] flex-col p-7 sm:p-16 lg:flex-row">
+          <div className="relative flex max-w-[675px] flex-1 flex-col items-center">
+            <div className="absolute top-0 flex h-full w-full max-w-[448px] flex-col">
+              <AnimatePresence mode="wait" initial={false} custom={{ dir, narrow }}>
+                <StepFrame key={step} custom={{ dir, narrow }}>
+                  {step === 'handle' ? (
+                    <HandleStep
+                      value={handle}
+                      setValue={setHandle}
+                      onNext={() => {
+                        setDir(1);
+                        setStep('account');
+                      }}
+                    />
+                  ) : (
+                    <AccountStep
+                      handle={handle}
+                      onBack={() => {
+                        setDir(-1);
+                        setStep('handle');
+                      }}
+                    />
+                  )}
+                </StepFrame>
+              </AnimatePresence>
+            </div>
+          </div>
+          <SignUpAnimation state={step === 'handle' ? 'gas' : 'solid'} />
+        </div>
+      </motion.div>
+    </div>
   );
 }
