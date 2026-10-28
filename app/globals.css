@@ -486,3 +486,15 @@
 .bento-note-1 { left: 0; top: 0; animation: bento-note-1 3.8s infinite; }
 .bento-note-2 { left: 0; top: 0; animation: bento-note-2 3.8s infinite; }
 .bento-note-3 { left: 0; top: 0; animation: bento-note-3 3.8s infinite; }
+
+/* bento.me/jointheteam photo carousel: 500ms hold, then one half-track pass */
+@keyframes bento-team-carousel {
+  0%, 3.45% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+.bento-team-carousel { animation: bento-team-carousel 14.5s linear infinite; }
+@keyframes bento-team-carousel-fast {
+  0%, 71.43% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+.bento-team-carousel-fast { animation: bento-team-carousel-fast .7s linear infinite; }
