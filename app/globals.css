@@ -415,6 +415,9 @@
 @keyframes bento-checkmark-circle { 0% { stroke-dashoffset: 480px; } to { stroke-dashoffset: 960px; } }
 .bento-check svg polyline { animation: bento-checkmark .33s ease-in-out 0s backwards; }
 .bento-check svg circle { animation: bento-checkmark-circle .75s ease-in-out backwards; }
+@keyframes bento-colored-circle { 0% { opacity: 0; } to { opacity: 1; } }
+.bento-check-delayed svg polyline { animation: bento-checkmark .33s ease-in-out .4s backwards; }
+.bento-check-delayed svg circle { animation: bento-colored-circle .75s ease-in-out .55s backwards; }
 
 /* bento.me unclaimed-handle page */
 @keyframes bento-claim-url { 0% { scale: .9; opacity: 0; } to { scale: 1; opacity: 1; } }

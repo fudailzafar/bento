@@ -8,6 +8,7 @@ import {
   type ButtonHTMLAttributes,
   type InputHTMLAttributes,
   type ReactNode,
+  type Ref,
 } from 'react';
 import { cn } from '@/lib/utils';
 
@@ -71,11 +72,12 @@ export const BentoInput = forwardRef<HTMLInputElement, BentoInputProps>(
   }
 );
 
-type Variant = 'primary' | 'oauth' | 'white';
+type Variant = 'primary' | 'blue' | 'oauth' | 'white';
 
 const VARIANTS: Record<Variant, string> = {
   primary:
     'bg-black text-white shadow-[0_3px_2px_rgba(0,0,0,.06)] enabled:hover:bg-[#292929] enabled:active:bg-black enabled:active:text-[#adadad] disabled:bg-[#6c6c6c]',
+  blue: '!rounded-md bg-[#768cff] text-white shadow-[0_3px_4px_rgba(0,0,0,.06)] hover:bg-[#6a80f6] active:bg-[#667df5]',
   oauth:
     'bg-[#1d9bf0] text-white shadow-[0_3px_2px_rgba(0,0,0,.06)] enabled:hover:bg-[#1a96eb] enabled:active:bg-[#168dde] enabled:active:text-[#ebebeb] disabled:bg-[rgba(29,155,240,.6)]',
   white:
@@ -86,6 +88,7 @@ interface BentoButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   variant?: Variant;
   icon?: ReactNode;
   loading?: boolean;
+  ref?: Ref<HTMLButtonElement>;
 }
 
 export function BentoButton({
@@ -219,9 +222,21 @@ export function BackArrowIcon({ size = 16 }: { size?: number }) {
 }
 
 // Green circle that strokes in, then the tick draws (bento's "order success").
-export function AnimatedCheck({ size = 16 }: { size?: number }) {
+// "delayed" is set-password's timing: the tick waits for the circle.
+export function AnimatedCheck({
+  size = 16,
+  delayed = false,
+}: {
+  size?: number;
+  delayed?: boolean;
+}) {
   return (
-    <div className="bento-check text-center text-[#4edd76]">
+    <div
+      className={cn(
+        'text-center text-[#4edd76]',
+        delayed ? 'bento-check-delayed' : 'bento-check'
+      )}
+    >
       <svg viewBox="0 0 154 154" xmlns="http://www.w3.org/2000/svg" width={size} height={size}>
         <g fill="none" stroke="currentColor" strokeWidth="2">
           <circle
