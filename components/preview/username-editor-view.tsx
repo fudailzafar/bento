@@ -121,7 +121,7 @@ function UsernameEditorContent({
         </ConfettiButton>
       </button>
       <div className="mt-3 text-center text-xs font-normal text-design-resume">
-        The link is ready for your portfolio!
+        The link is ready for your bio!
       </div>
     </div>
   );
