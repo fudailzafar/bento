@@ -16,6 +16,26 @@ import {
 import { LoaderCircle, Upload } from 'lucide-react';
 import { toast } from 'sonner';
 
+// bento's note palette (its colour picker's swatches).
+const NOTE_COLORS = [
+  '#FFFFFF',
+  '#F5F5F5',
+  '#FFE4E4',
+  '#FFEFD9',
+  '#FFF8CC',
+  '#E3F9E5',
+  '#DDF4FF',
+  '#E8E4FF',
+  '#FCE4F6',
+  '#768CFF',
+  '#4EDD76',
+  '#FF6B6B',
+  '#FFB020',
+  '#2F2F2F',
+  '#000000',
+  '#3B82F6',
+];
+
 interface BlockEditorDialogProps {
   block: Block | null;
   open: boolean;
@@ -78,7 +98,9 @@ export function BlockEditorDialog({
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-md">
         <DialogHeader>
-          <DialogTitle>Edit {block.type.toLowerCase().replace('_', ' ')}</DialogTitle>
+          <DialogTitle>
+            Edit {block.type.toLowerCase().replace('_', ' ')}
+          </DialogTitle>
         </DialogHeader>
 
         <div className="space-y-4 py-2">
@@ -156,6 +178,52 @@ export function BlockEditorDialog({
                 onChange={(e) => update({ content: e.target.value })}
                 placeholder="Write something..."
                 rows={5}
+              />
+            </div>
+          )}
+
+          {block.type === 'TEXT' && (
+            <div className="space-y-2">
+              <Label>Colour</Label>
+              <div className="flex flex-wrap gap-1.5">
+                {NOTE_COLORS.map((c) => (
+                  <button
+                    key={c}
+                    type="button"
+                    aria-label={c}
+                    onClick={() => update({ color: c })}
+                    className={`h-6 w-6 rounded-full border border-black/10 ${(data.color ?? '#FFFFFF') === c ? 'ring-2 ring-black ring-offset-1' : ''}`}
+                    style={{ background: c }}
+                  />
+                ))}
+              </div>
+              <Label>Alignment</Label>
+              <div className="flex gap-1.5">
+                {(['left', 'center', 'right'] as const).map((a) => (
+                  <Button
+                    key={a}
+                    type="button"
+                    size="sm"
+                    variant={
+                      (data.align ?? 'left') === a ? 'default' : 'outline'
+                    }
+                    onClick={() => update({ align: a })}
+                  >
+                    {a[0].toUpperCase() + a.slice(1)}
+                  </Button>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {(block.type === 'TEXT' || block.type === 'IMAGE') && (
+            <div className="space-y-2">
+              <Label htmlFor="tile-link">Link (optional)</Label>
+              <Input
+                id="tile-link"
+                placeholder="https://"
+                value={(data.href as string) || ''}
+                onChange={(e) => update({ href: e.target.value })}
               />
             </div>
           )}

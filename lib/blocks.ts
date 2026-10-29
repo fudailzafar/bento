@@ -19,11 +19,17 @@ export type LinkBlockData = z.infer<typeof LinkBlockData>;
 export const ImageBlockData = z.object({
   url: z.string(),
   alt: z.string().optional(),
+  // Where the tile links to (bento's linkable widgets).
+  href: z.string().optional(),
 });
 export type ImageBlockData = z.infer<typeof ImageBlockData>;
 
 export const TextBlockData = z.object({
   content: z.string(),
+  href: z.string().optional(),
+  // bento's note colours and alignment.
+  color: z.string().optional(),
+  align: z.enum(['left', 'center', 'right']).optional(),
 });
 export type TextBlockData = z.infer<typeof TextBlockData>;
 
