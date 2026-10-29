@@ -15,9 +15,11 @@ import {
 } from '@/components/ui';
 import { PublicPortfolio } from '@/components/bento';
 import { createClient } from '@/lib/supabase/server';
-import { PromotionCtaDesktop, PromotionCtaMobile } from '@/components/common';
+import { ProfileCta, type ProfileViewer } from '@/components/common';
+import { prisma } from '@/lib/server/db';
 import { SelfPortfolioLoader } from '@/components/preview';
 import { ClaimUsername } from '@/components/auth';
+import { isReservedUsername, isValidUsername } from '@/lib/routes';
 
 function getSocialLinks(page?: {
   website?: string | null;
@@ -115,7 +117,9 @@ export default async function ProfilePage({
 
   // Check if the logged-in user is viewing their own profile
   const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
   const isOwnProfile = user?.id === user_id;
 
   // If user is viewing their own profile, show preview/edit mode with initialization
@@ -125,12 +129,28 @@ export default async function ProfilePage({
 
   // If profile is not found, render Claim Username UI
   if (!user_id) {
-    return <ClaimUsername username={username} />;
+    return (
+      <ClaimUsername
+        username={username}
+        unavailable={isReservedUsername(username) || !isValidUsername(username)}
+      />
+    );
   }
 
   if (!page) redirect(`/?idNotFound=${user_id}`);
 
   const profilePicture = userData?.image;
+
+  // A signed-in visitor gets bento's "My Bento" link instead of the sign-up CTA.
+  const viewerRow = user
+    ? await prisma.user.findUnique({
+        where: { id: user.id },
+        select: { username: true, image: true },
+      })
+    : null;
+  const viewer: ProfileViewer = viewerRow?.username
+    ? { username: viewerRow.username, image: viewerRow.image }
+    : null;
   const socialLinks = getSocialLinks(page);
 
   const jsonLd = {
@@ -153,11 +173,7 @@ export default async function ProfilePage({
 
       <PublicPortfolio page={page} profilePicture={profilePicture} />
 
-      {/* Desktop CTA Section */}
-      <PromotionCtaDesktop />
-
-      {/* Mobile CTA Section */}
-      <PromotionCtaMobile />
+      <ProfileCta viewer={viewer} />
 
       {/* Dock */}
       <div className="pointer-events-none fixed inset-x-0 bottom-0 z-30 mx-auto mb-4 flex h-full max-h-14 origin-bottom">
