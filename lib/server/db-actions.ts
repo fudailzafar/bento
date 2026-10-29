@@ -1,9 +1,12 @@
 import { prisma } from '@/lib/server/db';
 import { PageDataSchema, parseBlockData, type PageData } from '@/lib/blocks';
 import { z } from 'zod';
-import { PRIVATE_ROUTES } from '../routes';
+import { PRIVATE_ROUTES, RESERVED_USERNAMES, isValidUsername } from '../routes';
 
-const FORBIDDEN_USERNAMES = PRIVATE_ROUTES;
+const FORBIDDEN_USERNAMES = [...PRIVATE_ROUTES, ...RESERVED_USERNAMES];
+const isForbidden = (username: string) =>
+  !isValidUsername(username) ||
+  FORBIDDEN_USERNAMES.includes(username.toLowerCase());
 
 // Define user profile schema
 const UserProfileSchema = z.object({
@@ -51,7 +54,10 @@ export async function getPage(userId: string): Promise<PageData | undefined> {
   }
 }
 
-export async function savePage(userId: string, pageData: PageData): Promise<void> {
+export async function savePage(
+  userId: string,
+  pageData: PageData
+): Promise<void> {
   try {
     const validated = PageDataSchema.parse(pageData);
 
@@ -130,7 +136,9 @@ export async function storeUserProfile(
   }
 }
 
-export async function getUserProfile(userId: string): Promise<UserProfile | undefined> {
+export async function getUserProfile(
+  userId: string
+): Promise<UserProfile | undefined> {
   try {
     const user = await prisma.user.findUnique({
       where: { id: userId },
@@ -158,7 +166,7 @@ export const createUsernameLookup = async ({
   userId: string;
   username: string;
 }): Promise<boolean> => {
-  if (FORBIDDEN_USERNAMES.includes(username.toLowerCase())) {
+  if (isForbidden(username)) {
     return false;
   }
 
@@ -166,11 +174,8 @@ export const createUsernameLookup = async ({
     // Check if username already exists for any user or if this user already has a username
     const existing = await prisma.user.findFirst({
       where: {
-        OR: [
-          { username },
-          { id: userId, username: { not: null } }
-        ]
-      }
+        OR: [{ username }, { id: userId, username: { not: null } }],
+      },
     });
 
     if (existing) return false;
@@ -187,25 +192,34 @@ export const createUsernameLookup = async ({
   }
 };
 
-export const getUsernameById = async (userId: string): Promise<string | null> => {
+export const getUsernameById = async (
+  userId: string
+): Promise<string | null> => {
   const user = await prisma.user.findUnique({ where: { id: userId } });
   return user?.username || null;
 };
 
-export const getUserIdByUsername = async (username: string): Promise<string | null> => {
+export const getUserIdByUsername = async (
+  username: string
+): Promise<string | null> => {
   const user = await prisma.user.findUnique({ where: { username } });
   return user?.id || null;
 };
 
-export const checkUsernameAvailability = async (username: string): Promise<{ available: boolean }> => {
-  if (FORBIDDEN_USERNAMES.includes(username.toLowerCase())) {
+export const checkUsernameAvailability = async (
+  username: string
+): Promise<{ available: boolean }> => {
+  if (isForbidden(username)) {
     return { available: false };
   }
   const userId = await getUserIdByUsername(username);
   return { available: !userId };
 };
 
-export const deleteUser = async (opts: { userId?: string; username?: string }): Promise<boolean> => {
+export const deleteUser = async (opts: {
+  userId?: string;
+  username?: string;
+}): Promise<boolean> => {
   try {
     if (opts.userId) {
       await prisma.user.delete({ where: { id: opts.userId } });
@@ -221,8 +235,11 @@ export const deleteUser = async (opts: { userId?: string; username?: string }): 
   }
 };
 
-export const updateUsername = async (userId: string, newUsername: string): Promise<boolean> => {
-  if (FORBIDDEN_USERNAMES.includes(newUsername.toLowerCase())) {
+export const updateUsername = async (
+  userId: string,
+  newUsername: string
+): Promise<boolean> => {
+  if (isForbidden(newUsername)) {
     return false;
   }
 
@@ -232,7 +249,9 @@ export const updateUsername = async (userId: string, newUsername: string): Promi
       return await createUsernameLookup({ userId, username: newUsername });
     }
 
-    const newUsernameExists = await prisma.user.findUnique({ where: { username: newUsername } });
+    const newUsernameExists = await prisma.user.findUnique({
+      where: { username: newUsername },
+    });
     if (newUsernameExists) return false;
 
     await prisma.user.update({
@@ -246,8 +265,9 @@ export const updateUsername = async (userId: string, newUsername: string): Promi
   }
 };
 
-export const getUserIdByEmail = async (email: string): Promise<string | null> => {
+export const getUserIdByEmail = async (
+  email: string
+): Promise<string | null> => {
   const user = await prisma.user.findUnique({ where: { email } });
   return user?.id || null;
 };
-
