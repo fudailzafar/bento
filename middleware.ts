@@ -17,7 +17,9 @@ export async function middleware(req: NextRequest) {
           return req.cookies.getAll();
         },
         setAll(cookiesToSet) {
-          cookiesToSet.forEach(({ name, value, options }) => req.cookies.set(name, value));
+          cookiesToSet.forEach(({ name, value, options }) =>
+            req.cookies.set(name, value)
+          );
           supabaseResponse = NextResponse.next({
             request: req,
           });
@@ -39,6 +41,8 @@ export async function middleware(req: NextRequest) {
   if (
     pathname.startsWith('/api/auth') ||
     pathname.startsWith('/api/check-username') ||
+    // Visitors' profile views and link clicks.
+    pathname.startsWith('/api/track') ||
     pathname.startsWith('/auth/callback')
   ) {
     return supabaseResponse;
