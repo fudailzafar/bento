@@ -98,6 +98,12 @@ export const BlockSchema = z.object({
   y: z.number(),
   w: z.number(),
   h: z.number(),
+  // The phone layout: its own position and size (2 columns). Unset until the
+  // phone layout is first edited; then it is derived from the desktop one.
+  mx: z.number().nullish(),
+  my: z.number().nullish(),
+  mw: z.number().nullish(),
+  mh: z.number().nullish(),
   data: z.record(z.string(), z.any()),
 });
 export type Block = z.infer<typeof BlockSchema>;
