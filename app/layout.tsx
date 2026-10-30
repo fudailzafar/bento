@@ -23,11 +23,11 @@ export const metadata: Metadata = {
     shortcut: '/favicon.ico',
   },
   description:
-    'Create a beautiful personal portfolio to show your professional experience, education, and everything you are and create - in one place.',
+    'Create a beautiful page to show your audience everything you are, create, and sell in one link. Designed in Berlin.',
   openGraph: {
     title: 'Bento - A Link in Bio, but Rich and Beautiful.',
     description:
-      'Create a beautiful personal portfolio to show your professional experience, education, and everything you are and create - in one place.',
+      'Create a beautiful page to show your audience everything you are, create, and sell in one link. Designed in Berlin.',
     url: 'https://portfoliofy.me',
     siteName: 'Portfoliofy',
     images: [
@@ -79,13 +79,13 @@ export default function RootLayout({
           {/* rest of your scripts go under */}
         </head>
         <body className={`${fontSans.className} flex min-h-screen flex-col`}>
-            <main className="flex flex-1 flex-col">
-              {children}
-              <SpeedInsights />
-              <Analytics />
-            </main>
-            <Toaster richColors position="bottom-center" />
-            <GoogleAnalytics gaId="G-B99MN9ZMBL" />
+          <main className="flex flex-1 flex-col">
+            {children}
+            <SpeedInsights />
+            <Analytics />
+          </main>
+          <Toaster richColors position="bottom-center" />
+          <GoogleAnalytics gaId="G-B99MN9ZMBL" />
         </body>
       </html>
     </ReactQueryClientProvider>
