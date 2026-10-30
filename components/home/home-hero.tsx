@@ -15,7 +15,6 @@ import {
 } from 'framer-motion';
 import Link from 'next/link';
 import Image from 'next/image';
-import { ArrowRightIcon } from '@/components/icons';
 
 // Timings, offsets and curves mirror bento.me's landing page interactions
 // ("New Hero Appear" on load, "New Hero Fade Out" and "NavBar Appear" on scroll).
@@ -67,27 +66,6 @@ export function HomeNavbar({
         </div>
       </a>
     </motion.div>
-  );
-}
-
-export function HeroBanner() {
-  return (
-    <a
-      href="https://portfoliofy.me/fudail"
-      target="_blank"
-      rel="noopener noreferrer"
-      className="relative z-[3] flex w-full items-center gap-1"
-    >
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 2, delay: 2.4, ease: bentoEase }}
-        className="flex w-full items-center justify-center bg-design-primary py-5 text-center text-base font-light text-design-white hover:bg-design-primaryDark"
-      >
-        Big news! Portfoliofy just launched!{' '}
-        <ArrowRightIcon width={20} className="text-white" />
-      </motion.div>
-    </a>
   );
 }
 
