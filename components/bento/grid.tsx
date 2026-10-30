@@ -46,6 +46,12 @@ interface BentoGridProps {
   forceMobile?: boolean;
   // Uploads started outside the grid (a new widget made from a chosen file).
   uploads?: Record<string, UploadState>;
+  // Links whose details are being fetched (started outside the grid).
+  fetchingIds?: string[];
+  // Lets the editor ask which row of the grid is in view.
+  anchorRef?: React.MutableRefObject<
+    (() => { row: number; desktop: boolean }) | null
+  >;
 }
 
 export function BentoGrid({
@@ -55,6 +61,8 @@ export function BentoGrid({
   clicks,
   forceMobile = false,
   uploads: externalUploads,
+  fetchingIds = [],
+  anchorRef,
 }: BentoGridProps) {
   const [mounted, setMounted] = useState(false);
   // The widget being edited in place: its toolbar stays open.
@@ -62,6 +70,8 @@ export function BentoGrid({
   // Files being uploaded: the picture shows straight away, with a progress ring.
   const [ownUploads, setUploads] = useState<Record<string, UploadState>>({});
   const uploads = { ...ownUploads, ...externalUploads };
+  const [ownFetching, setOwnFetching] = useState<string[]>([]);
+  const fetchingAll = [...ownFetching, ...fetchingIds];
   const [croppingBlockId, setCroppingBlockId] = useState<string | null>(null);
   const blocksRef = useRef(blocks);
   // The widgets there when the grid first shows: only they animate in.
@@ -241,8 +251,15 @@ export function BentoGrid({
   // A link's address is set in place; its preview (and title, for plain
   // sites) fills in once fetched.
   const setLinkUrl = async (id: string, url: string) => {
-    patchBlock(id, { url, image: undefined, description: undefined });
+    patchBlock(id, {
+      url,
+      image: undefined,
+      description: undefined,
+      favicon: undefined,
+    });
+    setOwnFetching((ids) => [...ids, id]);
     const preview = await fetchLinkPreview(url);
+    setOwnFetching((ids) => ids.filter((x) => x !== id));
     const block = blocksRef.current.find((b) => b.id === id);
     const title = (block?.data as { title?: string } | undefined)?.title;
     const untitled =
@@ -250,17 +267,47 @@ export function BentoGrid({
     patchBlock(id, {
       image: preview.image,
       description: preview.description,
+      favicon: preview.icon ?? '',
       ...(untitled && !findPlatform(url) && preview.title
         ? { title: preview.title }
         : {}),
     });
   };
 
+  // Links saved before icons were kept get theirs once, in the editor: the
+  // result (an empty string when the site has none) is stored, so nothing is
+  // ever fetched twice.
+  const backfilled = useRef(new Set<string>());
+  useEffect(() => {
+    if (!isEditMode) return;
+    const todo = blocks.filter((b) => {
+      const data = b.data as { url?: string; favicon?: string };
+      return (
+        b.type === 'LINK' &&
+        !!data.url &&
+        data.favicon === undefined &&
+        !findPlatform(data.url) &&
+        !backfilled.current.has(b.id)
+      );
+    });
+    if (!todo.length) return;
+    todo.forEach((b) => backfilled.current.add(b.id));
+    setOwnFetching((ids) => [...ids, ...todo.map((b) => b.id)]);
+    todo.forEach(async (b) => {
+      const preview = await fetchLinkPreview((b.data as { url: string }).url);
+      setOwnFetching((ids) => ids.filter((x) => x !== b.id));
+      patchBlock(b.id, { favicon: preview.icon ?? '' });
+    });
+    // patchBlock reads the latest blocks from a ref.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [blocks, isEditMode]);
+
   const editingFor = (block: Block): BlockEditing => ({
     onPatch: (patch) => patchBlock(block.id, patch),
     onSetUrl: (url) => setLinkUrl(block.id, url),
     onUpload: (file, field) => uploadInto(block.id, file, field),
     uploading: block.id in uploads,
+    fetching: fetchingAll.includes(block.id),
     preview: uploads[block.id]?.preview
       ? { url: uploads[block.id].preview!, kind: uploads[block.id].kind }
       : undefined,
@@ -319,6 +366,17 @@ export function BentoGrid({
   const gap = desktop ? 40 : MOBILE_GAP;
   const colWidth = (width - gap * (cols - 1)) / cols;
   const rowHeight = (colWidth - gap) / 2;
+  if (anchorRef) {
+    // The row a fifth of the way down the screen: where new widgets go.
+    anchorRef.current = () => {
+      const top = wrapper.current?.getBoundingClientRect().top ?? 0;
+      const offset = window.innerHeight * 0.2 - top;
+      return {
+        row: Math.max(0, Math.round(offset / (rowHeight + gap))),
+        desktop: !!desktop,
+      };
+    };
+  }
   // How much wider or narrower than bento's 175px tile this one is: notes
   // scale their text and padding by it.
   const scale = colWidth / 175;
@@ -419,8 +477,8 @@ export function BentoGrid({
           const card = (
             // bento's widget: corners by size, 8% black hairline with a faint
             // white top highlight, 0 2px 4px shadow. Linked widgets tint on
-            // hover (inside the tile) and press down to 97%; in the editor the
-            // selected widget lifts 4px with a 2px outline.
+            // hover (inside the tile) and press down to 97%. A selected widget
+            // looks like any other: only its toolbar shows.
             <div
               data-widget
               style={
@@ -445,9 +503,7 @@ export function BentoGrid({
                 !label && 'bg-card shadow-[0_2px_4px_rgba(0,0,0,.04)]',
                 label && selected && 'bg-card',
                 clickable &&
-                  'group/card cursor-pointer active:scale-[.97] active:shadow-none',
-                selected &&
-                  '-translate-y-1 shadow-[0_25px_31px_rgba(0,0,0,.06),0_16.2px_18.16px_rgba(0,0,0,.046),0_9.63px_9.87px_rgba(0,0,0,.036),0_5px_5.04px_rgba(0,0,0,.03),0_2.04px_2.53px_rgba(0,0,0,.024),0_.46px_1.22px_rgba(0,0,0,.014)]'
+                  'group/card cursor-pointer active:scale-[.97] active:shadow-none'
               )}
             >
               <div className="h-full w-full overflow-hidden rounded-[inherit]">
@@ -475,7 +531,7 @@ export function BentoGrid({
                   <div
                     className={cn(
                       'pointer-events-none absolute inset-0 rounded-[inherit] border transition-[border,opacity] duration-200 ease-in-out',
-                      selected ? 'border-2 border-black' : 'border-black/[.08]'
+                      'border-black/[.08]'
                     )}
                   />
                 </>

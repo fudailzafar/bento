@@ -15,6 +15,10 @@ interface PreviewPortfolioProps {
   username?: string;
   viewMode?: 'desktop' | 'mobile';
   uploads?: Record<string, UploadState>;
+  fetchingIds?: string[];
+  anchorRef?: React.MutableRefObject<
+    (() => { row: number; desktop: boolean }) | null
+  >;
 }
 
 export const PreviewPortfolio = ({
@@ -26,6 +30,8 @@ export const PreviewPortfolio = ({
   username,
   viewMode = 'desktop',
   uploads,
+  fetchingIds,
+  anchorRef,
 }: PreviewPortfolioProps) => {
   const analytics = useAnalytics(isEditMode);
   if (!page) {
@@ -77,6 +83,8 @@ export const PreviewPortfolio = ({
               clicks={analytics.data?.clicks}
               forceMobile={viewMode === 'mobile'}
               uploads={uploads}
+              fetchingIds={fetchingIds}
+              anchorRef={anchorRef}
             />
           </div>
 

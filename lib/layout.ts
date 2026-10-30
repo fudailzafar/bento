@@ -107,6 +107,64 @@ export function appendBlock(blocks: Block[], block: Block): Block[] {
   ];
 }
 
+// Adds a block at a row of the layout being looked at, as bento does since its
+// "upgraded adding experience": the new widget lands where you are on the
+// page, not at the bottom. It goes at the first row at or below `row` that no
+// widget straddles; everything from there down moves down to make room. The
+// layout you can't see gets the block at its end.
+export function insertBlock(
+  blocks: Block[],
+  block: Block,
+  at: { row: number; desktop: boolean }
+): Block[] {
+  const phone = !at.desktop;
+  const pos = (b: Block) =>
+    phone
+      ? phonePlacements(blocks).find((p) => p.id === b.id)!
+      : { id: b.id, x: b.x, y: b.y, w: b.w, h: b.h };
+  const layout = blocks.map(pos);
+  const bottom = layout.reduce((max, l) => Math.max(max, l.y + l.h), 0);
+  let y = Math.min(Math.max(0, at.row), bottom);
+  while (y < bottom && layout.some((l) => l.y < y && l.y + l.h > y)) {
+    y++;
+  }
+  const w = phone ? Math.min(block.w, PHONE_COLUMNS) : block.w;
+  const shifted = layout.map((l) =>
+    l.y >= y ? { ...l, y: l.y + block.h } : l
+  );
+  const byId = new Map(shifted.map((l) => [l.id, l]));
+
+  if (phone) {
+    // The phone layout becomes explicit; the desktop one takes the block last.
+    const deskBottom = blocks.reduce((max, b) => Math.max(max, b.y + b.h), 0);
+    return [
+      ...blocks.map((b) => {
+        const l = byId.get(b.id)!;
+        return { ...b, mx: l.x, my: l.y, mw: l.w, mh: l.h };
+      }),
+      { ...block, x: 0, y: deskBottom, mx: 0, my: y, mw: w, mh: block.h },
+    ];
+  }
+  const moved = blocks.map((b) => ({ ...b, y: byId.get(b.id)!.y }));
+  if (!hasPhoneLayout(blocks)) return [...moved, { ...block, x: 0, y }];
+  const phoneBottom = blocks.reduce(
+    (max, b) => Math.max(max, b.my! + b.mh!),
+    0
+  );
+  return [
+    ...moved,
+    {
+      ...block,
+      x: 0,
+      y,
+      mx: 0,
+      my: phoneBottom,
+      mw: Math.min(block.w, PHONE_COLUMNS),
+      mh: block.h,
+    },
+  ];
+}
+
 // bento's grid engine switches to the desktop layout at this width: the
 // profile pins left and the 4-column grid sits right. Below it phones and
 // tablets share the 2-column layout.
