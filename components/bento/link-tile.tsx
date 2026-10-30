@@ -1,11 +1,18 @@
 'use client';
 
 import { useRef } from 'react';
-import { ImagePlus, LoaderCircle, X } from 'lucide-react';
+import { ImagePlus, X } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { findPlatform, handleFrom, hostOf } from '@/lib/platforms';
 import { PLATFORM_ICONS } from '@/lib/platform-icons';
 import { NO_DRAG } from './editing/no-drag';
+import {
+  DeletePictureIcon,
+  UploadPictureIcon,
+  WebsitePictureIcon,
+} from './editing/toolbar-icons';
+import { BentoTooltip } from '@/components/common/bento-tooltip';
+import { UploadRing } from './upload-ring';
 import {
   GithubGraph,
   SpotifyBody,
@@ -38,11 +45,17 @@ interface LinkTileEditing {
   onImage: (file: File) => void;
   onGallery: (file: File) => void;
   onRemoveGallery: (index: number) => void;
-  onClearImage: () => void;
+  // Back to the website's own picture, or no picture at all.
+  onResetImage: () => void;
+  onDeleteImage: () => void;
+  hasWebsiteImage: boolean;
+  hasCustomImage: boolean;
   uploading?: boolean;
+  progress?: number;
 }
 
-// bento's preview controls: upload a picture for the preview, or drop it.
+// bento's preview controls, on the preview's top-left corner while hovered:
+// upload your own picture, go back to the website's, or delete the picture.
 function PreviewControls({
   edit,
   hasImage,
@@ -51,36 +64,59 @@ function PreviewControls({
   hasImage: boolean;
 }) {
   const input = useRef<HTMLInputElement>(null);
+  // Going back to the website's picture applies once another is set.
+  const canReset = edit.hasCustomImage;
+  const withReset = canReset || !hasImage;
+  const button =
+    'flex size-6 items-center justify-center rounded-[4px] transition-transform hover:bg-white/20 active:scale-[.96]';
   return (
     <div
       className={cn(
         NO_DRAG,
-        'absolute left-2 top-2 z-10 flex items-center gap-0.5 rounded-[10px] bg-black p-1 opacity-0 shadow-[0_4px_12px_rgba(0,0,0,.2)] transition-opacity group-hover:opacity-100'
+        'absolute -left-2.5 -top-2.5 z-10 flex items-center gap-1.5 rounded-[10px] bg-black p-1.5 text-white opacity-0 shadow-[0_9px_13px_rgba(0,0,0,.05),0_5.83px_7.61px_rgba(0,0,0,.038),0_3.47px_4.14px_rgba(0,0,0,.03),0_1.8px_2.11px_rgba(0,0,0,.025),0_.73px_1.06px_rgba(0,0,0,.02),0_.17px_.51px_rgba(0,0,0,.012)] transition-opacity duration-200 group-hover/preview:opacity-100'
       )}
     >
-      <button
-        type="button"
-        aria-label="Upload preview image"
-        title="Upload preview image"
-        onClick={() => input.current?.click()}
-        className="flex size-7 items-center justify-center rounded-md text-white hover:bg-white/15"
-      >
-        {edit.uploading ? (
-          <LoaderCircle className="size-4 animate-spin" />
-        ) : (
-          <ImagePlus className="size-4" />
-        )}
-      </button>
-      <button
-        type="button"
-        aria-label="Remove preview image"
-        title="Remove preview image"
-        disabled={!hasImage}
-        onClick={edit.onClearImage}
-        className="flex size-7 items-center justify-center rounded-md text-white hover:bg-white/15 disabled:text-white/30 disabled:hover:bg-transparent"
-      >
-        <X className="size-4" />
-      </button>
+      <BentoTooltip content="Upload Custom Picture (Best 1200x630)">
+        <button
+          type="button"
+          aria-label="Upload custom picture"
+          onClick={() => input.current?.click()}
+          className={button}
+        >
+          <UploadPictureIcon size={18} />
+        </button>
+      </BentoTooltip>
+      {withReset && (
+        <BentoTooltip
+          content={canReset ? 'Use Website Picture' : 'No website image'}
+        >
+          <button
+            type="button"
+            aria-label="Use website picture"
+            onClick={() => canReset && edit.onResetImage()}
+            className={cn(button, !canReset && 'opacity-20')}
+          >
+            <WebsitePictureIcon size={18} />
+          </button>
+        </BentoTooltip>
+      )}
+      {hasImage && (
+        <>
+          <div className="h-3 w-0.5 rounded-full bg-white/[.18]" />
+          <BentoTooltip
+            content={<span className="text-[#ff2222]">Delete Picture</span>}
+          >
+            <button
+              type="button"
+              aria-label="Delete picture"
+              onClick={edit.onDeleteImage}
+              className={button}
+            >
+              <DeletePictureIcon size={18} />
+            </button>
+          </BentoTooltip>
+        </>
+      )}
       <input
         ref={input}
         type="file"
@@ -172,8 +208,11 @@ function Preview(props: {
 }) {
   if (props.smart) return <div className="h-full w-full">{props.smart}</div>;
   return (
-    <div className="relative h-full w-full">
+    <div className="group/preview relative h-full w-full">
       <PreviewArea {...props} />
+      {props.edit?.uploading && props.image && (
+        <UploadRing progress={props.edit.progress} />
+      )}
       {props.edit && !props.posts && (
         <PreviewControls edit={props.edit} hasImage={!!props.image} />
       )}
@@ -331,7 +370,7 @@ function PreviewArea({
     );
   }
   return (
-    <div className="flex h-full w-full items-center justify-center rounded-[10px] bg-black/[.04] px-4 text-center text-[10px] leading-[14px] text-black/40 shadow-[inset_0_0_0_1px_rgba(0,0,0,.04)]">
+    <div className="flex h-full w-full items-center justify-center rounded-[10px] border border-black/[.08] bg-black/[.04] px-4 py-6 text-center text-xs text-black/60">
       Seems like there&apos;s no preview image.
     </div>
   );

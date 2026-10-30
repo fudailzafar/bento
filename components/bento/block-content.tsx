@@ -10,6 +10,7 @@ import { NO_DRAG } from './editing/no-drag';
 import { embedFor } from '@/lib/embeds';
 import { asUrl, isVideoUrl } from '@/lib/media';
 import { cn } from '@/lib/utils';
+import { UploadRing } from './upload-ring';
 import { ImagePlus, LoaderCircle, MapPin } from 'lucide-react';
 
 // bento's rule: text is white on anything under brightness 190.
@@ -81,46 +82,11 @@ export interface BlockEditing {
   onSetUrl: (url: string) => void;
   // Uploads a file into a data field ("url" for media, "image" for a
   // link's preview).
-  onUpload: (file: File, field: 'url' | 'image' | 'gallery') => void;
+  onUpload: (file: File, field: 'url' | 'customImage' | 'gallery') => void;
   uploading?: boolean;
   // The chosen file, shown while it uploads, and how far along it is (0–1).
   preview?: { url: string; kind: 'image' | 'video' };
   progress?: number;
-}
-
-// bento's upload ring: a small circle filling up in the tile's corner.
-function UploadRing({ progress = 0 }: { progress?: number }) {
-  const r = 9;
-  const c = 2 * Math.PI * r;
-  return (
-    <svg
-      className="absolute left-4 top-4 size-6 -rotate-90"
-      viewBox="0 0 24 24"
-      fill="none"
-      role="progressbar"
-      aria-label="Uploading"
-    >
-      <circle
-        cx="12"
-        cy="12"
-        r={r}
-        stroke="white"
-        strokeOpacity=".5"
-        strokeWidth="2.5"
-      />
-      <circle
-        cx="12"
-        cy="12"
-        r={r}
-        stroke="white"
-        strokeWidth="2.5"
-        strokeLinecap="round"
-        strokeDasharray={c}
-        strokeDashoffset={c * (1 - Math.max(progress, 0.08))}
-        className="transition-[stroke-dashoffset] duration-200"
-      />
-    </svg>
-  );
 }
 
 // Text that is typed straight into the widget, styled exactly as it shows on
@@ -230,14 +196,26 @@ export function BlockContent({
 }) {
   switch (block.type) {
     case 'LINK': {
-      const { url, title, image, images, bio } = block.data as {
+      const {
+        url,
+        title,
+        image: websiteImage,
+        customImage,
+        images,
+        bio,
+      } = block.data as {
         url?: string;
         title?: string;
         image?: string;
+        customImage?: string;
         images?: string[];
         bio?: string;
       };
       if (edit && !url) return <LinkUrlInput onSetUrl={edit.onSetUrl} />;
+      // The owner's picture wins over the website's; '' means none at all.
+      const image =
+        edit?.preview?.url ??
+        ((customImage !== undefined ? customImage : websiteImage) || undefined);
       // Videos and players play inside wide and tall tiles, as on bento.
       const embed =
         url && (block.w >= 2 || block.h >= 4) && block.h > 1
@@ -272,14 +250,18 @@ export function BlockContent({
             edit && {
               onTitle: (value) => edit.onPatch({ title: value }),
               onBio: (value) => edit.onPatch({ bio: value }),
-              onImage: (file) => edit.onUpload(file, 'image'),
+              onImage: (file) => edit.onUpload(file, 'customImage'),
               onGallery: (file) => edit.onUpload(file, 'gallery'),
               onRemoveGallery: (index) =>
                 edit.onPatch({
                   images: (images ?? []).filter((_, i) => i !== index),
                 }),
-              onClearImage: () => edit.onPatch({ image: undefined }),
+              onResetImage: () => edit.onPatch({ customImage: undefined }),
+              onDeleteImage: () => edit.onPatch({ customImage: '' }),
+              hasWebsiteImage: !!websiteImage,
+              hasCustomImage: customImage !== undefined,
               uploading: edit.uploading,
+              progress: edit.progress,
             }
           }
         />

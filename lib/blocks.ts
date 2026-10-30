@@ -15,6 +15,9 @@ const LinkBlockData = z.object({
   icon: z.string().optional(),
   // Open Graph details fetched when the link is added.
   image: z.string().optional(),
+  // The owner's own preview picture: unset uses the website's, an empty
+  // string means the picture was deleted.
+  customImage: z.string().optional(),
   description: z.string().optional(),
   // For platforms with no public data (Instagram, TikTok, Dribbble, Behance,
   // Figma, X), the owner's own preview pictures and bio.

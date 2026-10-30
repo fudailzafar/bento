@@ -190,9 +190,9 @@ export function BentoGrid({
   const uploadInto = async (
     id: string,
     file: File,
-    field: 'url' | 'image' | 'gallery'
+    field: 'url' | 'customImage' | 'gallery'
   ) => {
-    const preview = field === 'url' ? URL.createObjectURL(file) : undefined;
+    const preview = field === 'gallery' ? undefined : URL.createObjectURL(file);
     setUploads((u) => ({
       ...u,
       [id]: {
@@ -224,7 +224,7 @@ export function BentoGrid({
                   url,
                 ].slice(0, 6),
               }
-            : { image: url }
+            : { customImage: url }
       );
     } catch (error) {
       toast.error(
