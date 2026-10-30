@@ -1,10 +1,13 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@/lib/supabase/server';
+import { checkMediaFile } from '@/lib/media';
 
 export async function POST(request: NextRequest) {
   try {
     const supabase = await createClient();
-    const { data: { user } } = await supabase.auth.getUser();
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
     if (!user?.email) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
@@ -16,18 +19,10 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'No file provided' }, { status: 400 });
     }
 
-    if (!file.type.startsWith('image/')) {
-      return NextResponse.json(
-        { error: 'Only image files are allowed' },
-        { status: 400 }
-      );
-    }
-
-    if (file.size > 5 * 1024 * 1024) {
-      return NextResponse.json(
-        { error: 'File size must be less than 5MB' },
-        { status: 400 }
-      );
+    // Images up to 5MB, or bento's looping videos up to 25MB.
+    const invalid = checkMediaFile(file);
+    if (invalid) {
+      return NextResponse.json({ error: invalid }, { status: 400 });
     }
 
     const fileExt = file.name.split('.').pop() || 'png';
@@ -42,7 +37,7 @@ export async function POST(request: NextRequest) {
     if (error) {
       console.error('Supabase upload failed:', error);
       return NextResponse.json(
-        { error: 'Failed to upload image' },
+        { error: 'Failed to upload file' },
         { status: 500 }
       );
     }
