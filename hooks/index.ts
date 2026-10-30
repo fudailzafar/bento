@@ -5,3 +5,4 @@ export { useMediaQuery } from './use-media-query';
 // Page actions hook
 export { usePageActions } from './use-page-actions';
 export { useAnalytics } from './use-analytics';
+export { useAutosave } from './use-autosave';

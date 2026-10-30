@@ -1,9 +1,10 @@
 'use client';
 
 import { createClient } from '@/lib/supabase/client';
-import { useEffect, useState, useRef, useCallback } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { toast } from 'sonner';
-import { usePageActions } from '@/hooks';
+import { usePageActions, useAutosave } from '@/hooks';
+import { postPage } from '@/hooks/use-page-actions';
 import { PageData, BlockType } from '@/lib';
 import {
   asUrl,
@@ -13,7 +14,7 @@ import {
   uploadBlockMedia,
 } from '@/lib/media';
 import { findPlatform } from '@/lib/platforms';
-import { appendBlock } from '@/lib/layout';
+import { appendBlock, insertBlock } from '@/lib/layout';
 import { DockActionBar, ViewMode } from '@/components/preview';
 import { PreviewPortfolio, newBlock } from '@/components/bento';
 import type { UploadState } from '@/components/bento/grid';
@@ -30,16 +31,24 @@ export default function PreviewClient({ messageTip }: { messageTip?: string }) {
     string | undefined
   >();
   const [viewMode, setViewMode] = useState<ViewMode>('desktop');
-  const debounceTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   // The latest page, for edits that land after an upload or fetch finishes.
   const pageRef = useRef<PageData | undefined>(undefined);
   pageRef.current = localPage;
   const [isDragging, setIsDragging] = useState(false);
+  // Asks the grid which row is in view, so new widgets land there.
+  const anchorRef = useRef<(() => { row: number; desktop: boolean }) | null>(
+    null
+  );
+  const [fetchingIds, setFetchingIds] = useState<string[]>([]);
   const [uploads, setUploads] = useState<Record<string, UploadState>>({});
   const fileInput = useRef<HTMLInputElement>(null);
 
+  // The server's page seeds the editor once; after that the editor's own copy
+  // is the truth, so a refetch can never overwrite what was just typed.
+  const seeded = useRef(false);
   useEffect(() => {
-    if (pageQuery.data?.page) {
+    if (!seeded.current && pageQuery.data?.page) {
+      seeded.current = true;
       setLocalPage(pageQuery.data.page);
     }
   }, [pageQuery.data?.page]);
@@ -57,28 +66,26 @@ export default function PreviewClient({ messageTip }: { messageTip?: string }) {
 
   const profilePicture = localProfilePicture;
 
-  const debouncedSave = useCallback(
-    async (newPage: PageData) => {
+  // Saved a second after the last edit, at the latest every 8 seconds of
+  // continuous editing, and whenever the tab is hidden or closed.
+  const scheduleSave = useAutosave<PageData>({
+    save: async (page) => {
       try {
-        await savePageMutation.mutateAsync(newPage);
-      } catch {
+        await savePageMutation.mutateAsync(page);
+      } catch (error) {
         toast.error(SAVE_ERROR);
+        throw error;
       }
     },
-    [savePageMutation]
-  );
+    saveOnExit: (page) => {
+      postPage(page, true).catch(() => {});
+    },
+  });
 
   const handlePageChange = (newPage: PageData) => {
     pageRef.current = newPage;
     setLocalPage(newPage);
-
-    if (debounceTimerRef.current) {
-      clearTimeout(debounceTimerRef.current);
-    }
-
-    debounceTimerRef.current = setTimeout(() => {
-      debouncedSave(newPage);
-    }, 500);
+    scheduleSave(newPage);
   };
 
   const handleImageChange = (newImageUrl: string | null) => {
@@ -90,11 +97,14 @@ export default function PreviewClient({ messageTip }: { messageTip?: string }) {
     const page = pageRef.current;
     if (!page) return;
 
-    // The new block goes at the end of both the desktop and phone layouts.
+    // The new block goes where the user is looking.
+    const anchor = anchorRef.current?.();
     const block = newBlock(type, 0, data);
     handlePageChange({
       ...page,
-      blocks: appendBlock(page.blocks || [], block),
+      blocks: anchor
+        ? insertBlock(page.blocks || [], block, anchor)
+        : appendBlock(page.blocks || [], block),
     });
     return block.id;
   };
@@ -117,10 +127,13 @@ export default function PreviewClient({ messageTip }: { messageTip?: string }) {
   const addLink = async (url: string) => {
     const id = handleAddBlock('LINK', { url, title: 'New link' });
     if (!id) return;
+    setFetchingIds((ids) => [...ids, id]);
     const preview = await fetchLinkPreview(url);
+    setFetchingIds((ids) => ids.filter((x) => x !== id));
     patchBlockData(id, {
       image: preview.image,
       description: preview.description,
+      favicon: preview.icon ?? '',
       ...(preview.title && !findPlatform(url) ? { title: preview.title } : {}),
     });
   };
@@ -234,14 +247,6 @@ export default function PreviewClient({ messageTip }: { messageTip?: string }) {
     };
   }, []);
 
-  useEffect(() => {
-    return () => {
-      if (debounceTimerRef.current) {
-        clearTimeout(debounceTimerRef.current);
-      }
-    };
-  }, []);
-
   if (
     pageQuery.isLoading ||
     usernameQuery.isLoading ||
@@ -303,6 +308,8 @@ export default function PreviewClient({ messageTip }: { messageTip?: string }) {
               username={usernameQuery.data?.username}
               viewMode={mode}
               uploads={uploads}
+              fetchingIds={fetchingIds}
+              anchorRef={anchorRef}
             />
           )}
         </EditorViewport>
