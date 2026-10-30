@@ -12,9 +12,16 @@ import {
   RectangleVertical,
   LayoutGrid,
   Trash2,
+  Pencil,
+  Crop,
+  MousePointerClick,
 } from 'lucide-react';
+import { toast } from 'sonner';
+import { isVideoUrl, uploadBlockMedia } from '@/lib/media';
 import { BlockContent } from './block-content';
 import { BlockEditorDialog } from './block-editor-dialog';
+import { CropDialog } from './editing/crop-dialog';
+import { tileAspect } from './link-tile';
 
 const ResponsiveGridLayout = WidthProvider(Responsive);
 
@@ -57,15 +64,19 @@ interface BentoGridProps {
   isEditMode?: boolean;
   blocks?: Block[];
   onBlocksChange?: (newBlocks: Block[]) => void;
+  // Link clicks per block, shown on hover in the editor.
+  clicks?: Record<string, number>;
 }
 
 export function BentoGrid({
   isEditMode = false,
   blocks = [],
   onBlocksChange,
+  clicks,
 }: BentoGridProps) {
   const [mounted, setMounted] = useState(false);
   const [editingBlockId, setEditingBlockId] = useState<string | null>(null);
+  const [croppingBlockId, setCroppingBlockId] = useState<string | null>(null);
   const blocksRef = useRef(blocks);
   blocksRef.current = blocks;
 
@@ -188,6 +199,15 @@ export function BentoGrid({
   }
 
   const editingBlock = blocks.find((b) => b.id === editingBlockId) ?? null;
+  const croppingBlock = blocks.find((b) => b.id === croppingBlockId) ?? null;
+  const croppingData = croppingBlock?.data as
+    { url?: string; original?: string } | undefined;
+  const canCrop = (block: Block) => {
+    const { url, kind } = block.data as { url?: string; kind?: string };
+    return (
+      block.type === 'IMAGE' && !!url && kind !== 'video' && !isVideoUrl(url)
+    );
+  };
 
   // The public profile uses bento's two layouts: 4 columns with 40px gaps from
   // 1260px, otherwise 2 columns with 24px gaps and tiles scaled to the width.
@@ -285,6 +305,7 @@ export function BentoGrid({
           return (
             <div
               key={block.id}
+              data-block-id={block.id}
               className={`group relative overflow-visible rounded-[24px] ${
                 isEditMode
                   ? 'cursor-grab transition-shadow hover:z-50 hover:shadow-lg active:cursor-grabbing'
@@ -373,8 +394,33 @@ export function BentoGrid({
                       >
                         <LayoutGrid size={18} strokeWidth={2.5} />
                       </button>
+                      <div className="mx-1 h-4 w-px bg-white/20" />
+                      {canCrop(block) && (
+                        <button
+                          aria-label="Crop"
+                          onClick={() => setCroppingBlockId(block.id)}
+                          className="flex size-8 items-center justify-center rounded-lg text-gray-400 transition-colors hover:bg-gray-800 hover:text-white"
+                        >
+                          <Crop size={16} strokeWidth={2.5} />
+                        </button>
+                      )}
+                      <button
+                        aria-label="Edit"
+                        onClick={() => setEditingBlockId(block.id)}
+                        className="flex size-8 items-center justify-center rounded-lg text-gray-400 transition-colors hover:bg-gray-800 hover:text-white"
+                      >
+                        <Pencil size={16} strokeWidth={2.5} />
+                      </button>
                     </div>
                   )}
+
+                  {clicks?.[block.id] ? (
+                    <div className="pointer-events-none absolute right-3 top-3 z-40 flex items-center gap-1 rounded-full bg-black/80 px-2 py-1 text-[11px] font-semibold text-white opacity-0 backdrop-blur transition-opacity group-hover:opacity-100">
+                      <MousePointerClick size={12} />
+                      {clicks[block.id]}{' '}
+                      {clicks[block.id] === 1 ? 'click' : 'clicks'}
+                    </div>
+                  ) : null}
                 </>
               )}
             </div>
@@ -393,11 +439,44 @@ export function BentoGrid({
           setEditingBlockId(null);
         }}
       />
+
+      <CropDialog
+        src={
+          croppingData
+            ? croppingData.original || croppingData.url || null
+            : null
+        }
+        aspect={
+          croppingBlock ? tileAspect(croppingBlock.w, croppingBlock.h) : 1
+        }
+        onCancel={() => setCroppingBlockId(null)}
+        onDone={async (blob) => {
+          if (!croppingBlock || !croppingData) return;
+          try {
+            const url = await uploadBlockMedia(blob);
+            updateBlockData(croppingBlock.id, {
+              ...croppingBlock.data,
+              url,
+              kind: 'image',
+              original: croppingData.original || croppingData.url,
+            });
+            setCroppingBlockId(null);
+          } catch (error) {
+            toast.error(
+              error instanceof Error ? error.message : 'Failed to crop image'
+            );
+          }
+        }}
+      />
     </div>
   );
 }
 
-export function newBlock(type: BlockType, y: number): Block {
+export function newBlock(
+  type: BlockType,
+  y: number,
+  data?: Record<string, unknown>
+): Block {
   const w = type === 'SECTION_TITLE' ? 4 : 1;
   const h = type === 'SECTION_TITLE' ? 1 : 2;
   return {
@@ -410,6 +489,6 @@ export function newBlock(type: BlockType, y: number): Block {
     y,
     w,
     h,
-    data: defaultBlockData(type),
+    data: { ...defaultBlockData(type), ...data },
   };
 }

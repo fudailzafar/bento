@@ -4,6 +4,7 @@ import { Avatar, AvatarFallback, AvatarImage, Button } from '@/components/ui';
 import { useState, useRef } from 'react';
 import { toast } from 'sonner';
 import { CircleArrowUpIcon, LoaderIcon, TrashIcon } from '@/components/icons';
+import { CropDialog } from './crop-dialog';
 
 interface ProfileImageFieldProps {
   name: string;
@@ -28,6 +29,7 @@ export function ProfileImageField({
 }: ProfileImageFieldProps) {
   const [isHovered, setIsHovered] = useState(false);
   const [isUploading, setIsUploading] = useState(false);
+  const [cropSrc, setCropSrc] = useState<string | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const handleUploadClick = () => {
@@ -52,11 +54,31 @@ export function ProfileImageField({
       return;
     }
 
+    // GIFs keep their animation, and HEIC can't be drawn to a canvas in most
+    // browsers, so both skip the crop.
+    if (file.type === 'image/gif' || file.type === 'image/heic') {
+      await uploadAvatar(file);
+    } else {
+      setCropSrc(URL.createObjectURL(file));
+    }
+    if (fileInputRef.current) fileInputRef.current.value = '';
+  };
+
+  const closeCrop = () => {
+    if (cropSrc) URL.revokeObjectURL(cropSrc);
+    setCropSrc(null);
+  };
+
+  const uploadAvatar = async (file: Blob) => {
     setIsUploading(true);
 
     try {
       const formData = new FormData();
-      formData.append('file', file);
+      formData.append(
+        'file',
+        file,
+        file instanceof File ? file.name : 'avatar.jpg'
+      );
 
       const response = await fetch('/api/profile-image/upload', {
         method: 'POST',
@@ -77,10 +99,6 @@ export function ProfileImageField({
       );
     } finally {
       setIsUploading(false);
-      // Reset input
-      if (fileInputRef.current) {
-        fileInputRef.current.value = '';
-      }
     }
   };
 
@@ -111,6 +129,17 @@ export function ProfileImageField({
 
   return (
     <>
+      <CropDialog
+        src={cropSrc}
+        aspect={1}
+        round
+        title="Crop avatar"
+        onCancel={closeCrop}
+        onDone={async (blob) => {
+          closeCrop();
+          await uploadAvatar(blob);
+        }}
+      />
       <div className="flex justify-end">
         {showCopyButton && onCopyLink && (
           <Button

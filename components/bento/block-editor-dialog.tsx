@@ -13,8 +13,18 @@ import {
   Textarea,
   Button,
 } from '@/components/ui';
-import { LoaderCircle, Upload } from 'lucide-react';
+import { Crop, LoaderCircle, Upload } from 'lucide-react';
 import { toast } from 'sonner';
+import { findPlatform } from '@/lib/platforms';
+import {
+  asUrl,
+  fetchLinkPreview,
+  isVideoFile,
+  isVideoUrl,
+  uploadBlockMedia,
+} from '@/lib/media';
+import { CropDialog } from './editing/crop-dialog';
+import { tileAspect } from './link-tile';
 
 // bento's note palette (its colour picker's swatches).
 const NOTE_COLORS = [
@@ -51,6 +61,8 @@ export function BlockEditorDialog({
 }: BlockEditorDialogProps) {
   const [data, setData] = useState<Record<string, unknown>>({});
   const [isUploading, setIsUploading] = useState(false);
+  const [isFetching, setIsFetching] = useState(false);
+  const [cropSrc, setCropSrc] = useState<string | null>(null);
 
   useEffect(() => {
     if (block) setData(block.data);
@@ -62,37 +74,45 @@ export function BlockEditorDialog({
     setData((prev) => ({ ...prev, ...patch }));
 
   const handleImageUpload = async (file: File) => {
-    if (!file.type.startsWith('image/')) {
-      toast.error('Please upload an image file');
-      return;
-    }
-    if (file.size > 5 * 1024 * 1024) {
-      toast.error('Image size must be less than 5MB');
-      return;
-    }
-
     setIsUploading(true);
     try {
-      const formData = new FormData();
-      formData.append('file', file);
-      const response = await fetch('/api/block-image/upload', {
-        method: 'POST',
-        body: formData,
+      const url = await uploadBlockMedia(file);
+      update({
+        url,
+        kind: isVideoFile(file) ? 'video' : 'image',
+        original: undefined,
       });
-      if (!response.ok) {
-        const error = await response.json();
-        throw new Error(error.error || 'Upload failed');
-      }
-      const result = await response.json();
-      update({ url: result.imageUrl });
     } catch (error) {
       toast.error(
-        error instanceof Error ? error.message : 'Failed to upload image'
+        error instanceof Error ? error.message : 'Failed to upload file'
       );
     } finally {
       setIsUploading(false);
     }
   };
+
+  // Fills the tile's preview image (and title, for plain links) from the
+  // page's Open Graph tags once a URL is entered.
+  const loadPreview = async () => {
+    const url = asUrl((data.url as string) || '');
+    if (!url || url === block.data.url) return;
+    setIsFetching(true);
+    const preview = await fetchLinkPreview(url);
+    setIsFetching(false);
+    const title = data.title as string | undefined;
+    const untitled =
+      !title || title === 'New link' || title === 'Untitled link';
+    update({
+      url,
+      image: preview.image,
+      description: preview.description,
+      ...(untitled && !findPlatform(url) && preview.title
+        ? { title: preview.title }
+        : {}),
+    });
+  };
+
+  const isVideo = data.kind === 'video' || isVideoUrl(data.url as string);
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
@@ -121,22 +141,56 @@ export function BlockEditorDialog({
                   id="link-url"
                   value={(data.url as string) || ''}
                   onChange={(e) => update({ url: e.target.value })}
+                  onBlur={loadPreview}
                   placeholder="https://example.com"
                 />
+                {isFetching && (
+                  <p className="flex items-center gap-1.5 text-xs text-muted-foreground">
+                    <LoaderCircle className="size-3 animate-spin" />
+                    Fetching preview...
+                  </p>
+                )}
               </div>
             </>
           )}
 
           {block.type === 'IMAGE' && (
             <div className="space-y-1.5">
-              <Label>Image</Label>
+              <Label>Image or video</Label>
               {data.url ? (
-                // eslint-disable-next-line @next/next/no-img-element
-                <img
-                  src={data.url as string}
-                  alt=""
-                  className="mb-2 h-32 w-full rounded-lg object-cover"
-                />
+                isVideo ? (
+                  <video
+                    src={data.url as string}
+                    className="mb-2 h-32 w-full rounded-lg object-cover"
+                    autoPlay
+                    muted
+                    loop
+                    playsInline
+                  />
+                ) : (
+                  <div className="relative mb-2">
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img
+                      src={data.url as string}
+                      alt=""
+                      className="h-32 w-full rounded-lg object-cover"
+                    />
+                    <Button
+                      type="button"
+                      size="sm"
+                      variant="secondary"
+                      className="absolute bottom-2 right-2 h-7 gap-1 px-2 text-xs"
+                      onClick={() =>
+                        setCropSrc(
+                          (data.original as string) || (data.url as string)
+                        )
+                      }
+                    >
+                      <Crop className="size-3" />
+                      Crop
+                    </Button>
+                  </div>
+                )
               ) : null}
               <label className="flex cursor-pointer items-center justify-center gap-2 rounded-lg border border-dashed border-border p-4 text-sm text-muted-foreground hover:bg-muted">
                 {isUploading ? (
@@ -144,10 +198,10 @@ export function BlockEditorDialog({
                 ) : (
                   <Upload className="size-4" />
                 )}
-                {isUploading ? 'Uploading...' : 'Upload image'}
+                {isUploading ? 'Uploading...' : 'Upload image or video'}
                 <input
                   type="file"
-                  accept="image/*"
+                  accept="image/*,video/mp4,video/webm,video/quicktime"
                   className="hidden"
                   disabled={isUploading}
                   onChange={(e) => {
@@ -265,9 +319,34 @@ export function BlockEditorDialog({
         </div>
 
         <DialogFooter>
-          <Button onClick={() => onSave(data)}>Save</Button>
+          <Button
+            disabled={isUploading || isFetching}
+            onClick={() => onSave(data)}
+          >
+            Save
+          </Button>
         </DialogFooter>
       </DialogContent>
+      <CropDialog
+        src={cropSrc}
+        aspect={tileAspect(block.w, block.h)}
+        onCancel={() => setCropSrc(null)}
+        onDone={async (blob) => {
+          try {
+            const url = await uploadBlockMedia(blob);
+            update({
+              url,
+              kind: 'image',
+              original: (data.original as string) || (data.url as string),
+            });
+            setCropSrc(null);
+          } catch (error) {
+            toast.error(
+              error instanceof Error ? error.message : 'Failed to crop image'
+            );
+          }
+        }}
+      />
     </Dialog>
   );
 }
