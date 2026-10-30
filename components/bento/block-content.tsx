@@ -31,24 +31,27 @@ function Linked({
   children: React.ReactNode;
 }) {
   if (!href) return <>{children}</>;
+  // bento's link overlay: a layer that darkens a little on hover, and the
+  // arrow in a blurred disc ringed in white, 14px from the top-right corner.
   const badge = (
-    <span className="absolute right-3 top-3 flex h-6 w-6 items-center justify-center rounded-full bg-white/80 text-black/60 shadow-[0_1px_2px_rgba(0,0,0,.1)] backdrop-blur">
-      <svg
-        width="10"
-        height="10"
-        viewBox="0 0 10 10"
-        fill="none"
-        aria-hidden="true"
-      >
-        <path
-          d="M2.5 7.5 7.5 2.5M3.5 2.5h4v4"
-          stroke="currentColor"
-          strokeWidth="1.5"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        />
-      </svg>
-    </span>
+    <div className="pointer-events-none absolute inset-0 rounded-[inherit] p-[14px]">
+      <div className="absolute inset-0 rounded-[inherit] transition-colors duration-150 ease-in-out group-hover/card:bg-black/[.08] group-active/card:bg-black/[.12]" />
+      <div className="absolute right-[12px] top-[12px] size-[26px] rounded-full border-2 border-white/20 backdrop-blur-[8px] transition-all duration-150 ease-in-out group-hover/card:border-white/30" />
+      <div className="absolute right-[14px] top-[14px] flex size-[22px] items-center justify-center rounded-full bg-black/20 backdrop-blur-[8px] transition-colors duration-150 group-hover/card:bg-black/30">
+        <svg
+          width="10"
+          height="10"
+          viewBox="0 0 10 10"
+          fill="none"
+          aria-hidden="true"
+        >
+          <path
+            d="M3.25403 1.46875C2.83987 1.46875 2.5041 1.80446 2.50403 2.21862C2.50396 2.63289 2.83977 2.96875 3.25403 2.96875H5.94325L1.47358 7.43842C1.18068 7.73131 1.18068 8.20619 1.47358 8.49908C1.76647 8.79197 2.24134 8.79197 2.53424 8.49908L7.00299 4.03033L7.00314 6.71982C7.00316 7.13345 7.34024 7.46875 7.75387 7.46875C8.16752 7.46875 8.50108 7.13342 8.50108 6.71978V2.21875C8.50108 1.80454 8.16529 1.46875 7.75108 1.46875H3.25403Z"
+            fill="white"
+          />
+        </svg>
+      </div>
+    </div>
   );
   if (!interactive) {
     return (
@@ -332,7 +335,7 @@ export function BlockContent({
               // hover as a "Caption..." prompt.
               <div
                 className={cn(
-                  'absolute bottom-4 left-4 max-w-[calc(100%-32px)] rounded-[8px] bg-white px-2 py-1.5',
+                  'absolute bottom-4 left-4 max-w-[calc(100%-32px)] rounded-[var(--caption-radius,8px)] bg-white px-2 py-1.5',
                   !caption &&
                     'opacity-0 focus-within:opacity-100 group-hover:opacity-100'
                 )}
@@ -347,7 +350,7 @@ export function BlockContent({
               </div>
             ) : (
               caption && (
-                <span className="absolute bottom-4 left-4 line-clamp-2 max-w-[calc(100%-32px)] rounded-[8px] bg-white px-2 py-1.5 text-sm leading-[21px] text-black">
+                <span className="absolute bottom-4 left-4 line-clamp-2 max-w-[calc(100%-32px)] rounded-[var(--caption-radius,8px)] bg-white px-2 py-1.5 text-sm leading-[21px] text-black">
                   {caption}
                 </span>
               )
@@ -489,7 +492,7 @@ export function BlockContent({
               zoom={block.h >= 4 ? 10 : 11}
               interactive={interactive}
             />
-            <span className="pointer-events-none absolute bottom-4 left-4 line-clamp-2 max-w-[calc(100%-32px)] rounded-[8px] bg-white px-2 py-1.5 text-sm leading-[21px] text-black">
+            <span className="pointer-events-none absolute bottom-4 left-4 line-clamp-2 max-w-[calc(100%-32px)] rounded-[var(--caption-radius,8px)] bg-white px-2 py-1.5 text-sm leading-[21px] text-black">
               {label || location}
             </span>
           </div>
