@@ -3,10 +3,10 @@ import Link from 'next/link';
 
 const links = [
   { label: 'Log In', href: '/login' },
-  { label: 'About', href: '/fudail' },
+  { label: 'About us', href: '/fudail' },
+  { label: 'Changelog', href: '/changelog' },
+  { label: 'Join the team', href: '/jointheteam' },
   { label: 'Explore', href: '/explore' },
-  { label: 'Terms of Service', href: '/terms-of-service' },
-  { label: 'Privacy Policy', href: '/privacy-policy' },
   {
     label: 'Download Brand Assets',
     href: 'https://drive.google.com/file/d/1sAd1Cyi2ujw0d5DVAG6HTjUssr6NE9KY/view?usp=sharing',
@@ -38,6 +38,11 @@ export function Footer() {
           </Link>
         ))}
       </div>
+      <img
+        src="/home/bento/phbadge.svg"
+        alt="Product of the Day"
+        className="mt-[60px] w-[200px] opacity-50 max-[479px]:w-[150px]"
+      />
     </footer>
   );
 }
