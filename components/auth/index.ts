@@ -1,4 +1,3 @@
-export { default as SignUpAnimation } from './sign-up-animation';
 export { default as SignupContent } from './sign-up-content';
 export { default as ResetPasswordConfirmContent } from './reset-password-confirm';
 export { default as ResetPasswordContent } from './reset-password-content';

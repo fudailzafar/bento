@@ -7,9 +7,7 @@ export {
   createUsernameLookup,
   getUsernameById,
   getUserIdByUsername,
-  getUserIdByEmail,
   checkUsernameAvailability,
-  deleteUser,
   updateUsername,
 
   type PageData,

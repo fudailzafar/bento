@@ -7,7 +7,7 @@ export interface ExploreBento {
   description: string;
 }
 
-export interface ExploreCategory {
+interface ExploreCategory {
   label: string;
   icon: string;
   // bento.me's 'Artists & Illustrators' tab label had no class, so it renders larger.
@@ -15,7 +15,7 @@ export interface ExploreCategory {
   items: ExploreBento[];
 }
 
-export interface CommunityFile {
+interface CommunityFile {
   href: string;
   thumbnail: string;
   avatar: string;

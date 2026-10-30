@@ -6,7 +6,7 @@ import { ProfileImageField } from '@/components/bento/editing';
 import { toast } from 'sonner';
 import confetti from 'canvas-confetti';
 
-export interface HeaderData {
+interface HeaderData {
   name?: string | null;
   headline?: string | null;
 }

@@ -14,7 +14,7 @@ import { NO_DRAG } from './editing/no-drag';
 
 type TileSize = 'bar' | 'small' | 'wide' | 'tall' | 'large';
 
-export function tileSize(w: number, h: number): TileSize {
+function tileSize(w: number, h: number): TileSize {
   if (h <= 1) return 'bar';
   if (w >= 2) return h >= 4 ? 'large' : 'wide';
   return h >= 4 ? 'tall' : 'small';
@@ -25,7 +25,7 @@ export function tileAspect(w: number, h: number) {
   return (w >= 2 ? 390 : 175) / (h >= 4 ? 390 : h <= 1 ? 67.5 : 175);
 }
 
-export interface LinkTileEditing {
+interface LinkTileEditing {
   onTitle: (title: string) => void;
   onImage: (file: File) => void;
   onClearImage: () => void;

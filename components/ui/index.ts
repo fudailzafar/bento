@@ -2,18 +2,14 @@
 export { Avatar, AvatarImage, AvatarFallback } from './avatar';
 
 // Button
-export { Button, buttonVariants, type ButtonProps } from './button';
+export { Button, buttonVariants } from './button';
 
 // Confetti
-export { Confetti, ConfettiButton, type ConfettiRef } from './confetti';
+export { ConfettiButton } from './confetti';
 
 // Dialog
 export {
   Dialog,
-  DialogPortal,
-  DialogOverlay,
-  DialogTrigger,
-  DialogClose,
   DialogContent,
   DialogHeader,
   DialogFooter,
@@ -24,13 +20,10 @@ export {
 // Drawer
 export {
   Drawer,
-  DrawerPortal,
-  DrawerOverlay,
   DrawerTrigger,
   DrawerClose,
   DrawerContent,
   DrawerHeader,
-  DrawerFooter,
   DrawerTitle,
   DrawerDescription,
 } from './drawer';
@@ -40,34 +33,14 @@ export {
   DropdownMenu,
   DropdownMenuTrigger,
   DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuCheckboxItem,
-  DropdownMenuRadioItem,
   DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuShortcut,
-  DropdownMenuGroup,
-  DropdownMenuPortal,
-  DropdownMenuSub,
-  DropdownMenuSubContent,
-  DropdownMenuSubTrigger,
-  DropdownMenuRadioGroup,
 } from './dropdown-menu';
 
 // Input
 export { Input } from './input';
 
-// Label
-export { Label } from './label';
-
-// Section
-export { Section } from './section';
-
 // Separator
 export { Separator } from './separator';
-
-// Textarea
-export { Textarea } from './textarea';
 
 // Theme Provider
 export { ThemeProvider } from './theme-provider';

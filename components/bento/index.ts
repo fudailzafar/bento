@@ -1,3 +1,2 @@
-export { BentoGrid, newBlock } from './grid';
-export { BlockContent } from './block-content';
-export { PreviewPortfolio, PublicPortfolio, Header } from './preview';
+export { newBlock } from './grid';
+export { PreviewPortfolio, PublicPortfolio } from './preview';

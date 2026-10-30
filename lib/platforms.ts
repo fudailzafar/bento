@@ -2,7 +2,7 @@
 // brand icon, and the call-to-action pill. Colours come from bento's widget
 // CSS variables and button classes in its archived profile pages.
 
-export interface Platform {
+interface Platform {
   id: string;
   name: string;
   hosts: string[];
@@ -21,7 +21,7 @@ export interface Platform {
 
 const WHITE = { hover: '#FBFBFB', active: '#EFEFEF' };
 
-export const PLATFORMS: Platform[] = [
+const PLATFORMS: Platform[] = [
   {
     id: 'twitter',
     name: 'Twitter',

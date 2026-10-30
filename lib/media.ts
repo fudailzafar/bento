@@ -3,9 +3,9 @@ import { createClient } from '@/lib/supabase/client';
 // Client helpers for widget media: uploads (images and bento's looping
 // videos) and the link preview lookup.
 
-export const VIDEO_TYPES = ['video/mp4', 'video/webm', 'video/quicktime'];
-export const MAX_IMAGE_BYTES = 5 * 1024 * 1024;
-export const MAX_VIDEO_BYTES = 25 * 1024 * 1024;
+const VIDEO_TYPES = ['video/mp4', 'video/webm', 'video/quicktime'];
+const MAX_IMAGE_BYTES = 5 * 1024 * 1024;
+const MAX_VIDEO_BYTES = 25 * 1024 * 1024;
 
 export function isVideoUrl(url?: string) {
   return !!url && /\.(mp4|webm|mov)(\?|#|$)/i.test(url);
@@ -54,7 +54,7 @@ export async function uploadBlockMedia(
   return supabase.storage.from('images').getPublicUrl(path).data.publicUrl;
 }
 
-export interface LinkPreview {
+interface LinkPreview {
   title?: string;
   description?: string;
   image?: string;
