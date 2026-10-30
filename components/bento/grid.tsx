@@ -632,7 +632,7 @@ export function BentoGrid({
                     </div>
                   )}
 
-                  {clicks?.[block.id] ? (
+                  {clicks?.[block.id] && block.type !== 'IMAGE' ? (
                     <div className="pointer-events-none absolute right-3 top-3 z-40 flex items-center gap-1 rounded-full bg-black/80 px-2 py-1 text-[11px] font-semibold text-white opacity-0 backdrop-blur transition-opacity group-hover:opacity-100">
                       <MousePointerClick size={12} />
                       {clicks[block.id]}{' '}
