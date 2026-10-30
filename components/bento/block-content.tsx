@@ -307,7 +307,7 @@ export function BlockContent({
               // hover as a "Caption..." prompt.
               <div
                 className={cn(
-                  'absolute bottom-3 left-3 max-w-[calc(100%-24px)] rounded-[10px] bg-white px-3 py-1.5 shadow-[0_1px_3px_rgba(0,0,0,.12)]',
+                  'absolute bottom-4 left-4 max-w-[calc(100%-32px)] rounded-[8px] bg-white px-2 py-1.5',
                   !caption &&
                     'opacity-0 focus-within:opacity-100 group-hover:opacity-100'
                 )}
@@ -317,12 +317,12 @@ export function BlockContent({
                   placeholder="Caption..."
                   onChange={(value) => edit.onPatch({ caption: value })}
                   size={Math.max((caption ?? '').length, 8)}
-                  className="w-auto max-w-full text-sm leading-5 text-black"
+                  className="w-auto max-w-full text-sm leading-[21px] text-black"
                 />
               </div>
             ) : (
               caption && (
-                <span className="absolute bottom-3 left-3 max-w-[calc(100%-24px)] truncate rounded-[10px] bg-white px-3 py-1.5 text-sm leading-5 text-black shadow-[0_1px_3px_rgba(0,0,0,.12)]">
+                <span className="absolute bottom-4 left-4 line-clamp-2 max-w-[calc(100%-32px)] rounded-[8px] bg-white px-2 py-1.5 text-sm leading-[21px] text-black">
                   {caption}
                 </span>
               )
@@ -355,6 +355,13 @@ export function BlockContent({
             ? 'justify-end'
             : '';
       const text = content?.trim() ?? '';
+      const size =
+        /^(\p{Extended_Pictographic}|\p{Emoji_Component}|\u200d|\ufe0f){1,8}$/u.test(
+          text
+        )
+          ? 'text-[48px] leading-[52px]'
+          : 'text-[20px] leading-[26px]';
+      const pad = block.h <= 1 ? 'px-6 justify-center' : 'p-6';
       // bento's quote note: a closing "— Author" line turns the note into a
       // quote with a big opening mark and italic text.
       const lines = text.split('\n');
@@ -365,7 +372,7 @@ export function BlockContent({
           : null;
       const quote = author ? (
         <div
-          className={`flex h-full w-full flex-col overflow-hidden p-6 ${alignClass} ${valignClass}`}
+          className={`flex h-full w-full flex-col overflow-hidden ${pad} ${alignClass} ${valignClass}`}
           style={{ background: color ?? '#FFFFFF' }}
         >
           <span
@@ -374,12 +381,12 @@ export function BlockContent({
             &ldquo;
           </span>
           <p
-            className={`mt-3 line-clamp-[10] whitespace-pre-wrap text-sm italic leading-5 ${tone}`}
+            className={`mt-3 line-clamp-[8] whitespace-pre-wrap text-[20px] italic leading-[26px] ${tone}`}
           >
             {lines.slice(0, -1).join('\n').trim()}
           </p>
           <p
-            className={`mt-4 text-sm italic leading-5 ${dark ? 'text-white/70' : 'text-black/60'}`}
+            className={`mt-4 text-[20px] italic leading-[26px] ${dark ? 'text-white/70' : 'text-black/60'}`}
           >
             &mdash; {author}
           </p>
@@ -390,8 +397,9 @@ export function BlockContent({
           <NoteEditor
             content={content ?? ''}
             color={color}
-            className={cn(alignClass, valignClass)}
+            className={cn(pad, alignClass, valignClass)}
             textClass={cn(
+              size,
               tone,
               author && 'italic',
               align === 'center' && 'text-center',
@@ -412,14 +420,14 @@ export function BlockContent({
       return (
         <Linked href={href} interactive={interactive}>
           <div
-            className={`flex h-full w-full flex-col overflow-hidden p-6 ${alignClass} ${valignClass}`}
+            className={`flex h-full w-full flex-col overflow-hidden ${pad} ${alignClass} ${valignClass}`}
             style={{ background: color ?? '#FFFFFF' }}
           >
             <p
               className={
                 text
-                  ? `line-clamp-[10] whitespace-pre-wrap text-sm leading-5 ${tone}`
-                  : `text-sm leading-5 ${dark ? 'text-white/50' : 'text-black/30'}`
+                  ? `line-clamp-[10] whitespace-pre-wrap ${size} ${tone}`
+                  : `text-[20px] leading-[26px] ${dark ? 'text-white/50' : 'text-black/30'}`
               }
             >
               {text || 'Add note...'}
@@ -461,10 +469,10 @@ export function BlockContent({
               value={title ?? ''}
               placeholder="Section title"
               onChange={(value) => edit.onPatch({ title: value })}
-              className="text-sm font-semibold leading-[17px] text-black"
+              className="text-lg font-semibold leading-7 text-black"
             />
           ) : (
-            <h2 className="text-sm font-semibold leading-[17px] text-black">
+            <h2 className="text-lg font-semibold leading-7 text-black">
               {title || 'Section'}
             </h2>
           )}
@@ -513,7 +521,7 @@ function NoteEditor({
   return (
     <div
       className={cn(
-        'flex h-full w-full cursor-text flex-col overflow-hidden p-6',
+        'flex h-full w-full cursor-text flex-col overflow-hidden',
         className
       )}
       style={{ background: color ?? '#FFFFFF' }}
@@ -531,7 +539,7 @@ function NoteEditor({
         onChange={(e) => onChange(e.target.value)}
         className={cn(
           NO_DRAG,
-          'max-h-full w-full resize-none border-0 bg-transparent p-0 text-sm leading-5 outline-none placeholder:opacity-40 focus:ring-0',
+          'max-h-full w-full resize-none border-0 bg-transparent p-0 outline-none placeholder:opacity-40 focus:ring-0',
           textClass
         )}
       />
