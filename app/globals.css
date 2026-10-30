@@ -126,23 +126,14 @@
   .bg-secondary {
     background-color: hsl(var(--secondary));
   }
-  .bg-backdrop {
-    background-color: hsl(var(--backdrop));
-  }
   .bg-muted {
     background-color: hsl(var(--muted));
   }
   .bg-accent {
     background-color: hsl(var(--accent));
   }
-  .bg-container {
-    background-color: hsl(var(--container));
-  }
   .bg-destructive {
     background-color: hsl(var(--destructive));
-  }
-  .bg-input {
-    background-color: hsl(var(--input));
   }
   .bg-border {
     background-color: hsl(var(--border));
@@ -162,9 +153,6 @@
   .text-foreground {
     color: hsl(var(--foreground));
   }
-  .text-card-foreground {
-    color: hsl(var(--card-foreground));
-  }
   .text-popover-foreground {
     color: hsl(var(--popover-foreground));
   }
@@ -175,17 +163,8 @@
   .text-accent-foreground {
     color: hsl(var(--accent-foreground));
   }
-  .text-backdrop {
-    color: hsl(var(--backdrop));
-  }
   .border-border {
     border-color: hsl(var(--border));
-  }
-  .border-flat {
-    border: 1px solid hsl(var(--border));
-  }
-  .border-container {
-    border-color: hsl(var(--container));
   }
   .ring-ring {
     --tw-ring-color: hsl(var(--ring));
@@ -193,154 +172,12 @@
   .hover\:bg-primary\/90:hover {
     background-color: hsl(var(--primary) / 0.9);
   }
-  .hover\:bg-muted\/90:hover {
-    background-color: hsl(var(--muted) / 0.9);
-  }
-  .hover\:bg-backdrop:hover {
-    background-color: hsl(var(--muted-backdrop));
-  }
-  .hover\:bg-container:hover {
-    background-color: hsl(var(--container));
-  }
-  .hover\:text-secondary:hover {
-    color: hsl(var(--secondary));
-  }
-}
-
-/* Custom animations */
-@keyframes bounce {
-  0%,
-  100% {
-    transform: translateY(0);
-  }
-  50% {
-    transform: translateY(-20px);
-  }
-}
-
-@keyframes shine {
-  0% {
-    transform: translateX(-100%);
-  }
-  100% {
-    transform: translateX(100%);
-  }
-}
-
-.animate-bounce {
-  animation: bounce 1s infinite;
 }
 
 ::view-transition-old(root),
 ::view-transition-new(root) {
   animation: none;
   mix-blend-mode: normal;
-}
-
-.hero {
-  mask-image: linear-gradient(
-    90deg,
-    transparent 0%,
-    white 20%,
-    white 80%,
-    transparent 100%
-  );
-  -webkit-mask-image: linear-gradient(
-    90deg,
-    transparent 0%,
-    white 20%,
-    white 80%,
-    transparent 100%
-  );
-}
-
-.logo::after {
-  content: '';
-  position: absolute;
-  border-radius: inherit;
-  inset: 0;
-  z-index: 3;
-  box-sizing: border-box;
-  pointer-events: none;
-  transition-property: all;
-  transition-duration: 300ms;
-  transition-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1);
-  border-style: solid;
-  border-color: #d17fa2;
-  border-width: 1px;
-  -webkit-mask-image: linear-gradient(
-    to bottom right,
-    black 0%,
-    transparent 40%,
-    transparent 60%,
-    black 100%
-  );
-  mask-image: linear-gradient(
-    to bottom right,
-    black 0%,
-    transparent 40%,
-    transparent 60%,
-    black 100%
-  );
-}
-
-.tile {
-  transform: slideIn 1s ease-in-out;
-}
-
-@keyframes slideIn {
-  0% {
-    transform: translateY(-10%);
-  }
-  100% {
-    transform: translatey(100%);
-  }
-}
-
-/* DND Kit Sortable Styles */
-.sortable-ghost {
-  opacity: 0.4;
-}
-
-/* Smooth transitions for sortable items */
-[data-sortable-id] {
-  transition: transform 250ms cubic-bezier(0.25, 1, 0.5, 1);
-}
-
-/* Floating widget keyframe animation */
-@keyframes widget-float {
-  0% {
-    transform: translateX(calc(var(--random-x-value) * 40px))
-      translateY(calc(var(--random-y-value) * 40px))
-      rotate(calc(var(--random-rotate-value) * 1deg));
-  }
-  50% {
-    transform: translateX(calc(var(--random-x-value) * -40px))
-      translateY(calc(var(--random-y-value) * -40px))
-      rotate(calc(var(--random-rotate-value) * -1deg));
-  }
-  100% {
-    transform: translateX(calc(var(--random-x-value) * 40px))
-      translateY(calc(var(--random-y-value) * 40px))
-      rotate(calc(var(--random-rotate-value) * 1deg));
-  }
-}
-
-
-/* Floating widget animation */
-.floating-widget {
-  will-change: transform;
-  transition: transform 0.3s ease-out;
-}
-
-.floating-widget.active {
-  animation: widget-float 6s ease-in-out infinite !important;
-  animation-delay: var(--animation-delay, 0s) !important;
-  animation-fill-mode: both !important;
-}
-
-.floating-widget.paused {
-  animation-play-state: paused !important;
 }
 
 /* Bento Grid Drag Placeholder Override */
