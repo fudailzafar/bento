@@ -4,7 +4,6 @@ import React, { useState, useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
 import { Responsive, WidthProvider, Layout } from 'react-grid-layout';
 import 'react-grid-layout/css/styles.css';
-import 'react-resizable/css/styles.css';
 import { Block, BlockType, defaultBlockData } from '@/lib';
 import { Trash2, MousePointerClick } from 'lucide-react';
 import { toast } from 'sonner';
