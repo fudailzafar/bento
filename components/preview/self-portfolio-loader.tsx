@@ -1,11 +1,14 @@
 'use server';
 
 import { createClient } from '@/lib/supabase/server';
-import { createUsernameLookup, getPage, getUsernameById, savePage } from '@/lib/server';
+import {
+  createUsernameLookup,
+  getPage,
+  getUsernameById,
+  savePage,
+} from '@/lib/server';
 import { redirect } from 'next/navigation';
-import { Suspense } from 'react';
 import { MAX_USERNAME_LENGTH } from '@/lib';
-import { LoadingFallback } from '@/components/utils';
 import PreviewWrapper from './preview-wrapper';
 
 async function InitializeAndPreview({ userId }: { userId: string }) {
@@ -58,9 +61,5 @@ export default async function SelfPortfolioLoader({
 }: {
   userId: string;
 }) {
-  return (
-    <Suspense fallback={<LoadingFallback />}>
-      <InitializeAndPreview userId={userId} />
-    </Suspense>
-  );
+  return <InitializeAndPreview userId={userId} />;
 }
