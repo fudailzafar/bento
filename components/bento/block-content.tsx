@@ -2,6 +2,8 @@
 
 import { Block } from '@/lib';
 import { LinkTile } from './link-tile';
+import { embedFor } from '@/lib/embeds';
+import { isVideoUrl } from '@/lib/media';
 import { ImageOff, MapPin } from 'lucide-react';
 
 // Dark note colours get white text.
@@ -72,9 +74,38 @@ export function BlockContent({
 }) {
   switch (block.type) {
     case 'LINK': {
-      const { url, title } = block.data as { url?: string; title?: string };
+      const { url, title, image } = block.data as {
+        url?: string;
+        title?: string;
+        image?: string;
+      };
+      // Videos and players play inside wide and tall tiles, as on bento.
+      const embed =
+        url && (block.w >= 2 || block.h >= 4) ? embedFor(url) : null;
+      if (embed) {
+        return (
+          <div className="relative h-full w-full bg-black/[.04]">
+            <iframe
+              src={embed.src}
+              title={title || embed.provider}
+              className="h-full w-full border-0"
+              allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+              loading="lazy"
+              allowFullScreen
+            />
+            {/* In the editor the tile stays draggable and opens its settings. */}
+            {!interactive && <div className="absolute inset-0" />}
+          </div>
+        );
+      }
       const tile = (
-        <LinkTile url={url ?? ''} title={title} w={block.w} h={block.h} />
+        <LinkTile
+          url={url ?? ''}
+          title={title}
+          image={image}
+          w={block.w}
+          h={block.h}
+        />
       );
       if (interactive && url) {
         return (
@@ -92,28 +123,42 @@ export function BlockContent({
     }
 
     case 'IMAGE': {
-      const { url, alt, href } = block.data as {
+      const { url, alt, href, kind } = block.data as {
         url?: string;
         alt?: string;
         href?: string;
+        kind?: 'image' | 'video';
       };
       if (!url) {
         return (
           <div className="flex h-full w-full flex-col items-center justify-center gap-2 bg-muted text-muted-foreground">
             <ImageOff className="size-6" />
-            <span className="text-xs font-medium">Add an image</span>
+            <span className="text-xs font-medium">Add an image or video</span>
           </div>
         );
       }
       return (
         <Linked href={href} interactive={interactive}>
           <div className="h-full w-full overflow-hidden bg-muted">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              src={url}
-              alt={alt || ''}
-              className="h-full w-full object-cover"
-            />
+            {kind === 'video' || isVideoUrl(url) ? (
+              // bento's video widget: muted, looping, no controls.
+              <video
+                src={url}
+                aria-label={alt || undefined}
+                className="h-full w-full object-cover"
+                autoPlay
+                muted
+                loop
+                playsInline
+              />
+            ) : (
+              // eslint-disable-next-line @next/next/no-img-element
+              <img
+                src={url}
+                alt={alt || ''}
+                className="h-full w-full object-cover"
+              />
+            )}
           </div>
         </Linked>
       );
