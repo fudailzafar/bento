@@ -1,3 +1,9 @@
+@font-face {
+  font-family: 'QuoteFont';
+  src: url('/fonts/Quote-Font.otf');
+  font-display: swap;
+}
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -300,3 +306,8 @@
 .bento-claim-glare { animation: bento-claim-glare 6s ease-in-out infinite; animation-delay: 1s; }
 .bento-claim-illustration { animation: bento-claim-illustration .7s cubic-bezier(.39,0,.07,1) backwards; animation-delay: 1.6s; }
 .bento-claim-marquee { animation: bento-claim-marquee 6s ease-in-out infinite; }
+
+/* bento's quote mark: its own font, set apart from the quote's text. */
+.quote-symbol {
+  font-family: 'QuoteFont', ui-serif, Georgia, Cambria, 'Times New Roman', serif;
+}

@@ -1,18 +1,11 @@
 // Notes keep their formatting as a small markdown subset in one string:
-// **bold**, *italic* and [text](https://link), with \ escaping the marks.
+// **bold** and *italic*, with \ escaping the marks. Links belong to the whole
+// widget, never to words inside a note.
 
 export interface RichSpan {
   text: string;
   bold?: boolean;
   italic?: boolean;
-  href?: string;
-}
-
-const LINK = /^\[((?:\\.|[^\]\\])*)\]\(([^)\s]+)\)/;
-
-// Only web links are followed; anything else renders as plain text.
-function safeHref(href: string) {
-  return /^(https?:\/\/|mailto:)/i.test(href) ? href : undefined;
 }
 
 export function parseRich(source: string): RichSpan[] {
@@ -36,24 +29,6 @@ export function parseRich(source: string): RichSpan[] {
     } else if (char === '*') {
       flush();
       italic = !italic;
-    } else if (char === '[') {
-      const match = LINK.exec(source.slice(i));
-      const href = match && safeHref(match[2]);
-      if (match && href) {
-        flush();
-        // The link's own text can carry bold and italic too.
-        for (const inner of parseRich(match[1])) {
-          spans.push({
-            ...inner,
-            bold: inner.bold || bold,
-            italic: inner.italic || italic,
-            href,
-          });
-        }
-        i += match[0].length - 1;
-      } else {
-        text += char;
-      }
     } else {
       text += char;
     }
@@ -63,7 +38,7 @@ export function parseRich(source: string): RichSpan[] {
 }
 
 export function escapeRich(text: string) {
-  return text.replace(/[\\*[\]]/g, '\\$&');
+  return text.replace(/[\\*]/g, '\\$&');
 }
 
 // The note without its marks, for measuring and quote detection.
@@ -92,12 +67,6 @@ export function renderRichInto(root: HTMLElement, source: string) {
         el.append(node);
         node = el;
       }
-      if (span.href) {
-        const el = document.createElement('a');
-        el.href = span.href;
-        el.append(node);
-        node = el;
-      }
       root.append(node);
     });
   }
@@ -116,10 +85,6 @@ export function serializeRich(root: HTMLElement): string {
     if (!inner) return '';
     if (tag === 'b' || tag === 'strong') return `**${inner}**`;
     if (tag === 'i' || tag === 'em') return `*${inner}*`;
-    if (tag === 'a') {
-      const href = node.getAttribute('href') ?? '';
-      return safeHref(href) ? `[${inner}](${href})` : inner;
-    }
     // Browsers wrap lines in blocks; each starts on a new line.
     if (tag === 'div' || tag === 'p') return `\n${inner}`;
     return inner;
@@ -129,4 +94,133 @@ export function serializeRich(root: HTMLElement): string {
     .join('')
     .replace(/^\n/, '')
     .replace(/\n+$/, '');
+}
+
+// ---------------------------------------------------------------- quotes
+
+// bento's quote note: type an opening quote mark and press Enter and the note
+// becomes a quote. It is stored as a first line holding just “, then the
+// quote; a last line starting with a dash is the author.
+export const QUOTE_MARKS = '"“”„«»';
+export const QUOTE_OPENER = '“';
+
+export function isQuoteMark(text: string) {
+  const t = text.trim();
+  return t.length === 1 && QUOTE_MARKS.includes(t);
+}
+
+export interface ParsedQuote {
+  // The quote's marked-up text, without its author line.
+  body: string;
+  // The author, without the dash.
+  cite: string | null;
+}
+
+const DASH = /^(?:—|–|--|-)\s*/;
+
+// A quote mark alone on the first line, with a line break after it.
+export function isQuote(source: string) {
+  const lines = source.split('\n');
+  return lines.length > 1 && isQuoteMark(plainRich(lines[0]));
+}
+
+export function parseQuote(source: string): ParsedQuote | null {
+  if (!isQuote(source)) return null;
+  const lines = source.split('\n');
+  const rest = lines.slice(1);
+  const last = rest[rest.length - 1] ?? '';
+  const plainLast = plainRich(last).trim();
+  if (rest.length > 1 && DASH.test(plainLast) && plainLast.length > 1) {
+    return {
+      body: rest.slice(0, -1).join('\n').trim(),
+      cite: plainLast.replace(DASH, ''),
+    };
+  }
+  return { body: rest.join('\n').trim(), cite: null };
+}
+
+// What the quote's editing surface holds: everything after the opening line.
+export function quoteBody(source: string) {
+  return source.split('\n').slice(1).join('\n');
+}
+
+export function withQuoteBody(body: string) {
+  return `${QUOTE_OPENER}\n${body}`;
+}
+
+// ------------------------------------------------------------ pasted HTML
+
+const BLOCKS = new Set([
+  'p',
+  'div',
+  'li',
+  'ul',
+  'ol',
+  'h1',
+  'h2',
+  'h3',
+  'h4',
+  'h5',
+  'h6',
+  'blockquote',
+  'tr',
+  'pre',
+]);
+
+const escapeHtml = (text: string) =>
+  text.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+
+// Pasted rich text (a web page, Docs, Word) reduced to what a note keeps:
+// bold, italic and line breaks. Everything else, links and colours included,
+// is dropped. Returns null when the HTML has no text.
+export function richHtmlFromPaste(html: string): string | null {
+  const doc = new DOMParser().parseFromString(html, 'text/html');
+  let out = '';
+  const lineBreak = () => {
+    if (out && !out.endsWith('<br>')) out += '<br>';
+  };
+
+  const walk = (node: Node, bold: boolean, italic: boolean) => {
+    if (node.nodeType === Node.TEXT_NODE) {
+      const text = (node.textContent ?? '').replace(/[ \t\r\n]+/g, ' ');
+      if (!text.trim() && (!out || out.endsWith('<br>'))) return;
+      let piece = escapeHtml(text);
+      if (italic) piece = `<i>${piece}</i>`;
+      if (bold) piece = `<b>${piece}</b>`;
+      out += piece;
+      return;
+    }
+    if (!(node instanceof HTMLElement)) return;
+    const tag = node.tagName.toLowerCase();
+    if (['script', 'style', 'meta', 'head', 'title'].includes(tag)) return;
+    if (tag === 'br') {
+      out += '<br>';
+      return;
+    }
+    const weight = node.style.fontWeight;
+    const nextBold =
+      weight === 'normal' || weight === '400'
+        ? false
+        : /^(bold|bolder|[6-9]00)$/.test(weight) ||
+            tag === 'b' ||
+            tag === 'strong' ||
+            /^h[1-6]$/.test(tag)
+          ? true
+          : bold;
+    const fontStyle = node.style.fontStyle;
+    const nextItalic =
+      fontStyle === 'normal'
+        ? false
+        : fontStyle === 'italic' || tag === 'i' || tag === 'em'
+          ? true
+          : italic;
+    const block = BLOCKS.has(tag);
+    if (block) lineBreak();
+    node.childNodes.forEach((child) => walk(child, nextBold, nextItalic));
+    if (block) lineBreak();
+  };
+
+  walk(doc.body, false, false);
+  const result = out.replace(/(<br>)+$/, '');
+  return result.replace(/<[^>]+>/g, '').trim() ? result : null;
 }
