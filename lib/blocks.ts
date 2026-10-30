@@ -26,6 +26,8 @@ export const ImageBlockData = z.object({
   kind: z.enum(['image', 'video']).optional(),
   // The uncropped upload, so a crop can be redone.
   original: z.string().optional(),
+  // bento's caption pill in the bottom-left corner.
+  caption: z.string().optional(),
   // Where the tile links to (bento's linkable widgets).
   href: z.string().optional(),
 });
@@ -37,6 +39,7 @@ export const TextBlockData = z.object({
   // bento's note colours and alignment.
   color: z.string().optional(),
   align: z.enum(['left', 'center', 'right']).optional(),
+  valign: z.enum(['top', 'middle', 'bottom']).optional(),
 });
 export type TextBlockData = z.infer<typeof TextBlockData>;
 

@@ -6,21 +6,15 @@ import { Responsive, WidthProvider, Layout } from 'react-grid-layout';
 import 'react-grid-layout/css/styles.css';
 import 'react-resizable/css/styles.css';
 import { Block, BlockType, defaultBlockData } from '@/lib';
-import {
-  Square,
-  RectangleHorizontal,
-  RectangleVertical,
-  LayoutGrid,
-  Trash2,
-  Pencil,
-  Crop,
-  MousePointerClick,
-} from 'lucide-react';
+import { Trash2, MousePointerClick } from 'lucide-react';
 import { toast } from 'sonner';
-import { isVideoUrl, uploadBlockMedia } from '@/lib/media';
-import { BlockContent } from './block-content';
-import { BlockEditorDialog } from './block-editor-dialog';
+import { fetchLinkPreview, isVideoFile, uploadBlockMedia } from '@/lib/media';
+import { findPlatform } from '@/lib/platforms';
+import { cn } from '@/lib/utils';
+import { BlockContent, type BlockEditing } from './block-content';
 import { CropDialog } from './editing/crop-dialog';
+import { NO_DRAG } from './editing/no-drag';
+import { WidgetToolbar } from './editing/widget-toolbar';
 import { tileAspect } from './link-tile';
 
 const ResponsiveGridLayout = WidthProvider(Responsive);
@@ -75,7 +69,9 @@ export function BentoGrid({
   clicks,
 }: BentoGridProps) {
   const [mounted, setMounted] = useState(false);
-  const [editingBlockId, setEditingBlockId] = useState<string | null>(null);
+  // The widget being edited in place: its toolbar stays open.
+  const [selectedId, setSelectedId] = useState<string | null>(null);
+  const [uploadingIds, setUploadingIds] = useState<string[]>([]);
   const [croppingBlockId, setCroppingBlockId] = useState<string | null>(null);
   const blocksRef = useRef(blocks);
   blocksRef.current = blocks;
@@ -89,6 +85,24 @@ export function BentoGrid({
   useEffect(() => {
     setMounted(true);
   }, []);
+
+  useEffect(() => {
+    if (!selectedId) return;
+    const onPointer = (event: PointerEvent) => {
+      const target = event.target as Element | null;
+      // Clicking another widget selects it instead (its own handler).
+      if (!target?.closest?.('[data-block-id]')) setSelectedId(null);
+    };
+    const onKey = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') setSelectedId(null);
+    };
+    document.addEventListener('pointerdown', onPointer);
+    document.addEventListener('keydown', onKey);
+    return () => {
+      document.removeEventListener('pointerdown', onPointer);
+      document.removeEventListener('keydown', onKey);
+    };
+  }, [selectedId]);
 
   useEffect(() => {
     if (isEditMode) return;
@@ -163,6 +177,59 @@ export function BentoGrid({
     );
   };
 
+  const patchBlock = (id: string, patch: Record<string, unknown>) => {
+    const block = blocksRef.current.find((b) => b.id === id);
+    if (block) updateBlockData(id, { ...block.data, ...patch });
+  };
+
+  const uploadInto = async (id: string, file: File, field: 'url' | 'image') => {
+    setUploadingIds((ids) => [...ids, id]);
+    try {
+      const url = await uploadBlockMedia(file);
+      patchBlock(
+        id,
+        field === 'url'
+          ? {
+              url,
+              kind: isVideoFile(file) ? 'video' : 'image',
+              original: undefined,
+            }
+          : { image: url }
+      );
+    } catch (error) {
+      toast.error(
+        error instanceof Error ? error.message : 'Failed to upload file'
+      );
+    } finally {
+      setUploadingIds((ids) => ids.filter((x) => x !== id));
+    }
+  };
+
+  // A link's address is set in place; its preview (and title, for plain
+  // sites) fills in once fetched.
+  const setLinkUrl = async (id: string, url: string) => {
+    patchBlock(id, { url, image: undefined, description: undefined });
+    const preview = await fetchLinkPreview(url);
+    const block = blocksRef.current.find((b) => b.id === id);
+    const title = (block?.data as { title?: string } | undefined)?.title;
+    const untitled =
+      !title || title === 'New link' || title === 'Untitled link';
+    patchBlock(id, {
+      image: preview.image,
+      description: preview.description,
+      ...(untitled && !findPlatform(url) && preview.title
+        ? { title: preview.title }
+        : {}),
+    });
+  };
+
+  const editingFor = (block: Block): BlockEditing => ({
+    onPatch: (patch) => patchBlock(block.id, patch),
+    onSetUrl: (url) => setLinkUrl(block.id, url),
+    onUpload: (file, field) => uploadInto(block.id, file, field),
+    uploading: uploadingIds.includes(block.id),
+  });
+
   const deleteBlock = (id: string) => {
     if (!onBlocksChange) return;
     onBlocksChange(blocksRef.current.filter((block) => block.id !== id));
@@ -198,16 +265,9 @@ export function BentoGrid({
     );
   }
 
-  const editingBlock = blocks.find((b) => b.id === editingBlockId) ?? null;
   const croppingBlock = blocks.find((b) => b.id === croppingBlockId) ?? null;
   const croppingData = croppingBlock?.data as
     { url?: string; original?: string } | undefined;
-  const canCrop = (block: Block) => {
-    const { url, kind } = block.data as { url?: string; kind?: string };
-    return (
-      block.type === 'IMAGE' && !!url && kind !== 'video' && !isVideoUrl(url)
-    );
-  };
 
   // The public profile uses bento's two layouts: 4 columns with 40px gaps from
   // 1260px, otherwise 2 columns with 24px gaps and tiles scaled to the width.
@@ -269,6 +329,7 @@ export function BentoGrid({
           if (isEditMode) handleGridLayoutChange(layout);
         }}
         isDraggable={isEditMode}
+        draggableCancel={`.${NO_DRAG}`}
         isResizable={false}
         compactType="vertical"
         useCSSTransforms={true}
@@ -288,14 +349,12 @@ export function BentoGrid({
                 label ? '' : 'bg-card shadow-[0_2px_4px_rgba(0,0,0,.04)]'
               } ${clickable ? 'group/card active:scale-[.97] active:shadow-none' : ''}`}
             >
-              <div
-                className="h-full w-full overflow-hidden rounded-[inherit]"
-                onClick={() => {
-                  if (isEditMode) setEditingBlockId(block.id);
-                }}
-                role={isEditMode ? 'button' : undefined}
-              >
-                <BlockContent block={block} interactive={!isEditMode} />
+              <div className="h-full w-full overflow-hidden rounded-[inherit]">
+                <BlockContent
+                  block={block}
+                  interactive={!isEditMode}
+                  edit={isEditMode ? editingFor(block) : undefined}
+                />
               </div>
               {!label && (
                 <div className="pointer-events-none absolute inset-0 rounded-[inherit] border border-black/[.08]" />
@@ -306,11 +365,14 @@ export function BentoGrid({
             <div
               key={block.id}
               data-block-id={block.id}
-              className={`group relative overflow-visible rounded-[24px] ${
-                isEditMode
-                  ? 'cursor-grab transition-shadow hover:z-50 hover:shadow-lg active:cursor-grabbing'
-                  : ''
-              }`}
+              onPointerDown={() => {
+                if (isEditMode) setSelectedId(block.id);
+              }}
+              className={cn(
+                'group relative overflow-visible rounded-[24px]',
+                isEditMode && 'cursor-grab hover:z-50 active:cursor-grabbing',
+                selectedId === block.id && 'z-50'
+              )}
             >
               {publicMode ? (
                 // bento's entrance: fade in and rise 60px over 1s, slight overshoot.
@@ -340,77 +402,36 @@ export function BentoGrid({
               {isEditMode && (
                 <>
                   <button
-                    onPointerDown={(e) => {
-                      e.stopPropagation();
-                      deleteBlock(block.id);
-                    }}
-                    className="absolute -left-3 -top-3 z-50 flex size-10 items-center justify-center rounded-full bg-white text-gray-700 opacity-0 shadow-[0_4px_20px_rgba(0,0,0,0.15)] transition-opacity hover:scale-105 hover:text-red-500 group-hover:opacity-100"
+                    type="button"
+                    aria-label="Delete"
+                    onClick={() => deleteBlock(block.id)}
+                    className={cn(
+                      NO_DRAG,
+                      'absolute -left-3 -top-3 z-50 flex size-10 items-center justify-center rounded-full bg-white text-gray-700 opacity-0 shadow-[0_4px_20px_rgba(0,0,0,0.15)] transition-opacity hover:scale-105 hover:text-red-500 group-hover:opacity-100',
+                      selectedId === block.id && 'opacity-100'
+                    )}
                   >
                     <Trash2 size={18} />
                   </button>
 
                   {block.type !== 'SECTION_TITLE' && (
                     <div
-                      onPointerDown={(e) => e.stopPropagation()}
-                      className="absolute -bottom-6 left-1/2 z-50 flex -translate-x-1/2 items-center gap-1 rounded-[1.25rem] bg-black px-3 py-2 opacity-0 shadow-[0_8px_30px_rgba(0,0,0,0.2)] transition-opacity group-hover:opacity-100"
-                    >
-                      <button
-                        onClick={() => updateBlockSize(block.id, 1, 2)}
-                        className={`flex size-8 items-center justify-center rounded-lg transition-colors ${
-                          block.w === 1 && block.h === 2
-                            ? 'bg-white text-black'
-                            : 'text-gray-400 hover:bg-gray-800 hover:text-white'
-                        }`}
-                      >
-                        <Square size={16} strokeWidth={2.5} />
-                      </button>
-                      <button
-                        onClick={() => updateBlockSize(block.id, 2, 2)}
-                        className={`flex size-8 items-center justify-center rounded-lg transition-colors ${
-                          block.w === 2 && block.h === 2
-                            ? 'bg-white text-black'
-                            : 'text-gray-400 hover:bg-gray-800 hover:text-white'
-                        }`}
-                      >
-                        <RectangleHorizontal size={18} strokeWidth={2.5} />
-                      </button>
-                      <button
-                        onClick={() => updateBlockSize(block.id, 1, 4)}
-                        className={`flex size-8 items-center justify-center rounded-lg transition-colors ${
-                          block.w === 1 && block.h === 4
-                            ? 'bg-white text-black'
-                            : 'text-gray-400 hover:bg-gray-800 hover:text-white'
-                        }`}
-                      >
-                        <RectangleVertical size={18} strokeWidth={2.5} />
-                      </button>
-                      <button
-                        onClick={() => updateBlockSize(block.id, 2, 4)}
-                        className={`flex size-8 items-center justify-center rounded-lg transition-colors ${
-                          block.w === 2 && block.h === 4
-                            ? 'bg-white text-black'
-                            : 'text-gray-400 hover:bg-gray-800 hover:text-white'
-                        }`}
-                      >
-                        <LayoutGrid size={18} strokeWidth={2.5} />
-                      </button>
-                      <div className="mx-1 h-4 w-px bg-white/20" />
-                      {canCrop(block) && (
-                        <button
-                          aria-label="Crop"
-                          onClick={() => setCroppingBlockId(block.id)}
-                          className="flex size-8 items-center justify-center rounded-lg text-gray-400 transition-colors hover:bg-gray-800 hover:text-white"
-                        >
-                          <Crop size={16} strokeWidth={2.5} />
-                        </button>
+                      className={cn(
+                        'absolute -bottom-6 left-1/2 z-50 -translate-x-1/2 opacity-0 transition-opacity group-hover:opacity-100',
+                        selectedId === block.id
+                          ? 'opacity-100'
+                          : 'pointer-events-none group-hover:pointer-events-auto'
                       )}
-                      <button
-                        aria-label="Edit"
-                        onClick={() => setEditingBlockId(block.id)}
-                        className="flex size-8 items-center justify-center rounded-lg text-gray-400 transition-colors hover:bg-gray-800 hover:text-white"
-                      >
-                        <Pencil size={16} strokeWidth={2.5} />
-                      </button>
+                    >
+                      <WidgetToolbar
+                        selected={selectedId === block.id}
+                        block={block}
+                        onResize={(w, h) => updateBlockSize(block.id, w, h)}
+                        onPatch={(patch) => patchBlock(block.id, patch)}
+                        onSetUrl={(url) => setLinkUrl(block.id, url)}
+                        onReplace={(file) => uploadInto(block.id, file, 'url')}
+                        onCrop={() => setCroppingBlockId(block.id)}
+                      />
                     </div>
                   )}
 
@@ -427,18 +448,6 @@ export function BentoGrid({
           );
         })}
       </Grid>
-
-      <BlockEditorDialog
-        block={editingBlock}
-        open={!!editingBlock}
-        onOpenChange={(open) => {
-          if (!open) setEditingBlockId(null);
-        }}
-        onSave={(data) => {
-          if (editingBlock) updateBlockData(editingBlock.id, data);
-          setEditingBlockId(null);
-        }}
-      />
 
       <CropDialog
         src={
