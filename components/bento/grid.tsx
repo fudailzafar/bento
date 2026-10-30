@@ -20,10 +20,9 @@ import {
   readingOrder,
   withPhoneLayout,
 } from '@/lib/layout';
-import { CropDialog } from './editing/crop-dialog';
+import { CropEditor } from './editing/crop-editor';
 import { NO_DRAG } from './editing/no-drag';
 import { WidgetToolbar } from './editing/widget-toolbar';
-import { tileAspect } from './link-tile';
 
 type GridProps = React.ComponentProps<typeof Responsive>;
 
@@ -73,6 +72,12 @@ export function BentoGrid({
   const [ownFetching, setOwnFetching] = useState<string[]>([]);
   const fetchingAll = [...ownFetching, ...fetchingIds];
   const [croppingBlockId, setCroppingBlockId] = useState<string | null>(null);
+  // Cropping ends when the widget is no longer the one being edited.
+  useEffect(() => {
+    if (croppingBlockId && selectedId !== croppingBlockId) {
+      setCroppingBlockId(null);
+    }
+  }, [selectedId, croppingBlockId]);
   const blocksRef = useRef(blocks);
   // The widgets there when the grid first shows: only they animate in.
   const loadedIds = useRef<Set<string> | null>(null);
@@ -221,7 +226,6 @@ export function BentoGrid({
           ? {
               url,
               kind: isVideoFile(file) ? 'video' : 'image',
-              original: undefined,
             }
           : field === 'gallery'
             ? {
@@ -348,10 +352,6 @@ export function BentoGrid({
       </div>
     );
   }
-
-  const croppingBlock = blocks.find((b) => b.id === croppingBlockId) ?? null;
-  const croppingData = croppingBlock?.data as
-    { url?: string; original?: string } | undefined;
 
   // bento's two layouts, in the editor and on the public profile alike: 4
   // columns with 40px gaps from 1280px, otherwise 2 columns with 24px gaps
@@ -548,7 +548,11 @@ export function BentoGrid({
               className={cn(
                 'group relative overflow-visible',
                 isEditMode && 'cursor-grab hover:z-50 active:cursor-grabbing',
-                selectedId === block.id && 'z-[60] hover:z-[60]'
+                selectedId === block.id && 'z-[60] hover:z-[60]',
+                // The other widgets blur away while one is being cropped.
+                croppingBlockId &&
+                  croppingBlockId !== block.id &&
+                  'pointer-events-none opacity-60 blur-[8px] transition-[filter,opacity] duration-300'
               )}
             >
               {publicMode || loadedIds.current?.has(block.id) ? (
@@ -594,6 +598,16 @@ export function BentoGrid({
                     <TrashIcon className="size-4 text-black" />
                   </button>
 
+                  {croppingBlockId === block.id && block.type === 'IMAGE' && (
+                    <CropEditor
+                      src={(block.data as { url: string }).url}
+                      posX={(block.data as { posX?: number }).posX ?? 0.5}
+                      posY={(block.data as { posY?: number }).posY ?? 0.5}
+                      radius={widgetRadius(block)}
+                      onCommit={(pos) => patchBlock(block.id, pos)}
+                    />
+                  )}
+
                   {block.type !== 'SECTION_TITLE' && (
                     <div
                       className={cn(
@@ -608,7 +622,12 @@ export function BentoGrid({
                         block={block}
                         onResize={(w, h) => updateBlockSize(block.id, w, h)}
                         onPatch={(patch) => patchBlock(block.id, patch)}
-                        onCrop={() => setCroppingBlockId(block.id)}
+                        cropping={croppingBlockId === block.id}
+                        onCrop={() =>
+                          setCroppingBlockId((id) =>
+                            id === block.id ? null : block.id
+                          )
+                        }
                       />
                     </div>
                   )}
@@ -626,35 +645,6 @@ export function BentoGrid({
           );
         })}
       </Grid>
-
-      <CropDialog
-        src={
-          croppingData
-            ? croppingData.original || croppingData.url || null
-            : null
-        }
-        aspect={
-          croppingBlock ? tileAspect(croppingBlock.w, croppingBlock.h) : 1
-        }
-        onCancel={() => setCroppingBlockId(null)}
-        onDone={async (blob) => {
-          if (!croppingBlock || !croppingData) return;
-          try {
-            const url = await uploadBlockMedia(blob);
-            updateBlockData(croppingBlock.id, {
-              ...croppingBlock.data,
-              url,
-              kind: 'image',
-              original: croppingData.original || croppingData.url,
-            });
-            setCroppingBlockId(null);
-          } catch (error) {
-            toast.error(
-              error instanceof Error ? error.message : 'Failed to crop image'
-            );
-          }
-        }}
-      />
     </div>
   );
 }

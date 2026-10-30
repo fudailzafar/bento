@@ -293,7 +293,12 @@ export function BlockContent({
         href?: string;
         caption?: string;
       };
-      const stored = block.data as { url?: string; kind?: 'image' | 'video' };
+      const stored = block.data as {
+        url?: string;
+        kind?: 'image' | 'video';
+        posX?: number;
+        posY?: number;
+      };
       // While uploading, the chosen file shows in place of the saved one.
       const url = edit?.preview?.url ?? stored.url;
       const kind = edit?.preview?.kind ?? stored.kind;
@@ -344,6 +349,9 @@ export function BlockContent({
                 src={url}
                 alt={caption || alt || ''}
                 className="h-full w-full object-cover"
+                style={{
+                  objectPosition: `${(stored.posX ?? 0.5) * 100}% ${(stored.posY ?? 0.5) * 100}%`,
+                }}
               />
             )}
             {edit?.preview && (
