@@ -35,7 +35,8 @@ export function checkMediaFile(file: Blob): string | null {
 // a user write files named after their own id.
 export async function uploadBlockMedia(
   file: Blob,
-  name = 'image.jpg'
+  name = 'image.jpg',
+  onProgress?: (fraction: number) => void
 ): Promise<string> {
   const invalid = checkMediaFile(file);
   if (invalid) throw new Error(invalid);
@@ -47,11 +48,48 @@ export async function uploadBlockMedia(
   const fileName = file instanceof File ? file.name : name;
   const ext = fileName.split('.').pop()?.toLowerCase() || 'jpg';
   const path = `block-images/${user.id}-${Date.now()}.${ext}`;
+  if (onProgress) {
+    const {
+      data: { session },
+    } = await supabase.auth.getSession();
+    await putWithProgress(path, file, session?.access_token, onProgress);
+    return supabase.storage.from('images').getPublicUrl(path).data.publicUrl;
+  }
   const { error } = await supabase.storage
     .from('images')
     .upload(path, file, { cacheControl: '3600', contentType: file.type });
   if (error) throw new Error('Failed to upload file');
   return supabase.storage.from('images').getPublicUrl(path).data.publicUrl;
+}
+
+// The storage upload again, over XHR, which reports how much has been sent.
+function putWithProgress(
+  path: string,
+  file: Blob,
+  token: string | undefined,
+  onProgress: (fraction: number) => void
+) {
+  const key = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
+  return new Promise<void>((resolve, reject) => {
+    const xhr = new XMLHttpRequest();
+    xhr.open(
+      'POST',
+      `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/images/${path}`
+    );
+    xhr.setRequestHeader('apikey', key);
+    xhr.setRequestHeader('Authorization', `Bearer ${token ?? key}`);
+    xhr.setRequestHeader('Content-Type', file.type);
+    xhr.setRequestHeader('cache-control', 'max-age=3600');
+    xhr.upload.onprogress = (e) => {
+      if (e.lengthComputable) onProgress(e.loaded / e.total);
+    };
+    xhr.onload = () =>
+      xhr.status >= 200 && xhr.status < 300
+        ? resolve()
+        : reject(new Error('Failed to upload file'));
+    xhr.onerror = () => reject(new Error('Failed to upload file'));
+    xhr.send(file);
+  });
 }
 
 interface LinkPreview {

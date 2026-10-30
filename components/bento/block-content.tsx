@@ -5,18 +5,18 @@ import { Block } from '@/lib';
 import { LinkTile } from './link-tile';
 import { MapTiles } from './map-tiles';
 import { NoteEditor, RichText } from './rich-text';
-import { plainRich } from '@/lib/rich-text';
+import { parseQuote, plainRich } from '@/lib/rich-text';
 import { NO_DRAG } from './editing/no-drag';
 import { embedFor } from '@/lib/embeds';
 import { asUrl, isVideoUrl } from '@/lib/media';
 import { cn } from '@/lib/utils';
 import { ImagePlus, LoaderCircle, MapPin } from 'lucide-react';
 
-// Dark note colours get white text.
+// bento's rule: text is white on anything under brightness 190.
 function isDark(hex?: string) {
   if (!hex || !/^#[0-9a-f]{6}$/i.test(hex)) return false;
   const [r, g, b] = [1, 3, 5].map((i) => parseInt(hex.slice(i, i + 2), 16));
-  return 0.299 * r + 0.587 * g + 0.114 * b < 160;
+  return 0.299 * r + 0.587 * g + 0.114 * b < 190;
 }
 
 // bento's linkable widgets: the whole tile opens the link, with a small
@@ -83,6 +83,44 @@ export interface BlockEditing {
   // link's preview).
   onUpload: (file: File, field: 'url' | 'image' | 'gallery') => void;
   uploading?: boolean;
+  // The chosen file, shown while it uploads, and how far along it is (0–1).
+  preview?: { url: string; kind: 'image' | 'video' };
+  progress?: number;
+}
+
+// bento's upload ring: a small circle filling up in the tile's corner.
+function UploadRing({ progress = 0 }: { progress?: number }) {
+  const r = 9;
+  const c = 2 * Math.PI * r;
+  return (
+    <svg
+      className="absolute left-4 top-4 size-6 -rotate-90"
+      viewBox="0 0 24 24"
+      fill="none"
+      role="progressbar"
+      aria-label="Uploading"
+    >
+      <circle
+        cx="12"
+        cy="12"
+        r={r}
+        stroke="white"
+        strokeOpacity=".5"
+        strokeWidth="2.5"
+      />
+      <circle
+        cx="12"
+        cy="12"
+        r={r}
+        stroke="white"
+        strokeWidth="2.5"
+        strokeLinecap="round"
+        strokeDasharray={c}
+        strokeDashoffset={c * (1 - Math.max(progress, 0.08))}
+        className="transition-[stroke-dashoffset] duration-200"
+      />
+    </svg>
+  );
 }
 
 // Text that is typed straight into the widget, styled exactly as it shows on
@@ -161,7 +199,7 @@ function LinkUrlInput({ onSetUrl }: { onSetUrl: (url: string) => void }) {
     if (url) onSetUrl(url);
   };
   return (
-    <div className="flex h-full w-full flex-col justify-center gap-2 p-4 xl:p-6">
+    <div className="flex h-full w-full flex-col justify-center gap-2 p-[var(--tile-pad,24px)]">
       <span className="text-sm font-semibold text-black">Add a link</span>
       <input
         autoFocus
@@ -262,20 +300,15 @@ export function BlockContent({
     }
 
     case 'IMAGE': {
-      const { url, alt, href, kind, caption } = block.data as {
-        url?: string;
+      const { alt, href, caption } = block.data as {
         alt?: string;
         href?: string;
-        kind?: 'image' | 'video';
         caption?: string;
       };
-      // bento's advice for the two square sizes.
-      const recommended =
-        block.w === 1 && block.h === 2
-          ? '400×400px'
-          : block.w === 2 && block.h === 4
-            ? '800×800px'
-            : null;
+      const stored = block.data as { url?: string; kind?: 'image' | 'video' };
+      // While uploading, the chosen file shows in place of the saved one.
+      const url = edit?.preview?.url ?? stored.url;
+      const kind = edit?.preview?.kind ?? stored.kind;
       if (!url) {
         const empty = (
           <>
@@ -287,11 +320,6 @@ export function BlockContent({
             <span className="text-xs font-medium">
               {edit?.uploading ? 'Uploading...' : 'Add an image or video'}
             </span>
-            {!edit?.uploading && recommended && (
-              <span className="text-[10px] leading-3 opacity-70">
-                Best at {recommended} or larger
-              </span>
-            )}
           </>
         );
         const emptyClass =
@@ -329,6 +357,12 @@ export function BlockContent({
                 alt={caption || alt || ''}
                 className="h-full w-full object-cover"
               />
+            )}
+            {edit?.preview && (
+              <>
+                <div className="absolute inset-0 bg-black/25" />
+                <UploadRing progress={edit.progress} />
+              </>
             )}
             {edit ? (
               // The caption pill is typed into directly; empty, it shows on
@@ -370,60 +404,76 @@ export function BlockContent({
       };
       const dark = isDark(color);
       const tone = dark ? 'text-white' : 'text-black';
+      // Quotes stay left and top aligned; a bar centres its text.
+      const isQuoteNote = !!parseQuote(content ?? '');
+      const bar = block.w === 2 && block.h === 1;
+      const halign =
+        align === 'center' && isQuoteNote ? 'left' : (align ?? 'left');
+      const valignEff = bar ? 'middle' : isQuoteNote ? 'top' : valign;
       const alignClass =
-        align === 'center'
+        halign === 'center'
           ? 'text-center items-center'
-          : align === 'right'
+          : halign === 'right'
             ? 'text-right items-end'
             : '';
       const valignClass =
-        valign === 'middle'
+        valignEff === 'middle'
           ? 'justify-center'
-          : valign === 'bottom'
+          : valignEff === 'bottom'
             ? 'justify-end'
             : '';
       const raw = content?.trim() ?? '';
-      // Without the bold, italic and link marks.
+      // Without the bold and italic marks.
       const text = plainRich(raw);
-      const size =
+      const quote = parseQuote(content ?? '');
+      // bento enlarges a lone emoji (48px) or symbol such as an arrow (64px).
+      const lone = [...new Intl.Segmenter().segment(text.trim())].length === 1;
+      const emojiOnly =
         /^(\p{Extended_Pictographic}|\p{Emoji_Component}|\u200d|\ufe0f){1,8}$/u.test(
           text
-        )
+        );
+      const size = quote
+        ? 'text-[length:calc(20px*var(--ws,1))] leading-[calc(26px*var(--ws,1))]'
+        : emojiOnly
           ? 'text-[48px] leading-[52px]'
-          : 'text-[20px] leading-[26px]';
-      const pad = block.h <= 1 ? 'px-6 justify-center' : 'p-6';
-      // bento's quote note: a closing "— Author" line turns the note into a
-      // quote with a big opening mark and italic text.
-      const lines = text.split('\n');
-      const rawLines = raw.split('\n');
-      const last = lines[lines.length - 1]?.trim() ?? '';
-      const author =
-        /^[—–-]\s*\S/.test(last) && lines.length > 1
-          ? last.replace(/^[—–-]\s*/, '')
-          : null;
-      const quote = author ? (
+          : lone
+            ? 'text-[64px] leading-[56px]'
+            : 'text-[length:calc(20px*var(--ws,1))] leading-[calc(26px*var(--ws,1))]';
+      const pad =
+        block.h <= 1
+          ? 'px-[calc(24px*var(--ws,1))] justify-center'
+          : 'p-[calc(24px*var(--ws,1))]';
+      // bento's quote note: a big opening mark, italic text, and an author
+      // line (a dash, then the name) set apart and softened.
+      const quoteView = quote ? (
         <div
-          className={`flex h-full w-full flex-col overflow-hidden ${pad} ${alignClass} ${valignClass}`}
+          className={`relative flex h-full w-full flex-col overflow-hidden ${pad} ${alignClass} ${valignClass} ${tone}`}
           style={{ background: color ?? '#FFFFFF' }}
         >
           <span
-            className={`font-serif text-[32px] font-bold leading-none ${dark ? 'text-white' : 'text-black'}`}
+            className={
+              'quote-symbol block text-[length:calc(60px*var(--ws,1))] font-bold not-italic leading-[calc(52px*var(--ws,1))]'
+            }
+            aria-hidden="true"
           >
             &ldquo;
           </span>
           <p
-            className={`mt-3 line-clamp-[8] whitespace-pre-wrap text-[20px] italic leading-[26px] ${tone}`}
+            className={
+              'line-clamp-[8] whitespace-pre-wrap text-[20px] italic leading-[26px]'
+            }
           >
-            <RichText
-              text={rawLines.slice(0, -1).join('\n').trim()}
-              plainLinks={!!href}
-            />
+            <RichText text={quote.body} />
           </p>
-          <p
-            className={`mt-4 text-[20px] italic leading-[26px] ${dark ? 'text-white/70' : 'text-black/60'}`}
-          >
-            &mdash; {author}
-          </p>
+          {quote.cite && (
+            <p
+              className={
+                'mt-[calc(22px*var(--ws,1))] text-[20px] italic leading-[26px] opacity-60'
+              }
+            >
+              &mdash; {quote.cite}
+            </p>
+          )}
         </div>
       ) : null;
       if (edit) {
@@ -431,23 +481,22 @@ export function BlockContent({
           <NoteEditor
             content={content ?? ''}
             color={color}
-            className={cn(pad, alignClass, valignClass)}
+            className={cn(pad, alignClass, valignClass, tone)}
             textClass={cn(
               size,
               tone,
-              author && 'italic',
-              align === 'center' && 'text-center',
-              align === 'right' && 'text-right'
+              halign === 'center' && 'text-center',
+              halign === 'right' && 'text-right'
             )}
             onChange={(value) => edit.onPatch({ content: value })}
-            preview={quote}
+            preview={quoteView}
           />
         );
       }
-      if (author) {
+      if (quoteView) {
         return (
           <Linked href={href} interactive={interactive}>
-            {quote}
+            {quoteView}
           </Linked>
         );
       }
@@ -459,16 +508,12 @@ export function BlockContent({
           >
             <p
               className={
-                text
+                raw
                   ? `line-clamp-[10] whitespace-pre-wrap ${size} ${tone}`
-                  : `text-[20px] leading-[26px] ${dark ? 'text-white/50' : 'text-black/30'}`
+                  : `text-[length:calc(20px*var(--ws,1))] leading-[calc(26px*var(--ws,1))] ${dark ? 'text-white/50' : 'text-black/30'}`
               }
             >
-              {raw ? (
-                <RichText text={raw} plainLinks={!!href} />
-              ) : (
-                'Add note...'
-              )}
+              {raw ? <RichText text={raw} /> : 'Add note...'}
             </p>
           </div>
         </Linked>
@@ -519,16 +564,18 @@ export function BlockContent({
     case 'SECTION_TITLE': {
       const { title } = block.data as { title?: string };
       return (
-        <div className="flex h-full w-full items-end px-2 pb-1">
+        // bento's section title: 16px padding and 8px more indent, so the
+        // text starts 24px in and 16px down in its 60px box.
+        <div className="flex h-full w-full items-start px-6 py-4">
           {edit ? (
             <InlineText
               value={title ?? ''}
               placeholder="Section title"
               onChange={(value) => edit.onPatch({ title: value })}
-              className="text-lg font-semibold leading-7 text-black"
+              className="text-[18px] font-semibold leading-7 text-black"
             />
           ) : (
-            <h2 className="text-lg font-semibold leading-7 text-black">
+            <h2 className="text-[18px] font-semibold leading-7 text-black">
               {title || 'Section'}
             </h2>
           )}

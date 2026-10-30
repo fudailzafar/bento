@@ -3,7 +3,6 @@
 import { createClient } from '@/lib/supabase/client';
 import { useEffect, useState, useRef, useCallback } from 'react';
 import { toast } from 'sonner';
-import { motion, AnimatePresence } from 'framer-motion';
 import { usePageActions } from '@/hooks';
 import { PageData, BlockType } from '@/lib';
 import {
@@ -14,9 +13,14 @@ import {
   uploadBlockMedia,
 } from '@/lib/media';
 import { findPlatform } from '@/lib/platforms';
+import { appendBlock } from '@/lib/layout';
 import { DockActionBar, ViewMode } from '@/components/preview';
-import { LoadingFallback } from '@/components/utils';
 import { PreviewPortfolio, newBlock } from '@/components/bento';
+import type { UploadState } from '@/components/bento/grid';
+import { EditorViewport } from './viewport';
+
+// bento's wording when a save fails.
+const SAVE_ERROR = "Couldn't save Bento. Try again, or refresh the page.";
 
 export default function PreviewClient({ messageTip }: { messageTip?: string }) {
   const { pageQuery, usernameQuery, savePageMutation, userProfileQuery } =
@@ -31,6 +35,8 @@ export default function PreviewClient({ messageTip }: { messageTip?: string }) {
   const pageRef = useRef<PageData | undefined>(undefined);
   pageRef.current = localPage;
   const [isDragging, setIsDragging] = useState(false);
+  const [uploads, setUploads] = useState<Record<string, UploadState>>({});
+  const fileInput = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     if (pageQuery.data?.page) {
@@ -55,12 +61,8 @@ export default function PreviewClient({ messageTip }: { messageTip?: string }) {
     async (newPage: PageData) => {
       try {
         await savePageMutation.mutateAsync(newPage);
-      } catch (error) {
-        if (error instanceof Error) {
-          toast.error(`Failed to save changes: ${error.message}`);
-        } else {
-          toast.error('Failed to save changes');
-        }
+      } catch {
+        toast.error(SAVE_ERROR);
       }
     },
     [savePageMutation]
@@ -88,15 +90,11 @@ export default function PreviewClient({ messageTip }: { messageTip?: string }) {
     const page = pageRef.current;
     if (!page) return;
 
-    const maxY = (page.blocks || []).reduce(
-      (max, block) => Math.max(max, block.y + block.h),
-      0
-    );
-
-    const block = newBlock(type, maxY, data);
+    // The new block goes at the end of both the desktop and phone layouts.
+    const block = newBlock(type, 0, data);
     handlePageChange({
       ...page,
-      blocks: [...(page.blocks || []), block],
+      blocks: appendBlock(page.blocks || [], block),
     });
     return block.id;
   };
@@ -127,7 +125,8 @@ export default function PreviewClient({ messageTip }: { messageTip?: string }) {
     });
   };
 
-  // Pasted or dropped images and videos become media widgets.
+  // Chosen, pasted or dropped images and videos become media widgets at
+  // once, showing the file with a progress ring while it uploads.
   const addMedia = async (files: File[]) => {
     for (const file of files) {
       const invalid = checkMediaFile(file);
@@ -135,19 +134,36 @@ export default function PreviewClient({ messageTip }: { messageTip?: string }) {
         toast.error(invalid);
         continue;
       }
-      const uploading = toast.loading(`Uploading ${file.name || 'file'}...`);
+      const kind = isVideoFile(file) ? 'video' : 'image';
+      const id = handleAddBlock('IMAGE', { kind });
+      if (!id) return;
+      const preview = URL.createObjectURL(file);
+      setUploads((u) => ({ ...u, [id]: { preview, kind, progress: 0 } }));
       try {
-        const url = await uploadBlockMedia(file);
-        handleAddBlock('IMAGE', {
-          url,
-          kind: isVideoFile(file) ? 'video' : 'image',
-        });
-        toast.dismiss(uploading);
+        const url = await uploadBlockMedia(file, 'image.jpg', (progress) =>
+          setUploads((u) =>
+            u[id] ? { ...u, [id]: { ...u[id], progress } } : u
+          )
+        );
+        patchBlockData(id, { url, kind });
       } catch (error) {
         toast.error(
-          error instanceof Error ? error.message : 'Failed to upload file',
-          { id: uploading }
+          error instanceof Error ? error.message : 'Failed to upload file'
         );
+        const page = pageRef.current;
+        if (page) {
+          handlePageChange({
+            ...page,
+            blocks: (page.blocks || []).filter((block) => block.id !== id),
+          });
+        }
+      } finally {
+        URL.revokeObjectURL(preview);
+        setUploads((u) => {
+          const rest = { ...u };
+          delete rest[id];
+          return rest;
+        });
       }
     }
   };
@@ -232,7 +248,7 @@ export default function PreviewClient({ messageTip }: { messageTip?: string }) {
     !usernameQuery.data ||
     !localPage
   ) {
-    return <LoadingFallback />;
+    return null;
   }
 
   return (
@@ -244,6 +260,17 @@ export default function PreviewClient({ messageTip }: { messageTip?: string }) {
           </p>
         </div>
       )}
+      <input
+        ref={fileInput}
+        type="file"
+        multiple
+        accept="image/*,video/mp4,video/webm,video/quicktime"
+        className="hidden"
+        onChange={(e) => {
+          addMedia(Array.from(e.target.files ?? []));
+          e.target.value = '';
+        }}
+      />
       <div className="flex flex-1 flex-col">
         {messageTip && (
           <div className="mx-auto w-full max-w-3xl px-4 pt-4 md:px-0">
@@ -265,92 +292,20 @@ export default function PreviewClient({ messageTip }: { messageTip?: string }) {
           </div>
         )}
 
-        {/* Desktop/Mobile View Toggle */}
-        <div
-          className={`flex flex-1 items-center justify-center pb-24 ${viewMode === 'mobile' ? 'bg-[#f8f8f8]' : ''}`}
-        >
-          <AnimatePresence mode="wait">
-            {viewMode === 'mobile' ? (
-              /* Mobile View */
-              <motion.div
-                key="mobile"
-                initial={{ opacity: 0, width: '100%', maxWidth: '768px' }}
-                animate={{ opacity: 1, width: '452px', maxWidth: '452px' }}
-                exit={{ opacity: 0, width: '100%', maxWidth: '768px' }}
-                transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
-                className="flex items-center justify-center"
-                style={{ height: 'min(80vh, 900px)' }}
-              >
-                <div className="relative h-full w-full">
-                  <motion.div
-                    initial={{ borderRadius: '0.5rem' }}
-                    animate={{ borderRadius: '4.5rem' }}
-                    exit={{ borderRadius: '0.5rem' }}
-                    transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
-                    className="relative h-full w-full overflow-hidden border border-gray-200 bg-white shadow-lg"
-                  >
-                    {/* Scrollable Content */}
-                    <div className="scrollbar-hide h-full w-full overflow-y-auto overflow-x-hidden bg-background">
-                      <motion.div
-                        initial={{
-                          paddingLeft: '1rem',
-                          paddingRight: '1rem',
-                        }}
-                        animate={{
-                          paddingLeft: '2rem',
-                          paddingRight: '2rem',
-                        }}
-                        exit={{ paddingLeft: '1rem', paddingRight: '1rem' }}
-                        transition={{
-                          duration: 0.5,
-                          ease: [0.16, 1, 0.3, 1],
-                        }}
-                      >
-                        <PreviewPortfolio
-                          page={localPage}
-                          profilePicture={profilePicture}
-                          isEditMode={true}
-                          onChangePage={handlePageChange}
-                          onImageChange={handleImageChange}
-                          username={usernameQuery.data?.username}
-                          viewMode={viewMode}
-                        />
-                      </motion.div>
-                    </div>
-                  </motion.div>
-                </div>
-              </motion.div>
-            ) : (
-              /* Desktop View */
-              <motion.div
-                key="desktop"
-                initial={{ opacity: 0, width: '452px', maxWidth: '452px' }}
-                animate={{ opacity: 1, width: '100%', maxWidth: '1400px' }}
-                exit={{ opacity: 0, width: '452px', maxWidth: '452px' }}
-                transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
-                className="mx-auto flex items-center justify-between xl:rounded-lg"
-              >
-                <motion.div
-                  initial={{ borderRadius: '2.5rem' }}
-                  animate={{ borderRadius: '0.5rem' }}
-                  exit={{ borderRadius: '2.5rem' }}
-                  transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
-                  className="w-full px-4"
-                >
-                  <PreviewPortfolio
-                    page={localPage}
-                    profilePicture={profilePicture}
-                    isEditMode={true}
-                    onChangePage={handlePageChange}
-                    onImageChange={handleImageChange}
-                    username={usernameQuery.data?.username}
-                    viewMode={viewMode}
-                  />
-                </motion.div>
-              </motion.div>
-            )}
-          </AnimatePresence>
-        </div>
+        <EditorViewport viewMode={viewMode}>
+          {(mode) => (
+            <PreviewPortfolio
+              page={localPage}
+              profilePicture={profilePicture}
+              isEditMode={true}
+              onChangePage={handlePageChange}
+              onImageChange={handleImageChange}
+              username={usernameQuery.data?.username}
+              viewMode={mode}
+              uploads={uploads}
+            />
+          )}
+        </EditorViewport>
 
         {/* Action Bar */}
         <div className="pointer-events-none fixed bottom-1 left-0 right-0 z-50 xl:bottom-10">
@@ -361,7 +316,7 @@ export default function PreviewClient({ messageTip }: { messageTip?: string }) {
               onViewModeChange={setViewMode}
               isSaving={savePageMutation.isPending}
               onAddLink={() => handleAddBlock('LINK')}
-              onAddImage={() => handleAddBlock('IMAGE')}
+              onAddImage={() => fileInput.current?.click()}
               onAddText={() => handleAddBlock('TEXT')}
               onAddMap={() => handleAddBlock('MAP')}
               onAddSectionTitle={() => handleAddBlock('SECTION_TITLE')}

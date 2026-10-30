@@ -449,7 +449,7 @@ export function LinkTile({
   if (size === 'bar') {
     return (
       <div
-        className="flex h-full w-full items-center gap-3 overflow-hidden bg-[var(--tile-bg)] px-6 py-5 transition-colors duration-200 [transition-timing-function:cubic-bezier(.43,.01,.29,1)] group-hover/card:bg-[var(--tile-hover)] group-active/card:bg-[var(--tile-active)]"
+        className="flex h-full w-full items-center gap-3 overflow-hidden bg-[var(--tile-bg)] px-[var(--tile-pad,24px)] py-5 transition-colors duration-200 [transition-timing-function:cubic-bezier(.43,.01,.29,1)] group-hover/card:bg-[var(--tile-hover)] group-active/card:bg-[var(--tile-active)]"
         style={
           {
             '--tile-bg': platform?.bg ?? '#ffffff',
@@ -476,7 +476,7 @@ export function LinkTile({
   if (rich?.kind === 'spotify') {
     return (
       <div
-        className="flex h-full w-full overflow-hidden bg-[var(--tile-bg)] p-4 transition-colors duration-200 [transition-timing-function:cubic-bezier(.43,.01,.29,1)] group-hover/card:bg-[var(--tile-hover)] group-active/card:bg-[var(--tile-active)] min-[1260px]:p-6"
+        className="flex h-full w-full overflow-hidden bg-[var(--tile-bg)] p-[var(--tile-pad,24px)] transition-colors duration-200 [transition-timing-function:cubic-bezier(.43,.01,.29,1)] group-hover/card:bg-[var(--tile-hover)] group-active/card:bg-[var(--tile-active)]"
         style={tileStyle}
       >
         <SpotifyBody
@@ -492,8 +492,8 @@ export function LinkTile({
   }
 
   const meta = (
-    <div className="mt-2 flex w-full min-w-0 shrink-0 flex-col min-[1260px]:mt-3">
-      <div className="line-clamp-1 text-sm leading-[1.2] text-black min-[1260px]:line-clamp-2">
+    <div className="mt-3 flex w-full min-w-0 shrink-0 flex-col">
+      <div className="line-clamp-2 text-sm leading-[1.2] text-black">
         {titleText}
       </div>
       {sub && (
@@ -525,7 +525,7 @@ export function LinkTile({
 
   return (
     <div
-      className="flex h-full w-full flex-col overflow-hidden bg-[var(--tile-bg)] p-4 transition-colors duration-200 [transition-timing-function:cubic-bezier(.43,.01,.29,1)] group-hover/card:bg-[var(--tile-hover)] group-active/card:bg-[var(--tile-active)] min-[1260px]:p-6"
+      className="flex h-full w-full flex-col overflow-hidden bg-[var(--tile-bg)] p-[var(--tile-pad,24px)] transition-colors duration-200 [transition-timing-function:cubic-bezier(.43,.01,.29,1)] group-hover/card:bg-[var(--tile-hover)] group-active/card:bg-[var(--tile-active)]"
       style={
         {
           '--tile-bg': platform?.bg ?? '#ffffff',
@@ -547,11 +547,13 @@ export function LinkTile({
       {size === 'wide' && preview ? (
         // Text and button on the left, preview on the right.
         <div className="-mt-10 flex min-h-0 flex-1 gap-6">
-          <div className="flex w-[41%] min-w-0 shrink-0 flex-col pt-10">
+          <div className="flex min-w-0 flex-1 flex-col pt-10">
             {meta}
             {cta && <div className="mt-3 flex">{cta}</div>}
           </div>
-          <div className="min-h-0 flex-1">
+          {/* The preview is 1.4 wide for every height, so the text takes
+              what is left, as on bento's phone grid. */}
+          <div className="aspect-[1.4] h-full shrink-0">
             <Preview
               posts={platform?.posts}
               portrait={platform?.portrait}
@@ -566,7 +568,7 @@ export function LinkTile({
         <>
           {meta}
           {size === 'small' && cta && (
-            <div className="mt-2 flex shrink-0 min-[1260px]:mt-3">{cta}</div>
+            <div className="mt-3 flex shrink-0">{cta}</div>
           )}
           {github && size === 'large' && (
             <div className="mt-auto w-full shrink-0 pt-8">
