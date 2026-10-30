@@ -16,6 +16,10 @@ const LinkBlockData = z.object({
   // Open Graph details fetched when the link is added.
   image: z.string().optional(),
   description: z.string().optional(),
+  // For platforms with no public data (Instagram, TikTok, Dribbble, Behance,
+  // Figma, X), the owner's own preview pictures and bio.
+  images: z.array(z.string()).max(6).optional(),
+  bio: z.string().max(280).optional(),
 });
 type LinkBlockData = z.infer<typeof LinkBlockData>;
 
@@ -46,6 +50,9 @@ type TextBlockData = z.infer<typeof TextBlockData>;
 const MapBlockData = z.object({
   location: z.string(),
   label: z.string().optional(),
+  // Where the map centres, set when a place is picked.
+  lat: z.number().optional(),
+  lng: z.number().optional(),
 });
 type MapBlockData = z.infer<typeof MapBlockData>;
 

@@ -6,11 +6,18 @@ import { cn } from '@/lib/utils';
 import { findPlatform, handleFrom, hostOf } from '@/lib/platforms';
 import { PLATFORM_ICONS } from '@/lib/platform-icons';
 import { NO_DRAG } from './editing/no-drag';
+import {
+  GithubGraph,
+  SpotifyBody,
+  YoutubeVideos,
+  useRichData,
+} from './smart-widgets';
 
 // bento.me's link widget. Small: icon, title, handle, button stacked. Wide and
 // large: button moves to the top-right and a preview fills the rest. Tall:
 // preview under the text. Bar: one slim row. The preview is the page's Open
 // Graph image (or one the owner uploaded); otherwise bento's empty states.
+// Smart links (GitHub, YouTube, Spotify) show the platform's live data.
 
 type TileSize = 'bar' | 'small' | 'wide' | 'tall' | 'large';
 
@@ -27,7 +34,10 @@ export function tileAspect(w: number, h: number) {
 
 interface LinkTileEditing {
   onTitle: (title: string) => void;
+  onBio: (bio: string) => void;
   onImage: (file: File) => void;
+  onGallery: (file: File) => void;
+  onRemoveGallery: (index: number) => void;
   onClearImage: () => void;
   uploading?: boolean;
 }
@@ -102,10 +112,12 @@ function PlayIcon() {
 
 function Icon({
   icon,
+  src,
   url,
   small,
 }: {
   icon?: string;
+  src?: string;
   url: string;
   // bento's bar links use a 28px icon with 7px corners.
   small?: boolean;
@@ -125,6 +137,9 @@ function Icon({
           className="h-full w-full"
           dangerouslySetInnerHTML={{ __html: svg }}
         />
+      ) : src ? (
+        // eslint-disable-next-line @next/next/no-img-element
+        <img src={src} alt="" className="h-full w-full" />
       ) : (
         <div
           className={cn(
@@ -147,28 +162,148 @@ function Icon({
 
 function Preview(props: {
   posts?: boolean;
+  portrait?: boolean;
+  images?: string[];
   large?: boolean;
   image?: string;
   edit?: LinkTileEditing;
+  // Live platform content, in place of the image.
+  smart?: React.ReactNode;
 }) {
+  if (props.smart) return <div className="h-full w-full">{props.smart}</div>;
   return (
     <div className="relative h-full w-full">
       <PreviewArea {...props} />
-      {props.edit && (
+      {props.edit && !props.posts && (
         <PreviewControls edit={props.edit} hasImage={!!props.image} />
       )}
     </div>
   );
 }
 
+// bento's grid of recent posts. Platforms without a public data source show
+// the owner's own pictures; in the editor each empty cell takes an upload.
+function PostCell({
+  src,
+  index,
+  portrait,
+  edit,
+}: {
+  src?: string;
+  index: number;
+  portrait?: boolean;
+  edit?: LinkTileEditing;
+}) {
+  const input = useRef<HTMLInputElement>(null);
+  const shape = portrait ? 'aspect-[9/16]' : 'aspect-square';
+  if (src) {
+    return (
+      <div
+        className={cn(
+          'group/post relative overflow-hidden rounded-[8px] bg-black/[.04]',
+          shape
+        )}
+      >
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img src={src} alt="" className="h-full w-full object-cover" />
+        <div className="pointer-events-none absolute inset-0 rounded-[inherit] shadow-[inset_0_0_0_1px_rgba(0,0,0,.08)]" />
+        {edit && (
+          <button
+            type="button"
+            aria-label="Remove picture"
+            onClick={() => edit.onRemoveGallery(index)}
+            className={cn(
+              NO_DRAG,
+              'absolute right-1 top-1 flex size-6 items-center justify-center rounded-full bg-black/70 text-white opacity-0 transition-opacity group-hover/post:opacity-100'
+            )}
+          >
+            <X className="size-3.5" />
+          </button>
+        )}
+      </div>
+    );
+  }
+  const cell = cn(
+    'flex items-center justify-center rounded-[8px] bg-black/[.04] text-black/40 shadow-[inset_0_0_0_1px_rgba(0,0,0,.04)]',
+    shape
+  );
+  if (!edit) {
+    return (
+      <div className={cell}>
+        <ImagePlus className="size-4 opacity-50" />
+      </div>
+    );
+  }
+  return (
+    <button
+      type="button"
+      aria-label="Add picture"
+      onClick={() => input.current?.click()}
+      className={cn(NO_DRAG, cell, 'transition-colors hover:bg-black/[.07]')}
+    >
+      <ImagePlus className="size-4" />
+      <input
+        ref={input}
+        type="file"
+        accept="image/*"
+        className="hidden"
+        onChange={(e) => {
+          const file = e.target.files?.[0];
+          if (file) edit.onGallery(file);
+          e.target.value = '';
+        }}
+      />
+    </button>
+  );
+}
+
+function PostsGrid({
+  large,
+  portrait,
+  images,
+  edit,
+}: {
+  large?: boolean;
+  portrait?: boolean;
+  images?: string[];
+  edit?: LinkTileEditing;
+}) {
+  const full = portrait ? (large ? 3 : 2) : large ? 6 : 4;
+  const columns = portrait ? full : large ? 3 : 2;
+  // Visitors see only the pictures the owner added.
+  const count = edit ? full : Math.min(images?.length ?? 0, full);
+  return (
+    <div
+      className="grid h-full w-full content-start gap-2"
+      style={{ gridTemplateColumns: `repeat(${columns}, minmax(0, 1fr))` }}
+    >
+      {Array.from({ length: count }).map((_, i) => (
+        <PostCell
+          key={i}
+          index={i}
+          src={images?.[i]}
+          portrait={portrait}
+          edit={edit}
+        />
+      ))}
+    </div>
+  );
+}
+
 function PreviewArea({
   posts,
+  portrait,
+  images,
   large,
   image,
+  edit,
 }: {
   posts?: boolean;
+  portrait?: boolean;
+  images?: string[];
   large?: boolean;
   image?: string;
+  edit?: LinkTileEditing;
 }) {
   // The page's Open Graph image, fetched when the link was added.
   if (image) {
@@ -187,19 +322,12 @@ function PreviewArea({
   }
   if (posts) {
     return (
-      <div
-        className={cn(
-          'grid h-full w-full gap-2',
-          large ? 'grid-cols-3' : 'grid-cols-2'
-        )}
-      >
-        {Array.from({ length: large ? 6 : 4 }).map((_, i) => (
-          <div
-            key={i}
-            className="rounded-[8px] bg-black/[.04] shadow-[inset_0_0_0_1px_rgba(0,0,0,.04)]"
-          />
-        ))}
-      </div>
+      <PostsGrid
+        large={large}
+        portrait={portrait}
+        images={images}
+        edit={edit}
+      />
     );
   }
   return (
@@ -213,6 +341,8 @@ export function LinkTile({
   url,
   title,
   image,
+  images,
+  bio,
   w,
   h,
   edit,
@@ -220,6 +350,8 @@ export function LinkTile({
   url: string;
   title?: string;
   image?: string;
+  images?: string[];
+  bio?: string;
   w: number;
   h: number;
   // In the editor: the title is typed into, the preview image can be set.
@@ -227,6 +359,7 @@ export function LinkTile({
 }) {
   const platform = findPlatform(url);
   const size = tileSize(w, h);
+  const rich = useRichData(url);
   const name =
     title && title !== 'New link' && title !== 'Untitled link'
       ? title
@@ -240,7 +373,34 @@ export function LinkTile({
   // Previews: post thumbnails for post-based platforms, otherwise the og
   // image slot for plain links. Platforms with a button but no posts (Twitter,
   // GitHub, TikTok, Spotify) show no preview, as on bento.
-  const preview = platform?.posts || !button || !!image;
+  const github = rich?.kind === 'github' ? rich : null;
+  const youtube = rich?.kind === 'youtube' && rich.videos.length ? rich : null;
+  // The graph or videos in the preview slot, by tile size.
+  const smart =
+    github && size === 'wide' ? (
+      <GithubGraph data={github} weeks={8} align="top" />
+    ) : github && size === 'tall' ? (
+      <div className="flex h-full items-end">
+        <div className="h-[150px] w-full">
+          <GithubGraph data={github} weeks={6} />
+        </div>
+      </div>
+    ) : youtube && size !== 'small' ? (
+      <div className="flex h-full items-end">
+        <YoutubeVideos
+          data={youtube}
+          columns={size === 'tall' ? 1 : 2}
+          rows={2}
+        />
+      </div>
+    ) : null;
+  const preview =
+    (platform?.posts && (!!edit || !!images?.length)) ||
+    !button ||
+    !!image ||
+    !!smart ||
+    (!!edit && !!platform?.bio) ||
+    (!!github && size === 'large');
   // Button sits top-right on large tiles, and on wide tiles without a preview.
   const topRight = size === 'large' || (size === 'wide' && !preview);
 
@@ -259,6 +419,11 @@ export function LinkTile({
     >
       {button.play && <PlayIcon />}
       {button.label}
+      {youtube?.subscribers && (
+        <span className="ml-1 font-medium text-white/80">
+          {youtube.subscribers}
+        </span>
+      )}
     </div>
   );
 
@@ -284,7 +449,7 @@ export function LinkTile({
   if (size === 'bar') {
     return (
       <div
-        className="[transition-timing-function:cubic-bezier(.43,.01,.29,1)] flex h-full w-full items-center gap-3 overflow-hidden bg-[var(--tile-bg)] px-6 py-5 transition-colors duration-200 group-hover/card:bg-[var(--tile-hover)] group-active/card:bg-[var(--tile-active)]"
+        className="flex h-full w-full items-center gap-3 overflow-hidden bg-[var(--tile-bg)] px-6 py-5 transition-colors duration-200 [transition-timing-function:cubic-bezier(.43,.01,.29,1)] group-hover/card:bg-[var(--tile-hover)] group-active/card:bg-[var(--tile-active)]"
         style={
           {
             '--tile-bg': platform?.bg ?? '#ffffff',
@@ -293,11 +458,35 @@ export function LinkTile({
           } as React.CSSProperties
         }
       >
-        <Icon icon={platform?.icon} url={url} small />
+        <Icon icon={platform?.icon} src={platform?.iconSrc} url={url} small />
         <div className="line-clamp-1 min-w-0 flex-1 text-sm leading-5 text-black">
           {titleText}
         </div>
         {cta}
+      </div>
+    );
+  }
+
+  const tileStyle = {
+    '--tile-bg': platform?.bg ?? '#ffffff',
+    '--tile-hover': platform?.hover ?? '#FBFBFB',
+    '--tile-active': platform?.active ?? '#EFEFEF',
+  } as React.CSSProperties;
+
+  if (rich?.kind === 'spotify') {
+    return (
+      <div
+        className="flex h-full w-full overflow-hidden bg-[var(--tile-bg)] p-4 transition-colors duration-200 [transition-timing-function:cubic-bezier(.43,.01,.29,1)] group-hover/card:bg-[var(--tile-hover)] group-active/card:bg-[var(--tile-active)] min-[1260px]:p-6"
+        style={tileStyle}
+      >
+        <SpotifyBody
+          data={rich}
+          size={size}
+          icon={
+            <Icon icon={platform?.icon} src={platform?.iconSrc} url={url} />
+          }
+          title={titleText}
+        />
       </div>
     );
   }
@@ -312,12 +501,31 @@ export function LinkTile({
           {sub}
         </div>
       )}
+      {platform?.bio && size !== 'small' && (edit || bio) && (
+        <div className="mt-2 text-xs leading-4 text-black/80">
+          {edit ? (
+            <textarea
+              value={bio ?? ''}
+              placeholder="Add your bio"
+              rows={2}
+              maxLength={280}
+              onChange={(e) => edit.onBio(e.target.value)}
+              className={cn(
+                NO_DRAG,
+                'w-full resize-none border-0 bg-transparent p-0 text-xs leading-4 outline-none placeholder:text-black/40 focus:ring-0'
+              )}
+            />
+          ) : (
+            <p className="line-clamp-3">{bio}</p>
+          )}
+        </div>
+      )}
     </div>
   );
 
   return (
     <div
-      className="[transition-timing-function:cubic-bezier(.43,.01,.29,1)] flex h-full w-full flex-col overflow-hidden bg-[var(--tile-bg)] p-4 transition-colors duration-200 group-hover/card:bg-[var(--tile-hover)] group-active/card:bg-[var(--tile-active)] min-[1260px]:p-6"
+      className="flex h-full w-full flex-col overflow-hidden bg-[var(--tile-bg)] p-4 transition-colors duration-200 [transition-timing-function:cubic-bezier(.43,.01,.29,1)] group-hover/card:bg-[var(--tile-hover)] group-active/card:bg-[var(--tile-active)] min-[1260px]:p-6"
       style={
         {
           '--tile-bg': platform?.bg ?? '#ffffff',
@@ -328,12 +536,12 @@ export function LinkTile({
     >
       {topRight ? (
         <div className="flex w-full items-start">
-          <Icon icon={platform?.icon} url={url} />
+          <Icon icon={platform?.icon} src={platform?.iconSrc} url={url} />
           <div className="flex-1" />
           {cta}
         </div>
       ) : (
-        <Icon icon={platform?.icon} url={url} />
+        <Icon icon={platform?.icon} src={platform?.iconSrc} url={url} />
       )}
 
       {size === 'wide' && preview ? (
@@ -344,7 +552,14 @@ export function LinkTile({
             {cta && <div className="mt-3 flex">{cta}</div>}
           </div>
           <div className="min-h-0 flex-1">
-            <Preview posts={platform?.posts} image={image} edit={edit} />
+            <Preview
+              posts={platform?.posts}
+              portrait={platform?.portrait}
+              images={images}
+              image={image}
+              edit={edit}
+              smart={smart}
+            />
           </div>
         </div>
       ) : (
@@ -353,30 +568,46 @@ export function LinkTile({
           {size === 'small' && cta && (
             <div className="mt-2 flex shrink-0 min-[1260px]:mt-3">{cta}</div>
           )}
-          {(size === 'tall' || size === 'large') && preview && (
-            <div
-              className={
-                size === 'large' && !platform?.posts
-                  ? 'mt-auto w-full shrink-0 pt-2'
-                  : 'mt-4 min-h-0 flex-1'
-              }
-            >
-              <div
-                className={
-                  size === 'large' && !platform?.posts
-                    ? 'aspect-[1200/630] w-full'
-                    : 'h-full w-full'
-                }
-              >
-                <Preview
-                  posts={platform?.posts}
-                  large={size === 'large'}
-                  image={image}
-                  edit={edit}
-                />
+          {github && size === 'large' && (
+            <div className="mt-auto w-full shrink-0 pt-8">
+              <div className="h-[136px] w-full">
+                <GithubGraph data={github} weeks={17} labels />
               </div>
+              <p className="mt-4 text-xs leading-4 text-black/60">
+                {github.total.toLocaleString('en')} contributions in the last
+                year
+              </p>
             </div>
           )}
+          {(size === 'tall' || size === 'large') &&
+            preview &&
+            !(github && size === 'large') && (
+              <div
+                className={
+                  size === 'large' && !platform?.posts && !smart
+                    ? 'mt-auto w-full shrink-0 pt-2'
+                    : 'mt-4 min-h-0 flex-1'
+                }
+              >
+                <div
+                  className={
+                    size === 'large' && !platform?.posts && !smart
+                      ? 'aspect-[1200/630] w-full'
+                      : 'h-full w-full'
+                  }
+                >
+                  <Preview
+                    posts={platform?.posts}
+                    portrait={platform?.portrait}
+                    images={images}
+                    large={size === 'large'}
+                    image={image}
+                    edit={edit}
+                    smart={smart}
+                  />
+                </div>
+              </div>
+            )}
           {size === 'tall' && cta && (
             <div className="mt-auto flex pt-4">{cta}</div>
           )}

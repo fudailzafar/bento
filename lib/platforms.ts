@@ -12,11 +12,18 @@ interface Platform {
   active?: string;
   // Key into PLATFORM_ICONS; omitted = site favicon.
   icon?: string;
+  // A 40px icon file in /public, for platforms without an inline icon.
+  iconSrc?: string;
   button?: { label: string; className: string; play?: boolean };
   // Show "@name" (or "name") taken from the URL path.
   handle?: 'at' | 'plain';
-  // Post previews bento showed on wider tiles (empty placeholders here).
+  // Post previews bento showed on wider tiles. These platforms have no public
+  // data source, so the owner adds the pictures (see LinkBlockData.images).
   posts?: boolean;
+  // Posts are vertical (TikTok videos).
+  portrait?: boolean;
+  // Shows a short bio under the handle, written by the owner (X).
+  bio?: boolean;
 }
 
 const WHITE = { hover: '#FBFBFB', active: '#EFEFEF' };
@@ -31,6 +38,7 @@ const PLATFORMS: Platform[] = [
     active: '#E9F4FC',
     icon: 'twitter',
     handle: 'at',
+    bio: true,
     button: {
       label: 'Follow',
       className:
@@ -107,6 +115,7 @@ const PLATFORMS: Platform[] = [
     id: 'behance',
     name: 'Behance',
     hosts: ['behance.net'],
+    iconSrc: '/home/bento/icon-behance.svg',
     bg: '#F3F6FE',
     hover: '#EDF2FD',
     active: '#E5ECFC',
@@ -153,6 +162,8 @@ const PLATFORMS: Platform[] = [
     ...WHITE,
     icon: 'tiktok',
     handle: 'at',
+    posts: true,
+    portrait: true,
     button: {
       label: 'Follow',
       className:
@@ -172,6 +183,7 @@ const PLATFORMS: Platform[] = [
     id: 'buymeacoffee',
     name: 'Buy Me a Coffee',
     hosts: ['buymeacoffee.com'],
+    iconSrc: '/home/bento/icon-buymeacoffee.svg',
     bg: '#FFFDEB',
     hover: '#FFFBE0',
     active: '#FFF8D3',
@@ -188,6 +200,48 @@ const PLATFORMS: Platform[] = [
     name: 'Product Hunt',
     hosts: ['producthunt.com'],
     icon: 'producthunt',
+  },
+  {
+    id: 'medium',
+    name: 'Medium',
+    hosts: ['medium.com'],
+    iconSrc: '/home/bento/icon-medium.svg',
+  },
+  {
+    id: 'discord',
+    name: 'Discord',
+    hosts: ['discord.com', 'discord.gg'],
+    iconSrc: '/home/bento/icon-discord.svg',
+  },
+  {
+    id: 'reddit',
+    name: 'Reddit',
+    hosts: ['reddit.com'],
+    iconSrc: '/home/bento/icon-reddit.svg',
+  },
+  {
+    id: 'pinterest',
+    name: 'Pinterest',
+    hosts: ['pinterest.com'],
+    iconSrc: '/home/bento/icon-pinterest.svg',
+  },
+  {
+    id: 'devto',
+    name: 'DEV',
+    hosts: ['dev.to'],
+    iconSrc: '/home/bento/icon-devto.svg',
+  },
+  {
+    id: 'mastodon',
+    name: 'Mastodon',
+    hosts: ['mastodon.social', 'mastodon.online'],
+    iconSrc: '/home/bento/icon-mastodon.svg',
+  },
+  {
+    id: 'webflow',
+    name: 'Webflow',
+    hosts: ['webflow.com', 'webflow.io'],
+    iconSrc: '/home/bento/icon-webflow.svg',
   },
   { id: 'readcv', name: 'Read.cv', hosts: ['read.cv'], icon: 'readcv' },
   { id: 'codepen', name: 'CodePen', hosts: ['codepen.io'], icon: 'codepen' },

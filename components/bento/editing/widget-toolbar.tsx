@@ -9,15 +9,19 @@ import {
   AlignVerticalJustifyEnd,
   AlignVerticalJustifyStart,
   Crop,
+  Bold,
   Ellipsis,
+  Italic,
   ImageUp,
   Link2,
+  LoaderCircle,
   Navigation,
   Search,
 } from 'lucide-react';
 import { Block } from '@/lib';
 import { asUrl, isVideoUrl } from '@/lib/media';
 import { cn } from '@/lib/utils';
+import { useDebounce } from '@/hooks/use-debounce';
 import { NO_DRAG } from './no-drag';
 
 // bento's widget sizes, as w×h on the editor grid. Notes and links also come
@@ -50,11 +54,11 @@ const NOTE_COLORS = [
   '#2E7A5B',
 ];
 
-const LOCATIONS = [
-  'Berlin, Germany',
-  'New York, United States',
-  'Tokyo, Japan',
-];
+interface Place {
+  name: string;
+  lat: number;
+  lng: number;
+}
 
 type Panel = 'more' | 'color' | 'link' | 'search' | null;
 
@@ -75,6 +79,8 @@ function ToolButton({
       aria-label={label}
       title={label}
       aria-pressed={active}
+      // Keeps the note's text selected while a button is used.
+      onMouseDown={(e) => e.preventDefault()}
       onClick={onClick}
       className={cn(
         'flex size-8 items-center justify-center rounded-lg transition-colors',
@@ -120,6 +126,37 @@ export function WidgetToolbar({
   }, [selected]);
   const toggle = (next: Panel) => setPanel((p) => (p === next ? null : next));
   const fileInput = useRef<HTMLInputElement>(null);
+  // The note's selected text, kept while the link box takes focus.
+  const savedRange = useRef<Range | null>(null);
+  const rememberSelection = () => {
+    const selection = window.getSelection();
+    const range = selection?.rangeCount ? selection.getRangeAt(0) : null;
+    const inNote =
+      range &&
+      !range.collapsed &&
+      (range.commonAncestorContainer instanceof Element
+        ? range.commonAncestorContainer
+        : range.commonAncestorContainer.parentElement
+      )?.closest('[data-note-editor]');
+    savedRange.current = inNote ? range.cloneRange() : null;
+  };
+  // Links just the selected words when there are some, else the whole note.
+  const linkSelection = (url: string) => {
+    const range = savedRange.current;
+    const editor = (
+      range?.commonAncestorContainer instanceof Element
+        ? range.commonAncestorContainer
+        : range?.commonAncestorContainer.parentElement
+    )?.closest<HTMLElement>('[data-note-editor]');
+    if (!range || !editor) return false;
+    editor.focus();
+    const selection = window.getSelection();
+    selection?.removeAllRanges();
+    selection?.addRange(range);
+    document.execCommand('createLink', false, url);
+    savedRange.current = null;
+    return true;
+  };
   const data = block.data as Record<string, string | undefined>;
 
   const sizes = SIZES.filter(
@@ -148,6 +185,18 @@ export function WidgetToolbar({
         {block.type === 'TEXT' && (
           <>
             <Divider />
+            <ToolButton
+              label="Bold"
+              onClick={() => document.execCommand('bold')}
+            >
+              <Bold className="size-4" />
+            </ToolButton>
+            <ToolButton
+              label="Italic"
+              onClick={() => document.execCommand('italic')}
+            >
+              <Italic className="size-4" />
+            </ToolButton>
             <ToolButton
               label="More"
               active={panel !== null}
@@ -273,9 +322,10 @@ export function WidgetToolbar({
               <ToolButton
                 label="Link"
                 active={panel === 'link'}
-                onClick={() =>
-                  setPanel((p) => (p === 'link' ? 'more' : 'link'))
-                }
+                onClick={() => {
+                  rememberSelection();
+                  setPanel((p) => (p === 'link' ? 'more' : 'link'));
+                }}
               >
                 <Link2 className="size-4" />
               </ToolButton>
@@ -325,13 +375,26 @@ export function WidgetToolbar({
                 (block.type === 'LINK' ? data.url : data.href) ?? ''
               }
               onChange={(e) => {
-                if (block.type !== 'LINK') onPatch({ href: e.target.value });
+                // With words selected the link applies on Enter; otherwise it
+                // links the whole widget as you type.
+                if (block.type !== 'LINK' && !savedRange.current) {
+                  onPatch({ href: e.target.value });
+                }
               }}
               onKeyDown={(e) => {
                 if (e.key !== 'Enter') return;
+                // Focus moves to the note below; Enter must not land in it.
+                e.preventDefault();
                 if (block.type === 'LINK') {
                   const url = asUrl(e.currentTarget.value);
                   if (url) onSetUrl(url);
+                } else if (block.type === 'TEXT') {
+                  // Selected words get their own link.
+                  const url = asUrl(e.currentTarget.value);
+                  if (url && linkSelection(url)) {
+                    setPanel(null);
+                    return;
+                  }
                 }
                 setPanel(null);
               }}
@@ -345,8 +408,12 @@ export function WidgetToolbar({
           {panel === 'search' && (
             <MapSearch
               current={data.location}
-              onPick={(location) => {
-                onPatch({ location });
+              onPick={(place) => {
+                onPatch({
+                  location: place.name,
+                  lat: place.lat,
+                  lng: place.lng,
+                });
                 setPanel(null);
               }}
             />
@@ -357,17 +424,49 @@ export function WidgetToolbar({
   );
 }
 
+async function searchPlaces(query: string): Promise<Place[]> {
+  const response = await fetch(`/api/geocode?q=${encodeURIComponent(query)}`);
+  return response.ok ? response.json() : [];
+}
+
+// Live place search (OpenStreetMap), plus the browser's own location.
 function MapSearch({
   current,
   onPick,
 }: {
   current?: string;
-  onPick: (location: string) => void;
+  onPick: (place: Place) => void;
 }) {
   const [query, setQuery] = useState(current ?? '');
-  const matches = LOCATIONS.filter((l) =>
-    l.toLowerCase().includes(query.trim().toLowerCase())
-  );
+  const debounced = useDebounce(query.trim(), 350);
+  const [places, setPlaces] = useState<Place[]>([]);
+  const [busy, setBusy] = useState(false);
+
+  useEffect(() => {
+    if (debounced.length < 2) {
+      setPlaces([]);
+      return;
+    }
+    let cancelled = false;
+    setBusy(true);
+    searchPlaces(debounced)
+      .then((results) => !cancelled && setPlaces(results))
+      .finally(() => !cancelled && setBusy(false));
+    return () => {
+      cancelled = true;
+    };
+  }, [debounced]);
+
+  const useMyLocation = () => {
+    navigator.geolocation?.getCurrentPosition(({ coords }) =>
+      onPick({
+        name: 'My location',
+        lat: coords.latitude,
+        lng: coords.longitude,
+      })
+    );
+  };
+
   return (
     <div>
       <div className="flex items-center rounded-lg bg-white/10 pr-2">
@@ -377,28 +476,37 @@ function MapSearch({
           placeholder="Search Location"
           value={query}
           onChange={(e) => setQuery(e.target.value)}
-          onKeyDown={(e) => {
-            if (e.key === 'Enter' && query.trim()) onPick(query.trim());
+          onKeyDown={async (e) => {
+            if (e.key !== 'Enter' || query.trim().length < 2) return;
+            const [first] = places.length
+              ? places
+              : await searchPlaces(query.trim());
+            if (first) onPick(first);
           }}
           className="w-full bg-transparent px-3 py-2 text-sm text-white outline-none placeholder:text-white/40"
         />
         <button
           type="button"
-          aria-label="Use this location"
-          onClick={() => query.trim() && onPick(query.trim())}
+          aria-label="Use my location"
+          title="Use my location"
+          onClick={useMyLocation}
           className="text-white/70 hover:text-white"
         >
-          <Navigation className="size-4" />
+          {busy ? (
+            <LoaderCircle className="size-4 animate-spin" />
+          ) : (
+            <Navigation className="size-4" />
+          )}
         </button>
       </div>
-      {(query.trim() ? matches : LOCATIONS).map((l) => (
+      {places.map((place) => (
         <button
-          key={l}
+          key={`${place.lat},${place.lng}`}
           type="button"
-          onClick={() => onPick(l)}
-          className="block w-full rounded-lg px-3 py-2 text-left text-sm text-white hover:bg-white/10"
+          onClick={() => onPick(place)}
+          className="block w-full truncate rounded-lg px-3 py-2 text-left text-sm text-white hover:bg-white/10"
         >
-          {l}
+          {place.name}
         </button>
       ))}
     </div>

@@ -5,7 +5,8 @@ import { motion } from 'framer-motion';
 import { Responsive, WidthProvider, Layout } from 'react-grid-layout';
 import 'react-grid-layout/css/styles.css';
 import { Block, BlockType, defaultBlockData } from '@/lib';
-import { Trash2, MousePointerClick } from 'lucide-react';
+import { MousePointerClick } from 'lucide-react';
+import { TrashIcon } from '@/components/icons';
 import { toast } from 'sonner';
 import { fetchLinkPreview, isVideoFile, uploadBlockMedia } from '@/lib/media';
 import { findPlatform } from '@/lib/platforms';
@@ -181,7 +182,11 @@ export function BentoGrid({
     if (block) updateBlockData(id, { ...block.data, ...patch });
   };
 
-  const uploadInto = async (id: string, file: File, field: 'url' | 'image') => {
+  const uploadInto = async (
+    id: string,
+    file: File,
+    field: 'url' | 'image' | 'gallery'
+  ) => {
     setUploadingIds((ids) => [...ids, id]);
     try {
       const url = await uploadBlockMedia(file);
@@ -193,7 +198,18 @@ export function BentoGrid({
               kind: isVideoFile(file) ? 'video' : 'image',
               original: undefined,
             }
-          : { image: url }
+          : field === 'gallery'
+            ? {
+                images: [
+                  ...((
+                    blocks.find((b) => b.id === id)?.data as {
+                      images?: string[];
+                    }
+                  )?.images ?? []),
+                  url,
+                ].slice(0, 6),
+              }
+            : { image: url }
       );
     } catch (error) {
       toast.error(
@@ -428,11 +444,12 @@ export function BentoGrid({
                     onClick={() => deleteBlock(block.id)}
                     className={cn(
                       NO_DRAG,
-                      'absolute -left-3 -top-3 z-50 flex size-10 items-center justify-center rounded-full bg-white text-gray-700 opacity-0 shadow-[0_4px_20px_rgba(0,0,0,0.15)] transition-opacity hover:scale-105 hover:text-red-500 group-hover:opacity-100',
+                      // The same delete button as the profile picture's.
+                      'absolute -left-3 -top-3 z-50 flex size-9 items-center justify-center rounded-full border border-neutral-300 bg-white opacity-0 shadow-lg backdrop-blur-sm transition-all hover:bg-white/90 group-hover:opacity-100',
                       selectedId === block.id && 'opacity-100'
                     )}
                   >
-                    <Trash2 size={18} />
+                    <TrashIcon className="size-4 text-black" />
                   </button>
 
                   {block.type !== 'SECTION_TITLE' && (
