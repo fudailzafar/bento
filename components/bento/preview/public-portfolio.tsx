@@ -1,7 +1,6 @@
 'use client';
 
 import { useEffect, useRef } from 'react';
-import { SocialLinks } from './social-links';
 import { PageData } from '@/lib';
 import { BentoGrid } from '../grid';
 
@@ -113,14 +112,6 @@ export const PublicPortfolio = ({
             <div className="mb-10 flex flex-col px-4 xl:mb-0 xl:mr-20 xl:flex-1 xl:px-0" />
             <div className="relative flex-1 xl:w-[820px] xl:flex-none">
               <BentoGrid isEditMode={false} blocks={page.blocks || []} />
-              <SocialLinks
-                links={{
-                  website: page.website,
-                  github: page.github,
-                  linkedin: page.linkedin,
-                  twitter: page.twitter,
-                }}
-              />
             </div>
           </div>
         </div>

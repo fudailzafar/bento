@@ -1,7 +1,6 @@
 'use client';
 
 import { Header } from './header';
-import { SocialLinks } from './social-links';
 import { LoadingFallback } from '@/components/utils';
 import { PageData, Block } from '@/lib';
 import { Settings } from '@/components/common';
@@ -78,22 +77,6 @@ export const PreviewPortfolio = ({
             />
           </div>
 
-          <SocialLinks
-            links={{
-              website: page.website,
-              github: page.github,
-              linkedin: page.linkedin,
-              twitter: page.twitter,
-            }}
-            isEditMode={isEditMode}
-            onChangeLinks={
-              isEditMode && onChangePage
-                ? (newLinks) => {
-                    onChangePage({ ...page, ...newLinks });
-                  }
-                : undefined
-            }
-          />
 
           {/* Mobile Header at bottom */}
           <Settings />
