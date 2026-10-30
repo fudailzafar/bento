@@ -87,6 +87,27 @@ interface LinkPreviewResult {
   title?: string;
   description?: string;
   image?: string;
+  // The site's icon: its touch icon when it has one, else its favicon.
+  icon?: string;
+}
+
+function findIcon(html: string, base: URL) {
+  const links = [...html.matchAll(/<link[^>]+>/gi)].map((m) => m[0]);
+  const pick = (test: RegExp) =>
+    links.find((tag) =>
+      test.test(tag.match(/rel=["']([^"']*)["']/i)?.[1] ?? '')
+    );
+  const tag =
+    pick(/apple-touch-icon/i) ?? pick(/(^|\s)(shortcut )?icon(\s|$)/i);
+  const href = tag?.match(/href=["']([^"']*)["']/i)?.[1];
+  try {
+    const resolved = new URL(href ? decode(href) : '/favicon.ico', base);
+    return resolved.protocol === 'https:' || resolved.protocol === 'http:'
+      ? resolved.toString()
+      : undefined;
+  } catch {
+    return undefined;
+  }
 }
 
 // Returns null when the address isn't a public web page.
@@ -148,7 +169,7 @@ export async function getLinkPreview(
         }
       } catch {}
     }
-    return { title, description, image };
+    return { title, description, image, icon: findIcon(html, url) };
   } catch {
     return {};
   }

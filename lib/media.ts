@@ -96,6 +96,7 @@ interface LinkPreview {
   title?: string;
   description?: string;
   image?: string;
+  icon?: string;
 }
 
 export async function fetchLinkPreview(url: string): Promise<LinkPreview> {

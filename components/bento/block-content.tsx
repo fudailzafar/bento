@@ -84,6 +84,8 @@ export interface BlockEditing {
   // link's preview).
   onUpload: (file: File, field: 'url' | 'customImage' | 'gallery') => void;
   uploading?: boolean;
+  // The link's details are being fetched.
+  fetching?: boolean;
   // The chosen file, shown while it uploads, and how far along it is (0–1).
   preview?: { url: string; kind: 'image' | 'video' };
   progress?: number;
@@ -201,6 +203,7 @@ export function BlockContent({
         title,
         image: websiteImage,
         customImage,
+        favicon,
         images,
         bio,
       } = block.data as {
@@ -208,6 +211,7 @@ export function BlockContent({
         title?: string;
         image?: string;
         customImage?: string;
+        favicon?: string;
         images?: string[];
         bio?: string;
       };
@@ -246,6 +250,8 @@ export function BlockContent({
           bio={bio}
           w={block.w}
           h={block.h}
+          favicon={favicon || undefined}
+          fetching={edit?.fetching}
           edit={
             edit && {
               onTitle: (value) => edit.onPatch({ title: value }),
