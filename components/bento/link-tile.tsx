@@ -6,14 +6,19 @@ import { PLATFORM_ICONS } from '@/lib/platform-icons';
 
 // bento.me's link widget. Small: icon, title, handle, button stacked. Wide and
 // large: button moves to the top-right and a preview fills the rest. Tall:
-// preview under the text. Post previews and og images aren't fetched, so the
-// preview areas show bento's own empty states.
+// preview under the text. The preview is the page's Open Graph image when one
+// was found; otherwise bento's own empty states.
 
 type TileSize = 'small' | 'wide' | 'tall' | 'large';
 
 export function tileSize(w: number, h: number): TileSize {
   if (w >= 2) return h >= 4 ? 'large' : 'wide';
   return h >= 4 ? 'tall' : 'small';
+}
+
+// Width over height of a tile on bento's desktop grid (175px or 390px a side).
+export function tileAspect(w: number, h: number) {
+  return (w >= 2 ? 390 : 175) / (h >= 4 ? 390 : 175);
 }
 
 function PlayIcon() {
@@ -54,7 +59,30 @@ function Icon({ icon, url }: { icon?: string; url: string }) {
   );
 }
 
-function Preview({ posts, large }: { posts?: boolean; large?: boolean }) {
+function Preview({
+  posts,
+  large,
+  image,
+}: {
+  posts?: boolean;
+  large?: boolean;
+  image?: string;
+}) {
+  // The page's Open Graph image, fetched when the link was added.
+  if (image) {
+    return (
+      <div className="relative h-full w-full overflow-hidden rounded-[10px] bg-black/[.04]">
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src={image}
+          alt=""
+          className="h-full w-full object-cover"
+          referrerPolicy="no-referrer"
+        />
+        <div className="pointer-events-none absolute inset-0 rounded-[inherit] shadow-[inset_0_0_0_1px_rgba(0,0,0,.06)]" />
+      </div>
+    );
+  }
   if (posts) {
     return (
       <div
@@ -82,11 +110,13 @@ function Preview({ posts, large }: { posts?: boolean; large?: boolean }) {
 export function LinkTile({
   url,
   title,
+  image,
   w,
   h,
 }: {
   url: string;
   title?: string;
+  image?: string;
   w: number;
   h: number;
 }) {
@@ -169,7 +199,7 @@ export function LinkTile({
             {cta && <div className="mt-3 flex">{cta}</div>}
           </div>
           <div className="min-h-0 flex-1">
-            <Preview posts={platform?.posts} />
+            <Preview posts={platform?.posts} image={image} />
           </div>
         </div>
       ) : (
@@ -180,7 +210,11 @@ export function LinkTile({
           )}
           {(size === 'tall' || size === 'large') && preview && (
             <div className="mt-4 min-h-0 flex-1">
-              <Preview posts={platform?.posts} large={size === 'large'} />
+              <Preview
+                posts={platform?.posts}
+                large={size === 'large'}
+                image={image}
+              />
             </div>
           )}
           {size === 'tall' && cta && (
