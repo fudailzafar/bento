@@ -3,7 +3,7 @@ import { JoinTheTeam } from '@/components/team/join-the-team';
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Portfoliofy - Join the Team',
+  title: 'Bento - Join the Team',
 };
 
 export default function JoinTheTeamPage() {

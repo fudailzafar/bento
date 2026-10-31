@@ -9,7 +9,7 @@ import type { Metadata } from 'next';
 
 export async function generateMetadata(): Promise<Metadata> {
   return {
-    title: 'Portfoliofy - Explore',
+    title: 'Bento - Explore',
     description: 'Get inspired by the most creative Bentos',
   };
 }

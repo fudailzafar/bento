@@ -1,4 +1,4 @@
-# Contributing to Portfoliofy
+# Contributing to Bento
 
 Thanks for your interest in contributing.
 

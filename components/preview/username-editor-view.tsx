@@ -36,7 +36,7 @@ interface UsernameEditorContentProps {
 function UsernameEditorContent({
   initialUsername,
   onClose,
-  prefix = 'portfoliofy.me/',
+  prefix = 'bento.me/',
   onSuccessChange,
 }: UsernameEditorContentProps) {
   const [newUsername, setNewUsername] = useState<string>('');

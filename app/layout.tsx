@@ -14,7 +14,7 @@ const fontSans = FontSans({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://portfoliofy.me'),
+  metadataBase: new URL('https://bento.me'),
   title: 'Bento - A Link in Bio, but Rich and Beautiful.',
   icons: {
     icon: '/favicon.ico',
@@ -26,14 +26,14 @@ export const metadata: Metadata = {
     title: 'Bento - A Link in Bio, but Rich and Beautiful.',
     description:
       'Create a beautiful page to show your audience everything you are, create, and sell in one link. Designed in Berlin.',
-    url: 'https://portfoliofy.me',
-    siteName: 'Portfoliofy',
+    url: 'https://bento.me',
+    siteName: 'Bento',
     images: [
       {
-        url: 'https://portfoliofy.me/opengraph-image.png',
+        url: 'https://bento.me/opengraph-image.png',
         width: 1200,
         height: 630,
-        alt: 'Portfoliofy OG Image',
+        alt: 'Bento OG Image',
       },
     ],
     locale: 'en_US',
@@ -51,7 +51,7 @@ export const metadata: Metadata = {
     },
   },
   twitter: {
-    title: 'Portfoliofy - A Portfolio, but Rich and Beautiful.',
+    title: 'Bento - A Portfolio, but Rich and Beautiful.',
     card: 'summary_large_image',
   },
   verification: {

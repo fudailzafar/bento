@@ -9,6 +9,6 @@ export function getDomainUrl(username: string) {
   const domain =
     process.env.NODE_ENV === 'development'
       ? 'http://localhost:3000'
-      : 'https://portfoliofy.me';
+      : 'https://bento.me';
   return `${domain}/${username}`;
 }

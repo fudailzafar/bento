@@ -48,7 +48,7 @@ export function Header({
 
     setIsCopying(true);
     try {
-      const url = `https://portfoliofy.me/${username}`;
+      const url = `https://bento.me/${username}`;
       await navigator.clipboard.writeText(url);
       // Trigger confetti
       confetti({

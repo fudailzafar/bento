@@ -2,19 +2,19 @@ import { Metadata } from 'next';
 import { BreadcrumbSchema } from '@/components/seo';
 
 export const metadata: Metadata = {
-  title: 'Privacy Policy | Portfoliofy',
+  title: 'Privacy Policy | Bento',
   description:
-    'Learn how Portfoliofy collects, uses, and protects your personal data. Read our comprehensive privacy policy and data protection guidelines.',
+    'Learn how Bento collects, uses, and protects your personal data. Read our comprehensive privacy policy and data protection guidelines.',
   openGraph: {
-    title: 'Privacy Policy | Portfoliofy',
+    title: 'Privacy Policy | Bento',
     description:
-      'Learn how Portfoliofy protects your personal data and privacy.',
-    url: 'https://portfoliofy.me/privacy-policy',
-    siteName: 'Portfoliofy',
+      'Learn how Bento protects your personal data and privacy.',
+    url: 'https://bento.me/privacy-policy',
+    siteName: 'Bento',
     type: 'website',
   },
   alternates: {
-    canonical: 'https://portfoliofy.me/privacy-policy',
+    canonical: 'https://bento.me/privacy-policy',
   },
 };
 
@@ -23,10 +23,10 @@ export default function PrivacyPolicy() {
     <>
       <BreadcrumbSchema
         items={[
-          { name: 'Home', url: 'https://portfoliofy.me' },
+          { name: 'Home', url: 'https://bento.me' },
           {
             name: 'Privacy Policy',
-            url: 'https://portfoliofy.me/privacy-policy',
+            url: 'https://bento.me/privacy-policy',
           },
         ]}
       />
@@ -91,7 +91,7 @@ export default function PrivacyPolicy() {
                 <strong className="font-semibold">Company</strong> (referred to
                 as either &quot;the Company&quot;, &quot;We&quot;,
                 &quot;Us&quot; or &quot;Our&quot; in this Agreement) refers to
-                Portfoliofy.
+                Bento.
               </p>
             </li>
             <li>
@@ -159,14 +159,14 @@ export default function PrivacyPolicy() {
             <li>
               <p>
                 <strong className="font-semibold">Website</strong> refers to
-                Portfoliofy, accessible from
+                Bento, accessible from
                 <a
-                  href="https://www.portfoliofy.me"
+                  href="https://www.bento.me"
                   rel="external nofollow noopener"
                   target="_blank"
                   className="text-blue-600 hover:underline"
                 >
-                  https://www.portfoliofy.me
+                  https://www.bento.me
                 </a>
               </p>
             </li>

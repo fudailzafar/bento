@@ -22,7 +22,7 @@ type Props = { params: Promise<{ member: string }> };
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const member = members[(await params).member];
-  return { title: member?.name ?? 'Portfoliofy' };
+  return { title: member?.name ?? 'Bento' };
 }
 
 export function generateStaticParams() {
@@ -38,7 +38,7 @@ export default async function MemberPage({ params }: Props) {
       <div className="flex w-[224px] max-w-full flex-col items-center">
         <Image
           src="/icons/android-chrome-192x192.png"
-          alt="Portfoliofy"
+          alt="Bento"
           width={45}
           height={45}
           priority
