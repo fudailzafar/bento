@@ -90,9 +90,11 @@ export function defaultBlockData(type: BlockType) {
     case 'TEXT':
       return { content: '' } satisfies TextBlockData;
     case 'MAP':
+      // A new map starts on Berlin until a place is picked.
       return {
-        location: '',
-        label: 'Where I live',
+        location: 'Berlin, Germany',
+        lat: 52.52,
+        lng: 13.405,
       } satisfies MapBlockData;
     case 'SECTION_TITLE':
       return { title: 'Section' } satisfies SectionTitleBlockData;

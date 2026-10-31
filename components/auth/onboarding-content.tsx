@@ -14,6 +14,7 @@ import {
 import Image from 'next/image';
 import { createClient } from '@/lib/supabase/client';
 import { Block } from '@/lib';
+import { defaultBlockData } from '@/lib/blocks';
 import { BentoGrid } from '@/components/bento/grid';
 import {
   BlockContent,
@@ -440,7 +441,11 @@ function Slot({
         data: { content: '', color: '#FFFFFF' },
       } as Block);
     if (def.id === 'map')
-      return onSet({ ...base, type: 'MAP', data: { location: '' } } as Block);
+      return onSet({
+        ...base,
+        type: 'MAP',
+        data: defaultBlockData('MAP'),
+      } as Block);
     onSet({ ...base, type: 'LINK', data: { url: '', title: '' } } as Block);
   };
 
