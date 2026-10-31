@@ -4,12 +4,12 @@ import { useEffect, useRef } from 'react';
 import type { Map as MapboxMap } from 'mapbox-gl';
 import 'mapbox-gl/dist/mapbox-gl.css';
 
-// bento's map widget: a light map centred on the owner's place, with bento's
-// pulsing location pin. Mapbox GL with its light style; the public token
+// bento's map widget: a map centred on the owner's place, with bento's
+// pulsing location pin. Mapbox GL with its streets style; the public token
 // comes from NEXT_PUBLIC_MAPBOX_TOKEN. The library loads only when a map is
 // on the page.
 
-const STYLE = 'mapbox://styles/mapbox/light-v11';
+const STYLE = 'mapbox://styles/mapbox/streets-v12';
 const TOKEN = process.env.NEXT_PUBLIC_MAPBOX_TOKEN;
 
 export function MapTiles({
