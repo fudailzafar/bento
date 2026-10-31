@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { motion } from 'framer-motion';
 import { Responsive, Layout } from 'react-grid-layout';
 import 'react-grid-layout/css/styles.css';
@@ -69,6 +69,12 @@ export function BentoGrid({
   const [mounted, setMounted] = useState(false);
   // The widget being edited in place: its toolbar stays open.
   const [selectedId, setSelectedId] = useState<string | null>(null);
+  // The widget whose toolbar has an option panel open: it stays selected
+  // until a click elsewhere, wherever the pointer goes.
+  const [panelId, setPanelId] = useState<string | null>(null);
+  const setPanelOpen = useCallback((id: string, open: boolean) => {
+    setPanelId((current) => (open ? id : current === id ? null : current));
+  }, []);
   // Files being uploaded: the picture shows straight away, with a progress ring.
   const [ownUploads, setUploads] = useState<Record<string, UploadState>>({});
   const uploads = { ...ownUploads, ...externalUploads };
@@ -577,7 +583,8 @@ export function BentoGrid({
               // pointer leaves. Only a crop in progress keeps its widget.
               onMouseLeave={() => {
                 if (mobileEdit || selectedId !== block.id) return;
-                if (croppingBlockId === block.id) return;
+                if (croppingBlockId === block.id || panelId === block.id)
+                  return;
                 setSelectedId(null);
               }}
               className={cn(
@@ -688,6 +695,7 @@ export function BentoGrid({
                     >
                       <WidgetToolbar
                         selected={selectedId === block.id}
+                        onPanelChange={(open) => setPanelOpen(block.id, open)}
                         block={block}
                         onResize={(w, h) => updateBlockSize(block.id, w, h)}
                         onPatch={(patch) => patchBlock(block.id, patch)}
