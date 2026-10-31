@@ -7,7 +7,7 @@ import { MapTiles } from './map-tiles';
 import { NoteEditor, RichText } from './rich-text';
 import { parseQuote, plainRich } from '@/lib/rich-text';
 import { NO_DRAG } from './editing/no-drag';
-import { embedFor } from '@/lib/embeds';
+import { embedFor, youtubeVideoId } from '@/lib/embeds';
 import { asUrl, isVideoUrl } from '@/lib/media';
 import { cn } from '@/lib/utils';
 import { UploadRing } from './upload-ring';
@@ -123,18 +123,18 @@ function InlineText({
         'w-full border-0 bg-transparent p-0 outline-none placeholder:text-current placeholder:opacity-40 focus:ring-0',
         className,
         // Zero width, stretched to the grid column the hidden copy sets.
-        hug && 'col-start-1 row-start-1 w-0 min-w-full max-w-none'
+        hug && 'col-start-1 row-start-1 w-0 min-w-full max-w-none text-ellipsis'
       )}
     />
   );
   if (!hug) return input;
   // An invisible copy of the text sizes the input to fit it.
   return (
-    <div className="inline-grid max-w-full">
+    <div className="inline-grid max-w-full grid-cols-[minmax(0,max-content)]">
       <span
         aria-hidden="true"
         className={cn(
-          'invisible col-start-1 row-start-1 whitespace-pre',
+          'invisible col-start-1 row-start-1 overflow-hidden whitespace-pre',
           className
         )}
       >
@@ -191,6 +191,50 @@ function SectionTitleEditor({
     >
       {value || 'Section title'}
     </h2>
+  );
+}
+
+// bento's caption tag in a widget's bottom-left corner. In the editor it is
+// typed into, and empty it shows on hover as a "Caption..." prompt. Long text
+// ends in an ellipsis; hovering the tag opens it to show everything, so it
+// can be read and selected.
+function CaptionPill({
+  value,
+  onChange,
+}: {
+  value: string;
+  onChange?: (value: string) => void;
+}) {
+  const base =
+    'absolute bottom-4 left-4 z-20 max-w-[calc(100%-32px)] rounded-[var(--caption-radius,8px)] bg-white px-2 py-1.5';
+  if (onChange) {
+    return (
+      <div
+        className={cn(
+          base,
+          !value && 'opacity-0 focus-within:opacity-100 group-hover:opacity-100'
+        )}
+      >
+        <InlineText
+          value={value}
+          placeholder="Caption..."
+          onChange={onChange}
+          hug
+          className="w-auto max-w-full text-sm leading-[21px] text-black"
+        />
+      </div>
+    );
+  }
+  if (!value) return null;
+  return (
+    <span
+      className={cn(
+        base,
+        'block truncate text-sm leading-[21px] text-black hover:overflow-visible hover:text-clip hover:whitespace-normal hover:break-words'
+      )}
+    >
+      {value}
+    </span>
   );
 }
 
@@ -288,20 +332,31 @@ export function BlockContent({
       };
       if (live && !url) return <LinkUrlInput onSetUrl={live.onSetUrl} />;
       // The owner's picture wins over the website's; '' means none at all.
+      // A YouTube video's own thumbnail stands in when the page gave none.
+      const videoId = url ? youtubeVideoId(url) : null;
+      const thumbnail = videoId
+        ? `https://i.ytimg.com/vi/${videoId}/hqdefault.jpg`
+        : undefined;
       const image =
         edit?.preview?.url ??
-        ((customImage !== undefined ? customImage : websiteImage) || undefined);
+        ((customImage !== undefined
+          ? customImage
+          : websiteImage || thumbnail) ||
+          undefined);
       // Videos and players play inside wide and tall tiles, as on bento.
       const embed =
         url && (block.w >= 2 || block.h >= 4) && block.h > 1
           ? embedFor(url)
           : null;
-      if (embed) {
+      // YouTube videos show their thumbnail as the link's one picture; the
+      // other players (Vimeo, SoundCloud) still play inline.
+      const playable = embed && embed.provider !== 'youtube' ? embed : null;
+      if (playable) {
         return (
           <div className="relative h-full w-full bg-black/[.04]">
             <iframe
-              src={embed.src}
-              title={title || embed.provider}
+              src={playable.src}
+              title={title || playable.provider}
               className="h-full w-full border-0"
               allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
               loading="lazy"
@@ -431,31 +486,12 @@ export function BlockContent({
                 <UploadRing progress={edit.progress} />
               </>
             )}
-            {live ? (
-              // The caption pill is typed into directly; empty, it shows on
-              // hover as a "Caption..." prompt.
-              <div
-                className={cn(
-                  'absolute bottom-4 left-4 max-w-[calc(100%-32px)] rounded-[var(--caption-radius,8px)] bg-white px-2 py-1.5',
-                  !caption &&
-                    'opacity-0 focus-within:opacity-100 group-hover:opacity-100'
-                )}
-              >
-                <InlineText
-                  value={caption ?? ''}
-                  placeholder="Caption..."
-                  onChange={(value) => live.onPatch({ caption: value })}
-                  hug
-                  className="w-auto max-w-full text-sm leading-[21px] text-black"
-                />
-              </div>
-            ) : (
-              caption && (
-                <span className="absolute bottom-4 left-4 line-clamp-2 max-w-[calc(100%-32px)] rounded-[var(--caption-radius,8px)] bg-white px-2 py-1.5 text-sm leading-[21px] text-black">
-                  {caption}
-                </span>
-              )
-            )}
+            <CaptionPill
+              value={caption ?? ''}
+              onChange={
+                live ? (value) => live.onPatch({ caption: value }) : undefined
+              }
+            />
           </div>
         </Linked>
       );
@@ -604,9 +640,13 @@ export function BlockContent({
               zoom={block.h >= 4 ? 10 : 11}
               interactive={interactive}
             />
-            <span className="pointer-events-none absolute bottom-4 left-4 line-clamp-2 max-w-[calc(100%-32px)] rounded-[var(--caption-radius,8px)] bg-white px-2 py-1.5 text-sm leading-[21px] text-black">
-              {label || location}
-            </span>
+            {/* The label is typed into like an image's caption. */}
+            <CaptionPill
+              value={label ?? location ?? ''}
+              onChange={
+                live ? (value) => live.onPatch({ label: value }) : undefined
+              }
+            />
           </div>
         );
       }
