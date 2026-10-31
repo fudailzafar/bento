@@ -52,7 +52,7 @@ interface BentoGridProps {
   fetchingIds?: string[];
   // Lets the editor ask which row of the grid is in view.
   anchorRef?: React.MutableRefObject<
-    (() => { row: number; desktop: boolean }) | null
+    ((point?: { y: number }) => { row: number; desktop: boolean }) | null
   >;
 }
 
@@ -386,12 +386,14 @@ export function BentoGrid({
   const colWidth = (width - gap * (cols - 1)) / cols;
   const rowHeight = (colWidth - gap) / 2;
   if (anchorRef) {
-    // The row a fifth of the way down the screen: where new widgets go.
-    anchorRef.current = () => {
+    // The row a fifth of the way down the screen, or the one under a point
+    // (a drop): where new widgets go.
+    anchorRef.current = (point) => {
       const top = wrapper.current?.getBoundingClientRect().top ?? 0;
-      const offset = window.innerHeight * 0.2 - top;
+      const offset = (point?.y ?? window.innerHeight * 0.2) - top;
+      const row = offset / (rowHeight + gap);
       return {
-        row: Math.max(0, Math.round(offset / (rowHeight + gap))),
+        row: Math.max(0, point ? Math.floor(row) : Math.round(row)),
         desktop: !!desktop,
       };
     };
