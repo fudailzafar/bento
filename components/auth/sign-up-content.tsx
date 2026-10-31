@@ -237,7 +237,7 @@ function AccountStep({
       setSigningUp(undefined);
       return;
     }
-    router.push(`/${handle}`);
+    router.push('/onboarding');
   };
 
   const handleGoogle = async () => {
@@ -247,7 +247,7 @@ function AccountStep({
     const { error: oauthError } = await supabase.auth.signInWithOAuth({
       provider: 'google',
       options: {
-        redirectTo: `${window.location.origin}/auth/callback?next=/${handle}&username=${handle}`,
+        redirectTo: `${window.location.origin}/auth/callback?next=/onboarding&username=${handle}`,
       },
     });
     if (oauthError) {
