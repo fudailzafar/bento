@@ -5,7 +5,7 @@ import { motion } from 'framer-motion';
 import { Responsive, Layout } from 'react-grid-layout';
 import 'react-grid-layout/css/styles.css';
 import { Block, BlockType, defaultBlockData } from '@/lib';
-import { MousePointerClick } from 'lucide-react';
+import { MousePointerClick, Move, Pencil } from 'lucide-react';
 import { TrashIcon } from '@/components/icons';
 import { toast } from 'sonner';
 import { fetchLinkPreview, isVideoFile, uploadBlockMedia } from '@/lib/media';
@@ -21,8 +21,11 @@ import {
   withPhoneLayout,
 } from '@/lib/layout';
 import { CropEditor } from './editing/crop-editor';
+import { widgetRadius } from './editing/widget-radius';
 import { NO_DRAG } from './editing/no-drag';
 import { WidgetToolbar } from './editing/widget-toolbar';
+import { EditDrawer } from './editing/edit-drawer';
+import { MobileBar } from './editing/mobile-bar';
 
 type GridProps = React.ComponentProps<typeof Responsive>;
 
@@ -72,6 +75,8 @@ export function BentoGrid({
   const [ownFetching, setOwnFetching] = useState<string[]>([]);
   const fetchingAll = [...ownFetching, ...fetchingIds];
   const [croppingBlockId, setCroppingBlockId] = useState<string | null>(null);
+  // On phones a widget is edited in a drawer, opened from its edit button.
+  const [drawerId, setDrawerId] = useState<string | null>(null);
   // Cropping ends when the widget is no longer the one being edited.
   useEffect(() => {
     if (croppingBlockId && selectedId !== croppingBlockId) {
@@ -98,7 +103,9 @@ export function BentoGrid({
     const onPointer = (event: PointerEvent) => {
       const target = event.target as Element | null;
       // Clicking another widget selects it instead (its own handler).
-      if (!target?.closest?.('[data-block-id]')) setSelectedId(null);
+      // The phone toolbar and drawer belong to the selected widget.
+      if (!target?.closest?.('[data-block-id],[data-keep-selection]'))
+        setSelectedId(null);
     };
     const onKey = (event: KeyboardEvent) => {
       if (event.key === 'Escape') setSelectedId(null);
@@ -130,6 +137,9 @@ export function BentoGrid({
     };
   }, [mounted]);
   const desktop = wideScreen === null ? null : wideScreen && !forceMobile;
+  // bento's phone editing: tap a widget to select it, edit it in a drawer,
+  // and move it by its handle alone.
+  const mobileEdit = isEditMode && desktop === false;
 
   const gridLayouts: Layout[] = blocks.map((block) => ({
     i: block.id,
@@ -310,6 +320,7 @@ export function BentoGrid({
     onPatch: (patch) => patchBlock(block.id, patch),
     onSetUrl: (url) => setLinkUrl(block.id, url),
     onUpload: (file, field) => uploadInto(block.id, file, field),
+    inline: !mobileEdit,
     uploading: block.id in uploads,
     fetching: fetchingAll.includes(block.id),
     preview: uploads[block.id]?.preview
@@ -320,6 +331,8 @@ export function BentoGrid({
 
   const deleteBlock = (id: string) => {
     if (!onBlocksChange) return;
+    setSelectedId(null);
+    setDrawerId(null);
     onBlocksChange(blocksRef.current.filter((block) => block.id !== id));
   };
 
@@ -409,6 +422,7 @@ export function BentoGrid({
     const p = phoneById.get(b.id);
     return p ? { ...b, x: p.x, y: p.y, w: p.w, h: p.h } : b;
   });
+  const selectedBlock = viewBlocks.find((b) => b.id === selectedId);
   const gridProps: Partial<GridProps> = {
     layouts: { lg: publicLayout },
     breakpoints: { lg: 0 },
@@ -462,6 +476,7 @@ export function BentoGrid({
         }}
         isDraggable={isEditMode}
         draggableCancel={`.${NO_DRAG}`}
+        {...(mobileEdit ? { draggableHandle: '.bento-drag-handle' } : {})}
         isResizable={false}
         compactType="vertical"
         useCSSTransforms={true}
@@ -502,6 +517,11 @@ export function BentoGrid({
                   : 'relative h-full w-full',
                 !label && 'bg-card shadow-[0_2px_4px_rgba(0,0,0,.04)]',
                 label && selected && 'bg-card',
+                // On a phone the selected widget lifts, as bento's does.
+                selected &&
+                  mobileEdit &&
+                  !label &&
+                  '-translate-y-1 shadow-[0_25px_31px_rgba(0,0,0,.06),0_16.2px_18.16px_rgba(0,0,0,.046),0_9.63px_9.87px_rgba(0,0,0,.036),0_5px_5.04px_rgba(0,0,0,.03),0_2.04px_2.53px_rgba(0,0,0,.024),0_.46px_1.22px_rgba(0,0,0,.014)]',
                 clickable &&
                   'group/card cursor-pointer active:scale-[.97] active:shadow-none'
               )}
@@ -531,7 +551,9 @@ export function BentoGrid({
                   <div
                     className={cn(
                       'pointer-events-none absolute inset-0 rounded-[inherit] border transition-[border,opacity] duration-200 ease-in-out',
-                      'border-black/[.08]'
+                      selected && mobileEdit
+                        ? 'border-2 border-black'
+                        : 'border-black/[.08]'
                     )}
                   />
                 </>
@@ -542,8 +564,13 @@ export function BentoGrid({
             <div
               key={block.id}
               data-block-id={block.id}
+              // Desktop selects on press; a phone on tap, so scrolling past a
+              // widget doesn't select it.
               onPointerDown={() => {
-                if (isEditMode) setSelectedId(block.id);
+                if (isEditMode && !mobileEdit) setSelectedId(block.id);
+              }}
+              onClick={() => {
+                if (mobileEdit) setSelectedId(block.id);
               }}
               className={cn(
                 'group relative overflow-visible',
@@ -592,11 +619,45 @@ export function BentoGrid({
                       NO_DRAG,
                       // The same delete button as the profile picture's.
                       'absolute -left-3 -top-3 z-50 flex size-9 items-center justify-center rounded-full border border-neutral-300 bg-white opacity-0 shadow-lg backdrop-blur-sm transition-all hover:bg-white/90 group-hover:opacity-100',
-                      selectedId === block.id && 'opacity-100'
+                      selectedId === block.id && 'opacity-100',
+                      // Bigger to tap, and only on the selected widget.
+                      mobileEdit &&
+                        'size-11 group-hover:pointer-events-none group-hover:opacity-0',
+                      mobileEdit &&
+                        selectedId === block.id &&
+                        '!pointer-events-auto !opacity-100',
+                      label && 'top-[calc(100%-72px)]'
                     )}
                   >
                     <TrashIcon className="size-4 text-black" />
                   </button>
+
+                  {mobileEdit && selectedId === block.id && (
+                    <>
+                      <button
+                        type="button"
+                        aria-label="Edit"
+                        onClick={() => setDrawerId(block.id)}
+                        className={cn(
+                          NO_DRAG,
+                          'absolute -right-3 -top-3 z-50 flex size-11 items-center justify-center rounded-full bg-black text-white shadow-[0_6px_14px_rgba(0,0,0,.2)] active:scale-95',
+                          label && 'top-[calc(100%-72px)]'
+                        )}
+                      >
+                        <Pencil className="size-[18px]" />
+                      </button>
+                      <div
+                        aria-label="Move"
+                        role="button"
+                        className={cn(
+                          'bento-drag-handle absolute -bottom-5 left-1/2 z-50 flex size-11 -translate-x-1/2 cursor-grab touch-none items-center justify-center rounded-full bg-black text-white shadow-[0_6px_14px_rgba(0,0,0,.2)] active:cursor-grabbing',
+                          label && 'bottom-[-14px]'
+                        )}
+                      >
+                        <Move className="size-5" />
+                      </div>
+                    </>
+                  )}
 
                   {croppingBlockId === block.id && block.type === 'IMAGE' && (
                     <CropEditor
@@ -608,7 +669,7 @@ export function BentoGrid({
                     />
                   )}
 
-                  {block.type !== 'SECTION_TITLE' && (
+                  {block.type !== 'SECTION_TITLE' && !mobileEdit && (
                     <div
                       className={cn(
                         'absolute -bottom-7 left-1/2 z-50 -translate-x-1/2 opacity-0 transition-opacity group-hover:opacity-100',
@@ -632,7 +693,9 @@ export function BentoGrid({
                     </div>
                   )}
 
-                  {clicks?.[block.id] && block.type !== 'IMAGE' ? (
+                  {clicks?.[block.id] &&
+                  block.type !== 'IMAGE' &&
+                  !mobileEdit ? (
                     <div className="pointer-events-none absolute right-3 top-3 z-40 flex items-center gap-1 rounded-full bg-black/80 px-2 py-1 text-[11px] font-semibold text-white opacity-0 backdrop-blur transition-opacity group-hover:opacity-100">
                       <MousePointerClick size={12} />
                       {clicks[block.id]}{' '}
@@ -645,17 +708,30 @@ export function BentoGrid({
           );
         })}
       </Grid>
+
+      {mobileEdit && selectedBlock && (
+        <MobileBar
+          block={selectedBlock}
+          onResize={(w, h) => updateBlockSize(selectedBlock.id, w, h)}
+          onDone={() => {
+            setDrawerId(null);
+            setSelectedId(null);
+          }}
+        />
+      )}
+      {mobileEdit && (
+        <EditDrawer
+          block={viewBlocks.find((b) => b.id === drawerId) ?? null}
+          edit={
+            drawerId
+              ? editingFor(viewBlocks.find((b) => b.id === drawerId)!)
+              : null
+          }
+          onClose={() => setDrawerId(null)}
+        />
+      )}
     </div>
   );
-}
-
-// bento's corner radius per widget size: 16px section titles, 20px bars,
-// 28px large squares, 24px for everything else.
-function widgetRadius(block: Block) {
-  if (block.type === 'SECTION_TITLE') return 16;
-  if (block.h <= 1) return 20;
-  if (block.w >= 2 && block.h >= 4) return 28;
-  return 24;
 }
 
 export function newBlock(
