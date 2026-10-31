@@ -7,6 +7,7 @@ import { Analytics } from '@vercel/analytics/next';
 import './globals.css';
 import { BentoToaster } from '@/components/common/bento-toaster';
 import { ReactQueryClientProvider } from '@/components/utils';
+import { SITE_URL } from '@/lib/site';
 
 const fontSans = FontSans({
   subsets: ['latin'],
@@ -14,7 +15,7 @@ const fontSans = FontSans({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://bento.me'),
+  metadataBase: new URL(SITE_URL),
   title: 'Bento - A Link in Bio, but Rich and Beautiful.',
   icons: {
     icon: '/favicon.ico',
@@ -26,11 +27,11 @@ export const metadata: Metadata = {
     title: 'Bento - A Link in Bio, but Rich and Beautiful.',
     description:
       'Create a beautiful page to show your audience everything you are, create, and sell in one link. Designed in Berlin.',
-    url: 'https://bento.me',
+    url: SITE_URL,
     siteName: 'Bento',
     images: [
       {
-        url: 'https://bento.me/opengraph-image.png',
+        url: `${SITE_URL}/opengraph-image.png`,
         width: 1200,
         height: 630,
         alt: 'Bento OG Image',

@@ -1,5 +1,6 @@
 import { Metadata } from 'next';
 import { BreadcrumbSchema } from '@/components/seo';
+import { SITE_URL } from '@/lib/site';
 
 export const metadata: Metadata = {
   title: 'Privacy Policy | Bento',
@@ -7,14 +8,13 @@ export const metadata: Metadata = {
     'Learn how Bento collects, uses, and protects your personal data. Read our comprehensive privacy policy and data protection guidelines.',
   openGraph: {
     title: 'Privacy Policy | Bento',
-    description:
-      'Learn how Bento protects your personal data and privacy.',
-    url: 'https://bento.me/privacy-policy',
+    description: 'Learn how Bento protects your personal data and privacy.',
+    url: `${SITE_URL}/privacy-policy`,
     siteName: 'Bento',
     type: 'website',
   },
   alternates: {
-    canonical: 'https://bento.me/privacy-policy',
+    canonical: `${SITE_URL}/privacy-policy`,
   },
 };
 
@@ -23,10 +23,10 @@ export default function PrivacyPolicy() {
     <>
       <BreadcrumbSchema
         items={[
-          { name: 'Home', url: 'https://bento.me' },
+          { name: 'Home', url: SITE_URL },
           {
             name: 'Privacy Policy',
-            url: 'https://bento.me/privacy-policy',
+            url: `${SITE_URL}/privacy-policy`,
           },
         ]}
       />
@@ -161,12 +161,12 @@ export default function PrivacyPolicy() {
                 <strong className="font-semibold">Website</strong> refers to
                 Bento, accessible from
                 <a
-                  href="https://www.bento.me"
+                  href={SITE_URL}
                   rel="external nofollow noopener"
                   target="_blank"
                   className="text-blue-600 hover:underline"
                 >
-                  https://www.bento.me
+                  {SITE_URL}
                 </a>
               </p>
             </li>

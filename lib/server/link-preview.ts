@@ -1,5 +1,6 @@
 import { lookup } from 'node:dns/promises';
 import { isIP } from 'node:net';
+import { SITE_URL } from '@/lib/site';
 
 // Fetches a page's Open Graph title, description and image for link tiles.
 // Public addresses only (every redirect is checked too), small and quick.
@@ -129,8 +130,7 @@ export async function getLinkPreview(
         redirect: 'manual',
         signal: AbortSignal.timeout(5000),
         headers: {
-          'user-agent':
-            'Mozilla/5.0 (compatible; BentoBot/1.0; +https://bento.me)',
+          'user-agent': `Mozilla/5.0 (compatible; BentoBot/1.0; +${SITE_URL})`,
           accept: 'text/html',
         },
       });

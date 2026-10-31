@@ -1,4 +1,5 @@
 import { MetadataRoute } from 'next';
+import { SITE_URL } from '@/lib/site';
 
 export default function robots(): MetadataRoute.Robots {
   return {
@@ -9,6 +10,6 @@ export default function robots(): MetadataRoute.Robots {
         disallow: ['/preview/', '/upload/', '/api/'],
       },
     ],
-    sitemap: 'https://bento.me/sitemap.xml',
+    sitemap: `${SITE_URL}/sitemap.xml`,
   };
 }
