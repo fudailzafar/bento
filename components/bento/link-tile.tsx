@@ -148,11 +148,12 @@ function PlayIcon() {
   );
 }
 
-function Icon({
+export function Icon({
   icon,
   src,
   url,
   small,
+  large,
   favicon,
   loading,
 }: {
@@ -161,6 +162,8 @@ function Icon({
   url: string;
   // bento's bar links use a 28px icon with 7px corners.
   small?: boolean;
+  // The editor drawer shows it bigger.
+  large?: boolean;
   // The site's icon; unset or failing to load, bento's link icon shows.
   favicon?: string;
   // The link's details are still being fetched.
@@ -175,7 +178,9 @@ function Icon({
         'relative shrink-0 overflow-hidden shadow-[0_1px_2px_rgba(0,0,0,.1)]',
         small
           ? 'h-7 w-7 min-w-7 rounded-[7px]'
-          : 'h-10 w-10 min-w-10 rounded-[10px]'
+          : large
+            ? 'h-16 w-16 min-w-16 rounded-[14px]'
+            : 'h-10 w-10 min-w-10 rounded-[10px]'
       )}
     >
       {svg ? (
