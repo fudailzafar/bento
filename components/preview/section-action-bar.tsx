@@ -7,6 +7,8 @@ import { BentoTooltip } from '@/components/common/bento-tooltip';
 import { LinkPopover } from './link-popover';
 
 interface SectionActionBarProps {
+  // The editor's phone view, where adding a link uses bento's phone sheet.
+  mobile?: boolean;
   onAddLink?: (url: string) => void;
   onAddImage?: () => void;
   onAddText?: () => void;
@@ -19,6 +21,7 @@ const BUTTON_GRADIENT =
   'linear-gradient(180deg, rgba(0, 0, 0, .06), rgba(0, 0, 0, .059) 11.97%, rgba(0, 0, 0, .056) 21.38%, rgba(0, 0, 0, .051) 28.56%, rgba(0, 0, 0, .044) 34.37%, rgba(0, 0, 0, .037) 39.32%, rgba(0, 0, 0, .03) 44%, rgba(0, 0, 0, .023) 49.02%, rgba(0, 0, 0, .016) 54.96%, rgba(0, 0, 0, .009) 62.44%, rgba(0, 0, 0, .004) 72.04%, rgba(0, 0, 0, .001) 84.36%, transparent)';
 
 export const SectionActionBar = ({
+  mobile,
   onAddLink,
   onAddImage,
   onAddText,
@@ -28,7 +31,7 @@ export const SectionActionBar = ({
   return (
     <div className="flex items-center space-x-5 rounded-2xl bg-white px-4 py-4 shadow-[0_0_0_1px_rgba(0,0,0,.04),0_27px_54px_rgba(0,0,0,.04),0_17.5px_31.625px_rgba(0,0,0,.03),0_10.4px_17.2px_rgba(0,0,0,.024),0_5.4px_8.775px_rgba(0,0,0,.02),0_2.2px_4.4px_rgba(0,0,0,.016),0_.5px_2.125px_rgba(0,0,0,.01)] xl:space-x-[11px] xl:bg-transparent xl:p-0 xl:shadow-none">
       {/* Projects Button */}
-      <LinkPopover onAdd={onAddLink}>
+      <LinkPopover onAdd={onAddLink} mobile={mobile}>
         {(toggle) => (
           <button
             onClick={toggle}

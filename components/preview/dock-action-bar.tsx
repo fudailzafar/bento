@@ -127,6 +127,7 @@ export default function DockActionBar({
 
         <div className="block xl:ml-[19.5px]">
           <SectionActionBar
+            mobile={viewMode === 'mobile'}
             onAddLink={onAddLink}
             onAddImage={onAddImage}
             onAddText={onAddText}
