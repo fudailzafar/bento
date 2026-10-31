@@ -15,6 +15,7 @@ import {
   uploadBlockMedia,
 } from '@/lib/media';
 import { findPlatform } from '@/lib/platforms';
+import { isMapsUrl, unwrapEmbed } from '@/lib/maps';
 import { appendBlock, insertBlock } from '@/lib/layout';
 import { DockActionBar, ViewMode } from '@/components/preview';
 import { PreviewPortfolio, newBlock } from '@/components/bento';
@@ -37,9 +38,9 @@ export default function PreviewClient({ messageTip }: { messageTip?: string }) {
   pageRef.current = localPage;
   const [isDragging, setIsDragging] = useState(false);
   // Asks the grid which row is in view, so new widgets land there.
-  const anchorRef = useRef<(() => { row: number; desktop: boolean }) | null>(
-    null
-  );
+  const anchorRef = useRef<
+    ((point?: { y: number }) => { row: number; desktop: boolean }) | null
+  >(null);
   // On phones the dock rides up above the footer when the page ends.
   const dockLift = useDockLift(viewMode !== 'mobile');
   const [fetchingIds, setFetchingIds] = useState<string[]>([]);
@@ -85,23 +86,60 @@ export default function PreviewClient({ messageTip }: { messageTip?: string }) {
     },
   });
 
-  const handlePageChange = (newPage: PageData) => {
+  // Undo and redo: snapshots of the page before each edit. Edits within half
+  // a second of each other (a drag, typing) count as one step.
+  const undoStack = useRef<PageData[]>([]);
+  const redoStack = useRef<PageData[]>([]);
+  const lastEdit = useRef(0);
+
+  // `silent` edits (an upload or preview finishing) are no step of their own.
+  const handlePageChange = (newPage: PageData, silent = false) => {
+    const previous = pageRef.current;
+    if (!silent && previous && previous !== newPage) {
+      const now = Date.now();
+      if (now - lastEdit.current > 500) {
+        undoStack.current = [...undoStack.current.slice(-99), previous];
+      }
+      lastEdit.current = now;
+      redoStack.current = [];
+    }
     pageRef.current = newPage;
     setLocalPage(newPage);
     scheduleSave(newPage);
   };
+
+  const travel = (from: typeof undoStack, to: typeof undoStack) => {
+    const target = from.current.at(-1);
+    const current = pageRef.current;
+    if (!target || !current) return;
+    from.current = from.current.slice(0, -1);
+    to.current = [...to.current, current];
+    // The next edit starts a new step.
+    lastEdit.current = 0;
+    pageRef.current = target;
+    setLocalPage(target);
+    scheduleSave(target);
+  };
+  const undo = () => travel(undoStack, redoStack);
+  const redo = () => travel(redoStack, undoStack);
 
   const handleImageChange = (newImageUrl: string | null) => {
     setLocalProfilePicture(newImageUrl || undefined);
     userProfileQuery.refetch();
   };
 
-  const handleAddBlock = (type: BlockType, data?: Record<string, unknown>) => {
+  const handleAddBlock = (
+    type: BlockType,
+    data?: Record<string, unknown>,
+    point?: { y: number },
+    rowOffset = 0
+  ) => {
     const page = pageRef.current;
     if (!page) return;
 
-    // The new block goes where the user is looking.
-    const anchor = anchorRef.current?.();
+    // The new block goes where the user is looking, or where it was dropped.
+    const found = anchorRef.current?.(point);
+    const anchor = found && { ...found, row: found.row + rowOffset };
     const block = newBlock(type, 0, data);
     handlePageChange({
       ...page,
@@ -112,38 +150,76 @@ export default function PreviewClient({ messageTip }: { messageTip?: string }) {
     return block.id;
   };
 
-  const patchBlockData = (id: string, patch: Record<string, unknown>) => {
+  // Fills in a block's data. When it's the follow-up to an add (upload,
+  // preview), earlier undo steps get it too, so none brings back a blank.
+  const patchBlockData = (
+    id: string,
+    patch: Record<string, unknown>,
+    silent = false
+  ) => {
     const page = pageRef.current;
     if (!page) return;
-    handlePageChange({
-      ...page,
-      blocks: (page.blocks || []).map((block) =>
+    const apply = (p: PageData): PageData => ({
+      ...p,
+      blocks: (p.blocks || []).map((block) =>
         block.id === id
           ? { ...block, data: { ...block.data, ...patch } }
           : block
       ),
     });
+    if (silent) {
+      undoStack.current = undoStack.current.map(apply);
+      redoStack.current = redoStack.current.map(apply);
+    }
+    handlePageChange(apply(page), silent);
+  };
+
+  // A pasted maps link (Google, Apple or OpenStreetMap, a share link or embed
+  // code) becomes a map on that place. False when it can't be read, so it
+  // can still be a plain link.
+  const addMapFromLink = async (url: string) => {
+    try {
+      const response = await fetch(
+        `/api/map-link?url=${encodeURIComponent(url)}`
+      );
+      if (!response.ok) return false;
+      const place: { location: string; lat: number; lng: number } =
+        await response.json();
+      handleAddBlock('MAP', place);
+      return true;
+    } catch {
+      return false;
+    }
   };
 
   // bento's quick add: paste a link anywhere to make a link widget, and its
   // preview fills in once fetched.
   const addLink = async (url: string) => {
+    if (isMapsUrl(url) && (await addMapFromLink(url))) return;
     const id = handleAddBlock('LINK', { url, title: 'New link' });
     if (!id) return;
     setFetchingIds((ids) => [...ids, id]);
     const preview = await fetchLinkPreview(url);
     setFetchingIds((ids) => ids.filter((x) => x !== id));
-    patchBlockData(id, {
-      image: preview.image,
-      description: preview.description,
-      favicon: preview.icon ?? '',
-      ...(preview.title && !findPlatform(url) ? { title: preview.title } : {}),
-    });
+    patchBlockData(
+      id,
+      {
+        image: preview.image,
+        description: preview.description,
+        favicon: preview.icon ?? '',
+        ...(preview.title && !findPlatform(url)
+          ? { title: preview.title }
+          : {}),
+      },
+      true
+    );
   };
 
   // Chosen, pasted or dropped images and videos become media widgets at
   // once, showing the file with a progress ring while it uploads.
-  const addMedia = async (files: File[]) => {
+  const addMedia = async (files: File[], point?: { y: number }) => {
+    // Several files dropped together stack down from the drop, in order.
+    let rowOffset = 0;
     for (const file of files) {
       const invalid = checkMediaFile(file);
       if (invalid) {
@@ -151,8 +227,14 @@ export default function PreviewClient({ messageTip }: { messageTip?: string }) {
         continue;
       }
       const kind = isVideoFile(file) ? 'video' : 'image';
-      const id = handleAddBlock('IMAGE', { kind });
+      const id = handleAddBlock('IMAGE', { kind }, point, rowOffset);
       if (!id) return;
+      const added = pageRef.current?.blocks?.find((b) => b.id === id);
+      if (added)
+        rowOffset +=
+          (anchorRef.current?.().desktop ?? true)
+            ? added.h
+            : (added.mh ?? added.h);
       const preview = URL.createObjectURL(file);
       setUploads((u) => ({ ...u, [id]: { preview, kind, progress: 0 } }));
       try {
@@ -161,17 +243,21 @@ export default function PreviewClient({ messageTip }: { messageTip?: string }) {
             u[id] ? { ...u, [id]: { ...u[id], progress } } : u
           )
         );
-        patchBlockData(id, { url, kind });
+        patchBlockData(id, { url, kind }, true);
       } catch (error) {
         toast.error(
           error instanceof Error ? error.message : 'Failed to upload file'
         );
         const page = pageRef.current;
         if (page) {
-          handlePageChange({
-            ...page,
-            blocks: (page.blocks || []).filter((block) => block.id !== id),
+          // The failed add leaves no trace, undo steps included.
+          const without = (p: PageData): PageData => ({
+            ...p,
+            blocks: (p.blocks || []).filter((block) => block.id !== id),
           });
+          undoStack.current = undoStack.current.map(without);
+          redoStack.current = redoStack.current.map(without);
+          handlePageChange(without(page), true);
         }
       } finally {
         URL.revokeObjectURL(preview);
@@ -188,6 +274,8 @@ export default function PreviewClient({ messageTip }: { messageTip?: string }) {
   addMediaRef.current = addMedia;
   const addLinkRef = useRef(addLink);
   addLinkRef.current = addLink;
+  const undoRef = useRef({ undo, redo });
+  undoRef.current = { undo, redo };
 
   useEffect(() => {
     const isTyping = (target: EventTarget | null) =>
@@ -204,7 +292,9 @@ export default function PreviewClient({ messageTip }: { messageTip?: string }) {
         addMediaRef.current(files);
         return;
       }
-      const url = asUrl(event.clipboardData?.getData('text') ?? '');
+      const text = event.clipboardData?.getData('text') ?? '';
+      // Google's embed code is a whole <iframe>; its src is the map.
+      const url = asUrl(unwrapEmbed(text));
       if (url) {
         event.preventDefault();
         addLinkRef.current(url);
@@ -233,15 +323,32 @@ export default function PreviewClient({ messageTip }: { messageTip?: string }) {
       depth = 0;
       setIsDragging(false);
       if (document.querySelector('[role="dialog"]')) return;
-      addMediaRef.current(Array.from(event.dataTransfer?.files ?? []));
+      addMediaRef.current(Array.from(event.dataTransfer?.files ?? []), {
+        y: event.clientY,
+      });
     };
 
+    // Cmd or Ctrl + Z undoes, + Shift + Z or Y redoes. Typing keeps its own.
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (!(event.metaKey || event.ctrlKey) || event.altKey) return;
+      if (isTyping(event.target) || document.querySelector('[role="dialog"]'))
+        return;
+      const key = event.key.toLowerCase();
+      if (key === 'z' || key === 'y') {
+        event.preventDefault();
+        if (key === 'y' || event.shiftKey) undoRef.current.redo();
+        else undoRef.current.undo();
+      }
+    };
+
+    window.addEventListener('keydown', onKeyDown);
     window.addEventListener('paste', onPaste);
     window.addEventListener('dragenter', onDragEnter);
     window.addEventListener('dragleave', onDragLeave);
     window.addEventListener('dragover', onDragOver);
     window.addEventListener('drop', onDrop);
     return () => {
+      window.removeEventListener('keydown', onKeyDown);
       window.removeEventListener('paste', onPaste);
       window.removeEventListener('dragenter', onDragEnter);
       window.removeEventListener('dragleave', onDragLeave);
@@ -264,7 +371,7 @@ export default function PreviewClient({ messageTip }: { messageTip?: string }) {
       {isDragging && (
         <div className="pointer-events-none fixed inset-4 z-[60] flex items-center justify-center rounded-[32px] border-2 border-dashed border-black/20 bg-white/70 backdrop-blur-sm">
           <p className="text-sm font-semibold text-black/60">
-            Drop images or videos to add them
+            Drop images or videos to add them here
           </p>
         </div>
       )}
@@ -319,7 +426,7 @@ export default function PreviewClient({ messageTip }: { messageTip?: string }) {
 
         {/* Action Bar */}
         <div
-          className="[transition-timing-function:cubic-bezier(.16,1,.3,1)] pointer-events-none fixed bottom-1 left-0 right-0 z-50 transition-transform duration-500 xl:bottom-10"
+          className="pointer-events-none fixed bottom-1 left-0 right-0 z-50 transition-transform duration-500 [transition-timing-function:cubic-bezier(.16,1,.3,1)] xl:bottom-10"
           style={{ transform: `translateY(${-dockLift}px)` }}
         >
           <div className="pointer-events-auto mx-auto flex w-full max-w-3xl justify-center px-4 md:px-0">
