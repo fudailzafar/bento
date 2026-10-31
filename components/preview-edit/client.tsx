@@ -4,6 +4,7 @@ import { createClient } from '@/lib/supabase/client';
 import { useEffect, useState, useRef } from 'react';
 import { toast } from 'sonner';
 import { usePageActions, useAutosave } from '@/hooks';
+import { useDockLift } from '@/hooks/use-dock-lift';
 import { postPage } from '@/hooks/use-page-actions';
 import { PageData, BlockType } from '@/lib';
 import {
@@ -39,6 +40,8 @@ export default function PreviewClient({ messageTip }: { messageTip?: string }) {
   const anchorRef = useRef<(() => { row: number; desktop: boolean }) | null>(
     null
   );
+  // On phones the dock rides up above the footer when the page ends.
+  const dockLift = useDockLift(viewMode !== 'mobile');
   const [fetchingIds, setFetchingIds] = useState<string[]>([]);
   const [uploads, setUploads] = useState<Record<string, UploadState>>({});
   const fileInput = useRef<HTMLInputElement>(null);
@@ -315,7 +318,10 @@ export default function PreviewClient({ messageTip }: { messageTip?: string }) {
         </EditorViewport>
 
         {/* Action Bar */}
-        <div className="pointer-events-none fixed bottom-1 left-0 right-0 z-50 xl:bottom-10">
+        <div
+          className="[transition-timing-function:cubic-bezier(.16,1,.3,1)] pointer-events-none fixed bottom-1 left-0 right-0 z-50 transition-transform duration-500 xl:bottom-10"
+          style={{ transform: `translateY(${-dockLift}px)` }}
+        >
           <div className="pointer-events-auto mx-auto flex w-full max-w-3xl justify-center px-4 md:px-0">
             <DockActionBar
               initialUsername={usernameQuery.data.username}

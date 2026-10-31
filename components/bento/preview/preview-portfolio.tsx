@@ -71,10 +71,10 @@ export const PreviewPortfolio = ({
         />
       </section>
       <section
-        className={`relative w-full bg-background py-1 font-sans antialiased ${viewMode === 'mobile' ? 'w-full' : 'xl:w-[860px] xl:px-4 xl:py-8'}`}
+        className={`relative flex w-full flex-1 flex-col bg-background pb-0 pt-1 font-sans antialiased ${viewMode === 'mobile' ? 'w-full' : 'xl:w-[860px] xl:px-4 xl:py-8'}`}
         aria-label="Preview Portfolio Content"
       >
-        <div className="relative flex flex-col gap-6 xl:pb-36">
+        <div className="relative flex flex-1 flex-col gap-6 xl:pb-36">
           <div className="mt-10">
             <BentoGrid
               isEditMode={isEditMode}
