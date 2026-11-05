@@ -22,7 +22,7 @@ export default function LoginPage() {
     supabase.auth.getSession().then(({ data: { session } }) => {
       if (session?.user) {
         setLeaving(true);
-        goToOwnPage(router);
+        goToOwnPage(router).catch(() => setLeaving(false));
       }
     });
   }, [router, supabase.auth]);
@@ -48,7 +48,15 @@ export default function LoginPage() {
     }
 
     setLeaving(true);
-    await goToOwnPage(router);
+    try {
+      await goToOwnPage(router);
+    } catch {
+      setLeaving(false);
+      setLoggingIn(undefined);
+      setError(
+        'Signed in, but we could not set up your page. Please try again.'
+      );
+    }
   };
 
   const handleGoogle = async () => {
@@ -62,7 +70,9 @@ export default function LoginPage() {
       },
     });
     if (oauthError) {
-      setError(`Something went wrong. Try again later. (Code: ${oauthError.code ?? oauthError.status})`);
+      setError(
+        `Something went wrong. Try again later. (Code: ${oauthError.code ?? oauthError.status})`
+      );
       setLoggingIn(undefined);
     }
   };

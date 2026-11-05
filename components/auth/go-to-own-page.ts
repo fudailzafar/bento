@@ -18,5 +18,10 @@ export async function goToOwnPage(router: ReturnType<typeof useRouter>) {
     method: 'POST',
   });
   const generateData = await generateRes.json();
-  router.push(generateData.username ? `/${generateData.username}` : '/login');
+  if (generateData.username) {
+    router.push(`/${generateData.username}`);
+    return;
+  }
+  // Don't bounce back to /login (it would just retry and look stuck).
+  throw new Error('Could not set up your page');
 }
