@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@/lib/supabase/server';
 import { isShortMapsLink, parseMapsUrl, unwrapEmbed } from '@/lib/maps';
-import { placeAt, searchPlaces } from '@/lib/server/mapbox';
+import { placeAt, searchPlaces } from '@/lib/server/places';
 
 // Turns a pasted map link (Google Maps, a share link, embed code, Apple Maps
 // or OpenStreetMap) into a place for a map widget. Signed-in users only.

@@ -532,7 +532,7 @@ export async function searchPlaces(query: string): Promise<Place[]> {
   return response.ok ? response.json() : [];
 }
 
-// Live place search (Mapbox), plus the browser's own location.
+// Live place search (Photon), plus the browser's own location.
 function MapSearch({
   current,
   onPick,
