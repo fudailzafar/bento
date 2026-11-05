@@ -1,16 +1,14 @@
 'use client';
 
 import { useEffect, useRef } from 'react';
-import type { Map as MapboxMap } from 'mapbox-gl';
-import 'mapbox-gl/dist/mapbox-gl.css';
+import type { Map as MapLibreMap } from 'maplibre-gl';
+import 'maplibre-gl/dist/maplibre-gl.css';
 
 // bento's map widget: a map centred on the owner's place, with bento's
-// pulsing location pin. Mapbox GL with its streets style; the public token
-// comes from NEXT_PUBLIC_MAPBOX_TOKEN. The library loads only when a map is
-// on the page.
+// pulsing location pin. MapLibre GL with OpenFreeMap's Bright style: free, no
+// key. The library loads only when a map is on the page.
 
-const STYLE = 'mapbox://styles/mapbox/streets-v12';
-const TOKEN = process.env.NEXT_PUBLIC_MAPBOX_TOKEN;
+const STYLE = 'https://tiles.openfreemap.org/styles/bright';
 
 export function MapTiles({
   lat,
@@ -25,24 +23,20 @@ export function MapTiles({
   interactive?: boolean;
 }) {
   const container = useRef<HTMLDivElement>(null);
-  const map = useRef<MapboxMap | null>(null);
+  const map = useRef<MapLibreMap | null>(null);
 
   useEffect(() => {
-    if (!TOKEN) return;
     let cancelled = false;
-    import('mapbox-gl').then(({ default: mapbox }) => {
+    import('maplibre-gl').then((maplibre) => {
       if (cancelled || !container.current) return;
-      const { AttributionControl, Map, Marker } = mapbox;
+      const { AttributionControl, Map, Marker } = maplibre;
       map.current = new Map({
-        accessToken: TOKEN,
         container: container.current,
         style: STYLE,
         center: [lng, lat],
         zoom,
         interactive,
         attributionControl: false,
-        // Top left: the caption covers the bottom-left corner.
-        logoPosition: 'top-left',
         cooperativeGestures: interactive,
       });
       // The credit as a small ⓘ, closed, clear of the caption.
@@ -50,12 +44,12 @@ export function MapTiles({
         new AttributionControl({ compact: true }),
         'bottom-right'
       );
-      // Mapbox opens the credit again as its sources load: close it on the
-      // first load and when the map first settles.
+      // The credit reopens as sources load: close it on the first load and
+      // when the map first settles.
       const collapse = () =>
         container.current
-          ?.querySelector('.mapboxgl-compact-show')
-          ?.classList.remove('mapboxgl-compact-show');
+          ?.querySelector('.maplibregl-compact-show')
+          ?.classList.remove('maplibregl-compact-show');
       map.current.once('load', collapse);
       map.current.once('idle', collapse);
       const pin = document.createElement('div');
@@ -76,7 +70,7 @@ export function MapTiles({
     };
   }, [lat, lng, zoom, interactive]);
 
-  // Mapbox's own CSS makes its container position: relative, so the
+  // The library's CSS makes its container position: relative, so the
   // container fills a positioned wrapper instead.
   return (
     <div className="absolute inset-0 bg-[#f2f3f0]">
