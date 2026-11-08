@@ -282,6 +282,7 @@ export default function UsernameEditorView({
   return (
     <Drawer open={isOpen} onOpenChange={onClose}>
       <DrawerContent
+        showHandle={false}
         className={`rounded-t-[32px] p-3 ${showSuccess ? 'pb-7' : 'pb-72'}`}
       >
         <DrawerTitle className="hidden"></DrawerTitle>

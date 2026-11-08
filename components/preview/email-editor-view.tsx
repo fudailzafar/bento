@@ -161,7 +161,7 @@ export default function EmailEditorView({
 
   return (
     <Drawer open={isOpen} onOpenChange={onClose}>
-      <DrawerContent className="rounded-t-[32px] p-3 pb-72">
+      <DrawerContent showHandle={false} className="rounded-t-[32px] p-3 pb-72">
         <DrawerTitle className="hidden"></DrawerTitle>
         <DrawerHeader className="p-0 text-left">
           <div className="mb-4 flex items-center justify-end">

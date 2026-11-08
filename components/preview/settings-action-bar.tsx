@@ -214,7 +214,10 @@ export function SettingsActionBar() {
               </div>
             </Button>
           </DrawerTrigger>
-          <DrawerContent className="rounded-t-[32px] px-3 pb-20">
+          <DrawerContent
+            showHandle={false}
+            className="rounded-t-[32px] px-3 pb-20"
+          >
             <DrawerHeader className="">
               <DrawerTitle className="text-right">
                 <DrawerClose asChild>
