@@ -42,9 +42,6 @@ export { Input } from './input';
 // Separator
 export { Separator } from './separator';
 
-// Theme Provider
-export { ThemeProvider } from './theme-provider';
-
 // Tooltip
 export {
   Tooltip,
