@@ -12,7 +12,6 @@ import {
   X,
 } from 'lucide-react';
 import Image from 'next/image';
-import { createClient } from '@/lib/supabase/client';
 import { Block } from '@/lib';
 import { defaultBlockData } from '@/lib/blocks';
 import { BentoGrid } from '@/components/bento/grid';
@@ -663,10 +662,10 @@ export default function OnboardingContent({
 
   useEffect(() => {
     if (demo) return setReady(true);
-    createClient()
-      .auth.getSession()
-      .then(async ({ data: { session } }) => {
-        if (!session?.user) return router.replace('/login');
+    fetch('/api/username')
+      .then((r) => r.json())
+      .then(async (d) => {
+        if (d.error) return router.replace('/login');
         // Someone who already has a page has been through this.
         const page = await fetch('/api/page')
           .then((r) => (r.ok ? r.json() : null))
@@ -674,7 +673,8 @@ export default function OnboardingContent({
           .catch(() => null);
         if (page?.blocks?.length) return goToOwnPage(router);
         setReady(true);
-      });
+      })
+      .catch(() => router.replace('/login'));
   }, [router, demo]);
 
   // The account widgets, which can be dragged, resized and deleted right

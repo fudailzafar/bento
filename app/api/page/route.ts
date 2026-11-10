@@ -1,8 +1,7 @@
 import { getPage, savePage } from '@/lib/server';
 import { PageData } from '@/lib';
-import { createClient } from '@/lib/supabase/server';
+import { getCurrentUser } from '@/lib/server/session';
 import { NextResponse } from 'next/server';
-
 import { z } from 'zod';
 
 export type GetPageResponse = { page?: PageData } | { error: string };
@@ -12,8 +11,7 @@ export type PostPageResponse =
 
 export async function GET(): Promise<NextResponse<GetPageResponse>> {
   try {
-    const supabase = await createClient();
-    const { data: { user } } = await supabase.auth.getUser();
+    const user = await getCurrentUser();
     if (!user?.email) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
@@ -33,8 +31,7 @@ export async function POST(
   request: Request
 ): Promise<NextResponse<PostPageResponse>> {
   try {
-    const supabase = await createClient();
-    const { data: { user } } = await supabase.auth.getUser();
+    const user = await getCurrentUser();
     if (!user?.email) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }

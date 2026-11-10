@@ -2,7 +2,7 @@ import { redirect } from 'next/navigation';
 import { Metadata } from 'next';
 import { getUserData } from './utils';
 import { PublicPortfolio } from '@/components/bento';
-import { createClient } from '@/lib/supabase/server';
+import { getCurrentUser } from '@/lib/server/session';
 import { ProfileCta, TrackView, type ProfileViewer } from '@/components/common';
 import { prisma } from '@/lib/server/db';
 import { SelfPortfolioLoader } from '@/components/preview';
@@ -58,10 +58,7 @@ export default async function ProfilePage({
   const { user_id, page, userData } = await getUserData(username);
 
   // Check if the logged-in user is viewing their own profile
-  const supabase = await createClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
+  const user = await getCurrentUser();
   const isOwnProfile = user?.id === user_id;
 
   // If user is viewing their own profile, show preview/edit mode with initialization

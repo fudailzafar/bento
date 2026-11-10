@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { createClient } from '@/lib/supabase/server';
+import { getCurrentUser } from '@/lib/server/session';
 import { isShortMapsLink, parseMapsUrl, unwrapEmbed } from '@/lib/maps';
 import { placeAt, searchPlaces } from '@/lib/server/places';
 
@@ -29,10 +29,7 @@ async function resolveShortLink(start: string) {
 }
 
 export async function GET(request: NextRequest) {
-  const supabase = await createClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
+  const user = await getCurrentUser();
   if (!user) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
@@ -48,8 +45,6 @@ export async function GET(request: NextRequest) {
       return NextResponse.json({ error: 'Not a map' }, { status: 404 });
     }
 
-    // Coordinates but no name: name the spot. A name but no coordinates:
-    // find it.
     if (link.lat !== undefined && link.lng !== undefined) {
       const place = link.name
         ? undefined

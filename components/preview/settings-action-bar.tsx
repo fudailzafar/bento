@@ -47,9 +47,8 @@ export function SettingsActionBar() {
   }, []);
 
   const handleLogout = async () => {
-    const { createClient } = await import('@/lib/supabase/client');
-    const supabase = createClient();
-    await supabase.auth.signOut();
+    const { signOut } = await import('@/lib/auth-client');
+    await signOut();
     const username = usernameQuery.data?.username;
     if (username) {
       router.push(`/${username}`);

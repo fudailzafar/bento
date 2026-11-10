@@ -1,64 +1,34 @@
 import { PRIVATE_ROUTES } from './lib';
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
-import { createServerClient } from '@supabase/ssr';
 
 export async function middleware(req: NextRequest) {
-  let supabaseResponse = NextResponse.next({
-    request: req,
-  });
-
-  const supabase = createServerClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
-    {
-      cookies: {
-        getAll() {
-          return req.cookies.getAll();
-        },
-        setAll(cookiesToSet) {
-          cookiesToSet.forEach(({ name, value, options }) =>
-            req.cookies.set(name, value)
-          );
-          supabaseResponse = NextResponse.next({
-            request: req,
-          });
-          cookiesToSet.forEach(({ name, value, options }) =>
-            supabaseResponse.cookies.set(name, value, options)
-          );
-        },
-      },
-    }
-  );
-
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-
   const { pathname } = req.nextUrl;
 
-  // Allow access to auth-related APIs without authentication
+  // Better-Auth uses `better-auth.session_token` cookie
+  const sessionToken =
+    req.cookies.get('better-auth.session_token')?.value ||
+    req.cookies.get('__Secure-better-auth.session_token')?.value;
+
+  // Allow access to auth APIs and public endpoints
   if (
     pathname.startsWith('/api/auth') ||
     pathname.startsWith('/api/check-username') ||
-    // Visitors' profile views and link clicks.
     pathname.startsWith('/api/track') ||
-    // Smart widget data, loaded on public profiles.
-    pathname.startsWith('/api/rich-data') ||
-    pathname.startsWith('/auth/callback')
+    pathname.startsWith('/api/rich-data')
   ) {
-    return supabaseResponse;
+    return NextResponse.next();
   }
 
-  // If accessing a protected route without user -> redirect to login
+  // If accessing a protected route without session token -> redirect to login
   if (PRIVATE_ROUTES.some((route) => pathname.startsWith(`/${route}`))) {
-    if (!user) {
+    if (!sessionToken) {
       const loginUrl = new URL('/login', req.url);
       return NextResponse.redirect(loginUrl);
     }
   }
 
-  return supabaseResponse;
+  return NextResponse.next();
 }
 
 export const config = {

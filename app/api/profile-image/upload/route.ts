@@ -1,14 +1,11 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { createClient } from '@/lib/supabase/server';
+import { getCurrentUser } from '@/lib/server/session';
 import { getUserProfile, storeUserProfile } from '@/lib/server';
 import { uploadToR2 } from '@/lib/server/r2';
 
 export async function POST(request: NextRequest) {
   try {
-    const supabase = await createClient();
-    const {
-      data: { user },
-    } = await supabase.auth.getUser();
+    const user = await getCurrentUser();
     if (!user?.email) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
@@ -52,7 +49,7 @@ export async function POST(request: NextRequest) {
     await storeUserProfile(user.id, {
       id: user.id,
       email: user.email,
-      name: userProfile?.name || user.user_metadata?.name || '',
+      name: userProfile?.name || user.name || '',
       image: imageUrl,
     });
 

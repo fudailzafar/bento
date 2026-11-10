@@ -1,10 +1,10 @@
-import { createClient } from '@/lib/supabase/server';
+import { getCurrentUser } from '@/lib/server/session';
+import { prisma } from '@/lib/server/db';
 import { NextResponse } from 'next/server';
 
 export async function POST(request: Request) {
   try {
-    const supabase = await createClient();
-    const { data: { user } } = await supabase.auth.getUser();
+    const user = await getCurrentUser();
     if (!user?.email) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
@@ -18,17 +18,26 @@ export async function POST(request: Request) {
       );
     }
 
-    // Supabase sends a confirmation link to the new address; the email only
-    // actually changes once the user clicks it.
-    const { error } = await supabase.auth.updateUser({ email: newEmail });
-    if (error) {
-      return NextResponse.json({ error: error.message }, { status: 400 });
+    // Check if email already in use
+    const existing = await prisma.user.findUnique({
+      where: { email: newEmail },
+    });
+    if (existing) {
+      return NextResponse.json(
+        { error: 'Email already in use' },
+        { status: 400 }
+      );
     }
+
+    await prisma.user.update({
+      where: { id: user.id },
+      data: { email: newEmail },
+    });
 
     return NextResponse.json({
       success: true,
       newEmail,
-      pendingConfirmation: true,
+      pendingConfirmation: false,
     });
   } catch (error) {
     console.error('Error updating email:', error);

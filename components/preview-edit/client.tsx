@@ -1,6 +1,6 @@
 'use client';
 
-import { createClient } from '@/lib/supabase/client';
+import { useSession } from '@/lib/auth-client';
 import { useEffect, useState, useRef } from 'react';
 import { toast } from 'sonner';
 import { usePageActions, useAutosave } from '@/hooks';
@@ -57,16 +57,15 @@ export default function PreviewClient({ messageTip }: { messageTip?: string }) {
     }
   }, [pageQuery.data?.page]);
 
+  const { data: session } = useSession();
+
   useEffect(() => {
-    const supabase = createClient();
-    supabase.auth.getSession().then(({ data: { session } }) => {
-      const profilePic =
-        userProfileQuery.data?.profile?.image ||
-        session?.user?.user_metadata?.avatar_url ||
-        undefined;
-      setLocalProfilePicture(profilePic);
-    });
-  }, [userProfileQuery.data?.profile?.image]);
+    const profilePic =
+      userProfileQuery.data?.profile?.image ||
+      session?.user?.image ||
+      undefined;
+    setLocalProfilePicture(profilePic);
+  }, [userProfileQuery.data?.profile?.image, session]);
 
   const profilePicture = localProfilePicture;
 

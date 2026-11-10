@@ -1,12 +1,11 @@
-import { createClient } from '@/lib/supabase/server';
 import { storeUserProfile, getUserProfile } from '@/lib/server';
+import { getCurrentUser } from '@/lib/server/session';
 import { NextResponse } from 'next/server';
 
 // GET endpoint to retrieve user profile
 export async function GET(): Promise<NextResponse> {
   try {
-    const supabase = await createClient();
-    const { data: { user } } = await supabase.auth.getUser();
+    const user = await getCurrentUser();
     if (!user?.email) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
@@ -25,18 +24,19 @@ export async function GET(): Promise<NextResponse> {
 // POST endpoint to update user profile
 export async function POST(request: Request): Promise<NextResponse> {
   try {
-    const supabase = await createClient();
-    const { data: { user } } = await supabase.auth.getUser();
+    const user = await getCurrentUser();
     if (!user?.email) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
-    // Store/update user profile with data from session
+    const body = await request.json().catch(() => ({}));
+
+    // Store/update user profile with data
     await storeUserProfile(user.id, {
       id: user.id,
       email: user.email,
-      name: user.user_metadata?.full_name || undefined,
-      image: user.user_metadata?.avatar_url || undefined,
+      name: body.name || user.name || undefined,
+      image: body.image || user.image || undefined,
     });
 
     return NextResponse.json({ success: true });

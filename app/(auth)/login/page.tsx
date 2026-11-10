@@ -2,15 +2,15 @@
 
 import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
-import { createClient } from '@/lib/supabase/client';
 import { useRouter } from 'next/navigation';
 import { LogInAnimation, LoginContent, goToOwnPage } from '@/components/auth';
 import type { LoginMethod } from '@/components/auth/log-in-content';
 import { FADE_EASE } from '@/components/auth/bento-ui';
+import { signIn, useSession } from '@/lib/auth-client';
 
 export default function LoginPage() {
-  const supabase = createClient();
   const router = useRouter();
+  const { data: session } = useSession();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loggingIn, setLoggingIn] = useState<LoginMethod>();
@@ -19,60 +19,51 @@ export default function LoginPage() {
   const [leaving, setLeaving] = useState(false);
 
   useEffect(() => {
-    supabase.auth.getSession().then(({ data: { session } }) => {
-      if (session?.user) {
-        setLeaving(true);
-        goToOwnPage(router).catch(() => setLeaving(false));
-      }
-    });
-  }, [router, supabase.auth]);
+    if (session?.user) {
+      setLeaving(true);
+      goToOwnPage(router).catch(() => setLeaving(false));
+    }
+  }, [router, session]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (loggingIn) return;
     setLoggingIn('credentials');
 
-    const { error: signInError } = await supabase.auth.signInWithPassword({
-      email,
-      password,
-    });
-
-    if (signInError) {
-      setError(
-        signInError.code === 'invalid_credentials'
-          ? 'Your email or password seems to be incorrect.'
-          : `Something went wrong. Try again later. (Code: ${signInError.code ?? signInError.status})`
-      );
-      setLoggingIn(undefined);
-      return;
-    }
-
-    setLeaving(true);
     try {
+      const res = await signIn.email({
+        email,
+        password,
+      });
+
+      if (res.error) {
+        setError(
+          res.error.message || 'Your email or password seems to be incorrect.'
+        );
+        setLoggingIn(undefined);
+        return;
+      }
+
+      setLeaving(true);
       await goToOwnPage(router);
     } catch {
       setLeaving(false);
       setLoggingIn(undefined);
-      setError(
-        'Signed in, but we could not set up your page. Please try again.'
-      );
+      setError('Signed in, but we could not set up your page. Please try again.');
     }
   };
 
   const handleGoogle = async () => {
     if (loggingIn) return;
     setLoggingIn('google');
-    const { error: oauthError } = await supabase.auth.signInWithOAuth({
-      provider: 'google',
-      // Back to the login page, which fades out into the signed-in profile.
-      options: {
-        redirectTo: `${window.location.origin}/auth/callback?next=/login`,
-      },
-    });
-    if (oauthError) {
-      setError(
-        `Something went wrong. Try again later. (Code: ${oauthError.code ?? oauthError.status})`
-      );
+
+    try {
+      await signIn.social({
+        provider: 'google',
+        callbackURL: '/login',
+      });
+    } catch {
+      setError('Something went wrong with Google sign-in. Try again later.');
       setLoggingIn(undefined);
     }
   };

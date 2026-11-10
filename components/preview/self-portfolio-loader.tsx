@@ -1,6 +1,6 @@
 'use server';
 
-import { createClient } from '@/lib/supabase/server';
+import { getCurrentUser } from '@/lib/server/session';
 import {
   createUsernameLookup,
   getPage,
@@ -12,17 +12,14 @@ import { MAX_USERNAME_LENGTH } from '@/lib';
 import PreviewWrapper from './preview-wrapper';
 
 async function InitializeAndPreview({ userId }: { userId: string }) {
-  const supabase = await createClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
+  const user = await getCurrentUser();
 
   const page = await getPage(userId);
 
   // First visit — seed an empty page with no blocks, matching bento.me's onboarding
   if (!page) {
     await savePage(userId, {
-      name: user?.user_metadata?.name || undefined,
+      name: user?.name || undefined,
       blocks: [],
     });
   }
@@ -37,8 +34,7 @@ async function InitializeAndPreview({ userId }: { userId: string }) {
         .toString(36)
         .substring(2, 2 + saltLength);
 
-    const baseName =
-      user?.user_metadata?.name || user?.email?.split('@')[0] || 'user';
+    const baseName = user?.name || user?.email?.split('@')[0] || 'user';
 
     const username =
       (

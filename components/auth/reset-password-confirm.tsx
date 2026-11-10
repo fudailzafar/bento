@@ -5,13 +5,10 @@ import { useRouter } from 'next/navigation';
 import { AnimatePresence, motion } from 'framer-motion';
 import confetti from 'canvas-confetti';
 import { cn } from '@/lib/utils';
-import { createClient } from '@/lib/supabase/client';
 import { AnimatedCheck, BentoButton, FADE_EASE, PasswordInput } from './bento-ui';
 import { goToOwnPage } from './go-to-own-page';
 import SignUpAnimation from './sign-up-animation';
-
-// bento.me/set-password, where a reset link lands: the account's email,
-// "Choose a new password", then a check, confetti and "Go to my Bento".
+import { authClient, useSession } from '@/lib/auth-client';
 
 const swap = {
   hidden: { opacity: 0, transition: { duration: 0.2 } },
@@ -20,36 +17,17 @@ const swap = {
 
 export default function ResetPasswordConfirmContent() {
   const router = useRouter();
-  const [userEmail, setUserEmail] = useState<string>();
+  const { data: session } = useSession();
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
   const [saved, setSaved] = useState(false);
   const [error, setError] = useState<string>();
-  // True once the password was edited after the last attempt.
   const [edited, setEdited] = useState(false);
   const goButton = useRef<HTMLButtonElement>(null);
   const empty = password === '';
 
-  useEffect(() => {
-    // An expired or used link comes back with an error instead of a session.
-    const params = new URLSearchParams(
-      window.location.hash.slice(1) || window.location.search
-    );
-    if (params.get('error_code') === 'otp_expired' || params.get('error')) {
-      router.replace('/reset-password?state=expired-token');
-      return;
-    }
-    const supabase = createClient();
-    supabase.auth.getUser().then(({ data: { user } }) => setUserEmail(user?.email));
-    const { data } = supabase.auth.onAuthStateChange((_, session) =>
-      setUserEmail(session?.user.email)
-    );
-    return () => data.subscription.unsubscribe();
-  }, [router]);
-
   const showSaved = !edited && saved;
 
-  // bento fires a small burst of confetti up from "Go to my Bento".
   useEffect(() => {
     if (!showSaved || !goButton.current) return;
     const rect = goButton.current.getBoundingClientRect();
@@ -68,11 +46,24 @@ export default function ResetPasswordConfirmContent() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
-    const { error: updateError } = await createClient().auth.updateUser({ password });
-    setSaved(!updateError);
-    setError(updateError?.message);
-    setEdited(false);
-    setLoading(false);
+
+    try {
+      const res = await authClient.resetPassword({
+        newPassword: password,
+      });
+
+      if (res.error) {
+        setError(res.error.message || 'Failed to update password');
+        setSaved(false);
+      } else {
+        setSaved(true);
+      }
+    } catch {
+      setError('Something went wrong. Please try again.');
+    } finally {
+      setEdited(false);
+      setLoading(false);
+    }
   };
 
   return (
@@ -111,7 +102,7 @@ export default function ResetPasswordConfirmContent() {
                 exit="hidden"
                 className="flex w-full max-w-[448px] flex-col"
               >
-                <p className="text-black">{userEmail}</p>
+                <p className="text-black">{session?.user?.email}</p>
                 <h1 className="mt-2 text-[32px] font-semibold leading-10 text-black">
                   Choose a new password
                 </h1>

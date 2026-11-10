@@ -1,6 +1,6 @@
 'use client';
 
-import { createClient } from '@/lib/supabase/client';
+import { signIn, signUp, useSession } from '@/lib/auth-client';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState, type ReactNode } from 'react';
 import { useDebounce } from '@/hooks/use-debounce';
@@ -209,49 +209,47 @@ function AccountStep({
     if (signingUp) return;
     setSigningUp('credentials');
 
-    const supabase = createClient();
-    const { data, error: signUpError } = await supabase.auth.signUp({
-      email,
-      password,
-      options: { data: { username: handle } },
-    });
+    try {
+      const res = await signUp.email({
+        email,
+        password,
+        name: handle,
+        username: handle,
+      } as any);
 
-    if (signUpError) {
-      setError(
-        signUpError.code === 'user_already_exists' || signUpError.code === 'email_exists'
-          ? 'This email address is already taken. Try another one'
-          : signUpError.message || 'Something went wrong. Try again later.'
-      );
+      if (res.error) {
+        setError(res.error.message || 'Something went wrong. Try again later.');
+        setSigningUp(undefined);
+        return;
+      }
+
+      await fetch('/api/user/sync', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ username: handle, email, id: res.data?.user?.id }),
+      });
+
+      router.push('/onboarding');
+    } catch {
+      setError('Something went wrong. Try again later.');
       setSigningUp(undefined);
-      return;
     }
-
-    const response = await fetch('/api/user/sync', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ username: handle, email, id: data.user?.id }),
-    });
-
-    if (!response.ok) {
-      setError('Account created but syncing failed. Please try logging in.');
-      setSigningUp(undefined);
-      return;
-    }
-    router.push('/onboarding');
   };
 
   const handleGoogle = async () => {
     if (signingUp) return;
     setSigningUp('google');
-    const supabase = createClient();
-    const { error: oauthError } = await supabase.auth.signInWithOAuth({
-      provider: 'google',
-      options: {
-        redirectTo: `${window.location.origin}/auth/callback?next=/onboarding&username=${handle}`,
-      },
-    });
-    if (oauthError) {
-      setError(oauthError.message || 'Something went wrong. Try again later.');
+    try {
+      // Save desired handle in localStorage before OAuth redirect
+      if (typeof window !== 'undefined' && handle) {
+        localStorage.setItem('bento_pending_handle', handle);
+      }
+      await signIn.social({
+        provider: 'google',
+        callbackURL: '/onboarding',
+      });
+    } catch {
+      setError('Something went wrong with Google sign up. Try again later.');
       setSigningUp(undefined);
     }
   };
@@ -380,13 +378,13 @@ export default function SignupContent({
   const [handle, setHandle] = useState(initialHandle);
   const narrow = useMediaQuery('(max-width: 579px)');
 
+  const { data: session } = useSession();
+
   useEffect(() => {
-    createClient()
-      .auth.getSession()
-      .then(({ data: { session } }) => {
-        if (session?.user) goToOwnPage(router);
-      });
-  }, [router]);
+    if (session?.user) {
+      goToOwnPage(router);
+    }
+  }, [router, session]);
 
   return (
     <div className="relative flex min-h-screen w-full flex-col">

@@ -1,23 +1,25 @@
-import { createClient } from '@/lib/supabase/server';
+import { getCurrentUser } from '@/lib/server/session';
+import { prisma } from '@/lib/server/db';
 import { NextResponse } from 'next/server';
 
 export async function GET() {
   try {
-    const supabase = await createClient();
-    const { data: { user } } = await supabase.auth.getUser();
+    const user = await getCurrentUser();
     if (!user?.email) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
-    // Supabase sets app_metadata.provider to 'email' for password signups,
-    // or the OAuth provider name (e.g. 'google') otherwise.
-    const provider = user.app_metadata?.provider === 'email' ? 'credentials' : 'google';
+    const account = await prisma.account.findFirst({
+      where: { userId: user.id },
+    });
+
+    const provider = account?.providerId === 'credential' ? 'credentials' : 'google';
 
     return NextResponse.json({
       email: user.email,
       provider,
-      name: user.user_metadata?.name || null,
-      image: user.user_metadata?.avatar_url || null,
+      name: user.name || null,
+      image: user.image || null,
     });
   } catch (error) {
     console.error('Error getting auth info:', error);

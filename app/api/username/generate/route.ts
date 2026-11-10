@@ -1,35 +1,17 @@
-import { prisma } from '@/lib/server/db';
 import { createUsernameLookup, getUsernameById } from '@/lib/server';
-import { createClient } from '@/lib/supabase/server';
+import { getCurrentUser } from '@/lib/server/session';
 import { NextResponse } from 'next/server';
 import { MAX_USERNAME_LENGTH } from '@/lib';
 
 export async function POST() {
   try {
-    const supabase = await createClient();
-    const {
-      data: { user },
-    } = await supabase.auth.getUser();
+    const user = await getCurrentUser();
 
     if (!user?.email) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
     const userId = user.id;
-
-    // Email sign-ups have no session until the address is confirmed, so the
-    // sync at sign-up could not create this row. Create it now.
-    await prisma.user.upsert({
-      where: { id: userId },
-      update: {},
-      create: {
-        id: userId,
-        email: user.email,
-        name: user.user_metadata?.name || '',
-        image:
-          user.user_metadata?.avatar_url || user.user_metadata?.picture || '',
-      },
-    });
 
     // Check if they already have one
     const foundUsername = await getUsernameById(userId);
@@ -40,8 +22,8 @@ export async function POST() {
       );
     }
 
-    // The handle picked at sign-up is kept in the auth metadata; use it if free.
-    const chosen = user.user_metadata?.username;
+    // Check if a desired username was passed or exists on user object
+    const chosen = user.username;
     if (typeof chosen === 'string' && chosen) {
       const claimed = await createUsernameLookup({ userId, username: chosen });
       if (claimed) {
@@ -58,8 +40,7 @@ export async function POST() {
         .toString(36)
         .substring(2, 2 + saltLength);
 
-    const baseName =
-      user.user_metadata?.name || user.email.split('@')[0] || 'user';
+    const baseName = user.name || user.email.split('@')[0] || 'user';
 
     const generatedUsername =
       (

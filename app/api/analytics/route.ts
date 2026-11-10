@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/server/db';
-import { createClient } from '@/lib/supabase/server';
+import { getCurrentUser } from '@/lib/server/session';
 
 export type AnalyticsResponse = {
   viewsYesterday: number;
@@ -11,10 +11,7 @@ export type AnalyticsResponse = {
 // The signed-in user's profile stats: yesterday's views (bento's footer
 // counter), all-time views, and link clicks per block.
 export async function GET() {
-  const supabase = await createClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
+  const user = await getCurrentUser();
   if (!user) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }

@@ -1,15 +1,12 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { AnimatePresence, motion } from 'framer-motion';
-import { createClient } from '@/lib/supabase/client';
 import { BentoButton, BentoInput, FADE_EASE } from './bento-ui';
-import { goToOwnPage } from './go-to-own-page';
 import LogInAnimation from './log-in-animation';
+import { authClient } from '@/lib/auth-client';
 
-// bento.me/reset-password: the email form, or "Check your Email" once the
-// link is sent. "expired-token" is shown when a reset link has expired.
 type ResetState = 'expired-token';
 
 const EMAIL = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
@@ -43,34 +40,31 @@ export default function ResetPasswordContent({
   const [loading, setLoading] = useState(false);
   const [sent, setSent] = useState(false);
   const [error, setError] = useState<string>();
-  // True once the email was edited after the last attempt; hides the error.
   const [edited, setEdited] = useState(false);
-  // Like bento, a signed-in visitor fades out and goes to their page.
-  const [leaving, setLeaving] = useState(false);
-
-  useEffect(() => {
-    createClient()
-      .auth.getSession()
-      .then(({ data: { session } }) => {
-        if (session?.user) {
-          setLeaving(true);
-          goToOwnPage(router);
-        }
-      });
-  }, [router]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (loading) return;
     setLoading(true);
-    const { error: resetError } = await createClient().auth.resetPasswordForEmail(
-      email.toLowerCase(),
-      { redirectTo: `${window.location.origin}/reset-password/confirm` }
-    );
-    setSent(!resetError);
-    setError(resetError?.message);
-    setEdited(false);
-    setLoading(false);
+
+    try {
+      const res = await (authClient as any).requestPasswordReset({
+        email: email.toLowerCase(),
+        redirectTo: `${window.location.origin}/reset-password/confirm`,
+      });
+
+      if (res.error) {
+        setError(res.error.message || 'Failed to send reset link');
+        setSent(false);
+      } else {
+        setSent(true);
+      }
+    } catch {
+      setError('Something went wrong. Please try again.');
+    } finally {
+      setEdited(false);
+      setLoading(false);
+    }
   };
 
   const showError = !edited && !!error;
@@ -80,7 +74,7 @@ export default function ResetPasswordContent({
     <motion.div
       className="flex min-h-screen flex-col items-center"
       animate={{
-        opacity: leaving ? 0 : 1,
+        opacity: 1,
         transition: { ease: FADE_EASE, duration: 0.5 },
       }}
     >
