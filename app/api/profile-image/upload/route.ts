@@ -1,11 +1,14 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@/lib/supabase/server';
 import { getUserProfile, storeUserProfile } from '@/lib/server';
+import { uploadToR2 } from '@/lib/server/r2';
 
 export async function POST(request: NextRequest) {
   try {
     const supabase = await createClient();
-    const { data: { user } } = await supabase.auth.getUser();
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
     if (!user?.email) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
@@ -33,29 +36,16 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    
     const fileExt = file.name.split('.').pop() || 'png';
-    const fileName = `${user.id}-${Date.now()}.${fileExt}`;
-    const { data, error } = await supabase.storage
-      .from('images')
-      .upload(`profile-images/${fileName}`, file, {
-        cacheControl: '3600',
-        upsert: false,
-      });
+    const key = `profile-images/${user.id}-${Date.now()}.${fileExt}`;
+    const arrayBuffer = await file.arrayBuffer();
+    const buffer = Buffer.from(arrayBuffer);
 
-    if (error) {
-      console.error('Supabase upload failed:', error);
-      return NextResponse.json(
-        { error: 'Failed to upload image' },
-        { status: 500 }
-      );
-    }
-
-    const { data: publicUrlData } = supabase.storage
-      .from('images')
-      .getPublicUrl(`profile-images/${fileName}`);
-
-    const imageUrl = publicUrlData.publicUrl;
+    const imageUrl = await uploadToR2({
+      key,
+      body: buffer,
+      contentType: file.type,
+    });
 
     // Update user profile with new image
     const userProfile = await getUserProfile(user.id);

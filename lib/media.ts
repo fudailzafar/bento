@@ -1,5 +1,3 @@
-import { createClient } from '@/lib/supabase/client';
-
 // Client helpers for widget media: uploads (images and bento's looping
 // videos) and the link preview lookup.
 
@@ -30,9 +28,8 @@ export function checkMediaFile(file: Blob): string | null {
     : null;
 }
 
-// Uploads straight to Supabase storage from the browser: Vercel caps API
-// request bodies at 4.5MB, below the video limit. The bucket policy only lets
-// a user write files named after their own id.
+// Uploads directly to Cloudflare R2 using presigned URLs.
+// This bypasses Vercel's 4.5MB request body limit, allowing smooth direct uploads.
 export async function uploadBlockMedia(
   file: Blob,
   name = 'image.jpg',
@@ -40,54 +37,53 @@ export async function uploadBlockMedia(
 ): Promise<string> {
   const invalid = checkMediaFile(file);
   if (invalid) throw new Error(invalid);
-  const supabase = createClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-  if (!user) throw new Error('Please sign in again');
+
   const fileName = file instanceof File ? file.name : name;
-  const ext = fileName.split('.').pop()?.toLowerCase() || 'jpg';
-  const path = `block-images/${user.id}-${Date.now()}.${ext}`;
-  if (onProgress) {
-    const {
-      data: { session },
-    } = await supabase.auth.getSession();
-    await putWithProgress(path, file, session?.access_token, onProgress);
-    return supabase.storage.from('images').getPublicUrl(path).data.publicUrl;
+
+  // 1. Request presigned URL from backend
+  const res = await fetch('/api/media/upload-url', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      filename: fileName,
+      contentType: file.type,
+      size: file.size,
+    }),
+  });
+
+  if (!res.ok) {
+    const errorData = await res.json().catch(() => ({}));
+    throw new Error(errorData.error || 'Failed to request upload URL');
   }
-  const { error } = await supabase.storage
-    .from('images')
-    .upload(path, file, { cacheControl: '3600', contentType: file.type });
-  if (error) throw new Error('Failed to upload file');
-  return supabase.storage.from('images').getPublicUrl(path).data.publicUrl;
+
+  const { uploadUrl, publicUrl } = await res.json();
+
+  // 2. Upload file directly to Cloudflare R2
+  await putDirectToR2(uploadUrl, file, onProgress);
+
+  return publicUrl;
 }
 
-// The storage upload again, over XHR, which reports how much has been sent.
-function putWithProgress(
-  path: string,
+// Uploads to Cloudflare R2 via presigned URL with progress reporting.
+function putDirectToR2(
+  uploadUrl: string,
   file: Blob,
-  token: string | undefined,
-  onProgress: (fraction: number) => void
+  onProgress?: (fraction: number) => void
 ) {
-  const key = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
   return new Promise<void>((resolve, reject) => {
     const xhr = new XMLHttpRequest();
-    xhr.open(
-      'POST',
-      `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/images/${path}`
-    );
-    xhr.setRequestHeader('apikey', key);
-    xhr.setRequestHeader('Authorization', `Bearer ${token ?? key}`);
+    xhr.open('PUT', uploadUrl);
     xhr.setRequestHeader('Content-Type', file.type);
-    xhr.setRequestHeader('cache-control', 'max-age=3600');
-    xhr.upload.onprogress = (e) => {
-      if (e.lengthComputable) onProgress(e.loaded / e.total);
-    };
+    if (onProgress) {
+      xhr.upload.onprogress = (e) => {
+        if (e.lengthComputable) onProgress(e.loaded / e.total);
+      };
+    }
     xhr.onload = () =>
       xhr.status >= 200 && xhr.status < 300
         ? resolve()
-        : reject(new Error('Failed to upload file'));
-    xhr.onerror = () => reject(new Error('Failed to upload file'));
+        : reject(new Error('Failed to upload file to storage'));
+    xhr.onerror = () => reject(new Error('Failed to upload file to storage'));
     xhr.send(file);
   });
 }
