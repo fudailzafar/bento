@@ -130,3 +130,9 @@ export const PageDataSchema = z.object({
   blocks: z.array(BlockSchema).optional().default([]),
 });
 export type PageData = z.infer<typeof PageDataSchema>;
+
+// A save names the version of the page it was edited from (0: no page yet).
+export const SavePageSchema = z.object({
+  page: PageDataSchema,
+  version: z.number().int().min(0),
+});

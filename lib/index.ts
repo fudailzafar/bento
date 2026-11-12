@@ -13,6 +13,7 @@ export { MAX_USERNAME_LENGTH } from './config';
 // Page/Block schema and types
 export {
   PageDataSchema,
+  SavePageSchema,
   defaultBlockData,
   type PageData,
   type Block,

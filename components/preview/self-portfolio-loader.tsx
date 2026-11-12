@@ -18,10 +18,7 @@ async function InitializeAndPreview({ userId }: { userId: string }) {
 
   // First visit — seed an empty page with no blocks, matching bento.me's onboarding
   if (!page) {
-    await savePage(userId, {
-      name: user?.name || undefined,
-      blocks: [],
-    });
+    await savePage(userId, { name: user?.name || undefined, blocks: [] }, 0);
   }
 
   // Set a username the first time only, for a brand-new user

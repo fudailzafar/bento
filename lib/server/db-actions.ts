@@ -21,47 +21,70 @@ const UserProfileSchema = z.object({
 export type UserProfile = z.infer<typeof UserProfileSchema>;
 export type { PageData };
 
+export class PageConflictError extends Error {
+  constructor() {
+    super('The page was saved from somewhere else.');
+  }
+}
+
+const findPage = (userId: string) =>
+  prisma.page.findUnique({
+    where: { userId },
+    include: { blocks: { orderBy: { y: 'asc' } } },
+  });
+type PageRow = NonNullable<Awaited<ReturnType<typeof findPage>>>;
+
+const toPageData = (page: PageRow): PageData => ({
+  name: page.name,
+  headline: page.headline,
+  bio: page.bio,
+  website: page.website,
+  email: page.email,
+  twitter: page.twitter,
+  linkedin: page.linkedin,
+  github: page.github,
+  blocks: page.blocks.map((block) => ({
+    id: block.id,
+    type: block.type,
+    x: block.x,
+    y: block.y,
+    w: block.w,
+    h: block.h,
+    mx: block.mx,
+    my: block.my,
+    mw: block.mw,
+    mh: block.mh,
+    data: block.data as Record<string, unknown>,
+  })),
+});
+
 export async function getPage(userId: string): Promise<PageData | undefined> {
   try {
-    const page = await prisma.page.findUnique({
-      where: { userId },
-      include: { blocks: { orderBy: { y: 'asc' } } },
-    });
-    if (!page) return undefined;
-
-    return {
-      name: page.name,
-      headline: page.headline,
-      bio: page.bio,
-      website: page.website,
-      email: page.email,
-      twitter: page.twitter,
-      linkedin: page.linkedin,
-      github: page.github,
-      blocks: page.blocks.map((block) => ({
-        id: block.id,
-        type: block.type,
-        x: block.x,
-        y: block.y,
-        w: block.w,
-        h: block.h,
-        mx: block.mx,
-        my: block.my,
-        mw: block.mw,
-        mh: block.mh,
-        data: block.data as Record<string, unknown>,
-      })),
-    };
+    const page = await findPage(userId);
+    return page ? toPageData(page) : undefined;
   } catch (error) {
     console.error('Error retrieving page:', error);
     throw new Error('Failed to retrieve page');
   }
 }
 
+// The editor's copy: the page and the version its next save must name.
+export async function getEditablePage(userId: string) {
+  const page = await findPage(userId);
+  return {
+    page: page ? toPageData(page) : undefined,
+    version: page?.version ?? 0,
+  };
+}
+
+// Replaces the page with `pageData`, but only if it is still at
+// `expectedVersion`; otherwise another tab or device saved first and this
+// throws PageConflictError. Returns the new version.
 export async function savePage(
   userId: string,
-  pageData: PageData
-): Promise<void> {
+  pageData: PageData,
+  expectedVersion: number
+): Promise<number> {
   try {
     const validated = PageDataSchema.parse(pageData);
 
@@ -70,40 +93,39 @@ export async function savePage(
       parseBlockData(block.type, block.data);
     }
 
+    const { blocks, ...fields } = validated;
+    const version = expectedVersion + 1;
+
     await prisma.$transaction(async (tx) => {
-      const page = await tx.page.upsert({
-        where: { userId },
-        update: {
-          name: validated.name,
-          headline: validated.headline,
-          bio: validated.bio,
-          website: validated.website,
-          email: validated.email,
-          twitter: validated.twitter,
-          linkedin: validated.linkedin,
-          github: validated.github,
-        },
-        create: {
-          userId,
-          name: validated.name,
-          headline: validated.headline,
-          bio: validated.bio,
-          website: validated.website,
-          email: validated.email,
-          twitter: validated.twitter,
-          linkedin: validated.linkedin,
-          github: validated.github,
-        },
-      });
+      let pageId: string;
+      if (expectedVersion === 0) {
+        // No page yet: a second creator hits the unique userId.
+        pageId = (
+          await tx.page.create({ data: { userId, ...fields, version } })
+        ).id;
+      } else {
+        // The version in the filter makes the check and the write one step.
+        const { count } = await tx.page.updateMany({
+          where: { userId, version: expectedVersion },
+          data: { ...fields, version },
+        });
+        if (count === 0) throw new PageConflictError();
+        pageId = (
+          await tx.page.findUniqueOrThrow({
+            where: { userId },
+            select: { id: true },
+          })
+        ).id;
+      }
 
       // Replace all blocks in one go — matches the editor's "save whole page" pattern
-      await tx.block.deleteMany({ where: { pageId: page.id } });
-      if (validated.blocks.length > 0) {
+      await tx.block.deleteMany({ where: { pageId } });
+      if (blocks.length > 0) {
         await tx.block.createMany({
-          data: validated.blocks.map((block) => ({
+          data: blocks.map((block) => ({
             // Keep the editor's ids so click counts follow a block across saves.
             id: block.id,
-            pageId: page.id,
+            pageId,
             type: block.type,
             x: block.x,
             y: block.y,
@@ -118,9 +140,18 @@ export async function savePage(
         });
       }
     });
+    return version;
   } catch (error) {
-    if (error instanceof z.ZodError) {
+    if (error instanceof z.ZodError || error instanceof PageConflictError) {
       throw error;
+    }
+    // Creating a page twice at once: the second one lost the race.
+    if (
+      typeof error === 'object' &&
+      error !== null &&
+      (error as { code?: string }).code === 'P2002'
+    ) {
+      throw new PageConflictError();
     }
     console.error('Error storing page:', error);
     throw new Error('Failed to store page');

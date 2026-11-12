@@ -1,12 +1,13 @@
-import { getPage, savePage } from '@/lib/server';
-import { PageData } from '@/lib';
+import { getEditablePage, savePage, PageConflictError } from '@/lib/server';
+import { PageData, SavePageSchema } from '@/lib';
 import { getCurrentUser } from '@/lib/server/session';
 import { NextResponse } from 'next/server';
 import { z } from 'zod';
 
-export type GetPageResponse = { page?: PageData } | { error: string };
+export type GetPageResponse =
+  { page?: PageData; version: number } | { error: string };
 export type PostPageResponse =
-  | { success: true }
+  | { success: true; version: number }
   | { error: string; details?: z.ZodError['errors'] };
 
 export async function GET(): Promise<NextResponse<GetPageResponse>> {
@@ -16,8 +17,7 @@ export async function GET(): Promise<NextResponse<GetPageResponse>> {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
-    const page = await getPage(user.id);
-    return NextResponse.json({ page });
+    return NextResponse.json(await getEditablePage(user.id));
   } catch (error) {
     console.error('Error retrieving page:', error);
     return NextResponse.json(
@@ -36,11 +36,15 @@ export async function POST(
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
-    const body = await request.json();
-    await savePage(user.id, body);
-
-    return NextResponse.json({ success: true });
+    const { page, version } = SavePageSchema.parse(await request.json());
+    return NextResponse.json({
+      success: true,
+      version: await savePage(user.id, page, version),
+    });
   } catch (error) {
+    if (error instanceof PageConflictError) {
+      return NextResponse.json({ error: 'conflict' }, { status: 409 });
+    }
     if (error instanceof z.ZodError) {
       return NextResponse.json(
         { error: 'Invalid data format', details: error.errors },
