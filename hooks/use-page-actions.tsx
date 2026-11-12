@@ -3,7 +3,13 @@ import { PageData, UserProfile } from '@/lib/server';
 import { PageDataSchema } from '@/lib';
 import { useRouter } from 'next/navigation';
 
-const fetchPage = async (): Promise<{ page: PageData | undefined }> => {
+// The editor's page plus the version its next save must name.
+type PageQuery = { page: PageData | undefined; version: number };
+
+// Thrown when another tab or device saved the page first.
+export class SaveConflictError extends Error {}
+
+const fetchPage = async (): Promise<PageQuery> => {
   const response = await fetch('/api/page');
   if (!response.ok) {
     const error = await response.json();
@@ -46,21 +52,28 @@ const checkUsernameAvailability = async (
   return await response.json();
 };
 
-// Posts the page. `keepalive` lets the request finish after the tab closes.
-export async function postPage(page: PageData, keepalive = false) {
+// Posts the page as edited from `version`; resolves to the new version.
+// `keepalive` lets the request finish after the tab closes.
+async function postPage(
+  page: PageData,
+  version: number,
+  keepalive = false
+): Promise<number> {
   PageDataSchema.parse(page);
   const response = await fetch('/api/page', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(page),
+    body: JSON.stringify({ page, version }),
     keepalive,
   });
+  if (response.status === 409) throw new SaveConflictError();
   if (!response.ok) {
     const error = await response.json().catch(() => null);
     throw new Error(
       (error && typeof error === 'object' && error.error) || 'Failed to save'
     );
   }
+  return (await response.json()).version;
 }
 
 export function usePageActions() {
@@ -119,13 +132,17 @@ export function usePageActions() {
     },
   });
 
+  // Every save, the tab-closing one included, goes out from the version the
+  // last one returned. The editor keeps its own copy while editing; only the
+  // cache is updated, so no refetch ever replaces what is being typed.
+  const savePage = async (page: PageData, keepalive = false) => {
+    const current = queryClient.getQueryData<PageQuery>(['page']);
+    const version = await postPage(page, current?.version ?? 0, keepalive);
+    queryClient.setQueryData<PageQuery>(['page'], { page, version });
+  };
+
   const savePageMutation = useMutation({
-    mutationFn: (page: PageData) => postPage(page),
-    // The editor keeps its own copy while editing; only the cache is
-    // updated, so no refetch ever replaces what is being typed.
-    onSuccess: (_data, page) => {
-      queryClient.setQueryData(['page'], { page });
-    },
+    mutationFn: (page: PageData) => savePage(page),
   });
 
   return {
@@ -134,6 +151,7 @@ export function usePageActions() {
     updateUsernameMutation,
     checkUsernameMutation,
     savePageMutation,
+    savePageOnExit: (page: PageData) => savePage(page, true),
     userProfileQuery,
   };
 }

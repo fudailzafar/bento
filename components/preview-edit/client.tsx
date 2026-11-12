@@ -5,7 +5,7 @@ import { useEffect, useState, useRef } from 'react';
 import { toast } from 'sonner';
 import { usePageActions, useAutosave } from '@/hooks';
 import { useDockLift } from '@/hooks/use-dock-lift';
-import { postPage } from '@/hooks/use-page-actions';
+import { SaveConflictError } from '@/hooks/use-page-actions';
 import { PageData, BlockType } from '@/lib';
 import {
   asUrl,
@@ -24,10 +24,17 @@ import { EditorViewport } from './viewport';
 
 // bento's wording when a save fails.
 const SAVE_ERROR = "Couldn't save Bento. Try again, or refresh the page.";
+const CONFLICT_ERROR =
+  'Your Bento was changed somewhere else. Reload to see the latest.';
 
 export default function PreviewClient({ messageTip }: { messageTip?: string }) {
-  const { pageQuery, usernameQuery, savePageMutation, userProfileQuery } =
-    usePageActions();
+  const {
+    pageQuery,
+    usernameQuery,
+    savePageMutation,
+    savePageOnExit,
+    userProfileQuery,
+  } = usePageActions();
   const [localPage, setLocalPage] = useState<PageData>();
   const [localProfilePicture, setLocalProfilePicture] = useState<
     string | undefined
@@ -76,12 +83,21 @@ export default function PreviewClient({ messageTip }: { messageTip?: string }) {
       try {
         await savePageMutation.mutateAsync(page);
       } catch (error) {
+        // Retrying can't win a conflict; ask for a reload instead.
+        if (error instanceof SaveConflictError) {
+          toast.error(CONFLICT_ERROR, {
+            id: 'save-conflict',
+            duration: Infinity,
+            action: { label: 'Reload', onClick: () => location.reload() },
+          });
+          return;
+        }
         toast.error(SAVE_ERROR);
         throw error;
       }
     },
     saveOnExit: (page) => {
-      postPage(page, true).catch(() => {});
+      savePageOnExit(page).catch(() => {});
     },
   });
 
