@@ -73,6 +73,8 @@ model Page {
   twitter   String?
   linkedin  String?
   github    String?
+  // Bumped on every save; a save names the version it was edited from.
+  version   Int          @default(1)
   blocks    Block[]
   views     PageView[]
   clicks    BlockClick[]
