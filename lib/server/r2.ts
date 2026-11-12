@@ -1,4 +1,9 @@
-import { S3Client, PutObjectCommand, DeleteObjectCommand } from '@aws-sdk/client-s3';
+import {
+  S3Client,
+  PutObjectCommand,
+  DeleteObjectsCommand,
+  ListObjectsV2Command,
+} from '@aws-sdk/client-s3';
 import { getSignedUrl } from '@aws-sdk/s3-request-presigner';
 
 const accountId = process.env.R2_ACCOUNT_ID;
@@ -58,11 +63,38 @@ export async function getR2PresignedUploadUrl({
   return { uploadUrl, publicUrl };
 }
 
-export async function deleteFromR2(key: string) {
-  const command = new DeleteObjectCommand({
-    Bucket: bucketName,
-    Key: key,
-  });
-  await r2Client.send(command);
+// Every object under `prefix`, with when it was last written.
+export async function listR2Objects(prefix: string) {
+  const objects: { key: string; modified: Date }[] = [];
+  let token: string | undefined;
+  do {
+    const page = await r2Client.send(
+      new ListObjectsV2Command({
+        Bucket: bucketName,
+        Prefix: prefix,
+        ContinuationToken: token,
+      })
+    );
+    for (const { Key, LastModified } of page.Contents ?? []) {
+      if (Key && LastModified)
+        objects.push({ key: Key, modified: LastModified });
+    }
+    token = page.NextContinuationToken;
+  } while (token);
+  return objects;
 }
 
+export async function deleteManyFromR2(keys: string[]) {
+  // One request deletes up to 1000 objects.
+  for (let i = 0; i < keys.length; i += 1000) {
+    await r2Client.send(
+      new DeleteObjectsCommand({
+        Bucket: bucketName,
+        Delete: {
+          Objects: keys.slice(i, i + 1000).map((Key) => ({ Key })),
+          Quiet: true,
+        },
+      })
+    );
+  }
+}
