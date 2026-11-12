@@ -15,7 +15,9 @@ export async function middleware(req: NextRequest) {
     pathname.startsWith('/api/auth') ||
     pathname.startsWith('/api/check-username') ||
     pathname.startsWith('/api/track') ||
-    pathname.startsWith('/api/rich-data')
+    pathname.startsWith('/api/rich-data') ||
+    // Vercel Cron: no session, the route checks its own secret.
+    pathname.startsWith('/api/cron')
   ) {
     return NextResponse.next();
   }
