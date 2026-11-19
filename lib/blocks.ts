@@ -77,7 +77,10 @@ const BLOCK_DATA_SCHEMAS = {
   SECTION_TITLE: SectionTitleBlockData,
 } as const;
 
-export function parseBlockData(type: BlockType, data: unknown) {
+export function parseBlockData<T extends BlockType>(
+  type: T,
+  data: unknown
+): z.infer<(typeof BLOCK_DATA_SCHEMAS)[T]> {
   return BLOCK_DATA_SCHEMAS[type].parse(data);
 }
 
