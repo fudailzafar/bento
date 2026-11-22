@@ -33,7 +33,7 @@
     "framer-motion": "^12.23.24",
     "lucide-react": "^0.454.0",
     "maplibre-gl": "4.7.1",
-    "next": "15.3.6",
+    "next": "15.5.29",
     "pg": "^8.21.0",
     "react": "^19",
     "react-dom": "^19",
