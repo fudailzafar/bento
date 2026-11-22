@@ -237,6 +237,16 @@
   transition: none;
 }
 
+/* A dragged tile lifts as on gumbee.dev: it grows 5% and rises 8px, then
+   settles back with a bounce when dropped. The tilt (use-drag-tilt) turns
+   the layer inside this one. */
+[data-scale] {
+  transition: transform 0.5s cubic-bezier(0.21, 1.32, 0.34, 0.98);
+}
+.react-grid-item[data-dragging] [data-scale] {
+  transform: scale(1.05) translateY(-8px);
+}
+
 /* bento's dragged widget: a deep, soft shadow. */
 .react-grid-item.react-draggable-dragging [data-widget] {
   box-shadow:

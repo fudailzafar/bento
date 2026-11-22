@@ -11,6 +11,7 @@ import { toast } from 'sonner';
 import { fetchLinkPreview, isVideoFile, uploadBlockMedia } from '@/lib/media';
 import { findPlatform } from '@/lib/platforms';
 import { cn } from '@/lib/utils';
+import { useDragTilt } from '@/hooks/use-drag-tilt';
 import { BlockContent, type BlockEditing } from './block-content';
 import {
   DESKTOP_MIN_WIDTH,
@@ -99,6 +100,7 @@ export function BentoGrid({
   const [wideScreen, setWideScreen] = useState<boolean | null>(null);
   const [width, setWidth] = useState(0);
   const wrapper = useRef<HTMLDivElement>(null);
+  const tilt = useDragTilt();
 
   useEffect(() => {
     setMounted(true);
@@ -498,7 +500,10 @@ export function BentoGrid({
         onLayoutChange={(layout) => {
           if (isEditMode && desktop) handleGridLayoutChange(layout);
         }}
-        onDragStop={(layout) => {
+        onDragStart={tilt.onDragStart}
+        onDrag={tilt.onDrag}
+        onDragStop={(layout, ...rest) => {
+          tilt.onDragStop(layout, ...rest);
           if (isEditMode && !desktop) commitPhoneLayout(layout);
         }}
         isDraggable={isEditMode}
@@ -517,74 +522,81 @@ export function BentoGrid({
           const label = block.type === 'SECTION_TITLE';
           const selected = isEditMode && selectedId === block.id;
           const card = (
-            // bento's widget: corners by size, 8% black hairline with a faint
-            // white top highlight, 0 2px 4px shadow. Linked widgets tint on
-            // hover (inside the tile) and press down to 97%. A selected widget
-            // looks like any other: only its toolbar shows.
-            <div
-              data-widget
-              style={
-                {
-                  '--widget-radius': `${widgetRadius(block)}px`,
-                  // Notes scale with the tile; link tiles pad 24px, or 20px
-                  // on phones.
-                  '--ws': scale,
-                  '--tile-pad': desktop ? '24px' : '20px',
-                  // bento's caption tag: 10px on the large square, else 8px.
-                  '--caption-radius':
-                    block.w >= 2 && block.h >= 4 ? '10px' : '8px',
-                } as React.CSSProperties
-              }
-              className={cn(
-                'rounded-[var(--widget-radius)] [transition:box-shadow_.2s_ease-in-out,transform_.24s_cubic-bezier(.43,.01,.29,1),background_.2s_cubic-bezier(.43,.01,.29,1)]',
-                // bento's section title is 60px tall, sitting on the bottom
-                // of its row so it stays 40px above what it introduces.
-                label
-                  ? 'absolute inset-x-0 bottom-0 h-[60px]'
-                  : 'relative h-full w-full',
-                !label && 'bg-card shadow-[0_2px_4px_rgba(0,0,0,.04)]',
-                label && selected && 'bg-card',
-                // On a phone the selected widget lifts, as bento's does.
-                selected &&
-                  mobileEdit &&
-                  !label &&
-                  '-translate-y-1 shadow-[0_25px_31px_rgba(0,0,0,.06),0_16.2px_18.16px_rgba(0,0,0,.046),0_9.63px_9.87px_rgba(0,0,0,.036),0_5px_5.04px_rgba(0,0,0,.03),0_2.04px_2.53px_rgba(0,0,0,.024),0_.46px_1.22px_rgba(0,0,0,.014)]',
-                clickable &&
-                  'group/card cursor-pointer active:scale-[.97] active:shadow-none'
-              )}
-            >
-              <div className="h-full w-full overflow-hidden rounded-[inherit]">
-                <BlockContent
-                  block={block}
-                  interactive={!isEditMode}
-                  edit={isEditMode ? editingFor(block) : undefined}
-                />
-              </div>
-              {label && isEditMode && (
-                // The title shows its outline while editing: a hairline on
-                // hover, 2px black when selected.
+            // The widget sits in two layers, as on gumbee.dev: a dragged tile
+            // lifts on the outer one and tilts on the inner one.
+            <div data-scale className="relative h-full w-full">
+              <div data-rotation className="relative h-full w-full">
+                {/* bento's widget: corners by size, 8% black hairline with a
+                    faint white top highlight, 0 2px 4px shadow. Linked widgets
+                    tint on hover (inside the tile) and press down to 97%. A
+                    selected widget looks like any other: only its toolbar
+                    shows. */}
                 <div
+                  data-widget
+                  style={
+                    {
+                      '--widget-radius': `${widgetRadius(block)}px`,
+                      // Notes scale with the tile; link tiles pad 24px, or 20px
+                      // on phones.
+                      '--ws': scale,
+                      '--tile-pad': desktop ? '24px' : '20px',
+                      // bento's caption tag: 10px on the large square, else 8px.
+                      '--caption-radius':
+                        block.w >= 2 && block.h >= 4 ? '10px' : '8px',
+                    } as React.CSSProperties
+                  }
                   className={cn(
-                    'pointer-events-none absolute inset-0 rounded-[inherit] border transition-[border,opacity] duration-200 ease-in-out',
-                    selected
-                      ? 'border-2 border-black'
-                      : 'border-black/[.08] opacity-0 group-hover:opacity-100'
+                    'rounded-[var(--widget-radius)] [transition:box-shadow_.2s_ease-in-out,transform_.24s_cubic-bezier(.43,.01,.29,1),background_.2s_cubic-bezier(.43,.01,.29,1)]',
+                    // bento's section title is 60px tall, sitting on the bottom
+                    // of its row so it stays 40px above what it introduces.
+                    label
+                      ? 'absolute inset-x-0 bottom-0 h-[60px]'
+                      : 'relative h-full w-full',
+                    !label && 'bg-card shadow-[0_2px_4px_rgba(0,0,0,.04)]',
+                    label && selected && 'bg-card',
+                    // On a phone the selected widget lifts, as bento's does.
+                    selected &&
+                      mobileEdit &&
+                      !label &&
+                      '-translate-y-1 shadow-[0_25px_31px_rgba(0,0,0,.06),0_16.2px_18.16px_rgba(0,0,0,.046),0_9.63px_9.87px_rgba(0,0,0,.036),0_5px_5.04px_rgba(0,0,0,.03),0_2.04px_2.53px_rgba(0,0,0,.024),0_.46px_1.22px_rgba(0,0,0,.014)]',
+                    clickable &&
+                      'group/card cursor-pointer active:scale-[.97] active:shadow-none'
                   )}
-                />
-              )}
-              {!label && (
-                <>
-                  <div className="pointer-events-none absolute inset-px rounded-[calc(var(--widget-radius)-1px)] border border-white/[.22] [mask-image:linear-gradient(0deg,transparent,#000)]" />
-                  <div
-                    className={cn(
-                      'pointer-events-none absolute inset-0 rounded-[inherit] border transition-[border,opacity] duration-200 ease-in-out',
-                      selected && mobileEdit
-                        ? 'border-2 border-black'
-                        : 'border-black/[.08]'
-                    )}
-                  />
-                </>
-              )}
+                >
+                  <div className="h-full w-full overflow-hidden rounded-[inherit]">
+                    <BlockContent
+                      block={block}
+                      interactive={!isEditMode}
+                      edit={isEditMode ? editingFor(block) : undefined}
+                    />
+                  </div>
+                  {label && isEditMode && (
+                    // The title shows its outline while editing: a hairline on
+                    // hover, 2px black when selected.
+                    <div
+                      className={cn(
+                        'pointer-events-none absolute inset-0 rounded-[inherit] border transition-[border,opacity] duration-200 ease-in-out',
+                        selected
+                          ? 'border-2 border-black'
+                          : 'border-black/[.08] opacity-0 group-hover:opacity-100'
+                      )}
+                    />
+                  )}
+                  {!label && (
+                    <>
+                      <div className="pointer-events-none absolute inset-px rounded-[calc(var(--widget-radius)-1px)] border border-white/[.22] [mask-image:linear-gradient(0deg,transparent,#000)]" />
+                      <div
+                        className={cn(
+                          'pointer-events-none absolute inset-0 rounded-[inherit] border transition-[border,opacity] duration-200 ease-in-out',
+                          selected && mobileEdit
+                            ? 'border-2 border-black'
+                            : 'border-black/[.08]'
+                        )}
+                      />
+                    </>
+                  )}
+                </div>
+              </div>
             </div>
           );
           return (

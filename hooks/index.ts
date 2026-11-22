@@ -6,3 +6,4 @@ export { useMediaQuery } from './use-media-query';
 export { usePageActions } from './use-page-actions';
 export { useAnalytics } from './use-analytics';
 export { useAutosave } from './use-autosave';
+export { useDragTilt } from './use-drag-tilt';
