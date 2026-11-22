@@ -662,6 +662,7 @@ export function BentoGrid({
                   <button
                     type="button"
                     aria-label="Delete"
+                    data-controls
                     onClick={() => deleteBlock(block.id)}
                     className={cn(
                       NO_DRAG,
@@ -685,6 +686,7 @@ export function BentoGrid({
                       <button
                         type="button"
                         aria-label="Edit"
+                        data-controls
                         onClick={() => setDrawerId(block.id)}
                         className={cn(
                           NO_DRAG,
@@ -719,6 +721,7 @@ export function BentoGrid({
 
                   {block.type !== 'SECTION_TITLE' && !mobileEdit && (
                     <div
+                      data-controls
                       className={cn(
                         'absolute -bottom-7 left-1/2 z-50 -translate-x-1/2 opacity-0 transition-opacity group-hover:opacity-100',
                         selectedId === block.id

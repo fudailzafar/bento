@@ -247,6 +247,14 @@
   transform: scale(1.05) translateY(-8px);
 }
 
+/* A tile's delete, edit and size buttons stay out of the way while it is
+   dragged, even on the selected tile. */
+.react-grid-item[data-dragging] [data-controls] {
+  opacity: 0 !important;
+  pointer-events: none !important;
+  transition: opacity 0.15s ease-in-out;
+}
+
 /* bento's dragged widget: a deep, soft shadow. */
 .react-grid-item.react-draggable-dragging [data-widget] {
   box-shadow:
