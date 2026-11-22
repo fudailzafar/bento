@@ -210,6 +210,33 @@
   cursor: grabbing !important;
 }
 
+/* The editor's tiles move and resize on a spring that overshoots and settles,
+   and the grid's height does the same, as on gumbee.dev. A dragged tile
+   follows the pointer with no transition. */
+.react-grid-layout.bento-spring {
+  transition: height 750ms cubic-bezier(.21, 1.47, .31, 1);
+}
+.bento-spring > .react-grid-item.cssTransforms {
+  transition:
+    transform 1050ms cubic-bezier(.18, 1.4, .3, 1),
+    width 850ms cubic-bezier(.17, 1.25, .3, 1),
+    height 850ms cubic-bezier(.17, 1.25, .3, 1);
+}
+.bento-spring > .react-grid-item.react-grid-placeholder {
+  transition:
+    transform 100ms ease,
+    width 100ms ease,
+    height 100ms ease;
+}
+.bento-spring > .react-grid-item.react-draggable-dragging {
+  transition: none;
+}
+/* While the window is resized, tiles follow it at once. */
+[data-resizing] .bento-spring,
+[data-resizing] .bento-spring > .react-grid-item.cssTransforms {
+  transition: none;
+}
+
 /* bento's dragged widget: a deep, soft shadow. */
 .react-grid-item.react-draggable-dragging [data-widget] {
   box-shadow:

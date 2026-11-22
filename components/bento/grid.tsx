@@ -129,9 +129,21 @@ export function BentoGrid({
     const onChange = () => setWideScreen(mql.matches);
     onChange();
     mql.addEventListener('change', onChange);
-    const observer = new ResizeObserver(([entry]) =>
-      setWidth(entry.contentRect.width)
-    );
+    // While the window is resized the tiles follow it at once; the spring
+    // returns 150ms after it stops.
+    let settle: ReturnType<typeof setTimeout>;
+    const follow = () => {
+      wrapper.current?.setAttribute('data-resizing', '');
+      clearTimeout(settle);
+      settle = setTimeout(
+        () => wrapper.current?.removeAttribute('data-resizing'),
+        150
+      );
+    };
+    const observer = new ResizeObserver(([entry]) => {
+      setWidth(entry.contentRect.width);
+      follow();
+    });
     if (wrapper.current) {
       // Read the width now too; the observer may not fire in a hidden tab.
       setWidth(wrapper.current.getBoundingClientRect().width);
@@ -140,6 +152,7 @@ export function BentoGrid({
     return () => {
       mql.removeEventListener('change', onChange);
       observer.disconnect();
+      clearTimeout(settle);
     };
   }, [mounted]);
   const desktop = wideScreen === null ? null : wideScreen && !forceMobile;
@@ -473,7 +486,7 @@ export function BentoGrid({
       }
     >
       <Grid
-        className="layout"
+        className={cn('layout', isEditMode && 'bento-spring')}
         {...gridProps}
         containerPadding={[0, 0]}
         onLayoutChange={(layout) => {
