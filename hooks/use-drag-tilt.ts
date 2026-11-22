@@ -111,7 +111,10 @@ export function useDragTilt() {
         spring.target === 0 &&
         spring.velocity === 0
       ) {
-        if (spring.rotor) spring.rotor.style.transform = '';
+        if (spring.rotor) {
+          spring.rotor.style.transform = '';
+          spring.rotor.style.willChange = '';
+        }
         springs.current.delete(id);
       }
     });
@@ -166,11 +169,16 @@ export function useDragTilt() {
         current.previousX = 0;
         current.item.setAttribute('data-dragging', '');
         if (!springs.current.has(current.id)) {
+          const rotor =
+            current.item.querySelector<HTMLElement>('[data-rotation]');
+          // The tilt turns this layer from script, a frame at a time: its own
+          // compositor layer keeps each turn from redrawing the whole tile.
+          if (rotor) rotor.style.willChange = 'transform';
           springs.current.set(current.id, {
             value: 0,
             velocity: 0,
             target: 0,
-            rotor: current.item.querySelector<HTMLElement>('[data-rotation]'),
+            rotor,
             width: current.item.clientWidth,
           });
         }
