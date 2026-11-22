@@ -60,7 +60,7 @@ export function parseMapsUrl(raw: string): MapLink | null {
   const params = link.searchParams;
 
   // The place's own pin beats the map's centre.
-  let match =
+  const match =
     decoded.match(new RegExp(`!3d${num}!4d${num}`)) ??
     decoded.match(new RegExp(`!2d${num}!3d${num}`)); // embed: lng first
   let lat: number | undefined;

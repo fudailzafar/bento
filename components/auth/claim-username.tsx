@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState, type ReactNode } from 'react';
 import Image from 'next/image';
+import Link from 'next/link';
 import { cn } from '@/lib/utils';
 
 // bento.me's page for an unclaimed handle (/[handle] with no profile):
@@ -112,12 +113,12 @@ export default function ClaimUsername({
 
         <div className="bento-claim-peripheral mt-4 max-w-[288px] text-center text-base leading-6 text-[#7d7878]">
           Bento is the most beautiful link in bio. And it’s all free.{' '}
-          <a
+          <Link
             href="/"
             className="text-design-primaryLight underline underline-offset-[3px]"
           >
             Learn more
-          </a>
+          </Link>
         </div>
 
         {!unavailable && (
