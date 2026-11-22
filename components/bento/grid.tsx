@@ -140,13 +140,19 @@ export function BentoGrid({
         150
       );
     };
+    // Only a change of width counts: the grid growing taller as tiles move
+    // must not cut its own spring short.
+    let lastWidth = 0;
     const observer = new ResizeObserver(([entry]) => {
-      setWidth(entry.contentRect.width);
-      follow();
+      const next = entry.contentRect.width;
+      setWidth(next);
+      if (lastWidth && next !== lastWidth) follow();
+      lastWidth = next;
     });
     if (wrapper.current) {
       // Read the width now too; the observer may not fire in a hidden tab.
-      setWidth(wrapper.current.getBoundingClientRect().width);
+      lastWidth = wrapper.current.getBoundingClientRect().width;
+      setWidth(lastWidth);
       observer.observe(wrapper.current);
     }
     return () => {
