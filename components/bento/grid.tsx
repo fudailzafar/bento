@@ -494,7 +494,13 @@ export function BentoGrid({
       }
     >
       <Grid
-        className={cn('layout', isEditMode && 'bento-spring')}
+        className={cn(
+          'layout',
+          isEditMode && 'bento-spring',
+          // The lift and the hidden buttons are for the desktop editor; on a
+          // phone only the spring and the tilt apply.
+          isEditMode && desktop && 'bento-lift'
+        )}
         {...gridProps}
         containerPadding={[0, 0]}
         onLayoutChange={(layout) => {

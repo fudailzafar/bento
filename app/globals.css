@@ -239,17 +239,17 @@
 
 /* A dragged tile lifts as on gumbee.dev: it grows 5% and rises 8px, then
    settles back with a bounce when dropped. The tilt (use-drag-tilt) turns
-   the layer inside this one. */
+   the layer inside this one. Desktop editor only (.bento-lift). */
 [data-scale] {
   transition: transform 0.5s cubic-bezier(0.21, 1.32, 0.34, 0.98);
 }
-.react-grid-item[data-dragging] [data-scale] {
+.bento-lift .react-grid-item[data-dragging] [data-scale] {
   transform: scale(1.05) translateY(-8px);
 }
 
 /* A tile's delete, edit and size buttons stay out of the way while it is
-   dragged, even on the selected tile. */
-.react-grid-item[data-dragging] [data-controls] {
+   dragged, even on the selected tile. Desktop editor only (.bento-lift). */
+.bento-lift .react-grid-item[data-dragging] [data-controls] {
   opacity: 0 !important;
   pointer-events: none !important;
   transition: opacity 0.15s ease-in-out;
