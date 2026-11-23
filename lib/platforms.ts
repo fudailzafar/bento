@@ -302,6 +302,12 @@ export function isProfileUrl(url: string): boolean {
       );
     case 'tiktok':
       return first.startsWith('@') && !second;
+    case 'twitter':
+      // A post is a plain link; a profile gets the Follow button.
+      return (
+        !parts.includes('status') &&
+        !['i', 'search', 'hashtag', 'intent', 'home'].includes(first)
+      );
     default:
       return true;
   }

@@ -41,11 +41,3 @@ export { Input } from './input';
 
 // Separator
 export { Separator } from './separator';
-
-// Tooltip
-export {
-  Tooltip,
-  TooltipTrigger,
-  TooltipContent,
-  TooltipProvider,
-} from './tooltip';

@@ -56,7 +56,7 @@ export function LinkPopover({
 
   return (
     <div ref={box} className="relative flex">
-      <BentoTooltip content="Link" disabled={open}>
+      <BentoTooltip tooltip={open ? undefined : 'Link'}>
         {children(() => setOpen((o) => !o))}
       </BentoTooltip>
       {open && mobile && (

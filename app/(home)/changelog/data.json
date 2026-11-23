@@ -1,0 +1,3972 @@
+{
+ "page": {
+  "name": "Changelog",
+  "headline": "New updates and improvements to Bento ✨🥳\n\n🔎 Search: Use CTRL+F\n💌 Help? support@bento.me",
+  "blocks": [
+   {
+    "id": "HFtLBFuyDp7ND6a4",
+    "type": "SECTION_TITLE",
+    "x": 0.0,
+    "y": 89,
+    "w": 4.0,
+    "h": 1,
+    "data": {
+     "title": "Feb 12th 2023: Personalised & Dynamic OG Images 💜"
+    },
+    "mx": 0.0,
+    "my": 153,
+    "mw": 2.0,
+    "mh": 1
+   },
+   {
+    "id": "6m8njIWEIRQmHVN1",
+    "type": "SECTION_TITLE",
+    "x": 0.0,
+    "y": 98,
+    "w": 4.0,
+    "h": 1,
+    "data": {
+     "title": "Feb 7th 2023: Full Control Over Your Mobile Bento 📲"
+    },
+    "mx": 0.0,
+    "my": 167,
+    "mw": 2.0,
+    "mh": 1
+   },
+   {
+    "id": "ISGitULE5xsmIIdX",
+    "type": "LINK",
+    "x": 0.0,
+    "y": 99,
+    "w": 1.0,
+    "h": 2,
+    "data": {
+     "url": "https://twitter.com/joinbento/status/1622913161363099648",
+     "title": "Launch Tweet",
+     "favicon": "/changelog/6ca3c579.ico"
+    },
+    "mx": 1.0,
+    "my": 170,
+    "mw": 1.0,
+    "mh": 2
+   },
+   {
+    "id": "n3DimR157ur1ulVi",
+    "type": "SECTION_TITLE",
+    "x": 0.0,
+    "y": 112,
+    "w": 4.0,
+    "h": 1,
+    "data": {
+     "title": "Jan 24th 2023: Bento Explore ✨"
+    },
+    "mx": 0.0,
+    "my": 184,
+    "mw": 2.0,
+    "mh": 1
+   },
+   {
+    "id": "H0mhUi5duuo30Ugn",
+    "type": "LINK",
+    "x": 0.0,
+    "y": 113,
+    "w": 1.0,
+    "h": 4,
+    "data": {
+     "url": "https://twitter.com/joinbento/status/1617914183668092929",
+     "title": "Launch Tweet"
+    },
+    "mx": 0.0,
+    "my": 187,
+    "mw": 2.0,
+    "mh": 1
+   },
+   {
+    "id": "RBwcU2hsuMxgPUVP",
+    "type": "LINK",
+    "x": 1.0,
+    "y": 115,
+    "w": 2.0,
+    "h": 2,
+    "data": {
+     "url": "https://bento.me/explore",
+     "title": "Get inspired by the most creative Bentos",
+     "description": "Get inspired by the most creative Bentos",
+     "image": "/changelog/21c0f5a2.png",
+     "favicon": "/changelog/c797cce7.png"
+    },
+    "mx": 0.0,
+    "my": 188,
+    "mw": 2.0,
+    "mh": 2
+   },
+   {
+    "id": "yUqonCQUOG03dCIj",
+    "type": "IMAGE",
+    "x": 1.0,
+    "y": 113,
+    "w": 2.0,
+    "h": 2,
+    "data": {
+     "url": "/changelog/9d698fc4.mp4",
+     "kind": "video"
+    },
+    "mx": 0.0,
+    "my": 185,
+    "mw": 2.0,
+    "mh": 2
+   },
+   {
+    "id": "rbPE4ZFtLdjgUhY2",
+    "type": "IMAGE",
+    "x": 1.0,
+    "y": 101,
+    "w": 2.0,
+    "h": 4,
+    "data": {
+     "url": "/changelog/cfbe00c9.mp4",
+     "kind": "video"
+    },
+    "mx": 0.0,
+    "my": 172,
+    "mw": 2.0,
+    "mh": 4
+   },
+   {
+    "id": "55KKAf9skEWdcXD7",
+    "type": "LINK",
+    "x": 0.0,
+    "y": 94,
+    "w": 2.0,
+    "h": 2,
+    "data": {
+     "url": "https://twitter.com/joinbento/status/1624766948889313282",
+     "title": "Launch Tweet"
+    },
+    "mx": 0.0,
+    "my": 166,
+    "mw": 2.0,
+    "mh": 1
+   },
+   {
+    "id": "sbAan7z9t9TjopUF",
+    "type": "LINK",
+    "x": 2.0,
+    "y": 90,
+    "w": 2.0,
+    "h": 4,
+    "data": {
+     "url": "https://bento.me/storm",
+     "title": "Example 2: Andreas Storm",
+     "description": "Designer & Iconograph",
+     "image": "/changelog/0ecba270.jpeg",
+     "favicon": "/changelog/b1d3ea4e.jpeg"
+    },
+    "mx": 0.0,
+    "my": 158,
+    "mw": 2.0,
+    "mh": 4
+   },
+   {
+    "id": "NgGt7oj9qcKW2Twd",
+    "type": "LINK",
+    "x": 0.0,
+    "y": 90,
+    "w": 2.0,
+    "h": 4,
+    "data": {
+     "url": "https://bento.me/maitri",
+     "title": "Example 1: Maitri Shah",
+     "description": "eng @ Loom\ndigital artist ",
+     "favicon": "/changelog/d115dfb4.jpeg"
+    },
+    "mx": 0.0,
+    "my": 154,
+    "mw": 2.0,
+    "mh": 4
+   },
+   {
+    "id": "PdxrCyhWZNvTzZ33",
+    "type": "SECTION_TITLE",
+    "x": 0.0,
+    "y": 105,
+    "w": 4.0,
+    "h": 1,
+    "data": {
+     "title": "Feb 7th 2023: New widget sizes, media captions & more 💥"
+    },
+    "mx": 0.0,
+    "my": 176,
+    "mw": 2.0,
+    "mh": 1
+   },
+   {
+    "id": "o4Ib3CKnThLPlj9J",
+    "type": "LINK",
+    "x": 0.0,
+    "y": 106,
+    "w": 1.0,
+    "h": 4,
+    "data": {
+     "url": "https://twitter.com/joinbento/status/1622964661229617153?s=20&t=wNSH2vt4iKRgv3j87b0ayA",
+     "title": "Launch Thread"
+    },
+    "mx": 0.0,
+    "my": 181,
+    "mw": 2.0,
+    "mh": 1
+   },
+   {
+    "id": "E25GujxfhkOYUnjL",
+    "type": "IMAGE",
+    "x": 1.0,
+    "y": 108,
+    "w": 2.0,
+    "h": 4,
+    "data": {
+     "url": "/changelog/4602d202.gif",
+     "kind": "image"
+    },
+    "mx": 0.0,
+    "my": 177,
+    "mw": 2.0,
+    "mh": 4
+   },
+   {
+    "id": "q5h5SIjhuNnvIq75",
+    "type": "IMAGE",
+    "x": 1.0,
+    "y": 106,
+    "w": 2.0,
+    "h": 2,
+    "data": {
+     "url": "/changelog/45ba042f.png",
+     "kind": "image"
+    },
+    "mx": 0.0,
+    "my": 182,
+    "mw": 2.0,
+    "mh": 2
+   },
+   {
+    "id": "oSAfTIhcef3fGhFG",
+    "type": "IMAGE",
+    "x": 0.0,
+    "y": 101,
+    "w": 1.0,
+    "h": 4,
+    "data": {
+     "url": "/changelog/7d5141f8.jpeg",
+     "kind": "image"
+    },
+    "mx": 0.0,
+    "my": 170,
+    "mw": 1.0,
+    "mh": 2
+   },
+   {
+    "id": "JF0cpC0mjMm3HoWj",
+    "type": "IMAGE",
+    "x": 1.0,
+    "y": 99,
+    "w": 2.0,
+    "h": 2,
+    "data": {
+     "url": "/changelog/e9904597.mp4",
+     "kind": "video"
+    },
+    "mx": 0.0,
+    "my": 168,
+    "mw": 2.0,
+    "mh": 2
+   },
+   {
+    "id": "2FPt0dYCN9uJeFnQ",
+    "type": "SECTION_TITLE",
+    "x": 0.0,
+    "y": 117,
+    "w": 4.0,
+    "h": 1,
+    "data": {
+     "title": "Dec 23rd 2022: Add Images & Videos, Link Title Editing, Section Titles and more 🌆"
+    },
+    "mx": 0.0,
+    "my": 190,
+    "mw": 2.0,
+    "mh": 1
+   },
+   {
+    "id": "SqpRHuKRGmBIPQq1",
+    "type": "LINK",
+    "x": 2.0,
+    "y": 94,
+    "w": 2.0,
+    "h": 4,
+    "data": {
+     "url": "https://bento.me/lochie",
+     "title": "Example 3: Lochie",
+     "description": "Design Engineer @ Family.co (acq. by Avara.xyz)\nPreviously @ Honk.me",
+     "favicon": "/changelog/c43559f5.png"
+    },
+    "mx": 0.0,
+    "my": 162,
+    "mw": 2.0,
+    "mh": 4
+   },
+   {
+    "id": "W9ayu4rEAqxUQkyv",
+    "type": "LINK",
+    "x": 0.0,
+    "y": 120,
+    "w": 1.0,
+    "h": 2,
+    "data": {
+     "url": "https://twitter.com/joinbento/status/1606255224267583489",
+     "title": "Launch Thread",
+     "image": "/changelog/81b57d35.jpeg"
+    },
+    "mx": 0.0,
+    "my": 195,
+    "mw": 1.0,
+    "mh": 2
+   },
+   {
+    "id": "pQQd53xUr9gJ5i2w",
+    "type": "IMAGE",
+    "x": 0.0,
+    "y": 118,
+    "w": 1.0,
+    "h": 2,
+    "data": {
+     "url": "/changelog/bca9c900.gif",
+     "kind": "image"
+    },
+    "mx": 1.0,
+    "my": 195,
+    "mw": 1.0,
+    "mh": 2
+   },
+   {
+    "id": "02MAuakj43itKx2l",
+    "type": "IMAGE",
+    "x": 1.0,
+    "y": 118,
+    "w": 2.0,
+    "h": 4,
+    "data": {
+     "url": "/changelog/0abdd04d.gif",
+     "kind": "image"
+    },
+    "mx": 0.0,
+    "my": 191,
+    "mw": 2.0,
+    "mh": 4
+   },
+   {
+    "id": "rEGMxyxh63YFMbeh",
+    "type": "SECTION_TITLE",
+    "x": 0.0,
+    "y": 122,
+    "w": 4.0,
+    "h": 1,
+    "data": {
+     "title": "Dec 14th 2022: Bento Launch 🚀"
+    },
+    "mx": 0.0,
+    "my": 197,
+    "mw": 2.0,
+    "mh": 1
+   },
+   {
+    "id": "bmnmN5oegzUJCRpb",
+    "type": "LINK",
+    "x": 2.0,
+    "y": 125,
+    "w": 1.0,
+    "h": 2,
+    "data": {
+     "url": "https://twitter.com/joinbento/status/1603036669191626752",
+     "title": "Introducing Bento "
+    },
+    "mx": 1.0,
+    "my": 198,
+    "mw": 1.0,
+    "mh": 2
+   },
+   {
+    "id": "UQdui5a02YRgDQnK",
+    "type": "IMAGE",
+    "x": 2.0,
+    "y": 123,
+    "w": 1.0,
+    "h": 2,
+    "data": {
+     "url": "/changelog/aa1c458f.png",
+     "kind": "image"
+    },
+    "mx": 0.0,
+    "my": 198,
+    "mw": 1.0,
+    "mh": 2
+   },
+   {
+    "id": "doKdU1xsXQKU0xTr",
+    "type": "IMAGE",
+    "x": 0.0,
+    "y": 125,
+    "w": 2.0,
+    "h": 2,
+    "data": {
+     "url": "/changelog/311034bc.png",
+     "kind": "image"
+    },
+    "mx": 0.0,
+    "my": 200,
+    "mw": 2.0,
+    "mh": 2
+   },
+   {
+    "id": "VJn5gcJP0XgEDy9Y",
+    "type": "IMAGE",
+    "x": 0.0,
+    "y": 123,
+    "w": 2.0,
+    "h": 2,
+    "data": {
+     "url": "/changelog/9e61b635.mp4",
+     "kind": "video"
+    },
+    "mx": 0.0,
+    "my": 202,
+    "mw": 2.0,
+    "mh": 2
+   },
+   {
+    "id": "4pezDOXw3Pq8lNoi",
+    "type": "SECTION_TITLE",
+    "x": 0.0,
+    "y": 127,
+    "w": 4.0,
+    "h": 1,
+    "data": {
+     "title": "Get to know us! 😍👋🏻🍱"
+    },
+    "mx": 0.0,
+    "my": 204,
+    "mw": 2.0,
+    "mh": 1
+   },
+   {
+    "id": "qRl8JVzRSUy9zpME",
+    "type": "LINK",
+    "x": 0.0,
+    "y": 128,
+    "w": 2.0,
+    "h": 4,
+    "data": {
+     "url": "https://bento.me/aboutus",
+     "title": "About us",
+     "description": "Bento is your personal page to show everything you are and create. A link in bio, but rich and beautiful ✨\n🔎 Search: Use CTRL+F💌 Help? support@bento.me ",
+     "favicon": "/changelog/a8b3f013.png"
+    },
+    "mx": 0.0,
+    "my": 205,
+    "mw": 2.0,
+    "mh": 4
+   },
+   {
+    "id": "f18YnIUnAOV1kr1s",
+    "type": "SECTION_TITLE",
+    "x": 0.0,
+    "y": 79,
+    "w": 4.0,
+    "h": 1,
+    "data": {
+     "title": "Feb 15th 2023: First Smart Widgets for Github, Instagram, YT and Twitter"
+    },
+    "mx": 0.0,
+    "my": 134,
+    "mw": 2.0,
+    "mh": 1
+   },
+   {
+    "id": "wwLEd5Ne3ogg66VG",
+    "type": "LINK",
+    "x": 0.0,
+    "y": 84,
+    "w": 2.0,
+    "h": 1,
+    "data": {
+     "url": "https://github.com/gumbee",
+     "favicon": "/changelog/5fee9498.svg"
+    },
+    "mx": 0.0,
+    "my": 139,
+    "mw": 2.0,
+    "mh": 1
+   },
+   {
+    "id": "eaPszlg2QuEQbbrF",
+    "type": "LINK",
+    "x": 0.0,
+    "y": 80,
+    "w": 2.0,
+    "h": 4,
+    "data": {
+     "url": "https://github.com/heikir",
+     "favicon": "/changelog/5fee9498.svg"
+    },
+    "mx": 0.0,
+    "my": 135,
+    "mw": 2.0,
+    "mh": 4
+   },
+   {
+    "id": "tnq18gY71RY6jHqQ",
+    "type": "LINK",
+    "x": 2.0,
+    "y": 80,
+    "w": 2.0,
+    "h": 4,
+    "data": {
+     "url": "https://instagram.com/rogie",
+     "favicon": "/changelog/7ea7c91d.png",
+     "images": [
+      "/changelog/4fbc229b.jpeg",
+      "/changelog/6d1021a0.jpeg",
+      "/changelog/d469f95f.jpeg",
+      "/changelog/f8c3cf85.jpeg",
+      "/changelog/a6387585.jpeg",
+      "/changelog/5505f90f.jpeg"
+     ]
+    },
+    "mx": 0.0,
+    "my": 140,
+    "mw": 2.0,
+    "mh": 4
+   },
+   {
+    "id": "9Ks8JlJ05ZDzsHsY",
+    "type": "LINK",
+    "x": 3.0,
+    "y": 84,
+    "w": 1.0,
+    "h": 4,
+    "data": {
+     "url": "https://instagram.com/natgeo",
+     "favicon": "/changelog/7ea7c91d.png",
+     "images": [
+      "/changelog/c46529d8.jpeg"
+     ]
+    },
+    "mx": 0.0,
+    "my": 144,
+    "mw": 1.0,
+    "mh": 4
+   },
+   {
+    "id": "IB2Gehk6g8TRxJQM",
+    "type": "LINK",
+    "x": 2.0,
+    "y": 84,
+    "w": 1.0,
+    "h": 2,
+    "data": {
+     "url": "https://twitter.com/rrhoover",
+     "bio": "Founder of @ProductHunt. Investor at @WeekendFund. Say hi! 👋🏼"
+    },
+    "mx": 1.0,
+    "my": 144,
+    "mw": 1.0,
+    "mh": 2
+   },
+   {
+    "id": "hcnc1EW71OcMEhMd",
+    "type": "LINK",
+    "x": 0.0,
+    "y": 85,
+    "w": 2.0,
+    "h": 4,
+    "data": {
+     "url": "https://www.youtube.com/@mkbhd"
+    },
+    "mx": 0.0,
+    "my": 148,
+    "mw": 2.0,
+    "mh": 4
+   },
+   {
+    "id": "MIpcGOcrwfNXsTnw",
+    "type": "LINK",
+    "x": 2.0,
+    "y": 86,
+    "w": 1.0,
+    "h": 2,
+    "data": {
+     "url": "https://www.youtube.com/@Micode"
+    },
+    "mx": 1.0,
+    "my": 146,
+    "mw": 1.0,
+    "mh": 2
+   },
+   {
+    "id": "AewrMlMdLAdmSUM0",
+    "type": "LINK",
+    "x": 2.0,
+    "y": 88,
+    "w": 2.0,
+    "h": 1,
+    "data": {
+     "url": "https://twitter.com/joinbento/status/1626241654196936706",
+     "title": "Launch Tweet",
+     "image": "/changelog/7c6e65ab.jpeg"
+    },
+    "mx": 0.0,
+    "my": 152,
+    "mw": 2.0,
+    "mh": 1
+   },
+   {
+    "id": "fiJubaWOUvxA7Dqt",
+    "type": "SECTION_TITLE",
+    "x": 0.0,
+    "y": 74,
+    "w": 4.0,
+    "h": 1,
+    "data": {
+     "title": "March 2nd 2023: Account Settings - Change Username, E-Mail and Password  "
+    },
+    "mx": 0.0,
+    "my": 127,
+    "mw": 2.0,
+    "mh": 1
+   },
+   {
+    "id": "hYkgVkR8Hgd38sOr",
+    "type": "IMAGE",
+    "x": 0.0,
+    "y": 75,
+    "w": 2.0,
+    "h": 4,
+    "data": {
+     "url": "/changelog/6e423bc3.mp4",
+     "kind": "video"
+    },
+    "mx": 0.0,
+    "my": 128,
+    "mw": 2.0,
+    "mh": 4
+   },
+   {
+    "id": "WYQ9Rph9WSBpPsnB",
+    "type": "LINK",
+    "x": 2.0,
+    "y": 75,
+    "w": 1.0,
+    "h": 2,
+    "data": {
+     "url": "https://twitter.com/joinbento/status/1631688247116984323?s=20",
+     "title": "Launch Tweet",
+     "image": "/changelog/7a5beea1.png"
+    },
+    "mx": 0.0,
+    "my": 132,
+    "mw": 1.0,
+    "mh": 2
+   },
+   {
+    "id": "UrQ7ibZrDDsr1bNL",
+    "type": "SECTION_TITLE",
+    "x": 0.0,
+    "y": 65,
+    "w": 4.0,
+    "h": 1,
+    "data": {
+     "title": "March 8th 2023: Text Widgets"
+    },
+    "mx": 0.0,
+    "my": 114,
+    "mw": 2.0,
+    "mh": 1
+   },
+   {
+    "id": "lo1E6mmVk3riCCEk",
+    "type": "TEXT",
+    "x": 0.0,
+    "y": 66,
+    "w": 1.0,
+    "h": 2,
+    "data": {
+     "content": "🍱",
+     "color": "#E487D7",
+     "align": "center",
+     "valign": "middle"
+    },
+    "mx": 0.0,
+    "my": 124,
+    "mw": 1.0,
+    "mh": 2
+   },
+   {
+    "id": "R1plisQBZSARSili",
+    "type": "TEXT",
+    "x": 2.0,
+    "y": 70,
+    "w": 1.0,
+    "h": 4,
+    "data": {
+     "content": "🥳",
+     "color": "#F96F20",
+     "align": "center",
+     "valign": "middle"
+    },
+    "mx": 1.0,
+    "my": 124,
+    "mw": 1.0,
+    "mh": 2
+   },
+   {
+    "id": "xSAcwcnzvW4GjYzn",
+    "type": "TEXT",
+    "x": 1.0,
+    "y": 66,
+    "w": 2.0,
+    "h": 2,
+    "data": {
+     "content": "**Text Widgets! ✏️**\n\nShare a thought, add a nice quote, or add context to other widgets. ",
+     "color": "#A6F9E8",
+     "align": "left",
+     "valign": "top"
+    },
+    "mx": 0.0,
+    "my": 115,
+    "mw": 2.0,
+    "mh": 2
+   },
+   {
+    "id": "w6RFX3TSAz6unKkq",
+    "type": "TEXT",
+    "x": 3.0,
+    "y": 66,
+    "w": 1.0,
+    "h": 2,
+    "data": {
+     "content": "Align it…",
+     "color": "#5AB2E6",
+     "align": "left",
+     "valign": "top"
+    },
+    "mx": 0.0,
+    "my": 121,
+    "mw": 2.0,
+    "mh": 1
+   },
+   {
+    "id": "UvXIo7ccCUIb2Hhs",
+    "type": "TEXT",
+    "x": 2.0,
+    "y": 68,
+    "w": 2.0,
+    "h": 2,
+    "data": {
+     "content": "how you…",
+     "color": "#2292E2",
+     "align": "right",
+     "valign": "middle"
+    },
+    "mx": 0.0,
+    "my": 122,
+    "mw": 2.0,
+    "mh": 1
+   },
+   {
+    "id": "QIU8359tv9RsAFWm",
+    "type": "TEXT",
+    "x": 3.0,
+    "y": 70,
+    "w": 1.0,
+    "h": 2,
+    "data": {
+     "content": "…like it! ",
+     "color": "#2768B1",
+     "align": "center",
+     "valign": "bottom"
+    },
+    "mx": 0.0,
+    "my": 123,
+    "mw": 2.0,
+    "mh": 1
+   },
+   {
+    "id": "touFNG4E5MKEOdwA",
+    "type": "IMAGE",
+    "x": 0.0,
+    "y": 68,
+    "w": 2.0,
+    "h": 4,
+    "data": {
+     "url": "/changelog/243f0774.mp4",
+     "kind": "video"
+    },
+    "mx": 0.0,
+    "my": 117,
+    "mw": 2.0,
+    "mh": 4
+   },
+   {
+    "id": "CGmBn4LKLwUcAUcF",
+    "type": "LINK",
+    "x": 0.0,
+    "y": 72,
+    "w": 2.0,
+    "h": 1,
+    "data": {
+     "url": "https://twitter.com/joinbento/status/1633468604795559939",
+     "title": "Launch Tweet",
+     "image": "/changelog/aa31b869.jpeg"
+    },
+    "mx": 0.0,
+    "my": 126,
+    "mw": 2.0,
+    "mh": 1
+   },
+   {
+    "id": "b5Zrf1syYSKCkvew",
+    "type": "SECTION_TITLE",
+    "x": 0.0,
+    "y": 56,
+    "w": 4.0,
+    "h": 1,
+    "data": {
+     "title": "March 15th 2023: New Smart Widgets for Figma, Dribbble, Behance"
+    },
+    "mx": 0.0,
+    "my": 98,
+    "mw": 2.0,
+    "mh": 1
+   },
+   {
+    "id": "Cwj8uEXHxmk1xIC7",
+    "type": "LINK",
+    "x": 0.0,
+    "y": 57,
+    "w": 2.0,
+    "h": 4,
+    "data": {
+     "url": "https://www.figma.com/community/file/1207719189705528381",
+     "image": "/changelog/0a89b34b.jpeg",
+     "favicon": "/changelog/4071cb17.ico"
+    },
+    "mx": 0.0,
+    "my": 99,
+    "mw": 2.0,
+    "mh": 4
+   },
+   {
+    "id": "DFw8rYws05K4HLGn",
+    "type": "LINK",
+    "x": 2.0,
+    "y": 59,
+    "w": 2.0,
+    "h": 4,
+    "data": {
+     "url": "https://dribbble.com/dennisgec",
+     "favicon": "/changelog/b0ed9b5e.png",
+     "images": [
+      "/changelog/457b20f2.jpeg",
+      "/changelog/94b9d8c7.jpeg",
+      "/changelog/fc2000ad.jpeg",
+      "/changelog/f6d89596.jpeg",
+      "/changelog/5df9fdce.jpeg",
+      "/changelog/66aeb17a.jpeg"
+     ]
+    },
+    "mx": 0.0,
+    "my": 105,
+    "mw": 2.0,
+    "mh": 4
+   },
+   {
+    "id": "RGFSQQejhmgvdHsY",
+    "type": "LINK",
+    "x": 2.0,
+    "y": 57,
+    "w": 1.0,
+    "h": 2,
+    "data": {
+     "url": "https://www.figma.com/@joey",
+     "favicon": "/changelog/4071cb17.ico"
+    },
+    "mx": 0.0,
+    "my": 103,
+    "mw": 2.0,
+    "mh": 2
+   },
+   {
+    "id": "nGC83DSwKoQVx5D8",
+    "type": "LINK",
+    "x": 3.0,
+    "y": 57,
+    "w": 1.0,
+    "h": 2,
+    "data": {
+     "url": "https://dribbble.com/shots/19797305-Diffraction-icon",
+     "title": "Diffraction icon",
+     "image": "/changelog/cbede18f.jpeg"
+    },
+    "mx": 0.0,
+    "my": 109,
+    "mw": 1.0,
+    "mh": 2
+   },
+   {
+    "id": "86FfTiWxxepCRxeJ",
+    "type": "LINK",
+    "x": 0.0,
+    "y": 61,
+    "w": 2.0,
+    "h": 4,
+    "data": {
+     "url": "https://www.behance.net/gallery/163499049/Monsters-Invasion?tracking_source=search_projects%7Cdurry+3d",
+     "title": "Monsters Invasion",
+     "image": "/changelog/b82b62f3.jpeg",
+     "favicon": "/changelog/ae647bb4.ico"
+    },
+    "mx": 1.0,
+    "my": 109,
+    "mw": 1.0,
+    "mh": 4
+   },
+   {
+    "id": "1YnqJvt47YnW0rQc",
+    "type": "LINK",
+    "x": 2.0,
+    "y": 63,
+    "w": 2.0,
+    "h": 1,
+    "data": {
+     "url": "https://twitter.com/joinbento/status/1636009067553382402",
+     "title": "Launch Tweet",
+     "image": "/changelog/09189300.jpeg"
+    },
+    "mx": 0.0,
+    "my": 113,
+    "mw": 2.0,
+    "mh": 1
+   },
+   {
+    "id": "j9rvyGHvT13uY0fl",
+    "type": "SECTION_TITLE",
+    "x": 0.0,
+    "y": 53,
+    "w": 4.0,
+    "h": 1,
+    "data": {
+     "title": "March 20th 2023: Quotes ✍🏻💭✨"
+    },
+    "mx": 0.0,
+    "my": 94,
+    "mw": 2.0,
+    "mh": 1
+   },
+   {
+    "id": "jgt2xD9eRm7CLpOp",
+    "type": "LINK",
+    "x": 2.0,
+    "y": 54,
+    "w": 1.0,
+    "h": 2,
+    "data": {
+     "url": "https://twitter.com/joinbento/status/1637851000932540416?s=20",
+     "title": "Launch Tweet"
+    },
+    "mx": 0.0,
+    "my": 97,
+    "mw": 2.0,
+    "mh": 1
+   },
+   {
+    "id": "VUngonZyVjjYuFrm",
+    "type": "IMAGE",
+    "x": 0.0,
+    "y": 54,
+    "w": 2.0,
+    "h": 2,
+    "data": {
+     "url": "/changelog/fcaa19b7.mp4",
+     "kind": "video"
+    },
+    "mx": 0.0,
+    "my": 95,
+    "mw": 2.0,
+    "mh": 2
+   },
+   {
+    "id": "90uaHwWFtPMFi2TF",
+    "type": "SECTION_TITLE",
+    "x": 0.0,
+    "y": 42,
+    "w": 4.0,
+    "h": 1,
+    "data": {
+     "title": "March 21st 2023: New Smart Widgets - Spotify and Tiktok 🎶 🎥 "
+    },
+    "mx": 0.0,
+    "my": 71,
+    "mw": 2.0,
+    "mh": 1
+   },
+   {
+    "id": "lnIIgZ6OdBsmFyF5",
+    "type": "LINK",
+    "x": 0.0,
+    "y": 43,
+    "w": 2.0,
+    "h": 4,
+    "data": {
+     "url": "https://www.tiktok.com/@anjali_tewani_"
+    },
+    "mx": 0.0,
+    "my": 84,
+    "mw": 2.0,
+    "mh": 4
+   },
+   {
+    "id": "ughiOJQykOM32BaL",
+    "type": "LINK",
+    "x": 2.0,
+    "y": 49,
+    "w": 1.0,
+    "h": 4,
+    "data": {
+     "url": "https://www.tiktok.com/@arc_journal"
+    },
+    "mx": 0.0,
+    "my": 90,
+    "mw": 1.0,
+    "mh": 4
+   },
+   {
+    "id": "FUJNE9d0VFapVbdB",
+    "type": "LINK",
+    "x": 0.0,
+    "y": 47,
+    "w": 2.0,
+    "h": 2,
+    "data": {
+     "url": "https://www.tiktok.com/@whatistech"
+    },
+    "mx": 0.0,
+    "my": 88,
+    "mw": 2.0,
+    "mh": 2
+   },
+   {
+    "id": "Zeafoe3rGfOlmtOA",
+    "type": "LINK",
+    "x": 2.0,
+    "y": 43,
+    "w": 1.0,
+    "h": 4,
+    "data": {
+     "url": "https://open.spotify.com/show/44fllCS2FTFr2x2kjP9xeT",
+     "title": "Hard Fork"
+    },
+    "mx": 0.0,
+    "my": 80,
+    "mw": 2.0,
+    "mh": 4
+   },
+   {
+    "id": "mA0pW6qll0jG529x",
+    "type": "LINK",
+    "x": 2.0,
+    "y": 47,
+    "w": 2.0,
+    "h": 2,
+    "data": {
+     "url": "https://open.spotify.com/track/4jNa66Mi5PgcXrEaCiPNMu?si=010bac47f7244a82",
+     "title": "Aloha! (Main Title Theme) - from “The White Lotus: Season 1”"
+    },
+    "mx": 0.0,
+    "my": 72,
+    "mw": 2.0,
+    "mh": 2
+   },
+   {
+    "id": "u9FgYYQQHU6KmdN7",
+    "type": "LINK",
+    "x": 3.0,
+    "y": 49,
+    "w": 1.0,
+    "h": 2,
+    "data": {
+     "url": "https://www.tiktok.com/@tiktok?is_from_webapp=1&sender_device=pc"
+    },
+    "mx": 1.0,
+    "my": 90,
+    "mw": 1.0,
+    "mh": 2
+   },
+   {
+    "id": "iorOjKb0cYfrlHOL",
+    "type": "LINK",
+    "x": 0.0,
+    "y": 49,
+    "w": 2.0,
+    "h": 4,
+    "data": {
+     "url": "https://open.spotify.com/album/0HiZ8fNXwJOQcrf5iflrdz?si=26DDjjMgSiKBZS0dGpp9yw",
+     "title": "Endless Summer Vacation"
+    },
+    "mx": 0.0,
+    "my": 74,
+    "mw": 2.0,
+    "mh": 4
+   },
+   {
+    "id": "fI3YnsDLEuMFu9Bn",
+    "type": "LINK",
+    "x": 3.0,
+    "y": 43,
+    "w": 1.0,
+    "h": 2,
+    "data": {
+     "url": "https://open.spotify.com/show/08zQP2peZmM9GrcKShLZvC?si=cce3ddff47574adb",
+     "title": "The Vergecast"
+    },
+    "mx": 0.0,
+    "my": 78,
+    "mw": 1.0,
+    "mh": 2
+   },
+   {
+    "id": "rZ5HvafKQuyMsnIm",
+    "type": "LINK",
+    "x": 3.0,
+    "y": 45,
+    "w": 1.0,
+    "h": 2,
+    "data": {
+     "url": "https://open.spotify.com/artist/6eUKZXaKkcviH0Ku9w2n3V?si=6wssXMIYRXKbRqNITsUTFA",
+     "title": "Ed Sheeran"
+    },
+    "mx": 1.0,
+    "my": 78,
+    "mw": 1.0,
+    "mh": 2
+   },
+   {
+    "id": "gjj9NY2dgmZG6qXH",
+    "type": "LINK",
+    "x": 3.0,
+    "y": 51,
+    "w": 1.0,
+    "h": 2,
+    "data": {
+     "url": "https://twitter.com/joinbento/status/1638206419194314755?s=20",
+     "title": "Launch Tweet",
+     "favicon": "/changelog/6ca3c579.ico"
+    },
+    "mx": 1.0,
+    "my": 92,
+    "mw": 1.0,
+    "mh": 2
+   },
+   {
+    "id": "04DE9Lv9mbSQ5g20",
+    "type": "SECTION_TITLE",
+    "x": 0.0,
+    "y": 37,
+    "w": 4.0,
+    "h": 1,
+    "data": {
+     "title": "April 6th 2023: Introducing, Maps 🗺"
+    },
+    "mx": 0.0,
+    "my": 62,
+    "mw": 2.0,
+    "mh": 1
+   },
+   {
+    "id": "DWIu46HmgAcgA6ex",
+    "type": "IMAGE",
+    "x": 0.0,
+    "y": 38,
+    "w": 2.0,
+    "h": 4,
+    "data": {
+     "url": "/changelog/60d8f7e5.mp4",
+     "kind": "video"
+    },
+    "mx": 0.0,
+    "my": 63,
+    "mw": 2.0,
+    "mh": 4
+   },
+   {
+    "id": "HAVXG3PJ8SaTZMjF",
+    "type": "MAP",
+    "x": 2.0,
+    "y": 38,
+    "w": 2.0,
+    "h": 2,
+    "data": {
+     "location": "Berlin, Germany",
+     "label": "Where the Bento Team is based 👋🏻",
+     "lat": 52.5141272,
+     "lng": 13.406142
+    },
+    "mx": 0.0,
+    "my": 67,
+    "mw": 2.0,
+    "mh": 2
+   },
+   {
+    "id": "YFbE9up2Ikvn3t6G",
+    "type": "LINK",
+    "x": 2.0,
+    "y": 40,
+    "w": 1.0,
+    "h": 2,
+    "data": {
+     "url": "https://twitter.com/joinbento/status/1643986351271063554?s=20",
+     "title": "Launch Tweet",
+     "image": "/changelog/0dea63ea.jpeg"
+    },
+    "mx": 0.0,
+    "my": 69,
+    "mw": 1.0,
+    "mh": 2
+   },
+   {
+    "id": "oZXZqeDA4vlyuGJ6",
+    "type": "SECTION_TITLE",
+    "x": 0.0,
+    "y": 32,
+    "w": 4.0,
+    "h": 1,
+    "data": {
+     "title": "April 11th 2023: Magic Tweets 🧙🏻‍♀️🪄✨"
+    },
+    "mx": 0.0,
+    "my": 56,
+    "mw": 2.0,
+    "mh": 1
+   },
+   {
+    "id": "gFyFXFDNMdRBnHzk",
+    "type": "IMAGE",
+    "x": 0.0,
+    "y": 33,
+    "w": 2.0,
+    "h": 4,
+    "data": {
+     "url": "/changelog/4cd4c79f.mp4",
+     "kind": "video"
+    },
+    "mx": 0.0,
+    "my": 57,
+    "mw": 2.0,
+    "mh": 4
+   },
+   {
+    "id": "BGwmWeGIey2l6Bps",
+    "type": "LINK",
+    "x": 2.0,
+    "y": 33,
+    "w": 1.0,
+    "h": 2,
+    "data": {
+     "url": "https://twitter.com/joinbento/status/1645817483771740162?s=20",
+     "title": "Launch Tweet"
+    },
+    "mx": 0.0,
+    "my": 61,
+    "mw": 2.0,
+    "mh": 1
+   },
+   {
+    "id": "94NrrOZm9Jga2QGn",
+    "type": "SECTION_TITLE",
+    "x": 0.0,
+    "y": 25,
+    "w": 4.0,
+    "h": 1,
+    "data": {
+     "title": "April 18th 2023: Linkable Media Widgets 🤩🔗"
+    },
+    "mx": 0.0,
+    "my": 43,
+    "mw": 2.0,
+    "mh": 1
+   },
+   {
+    "id": "s5giUeenYtxj0YUo",
+    "type": "IMAGE",
+    "x": 2.0,
+    "y": 26,
+    "w": 2.0,
+    "h": 2,
+    "data": {
+     "url": "/changelog/feb18de1.mp4",
+     "kind": "video"
+    },
+    "mx": 0.0,
+    "my": 48,
+    "mw": 2.0,
+    "mh": 4
+   },
+   {
+    "id": "eu1hgvoZcEKyoz8l",
+    "type": "IMAGE",
+    "x": 0.0,
+    "y": 26,
+    "w": 2.0,
+    "h": 4,
+    "data": {
+     "url": "/changelog/d4047204.jpg",
+     "kind": "image",
+     "href": "https://twitter.com/joinbento/status/1648296971223044096?s=20"
+    },
+    "mx": 0.0,
+    "my": 44,
+    "mw": 2.0,
+    "mh": 4
+   },
+   {
+    "id": "HisUK6ilneJs0cFq",
+    "type": "SECTION_TITLE",
+    "x": 0.0,
+    "y": 20,
+    "w": 4.0,
+    "h": 1,
+    "data": {
+     "title": "April 20th 2023: Bento Community Resources 🎨 🙌🏼"
+    },
+    "mx": 0.0,
+    "my": 34,
+    "mw": 2.0,
+    "mh": 1
+   },
+   {
+    "id": "4go4VetunIpsKYW9",
+    "type": "IMAGE",
+    "x": 0.0,
+    "y": 21,
+    "w": 2.0,
+    "h": 2,
+    "data": {
+     "url": "/changelog/d575a06c.jpg",
+     "kind": "image",
+     "href": "http://bento.me/explore#communityfiles"
+    },
+    "mx": 0.0,
+    "my": 35,
+    "mw": 2.0,
+    "mh": 2
+   },
+   {
+    "id": "04CzrRfHcNIOk8tu",
+    "type": "LINK",
+    "x": 2.0,
+    "y": 21,
+    "w": 2.0,
+    "h": 4,
+    "data": {
+     "url": "https://www.figma.com/community/file/1230552194166470869/Official-Bento-Widget-Guidelines",
+     "title": "Design your own custom widgets 👇🏼",
+     "favicon": "/changelog/4071cb17.ico"
+    },
+    "mx": 0.0,
+    "my": 37,
+    "mw": 2.0,
+    "mh": 4
+   },
+   {
+    "id": "5eXBnvc0Kto5jcdD",
+    "type": "TEXT",
+    "x": 0.0,
+    "y": 23,
+    "w": 2.0,
+    "h": 2,
+    "data": {
+     "content": "**👆🏼 Use beautiful custom widgets created by the Bento community** ",
+     "color": "#E487D7",
+     "align": "left",
+     "valign": "top"
+    },
+    "mx": 0.0,
+    "my": 41,
+    "mw": 2.0,
+    "mh": 2
+   },
+   {
+    "id": "cSAGxW27DiqXbm3I",
+    "type": "SECTION_TITLE",
+    "x": 0.0,
+    "y": 13,
+    "w": 4.0,
+    "h": 1,
+    "data": {
+     "title": "April 25th: Upgraded Adding Experience ✨ RIP little Add-Button 🪦"
+    },
+    "mx": 0.0,
+    "my": 23,
+    "mw": 2.0,
+    "mh": 1
+   },
+   {
+    "id": "WhOaJlw7Zf7yG4au",
+    "type": "IMAGE",
+    "x": 2.0,
+    "y": 16,
+    "w": 2.0,
+    "h": 2,
+    "data": {
+     "url": "/changelog/dbf1c188.mp4",
+     "kind": "video",
+     "href": "https://twitter.com/joinbento/status/1650850532591022082?s=20"
+    },
+    "mx": 0.0,
+    "my": 28,
+    "mw": 2.0,
+    "mh": 2
+   },
+   {
+    "id": "bb7sEQKRYgl7KhyX",
+    "type": "TEXT",
+    "x": 2.0,
+    "y": 18,
+    "w": 1.0,
+    "h": 2,
+    "data": {
+     "content": "Before 😮‍💨 ⤴️",
+     "color": "#3EB59D",
+     "align": "center",
+     "valign": "middle"
+    },
+    "mx": 0.0,
+    "my": 32,
+    "mw": 1.0,
+    "mh": 2
+   },
+   {
+    "id": "BGPhheuMkVNNUE3O",
+    "type": "TEXT",
+    "x": 3.0,
+    "y": 18,
+    "w": 1.0,
+    "h": 2,
+    "data": {
+     "content": "After 🥳 ⤴️",
+     "color": "#5AB2E6",
+     "align": "center",
+     "valign": "middle"
+    },
+    "mx": 1.0,
+    "my": 32,
+    "mw": 1.0,
+    "mh": 2
+   },
+   {
+    "id": "NAjY2Ro7jG8qaIkY",
+    "type": "TEXT",
+    "x": 0.0,
+    "y": 14,
+    "w": 2.0,
+    "h": 4,
+    "data": {
+     "content": "\n😍👋🏻🔗🌅📝🗺✨\n**Say hi to our shiny new widget bar** ",
+     "color": "#F89F21",
+     "align": "center",
+     "valign": "middle",
+     "href": "https://twitter.com/joinbento/status/1650850476760649731?s=20"
+    },
+    "mx": 0.0,
+    "my": 24,
+    "mw": 2.0,
+    "mh": 2
+   },
+   {
+    "id": "AA9X0zpwz47tbVRV",
+    "type": "TEXT",
+    "x": 2.0,
+    "y": 14,
+    "w": 2.0,
+    "h": 2,
+    "data": {
+     "content": "But we didn't stop there 🥳 \n\nNew widgets will now get added where you see them 👇🏼",
+     "align": "left",
+     "valign": "top"
+    },
+    "mx": 0.0,
+    "my": 26,
+    "mw": 2.0,
+    "mh": 2
+   },
+   {
+    "id": "6O4UfMNORrBQJeQm",
+    "type": "IMAGE",
+    "x": 0.0,
+    "y": 18,
+    "w": 2.0,
+    "h": 2,
+    "data": {
+     "url": "/changelog/e25ac3ed.mp4",
+     "kind": "video"
+    },
+    "mx": 0.0,
+    "my": 30,
+    "mw": 2.0,
+    "mh": 2
+   },
+   {
+    "id": "FCjvDLLgjIcSWUb9",
+    "type": "SECTION_TITLE",
+    "x": 0.0,
+    "y": 10,
+    "w": 4.0,
+    "h": 1,
+    "data": {
+     "title": "May 2nd: Bento Profile Views 👀🔎 "
+    },
+    "mx": 0.0,
+    "my": 18,
+    "mw": 2.0,
+    "mh": 1
+   },
+   {
+    "id": "zyB1WlI5O2weGezf",
+    "type": "IMAGE",
+    "x": 0.0,
+    "y": 11,
+    "w": 2.0,
+    "h": 2,
+    "data": {
+     "url": "/changelog/2e8da557.mp4",
+     "kind": "video",
+     "href": "https://twitter.com/gubmee/status/1653390123357052930?s=20"
+    },
+    "mx": 0.0,
+    "my": 19,
+    "mw": 2.0,
+    "mh": 2
+   },
+   {
+    "id": "jwR4tOSDDQ7Vk9pi",
+    "type": "TEXT",
+    "x": 2.0,
+    "y": 11,
+    "w": 2.0,
+    "h": 2,
+    "data": {
+     "content": "Today we're launching the first step towards analytics - Bento Profile Views 👀",
+     "color": "#5AB2E6",
+     "align": "center",
+     "valign": "middle",
+     "href": "http://bento.me/login"
+    },
+    "mx": 0.0,
+    "my": 21,
+    "mw": 2.0,
+    "mh": 2
+   },
+   {
+    "id": "QFJjQboLbgm2cVNU",
+    "type": "SECTION_TITLE",
+    "x": 0.0,
+    "y": 5,
+    "w": 4.0,
+    "h": 1,
+    "data": {
+     "title": "May 9th: Image and Video Cropping 🖼 🎥 ✂️"
+    },
+    "mx": 0.0,
+    "my": 9,
+    "mw": 2.0,
+    "mh": 1
+   },
+   {
+    "id": "RN0GCYxDZoPtg48o",
+    "type": "IMAGE",
+    "x": 2.0,
+    "y": 6,
+    "w": 2.0,
+    "h": 4,
+    "data": {
+     "url": "/changelog/c1910d40.mp4",
+     "kind": "video",
+     "href": "http://bento.me/login"
+    },
+    "mx": 0.0,
+    "my": 10,
+    "mw": 2.0,
+    "mh": 4
+   },
+   {
+    "id": "A5gHinvm1J5y8YYI",
+    "type": "TEXT",
+    "x": 0.0,
+    "y": 6,
+    "w": 2.0,
+    "h": 4,
+    "data": {
+     "content": "**Say goodbye to visual limitations!** \n\nNow, you can effortlessly crop and rearrange your visuals to perfection 👏🏻\n\nCurate your page like a pro and create a stunning showcase of who you are 💫",
+     "color": "#DD5ABB",
+     "align": "center",
+     "valign": "middle"
+    },
+    "mx": 0.0,
+    "my": 14,
+    "mw": 2.0,
+    "mh": 4
+   },
+   {
+    "id": "aWvxGN4hv0fPYHap",
+    "type": "TEXT",
+    "x": 2.0,
+    "y": 28,
+    "w": 2.0,
+    "h": 4,
+    "data": {
+     "content": "Images, videos, GIFs, and notes can now link out to your favorite sites 🤩🔗\n\nYou can take your Bento to the next level and make it truly unique. \n\nThe possibilities are now limitless - unleash your creativity!",
+     "color": "#2768B1",
+     "align": "center",
+     "valign": "middle"
+    },
+    "mx": 0.0,
+    "my": 52,
+    "mw": 2.0,
+    "mh": 4
+   },
+   {
+    "id": "9UeIGiMxGpz1d28G",
+    "type": "SECTION_TITLE",
+    "x": 0.0,
+    "y": 0,
+    "w": 4.0,
+    "h": 1,
+    "data": {
+     "title": "May 16th: Widget Suggestions 🌟"
+    },
+    "mx": 0.0,
+    "my": 0,
+    "mw": 2.0,
+    "mh": 1
+   },
+   {
+    "id": "AT7zWDjcbI4UY33z",
+    "type": "IMAGE",
+    "x": 0.0,
+    "y": 1,
+    "w": 2.0,
+    "h": 4,
+    "data": {
+     "url": "/changelog/6083d955.mp4",
+     "kind": "video",
+     "href": "https://twitter.com/eikedrescher/status/1659566664734633984",
+     "posX": 1
+    },
+    "mx": 0.0,
+    "my": 1,
+    "mw": 2.0,
+    "mh": 4
+   },
+   {
+    "id": "stWD1of7WDGPDIOp",
+    "type": "IMAGE",
+    "x": 2.0,
+    "y": 1,
+    "w": 1.0,
+    "h": 2,
+    "data": {
+     "url": "/changelog/d7b3f6cf.png",
+     "kind": "image"
+    },
+    "mx": 0.0,
+    "my": 5,
+    "mw": 1.0,
+    "mh": 2
+   },
+   {
+    "id": "DsYn5jDOxHP8pgA8",
+    "type": "IMAGE",
+    "x": 2.0,
+    "y": 3,
+    "w": 1.0,
+    "h": 2,
+    "data": {
+     "url": "/changelog/13456801.png",
+     "kind": "image"
+    },
+    "mx": 1.0,
+    "my": 5,
+    "mw": 1.0,
+    "mh": 2
+   },
+   {
+    "id": "vnAx9T3bCyedarxT",
+    "type": "IMAGE",
+    "x": 3.0,
+    "y": 1,
+    "w": 1.0,
+    "h": 2,
+    "data": {
+     "url": "/changelog/daed8a39.png",
+     "kind": "image"
+    },
+    "mx": 0.0,
+    "my": 7,
+    "mw": 1.0,
+    "mh": 2
+   },
+   {
+    "id": "yzAJMlQXmDs0G9JC",
+    "type": "IMAGE",
+    "x": 3.0,
+    "y": 3,
+    "w": 1.0,
+    "h": 2,
+    "data": {
+     "url": "/changelog/664f32f5.png",
+     "kind": "image"
+    },
+    "mx": 1.0,
+    "my": 7,
+    "mw": 1.0,
+    "mh": 2
+   }
+  ]
+ },
+ "frames": {
+  "desktop": {
+   "HFtLBFuyDp7ND6a4": [
+    9602,
+    60
+   ],
+   "6m8njIWEIRQmHVN1": [
+    10572,
+    60
+   ],
+   "ISGitULE5xsmIIdX": [
+    10642,
+    175
+   ],
+   "n3DimR157ur1ulVi": [
+    12082,
+    60
+   ],
+   "H0mhUi5duuo30Ugn": [
+    12152,
+    390
+   ],
+   "RBwcU2hsuMxgPUVP": [
+    12367,
+    175
+   ],
+   "yUqonCQUOG03dCIj": [
+    12152,
+    175
+   ],
+   "rbPE4ZFtLdjgUhY2": [
+    10857,
+    390
+   ],
+   "55KKAf9skEWdcXD7": [
+    10102,
+    175
+   ],
+   "sbAan7z9t9TjopUF": [
+    9672,
+    390
+   ],
+   "NgGt7oj9qcKW2Twd": [
+    9672,
+    390
+   ],
+   "PdxrCyhWZNvTzZ33": [
+    11327,
+    60
+   ],
+   "o4Ib3CKnThLPlj9J": [
+    11397,
+    390
+   ],
+   "E25GujxfhkOYUnjL": [
+    11612,
+    390
+   ],
+   "q5h5SIjhuNnvIq75": [
+    11397,
+    175
+   ],
+   "oSAfTIhcef3fGhFG": [
+    10857,
+    390
+   ],
+   "JF0cpC0mjMm3HoWj": [
+    10642,
+    175
+   ],
+   "2FPt0dYCN9uJeFnQ": [
+    12622,
+    60
+   ],
+   "SqpRHuKRGmBIPQq1": [
+    10102,
+    390
+   ],
+   "W9ayu4rEAqxUQkyv": [
+    12907,
+    175
+   ],
+   "pQQd53xUr9gJ5i2w": [
+    12692,
+    175
+   ],
+   "02MAuakj43itKx2l": [
+    12692,
+    390
+   ],
+   "rEGMxyxh63YFMbeh": [
+    13162,
+    60
+   ],
+   "bmnmN5oegzUJCRpb": [
+    13447,
+    175
+   ],
+   "UQdui5a02YRgDQnK": [
+    13232,
+    175
+   ],
+   "doKdU1xsXQKU0xTr": [
+    13447,
+    175
+   ],
+   "VJn5gcJP0XgEDy9Y": [
+    13232,
+    175
+   ],
+   "4pezDOXw3Pq8lNoi": [
+    13702,
+    60
+   ],
+   "qRl8JVzRSUy9zpME": [
+    13772,
+    390
+   ],
+   "f18YnIUnAOV1kr1s": [
+    8525,
+    60
+   ],
+   "wwLEd5Ne3ogg66VG": [
+    9025,
+    67
+   ],
+   "eaPszlg2QuEQbbrF": [
+    8595,
+    390
+   ],
+   "tnq18gY71RY6jHqQ": [
+    8595,
+    390
+   ],
+   "9Ks8JlJ05ZDzsHsY": [
+    9025,
+    390
+   ],
+   "IB2Gehk6g8TRxJQM": [
+    9025,
+    175
+   ],
+   "hcnc1EW71OcMEhMd": [
+    9132,
+    390
+   ],
+   "MIpcGOcrwfNXsTnw": [
+    9240,
+    175
+   ],
+   "AewrMlMdLAdmSUM0": [
+    9455,
+    67
+   ],
+   "fiJubaWOUvxA7Dqt": [
+    7985,
+    60
+   ],
+   "hYkgVkR8Hgd38sOr": [
+    8055,
+    390
+   ],
+   "WYQ9Rph9WSBpPsnB": [
+    8055,
+    175
+   ],
+   "UrQ7ibZrDDsr1bNL": [
+    7015,
+    60
+   ],
+   "lo1E6mmVk3riCCEk": [
+    7085,
+    175
+   ],
+   "R1plisQBZSARSili": [
+    7515,
+    390
+   ],
+   "xSAcwcnzvW4GjYzn": [
+    7085,
+    175
+   ],
+   "w6RFX3TSAz6unKkq": [
+    7085,
+    175
+   ],
+   "UvXIo7ccCUIb2Hhs": [
+    7300,
+    175
+   ],
+   "QIU8359tv9RsAFWm": [
+    7515,
+    175
+   ],
+   "touFNG4E5MKEOdwA": [
+    7300,
+    390
+   ],
+   "CGmBn4LKLwUcAUcF": [
+    7730,
+    67
+   ],
+   "b5Zrf1syYSKCkvew": [
+    6045,
+    60
+   ],
+   "Cwj8uEXHxmk1xIC7": [
+    6115,
+    390
+   ],
+   "DFw8rYws05K4HLGn": [
+    6330,
+    390
+   ],
+   "RGFSQQejhmgvdHsY": [
+    6115,
+    175
+   ],
+   "nGC83DSwKoQVx5D8": [
+    6115,
+    175
+   ],
+   "86FfTiWxxepCRxeJ": [
+    6545,
+    390
+   ],
+   "1YnqJvt47YnW0rQc": [
+    6760,
+    67
+   ],
+   "j9rvyGHvT13uY0fl": [
+    5720,
+    60
+   ],
+   "jgt2xD9eRm7CLpOp": [
+    5790,
+    175
+   ],
+   "VUngonZyVjjYuFrm": [
+    5790,
+    175
+   ],
+   "90uaHwWFtPMFi2TF": [
+    4535,
+    60
+   ],
+   "lnIIgZ6OdBsmFyF5": [
+    4605,
+    390
+   ],
+   "ughiOJQykOM32BaL": [
+    5250,
+    390
+   ],
+   "FUJNE9d0VFapVbdB": [
+    5035,
+    175
+   ],
+   "Zeafoe3rGfOlmtOA": [
+    4605,
+    390
+   ],
+   "mA0pW6qll0jG529x": [
+    5035,
+    175
+   ],
+   "u9FgYYQQHU6KmdN7": [
+    5250,
+    175
+   ],
+   "iorOjKb0cYfrlHOL": [
+    5250,
+    390
+   ],
+   "fI3YnsDLEuMFu9Bn": [
+    4605,
+    175
+   ],
+   "rZ5HvafKQuyMsnIm": [
+    4820,
+    175
+   ],
+   "gjj9NY2dgmZG6qXH": [
+    5465,
+    175
+   ],
+   "04DE9Lv9mbSQ5g20": [
+    3995,
+    60
+   ],
+   "DWIu46HmgAcgA6ex": [
+    4065,
+    390
+   ],
+   "HAVXG3PJ8SaTZMjF": [
+    4065,
+    175
+   ],
+   "YFbE9up2Ikvn3t6G": [
+    4280,
+    175
+   ],
+   "oZXZqeDA4vlyuGJ6": [
+    3455,
+    60
+   ],
+   "gFyFXFDNMdRBnHzk": [
+    3525,
+    390
+   ],
+   "BGwmWeGIey2l6Bps": [
+    3525,
+    175
+   ],
+   "94NrrOZm9Jga2QGn": [
+    2700,
+    60
+   ],
+   "s5giUeenYtxj0YUo": [
+    2770,
+    175
+   ],
+   "eu1hgvoZcEKyoz8l": [
+    2770,
+    390
+   ],
+   "HisUK6ilneJs0cFq": [
+    2160,
+    60
+   ],
+   "4go4VetunIpsKYW9": [
+    2230,
+    175
+   ],
+   "04CzrRfHcNIOk8tu": [
+    2230,
+    390
+   ],
+   "5eXBnvc0Kto5jcdD": [
+    2445,
+    175
+   ],
+   "cSAGxW27DiqXbm3I": [
+    1405,
+    60
+   ],
+   "WhOaJlw7Zf7yG4au": [
+    1690,
+    175
+   ],
+   "bb7sEQKRYgl7KhyX": [
+    1905,
+    175
+   ],
+   "BGPhheuMkVNNUE3O": [
+    1905,
+    175
+   ],
+   "NAjY2Ro7jG8qaIkY": [
+    1475,
+    390
+   ],
+   "AA9X0zpwz47tbVRV": [
+    1475,
+    175
+   ],
+   "6O4UfMNORrBQJeQm": [
+    1905,
+    175
+   ],
+   "FCjvDLLgjIcSWUb9": [
+    1080,
+    60
+   ],
+   "zyB1WlI5O2weGezf": [
+    1150,
+    175
+   ],
+   "jwR4tOSDDQ7Vk9pi": [
+    1150,
+    175
+   ],
+   "QFJjQboLbgm2cVNU": [
+    540,
+    60
+   ],
+   "RN0GCYxDZoPtg48o": [
+    610,
+    390
+   ],
+   "A5gHinvm1J5y8YYI": [
+    610,
+    390
+   ],
+   "aWvxGN4hv0fPYHap": [
+    2985,
+    390
+   ],
+   "9UeIGiMxGpz1d28G": [
+    0,
+    60
+   ],
+   "AT7zWDjcbI4UY33z": [
+    70,
+    390
+   ],
+   "stWD1of7WDGPDIOp": [
+    70,
+    175
+   ],
+   "DsYn5jDOxHP8pgA8": [
+    285,
+    175
+   ],
+   "vnAx9T3bCyedarxT": [
+    70,
+    175
+   ],
+   "yzAJMlQXmDs0G9JC": [
+    285,
+    175
+   ]
+  },
+  "mobile": {
+   "HFtLBFuyDp7ND6a4": [
+    14398,
+    88
+   ],
+   "6m8njIWEIRQmHVN1": [
+    15704,
+    88
+   ],
+   "ISGitULE5xsmIIdX": [
+    15979,
+    159
+   ],
+   "n3DimR157ur1ulVi": [
+    17308,
+    60
+   ],
+   "H0mhUi5duuo30Ugn": [
+    17555,
+    67
+   ],
+   "RBwcU2hsuMxgPUVP": [
+    17647,
+    159
+   ],
+   "yUqonCQUOG03dCIj": [
+    17372,
+    159
+   ],
+   "rbPE4ZFtLdjgUhY2": [
+    16162,
+    342
+   ],
+   "55KKAf9skEWdcXD7": [
+    15588,
+    67
+   ],
+   "sbAan7z9t9TjopUF": [
+    14856,
+    342
+   ],
+   "NgGt7oj9qcKW2Twd": [
+    14490,
+    342
+   ],
+   "PdxrCyhWZNvTzZ33": [
+    16552,
+    88
+   ],
+   "o4Ib3CKnThLPlj9J": [
+    17010,
+    67
+   ],
+   "E25GujxfhkOYUnjL": [
+    16644,
+    342
+   ],
+   "q5h5SIjhuNnvIq75": [
+    17101,
+    159
+   ],
+   "oSAfTIhcef3fGhFG": [
+    15979,
+    159
+   ],
+   "JF0cpC0mjMm3HoWj": [
+    15796,
+    159
+   ],
+   "2FPt0dYCN9uJeFnQ": [
+    17854,
+    116
+   ],
+   "SqpRHuKRGmBIPQq1": [
+    15222,
+    342
+   ],
+   "W9ayu4rEAqxUQkyv": [
+    18340,
+    159
+   ],
+   "pQQd53xUr9gJ5i2w": [
+    18340,
+    159
+   ],
+   "02MAuakj43itKx2l": [
+    17974,
+    342
+   ],
+   "rEGMxyxh63YFMbeh": [
+    18547,
+    60
+   ],
+   "bmnmN5oegzUJCRpb": [
+    18611,
+    159
+   ],
+   "UQdui5a02YRgDQnK": [
+    18611,
+    159
+   ],
+   "doKdU1xsXQKU0xTr": [
+    18794,
+    159
+   ],
+   "VJn5gcJP0XgEDy9Y": [
+    18977,
+    159
+   ],
+   "4pezDOXw3Pq8lNoi": [
+    19184,
+    60
+   ],
+   "qRl8JVzRSUy9zpME": [
+    19248,
+    342
+   ],
+   "f18YnIUnAOV1kr1s": [
+    12607,
+    116
+   ],
+   "wwLEd5Ne3ogg66VG": [
+    13093,
+    67
+   ],
+   "eaPszlg2QuEQbbrF": [
+    12727,
+    342
+   ],
+   "tnq18gY71RY6jHqQ": [
+    13185,
+    342
+   ],
+   "9Ks8JlJ05ZDzsHsY": [
+    13551,
+    342
+   ],
+   "IB2Gehk6g8TRxJQM": [
+    13551,
+    159
+   ],
+   "hcnc1EW71OcMEhMd": [
+    13917,
+    342
+   ],
+   "MIpcGOcrwfNXsTnw": [
+    13734,
+    159
+   ],
+   "AewrMlMdLAdmSUM0": [
+    14283,
+    67
+   ],
+   "fiJubaWOUvxA7Dqt": [
+    11914,
+    116
+   ],
+   "hYkgVkR8Hgd38sOr": [
+    12034,
+    342
+   ],
+   "WYQ9Rph9WSBpPsnB": [
+    12400,
+    159
+   ],
+   "UrQ7ibZrDDsr1bNL": [
+    10728,
+    60
+   ],
+   "lo1E6mmVk3riCCEk": [
+    11616,
+    159
+   ],
+   "R1plisQBZSARSili": [
+    11616,
+    159
+   ],
+   "xSAcwcnzvW4GjYzn": [
+    10792,
+    159
+   ],
+   "w6RFX3TSAz6unKkq": [
+    11341,
+    67
+   ],
+   "UvXIo7ccCUIb2Hhs": [
+    11433,
+    67
+   ],
+   "QIU8359tv9RsAFWm": [
+    11524,
+    67
+   ],
+   "touFNG4E5MKEOdwA": [
+    10975,
+    342
+   ],
+   "CGmBn4LKLwUcAUcF": [
+    11799,
+    67
+   ],
+   "b5Zrf1syYSKCkvew": [
+    9212,
+    116
+   ],
+   "Cwj8uEXHxmk1xIC7": [
+    9332,
+    342
+   ],
+   "DFw8rYws05K4HLGn": [
+    9881,
+    342
+   ],
+   "RGFSQQejhmgvdHsY": [
+    9698,
+    159
+   ],
+   "nGC83DSwKoQVx5D8": [
+    10247,
+    159
+   ],
+   "86FfTiWxxepCRxeJ": [
+    10247,
+    342
+   ],
+   "1YnqJvt47YnW0rQc": [
+    10613,
+    67
+   ],
+   "j9rvyGHvT13uY0fl": [
+    8849,
+    60
+   ],
+   "jgt2xD9eRm7CLpOp": [
+    9096,
+    67
+   ],
+   "VUngonZyVjjYuFrm": [
+    8913,
+    159
+   ],
+   "90uaHwWFtPMFi2TF": [
+    6692,
+    116
+   ],
+   "lnIIgZ6OdBsmFyF5": [
+    7910,
+    342
+   ],
+   "ughiOJQykOM32BaL": [
+    8459,
+    342
+   ],
+   "FUJNE9d0VFapVbdB": [
+    8276,
+    159
+   ],
+   "Zeafoe3rGfOlmtOA": [
+    7544,
+    342
+   ],
+   "mA0pW6qll0jG529x": [
+    6812,
+    159
+   ],
+   "u9FgYYQQHU6KmdN7": [
+    8459,
+    159
+   ],
+   "iorOjKb0cYfrlHOL": [
+    6995,
+    342
+   ],
+   "fI3YnsDLEuMFu9Bn": [
+    7361,
+    159
+   ],
+   "rZ5HvafKQuyMsnIm": [
+    7361,
+    159
+   ],
+   "gjj9NY2dgmZG6qXH": [
+    8642,
+    159
+   ],
+   "04DE9Lv9mbSQ5g20": [
+    5844,
+    88
+   ],
+   "DWIu46HmgAcgA6ex": [
+    5936,
+    342
+   ],
+   "HAVXG3PJ8SaTZMjF": [
+    6302,
+    159
+   ],
+   "YFbE9up2Ikvn3t6G": [
+    6485,
+    159
+   ],
+   "oZXZqeDA4vlyuGJ6": [
+    5271,
+    88
+   ],
+   "gFyFXFDNMdRBnHzk": [
+    5363,
+    342
+   ],
+   "BGwmWeGIey2l6Bps": [
+    5729,
+    67
+   ],
+   "94NrrOZm9Jga2QGn": [
+    4057,
+    88
+   ],
+   "s5giUeenYtxj0YUo": [
+    4515,
+    342
+   ],
+   "eu1hgvoZcEKyoz8l": [
+    4149,
+    342
+   ],
+   "HisUK6ilneJs0cFq": [
+    3209,
+    88
+   ],
+   "4go4VetunIpsKYW9": [
+    3301,
+    159
+   ],
+   "04CzrRfHcNIOk8tu": [
+    3484,
+    342
+   ],
+   "5eXBnvc0Kto5jcdD": [
+    3850,
+    159
+   ],
+   "cSAGxW27DiqXbm3I": [
+    2150,
+    116
+   ],
+   "WhOaJlw7Zf7yG4au": [
+    2636,
+    159
+   ],
+   "bb7sEQKRYgl7KhyX": [
+    3002,
+    159
+   ],
+   "BGPhheuMkVNNUE3O": [
+    3002,
+    159
+   ],
+   "NAjY2Ro7jG8qaIkY": [
+    2270,
+    159
+   ],
+   "AA9X0zpwz47tbVRV": [
+    2453,
+    159
+   ],
+   "6O4UfMNORrBQJeQm": [
+    2819,
+    159
+   ],
+   "FCjvDLLgjIcSWUb9": [
+    1668,
+    88
+   ],
+   "zyB1WlI5O2weGezf": [
+    1760,
+    159
+   ],
+   "jwR4tOSDDQ7Vk9pi": [
+    1943,
+    159
+   ],
+   "QFJjQboLbgm2cVNU": [
+    820,
+    88
+   ],
+   "RN0GCYxDZoPtg48o": [
+    912,
+    342
+   ],
+   "A5gHinvm1J5y8YYI": [
+    1278,
+    342
+   ],
+   "aWvxGN4hv0fPYHap": [
+    4881,
+    342
+   ],
+   "9UeIGiMxGpz1d28G": [
+    0,
+    60
+   ],
+   "AT7zWDjcbI4UY33z": [
+    64,
+    342
+   ],
+   "stWD1of7WDGPDIOp": [
+    430,
+    159
+   ],
+   "DsYn5jDOxHP8pgA8": [
+    430,
+    159
+   ],
+   "vnAx9T3bCyedarxT": [
+    613,
+    159
+   ],
+   "yzAJMlQXmDs0G9JC": [
+    613,
+    159
+   ]
+  }
+ },
+ "picture": "/changelog/fd997c4f.png",
+ "rich": {
+  "https://github.com/gumbee": {
+   "kind": "github",
+   "handle": "gumbee",
+   "total": 2,
+   "start": "2025-01-26",
+   "weeks": [
+    [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    [
+     0,
+     0,
+     0,
+     4,
+     0,
+     0,
+     0
+    ],
+    [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ]
+   ]
+  },
+  "https://github.com/heikir": {
+   "kind": "github",
+   "handle": "heikir",
+   "total": 503,
+   "start": "2025-02-02",
+   "weeks": [
+    [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    [
+     0,
+     2,
+     4,
+     0,
+     0,
+     0,
+     0
+    ],
+    [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    [
+     0,
+     0,
+     2,
+     0,
+     0,
+     0,
+     0
+    ],
+    [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    [
+     0,
+     0,
+     1,
+     2,
+     2,
+     0,
+     0
+    ],
+    [
+     0,
+     3,
+     2,
+     4,
+     3,
+     3,
+     2
+    ],
+    [
+     0,
+     2,
+     2,
+     1,
+     1,
+     0,
+     0
+    ],
+    [
+     0,
+     0,
+     0,
+     1,
+     0,
+     1,
+     0
+    ],
+    [
+     0,
+     1,
+     0,
+     0,
+     1,
+     1,
+     0
+    ],
+    [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    [
+     0,
+     0,
+     0,
+     2,
+     4,
+     1,
+     2
+    ],
+    [
+     1,
+     3,
+     4,
+     1,
+     0,
+     1,
+     1
+    ],
+    [
+     1,
+     3,
+     2,
+     1,
+     1,
+     0,
+     1
+    ],
+    [
+     2,
+     3,
+     2,
+     2,
+     3,
+     0,
+     0
+    ],
+    [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    [
+     0,
+     2,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    [
+     0,
+     1,
+     2,
+     2,
+     0,
+     0,
+     0
+    ],
+    [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    [
+     1,
+     3,
+     2,
+     4,
+     4,
+     3,
+     0
+    ],
+    [
+     1,
+     3,
+     2,
+     0,
+     1,
+     1,
+     0
+    ],
+    [
+     2,
+     2,
+     1,
+     1,
+     1,
+     0,
+     0
+    ],
+    [
+     0,
+     0,
+     1,
+     4,
+     0,
+     0,
+     0
+    ],
+    [
+     0,
+     0,
+     0,
+     0,
+     1,
+     0,
+     0
+    ],
+    [
+     0,
+     0,
+     0,
+     0,
+     1,
+     1,
+     1
+    ],
+    [
+     2,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    [
+     0,
+     3,
+     2,
+     1,
+     0,
+     1,
+     1
+    ],
+    [
+     3,
+     1,
+     1,
+     0,
+     0,
+     0,
+     0
+    ],
+    [
+     0,
+     1,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    [
+     0,
+     2,
+     4,
+     1,
+     4,
+     1,
+     0
+    ],
+    [
+     1,
+     0,
+     0,
+     1,
+     1,
+     2,
+     0
+    ],
+    [
+     0,
+     0,
+     0,
+     0,
+     0,
+     1,
+     2
+    ],
+    [
+     0,
+     2,
+     2,
+     4,
+     4,
+     0,
+     0
+    ],
+    [
+     0
+    ]
+   ]
+  },
+  "https://www.youtube.com/@mkbhd": {
+   "kind": "youtube",
+   "channelName": "Marques Brownlee",
+   "subscribers": "20.7M",
+   "videos": [
+    {
+     "id": "vZdbbN3FCzE",
+     "title": "The Downfall of OnePlus will be Studied",
+     "thumbnail": "/changelog/2a7fcd35.jpeg"
+    },
+    {
+     "id": "DqAKQwagCDg",
+     "title": "Xiaomi 17 Ultra - More Camera than Phone!",
+     "thumbnail": "/changelog/177fc9c0.jpeg"
+    },
+    {
+     "id": "TVsounscj4U",
+     "title": "The New Siri is... Google (Explained)",
+     "thumbnail": "/changelog/ec736c90.jpeg"
+    },
+    {
+     "id": "HLUamwXQ218",
+     "title": "The Problem with this “Ultra Luxury” Smartphone",
+     "thumbnail": "/changelog/b31658cb.jpeg"
+    },
+    {
+     "id": "Jh9pFp1oM7E",
+     "title": "I shrunk down into an M5 chip",
+     "thumbnail": "/changelog/e2b9a702.jpeg"
+    },
+    {
+     "id": "v-sCZN3FbR0",
+     "title": "Every Mistake I Made in 2025",
+     "thumbnail": "https://i.ytimg.com/vi/v-sCZN3FbR0/mqdefault.jpg"
+    },
+    {
+     "id": "trsHTKqmZOk",
+     "title": "Samsung Galaxy Z Tri Fold Impressions: NOW It Makes Sense!",
+     "thumbnail": "/changelog/22b5b75f.jpeg"
+    },
+    {
+     "id": "sfyL4BswUeE",
+     "title": "Smartphone Awards 2025!",
+     "thumbnail": "/changelog/35a72479.jpeg"
+    },
+    {
+     "id": "Mb6H7trzMfI",
+     "title": "Driving Xiaomi's Electric Car: Are we Cooked?",
+     "thumbnail": "/changelog/1b19234a.jpeg"
+    },
+    {
+     "id": "Qqyp00JPJZI",
+     "title": "\"Siri Isn't That Bad\"",
+     "thumbnail": "/changelog/95ecaafd.jpeg"
+    },
+    {
+     "id": "KW21q_7U6Ao",
+     "title": "What's on my Phone 2026!",
+     "thumbnail": "https://i.ytimg.com/vi/KW21q_7U6Ao/mqdefault.jpg"
+    },
+    {
+     "id": "RvP-uVNwnXo",
+     "title": "Dope Tech: STILL so good!",
+     "thumbnail": "/changelog/0e0ba79c.jpeg"
+    },
+    {
+     "id": "2MdQWo9fHZs",
+     "title": "OnePlus 15 Review: This is Not Normal!",
+     "thumbnail": "https://i.ytimg.com/vi/2MdQWo9fHZs/mqdefault.jpg"
+    },
+    {
+     "id": "j31dmodZ-5c",
+     "title": "The Problem with this Humanoid Robot",
+     "thumbnail": "/changelog/ac3d1035.jpeg"
+    },
+    {
+     "id": "rU9aqBv0YdY",
+     "title": "What's Going on with Apple Vision Pro?",
+     "thumbnail": "https://i.ytimg.com/vi/rU9aqBv0YdY/mqdefault.jpg"
+    },
+    {
+     "id": "eou_g_cYCew",
+     "title": "Xiaomi 17 Pro Max: An iPhone... But Better!",
+     "thumbnail": "https://i.ytimg.com/vi/eou_g_cYCew/mqdefault.jpg"
+    },
+    {
+     "id": "Tl8RS0sR-qA",
+     "title": "Google Pixel Pro Fold Review: Not Compatible!",
+     "thumbnail": "/changelog/39b20482.jpeg"
+    },
+    {
+     "id": "rng_yUSwrgU",
+     "title": "iPhone 17 Review: No Asterisks!",
+     "thumbnail": "/changelog/e3808eea.jpeg"
+    },
+    {
+     "id": "q0aFOxT6TNw",
+     "title": "iPhone 17 Pro Review: Paradox in a Box!",
+     "thumbnail": "/changelog/e1895555.jpeg"
+    },
+    {
+     "id": "tDARtYjUiHs",
+     "title": "iPhone Air Review: Beauty is Pain",
+     "thumbnail": "/changelog/12cfd4f5.jpeg"
+    },
+    {
+     "id": "7gtc1DW2Tgo",
+     "title": "Wait... Smart Glasses are Suddenly Good?",
+     "thumbnail": "/changelog/6a4cd6db.jpeg"
+    },
+    {
+     "id": "s0EbxhQYeCA",
+     "title": "iPhone 17/Pro/Air Unboxing: 1 Hot Take!",
+     "thumbnail": "/changelog/c927a5e4.jpeg"
+    },
+    {
+     "id": "GB0b6KFZVq0",
+     "title": "AirPods Pro 3 Review: I Understand It Now!",
+     "thumbnail": "/changelog/b61ffe69.jpeg"
+    },
+    {
+     "id": "idEAABFzpfg",
+     "title": "iPhone 17/Pro/Air Impressions: Spot the Red Flags!",
+     "thumbnail": "/changelog/e6dcc612.jpeg"
+    },
+    {
+     "id": "i63u-iAnhuk",
+     "title": "Pixel 10/Pro Review: Good News and Bad News!",
+     "thumbnail": "https://i.ytimg.com/vi/i63u-iAnhuk/mqdefault.jpg"
+    },
+    {
+     "id": "eCR17sBh-Qw",
+     "title": "Switching from iPhone to Android",
+     "thumbnail": "https://i.ytimg.com/vi/eCR17sBh-Qw/mqdefault.jpg"
+    },
+    {
+     "id": "269OsrzG3Ew",
+     "title": "Google Pixel 10/Pro/Fold Impressions: Magnets!",
+     "thumbnail": "/changelog/3b286438.jpeg"
+    },
+    {
+     "id": "-7X5KukvABc",
+     "title": "Top 5 Sports Tech I Actually Use!",
+     "thumbnail": "/changelog/cf087c64.jpeg"
+    },
+    {
+     "id": "We2ZD0-IXPM",
+     "title": "Investigating the Tesla Robotaxi!",
+     "thumbnail": "/changelog/de995b41.jpeg"
+    },
+    {
+     "id": "AphNalSmvlk",
+     "title": "iPadOS 26: Ready for Laptop Duty?",
+     "thumbnail": "/changelog/78f52f9e.jpeg"
+    }
+   ]
+  },
+  "https://www.youtube.com/@Micode": {
+   "kind": "youtube",
+   "channelName": "Micode",
+   "subscribers": "1.8M",
+   "videos": [
+    {
+     "id": "4xq6bVbS-Pw",
+     "title": "The Idiot Factory",
+     "thumbnail": "/changelog/45e033f4.jpeg"
+    },
+    {
+     "id": "mKGFsDbvBsA",
+     "title": "How to bribe a public official?",
+     "thumbnail": "/changelog/f664bc94.jpeg"
+    },
+    {
+     "id": "2wMxldl3Alk",
+     "title": "The most serious conspiracy in French tech",
+     "thumbnail": "https://i.ytimg.com/vi/2wMxldl3Alk/mqdefault.jpg"
+    },
+    {
+     "id": "8vnutj0Mrc4",
+     "title": "L'infiltration impossible que personne n'avait vue venir",
+     "thumbnail": "https://i.ytimg.com/vi/8vnutj0Mrc4/mqdefault.jpg"
+    },
+    {
+     "id": "90QU1zK6kM4",
+     "title": "J’ai infiltré une pyramide de Ponzi",
+     "thumbnail": "/changelog/0aab7df5.jpeg"
+    },
+    {
+     "id": "Vj4474vTtQ8",
+     "title": "Comment un selfie a fait tomber un empire criminel",
+     "thumbnail": "/changelog/da5f7046.jpeg"
+    },
+    {
+     "id": "ag6-52_1SDA",
+     "title": "Les 24h qui ont changé l'histoire du crime organisé",
+     "thumbnail": "/changelog/a3092ffc.jpeg"
+    },
+    {
+     "id": "QJwVUExjlC0",
+     "title": "Le hacker qui avait 6h d'avance sur Wall Street",
+     "thumbnail": "/changelog/835cad09.jpeg"
+    },
+    {
+     "id": "dS01AoUF1xo",
+     "title": "Pourquoi les criminels achètent ces téléphones 6000$ ?",
+     "thumbnail": "/changelog/5bf8824c.jpeg"
+    },
+    {
+     "id": "gXtp6C-3JKo",
+     "title": "Le virus le plus flippant de l'Histoire",
+     "thumbnail": "/changelog/8abab047.jpeg"
+    },
+    {
+     "id": "WQBLPYToLME",
+     "title": "L'attaque informatique la plus sophistiquée de l'Histoire",
+     "thumbnail": "/changelog/7309f2a5.jpeg"
+    },
+    {
+     "id": "W5ThRimqb2U",
+     "title": "Le hacker devenu millionnaire en truquant la loterie",
+     "thumbnail": "/changelog/b394c201.jpeg"
+    },
+    {
+     "id": "iL5LC0a7KJY",
+     "title": "Comment blanchir de l'argent ?",
+     "thumbnail": "https://i.ytimg.com/vi/iL5LC0a7KJY/mqdefault.jpg"
+    },
+    {
+     "id": "9YRk_7pYWXo",
+     "title": "Le jour ou un employé à rançonné son propre patron (L'affaire Ubiquiti)",
+     "thumbnail": "https://i.ytimg.com/vi/9YRk_7pYWXo/mqdefault.jpg"
+    },
+    {
+     "id": "ZkMP6YD52L8",
+     "title": "Le hacker qui a exposé 37 millions de maris infidèles",
+     "thumbnail": "https://i.ytimg.com/vi/ZkMP6YD52L8/mqdefault.jpg"
+    },
+    {
+     "id": "8LHEwkV7QpY",
+     "title": "Comment disparaître d'Internet ?",
+     "thumbnail": "/changelog/f31d69fa.jpeg"
+    },
+    {
+     "id": "KoRFf7zjmmc",
+     "title": "YouTube est en train de perdre la guerre la plus épique d’Internet",
+     "thumbnail": "https://i.ytimg.com/vi/KoRFf7zjmmc/mqdefault.jpg"
+    },
+    {
+     "id": "LvnjQQKj11M",
+     "title": "Le téléchargement illégal cache-t-il vraiment des virus ?",
+     "thumbnail": "/changelog/894bbbaf.jpeg"
+    },
+    {
+     "id": "SyamXfBVjrM",
+     "title": "Les développeurs doivent-ils avoir peur de GPT5 ?",
+     "thumbnail": "/changelog/db3976a2.jpeg"
+    },
+    {
+     "id": "9aYgKQDOjI0",
+     "title": "J'ai envoyé 10246 CVs avec un bot, voici ce que j'ai appris",
+     "thumbnail": "/changelog/b8c73ae6.jpeg"
+    },
+    {
+     "id": "6Jv0EzXdQbk",
+     "title": "J'ai infiltré un réseau d'arnaqueurs au SMS",
+     "thumbnail": "https://i.ytimg.com/vi/6Jv0EzXdQbk/mqdefault.jpg"
+    },
+    {
+     "id": "4daO2QM12WY",
+     "title": "Comment retrouver n'importe qui sur Internet ?",
+     "thumbnail": "/changelog/5352342f.jpeg"
+    },
+    {
+     "id": "FDnH4NVKHco",
+     "title": "J'ai fouillé des disques durs sur Leboncoin ! (encore)",
+     "thumbnail": "/changelog/5205ed73.jpeg"
+    },
+    {
+     "id": "RBWQP3gVauY",
+     "title": "Comment cette île du Pacifique gagne des millions",
+     "thumbnail": "/changelog/ef98a535.jpeg"
+    },
+    {
+     "id": "CqhcntD1JN4",
+     "title": "J’ai matché 10246 filles avec un bot, voici ce j’ai appris",
+     "thumbnail": "/changelog/7585a5d5.jpeg"
+    },
+    {
+     "id": "B1HCOiq5izk",
+     "title": "Un gars a trouvé mon adresse grâce à StreetView",
+     "thumbnail": "/changelog/51b704f0.jpeg"
+    },
+    {
+     "id": "ADF2vMkvN8c",
+     "title": "Comment le dark mode vous gâche la vie",
+     "thumbnail": "/changelog/ff9beba7.jpeg"
+    },
+    {
+     "id": "vIyBFpdFHRM",
+     "title": "J'ai créé un réseau social basé sur la haine.",
+     "thumbnail": "/changelog/0acd1f56.jpeg"
+    },
+    {
+     "id": "oFSXvd1oCNA",
+     "title": "Ne lancez SURTOUT PAS cette commande",
+     "thumbnail": "/changelog/1417703f.jpeg"
+    },
+    {
+     "id": "6F7tlwmdjbY",
+     "title": "J'ai créé un bot qui m'a causé des problèmes...",
+     "thumbnail": "/changelog/db30b954.jpg"
+    }
+   ]
+  },
+  "https://open.spotify.com/show/44fllCS2FTFr2x2kjP9xeT": {
+   "kind": "spotify",
+   "type": "show",
+   "title": "Hard Fork",
+   "tracks": [
+    {
+     "title": "Hard Fork",
+     "duration": 4230086,
+     "preview": "https://podz-content.spotifycdn.com/audio/clips/6nvpi2ibi5oyxRw1F3vobI/clip_123000_180000.mp3"
+    },
+    {
+     "title": "Hard Fork",
+     "duration": 4420806,
+     "preview": "https://podz-content.spotifycdn.com/audio/clips/4PV4BjsZuDEGvlIexR0St7/clip_516000_577800.mp3"
+    }
+   ],
+   "subtitle": "The New York Times",
+   "preview": "https://podz-content.spotifycdn.com/audio/clips/6nvpi2ibi5oyxRw1F3vobI/clip_123000_180000.mp3",
+   "duration": 4230086
+  },
+  "https://open.spotify.com/track/4jNa66Mi5PgcXrEaCiPNMu?si=010bac47f7244a82": {
+   "kind": "spotify",
+   "type": "track",
+   "title": "Aloha! (Main Title Theme) - from “The White Lotus: Season 1”",
+   "cover": "/changelog/7986cc6e.jpeg",
+   "tracks": [],
+   "subtitle": "Cristobal Tapia De Veer",
+   "preview": "https://p.scdn.co/mp3-preview/4f9954e4dbee7f1e279c871b308b08dfe495ad7b",
+   "duration": 79000
+  },
+  "https://open.spotify.com/album/0HiZ8fNXwJOQcrf5iflrdz?si=26DDjjMgSiKBZS0dGpp9yw": {
+   "kind": "spotify",
+   "type": "album",
+   "title": "Endless Summer Vacation",
+   "cover": "/changelog/bacf6ba9.jpeg",
+   "tracks": [
+    {
+     "title": "Flowers",
+     "duration": 200600,
+     "preview": "https://p.scdn.co/mp3-preview/5184d19d1b7fcc3e7c067e38af45a7cc80851440?cid=e9674deaf4924833947faecd37ddcd55"
+    },
+    {
+     "title": "Jaded",
+     "duration": 185933,
+     "preview": "https://p.scdn.co/mp3-preview/b70d6946222644d6d88d5b88fe0c8446c6240bd0?cid=e9674deaf4924833947faecd37ddcd55"
+    },
+    {
+     "title": "Rose Colored Lenses",
+     "duration": 223786,
+     "preview": "https://p.scdn.co/mp3-preview/ca6c583820a2b964d4bed1b9ac8e801a17933b9e?cid=e9674deaf4924833947faecd37ddcd55"
+    },
+    {
+     "title": "Thousand Miles (feat. Brandi Carlile)",
+     "duration": 231000,
+     "preview": "https://p.scdn.co/mp3-preview/d17b0c6938ceafdaa486cfe083ad2512854470e7?cid=e9674deaf4924833947faecd37ddcd55"
+    },
+    {
+     "title": "You",
+     "duration": 179426,
+     "preview": "https://p.scdn.co/mp3-preview/268e9731c03c14e3adac546ef78bc07172aca110?cid=e9674deaf4924833947faecd37ddcd55"
+    },
+    {
+     "title": "Handstand",
+     "duration": 205240,
+     "preview": "https://p.scdn.co/mp3-preview/c55b106ce42d91f075157fde497d392098b49a4c?cid=e9674deaf4924833947faecd37ddcd55"
+    },
+    {
+     "title": "River",
+     "duration": 162973,
+     "preview": "https://p.scdn.co/mp3-preview/5f9bd23db4278e228441826829d7a583cea60155?cid=e9674deaf4924833947faecd37ddcd55"
+    }
+   ],
+   "subtitle": "Miley Cyrus"
+  },
+  "https://open.spotify.com/show/08zQP2peZmM9GrcKShLZvC?si=cce3ddff47574adb": {
+   "kind": "spotify",
+   "type": "show",
+   "title": "The Vergecast",
+   "cover": "/changelog/7ca06451.jpeg",
+   "tracks": [
+    {
+     "title": "Apple events, SEO, and other fights",
+     "duration": 5086275,
+     "preview": "https://podz-content.spotifycdn.com/audio/clips/7oL3AtUxZ0U6ciD3UQBpm8/clip_1641900_1697900.mp3"
+    },
+    {
+     "title": "Macs and M3s, shot on iPhones",
+     "duration": 3758184,
+     "preview": "https://podz-content.spotifycdn.com/audio/clips/0XK7deOKAoxBNsDFmM4N1d/clip_1184438_1238888.mp3"
+    }
+   ],
+   "subtitle": "The Verge",
+   "preview": "https://podz-content.spotifycdn.com/audio/clips/7oL3AtUxZ0U6ciD3UQBpm8/clip_1641900_1697900.mp3",
+   "duration": 5086275
+  },
+  "https://open.spotify.com/artist/6eUKZXaKkcviH0Ku9w2n3V?si=6wssXMIYRXKbRqNITsUTFA": {
+   "kind": "spotify",
+   "type": "artist",
+   "title": "Ed Sheeran",
+   "tracks": [],
+   "subtitle": "Artist"
+  }
+ }
+}

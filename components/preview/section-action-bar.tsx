@@ -60,7 +60,7 @@ export const SectionActionBar = ({
       </LinkPopover>
 
       {/* Work Experience Button */}
-      <BentoTooltip content="Image & Video">
+      <BentoTooltip tooltip="Image & Video">
         <button
           onClick={onAddImage}
           className="group relative size-[25px] rounded-lg transition-all hover:shadow-[0_0_0_3px_rgba(0,0,0,0.06)] active:scale-95 lg:size-[25px]"
@@ -81,7 +81,7 @@ export const SectionActionBar = ({
       </BentoTooltip>
 
       {/* Education Button */}
-      <BentoTooltip content="Text">
+      <BentoTooltip tooltip="Text">
         <button
           onClick={onAddText}
           className="group relative size-[25px] rounded-lg transition-all hover:shadow-[0_0_0_3px_rgba(0,0,0,0.06)] active:scale-95"
@@ -101,7 +101,7 @@ export const SectionActionBar = ({
       </BentoTooltip>
 
       {/* Map Button */}
-      <BentoTooltip content="Map">
+      <BentoTooltip tooltip="Map">
         <button
           onClick={onAddMap}
           className="group relative size-[25px] rounded-lg transition-all hover:shadow-[0_0_0_3px_rgba(0,0,0,0.06)] active:scale-95 lg:size-[25px]"
@@ -120,7 +120,7 @@ export const SectionActionBar = ({
       </BentoTooltip>
 
       {/* Section Title Button */}
-      <BentoTooltip content="Section Title">
+      <BentoTooltip tooltip="Section Title">
         <button
           onClick={onAddSectionTitle}
           className="group relative size-[25px] rounded-lg transition-all hover:shadow-[0_0_0_3px_rgba(0,0,0,0.06)] active:scale-95 lg:size-[25px]"

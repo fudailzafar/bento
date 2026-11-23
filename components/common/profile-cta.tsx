@@ -151,13 +151,13 @@ function ProfileCtaDesktop({ viewer }: { viewer: ProfileViewer }) {
           </Link>
         </>
       )}
-      <Tooltip content="Explore">
+      <Tooltip tooltip="Explore">
         <Link href="/explore" target="_blank" className={ICON_BUTTON}>
           <CompassIcon />
         </Link>
       </Tooltip>
       {viewer && (
-        <Tooltip content="Community">
+        <Tooltip tooltip="Community">
           <Link
             href={DISCORD_URL}
             target="_blank"

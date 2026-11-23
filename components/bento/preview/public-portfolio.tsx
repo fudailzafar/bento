@@ -1,5 +1,6 @@
 'use client';
 
+import type { ComponentProps } from 'react';
 import { PageData } from '@/lib';
 import { BentoGrid } from '../grid';
 import { useProfileEntrance } from './profile-entrance';
@@ -59,9 +60,11 @@ function PublicProfile({
 export const PublicPortfolio = ({
   page,
   profilePicture,
+  frames,
 }: {
   page?: PageData | null;
   profilePicture?: string;
+  frames?: ComponentProps<typeof BentoGrid>['frames'];
 }) => {
   if (!page) {
     return null;
@@ -85,7 +88,11 @@ export const PublicPortfolio = ({
             {/* bento leaves 73px under the grid on phones and tablets, and 190px
                 beside the profile, so the last row clears the visitor bar. */}
             <div className="relative flex-1 pb-[73px] xl:w-[820px] xl:flex-none xl:pb-[190px]">
-              <BentoGrid isEditMode={false} blocks={page.blocks || []} />
+              <BentoGrid
+                isEditMode={false}
+                blocks={page.blocks || []}
+                frames={frames}
+              />
             </div>
           </div>
         </div>

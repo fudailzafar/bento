@@ -82,7 +82,7 @@ export default function DockActionBar({
     <>
       <div className="relative flex items-center gap-5 px-4 py-3 xl:w-[500px] xl:gap-0 xl:rounded-2xl xl:bg-white/70 xl:px-[13px] xl:shadow-[0_0_0_1px_rgba(0,0,0,.04),0_27px_54px_rgba(0,0,0,.04),0_17.5px_31.625px_rgba(0,0,0,.03),0_10.4px_17.2px_rgba(0,0,0,.024),0_5.4px_8.775px_rgba(0,0,0,.02),0_2.2px_4.4px_rgba(0,0,0,.016),0_.5px_2.125px_rgba(0,0,0,.01)] xl:backdrop-blur-xl xl:backdrop-saturate-150">
         {/* Copy Link Button */}
-        <BentoTooltip content="Copy your link" disabled={isSaving}>
+        <BentoTooltip tooltip={isSaving ? undefined : 'Copy your link'}>
           <Button
             ref={copyButtonRef}
             onClick={handleCopyLink}
@@ -127,7 +127,7 @@ export default function DockActionBar({
 
         {/* Desktop/Mobile Toggle */}
         <div className="hidden flex-shrink-0 items-center space-x-1 xl:ml-[16.5px] xl:flex">
-          <BentoTooltip content="Edit how your Bento looks on computers">
+          <BentoTooltip tooltip="Edit how your Bento looks on computers">
             <button
               onClick={() => onViewModeChange?.('desktop')}
               className={`group relative h-[33px] w-[50px] !rounded-md transition-all active:scale-95 ${
@@ -144,7 +144,7 @@ export default function DockActionBar({
             </button>
           </BentoTooltip>
 
-          <BentoTooltip content="Edit how your Bento looks on phones">
+          <BentoTooltip tooltip="Edit how your Bento looks on phones">
             <button
               onClick={() => onViewModeChange?.('mobile')}
               className={`group relative h-[33px] w-[50px] !rounded-md transition-all active:scale-95 ${

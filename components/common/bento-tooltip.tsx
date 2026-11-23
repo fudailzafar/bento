@@ -1,40 +1,116 @@
 'use client';
 
-import type { ReactNode } from 'react';
+import { useState, type ComponentPropsWithoutRef, type ReactNode } from 'react';
 import * as TooltipPrimitive from '@radix-ui/react-tooltip';
+import { cn } from '@/lib/utils';
 
-// bento's tooltip: a small white card above the control, 12px away, that
-// rises and scales in after a short delay (see .bento-tooltip in globals.css).
+// bento's shared tooltip, with its props and defaults: a Radix tooltip that
+// opens after 50ms, stays open while it is hovered, sits 12px from the
+// control and keeps 32px from the screen's edge. With no `tooltip` it renders
+// only its child. Styles are .bento-tooltip in globals.css.
+//
+//   informational  a white card with a soft shadow (the default)
+//   interactive    the same with a hairline border and a deeper shadow
+//   plain          no styling or animation: the caller styles it
+export type BentoTooltipVariant = 'informational' | 'interactive' | 'plain';
+
+// One provider for the whole app, so moving from one control to the next
+// opens the next tooltip at once.
+export function BentoTooltipProvider({ children }: { children: ReactNode }) {
+  return <TooltipPrimitive.Provider>{children}</TooltipPrimitive.Provider>;
+}
+
+type ContentProps = Omit<
+  ComponentPropsWithoutRef<typeof TooltipPrimitive.Content>,
+  'content' | 'className'
+>;
+
 export function BentoTooltip({
-  content,
   children,
-  side = 'top',
-  disabled,
-}: {
-  content: ReactNode;
+  tooltip,
+  variant = 'informational',
+  delayDuration = 50,
+  disableHoverableContent = false,
+  asChild = true,
+  className,
+  tooltipClassName,
+  bodyClassName,
+  closeOnClick = true,
+  collisionPadding = 32,
+  open,
+  onOpenChange,
+  ...content
+}: ContentProps & {
   children: ReactNode;
-  side?: 'top' | 'bottom';
-  // Hides the tooltip, e.g. while the control's own popover is open.
-  disabled?: boolean;
+  tooltip?: ReactNode;
+  variant?: BentoTooltipVariant;
+  delayDuration?: number;
+  disableHoverableContent?: boolean;
+  asChild?: boolean;
+  // On the trigger, and on the tooltip itself.
+  className?: string;
+  tooltipClassName?: string;
+  // On the text inside an informational or interactive tooltip.
+  bodyClassName?: string;
+  // false: a click on the control does not close the tooltip.
+  closeOnClick?: boolean;
+  open?: boolean;
+  onOpenChange?: (open: boolean) => void;
 }) {
-  if (disabled) return <>{children}</>;
+  const [trigger, setTrigger] = useState<HTMLElement | null>(null);
+  if (!tooltip) return <>{children}</>;
+
   return (
-    <TooltipPrimitive.Provider>
-      <TooltipPrimitive.Root delayDuration={300} disableHoverableContent>
-        <TooltipPrimitive.Trigger asChild>{children}</TooltipPrimitive.Trigger>
-        <TooltipPrimitive.Portal>
-          <TooltipPrimitive.Content
-            side={side}
-            sideOffset={12}
-            collisionPadding={32}
-            className="bento-tooltip z-50 rounded-md bg-white p-1.5 text-xs text-black shadow-[0_11px_36px_rgba(0,0,0,.04),0_7.12963px_21.0833px_rgba(0,0,0,.03),0_4.23704px_11.4667px_rgba(0,0,0,.024),0_2.2px_5.85px_rgba(0,0,0,.02),0_.896296px_2.93333px_rgba(0,0,0,.016),0_.203704px_1.41667px_rgba(0,0,0,.01)]"
-          >
-            <div className="max-w-[114px] px-1 text-center text-[10px] leading-4 text-black/60">
-              {content}
+    <TooltipPrimitive.Root
+      delayDuration={delayDuration}
+      open={open}
+      onOpenChange={onOpenChange}
+      disableHoverableContent={disableHoverableContent}
+    >
+      <TooltipPrimitive.Trigger
+        ref={setTrigger}
+        asChild={asChild}
+        className={className}
+        // Radix closes on both the press and the click; cancelling the
+        // events here keeps it open.
+        onPointerDown={closeOnClick ? undefined : (e) => e.preventDefault()}
+        onClick={closeOnClick ? undefined : (e) => e.preventDefault()}
+      >
+        {children}
+      </TooltipPrimitive.Trigger>
+      <TooltipPrimitive.Portal container={trigger?.ownerDocument.body}>
+        <TooltipPrimitive.Content
+          onPointerDownOutside={(event) => {
+            if (closeOnClick) return;
+            // Pressing the control itself leaves the tooltip open.
+            if (trigger && trigger.contains(event.target as Node))
+              event.preventDefault();
+          }}
+          sideOffset={12}
+          collisionPadding={collisionPadding}
+          {...content}
+          className={cn(
+            // Above every tile, toolbar, popover and drawer in the editor
+            // (the highest of them is 100), whatever is selected or pressed.
+            'bento-tooltip z-[200]',
+            `bento-tooltip--${variant}`,
+            tooltipClassName
+          )}
+        >
+          {variant === 'plain' ? (
+            tooltip
+          ) : (
+            <div
+              className={cn(
+                'max-w-[114px] px-1 text-center text-[10px] leading-4 text-black/60',
+                bodyClassName
+              )}
+            >
+              {tooltip}
             </div>
-          </TooltipPrimitive.Content>
-        </TooltipPrimitive.Portal>
-      </TooltipPrimitive.Root>
-    </TooltipPrimitive.Provider>
+          )}
+        </TooltipPrimitive.Content>
+      </TooltipPrimitive.Portal>
+    </TooltipPrimitive.Root>
   );
 }

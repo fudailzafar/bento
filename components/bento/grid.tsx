@@ -24,6 +24,7 @@ import {
 import { CropEditor } from './editing/crop-editor';
 import { widgetRadius } from './editing/widget-radius';
 import { NO_DRAG } from './editing/no-drag';
+import { PRESS, PRESS_WHITE } from './editing/press';
 import { WidgetToolbar } from './editing/widget-toolbar';
 import { EditDrawer } from './editing/edit-drawer';
 import { MobileBar } from './editing/mobile-bar';
@@ -55,6 +56,14 @@ interface BentoGridProps {
   anchorRef?: React.MutableRefObject<
     ((point?: { y: number }) => { row: number; desktop: boolean }) | null
   >;
+  // For a read-only page whose rows are not all alike (the archived
+  // changelog, whose section titles take a shorter row than a tile): each
+  // block's top and height in pixels, for the desktop and the phone layout,
+  // placed as measured instead of on the row grid.
+  frames?: {
+    desktop: Record<string, [number, number]>;
+    mobile: Record<string, [number, number]>;
+  };
 }
 
 export function BentoGrid({
@@ -66,6 +75,7 @@ export function BentoGrid({
   uploads: externalUploads,
   fetchingIds = [],
   anchorRef,
+  frames,
 }: BentoGridProps) {
   const [mounted, setMounted] = useState(false);
   // The widget being edited in place: its toolbar stays open.
@@ -455,13 +465,24 @@ export function BentoGrid({
     return p ? { ...b, x: p.x, y: p.y, w: p.w, h: p.h } : b;
   });
   const selectedBlock = viewBlocks.find((b) => b.id === selectedId);
+  // Framed: one row is one pixel, with no gap between rows, so a block's y
+  // and h are pixels and nothing is packed upwards.
+  const framed =
+    publicMode && frames ? (desktop ? frames.desktop : frames.mobile) : null;
+  const placed = framed
+    ? publicLayout.map((l) =>
+        framed[l.i]
+          ? { ...l, y: framed[l.i][0], h: framed[l.i][1], maxH: Infinity }
+          : l
+      )
+    : publicLayout;
   const gridProps: Partial<GridProps> = {
-    layouts: { lg: publicLayout },
+    layouts: { lg: placed },
     breakpoints: { lg: 0 },
     width,
     cols: { lg: cols },
-    rowHeight,
-    margin: [gap, gap] as [number, number],
+    rowHeight: framed ? 1 : rowHeight,
+    margin: [gap, framed ? 0 : gap] as [number, number],
   };
   const Grid = Responsive as React.ComponentType<GridProps>;
   // Dropping a widget in the phone layout saves the phone layout; the desktop
@@ -519,7 +540,7 @@ export function BentoGrid({
         draggableCancel={`.${NO_DRAG}`}
         {...(mobileEdit ? { draggableHandle: '.bento-drag-handle' } : {})}
         isResizable={false}
-        compactType="vertical"
+        compactType={framed ? null : 'vertical'}
         useCSSTransforms={true}
       >
         {viewBlocks.map((block) => {
@@ -530,13 +551,6 @@ export function BentoGrid({
           // Section titles are bento's plain labels above a group, not cards.
           const label = block.type === 'SECTION_TITLE';
           const selected = isEditMode && selectedId === block.id;
-          // The title hangs below its row (30px on desktop, 20px on a phone),
-          // and its buttons hang off its top corners and bottom edge, so they
-          // move down with it.
-          const titleTop = desktop
-            ? 'top-[calc(100%-42px)]'
-            : 'top-[calc(100%-52px)]';
-          const titleBottom = desktop ? 'bottom-[-44px]' : 'bottom-[-34px]';
           const card = (
             // The widget sits in two layers, as on gumbee.dev: a dragged tile
             // lifts on the outer one and tilts on the inner one.
@@ -563,15 +577,12 @@ export function BentoGrid({
                   }
                   className={cn(
                     'rounded-[var(--widget-radius)] [transition:box-shadow_.2s_ease-in-out,transform_.24s_cubic-bezier(.43,.01,.29,1),background_.2s_cubic-bezier(.43,.01,.29,1)]',
-                    // bento's section title is 60px tall and hangs below its
-                    // row into the gap, so it sits close above the group it
-                    // introduces: 10px on desktop, 4px on a phone, not a full
-                    // gap.
+                    // bento's section title is 60px tall, sitting on the bottom
+                    // of its row so it stays 40px above what it introduces.
                     label
-                      ? cn(
-                          'absolute inset-x-0 h-[60px]',
-                          desktop ? 'bottom-[-30px]' : 'bottom-[-20px]'
-                        )
+                      ? framed
+                        ? 'absolute inset-0'
+                        : 'absolute inset-x-0 bottom-0 h-[60px]'
                       : 'relative h-full w-full',
                     !label && 'bg-card shadow-[0_2px_4px_rgba(0,0,0,.04)]',
                     label && selected && 'bg-card',
@@ -688,7 +699,9 @@ export function BentoGrid({
                     className={cn(
                       NO_DRAG,
                       // The same delete button as the profile picture's.
-                      'absolute -left-3 -top-3 z-50 flex size-9 items-center justify-center rounded-full border border-neutral-300 bg-white opacity-0 shadow-lg backdrop-blur-sm transition-all hover:bg-white/90 group-hover:opacity-100',
+                      PRESS,
+                      PRESS_WHITE,
+                      'absolute -left-3 -top-3 z-50 flex size-9 items-center justify-center rounded-full border border-neutral-300 bg-white opacity-0 shadow-lg backdrop-blur-sm [transition-property:opacity,transform,background-color] group-hover:opacity-100',
                       selectedId === block.id && 'opacity-100',
                       // On a phone: 32px, and only on the selected widget.
                       mobileEdit &&
@@ -696,7 +709,7 @@ export function BentoGrid({
                       mobileEdit &&
                         selectedId === block.id &&
                         '!pointer-events-auto !opacity-100',
-                      label && titleTop
+                      label && 'top-[calc(100%-72px)]'
                     )}
                   >
                     <TrashIcon className="size-4 text-black" />
@@ -711,8 +724,9 @@ export function BentoGrid({
                         onClick={() => setDrawerId(block.id)}
                         className={cn(
                           NO_DRAG,
-                          'absolute -right-3 -top-3 z-50 flex size-[38px] items-center justify-center rounded-full bg-black text-white shadow-[0_6px_14px_rgba(0,0,0,.2)] active:scale-95',
-                          label && titleTop
+                          'absolute -right-3 -top-3 z-50 flex size-[38px] items-center justify-center rounded-full bg-black text-white shadow-[0_6px_14px_rgba(0,0,0,.2)]',
+                          PRESS,
+                          label && 'top-[calc(100%-72px)]'
                         )}
                       >
                         <PenIcon className="size-4" />
@@ -722,7 +736,7 @@ export function BentoGrid({
                         role="button"
                         className={cn(
                           'bento-drag-handle absolute -bottom-5 left-1/2 z-50 flex size-[38px] -translate-x-1/2 cursor-grab touch-none items-center justify-center rounded-full bg-black text-white shadow-[0_6px_14px_rgba(0,0,0,.2)] active:cursor-grabbing',
-                          label && titleBottom
+                          label && 'bottom-[-14px]'
                         )}
                       >
                         <MoveAbleIcon className="size-4 text-white" />

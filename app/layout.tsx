@@ -1,3 +1,4 @@
+import { BentoTooltipProvider } from '@/components/common/bento-tooltip';
 import type React from 'react';
 import { Inter as FontSans } from 'next/font/google';
 import { Metadata } from 'next';
@@ -78,11 +79,13 @@ export default function RootLayout({
           {/* rest of your scripts go under */}
         </head>
         <body className={`${fontSans.className} flex min-h-screen flex-col`}>
-          <main className="flex flex-1 flex-col">
-            {children}
-            <SpeedInsights />
-            <Analytics />
-          </main>
+          <BentoTooltipProvider>
+            <main className="flex flex-1 flex-col">
+              {children}
+              <SpeedInsights />
+              <Analytics />
+            </main>
+          </BentoTooltipProvider>
           <BentoToaster />
           <GoogleAnalytics gaId="G-B99MN9ZMBL" />
         </body>

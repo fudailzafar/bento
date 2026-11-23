@@ -11,6 +11,7 @@ import {
 } from '@/lib/platforms';
 import { richSourceFor } from '@/lib/rich-data';
 import { PLATFORM_ICONS } from '@/lib/platform-icons';
+import { PRESS } from './editing/press';
 import { NO_DRAG } from './editing/no-drag';
 import { Skeleton } from './skeleton';
 import {
@@ -75,8 +76,7 @@ function PreviewControls({
   // Going back to the website's picture applies once another is set.
   const canReset = edit.hasCustomImage;
   const withReset = canReset || !hasImage;
-  const button =
-    'flex size-6 items-center justify-center rounded-[4px] transition-transform hover:bg-white/20 active:scale-[.96]';
+  const button = `flex size-6 items-center justify-center rounded-[4px] hover:bg-white/20 ${PRESS}`;
   return (
     <div
       className={cn(
@@ -84,7 +84,16 @@ function PreviewControls({
         'absolute -left-2.5 -top-2.5 z-10 flex items-center gap-1.5 rounded-[10px] bg-black p-1.5 text-white opacity-0 shadow-[0_9px_13px_rgba(0,0,0,.05),0_5.83px_7.61px_rgba(0,0,0,.038),0_3.47px_4.14px_rgba(0,0,0,.03),0_1.8px_2.11px_rgba(0,0,0,.025),0_.73px_1.06px_rgba(0,0,0,.02),0_.17px_.51px_rgba(0,0,0,.012)] transition-opacity duration-200 group-hover/preview:opacity-100'
       )}
     >
-      <BentoTooltip content="Upload Custom Picture (Best 1200x630)">
+      <BentoTooltip
+        tooltip={
+          <>
+            Upload Custom Picture
+            <br />
+            (Best 1200x630)
+          </>
+        }
+        bodyClassName="max-w-none whitespace-nowrap"
+      >
         <button
           type="button"
           aria-label="Upload custom picture"
@@ -96,7 +105,7 @@ function PreviewControls({
       </BentoTooltip>
       {withReset && (
         <BentoTooltip
-          content={canReset ? 'Use Website Picture' : 'No website image'}
+          tooltip={canReset ? 'Use Website Picture' : 'No website image'}
         >
           <button
             type="button"
@@ -112,7 +121,7 @@ function PreviewControls({
         <>
           <div className="h-3 w-0.5 rounded-full bg-white/[.18]" />
           <BentoTooltip
-            content={<span className="text-[#ff2222]">Delete Picture</span>}
+            tooltip={<span className="text-[#ff2222]">Delete Picture</span>}
           >
             <button
               type="button"

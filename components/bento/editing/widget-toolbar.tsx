@@ -9,6 +9,7 @@ import { isQuote } from '@/lib/rich-text';
 import { cn } from '@/lib/utils';
 import { useDebounce } from '@/hooks/use-debounce';
 import { NO_DRAG } from './no-drag';
+import { PRESS, PRESS_WHITE } from './press';
 import { BentoTooltip } from '@/components/common/bento-tooltip';
 import { tileAspect } from '../link-tile';
 import {
@@ -127,12 +128,13 @@ function StyleButton({
       onMouseDown={(e) => e.preventDefault()}
       onClick={onClick}
       className={cn(
-        'flex size-[26px] shrink-0 items-center justify-center rounded-[4px] outline-none transition-[transform,color] duration-100 [transition-timing-function:cubic-bezier(.427,.073,.105,.997)] disabled:bg-transparent disabled:text-white/40',
-        !disabled && 'active:scale-90',
+        'flex size-[26px] shrink-0 items-center justify-center rounded-[4px] outline-none disabled:bg-transparent disabled:text-white/40',
+        PRESS,
+        disabled && 'active:scale-100',
         selected && mode
           ? 'bg-[#4ED975] text-white'
           : selected
-            ? 'bg-white text-black hover:bg-[#fafafa] active:bg-[#f2f2f2]'
+            ? `bg-white text-black ${PRESS_WHITE}`
             : 'not-disabled:active:bg-white/30 text-white',
         className
       )}
@@ -350,7 +352,9 @@ export function WidgetToolbar({
           <>
             <Divider />
             {isImage && (
-              <BentoTooltip content="Fits perfectly already" disabled={!fits}>
+              <BentoTooltip
+                tooltip={fits ? 'Fits perfectly already' : undefined}
+              >
                 <span>
                   <StyleButton
                     label="Crop"
