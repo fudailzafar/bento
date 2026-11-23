@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useRef } from 'react';
-import confetti from 'canvas-confetti';
+import { burstFrom } from '@/lib/confetti';
 import { toast } from 'sonner';
 import { Button } from '@/components/ui';
 import { getDomainUrl } from '@/lib';
@@ -46,17 +46,10 @@ export default function DockActionBar({
     try {
       await navigator.clipboard.writeText(link);
 
-      // Get button position for confetti origin
       if (copyButtonRef.current) {
-        const rect = copyButtonRef.current.getBoundingClientRect();
-        const x = (rect.left + rect.width / 2) / window.innerWidth;
-        const y = (rect.top + rect.height / 2) / window.innerHeight;
-
-        // Trigger confetti from button position
-        confetti({
+        burstFrom(copyButtonRef.current, {
           particleCount: 100,
           spread: 70,
-          origin: { x, y },
           angle: 90,
           startVelocity: 45,
           gravity: 1,

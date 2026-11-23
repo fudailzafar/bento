@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { cn } from '@/lib/utils';
-import { exploreCategories, type ExploreBento } from '@/lib/explore-data';
+import { exploreCategories, type ExploreBento } from '@/lib/explore';
 import { PREVIEW_CARD } from './styles';
 
 function BentoCard({ bento }: { bento: ExploreBento }) {

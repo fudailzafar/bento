@@ -3,7 +3,7 @@
 import { createPortal } from 'react-dom';
 import { Block } from '@/lib';
 import { cn } from '@/lib/utils';
-import { sizesFor } from './widget-toolbar';
+import { sizesFor } from './options';
 
 // bento's phone toolbar: a black bar at the bottom of the screen with the
 // selected widget's sizes and a green Done button.

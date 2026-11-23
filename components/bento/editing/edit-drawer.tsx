@@ -29,7 +29,7 @@ import {
   searchPlaces,
   useImageAspect,
   type Place,
-} from './widget-toolbar';
+} from './options';
 import { widgetRadius } from './widget-radius';
 
 // bento's phone editor: a white sheet that rises from the bottom, one layout

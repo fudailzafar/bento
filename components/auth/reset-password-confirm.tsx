@@ -3,9 +3,14 @@
 import { useEffect, useRef, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { AnimatePresence, motion } from 'framer-motion';
-import confetti from 'canvas-confetti';
+import { burstFrom } from '@/lib/confetti';
 import { cn } from '@/lib/utils';
-import { AnimatedCheck, BentoButton, FADE_EASE, PasswordInput } from './bento-ui';
+import {
+  AnimatedCheck,
+  BentoButton,
+  FADE_EASE,
+  PasswordInput,
+} from './bento-ui';
 import { goToOwnPage } from './go-to-own-page';
 import SignUpAnimation from './sign-up-animation';
 import { authClient, useSession } from '@/lib/auth-client';
@@ -30,17 +35,11 @@ export default function ResetPasswordConfirmContent() {
 
   useEffect(() => {
     if (!showSaved || !goButton.current) return;
-    const rect = goButton.current.getBoundingClientRect();
-    confetti({
-      origin: {
-        x: (rect.left + rect.width / 2) / window.innerWidth,
-        y: (rect.top + rect.height) / window.innerHeight,
-      },
-      startVelocity: 40,
-      particleCount: 30,
-      spread: 30,
-      angle: 90,
-    });
+    burstFrom(
+      goButton.current,
+      { startVelocity: 40, particleCount: 30, spread: 30, angle: 90 },
+      'bottom'
+    );
   }, [showSaved]);
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -83,7 +82,9 @@ export default function ResetPasswordConfirmContent() {
                 <span className="rounded-full shadow-[0_1px_2px_rgba(0,0,0,0.12)]">
                   <AnimatedCheck size={48} delayed />
                 </span>
-                <p className="mb-3 text-sm font-semibold text-black">Your password was updated</p>
+                <p className="mb-3 text-sm font-semibold text-black">
+                  Your password was updated
+                </p>
                 <BentoButton
                   ref={goButton}
                   variant="blue"

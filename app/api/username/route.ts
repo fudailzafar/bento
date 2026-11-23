@@ -1,5 +1,5 @@
 import { getUsernameById, updateUsername } from '@/lib/server';
-import { getCurrentUser } from '@/lib/server/session';
+import { fail, withUser } from '@/lib/server/api';
 import { NextResponse } from 'next/server';
 
 // API Response Types
@@ -7,58 +7,25 @@ export type GetResponse = { username?: string | null } | { error: string };
 export type PostResponse = { success: true } | { error: string };
 
 // GET endpoint to retrieve username
-export async function GET(): Promise<NextResponse<GetResponse>> {
-  try {
-    const user = await getCurrentUser();
-    if (!user?.email) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-    }
-
-    const username = await getUsernameById(user.id);
-    return NextResponse.json({ username });
-  } catch (error) {
-    console.error('Error retrieving username:', error);
-    return NextResponse.json(
-      { error: 'Internal server error' },
-      { status: 500 }
-    );
-  }
-}
+export const GET = withUser(
+  async (user) =>
+    NextResponse.json({ username: await getUsernameById(user.id) }),
+  { log: 'Error retrieving username:' }
+);
 
 // POST endpoint to update username
-export async function POST(
-  request: Request
-): Promise<NextResponse<PostResponse>> {
-  try {
-    const user = await getCurrentUser();
-    if (!user?.email) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-    }
-
+export const POST = withUser(
+  async (user, request) => {
     const { username } = await request.json();
 
     if (!username || typeof username !== 'string') {
-      return NextResponse.json(
-        { error: 'Username is required' },
-        { status: 400 }
-      );
+      fail(400, 'Username is required');
     }
-
-    const success = await updateUsername(user.id, username);
-
-    if (!success) {
-      return NextResponse.json(
-        { error: 'Username already taken' },
-        { status: 400 }
-      );
+    if (!(await updateUsername(user.id, username))) {
+      fail(400, 'Username already taken');
     }
 
     return NextResponse.json({ success: true });
-  } catch (error) {
-    console.error('Error updating username:', error);
-    return NextResponse.json(
-      { error: 'Internal server error' },
-      { status: 500 }
-    );
-  }
-}
+  },
+  { log: 'Error updating username:' }
+);

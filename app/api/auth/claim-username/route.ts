@@ -1,50 +1,22 @@
 import { createUsernameLookup, checkUsernameAvailability } from '@/lib/server';
-import { getCurrentUser } from '@/lib/server/session';
-import { NextRequest, NextResponse } from 'next/server';
+import { fail, withUser } from '@/lib/server/api';
+import { NextResponse } from 'next/server';
 
-export async function POST(req: NextRequest) {
-  try {
-    const user = await getCurrentUser();
-
-    if (!user?.email) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-    }
-
-    const { username } = await req.json();
+export const POST = withUser(
+  async (user, request) => {
+    const { username } = await request.json();
 
     if (!username || username.length < 3) {
-      return NextResponse.json(
-        { error: 'Username must be at least 3 characters' },
-        { status: 400 }
-      );
+      fail(400, 'Username must be at least 3 characters');
     }
 
-    // Check if username is available
     const { available } = await checkUsernameAvailability(username);
-    if (!available) {
-      return NextResponse.json(
-        { error: 'Username is not available' },
-        { status: 400 }
-      );
-    }
+    if (!available) fail(400, 'Username is not available');
 
-    // Create username lookup
-    const userId = user.id;
-    const success = await createUsernameLookup({ userId, username });
-
-    if (!success) {
-      return NextResponse.json(
-        { error: 'Failed to claim username' },
-        { status: 500 }
-      );
-    }
+    const success = await createUsernameLookup({ userId: user.id, username });
+    if (!success) fail(500, 'Failed to claim username');
 
     return NextResponse.json({ success: true, username }, { status: 200 });
-  } catch (error) {
-    console.error('Claim username error:', error);
-    return NextResponse.json(
-      { error: 'Internal server error' },
-      { status: 500 }
-    );
-  }
-}
+  },
+  { log: 'Claim username error:' }
+);

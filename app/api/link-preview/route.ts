@@ -1,21 +1,14 @@
-import { NextRequest, NextResponse } from 'next/server';
-import { getCurrentUser } from '@/lib/server/session';
+import { NextResponse } from 'next/server';
+import { fail, withUser } from '@/lib/server/api';
 import { getLinkPreview } from '@/lib/server/link-preview';
 
 // Link tile previews for the editor; signed-in users only.
-export async function GET(request: NextRequest) {
-  const user = await getCurrentUser();
-  if (!user) {
-    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-  }
-
+export const GET = withUser(async (_user, request) => {
   const preview = await getLinkPreview(
     request.nextUrl.searchParams.get('url') ?? ''
   );
-  if (!preview) {
-    return NextResponse.json({ error: 'Invalid URL' }, { status: 400 });
-  }
+  if (!preview) fail(400, 'Invalid URL');
   return NextResponse.json(preview, {
     headers: { 'cache-control': 'private, max-age=3600' },
   });
-}
+});

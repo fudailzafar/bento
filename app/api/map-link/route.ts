@@ -1,5 +1,5 @@
-import { NextRequest, NextResponse } from 'next/server';
-import { getCurrentUser } from '@/lib/server/session';
+import { NextResponse } from 'next/server';
+import { ApiError, fail, withUser } from '@/lib/server/api';
 import { isShortMapsLink, parseMapsUrl, unwrapEmbed } from '@/lib/maps';
 import { placeAt, searchPlaces } from '@/lib/server/places';
 
@@ -28,22 +28,13 @@ async function resolveShortLink(start: string) {
   return url;
 }
 
-export async function GET(request: NextRequest) {
-  const user = await getCurrentUser();
-  if (!user) {
-    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-  }
-
+export const GET = withUser(async (_user, request) => {
   let url = unwrapEmbed(request.nextUrl.searchParams.get('url') ?? '');
-  if (url.length > 2000) {
-    return NextResponse.json({ error: 'Not a map' }, { status: 400 });
-  }
+  if (url.length > 2000) fail(400, 'Not a map');
   try {
     if (isShortMapsLink(url)) url = await resolveShortLink(url);
     const link = parseMapsUrl(url);
-    if (!link) {
-      return NextResponse.json({ error: 'Not a map' }, { status: 404 });
-    }
+    if (!link) fail(404, 'Not a map');
 
     if (link.lat !== undefined && link.lng !== undefined) {
       const place = link.name
@@ -56,16 +47,15 @@ export async function GET(request: NextRequest) {
       });
     }
     const [place] = await searchPlaces(link.name!, 1);
-    if (!place) {
-      return NextResponse.json({ error: 'Not found' }, { status: 404 });
-    }
+    if (!place) fail(404, 'Not found');
     return NextResponse.json({
       location: link.name!.length <= 40 ? link.name! : place.name,
       lat: place.lat,
       lng: place.lng,
     });
   } catch (error) {
+    if (error instanceof ApiError) throw error;
     console.error('Map link failed:', error);
-    return NextResponse.json({ error: 'Lookup failed' }, { status: 502 });
+    return fail(502, 'Lookup failed');
   }
-}
+});

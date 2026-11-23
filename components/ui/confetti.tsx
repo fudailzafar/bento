@@ -4,7 +4,7 @@ import type {
   GlobalOptions as ConfettiGlobalOptions,
   Options as ConfettiOptions,
 } from 'canvas-confetti';
-import confetti from 'canvas-confetti';
+import { burstFrom } from '@/lib/confetti';
 import React from 'react';
 
 import { Button } from '@/components/ui';
@@ -21,16 +21,7 @@ const ConfettiButtonComponent = ({
 }: ConfettiButtonProps) => {
   const handleClick = async (event: React.MouseEvent<HTMLButtonElement>) => {
     try {
-      const rect = event.currentTarget.getBoundingClientRect();
-      const x = rect.left + rect.width / 2;
-      const y = rect.top + rect.height / 2;
-      await confetti({
-        ...options,
-        origin: {
-          x: x / window.innerWidth,
-          y: y / window.innerHeight,
-        },
-      });
+      await burstFrom(event.currentTarget, options);
     } catch (error) {
       console.error('Confetti button error:', error);
     }

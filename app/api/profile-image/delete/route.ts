@@ -1,23 +1,11 @@
-import { NextRequest, NextResponse } from 'next/server';
-import { getCurrentUser } from '@/lib/server/session';
+import { NextResponse } from 'next/server';
+import { fail, withUser } from '@/lib/server/api';
 import { getUserProfile, storeUserProfile } from '@/lib/server';
 
-export async function DELETE(request: NextRequest) {
-  try {
-    const user = await getCurrentUser();
-    if (!user?.email) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-    }
-
-    // Get user profile
+export const DELETE = withUser(
+  async (user) => {
     const userProfile = await getUserProfile(user.id);
-
-    if (!userProfile) {
-      return NextResponse.json(
-        { error: 'User profile not found' },
-        { status: 404 }
-      );
-    }
+    if (!userProfile) fail(404, 'User profile not found');
 
     const defaultImage = user.image || null;
 
@@ -29,11 +17,6 @@ export async function DELETE(request: NextRequest) {
     });
 
     return NextResponse.json({ success: true, defaultImage });
-  } catch (error) {
-    console.error('Error deleting profile image:', error);
-    return NextResponse.json(
-      { error: 'Failed to delete image' },
-      { status: 500 }
-    );
-  }
-}
+  },
+  { failure: 'Failed to delete image', log: 'Error deleting profile image:' }
+);

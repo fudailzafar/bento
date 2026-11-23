@@ -1,5 +1,5 @@
 import { cn } from '@/lib/utils';
-import { communityFiles } from '@/lib/explore-data';
+import { communityFiles } from '@/lib/explore';
 import { PREVIEW_CARD } from './styles';
 
 // bento.me/explore's "Discover beautiful custom widgets" section.

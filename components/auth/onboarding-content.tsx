@@ -22,7 +22,7 @@ import {
 import {
   searchPlaces,
   type Place,
-} from '@/components/bento/editing/widget-toolbar';
+} from '@/components/bento/editing/options';
 import { LinkIcon } from '@/components/icons';
 import { findPlatform } from '@/lib/platforms';
 import { PLATFORM_ICONS } from '@/lib/platform-icons';

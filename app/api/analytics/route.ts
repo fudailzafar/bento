@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/server/db';
-import { getCurrentUser } from '@/lib/server/session';
+import { withUser } from '@/lib/server/api';
 
 export type AnalyticsResponse = {
   viewsYesterday: number;
@@ -10,12 +10,7 @@ export type AnalyticsResponse = {
 
 // The signed-in user's profile stats: yesterday's views (bento's footer
 // counter), all-time views, and link clicks per block.
-export async function GET() {
-  const user = await getCurrentUser();
-  if (!user) {
-    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-  }
-
+export const GET = withUser(async (user) => {
   const page = await prisma.page.findUnique({
     where: { userId: user.id },
     select: { id: true },
@@ -51,4 +46,4 @@ export async function GET() {
       clicks.map((row) => [row.blockId, row._count._all])
     ),
   });
-}
+});

@@ -1,76 +1,48 @@
 import { createUsernameLookup, getUsernameById } from '@/lib/server';
-import { getCurrentUser } from '@/lib/server/session';
+import { fail, withUser } from '@/lib/server/api';
 import { NextResponse } from 'next/server';
 import { MAX_USERNAME_LENGTH } from '@/lib';
 
-export async function POST() {
-  try {
-    const user = await getCurrentUser();
+const SALT_LENGTH = 6;
+const createSalt = () =>
+  Math.random()
+    .toString(36)
+    .substring(2, 2 + SALT_LENGTH);
 
-    if (!user?.email) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-    }
-
+export const POST = withUser(
+  async (user) => {
     const userId = user.id;
 
     // Check if they already have one
     const foundUsername = await getUsernameById(userId);
     if (foundUsername) {
-      return NextResponse.json(
-        { success: true, username: foundUsername },
-        { status: 200 }
-      );
+      return NextResponse.json({ success: true, username: foundUsername });
     }
 
-    // Check if a desired username was passed or exists on user object
+    // A desired username on the user object
     const chosen = user.username;
     if (typeof chosen === 'string' && chosen) {
-      const claimed = await createUsernameLookup({ userId, username: chosen });
-      if (claimed) {
-        return NextResponse.json(
-          { success: true, username: chosen },
-          { status: 200 }
-        );
+      if (await createUsernameLookup({ userId, username: chosen })) {
+        return NextResponse.json({ success: true, username: chosen });
       }
     }
 
-    const saltLength = 6;
-    const createSalt = () =>
-      Math.random()
-        .toString(36)
-        .substring(2, 2 + saltLength);
-
     const baseName = user.name || user.email.split('@')[0] || 'user';
-
     const generatedUsername =
       (
         baseName
           .toLowerCase()
           .replace(/[^a-z0-9\s]/g, '')
           .replace(/\s+/g, '-') + '-'
-      ).slice(0, MAX_USERNAME_LENGTH - saltLength) + createSalt();
+      ).slice(0, MAX_USERNAME_LENGTH - SALT_LENGTH) + createSalt();
 
-    const creation = await createUsernameLookup({
-      userId,
-      username: generatedUsername,
-    });
-
-    if (!creation) {
-      return NextResponse.json(
-        { error: 'Failed to generate username' },
-        { status: 500 }
-      );
+    if (
+      !(await createUsernameLookup({ userId, username: generatedUsername }))
+    ) {
+      fail(500, 'Failed to generate username');
     }
 
-    return NextResponse.json(
-      { success: true, username: generatedUsername },
-      { status: 200 }
-    );
-  } catch (error) {
-    console.error('Generate username error:', error);
-    return NextResponse.json(
-      { error: 'Internal server error' },
-      { status: 500 }
-    );
-  }
-}
+    return NextResponse.json({ success: true, username: generatedUsername });
+  },
+  { log: 'Generate username error:' }
+);
