@@ -56,14 +56,6 @@ interface BentoGridProps {
   anchorRef?: React.MutableRefObject<
     ((point?: { y: number }) => { row: number; desktop: boolean }) | null
   >;
-  // For a read-only page whose rows are not all alike (the archived
-  // changelog, whose section titles take a shorter row than a tile): each
-  // block's top and height in pixels, for the desktop and the phone layout,
-  // placed as measured instead of on the row grid.
-  frames?: {
-    desktop: Record<string, [number, number]>;
-    mobile: Record<string, [number, number]>;
-  };
 }
 
 export function BentoGrid({
@@ -75,7 +67,6 @@ export function BentoGrid({
   uploads: externalUploads,
   fetchingIds = [],
   anchorRef,
-  frames,
 }: BentoGridProps) {
   const [mounted, setMounted] = useState(false);
   // The widget being edited in place: its toolbar stays open.
@@ -465,24 +456,13 @@ export function BentoGrid({
     return p ? { ...b, x: p.x, y: p.y, w: p.w, h: p.h } : b;
   });
   const selectedBlock = viewBlocks.find((b) => b.id === selectedId);
-  // Framed: one row is one pixel, with no gap between rows, so a block's y
-  // and h are pixels and nothing is packed upwards.
-  const framed =
-    publicMode && frames ? (desktop ? frames.desktop : frames.mobile) : null;
-  const placed = framed
-    ? publicLayout.map((l) =>
-        framed[l.i]
-          ? { ...l, y: framed[l.i][0], h: framed[l.i][1], maxH: Infinity }
-          : l
-      )
-    : publicLayout;
   const gridProps: Partial<GridProps> = {
-    layouts: { lg: placed },
+    layouts: { lg: publicLayout },
     breakpoints: { lg: 0 },
     width,
     cols: { lg: cols },
-    rowHeight: framed ? 1 : rowHeight,
-    margin: [gap, framed ? 0 : gap] as [number, number],
+    rowHeight,
+    margin: [gap, gap] as [number, number],
   };
   const Grid = Responsive as React.ComponentType<GridProps>;
   // Dropping a widget in the phone layout saves the phone layout; the desktop
@@ -540,7 +520,7 @@ export function BentoGrid({
         draggableCancel={`.${NO_DRAG}`}
         {...(mobileEdit ? { draggableHandle: '.bento-drag-handle' } : {})}
         isResizable={false}
-        compactType={framed ? null : 'vertical'}
+        compactType="vertical"
         useCSSTransforms={true}
       >
         {viewBlocks.map((block) => {
@@ -580,9 +560,7 @@ export function BentoGrid({
                     // bento's section title is 60px tall, sitting on the bottom
                     // of its row so it stays 40px above what it introduces.
                     label
-                      ? framed
-                        ? 'absolute inset-0'
-                        : 'absolute inset-x-0 bottom-0 h-[60px]'
+                      ? 'absolute inset-x-0 bottom-0 h-[60px]'
                       : 'relative h-full w-full',
                     !label && 'bg-card shadow-[0_2px_4px_rgba(0,0,0,.04)]',
                     label && selected && 'bg-card',
