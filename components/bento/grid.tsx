@@ -530,6 +530,13 @@ export function BentoGrid({
           // Section titles are bento's plain labels above a group, not cards.
           const label = block.type === 'SECTION_TITLE';
           const selected = isEditMode && selectedId === block.id;
+          // The title hangs below its row (30px on desktop, 20px on a phone),
+          // and its buttons hang off its top corners and bottom edge, so they
+          // move down with it.
+          const titleTop = desktop
+            ? 'top-[calc(100%-42px)]'
+            : 'top-[calc(100%-52px)]';
+          const titleBottom = desktop ? 'bottom-[-44px]' : 'bottom-[-34px]';
           const card = (
             // The widget sits in two layers, as on gumbee.dev: a dragged tile
             // lifts on the outer one and tilts on the inner one.
@@ -689,7 +696,7 @@ export function BentoGrid({
                       mobileEdit &&
                         selectedId === block.id &&
                         '!pointer-events-auto !opacity-100',
-                      label && 'top-[calc(100%-72px)]'
+                      label && titleTop
                     )}
                   >
                     <TrashIcon className="size-4 text-black" />
@@ -705,7 +712,7 @@ export function BentoGrid({
                         className={cn(
                           NO_DRAG,
                           'absolute -right-3 -top-3 z-50 flex size-[38px] items-center justify-center rounded-full bg-black text-white shadow-[0_6px_14px_rgba(0,0,0,.2)] active:scale-95',
-                          label && 'top-[calc(100%-72px)]'
+                          label && titleTop
                         )}
                       >
                         <PenIcon className="size-4" />
@@ -715,7 +722,7 @@ export function BentoGrid({
                         role="button"
                         className={cn(
                           'bento-drag-handle absolute -bottom-5 left-1/2 z-50 flex size-[38px] -translate-x-1/2 cursor-grab touch-none items-center justify-center rounded-full bg-black text-white shadow-[0_6px_14px_rgba(0,0,0,.2)] active:cursor-grabbing',
-                          label && 'bottom-[-14px]'
+                          label && titleBottom
                         )}
                       >
                         <MoveAbleIcon className="size-4 text-white" />
