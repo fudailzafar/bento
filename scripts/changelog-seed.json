@@ -6,703 +6,703 @@
    {
     "id": "HFtLBFuyDp7ND6a4",
     "type": "SECTION_TITLE",
-    "x": 0.0,
+    "x": 0,
     "y": 89,
-    "w": 4.0,
+    "w": 4,
     "h": 1,
     "data": {
      "title": "Feb 12th 2023: Personalised & Dynamic OG Images 💜"
     },
-    "mx": 0.0,
+    "mx": 0,
     "my": 153,
-    "mw": 2.0,
+    "mw": 2,
     "mh": 1
    },
    {
     "id": "6m8njIWEIRQmHVN1",
     "type": "SECTION_TITLE",
-    "x": 0.0,
+    "x": 0,
     "y": 98,
-    "w": 4.0,
+    "w": 4,
     "h": 1,
     "data": {
      "title": "Feb 7th 2023: Full Control Over Your Mobile Bento 📲"
     },
-    "mx": 0.0,
+    "mx": 0,
     "my": 167,
-    "mw": 2.0,
+    "mw": 2,
     "mh": 1
    },
    {
     "id": "ISGitULE5xsmIIdX",
     "type": "LINK",
-    "x": 0.0,
+    "x": 0,
     "y": 99,
-    "w": 1.0,
+    "w": 1,
     "h": 2,
     "data": {
      "url": "https://twitter.com/joinbento/status/1622913161363099648",
      "title": "Launch Tweet",
-     "favicon": "/changelog/6ca3c579.ico"
+     "favicon": "https://pub-b29e9ecb5e344983993d493d7d454aec.r2.dev/changelog/6ca3c579.ico"
     },
-    "mx": 1.0,
+    "mx": 1,
     "my": 170,
-    "mw": 1.0,
+    "mw": 1,
     "mh": 2
    },
    {
     "id": "n3DimR157ur1ulVi",
     "type": "SECTION_TITLE",
-    "x": 0.0,
+    "x": 0,
     "y": 112,
-    "w": 4.0,
+    "w": 4,
     "h": 1,
     "data": {
      "title": "Jan 24th 2023: Bento Explore ✨"
     },
-    "mx": 0.0,
+    "mx": 0,
     "my": 184,
-    "mw": 2.0,
+    "mw": 2,
     "mh": 1
    },
    {
     "id": "H0mhUi5duuo30Ugn",
     "type": "LINK",
-    "x": 0.0,
+    "x": 0,
     "y": 113,
-    "w": 1.0,
+    "w": 1,
     "h": 4,
     "data": {
      "url": "https://twitter.com/joinbento/status/1617914183668092929",
      "title": "Launch Tweet"
     },
-    "mx": 0.0,
+    "mx": 0,
     "my": 187,
-    "mw": 2.0,
+    "mw": 2,
     "mh": 1
    },
    {
     "id": "RBwcU2hsuMxgPUVP",
     "type": "LINK",
-    "x": 1.0,
+    "x": 1,
     "y": 115,
-    "w": 2.0,
+    "w": 2,
     "h": 2,
     "data": {
      "url": "https://bento.me/explore",
      "title": "Get inspired by the most creative Bentos",
      "description": "Get inspired by the most creative Bentos",
-     "image": "/changelog/21c0f5a2.png",
-     "favicon": "/changelog/c797cce7.png"
+     "image": "https://pub-b29e9ecb5e344983993d493d7d454aec.r2.dev/changelog/21c0f5a2.png",
+     "favicon": "https://pub-b29e9ecb5e344983993d493d7d454aec.r2.dev/changelog/c797cce7.png"
     },
-    "mx": 0.0,
+    "mx": 0,
     "my": 188,
-    "mw": 2.0,
+    "mw": 2,
     "mh": 2
    },
    {
     "id": "yUqonCQUOG03dCIj",
     "type": "IMAGE",
-    "x": 1.0,
+    "x": 1,
     "y": 113,
-    "w": 2.0,
+    "w": 2,
     "h": 2,
     "data": {
-     "url": "/changelog/9d698fc4.mp4",
+     "url": "https://pub-b29e9ecb5e344983993d493d7d454aec.r2.dev/changelog/9d698fc4.mp4",
      "kind": "video"
     },
-    "mx": 0.0,
+    "mx": 0,
     "my": 185,
-    "mw": 2.0,
+    "mw": 2,
     "mh": 2
    },
    {
     "id": "rbPE4ZFtLdjgUhY2",
     "type": "IMAGE",
-    "x": 1.0,
+    "x": 1,
     "y": 101,
-    "w": 2.0,
+    "w": 2,
     "h": 4,
     "data": {
-     "url": "/changelog/cfbe00c9.mp4",
+     "url": "https://pub-b29e9ecb5e344983993d493d7d454aec.r2.dev/changelog/cfbe00c9.mp4",
      "kind": "video"
     },
-    "mx": 0.0,
+    "mx": 0,
     "my": 172,
-    "mw": 2.0,
+    "mw": 2,
     "mh": 4
    },
    {
     "id": "55KKAf9skEWdcXD7",
     "type": "LINK",
-    "x": 0.0,
+    "x": 0,
     "y": 94,
-    "w": 2.0,
+    "w": 2,
     "h": 2,
     "data": {
      "url": "https://twitter.com/joinbento/status/1624766948889313282",
      "title": "Launch Tweet"
     },
-    "mx": 0.0,
+    "mx": 0,
     "my": 166,
-    "mw": 2.0,
+    "mw": 2,
     "mh": 1
    },
    {
     "id": "sbAan7z9t9TjopUF",
     "type": "LINK",
-    "x": 2.0,
+    "x": 2,
     "y": 90,
-    "w": 2.0,
+    "w": 2,
     "h": 4,
     "data": {
      "url": "https://bento.me/storm",
      "title": "Example 2: Andreas Storm",
      "description": "Designer & Iconograph",
-     "image": "/changelog/0ecba270.jpeg",
-     "favicon": "/changelog/b1d3ea4e.jpeg"
+     "image": "https://pub-b29e9ecb5e344983993d493d7d454aec.r2.dev/changelog/0ecba270.jpeg",
+     "favicon": "https://pub-b29e9ecb5e344983993d493d7d454aec.r2.dev/changelog/b1d3ea4e.jpeg"
     },
-    "mx": 0.0,
+    "mx": 0,
     "my": 158,
-    "mw": 2.0,
+    "mw": 2,
     "mh": 4
    },
    {
     "id": "NgGt7oj9qcKW2Twd",
     "type": "LINK",
-    "x": 0.0,
+    "x": 0,
     "y": 90,
-    "w": 2.0,
+    "w": 2,
     "h": 4,
     "data": {
      "url": "https://bento.me/maitri",
      "title": "Example 1: Maitri Shah",
      "description": "eng @ Loom\ndigital artist ",
-     "favicon": "/changelog/d115dfb4.jpeg"
+     "favicon": "https://pub-b29e9ecb5e344983993d493d7d454aec.r2.dev/changelog/d115dfb4.jpeg"
     },
-    "mx": 0.0,
+    "mx": 0,
     "my": 154,
-    "mw": 2.0,
+    "mw": 2,
     "mh": 4
    },
    {
     "id": "PdxrCyhWZNvTzZ33",
     "type": "SECTION_TITLE",
-    "x": 0.0,
+    "x": 0,
     "y": 105,
-    "w": 4.0,
+    "w": 4,
     "h": 1,
     "data": {
      "title": "Feb 7th 2023: New widget sizes, media captions & more 💥"
     },
-    "mx": 0.0,
+    "mx": 0,
     "my": 176,
-    "mw": 2.0,
+    "mw": 2,
     "mh": 1
    },
    {
     "id": "o4Ib3CKnThLPlj9J",
     "type": "LINK",
-    "x": 0.0,
+    "x": 0,
     "y": 106,
-    "w": 1.0,
+    "w": 1,
     "h": 4,
     "data": {
      "url": "https://twitter.com/joinbento/status/1622964661229617153?s=20&t=wNSH2vt4iKRgv3j87b0ayA",
      "title": "Launch Thread"
     },
-    "mx": 0.0,
+    "mx": 0,
     "my": 181,
-    "mw": 2.0,
+    "mw": 2,
     "mh": 1
    },
    {
     "id": "E25GujxfhkOYUnjL",
     "type": "IMAGE",
-    "x": 1.0,
+    "x": 1,
     "y": 108,
-    "w": 2.0,
+    "w": 2,
     "h": 4,
     "data": {
-     "url": "/changelog/4602d202.gif",
+     "url": "https://pub-b29e9ecb5e344983993d493d7d454aec.r2.dev/changelog/4602d202.gif",
      "kind": "image"
     },
-    "mx": 0.0,
+    "mx": 0,
     "my": 177,
-    "mw": 2.0,
+    "mw": 2,
     "mh": 4
    },
    {
     "id": "q5h5SIjhuNnvIq75",
     "type": "IMAGE",
-    "x": 1.0,
+    "x": 1,
     "y": 106,
-    "w": 2.0,
+    "w": 2,
     "h": 2,
     "data": {
-     "url": "/changelog/45ba042f.png",
+     "url": "https://pub-b29e9ecb5e344983993d493d7d454aec.r2.dev/changelog/45ba042f.png",
      "kind": "image"
     },
-    "mx": 0.0,
+    "mx": 0,
     "my": 182,
-    "mw": 2.0,
+    "mw": 2,
     "mh": 2
    },
    {
     "id": "oSAfTIhcef3fGhFG",
     "type": "IMAGE",
-    "x": 0.0,
+    "x": 0,
     "y": 101,
-    "w": 1.0,
+    "w": 1,
     "h": 4,
     "data": {
-     "url": "/changelog/7d5141f8.jpeg",
+     "url": "https://pub-b29e9ecb5e344983993d493d7d454aec.r2.dev/changelog/7d5141f8.jpeg",
      "kind": "image"
     },
-    "mx": 0.0,
+    "mx": 0,
     "my": 170,
-    "mw": 1.0,
+    "mw": 1,
     "mh": 2
    },
    {
     "id": "JF0cpC0mjMm3HoWj",
     "type": "IMAGE",
-    "x": 1.0,
+    "x": 1,
     "y": 99,
-    "w": 2.0,
+    "w": 2,
     "h": 2,
     "data": {
-     "url": "/changelog/e9904597.mp4",
+     "url": "https://pub-b29e9ecb5e344983993d493d7d454aec.r2.dev/changelog/e9904597.mp4",
      "kind": "video"
     },
-    "mx": 0.0,
+    "mx": 0,
     "my": 168,
-    "mw": 2.0,
+    "mw": 2,
     "mh": 2
    },
    {
     "id": "2FPt0dYCN9uJeFnQ",
     "type": "SECTION_TITLE",
-    "x": 0.0,
+    "x": 0,
     "y": 117,
-    "w": 4.0,
+    "w": 4,
     "h": 1,
     "data": {
      "title": "Dec 23rd 2022: Add Images & Videos, Link Title Editing, Section Titles and more 🌆"
     },
-    "mx": 0.0,
+    "mx": 0,
     "my": 190,
-    "mw": 2.0,
+    "mw": 2,
     "mh": 1
    },
    {
     "id": "SqpRHuKRGmBIPQq1",
     "type": "LINK",
-    "x": 2.0,
+    "x": 2,
     "y": 94,
-    "w": 2.0,
+    "w": 2,
     "h": 4,
     "data": {
      "url": "https://bento.me/lochie",
      "title": "Example 3: Lochie",
      "description": "Design Engineer @ Family.co (acq. by Avara.xyz)\nPreviously @ Honk.me",
-     "favicon": "/changelog/c43559f5.png"
+     "favicon": "https://pub-b29e9ecb5e344983993d493d7d454aec.r2.dev/changelog/c43559f5.png"
     },
-    "mx": 0.0,
+    "mx": 0,
     "my": 162,
-    "mw": 2.0,
+    "mw": 2,
     "mh": 4
    },
    {
     "id": "W9ayu4rEAqxUQkyv",
     "type": "LINK",
-    "x": 0.0,
+    "x": 0,
     "y": 120,
-    "w": 1.0,
+    "w": 1,
     "h": 2,
     "data": {
      "url": "https://twitter.com/joinbento/status/1606255224267583489",
      "title": "Launch Thread",
-     "image": "/changelog/81b57d35.jpeg"
+     "image": "https://pub-b29e9ecb5e344983993d493d7d454aec.r2.dev/changelog/81b57d35.jpeg"
     },
-    "mx": 0.0,
+    "mx": 0,
     "my": 195,
-    "mw": 1.0,
+    "mw": 1,
     "mh": 2
    },
    {
     "id": "pQQd53xUr9gJ5i2w",
     "type": "IMAGE",
-    "x": 0.0,
+    "x": 0,
     "y": 118,
-    "w": 1.0,
+    "w": 1,
     "h": 2,
     "data": {
-     "url": "/changelog/bca9c900.gif",
+     "url": "https://pub-b29e9ecb5e344983993d493d7d454aec.r2.dev/changelog/bca9c900.gif",
      "kind": "image"
     },
-    "mx": 1.0,
+    "mx": 1,
     "my": 195,
-    "mw": 1.0,
+    "mw": 1,
     "mh": 2
    },
    {
     "id": "02MAuakj43itKx2l",
     "type": "IMAGE",
-    "x": 1.0,
+    "x": 1,
     "y": 118,
-    "w": 2.0,
+    "w": 2,
     "h": 4,
     "data": {
-     "url": "/changelog/0abdd04d.gif",
+     "url": "https://pub-b29e9ecb5e344983993d493d7d454aec.r2.dev/changelog/0abdd04d.gif",
      "kind": "image"
     },
-    "mx": 0.0,
+    "mx": 0,
     "my": 191,
-    "mw": 2.0,
+    "mw": 2,
     "mh": 4
    },
    {
     "id": "rEGMxyxh63YFMbeh",
     "type": "SECTION_TITLE",
-    "x": 0.0,
+    "x": 0,
     "y": 122,
-    "w": 4.0,
+    "w": 4,
     "h": 1,
     "data": {
      "title": "Dec 14th 2022: Bento Launch 🚀"
     },
-    "mx": 0.0,
+    "mx": 0,
     "my": 197,
-    "mw": 2.0,
+    "mw": 2,
     "mh": 1
    },
    {
     "id": "bmnmN5oegzUJCRpb",
     "type": "LINK",
-    "x": 2.0,
+    "x": 2,
     "y": 125,
-    "w": 1.0,
+    "w": 1,
     "h": 2,
     "data": {
      "url": "https://twitter.com/joinbento/status/1603036669191626752",
      "title": "Introducing Bento "
     },
-    "mx": 1.0,
+    "mx": 1,
     "my": 198,
-    "mw": 1.0,
+    "mw": 1,
     "mh": 2
    },
    {
     "id": "UQdui5a02YRgDQnK",
     "type": "IMAGE",
-    "x": 2.0,
+    "x": 2,
     "y": 123,
-    "w": 1.0,
+    "w": 1,
     "h": 2,
     "data": {
-     "url": "/changelog/aa1c458f.png",
+     "url": "https://pub-b29e9ecb5e344983993d493d7d454aec.r2.dev/changelog/aa1c458f.png",
      "kind": "image"
     },
-    "mx": 0.0,
+    "mx": 0,
     "my": 198,
-    "mw": 1.0,
+    "mw": 1,
     "mh": 2
    },
    {
     "id": "doKdU1xsXQKU0xTr",
     "type": "IMAGE",
-    "x": 0.0,
+    "x": 0,
     "y": 125,
-    "w": 2.0,
+    "w": 2,
     "h": 2,
     "data": {
-     "url": "/changelog/311034bc.png",
+     "url": "https://pub-b29e9ecb5e344983993d493d7d454aec.r2.dev/changelog/311034bc.png",
      "kind": "image"
     },
-    "mx": 0.0,
+    "mx": 0,
     "my": 200,
-    "mw": 2.0,
+    "mw": 2,
     "mh": 2
    },
    {
     "id": "VJn5gcJP0XgEDy9Y",
     "type": "IMAGE",
-    "x": 0.0,
+    "x": 0,
     "y": 123,
-    "w": 2.0,
+    "w": 2,
     "h": 2,
     "data": {
-     "url": "/changelog/9e61b635.mp4",
+     "url": "https://pub-b29e9ecb5e344983993d493d7d454aec.r2.dev/changelog/9e61b635.mp4",
      "kind": "video"
     },
-    "mx": 0.0,
+    "mx": 0,
     "my": 202,
-    "mw": 2.0,
+    "mw": 2,
     "mh": 2
    },
    {
     "id": "4pezDOXw3Pq8lNoi",
     "type": "SECTION_TITLE",
-    "x": 0.0,
+    "x": 0,
     "y": 127,
-    "w": 4.0,
+    "w": 4,
     "h": 1,
     "data": {
      "title": "Get to know us! 😍👋🏻🍱"
     },
-    "mx": 0.0,
+    "mx": 0,
     "my": 204,
-    "mw": 2.0,
+    "mw": 2,
     "mh": 1
    },
    {
     "id": "qRl8JVzRSUy9zpME",
     "type": "LINK",
-    "x": 0.0,
+    "x": 0,
     "y": 128,
-    "w": 2.0,
+    "w": 2,
     "h": 4,
     "data": {
      "url": "https://bento.me/aboutus",
      "title": "About us",
      "description": "Bento is your personal page to show everything you are and create. A link in bio, but rich and beautiful ✨\n🔎 Search: Use CTRL+F💌 Help? support@bento.me ",
-     "favicon": "/changelog/a8b3f013.png"
+     "favicon": "https://pub-b29e9ecb5e344983993d493d7d454aec.r2.dev/changelog/a8b3f013.png"
     },
-    "mx": 0.0,
+    "mx": 0,
     "my": 205,
-    "mw": 2.0,
+    "mw": 2,
     "mh": 4
    },
    {
     "id": "f18YnIUnAOV1kr1s",
     "type": "SECTION_TITLE",
-    "x": 0.0,
+    "x": 0,
     "y": 79,
-    "w": 4.0,
+    "w": 4,
     "h": 1,
     "data": {
      "title": "Feb 15th 2023: First Smart Widgets for Github, Instagram, YT and Twitter"
     },
-    "mx": 0.0,
+    "mx": 0,
     "my": 134,
-    "mw": 2.0,
+    "mw": 2,
     "mh": 1
    },
    {
     "id": "wwLEd5Ne3ogg66VG",
     "type": "LINK",
-    "x": 0.0,
+    "x": 0,
     "y": 84,
-    "w": 2.0,
+    "w": 2,
     "h": 1,
     "data": {
      "url": "https://github.com/gumbee",
-     "favicon": "/changelog/5fee9498.svg",
+     "favicon": "https://pub-b29e9ecb5e344983993d493d7d454aec.r2.dev/changelog/5fee9498.svg",
      "title": ""
     },
-    "mx": 0.0,
+    "mx": 0,
     "my": 139,
-    "mw": 2.0,
+    "mw": 2,
     "mh": 1
    },
    {
     "id": "eaPszlg2QuEQbbrF",
     "type": "LINK",
-    "x": 0.0,
+    "x": 0,
     "y": 80,
-    "w": 2.0,
+    "w": 2,
     "h": 4,
     "data": {
      "url": "https://github.com/heikir",
-     "favicon": "/changelog/5fee9498.svg",
+     "favicon": "https://pub-b29e9ecb5e344983993d493d7d454aec.r2.dev/changelog/5fee9498.svg",
      "title": ""
     },
-    "mx": 0.0,
+    "mx": 0,
     "my": 135,
-    "mw": 2.0,
+    "mw": 2,
     "mh": 4
    },
    {
     "id": "tnq18gY71RY6jHqQ",
     "type": "LINK",
-    "x": 2.0,
+    "x": 2,
     "y": 80,
-    "w": 2.0,
+    "w": 2,
     "h": 4,
     "data": {
      "url": "https://instagram.com/rogie",
-     "favicon": "/changelog/7ea7c91d.png",
+     "favicon": "https://pub-b29e9ecb5e344983993d493d7d454aec.r2.dev/changelog/7ea7c91d.png",
      "images": [
-      "/changelog/4fbc229b.jpeg",
-      "/changelog/6d1021a0.jpeg",
-      "/changelog/d469f95f.jpeg",
-      "/changelog/f8c3cf85.jpeg",
-      "/changelog/a6387585.jpeg",
-      "/changelog/5505f90f.jpeg"
+      "https://pub-b29e9ecb5e344983993d493d7d454aec.r2.dev/changelog/4fbc229b.jpeg",
+      "https://pub-b29e9ecb5e344983993d493d7d454aec.r2.dev/changelog/6d1021a0.jpeg",
+      "https://pub-b29e9ecb5e344983993d493d7d454aec.r2.dev/changelog/d469f95f.jpeg",
+      "https://pub-b29e9ecb5e344983993d493d7d454aec.r2.dev/changelog/f8c3cf85.jpeg",
+      "https://pub-b29e9ecb5e344983993d493d7d454aec.r2.dev/changelog/a6387585.jpeg",
+      "https://pub-b29e9ecb5e344983993d493d7d454aec.r2.dev/changelog/5505f90f.jpeg"
      ],
      "title": ""
     },
-    "mx": 0.0,
+    "mx": 0,
     "my": 140,
-    "mw": 2.0,
+    "mw": 2,
     "mh": 4
    },
    {
     "id": "9Ks8JlJ05ZDzsHsY",
     "type": "LINK",
-    "x": 3.0,
+    "x": 3,
     "y": 84,
-    "w": 1.0,
+    "w": 1,
     "h": 4,
     "data": {
      "url": "https://instagram.com/natgeo",
-     "favicon": "/changelog/7ea7c91d.png",
+     "favicon": "https://pub-b29e9ecb5e344983993d493d7d454aec.r2.dev/changelog/7ea7c91d.png",
      "images": [
-      "/changelog/c46529d8.jpeg"
+      "https://pub-b29e9ecb5e344983993d493d7d454aec.r2.dev/changelog/c46529d8.jpeg"
      ],
      "title": ""
     },
-    "mx": 0.0,
+    "mx": 0,
     "my": 144,
-    "mw": 1.0,
+    "mw": 1,
     "mh": 4
    },
    {
     "id": "IB2Gehk6g8TRxJQM",
     "type": "LINK",
-    "x": 2.0,
+    "x": 2,
     "y": 84,
-    "w": 1.0,
+    "w": 1,
     "h": 2,
     "data": {
      "url": "https://twitter.com/rrhoover",
      "bio": "Founder of @ProductHunt. Investor at @WeekendFund. Say hi! 👋🏼",
      "title": ""
     },
-    "mx": 1.0,
+    "mx": 1,
     "my": 144,
-    "mw": 1.0,
+    "mw": 1,
     "mh": 2
    },
    {
     "id": "hcnc1EW71OcMEhMd",
     "type": "LINK",
-    "x": 0.0,
+    "x": 0,
     "y": 85,
-    "w": 2.0,
+    "w": 2,
     "h": 4,
     "data": {
      "url": "https://www.youtube.com/@mkbhd",
      "title": ""
     },
-    "mx": 0.0,
+    "mx": 0,
     "my": 148,
-    "mw": 2.0,
+    "mw": 2,
     "mh": 4
    },
    {
     "id": "MIpcGOcrwfNXsTnw",
     "type": "LINK",
-    "x": 2.0,
+    "x": 2,
     "y": 86,
-    "w": 1.0,
+    "w": 1,
     "h": 2,
     "data": {
      "url": "https://www.youtube.com/@Micode",
      "title": ""
     },
-    "mx": 1.0,
+    "mx": 1,
     "my": 146,
-    "mw": 1.0,
+    "mw": 1,
     "mh": 2
    },
    {
     "id": "AewrMlMdLAdmSUM0",
     "type": "LINK",
-    "x": 2.0,
+    "x": 2,
     "y": 88,
-    "w": 2.0,
+    "w": 2,
     "h": 1,
     "data": {
      "url": "https://twitter.com/joinbento/status/1626241654196936706",
      "title": "Launch Tweet",
-     "image": "/changelog/7c6e65ab.jpeg"
+     "image": "https://pub-b29e9ecb5e344983993d493d7d454aec.r2.dev/changelog/7c6e65ab.jpeg"
     },
-    "mx": 0.0,
+    "mx": 0,
     "my": 152,
-    "mw": 2.0,
+    "mw": 2,
     "mh": 1
    },
    {
     "id": "fiJubaWOUvxA7Dqt",
     "type": "SECTION_TITLE",
-    "x": 0.0,
+    "x": 0,
     "y": 74,
-    "w": 4.0,
+    "w": 4,
     "h": 1,
     "data": {
      "title": "March 2nd 2023: Account Settings - Change Username, E-Mail and Password  "
     },
-    "mx": 0.0,
+    "mx": 0,
     "my": 127,
-    "mw": 2.0,
+    "mw": 2,
     "mh": 1
    },
    {
     "id": "hYkgVkR8Hgd38sOr",
     "type": "IMAGE",
-    "x": 0.0,
+    "x": 0,
     "y": 75,
-    "w": 2.0,
+    "w": 2,
     "h": 4,
     "data": {
-     "url": "/changelog/6e423bc3.mp4",
+     "url": "https://pub-b29e9ecb5e344983993d493d7d454aec.r2.dev/changelog/6e423bc3.mp4",
      "kind": "video"
     },
-    "mx": 0.0,
+    "mx": 0,
     "my": 128,
-    "mw": 2.0,
+    "mw": 2,
     "mh": 4
    },
    {
     "id": "WYQ9Rph9WSBpPsnB",
     "type": "LINK",
-    "x": 2.0,
+    "x": 2,
     "y": 75,
-    "w": 1.0,
+    "w": 1,
     "h": 2,
     "data": {
      "url": "https://twitter.com/joinbento/status/1631688247116984323?s=20",
      "title": "Launch Tweet",
-     "image": "/changelog/7a5beea1.png"
+     "image": "https://pub-b29e9ecb5e344983993d493d7d454aec.r2.dev/changelog/7a5beea1.png"
     },
-    "mx": 0.0,
+    "mx": 0,
     "my": 132,
-    "mw": 1.0,
+    "mw": 1,
     "mh": 2
    },
    {
     "id": "UrQ7ibZrDDsr1bNL",
     "type": "SECTION_TITLE",
-    "x": 0.0,
+    "x": 0,
     "y": 65,
-    "w": 4.0,
+    "w": 4,
     "h": 1,
     "data": {
      "title": "March 8th 2023: Text Widgets"
     },
-    "mx": 0.0,
+    "mx": 0,
     "my": 114,
-    "mw": 2.0,
+    "mw": 2,
     "mh": 1
    },
    {
     "id": "lo1E6mmVk3riCCEk",
     "type": "TEXT",
-    "x": 0.0,
+    "x": 0,
     "y": 66,
-    "w": 1.0,
+    "w": 1,
     "h": 2,
     "data": {
      "content": "🍱",
@@ -710,17 +710,17 @@
      "align": "center",
      "valign": "middle"
     },
-    "mx": 0.0,
+    "mx": 0,
     "my": 124,
-    "mw": 1.0,
+    "mw": 1,
     "mh": 2
    },
    {
     "id": "R1plisQBZSARSili",
     "type": "TEXT",
-    "x": 2.0,
+    "x": 2,
     "y": 70,
-    "w": 1.0,
+    "w": 1,
     "h": 4,
     "data": {
      "content": "🥳",
@@ -728,17 +728,17 @@
      "align": "center",
      "valign": "middle"
     },
-    "mx": 1.0,
+    "mx": 1,
     "my": 124,
-    "mw": 1.0,
+    "mw": 1,
     "mh": 2
    },
    {
     "id": "xSAcwcnzvW4GjYzn",
     "type": "TEXT",
-    "x": 1.0,
+    "x": 1,
     "y": 66,
-    "w": 2.0,
+    "w": 2,
     "h": 2,
     "data": {
      "content": "**Text Widgets! ✏️**\n\nShare a thought, add a nice quote, or add context to other widgets. ",
@@ -746,17 +746,17 @@
      "align": "left",
      "valign": "top"
     },
-    "mx": 0.0,
+    "mx": 0,
     "my": 115,
-    "mw": 2.0,
+    "mw": 2,
     "mh": 2
    },
    {
     "id": "w6RFX3TSAz6unKkq",
     "type": "TEXT",
-    "x": 3.0,
+    "x": 3,
     "y": 66,
-    "w": 1.0,
+    "w": 1,
     "h": 2,
     "data": {
      "content": "Align it…",
@@ -764,17 +764,17 @@
      "align": "left",
      "valign": "top"
     },
-    "mx": 0.0,
+    "mx": 0,
     "my": 121,
-    "mw": 2.0,
+    "mw": 2,
     "mh": 1
    },
    {
     "id": "UvXIo7ccCUIb2Hhs",
     "type": "TEXT",
-    "x": 2.0,
+    "x": 2,
     "y": 68,
-    "w": 2.0,
+    "w": 2,
     "h": 2,
     "data": {
      "content": "how you…",
@@ -782,17 +782,17 @@
      "align": "right",
      "valign": "middle"
     },
-    "mx": 0.0,
+    "mx": 0,
     "my": 122,
-    "mw": 2.0,
+    "mw": 2,
     "mh": 1
    },
    {
     "id": "QIU8359tv9RsAFWm",
     "type": "TEXT",
-    "x": 3.0,
+    "x": 3,
     "y": 70,
-    "w": 1.0,
+    "w": 1,
     "h": 2,
     "data": {
      "content": "…like it! ",
@@ -800,431 +800,431 @@
      "align": "center",
      "valign": "bottom"
     },
-    "mx": 0.0,
+    "mx": 0,
     "my": 123,
-    "mw": 2.0,
+    "mw": 2,
     "mh": 1
    },
    {
     "id": "touFNG4E5MKEOdwA",
     "type": "IMAGE",
-    "x": 0.0,
+    "x": 0,
     "y": 68,
-    "w": 2.0,
+    "w": 2,
     "h": 4,
     "data": {
-     "url": "/changelog/243f0774.mp4",
+     "url": "https://pub-b29e9ecb5e344983993d493d7d454aec.r2.dev/changelog/243f0774.mp4",
      "kind": "video"
     },
-    "mx": 0.0,
+    "mx": 0,
     "my": 117,
-    "mw": 2.0,
+    "mw": 2,
     "mh": 4
    },
    {
     "id": "CGmBn4LKLwUcAUcF",
     "type": "LINK",
-    "x": 0.0,
+    "x": 0,
     "y": 72,
-    "w": 2.0,
+    "w": 2,
     "h": 1,
     "data": {
      "url": "https://twitter.com/joinbento/status/1633468604795559939",
      "title": "Launch Tweet",
-     "image": "/changelog/aa31b869.jpeg"
+     "image": "https://pub-b29e9ecb5e344983993d493d7d454aec.r2.dev/changelog/aa31b869.jpeg"
     },
-    "mx": 0.0,
+    "mx": 0,
     "my": 126,
-    "mw": 2.0,
+    "mw": 2,
     "mh": 1
    },
    {
     "id": "b5Zrf1syYSKCkvew",
     "type": "SECTION_TITLE",
-    "x": 0.0,
+    "x": 0,
     "y": 56,
-    "w": 4.0,
+    "w": 4,
     "h": 1,
     "data": {
      "title": "March 15th 2023: New Smart Widgets for Figma, Dribbble, Behance"
     },
-    "mx": 0.0,
+    "mx": 0,
     "my": 98,
-    "mw": 2.0,
+    "mw": 2,
     "mh": 1
    },
    {
     "id": "Cwj8uEXHxmk1xIC7",
     "type": "LINK",
-    "x": 0.0,
+    "x": 0,
     "y": 57,
-    "w": 2.0,
+    "w": 2,
     "h": 4,
     "data": {
      "url": "https://www.figma.com/community/file/1207719189705528381",
-     "image": "/changelog/0a89b34b.jpeg",
-     "favicon": "/changelog/4071cb17.ico",
+     "image": "https://pub-b29e9ecb5e344983993d493d7d454aec.r2.dev/changelog/0a89b34b.jpeg",
+     "favicon": "https://pub-b29e9ecb5e344983993d493d7d454aec.r2.dev/changelog/4071cb17.ico",
      "title": ""
     },
-    "mx": 0.0,
+    "mx": 0,
     "my": 99,
-    "mw": 2.0,
+    "mw": 2,
     "mh": 4
    },
    {
     "id": "DFw8rYws05K4HLGn",
     "type": "LINK",
-    "x": 2.0,
+    "x": 2,
     "y": 59,
-    "w": 2.0,
+    "w": 2,
     "h": 4,
     "data": {
      "url": "https://dribbble.com/dennisgec",
-     "favicon": "/changelog/b0ed9b5e.png",
+     "favicon": "https://pub-b29e9ecb5e344983993d493d7d454aec.r2.dev/changelog/b0ed9b5e.png",
      "images": [
-      "/changelog/457b20f2.jpeg",
-      "/changelog/94b9d8c7.jpeg",
-      "/changelog/fc2000ad.jpeg",
-      "/changelog/f6d89596.jpeg",
-      "/changelog/5df9fdce.jpeg",
-      "/changelog/66aeb17a.jpeg"
+      "https://pub-b29e9ecb5e344983993d493d7d454aec.r2.dev/changelog/457b20f2.jpeg",
+      "https://pub-b29e9ecb5e344983993d493d7d454aec.r2.dev/changelog/94b9d8c7.jpeg",
+      "https://pub-b29e9ecb5e344983993d493d7d454aec.r2.dev/changelog/fc2000ad.jpeg",
+      "https://pub-b29e9ecb5e344983993d493d7d454aec.r2.dev/changelog/f6d89596.jpeg",
+      "https://pub-b29e9ecb5e344983993d493d7d454aec.r2.dev/changelog/5df9fdce.jpeg",
+      "https://pub-b29e9ecb5e344983993d493d7d454aec.r2.dev/changelog/66aeb17a.jpeg"
      ],
      "title": ""
     },
-    "mx": 0.0,
+    "mx": 0,
     "my": 105,
-    "mw": 2.0,
+    "mw": 2,
     "mh": 4
    },
    {
     "id": "RGFSQQejhmgvdHsY",
     "type": "LINK",
-    "x": 2.0,
+    "x": 2,
     "y": 57,
-    "w": 1.0,
+    "w": 1,
     "h": 2,
     "data": {
      "url": "https://www.figma.com/@joey",
-     "favicon": "/changelog/4071cb17.ico",
+     "favicon": "https://pub-b29e9ecb5e344983993d493d7d454aec.r2.dev/changelog/4071cb17.ico",
      "title": ""
     },
-    "mx": 0.0,
+    "mx": 0,
     "my": 103,
-    "mw": 2.0,
+    "mw": 2,
     "mh": 2
    },
    {
     "id": "nGC83DSwKoQVx5D8",
     "type": "LINK",
-    "x": 3.0,
+    "x": 3,
     "y": 57,
-    "w": 1.0,
+    "w": 1,
     "h": 2,
     "data": {
      "url": "https://dribbble.com/shots/19797305-Diffraction-icon",
      "title": "Diffraction icon",
-     "image": "/changelog/cbede18f.jpeg"
+     "image": "https://pub-b29e9ecb5e344983993d493d7d454aec.r2.dev/changelog/cbede18f.jpeg"
     },
-    "mx": 0.0,
+    "mx": 0,
     "my": 109,
-    "mw": 1.0,
+    "mw": 1,
     "mh": 2
    },
    {
     "id": "86FfTiWxxepCRxeJ",
     "type": "LINK",
-    "x": 0.0,
+    "x": 0,
     "y": 61,
-    "w": 2.0,
+    "w": 2,
     "h": 4,
     "data": {
      "url": "https://www.behance.net/gallery/163499049/Monsters-Invasion?tracking_source=search_projects%7Cdurry+3d",
      "title": "Monsters Invasion",
-     "image": "/changelog/b82b62f3.jpeg",
-     "favicon": "/changelog/ae647bb4.ico"
+     "image": "https://pub-b29e9ecb5e344983993d493d7d454aec.r2.dev/changelog/b82b62f3.jpeg",
+     "favicon": "https://pub-b29e9ecb5e344983993d493d7d454aec.r2.dev/changelog/ae647bb4.ico"
     },
-    "mx": 1.0,
+    "mx": 1,
     "my": 109,
-    "mw": 1.0,
+    "mw": 1,
     "mh": 4
    },
    {
     "id": "1YnqJvt47YnW0rQc",
     "type": "LINK",
-    "x": 2.0,
+    "x": 2,
     "y": 63,
-    "w": 2.0,
+    "w": 2,
     "h": 1,
     "data": {
      "url": "https://twitter.com/joinbento/status/1636009067553382402",
      "title": "Launch Tweet",
-     "image": "/changelog/09189300.jpeg"
+     "image": "https://pub-b29e9ecb5e344983993d493d7d454aec.r2.dev/changelog/09189300.jpeg"
     },
-    "mx": 0.0,
+    "mx": 0,
     "my": 113,
-    "mw": 2.0,
+    "mw": 2,
     "mh": 1
    },
    {
     "id": "j9rvyGHvT13uY0fl",
     "type": "SECTION_TITLE",
-    "x": 0.0,
+    "x": 0,
     "y": 53,
-    "w": 4.0,
+    "w": 4,
     "h": 1,
     "data": {
      "title": "March 20th 2023: Quotes ✍🏻💭✨"
     },
-    "mx": 0.0,
+    "mx": 0,
     "my": 94,
-    "mw": 2.0,
+    "mw": 2,
     "mh": 1
    },
    {
     "id": "jgt2xD9eRm7CLpOp",
     "type": "LINK",
-    "x": 2.0,
+    "x": 2,
     "y": 54,
-    "w": 1.0,
+    "w": 1,
     "h": 2,
     "data": {
      "url": "https://twitter.com/joinbento/status/1637851000932540416?s=20",
      "title": "Launch Tweet"
     },
-    "mx": 0.0,
+    "mx": 0,
     "my": 97,
-    "mw": 2.0,
+    "mw": 2,
     "mh": 1
    },
    {
     "id": "VUngonZyVjjYuFrm",
     "type": "IMAGE",
-    "x": 0.0,
+    "x": 0,
     "y": 54,
-    "w": 2.0,
+    "w": 2,
     "h": 2,
     "data": {
-     "url": "/changelog/fcaa19b7.mp4",
+     "url": "https://pub-b29e9ecb5e344983993d493d7d454aec.r2.dev/changelog/fcaa19b7.mp4",
      "kind": "video"
     },
-    "mx": 0.0,
+    "mx": 0,
     "my": 95,
-    "mw": 2.0,
+    "mw": 2,
     "mh": 2
    },
    {
     "id": "90uaHwWFtPMFi2TF",
     "type": "SECTION_TITLE",
-    "x": 0.0,
+    "x": 0,
     "y": 42,
-    "w": 4.0,
+    "w": 4,
     "h": 1,
     "data": {
      "title": "March 21st 2023: New Smart Widgets - Spotify and Tiktok 🎶 🎥 "
     },
-    "mx": 0.0,
+    "mx": 0,
     "my": 71,
-    "mw": 2.0,
+    "mw": 2,
     "mh": 1
    },
    {
     "id": "lnIIgZ6OdBsmFyF5",
     "type": "LINK",
-    "x": 0.0,
+    "x": 0,
     "y": 43,
-    "w": 2.0,
+    "w": 2,
     "h": 4,
     "data": {
      "url": "https://www.tiktok.com/@anjali_tewani_",
      "title": ""
     },
-    "mx": 0.0,
+    "mx": 0,
     "my": 84,
-    "mw": 2.0,
+    "mw": 2,
     "mh": 4
    },
    {
     "id": "ughiOJQykOM32BaL",
     "type": "LINK",
-    "x": 2.0,
+    "x": 2,
     "y": 49,
-    "w": 1.0,
+    "w": 1,
     "h": 4,
     "data": {
      "url": "https://www.tiktok.com/@arc_journal",
      "title": ""
     },
-    "mx": 0.0,
+    "mx": 0,
     "my": 90,
-    "mw": 1.0,
+    "mw": 1,
     "mh": 4
    },
    {
     "id": "FUJNE9d0VFapVbdB",
     "type": "LINK",
-    "x": 0.0,
+    "x": 0,
     "y": 47,
-    "w": 2.0,
+    "w": 2,
     "h": 2,
     "data": {
      "url": "https://www.tiktok.com/@whatistech",
      "title": ""
     },
-    "mx": 0.0,
+    "mx": 0,
     "my": 88,
-    "mw": 2.0,
+    "mw": 2,
     "mh": 2
    },
    {
     "id": "Zeafoe3rGfOlmtOA",
     "type": "LINK",
-    "x": 2.0,
+    "x": 2,
     "y": 43,
-    "w": 1.0,
+    "w": 1,
     "h": 4,
     "data": {
      "url": "https://open.spotify.com/show/44fllCS2FTFr2x2kjP9xeT",
      "title": "Hard Fork"
     },
-    "mx": 0.0,
+    "mx": 0,
     "my": 80,
-    "mw": 2.0,
+    "mw": 2,
     "mh": 4
    },
    {
     "id": "mA0pW6qll0jG529x",
     "type": "LINK",
-    "x": 2.0,
+    "x": 2,
     "y": 47,
-    "w": 2.0,
+    "w": 2,
     "h": 2,
     "data": {
      "url": "https://open.spotify.com/track/4jNa66Mi5PgcXrEaCiPNMu?si=010bac47f7244a82",
      "title": "Aloha! (Main Title Theme) - from “The White Lotus: Season 1”"
     },
-    "mx": 0.0,
+    "mx": 0,
     "my": 72,
-    "mw": 2.0,
+    "mw": 2,
     "mh": 2
    },
    {
     "id": "u9FgYYQQHU6KmdN7",
     "type": "LINK",
-    "x": 3.0,
+    "x": 3,
     "y": 49,
-    "w": 1.0,
+    "w": 1,
     "h": 2,
     "data": {
      "url": "https://www.tiktok.com/@tiktok?is_from_webapp=1&sender_device=pc",
      "title": ""
     },
-    "mx": 1.0,
+    "mx": 1,
     "my": 90,
-    "mw": 1.0,
+    "mw": 1,
     "mh": 2
    },
    {
     "id": "iorOjKb0cYfrlHOL",
     "type": "LINK",
-    "x": 0.0,
+    "x": 0,
     "y": 49,
-    "w": 2.0,
+    "w": 2,
     "h": 4,
     "data": {
      "url": "https://open.spotify.com/album/0HiZ8fNXwJOQcrf5iflrdz?si=26DDjjMgSiKBZS0dGpp9yw",
      "title": "Endless Summer Vacation"
     },
-    "mx": 0.0,
+    "mx": 0,
     "my": 74,
-    "mw": 2.0,
+    "mw": 2,
     "mh": 4
    },
    {
     "id": "fI3YnsDLEuMFu9Bn",
     "type": "LINK",
-    "x": 3.0,
+    "x": 3,
     "y": 43,
-    "w": 1.0,
+    "w": 1,
     "h": 2,
     "data": {
      "url": "https://open.spotify.com/show/08zQP2peZmM9GrcKShLZvC?si=cce3ddff47574adb",
      "title": "The Vergecast"
     },
-    "mx": 0.0,
+    "mx": 0,
     "my": 78,
-    "mw": 1.0,
+    "mw": 1,
     "mh": 2
    },
    {
     "id": "rZ5HvafKQuyMsnIm",
     "type": "LINK",
-    "x": 3.0,
+    "x": 3,
     "y": 45,
-    "w": 1.0,
+    "w": 1,
     "h": 2,
     "data": {
      "url": "https://open.spotify.com/artist/6eUKZXaKkcviH0Ku9w2n3V?si=6wssXMIYRXKbRqNITsUTFA",
      "title": "Ed Sheeran"
     },
-    "mx": 1.0,
+    "mx": 1,
     "my": 78,
-    "mw": 1.0,
+    "mw": 1,
     "mh": 2
    },
    {
     "id": "gjj9NY2dgmZG6qXH",
     "type": "LINK",
-    "x": 3.0,
+    "x": 3,
     "y": 51,
-    "w": 1.0,
+    "w": 1,
     "h": 2,
     "data": {
      "url": "https://twitter.com/joinbento/status/1638206419194314755?s=20",
      "title": "Launch Tweet",
-     "favicon": "/changelog/6ca3c579.ico"
+     "favicon": "https://pub-b29e9ecb5e344983993d493d7d454aec.r2.dev/changelog/6ca3c579.ico"
     },
-    "mx": 1.0,
+    "mx": 1,
     "my": 92,
-    "mw": 1.0,
+    "mw": 1,
     "mh": 2
    },
    {
     "id": "04DE9Lv9mbSQ5g20",
     "type": "SECTION_TITLE",
-    "x": 0.0,
+    "x": 0,
     "y": 37,
-    "w": 4.0,
+    "w": 4,
     "h": 1,
     "data": {
      "title": "April 6th 2023: Introducing, Maps 🗺"
     },
-    "mx": 0.0,
+    "mx": 0,
     "my": 62,
-    "mw": 2.0,
+    "mw": 2,
     "mh": 1
    },
    {
     "id": "DWIu46HmgAcgA6ex",
     "type": "IMAGE",
-    "x": 0.0,
+    "x": 0,
     "y": 38,
-    "w": 2.0,
+    "w": 2,
     "h": 4,
     "data": {
-     "url": "/changelog/60d8f7e5.mp4",
+     "url": "https://pub-b29e9ecb5e344983993d493d7d454aec.r2.dev/changelog/60d8f7e5.mp4",
      "kind": "video"
     },
-    "mx": 0.0,
+    "mx": 0,
     "my": 63,
-    "mw": 2.0,
+    "mw": 2,
     "mh": 4
    },
    {
     "id": "HAVXG3PJ8SaTZMjF",
     "type": "MAP",
-    "x": 2.0,
+    "x": 2,
     "y": 38,
-    "w": 2.0,
+    "w": 2,
     "h": 2,
     "data": {
      "location": "Berlin, Germany",
@@ -1232,178 +1232,178 @@
      "lat": 52.5141272,
      "lng": 13.406142
     },
-    "mx": 0.0,
+    "mx": 0,
     "my": 67,
-    "mw": 2.0,
+    "mw": 2,
     "mh": 2
    },
    {
     "id": "YFbE9up2Ikvn3t6G",
     "type": "LINK",
-    "x": 2.0,
+    "x": 2,
     "y": 40,
-    "w": 1.0,
+    "w": 1,
     "h": 2,
     "data": {
      "url": "https://twitter.com/joinbento/status/1643986351271063554?s=20",
      "title": "Launch Tweet",
-     "image": "/changelog/0dea63ea.jpeg"
+     "image": "https://pub-b29e9ecb5e344983993d493d7d454aec.r2.dev/changelog/0dea63ea.jpeg"
     },
-    "mx": 0.0,
+    "mx": 0,
     "my": 69,
-    "mw": 1.0,
+    "mw": 1,
     "mh": 2
    },
    {
     "id": "oZXZqeDA4vlyuGJ6",
     "type": "SECTION_TITLE",
-    "x": 0.0,
+    "x": 0,
     "y": 32,
-    "w": 4.0,
+    "w": 4,
     "h": 1,
     "data": {
      "title": "April 11th 2023: Magic Tweets 🧙🏻‍♀️🪄✨"
     },
-    "mx": 0.0,
+    "mx": 0,
     "my": 56,
-    "mw": 2.0,
+    "mw": 2,
     "mh": 1
    },
    {
     "id": "gFyFXFDNMdRBnHzk",
     "type": "IMAGE",
-    "x": 0.0,
+    "x": 0,
     "y": 33,
-    "w": 2.0,
+    "w": 2,
     "h": 4,
     "data": {
-     "url": "/changelog/4cd4c79f.mp4",
+     "url": "https://pub-b29e9ecb5e344983993d493d7d454aec.r2.dev/changelog/4cd4c79f.mp4",
      "kind": "video"
     },
-    "mx": 0.0,
+    "mx": 0,
     "my": 57,
-    "mw": 2.0,
+    "mw": 2,
     "mh": 4
    },
    {
     "id": "BGwmWeGIey2l6Bps",
     "type": "LINK",
-    "x": 2.0,
+    "x": 2,
     "y": 33,
-    "w": 1.0,
+    "w": 1,
     "h": 2,
     "data": {
      "url": "https://twitter.com/joinbento/status/1645817483771740162?s=20",
      "title": "Launch Tweet"
     },
-    "mx": 0.0,
+    "mx": 0,
     "my": 61,
-    "mw": 2.0,
+    "mw": 2,
     "mh": 1
    },
    {
     "id": "94NrrOZm9Jga2QGn",
     "type": "SECTION_TITLE",
-    "x": 0.0,
+    "x": 0,
     "y": 25,
-    "w": 4.0,
+    "w": 4,
     "h": 1,
     "data": {
      "title": "April 18th 2023: Linkable Media Widgets 🤩🔗"
     },
-    "mx": 0.0,
+    "mx": 0,
     "my": 43,
-    "mw": 2.0,
+    "mw": 2,
     "mh": 1
    },
    {
     "id": "s5giUeenYtxj0YUo",
     "type": "IMAGE",
-    "x": 2.0,
+    "x": 2,
     "y": 26,
-    "w": 2.0,
+    "w": 2,
     "h": 2,
     "data": {
-     "url": "/changelog/feb18de1.mp4",
+     "url": "https://pub-b29e9ecb5e344983993d493d7d454aec.r2.dev/changelog/feb18de1.mp4",
      "kind": "video"
     },
-    "mx": 0.0,
+    "mx": 0,
     "my": 48,
-    "mw": 2.0,
+    "mw": 2,
     "mh": 4
    },
    {
     "id": "eu1hgvoZcEKyoz8l",
     "type": "IMAGE",
-    "x": 0.0,
+    "x": 0,
     "y": 26,
-    "w": 2.0,
+    "w": 2,
     "h": 4,
     "data": {
-     "url": "/changelog/d4047204.jpg",
+     "url": "https://pub-b29e9ecb5e344983993d493d7d454aec.r2.dev/changelog/d4047204.jpg",
      "kind": "image",
      "href": "https://twitter.com/joinbento/status/1648296971223044096?s=20"
     },
-    "mx": 0.0,
+    "mx": 0,
     "my": 44,
-    "mw": 2.0,
+    "mw": 2,
     "mh": 4
    },
    {
     "id": "HisUK6ilneJs0cFq",
     "type": "SECTION_TITLE",
-    "x": 0.0,
+    "x": 0,
     "y": 20,
-    "w": 4.0,
+    "w": 4,
     "h": 1,
     "data": {
      "title": "April 20th 2023: Bento Community Resources 🎨 🙌🏼"
     },
-    "mx": 0.0,
+    "mx": 0,
     "my": 34,
-    "mw": 2.0,
+    "mw": 2,
     "mh": 1
    },
    {
     "id": "4go4VetunIpsKYW9",
     "type": "IMAGE",
-    "x": 0.0,
+    "x": 0,
     "y": 21,
-    "w": 2.0,
+    "w": 2,
     "h": 2,
     "data": {
-     "url": "/changelog/d575a06c.jpg",
+     "url": "https://pub-b29e9ecb5e344983993d493d7d454aec.r2.dev/changelog/d575a06c.jpg",
      "kind": "image",
      "href": "http://bento.me/explore#communityfiles"
     },
-    "mx": 0.0,
+    "mx": 0,
     "my": 35,
-    "mw": 2.0,
+    "mw": 2,
     "mh": 2
    },
    {
     "id": "04CzrRfHcNIOk8tu",
     "type": "LINK",
-    "x": 2.0,
+    "x": 2,
     "y": 21,
-    "w": 2.0,
+    "w": 2,
     "h": 4,
     "data": {
      "url": "https://www.figma.com/community/file/1230552194166470869/Official-Bento-Widget-Guidelines",
      "title": "Design your own custom widgets 👇🏼",
-     "favicon": "/changelog/4071cb17.ico"
+     "favicon": "https://pub-b29e9ecb5e344983993d493d7d454aec.r2.dev/changelog/4071cb17.ico"
     },
-    "mx": 0.0,
+    "mx": 0,
     "my": 37,
-    "mw": 2.0,
+    "mw": 2,
     "mh": 4
    },
    {
     "id": "5eXBnvc0Kto5jcdD",
     "type": "TEXT",
-    "x": 0.0,
+    "x": 0,
     "y": 23,
-    "w": 2.0,
+    "w": 2,
     "h": 2,
     "data": {
      "content": "**👆🏼 Use beautiful custom widgets created by the Bento community** ",
@@ -1411,49 +1411,49 @@
      "align": "left",
      "valign": "top"
     },
-    "mx": 0.0,
+    "mx": 0,
     "my": 41,
-    "mw": 2.0,
+    "mw": 2,
     "mh": 2
    },
    {
     "id": "cSAGxW27DiqXbm3I",
     "type": "SECTION_TITLE",
-    "x": 0.0,
+    "x": 0,
     "y": 13,
-    "w": 4.0,
+    "w": 4,
     "h": 1,
     "data": {
      "title": "April 25th: Upgraded Adding Experience ✨ RIP little Add-Button 🪦"
     },
-    "mx": 0.0,
+    "mx": 0,
     "my": 23,
-    "mw": 2.0,
+    "mw": 2,
     "mh": 1
    },
    {
     "id": "WhOaJlw7Zf7yG4au",
     "type": "IMAGE",
-    "x": 2.0,
+    "x": 2,
     "y": 16,
-    "w": 2.0,
+    "w": 2,
     "h": 2,
     "data": {
-     "url": "/changelog/dbf1c188.mp4",
+     "url": "https://pub-b29e9ecb5e344983993d493d7d454aec.r2.dev/changelog/dbf1c188.mp4",
      "kind": "video",
      "href": "https://twitter.com/joinbento/status/1650850532591022082?s=20"
     },
-    "mx": 0.0,
+    "mx": 0,
     "my": 28,
-    "mw": 2.0,
+    "mw": 2,
     "mh": 2
    },
    {
     "id": "bb7sEQKRYgl7KhyX",
     "type": "TEXT",
-    "x": 2.0,
+    "x": 2,
     "y": 18,
-    "w": 1.0,
+    "w": 1,
     "h": 2,
     "data": {
      "content": "Before 😮‍💨 ⤴️",
@@ -1461,17 +1461,17 @@
      "align": "center",
      "valign": "middle"
     },
-    "mx": 0.0,
+    "mx": 0,
     "my": 32,
-    "mw": 1.0,
+    "mw": 1,
     "mh": 2
    },
    {
     "id": "BGPhheuMkVNNUE3O",
     "type": "TEXT",
-    "x": 3.0,
+    "x": 3,
     "y": 18,
-    "w": 1.0,
+    "w": 1,
     "h": 2,
     "data": {
      "content": "After 🥳 ⤴️",
@@ -1479,17 +1479,17 @@
      "align": "center",
      "valign": "middle"
     },
-    "mx": 1.0,
+    "mx": 1,
     "my": 32,
-    "mw": 1.0,
+    "mw": 1,
     "mh": 2
    },
    {
     "id": "NAjY2Ro7jG8qaIkY",
     "type": "TEXT",
-    "x": 0.0,
+    "x": 0,
     "y": 14,
-    "w": 2.0,
+    "w": 2,
     "h": 4,
     "data": {
      "content": "\n😍👋🏻🔗🌅📝🗺✨\n**Say hi to our shiny new widget bar** ",
@@ -1498,82 +1498,82 @@
      "valign": "middle",
      "href": "https://twitter.com/joinbento/status/1650850476760649731?s=20"
     },
-    "mx": 0.0,
+    "mx": 0,
     "my": 24,
-    "mw": 2.0,
+    "mw": 2,
     "mh": 2
    },
    {
     "id": "AA9X0zpwz47tbVRV",
     "type": "TEXT",
-    "x": 2.0,
+    "x": 2,
     "y": 14,
-    "w": 2.0,
+    "w": 2,
     "h": 2,
     "data": {
      "content": "But we didn't stop there 🥳 \n\nNew widgets will now get added where you see them 👇🏼",
      "align": "left",
      "valign": "top"
     },
-    "mx": 0.0,
+    "mx": 0,
     "my": 26,
-    "mw": 2.0,
+    "mw": 2,
     "mh": 2
    },
    {
     "id": "6O4UfMNORrBQJeQm",
     "type": "IMAGE",
-    "x": 0.0,
+    "x": 0,
     "y": 18,
-    "w": 2.0,
+    "w": 2,
     "h": 2,
     "data": {
-     "url": "/changelog/e25ac3ed.mp4",
+     "url": "https://pub-b29e9ecb5e344983993d493d7d454aec.r2.dev/changelog/e25ac3ed.mp4",
      "kind": "video"
     },
-    "mx": 0.0,
+    "mx": 0,
     "my": 30,
-    "mw": 2.0,
+    "mw": 2,
     "mh": 2
    },
    {
     "id": "FCjvDLLgjIcSWUb9",
     "type": "SECTION_TITLE",
-    "x": 0.0,
+    "x": 0,
     "y": 10,
-    "w": 4.0,
+    "w": 4,
     "h": 1,
     "data": {
      "title": "May 2nd: Bento Profile Views 👀🔎 "
     },
-    "mx": 0.0,
+    "mx": 0,
     "my": 18,
-    "mw": 2.0,
+    "mw": 2,
     "mh": 1
    },
    {
     "id": "zyB1WlI5O2weGezf",
     "type": "IMAGE",
-    "x": 0.0,
+    "x": 0,
     "y": 11,
-    "w": 2.0,
+    "w": 2,
     "h": 2,
     "data": {
-     "url": "/changelog/2e8da557.mp4",
+     "url": "https://pub-b29e9ecb5e344983993d493d7d454aec.r2.dev/changelog/2e8da557.mp4",
      "kind": "video",
      "href": "https://twitter.com/gubmee/status/1653390123357052930?s=20"
     },
-    "mx": 0.0,
+    "mx": 0,
     "my": 19,
-    "mw": 2.0,
+    "mw": 2,
     "mh": 2
    },
    {
     "id": "jwR4tOSDDQ7Vk9pi",
     "type": "TEXT",
-    "x": 2.0,
+    "x": 2,
     "y": 11,
-    "w": 2.0,
+    "w": 2,
     "h": 2,
     "data": {
      "content": "Today we're launching the first step towards analytics - Bento Profile Views 👀",
@@ -1582,49 +1582,49 @@
      "valign": "middle",
      "href": "http://bento.me/login"
     },
-    "mx": 0.0,
+    "mx": 0,
     "my": 21,
-    "mw": 2.0,
+    "mw": 2,
     "mh": 2
    },
    {
     "id": "QFJjQboLbgm2cVNU",
     "type": "SECTION_TITLE",
-    "x": 0.0,
+    "x": 0,
     "y": 5,
-    "w": 4.0,
+    "w": 4,
     "h": 1,
     "data": {
      "title": "May 9th: Image and Video Cropping 🖼 🎥 ✂️"
     },
-    "mx": 0.0,
+    "mx": 0,
     "my": 9,
-    "mw": 2.0,
+    "mw": 2,
     "mh": 1
    },
    {
     "id": "RN0GCYxDZoPtg48o",
     "type": "IMAGE",
-    "x": 2.0,
+    "x": 2,
     "y": 6,
-    "w": 2.0,
+    "w": 2,
     "h": 4,
     "data": {
-     "url": "/changelog/c1910d40.mp4",
+     "url": "https://pub-b29e9ecb5e344983993d493d7d454aec.r2.dev/changelog/c1910d40.mp4",
      "kind": "video",
      "href": "http://bento.me/login"
     },
-    "mx": 0.0,
+    "mx": 0,
     "my": 10,
-    "mw": 2.0,
+    "mw": 2,
     "mh": 4
    },
    {
     "id": "A5gHinvm1J5y8YYI",
     "type": "TEXT",
-    "x": 0.0,
+    "x": 0,
     "y": 6,
-    "w": 2.0,
+    "w": 2,
     "h": 4,
     "data": {
      "content": "**Say goodbye to visual limitations!** \n\nNow, you can effortlessly crop and rearrange your visuals to perfection 👏🏻\n\nCurate your page like a pro and create a stunning showcase of who you are 💫",
@@ -1632,17 +1632,17 @@
      "align": "center",
      "valign": "middle"
     },
-    "mx": 0.0,
+    "mx": 0,
     "my": 14,
-    "mw": 2.0,
+    "mw": 2,
     "mh": 4
    },
    {
     "id": "aWvxGN4hv0fPYHap",
     "type": "TEXT",
-    "x": 2.0,
+    "x": 2,
     "y": 28,
-    "w": 2.0,
+    "w": 2,
     "h": 4,
     "data": {
      "content": "Images, videos, GIFs, and notes can now link out to your favorite sites 🤩🔗\n\nYou can take your Bento to the next level and make it truly unique. \n\nThe possibilities are now limitless - unleash your creativity!",
@@ -1650,109 +1650,109 @@
      "align": "center",
      "valign": "middle"
     },
-    "mx": 0.0,
+    "mx": 0,
     "my": 52,
-    "mw": 2.0,
+    "mw": 2,
     "mh": 4
    },
    {
     "id": "9UeIGiMxGpz1d28G",
     "type": "SECTION_TITLE",
-    "x": 0.0,
+    "x": 0,
     "y": 0,
-    "w": 4.0,
+    "w": 4,
     "h": 1,
     "data": {
      "title": "May 16th: Widget Suggestions 🌟"
     },
-    "mx": 0.0,
+    "mx": 0,
     "my": 0,
-    "mw": 2.0,
+    "mw": 2,
     "mh": 1
    },
    {
     "id": "AT7zWDjcbI4UY33z",
     "type": "IMAGE",
-    "x": 0.0,
+    "x": 0,
     "y": 1,
-    "w": 2.0,
+    "w": 2,
     "h": 4,
     "data": {
-     "url": "/changelog/6083d955.mp4",
+     "url": "https://pub-b29e9ecb5e344983993d493d7d454aec.r2.dev/changelog/6083d955.mp4",
      "kind": "video",
      "href": "https://twitter.com/eikedrescher/status/1659566664734633984",
      "posX": 1
     },
-    "mx": 0.0,
+    "mx": 0,
     "my": 1,
-    "mw": 2.0,
+    "mw": 2,
     "mh": 4
    },
    {
     "id": "stWD1of7WDGPDIOp",
     "type": "IMAGE",
-    "x": 2.0,
+    "x": 2,
     "y": 1,
-    "w": 1.0,
+    "w": 1,
     "h": 2,
     "data": {
-     "url": "/changelog/d7b3f6cf.png",
+     "url": "https://pub-b29e9ecb5e344983993d493d7d454aec.r2.dev/changelog/d7b3f6cf.png",
      "kind": "image"
     },
-    "mx": 0.0,
+    "mx": 0,
     "my": 5,
-    "mw": 1.0,
+    "mw": 1,
     "mh": 2
    },
    {
     "id": "DsYn5jDOxHP8pgA8",
     "type": "IMAGE",
-    "x": 2.0,
+    "x": 2,
     "y": 3,
-    "w": 1.0,
+    "w": 1,
     "h": 2,
     "data": {
-     "url": "/changelog/13456801.png",
+     "url": "https://pub-b29e9ecb5e344983993d493d7d454aec.r2.dev/changelog/13456801.png",
      "kind": "image"
     },
-    "mx": 1.0,
+    "mx": 1,
     "my": 5,
-    "mw": 1.0,
+    "mw": 1,
     "mh": 2
    },
    {
     "id": "vnAx9T3bCyedarxT",
     "type": "IMAGE",
-    "x": 3.0,
+    "x": 3,
     "y": 1,
-    "w": 1.0,
+    "w": 1,
     "h": 2,
     "data": {
-     "url": "/changelog/daed8a39.png",
+     "url": "https://pub-b29e9ecb5e344983993d493d7d454aec.r2.dev/changelog/daed8a39.png",
      "kind": "image"
     },
-    "mx": 0.0,
+    "mx": 0,
     "my": 7,
-    "mw": 1.0,
+    "mw": 1,
     "mh": 2
    },
    {
     "id": "yzAJMlQXmDs0G9JC",
     "type": "IMAGE",
-    "x": 3.0,
+    "x": 3,
     "y": 3,
-    "w": 1.0,
+    "w": 1,
     "h": 2,
     "data": {
-     "url": "/changelog/664f32f5.png",
+     "url": "https://pub-b29e9ecb5e344983993d493d7d454aec.r2.dev/changelog/664f32f5.png",
      "kind": "image"
     },
-    "mx": 1.0,
+    "mx": 1,
     "my": 7,
-    "mw": 1.0,
+    "mw": 1,
     "mh": 2
    }
   ]
  },
- "picture": "/changelog/fd997c4f.png"
+ "picture": "https://pub-b29e9ecb5e344983993d493d7d454aec.r2.dev/changelog/fd997c4f.png"
 }
