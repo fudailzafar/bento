@@ -405,7 +405,10 @@ export function BentoGrid({
   const cols = desktop ? 4 : 2;
   const gap = desktop ? 40 : MOBILE_GAP;
   const colWidth = (width - gap * (cols - 1)) / cols;
-  const rowHeight = (colWidth - gap) / 2;
+  // A hair under half a tile, as bento's: on 175px columns a row is 67.5px,
+  // and bento draws a one-row tile 67px tall, never 68 (the grid rounds half
+  // up). Two rows still come to a full 175px square.
+  const rowHeight = (colWidth - gap) / 2 - 0.01;
   if (anchorRef) {
     // The row a fifth of the way down the screen, or the one under a point
     // (a drop): where new widgets go.
@@ -553,10 +556,15 @@ export function BentoGrid({
                   }
                   className={cn(
                     'rounded-[var(--widget-radius)] [transition:box-shadow_.2s_ease-in-out,transform_.24s_cubic-bezier(.43,.01,.29,1),background_.2s_cubic-bezier(.43,.01,.29,1)]',
-                    // bento's section title is 60px tall, sitting on the bottom
-                    // of its row so it stays 40px above what it introduces.
+                    // bento's section title is 60px tall and hangs below its
+                    // row into the gap, so it sits close above the group it
+                    // introduces: 10px on desktop, 4px on a phone, not a full
+                    // gap.
                     label
-                      ? 'absolute inset-x-0 bottom-0 h-[60px]'
+                      ? cn(
+                          'absolute inset-x-0 h-[60px]',
+                          desktop ? 'bottom-[-30px]' : 'bottom-[-20px]'
+                        )
                       : 'relative h-full w-full',
                     !label && 'bg-card shadow-[0_2px_4px_rgba(0,0,0,.04)]',
                     label && selected && 'bg-card',
