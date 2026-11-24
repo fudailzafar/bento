@@ -8,6 +8,7 @@ import { NoteEditor, RichText } from './rich-text';
 import { parseQuote, plainRich } from '@/lib/rich-text';
 import { NO_DRAG } from './editing/no-drag';
 import { embedFor, youtubeVideoId } from '@/lib/embeds';
+import { MarqueeText } from '@/components/common/marquee-text';
 import { asUrl, isVideoMedia } from '@/lib/media';
 import { cn } from '@/lib/utils';
 import { UploadRing } from './upload-ring';
@@ -304,10 +305,14 @@ export function BlockContent({
   block,
   interactive = false,
   edit,
+  scrollTitle = false,
 }: {
   block: Block;
   interactive?: boolean;
   edit?: BlockEditing;
+  // A section title stays on one line and scrolls when it is too long (the
+  // phone layout, where it would otherwise wrap out of its 60px box).
+  scrollTitle?: boolean;
 }) {
   // Editing in place, as on desktop.
   const live = edit && edit.inline !== false ? edit : undefined;
@@ -671,6 +676,17 @@ export function BlockContent({
 
     case 'SECTION_TITLE': {
       const { title } = block.data as { title?: string };
+      if (scrollTitle && !live) {
+        return (
+          <div className="h-full w-full py-4">
+            <MarqueeText>
+              <h2 className="text-[18px] font-semibold leading-7 text-black">
+                {title || 'Section'}
+              </h2>
+            </MarqueeText>
+          </div>
+        );
+      }
       return (
         // bento's section title: 16px padding and 8px more indent, so the
         // text starts 24px in and 16px down in its 60px box.

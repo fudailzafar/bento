@@ -592,6 +592,7 @@ export function BentoGrid({
                       block={block}
                       interactive={!isEditMode}
                       edit={isEditMode ? editingFor(block) : undefined}
+                      scrollTitle={!desktop}
                     />
                   </div>
                   {label && isEditMode && (
