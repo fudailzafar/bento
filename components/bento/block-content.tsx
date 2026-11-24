@@ -586,20 +586,24 @@ export function BlockContent({
         </div>
       ) : null;
       if (live) {
+        // The arrow badge shows while editing too; it ignores the pointer, so
+        // typing is unaffected.
         return (
-          <NoteEditor
-            content={content ?? ''}
-            color={color}
-            className={cn(pad, alignClass, valignClass, tone)}
-            textClass={cn(
-              size,
-              tone,
-              halign === 'center' && 'text-center',
-              halign === 'right' && 'text-right'
-            )}
-            onChange={(value) => live.onPatch({ content: value })}
-            preview={quoteView}
-          />
+          <Linked href={href} interactive={false}>
+            <NoteEditor
+              content={content ?? ''}
+              color={color}
+              className={cn(pad, alignClass, valignClass, tone)}
+              textClass={cn(
+                size,
+                tone,
+                halign === 'center' && 'text-center',
+                halign === 'right' && 'text-right'
+              )}
+              onChange={(value) => live.onPatch({ content: value })}
+              preview={quoteView}
+            />
+          </Linked>
         );
       }
       if (quoteView) {
