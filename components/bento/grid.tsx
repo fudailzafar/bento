@@ -11,6 +11,7 @@ import { toast } from 'sonner';
 import { fetchLinkPreview, isVideoFile, uploadBlockMedia } from '@/lib/media';
 import { findPlatform } from '@/lib/platforms';
 import { cn } from '@/lib/utils';
+import { useDragSwap } from '@/hooks/use-drag-swap';
 import { useDragTilt } from '@/hooks/use-drag-tilt';
 import { BlockContent, type BlockEditing } from './block-content';
 import {
@@ -102,6 +103,7 @@ export function BentoGrid({
   const [width, setWidth] = useState(0);
   const wrapper = useRef<HTMLDivElement>(null);
   const tilt = useDragTilt();
+  const swap = useDragSwap();
 
   useEffect(() => {
     setMounted(true);
@@ -510,9 +512,16 @@ export function BentoGrid({
         onLayoutChange={(layout) => {
           if (isEditMode && desktop) handleGridLayoutChange(layout);
         }}
-        onDragStart={tilt.onDragStart}
-        onDrag={tilt.onDrag}
+        onDragStart={(...args) => {
+          swap.onDragStart(...args);
+          tilt.onDragStart(...args);
+        }}
+        onDrag={(...args) => {
+          swap.onDrag(...args);
+          tilt.onDrag(...args);
+        }}
         onDragStop={(layout, ...rest) => {
+          swap.onDragStop(layout, ...rest);
           tilt.onDragStop(layout, ...rest);
           if (isEditMode && !desktop) commitPhoneLayout(layout);
         }}
