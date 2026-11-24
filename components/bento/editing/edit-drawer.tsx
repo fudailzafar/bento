@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from 'react';
 import { Drawer as DrawerPrimitive } from 'vaul';
 import { LoaderCircle, Navigation, Plus, X } from 'lucide-react';
 import { Block } from '@/lib';
+import { isVideoMedia } from '@/lib/media';
 import { findPlatform } from '@/lib/platforms';
 import { isQuote } from '@/lib/rich-text';
 import { cn } from '@/lib/utils';
@@ -27,7 +28,7 @@ import {
 import {
   NOTE_COLORS,
   searchPlaces,
-  useImageAspect,
+  useMediaAspect,
   type Place,
 } from './options';
 import { widgetRadius } from './widget-radius';
@@ -340,9 +341,11 @@ function ImageBody({ block, edit }: { block: Block; edit: BlockEditing }) {
   };
   const [cropping, setCropping] = useState(false);
   const url = edit.preview?.url ?? data.url;
-  const video = (edit.preview?.kind ?? data.kind) === 'video';
+  const video = edit.preview
+    ? edit.preview.kind === 'video'
+    : isVideoMedia(data);
   const aspect = tileAspect(block.w, block.h);
-  const natural = useImageAspect(!video ? data.url : undefined);
+  const natural = useMediaAspect(data.url, isVideoMedia(data));
   const fits = natural !== null && Math.abs(natural - aspect) <= 0.05;
   const radius = widgetRadius(block);
 
@@ -360,6 +363,7 @@ function ImageBody({ block, edit }: { block: Block; edit: BlockEditing }) {
           {cropping && data.url ? (
             <CropEditor
               src={data.url}
+              video={isVideoMedia(data)}
               posX={data.posX ?? 0.5}
               posY={data.posY ?? 0.5}
               radius={radius}
@@ -379,6 +383,9 @@ function ImageBody({ block, edit }: { block: Block; edit: BlockEditing }) {
                     muted
                     loop
                     playsInline
+                    style={{
+                      objectPosition: `${(data.posX ?? 0.5) * 100}% ${(data.posY ?? 0.5) * 100}%`,
+                    }}
                   />
                 ) : (
                   // eslint-disable-next-line @next/next/no-img-element
@@ -415,7 +422,7 @@ function ImageBody({ block, edit }: { block: Block; edit: BlockEditing }) {
             edit.onUpload(file, 'url');
           }}
         />
-        {!video && !!data.url && (
+        {!!data.url && (
           <button
             type="button"
             aria-label="Crop"

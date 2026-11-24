@@ -8,7 +8,7 @@ import { NoteEditor, RichText } from './rich-text';
 import { parseQuote, plainRich } from '@/lib/rich-text';
 import { NO_DRAG } from './editing/no-drag';
 import { embedFor, youtubeVideoId } from '@/lib/embeds';
-import { asUrl, isVideoUrl } from '@/lib/media';
+import { asUrl, isVideoMedia } from '@/lib/media';
 import { cn } from '@/lib/utils';
 import { UploadRing } from './upload-ring';
 import { ImagePlus, LoaderCircle, MapPin } from 'lucide-react';
@@ -455,15 +455,18 @@ export function BlockContent({
           <div className={emptyClass}>{empty}</div>
         );
       }
+      // The part of it the frame shows (bento's crop).
+      const objectPosition = `${(stored.posX ?? 0.5) * 100}% ${(stored.posY ?? 0.5) * 100}%`;
       return (
         <Linked href={href} interactive={interactive}>
           <div className="relative h-full w-full overflow-hidden bg-muted">
-            {kind === 'video' || isVideoUrl(url) ? (
+            {isVideoMedia({ url, kind }) ? (
               // bento's video widget: muted, looping, no controls.
               <video
                 src={url}
                 aria-label={caption || alt || undefined}
                 className="h-full w-full object-cover"
+                style={{ objectPosition }}
                 autoPlay
                 muted
                 loop
@@ -475,9 +478,7 @@ export function BlockContent({
                 src={url}
                 alt={caption || alt || ''}
                 className="h-full w-full object-cover"
-                style={{
-                  objectPosition: `${(stored.posX ?? 0.5) * 100}% ${(stored.posY ?? 0.5) * 100}%`,
-                }}
+                style={{ objectPosition }}
               />
             )}
             {edit?.preview && (

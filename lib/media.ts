@@ -9,6 +9,38 @@ export function isVideoUrl(url?: string) {
   return !!url && /\.(mp4|webm|mov)(\?|#|$)/i.test(url);
 }
 
+// Whether a media widget's file is a video.
+export function isVideoMedia(media: { url?: string; kind?: string }) {
+  return media.kind === 'video' || isVideoUrl(media.url);
+}
+
+// A picture's or video's natural size, loaded once per address. Never settles
+// when the file can't be read.
+const sizes = new Map<string, Promise<{ w: number; h: number }>>();
+export function mediaSize(src: string, video: boolean) {
+  const known = sizes.get(src);
+  if (known) return known;
+  const size = new Promise<{ w: number; h: number }>((resolve) => {
+    if (video) {
+      const el = document.createElement('video');
+      el.preload = 'metadata';
+      el.muted = true;
+      el.onloadedmetadata = () =>
+        resolve({ w: el.videoWidth, h: el.videoHeight });
+      // A failed load may work next time.
+      el.onerror = () => sizes.delete(src);
+      el.src = src;
+    } else {
+      const el = new Image();
+      el.onload = () => resolve({ w: el.naturalWidth, h: el.naturalHeight });
+      el.onerror = () => sizes.delete(src);
+      el.src = src;
+    }
+  });
+  sizes.set(src, size);
+  return size;
+}
+
 export function isVideoFile(file: Blob) {
   return VIDEO_TYPES.includes(file.type);
 }

@@ -4,7 +4,7 @@ import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { motion } from 'framer-motion';
 import { LoaderCircle, Navigation, Search } from 'lucide-react';
 import { Block } from '@/lib';
-import { isVideoUrl } from '@/lib/media';
+import { isVideoMedia } from '@/lib/media';
 import { isQuote } from '@/lib/rich-text';
 import { cn } from '@/lib/utils';
 import { useDebounce } from '@/hooks/use-debounce';
@@ -14,7 +14,7 @@ import {
   SIZES,
   searchPlaces,
   sizesFor,
-  useImageAspect,
+  useMediaAspect,
   type Place,
 } from './options';
 import { PRESS, PRESS_WHITE } from './press';
@@ -230,11 +230,7 @@ export function WidgetToolbar({
   const sizes = SIZES.filter(
     (s) => s.h > 1 || block.type === 'TEXT' || block.type === 'LINK'
   );
-  const isImage =
-    block.type === 'IMAGE' &&
-    !!data.url &&
-    data.kind !== 'video' &&
-    !isVideoUrl(data.url);
+  const media = block.type === 'IMAGE' ? data.url : undefined;
 
   // Quotes stay left-aligned and top-aligned, and a bar centres its text.
   const quote = block.type === 'TEXT' && isQuote(data.content ?? '');
@@ -256,8 +252,8 @@ export function WidgetToolbar({
     ['bottom', AlignBottomIcon, bar || quote],
   ] as const;
 
-  const aspect = useImageAspect(isImage ? data.url : undefined);
-  // A picture already the shape of its frame has nothing to crop.
+  const aspect = useMediaAspect(media, isVideoMedia(data));
+  // Media already the shape of its frame has nothing to crop.
   const fits =
     aspect !== null && Math.abs(aspect - tileAspect(block.w, block.h)) <= 0.05;
 
@@ -297,7 +293,7 @@ export function WidgetToolbar({
         {block.type === 'IMAGE' && data.url && (
           <>
             <Divider />
-            {isImage && (
+            {media && (
               <BentoTooltip
                 tooltip={fits ? 'Fits perfectly already' : undefined}
               >

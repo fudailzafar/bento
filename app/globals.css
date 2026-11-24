@@ -255,7 +255,26 @@
   transition: opacity 0.15s ease-in-out;
 }
 
+/* While a widget is cropped its crop editor draws the whole tile, so the tile
+   itself steps out of the way (and can't show behind it when it is pulled). Its
+   buttons go while the picture is dragged. */
+.react-grid-item:has(> [data-crop='ready'], > [data-crop='dragging'])
+  [data-scale] {
+  /* Not visibility: browsers pause a video that isn't visible. */
+  opacity: 0;
+}
+.react-grid-item:has(> [data-crop='dragging']) [data-controls] {
+  opacity: 0 !important;
+  pointer-events: none !important;
+  transition: opacity 0.15s ease-in-out;
+}
+[data-crop-frame] {
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
+  transition: box-shadow 0.2s ease-in-out;
+}
+
 /* bento's dragged widget: a deep, soft shadow. */
+[data-crop='dragging'] [data-crop-frame],
 .react-grid-item.react-draggable-dragging [data-widget] {
   box-shadow:
     0 0 1px 1px rgba(0, 0, 0, 0.04),

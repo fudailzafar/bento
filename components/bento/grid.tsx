@@ -8,7 +8,12 @@ import { Block, BlockType, defaultBlockData } from '@/lib';
 import { MousePointerClick } from 'lucide-react';
 import { MoveAbleIcon, PenIcon, TrashIcon } from '@/components/icons';
 import { toast } from 'sonner';
-import { fetchLinkPreview, isVideoFile, uploadBlockMedia } from '@/lib/media';
+import {
+  fetchLinkPreview,
+  isVideoFile,
+  isVideoMedia,
+  uploadBlockMedia,
+} from '@/lib/media';
 import { findPlatform } from '@/lib/platforms';
 import { cn } from '@/lib/utils';
 import { useDragSwap } from '@/hooks/use-drag-swap';
@@ -734,6 +739,7 @@ export function BentoGrid({
                   {croppingBlockId === block.id && block.type === 'IMAGE' && (
                     <CropEditor
                       src={(block.data as { url: string }).url}
+                      video={isVideoMedia(block.data as { url: string })}
                       posX={(block.data as { posX?: number }).posX ?? 0.5}
                       posY={(block.data as { posY?: number }).posY ?? 0.5}
                       radius={widgetRadius(block)}

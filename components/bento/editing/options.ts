@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { mediaSize } from '@/lib/media';
 import {
   SizeBarIcon,
   SizeLargeIcon,
@@ -44,24 +45,27 @@ export const NOTE_COLORS = [
   '#1B7865',
 ];
 
-// Natural width over height of a picture, loaded once per address.
+// Natural width over height of a picture or video; null until it is known.
 const aspects = new Map<string, number>();
-export function useImageAspect(src?: string) {
+export function useMediaAspect(src?: string, video = false) {
   const [aspect, setAspect] = useState<number | null>(
     src ? (aspects.get(src) ?? null) : null
   );
   useEffect(() => {
     if (!src) return setAspect(null);
     const known = aspects.get(src);
-    if (known !== undefined) return setAspect(known);
-    const image = new Image();
-    image.onload = () => {
-      const value = image.naturalWidth / image.naturalHeight;
-      aspects.set(src, value);
-      setAspect(value);
+    setAspect(known ?? null);
+    if (known !== undefined) return;
+    let current = true;
+    mediaSize(src, video).then(({ w, h }) => {
+      if (!w || !h) return;
+      aspects.set(src, w / h);
+      if (current) setAspect(w / h);
+    });
+    return () => {
+      current = false;
     };
-    image.src = src;
-  }, [src]);
+  }, [src, video]);
   return aspect;
 }
 
