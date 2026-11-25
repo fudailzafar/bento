@@ -1,6 +1,7 @@
 import { lookup } from 'node:dns/promises';
 import { isIP } from 'node:net';
 import { SITE_URL } from '@/lib/site';
+import { contactLink } from '@/lib/contact-link';
 
 // Fetches a page's Open Graph title, description and image for link tiles.
 // Public addresses only (every redirect is checked too), small and quick.
@@ -115,6 +116,7 @@ function findIcon(html: string, base: URL) {
 export async function getLinkPreview(
   raw: string
 ): Promise<LinkPreviewResult | null> {
+  if (contactLink(raw)) return null;
   let url: URL;
   try {
     url = new URL(raw.startsWith('http') ? raw : `https://${raw}`);

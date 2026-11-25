@@ -2,6 +2,8 @@
 // brand icon, and the call-to-action pill. Colours come from bento's widget
 // CSS variables and button classes in its archived profile pages.
 
+import { contactLink } from './contact-link';
+
 interface Platform {
   id: string;
   name: string;
@@ -254,6 +256,8 @@ const PLATFORMS: Platform[] = [
 ];
 
 export function hostOf(url: string): string {
+  // "mailto:jane@github.com" must not read as a github.com link.
+  if (contactLink(url)) return '';
   try {
     return new URL(
       url.startsWith('http') ? url : `https://${url}`
@@ -318,6 +322,7 @@ export function handleFrom(
   url: string,
   style: 'at' | 'plain'
 ): string | undefined {
+  if (contactLink(url)) return undefined;
   try {
     const segment = new URL(
       url.startsWith('http') ? url : `https://${url}`

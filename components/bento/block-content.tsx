@@ -10,6 +10,7 @@ import { NO_DRAG } from './editing/no-drag';
 import { embedFor, youtubeVideoId } from '@/lib/embeds';
 import { MarqueeText } from '@/components/common/marquee-text';
 import { asUrl, isVideoMedia } from '@/lib/media';
+import { isWebHref, linkHref } from '@/lib/contact-link';
 import { cn } from '@/lib/utils';
 import { UploadRing } from './upload-ring';
 import { ImagePlus, LoaderCircle, MapPin } from 'lucide-react';
@@ -65,9 +66,10 @@ function Linked({
   }
   return (
     <a
-      href={href.startsWith('http') ? href : `https://${href}`}
-      target="_blank"
-      rel="noopener noreferrer"
+      href={linkHref(href)}
+      {...(isWebHref(linkHref(href))
+        ? { target: '_blank', rel: 'noopener noreferrer' }
+        : {})}
       className="relative block h-full w-full"
     >
       {children}
@@ -406,9 +408,10 @@ export function BlockContent({
       if (interactive && url) {
         return (
           <a
-            href={url}
-            target="_blank"
-            rel="noopener noreferrer"
+            href={linkHref(url)}
+            {...(isWebHref(linkHref(url))
+              ? { target: '_blank', rel: 'noopener noreferrer' }
+              : {})}
             className="block h-full w-full"
           >
             {tile}

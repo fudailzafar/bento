@@ -1,6 +1,8 @@
 // Client helpers for widget media: uploads (images and bento's looping
 // videos) and the link preview lookup.
 
+import { contactLink } from './contact-link';
+
 const VIDEO_TYPES = ['video/mp4', 'video/webm', 'video/quicktime'];
 const MAX_IMAGE_BYTES = 5 * 1024 * 1024;
 const MAX_VIDEO_BYTES = 25 * 1024 * 1024;
@@ -128,6 +130,10 @@ interface LinkPreview {
 }
 
 export async function fetchLinkPreview(url: string): Promise<LinkPreview> {
+  // An email or phone link has no page to fetch: its tile is titled with the
+  // address or number.
+  const contact = contactLink(url);
+  if (contact) return { title: contact.label };
   try {
     const response = await fetch(
       `/api/link-preview?url=${encodeURIComponent(url)}`
@@ -141,6 +147,8 @@ export async function fetchLinkPreview(url: string): Promise<LinkPreview> {
 
 // A pasted string that looks like a web address (no spaces, has a dot).
 export function asUrl(text: string): string | null {
+  const contact = contactLink(text);
+  if (contact) return contact.href;
   const value = text.trim();
   if (!value || /\s/.test(value)) return null;
   if (!/^(https?:\/\/)?[\w-]+(\.[\w-]+)+(:\d+)?(\/\S*)?$/i.test(value)) {

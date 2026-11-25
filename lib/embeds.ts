@@ -1,6 +1,8 @@
 // Links bento played inline instead of showing a link card: YouTube and Vimeo
 // videos and SoundCloud players. Spotify links are smart widgets instead.
 
+import { contactLink } from './contact-link';
+
 interface Embed {
   provider: 'youtube' | 'vimeo' | 'soundcloud';
   src: string;
@@ -14,6 +16,7 @@ export function youtubeVideoId(url: string): string | null {
 }
 
 export function embedFor(url: string): Embed | null {
+  if (contactLink(url)) return null;
   let parsed: URL;
   try {
     parsed = new URL(url.startsWith('http') ? url : `https://${url}`);

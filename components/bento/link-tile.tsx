@@ -1,8 +1,9 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
-import { ImagePlus, X } from 'lucide-react';
+import { ImagePlus, Mail, Phone, X } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { contactLink } from '@/lib/contact-link';
 import {
   findPlatform,
   handleFrom,
@@ -185,6 +186,9 @@ export function Icon({
   loading?: boolean;
 }) {
   const svg = icon ? PLATFORM_ICONS[icon] : undefined;
+  // An email or phone link shows a mail or phone glyph in place of the link icon.
+  const kind = contactLink(url)?.kind;
+  const Glyph = kind === 'mailto' ? Mail : kind === 'tel' ? Phone : LinkIcon;
   const [state, setState] = useState<'loading' | 'ready' | 'failed'>('loading');
   useEffect(() => setState('loading'), [favicon]);
   return (
@@ -233,14 +237,14 @@ export function Icon({
             <Skeleton className="absolute inset-0 rounded-[inherit]" />
           )}
           {state === 'failed' && (
-            <LinkIcon size={18} className="h-full w-full p-2.5 text-black" />
+            <Glyph size={18} className="h-full w-full p-2.5 text-black" />
           )}
         </div>
       ) : loading ? (
         <Skeleton className="h-full w-full rounded-[inherit]" />
       ) : (
         <div className="flex h-full w-full items-center justify-center bg-white">
-          <LinkIcon size={18} className="h-full w-full p-2.5 text-black" />
+          <Glyph size={18} className="h-full w-full p-2.5 text-black" />
         </div>
       )}
       <div className="pointer-events-none absolute inset-0 rounded-[inherit] shadow-[inset_0_0_0_1px_rgba(0,0,0,.06)]" />
