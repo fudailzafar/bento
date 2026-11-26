@@ -676,7 +676,9 @@ export function BentoGrid({
                   {card}
                 </motion.div>
               ) : (
-                card
+                // bento's add: the widget springs from nothing to full size
+                // and the page scrolls it to the middle.
+                <AddedWidget>{card}</AddedWidget>
               )}
 
               {isEditMode && (
@@ -809,6 +811,24 @@ export function BentoGrid({
         />
       )}
     </div>
+  );
+}
+
+function AddedWidget({ children }: { children: React.ReactNode }) {
+  const el = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    el.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  }, []);
+  return (
+    <motion.div
+      ref={el}
+      className="h-full w-full"
+      initial={{ scale: 0 }}
+      animate={{ scale: 1 }}
+      transition={{ type: 'spring', stiffness: 100, damping: 10, mass: 1 }}
+    >
+      {children}
+    </motion.div>
   );
 }
 
