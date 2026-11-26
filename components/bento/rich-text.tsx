@@ -29,6 +29,24 @@ export function RichText({ text }: { text: string }) {
   );
 }
 
+// bento's "fake hover": while a note is hovered or typed into, a panel inset
+// 12 units from the tile edge tints 8% (black, or white on a dark note) over
+// 0.15s. It ignores the pointer and is off while the tile is dragged.
+function FakeHover({ dark, radius }: { dark: boolean; radius: number }) {
+  return (
+    <span
+      aria-hidden="true"
+      className={cn(
+        'pointer-events-none absolute inset-[calc(12px*var(--ws,1))] bg-transparent transition-colors duration-150 [transition-timing-function:cubic-bezier(.4,0,.2,1)] [.react-draggable-dragging_&]:!bg-transparent',
+        dark
+          ? 'group-focus-within/note:bg-white/10 group-hover/note:bg-white/10'
+          : 'group-focus-within/note:bg-black/[.08] group-hover/note:bg-black/[.08]'
+      )}
+      style={{ borderRadius: radius }}
+    />
+  );
+}
+
 // Marks the editing surface so the toolbar can find it.
 export const NOTE_EDITOR = 'data-note-editor';
 
@@ -43,7 +61,12 @@ export function NoteEditor({
   textClass,
   onChange,
   preview,
+  dark = false,
+  hoverRadius = 12,
 }: {
+  dark?: boolean;
+  // bento: 12px, 8px on a bar, 16px on the large square.
+  hoverRadius?: number;
   content: string;
   color?: string;
   className: string;
@@ -73,10 +96,11 @@ export function NoteEditor({
   if (preview && !focused) {
     return (
       <div
-        className="h-full w-full cursor-text"
+        className="group/note relative h-full w-full cursor-text"
         onClick={() => setFocused(true)}
       >
         {preview}
+        <FakeHover dark={dark} radius={hoverRadius} />
       </div>
     );
   }
@@ -89,12 +113,13 @@ export function NoteEditor({
   return (
     <div
       className={cn(
-        'flex h-full w-full cursor-text flex-col overflow-hidden',
+        'group/note relative flex h-full w-full cursor-text flex-col overflow-hidden',
         className
       )}
       style={{ background: color ?? '#FFFFFF' }}
       onClick={() => surface.current?.focus()}
     >
+      <FakeHover dark={dark} radius={hoverRadius} />
       {quote && (
         <span
           className="quote-symbol block text-[length:calc(60px*var(--ws,1))] font-bold not-italic leading-[calc(52px*var(--ws,1))]"

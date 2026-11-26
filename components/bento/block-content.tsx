@@ -596,6 +596,10 @@ export function BlockContent({
             <NoteEditor
               content={content ?? ''}
               color={color}
+              dark={dark}
+              hoverRadius={
+                bar || block.h <= 1 ? 8 : block.w >= 2 && block.h >= 4 ? 16 : 12
+              }
               className={cn(pad, alignClass, valignClass, tone)}
               textClass={cn(
                 size,
