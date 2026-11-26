@@ -626,7 +626,7 @@ function SectionBody({ block, edit }: { block: Block; edit: BlockEditing }) {
       <TextField
         autoFocus
         value={title}
-        placeholder="Section title"
+        placeholder="Add a title..."
         onChange={(value) => edit.onPatch({ title: value })}
       />
     </>

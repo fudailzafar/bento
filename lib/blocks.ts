@@ -105,7 +105,7 @@ export function defaultBlockData(type: BlockType) {
         lng: 13.405,
       } satisfies MapBlockData;
     case 'SECTION_TITLE':
-      return { title: 'Section' } satisfies SectionTitleBlockData;
+      return { title: '' } satisfies SectionTitleBlockData;
   }
 }
 

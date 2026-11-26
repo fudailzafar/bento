@@ -165,7 +165,7 @@ function SectionTitleEditor({
       <input
         autoFocus
         value={value}
-        placeholder="Section title"
+        placeholder="Add a title..."
         onChange={(e) => onChange(e.target.value)}
         onBlur={() => setEditing(false)}
         onKeyDown={(e) => {
@@ -192,7 +192,7 @@ function SectionTitleEditor({
       }}
       className={cn('w-full', text, !value && 'opacity-40')}
     >
-      {value || 'Section title'}
+      {value || 'Add a title...'}
     </h2>
   );
 }
@@ -688,7 +688,7 @@ export function BlockContent({
           <div className="h-full w-full py-4">
             <MarqueeText>
               <h2 className="text-[18px] font-semibold leading-7 text-black">
-                {title || 'Section'}
+                {title}
               </h2>
             </MarqueeText>
           </div>
@@ -705,7 +705,7 @@ export function BlockContent({
             />
           ) : (
             <h2 className="text-[18px] font-semibold leading-7 text-black">
-              {title || 'Section'}
+              {title}
             </h2>
           )}
         </div>
