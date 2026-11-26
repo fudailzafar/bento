@@ -32,7 +32,7 @@ export function RichText({ text }: { text: string }) {
 // bento's "fake hover": while a note is hovered or typed into, a panel inset
 // 12 units from the tile edge tints 8% (black, or white on a dark note) over
 // 0.15s. It ignores the pointer and is off while the tile is dragged.
-function FakeHover({ dark, radius }: { dark: boolean; radius: number }) {
+export function FakeHover({ dark, radius }: { dark: boolean; radius: number }) {
   return (
     <span
       aria-hidden="true"

@@ -4,7 +4,7 @@ import { useRef, useState } from 'react';
 import { Block } from '@/lib';
 import { LinkTile } from './link-tile';
 import { MapTiles } from './map-tiles';
-import { NoteEditor, RichText } from './rich-text';
+import { FakeHover, NoteEditor, RichText } from './rich-text';
 import { parseQuote, plainRich } from '@/lib/rich-text';
 import { NO_DRAG } from './editing/no-drag';
 import { embedFor, youtubeVideoId } from '@/lib/embeds';
@@ -150,16 +150,6 @@ function InlineText({
 
 // The section title, draggable from anywhere like any other widget. It becomes
 // a text field only when clicked (not dragged), and goes back on blur.
-// bento's title box: it tints #f7f7f7 while hovered or typed into (not while
-// the tile is dragged), 10px corners, the text 8px inside.
-function SectionTitleBox({ children }: { children: React.ReactNode }) {
-  return (
-    <div className="w-full rounded-[10px] px-2 focus-within:bg-[#f7f7f7] hover:bg-[#f7f7f7] [.react-draggable-dragging_&]:!bg-transparent">
-      {children}
-    </div>
-  );
-}
-
 function SectionTitleEditor({
   value,
   onChange,
@@ -172,42 +162,38 @@ function SectionTitleEditor({
   const text = 'text-[18px] font-semibold leading-7 text-black';
   if (editing) {
     return (
-      <SectionTitleBox>
-        <input
-          autoFocus
-          value={value}
-          placeholder="Add a title..."
-          onChange={(e) => onChange(e.target.value)}
-          onBlur={() => setEditing(false)}
-          onKeyDown={(e) => {
-            if (e.key === 'Enter') e.currentTarget.blur();
-          }}
-          className={cn(
-            NO_DRAG,
-            'w-full border-0 bg-transparent p-0 outline-none placeholder:text-current placeholder:opacity-40 focus:ring-0',
-            text
-          )}
-        />
-      </SectionTitleBox>
+      <input
+        autoFocus
+        value={value}
+        placeholder="Add a title..."
+        onChange={(e) => onChange(e.target.value)}
+        onBlur={() => setEditing(false)}
+        onKeyDown={(e) => {
+          if (e.key === 'Enter') e.currentTarget.blur();
+        }}
+        className={cn(
+          NO_DRAG,
+          'w-full border-0 bg-transparent p-0 outline-none placeholder:text-current placeholder:opacity-40 focus:ring-0',
+          text
+        )}
+      />
     );
   }
   return (
-    <SectionTitleBox>
-      <h2
-        onMouseDown={(e) => (down.current = { x: e.clientX, y: e.clientY })}
-        onClick={(e) => {
-          const start = down.current;
-          down.current = null;
-          // A drag that ends over the title is not a click.
-          if (start && Math.hypot(e.clientX - start.x, e.clientY - start.y) > 4)
-            return;
-          setEditing(true);
-        }}
-        className={cn('w-full', text, !value && 'opacity-40')}
-      >
-        {value || 'Add a title...'}
-      </h2>
-    </SectionTitleBox>
+    <h2
+      onMouseDown={(e) => (down.current = { x: e.clientX, y: e.clientY })}
+      onClick={(e) => {
+        const start = down.current;
+        down.current = null;
+        // A drag that ends over the title is not a click.
+        if (start && Math.hypot(e.clientX - start.x, e.clientY - start.y) > 4)
+          return;
+        setEditing(true);
+      }}
+      className={cn('w-full', text, !value && 'opacity-40')}
+    >
+      {value || 'Add a title...'}
+    </h2>
   );
 }
 
@@ -717,11 +703,12 @@ export function BlockContent({
         // text starts 24px in and 16px down in its 60px box.
         <div
           className={cn(
-            'flex h-full w-full items-start py-4',
-            // The editor's hover box takes the 8px indent itself.
-            live ? 'px-4' : 'px-6'
+            'flex h-full w-full items-start px-6 py-4',
+            live && 'group/note relative'
           )}
         >
+          {/* The same hover panel as a text bar: 12 units in, 8px corners. */}
+          {live && <FakeHover dark={false} radius={8} />}
           {live ? (
             <SectionTitleEditor
               value={title ?? ''}
