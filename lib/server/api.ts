@@ -62,3 +62,32 @@ export function withUser(
     }
   };
 }
+
+// The same error handling for routes anyone may call (no sign-in): a thrown
+// ApiError (a 429 from the rate limiter, say) becomes its status, anything
+// else a 500.
+export function publicApi(
+  handler: (request: NextRequest) => Promise<Response> | Response,
+  {
+    failure = 'Internal server error',
+    log,
+  }: Pick<Options, 'failure' | 'log'> = {}
+) {
+  return async (request: NextRequest): Promise<Response> => {
+    try {
+      return await handler(request);
+    } catch (error) {
+      if (error instanceof ApiError) {
+        return NextResponse.json(
+          { error: error.message },
+          { status: error.status }
+        );
+      }
+      console.error(log ?? 'API error:', error);
+      return NextResponse.json(
+        { error: typeof failure === 'function' ? failure(error) : failure },
+        { status: 500 }
+      );
+    }
+  };
+}

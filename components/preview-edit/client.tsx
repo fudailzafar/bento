@@ -10,11 +10,10 @@ import { PageData, BlockType } from '@/lib';
 import {
   asUrl,
   checkMediaFile,
-  fetchLinkPreview,
+  fetchLinkPatch,
   isVideoFile,
   uploadBlockMedia,
 } from '@/lib/media';
-import { findPlatform } from '@/lib/platforms';
 import { isMapsUrl, unwrapEmbed } from '@/lib/maps';
 import { appendBlock, insertBlock } from '@/lib/layout';
 import { DockActionBar, ViewMode } from '@/components/preview';
@@ -214,20 +213,9 @@ export default function PreviewClient({ messageTip }: { messageTip?: string }) {
     const id = handleAddBlock('LINK', { url, title: 'New link' });
     if (!id) return;
     setFetchingIds((ids) => [...ids, id]);
-    const preview = await fetchLinkPreview(url);
+    const patch = await fetchLinkPatch(url);
     setFetchingIds((ids) => ids.filter((x) => x !== id));
-    patchBlockData(
-      id,
-      {
-        image: preview.image,
-        description: preview.description,
-        favicon: preview.icon ?? '',
-        ...(preview.title && !findPlatform(url)
-          ? { title: preview.title }
-          : {}),
-      },
-      true
-    );
+    patchBlockData(id, patch, true);
   };
 
   // Chosen, pasted or dropped images and videos become media widgets at

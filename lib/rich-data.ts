@@ -1,7 +1,7 @@
 // bento's "smart widgets": links whose tile shows live data pulled from the
 // platform. These are the platforms with a public, key-free source.
 
-import { contactLink } from './contact-link';
+import { parseWebUrl } from './url';
 
 export interface GithubData {
   kind: 'github';
@@ -83,13 +83,8 @@ const SPOTIFY_TYPES = [
 // Which smart widget a link gets, if any. Only fixed hosts and checked ids
 // come out of here, so the server never fetches an address a visitor chose.
 export function richSourceFor(url: string): RichSource | null {
-  if (contactLink(url)) return null;
-  let parsed: URL;
-  try {
-    parsed = new URL(url.startsWith('http') ? url : `https://${url}`);
-  } catch {
-    return null;
-  }
+  const parsed = parseWebUrl(url);
+  if (!parsed) return null;
   const host = parsed.hostname.replace(/^(www|m)\./, '');
   const path = parsed.pathname.split('/').filter(Boolean);
 

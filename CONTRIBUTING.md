@@ -20,7 +20,7 @@ pnpm prisma db push
 pnpm dev
 ```
 
-Use your own Supabase project for local development. Do not use production
+Use your own database and storage bucket for local development. Do not use production
 credentials or data.
 
 ## Pull requests

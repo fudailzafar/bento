@@ -1,4 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
+import { apiFetch } from '@/lib/api-client';
 import type { AnalyticsResponse } from '@/app/api/analytics/route';
 
 // The signed-in user's profile stats, shared by the editor's footer counter
@@ -8,10 +9,11 @@ export function useAnalytics(enabled = true) {
     queryKey: ['analytics'],
     enabled,
     staleTime: 60_000,
-    queryFn: async (): Promise<AnalyticsResponse> => {
-      const response = await fetch('/api/analytics');
-      if (!response.ok) throw new Error('Failed to load analytics');
-      return response.json();
-    },
+    queryFn: () =>
+      apiFetch<AnalyticsResponse>(
+        '/api/analytics',
+        undefined,
+        'Failed to load analytics'
+      ),
   });
 }

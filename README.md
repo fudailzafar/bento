@@ -8,8 +8,8 @@
 </p>
 
 Bento lets people build a visual portfolio page from links, media, notes,
-maps, and embeds. The project is designed to be self-hosted with Supabase and
-Vercel, but can also be run locally for development.
+maps, and embeds. It runs on Vercel with a PostgreSQL database (Neon) and
+Cloudflare R2 for uploads, and can also be run locally for development.
 
 ## Features
 
@@ -24,9 +24,9 @@ Vercel, but can also be run locally for development.
 - **Framework:** Next.js 15 (App Router), React 19, TypeScript
 - **Styling:** Tailwind CSS, shadcn/ui, Framer Motion
 - **Grid:** react-grid-layout
-- **Auth:** Supabase Auth (email and Google)
-- **Database:** Supabase Postgres with Prisma
-- **Storage:** Supabase Storage
+- **Auth:** Better Auth (email and Google)
+- **Database:** PostgreSQL (Neon) with Prisma
+- **Storage:** Cloudflare R2 (uploads go straight from the browser)
 - **Hosting:** Vercel
 
 ## Getting started
@@ -35,7 +35,7 @@ Vercel, but can also be run locally for development.
 
 - Node.js 22 (see `.nvmrc`)
 - pnpm 10+
-- A Supabase project
+- A PostgreSQL database (Neon works well) and a Cloudflare R2 bucket
 
 ### Installation
 
@@ -58,14 +58,24 @@ Vercel, but can also be run locally for development.
    cp .env.example .env.local
    ```
 
-   Fill in the Supabase project values in `.env.local`. Never commit this file
-   or share its secrets.
+   Fill in the values in `.env.local`. The app checks them when it starts and
+   names any that are missing or invalid. Never commit this file or share its
+   secrets.
 
-4. Generate the Prisma client and push the database schema:
+4. Generate the Prisma client and apply the database migrations:
 
    ```sh
    pnpm prisma generate
-   pnpm prisma db push
+   pnpm prisma migrate deploy
+   ```
+
+   An existing database that was created before migrations were added already
+   has these tables: mark the first migration as applied instead of running
+   it, then deploy the rest:
+
+   ```sh
+   pnpm prisma migrate resolve --applied 0_init
+   pnpm prisma migrate deploy
    ```
 
 5. Start the development server:
@@ -81,6 +91,8 @@ Vercel, but can also be run locally for development.
 ```sh
 pnpm dev       # Start the development server
 pnpm typecheck # Run TypeScript checks
+pnpm lint      # Lint
+pnpm test      # Run the tests
 pnpm build     # Build for production
 pnpm start     # Serve the production build
 ```
@@ -90,19 +102,35 @@ pnpm start     # Serve the production build
 - `app/` contains the Next.js routes, pages, metadata, and API handlers.
 - `components/` contains the editor, public portfolio, authentication, and UI
   components.
-- `lib/` contains shared block schemas, layout logic, media helpers, and
-  server-side integrations.
-- `prisma/schema.prisma` defines the PostgreSQL data model.
+- `lib/` contains code shared by the browser and the server: block schemas,
+  layout logic, link and media helpers.
+- `lib/server/` is server-only: the database client, page and account
+  actions, analytics, storage, rate limiting and settings checks
+  (`env.ts`). Route handlers call into it rather than the database.
+- `prisma/schema.prisma` defines the data model and `prisma/migrations/`
+  holds its history. Change the schema with `pnpm prisma migrate dev`.
 
-The browser authenticates through Supabase. Profile and block data are stored
-in PostgreSQL through Prisma, while uploaded media is stored in Supabase
-Storage.
+How a request is handled:
+
+- **Public profiles** (`/username`) are cached. The route reads no cookies, so
+  the first visit builds the page and later ones reuse it until a save clears
+  it (or five minutes pass). A signed-in visitor is rewritten by the middleware
+  to `/self/username`, rendered per request: the owner gets the editor,
+  anyone else the public page.
+- **Saving** is versioned: a save names the version it was edited from and is
+  refused with a conflict if the page was saved elsewhere.
+- **Statistics** count visits and clicks per day, one row per page and day.
+- **Uploads** use a short-lived signed address that fixes the file's type and
+  exact size; names are random and extensions come from the type.
+- **Rate limits** (`lib/server/rate-limit.ts`) count per server instance. To
+  make them global, back `consume` with a shared store such as Redis.
 
 ## Deployment
 
 The `main` branch can deploy to Vercel. Configure the variables listed in
-[`.env.example`](./.env.example) in the Vercel project, and make sure the
-Supabase Storage policies allow authenticated users to upload their own media.
+[`.env.example`](./.env.example) in the Vercel project, run
+`pnpm prisma migrate deploy` against the production database when the schema
+changes, and add the R2 bucket's public URL to `NEXT_PUBLIC_R2_PUBLIC_URL`.
 
 ## Contributing
 

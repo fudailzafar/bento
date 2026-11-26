@@ -30,6 +30,10 @@ export const RESERVED_USERNAMES = [
   'favicon.ico',
   'i',
   'og',
+  'onboarding',
+  'onboarding-demo',
+  // Where the middleware sends a signed-in visitor's /username.
+  'self',
 ];
 
 // Same rule as the sign-up form: 3+ characters, letters, numbers, - and _.

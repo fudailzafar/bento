@@ -2,7 +2,7 @@
 // brand icon, and the call-to-action pill. Colours come from bento's widget
 // CSS variables and button classes in its archived profile pages.
 
-import { contactLink } from './contact-link';
+import { parseWebUrl } from './url';
 
 interface Platform {
   id: string;
@@ -256,15 +256,7 @@ const PLATFORMS: Platform[] = [
 ];
 
 export function hostOf(url: string): string {
-  // "mailto:jane@github.com" must not read as a github.com link.
-  if (contactLink(url)) return '';
-  try {
-    return new URL(
-      url.startsWith('http') ? url : `https://${url}`
-    ).hostname.replace(/^www\./, '');
-  } catch {
-    return '';
-  }
+  return parseWebUrl(url)?.hostname.replace(/^www\./, '') ?? '';
 }
 
 export function findPlatform(url: string): Platform | undefined {
@@ -282,14 +274,9 @@ export function findPlatform(url: string): Platform | undefined {
 export function isProfileUrl(url: string): boolean {
   const platform = findPlatform(url);
   if (!platform) return true;
-  let parts: string[] = [];
-  try {
-    parts = new URL(url.startsWith('http') ? url : `https://${url}`).pathname
-      .split('/')
-      .filter(Boolean);
-  } catch {
-    return true;
-  }
+  const parsed = parseWebUrl(url);
+  if (!parsed) return true;
+  const parts = parsed.pathname.split('/').filter(Boolean);
   const [first = '', second] = parts;
   switch (platform.id) {
     case 'youtube':
@@ -322,18 +309,9 @@ export function handleFrom(
   url: string,
   style: 'at' | 'plain'
 ): string | undefined {
-  if (contactLink(url)) return undefined;
-  try {
-    const segment = new URL(
-      url.startsWith('http') ? url : `https://${url}`
-    ).pathname
-      .split('/')
-      .filter(Boolean)[0];
-    if (!segment || ['in', 'channel', 'c', 'user', 'company'].includes(segment))
-      return undefined;
-    const name = segment.replace(/^@/, '');
-    return style === 'at' ? `@${name}` : name;
-  } catch {
+  const segment = parseWebUrl(url)?.pathname.split('/').filter(Boolean)[0];
+  if (!segment || ['in', 'channel', 'c', 'user', 'company'].includes(segment))
     return undefined;
-  }
+  const name = segment.replace(/^@/, '');
+  return style === 'at' ? `@${name}` : name;
 }

@@ -9,6 +9,7 @@ import { MousePointerClick } from 'lucide-react';
 import { MoveAbleIcon, PenIcon, TrashIcon } from '@/components/icons';
 import { toast } from 'sonner';
 import {
+  fetchLinkPatch,
   fetchLinkPreview,
   isVideoFile,
   isVideoMedia,
@@ -307,19 +308,15 @@ export function BentoGrid({
       favicon: undefined,
     });
     setOwnFetching((ids) => [...ids, id]);
-    const preview = await fetchLinkPreview(url);
+    const { title: fetched, ...patch } = await fetchLinkPatch(url);
     setOwnFetching((ids) => ids.filter((x) => x !== id));
     const block = blocksRef.current.find((b) => b.id === id);
     const title = (block?.data as { title?: string } | undefined)?.title;
     const untitled =
       !title || title === 'New link' || title === 'Untitled link';
     patchBlock(id, {
-      image: preview.image,
-      description: preview.description,
-      favicon: preview.icon ?? '',
-      ...(untitled && !findPlatform(url) && preview.title
-        ? { title: preview.title }
-        : {}),
+      ...patch,
+      ...(untitled && fetched ? { title: fetched } : {}),
     });
   };
 

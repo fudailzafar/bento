@@ -76,8 +76,8 @@ model Page {
   // Bumped on every save; a save names the version it was edited from.
   version   Int          @default(1)
   blocks    Block[]
-  views     PageView[]
-  clicks    BlockClick[]
+  viewDays  PageViewDaily[]
+  clickDays BlockClickDaily[]
   updatedAt DateTime     @updatedAt
   user      User         @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
@@ -111,21 +111,26 @@ model Block {
   @@index([pageId])
 }
 
-model PageView {
-  id        String   @id @default(uuid())
-  pageId    String
-  createdAt DateTime @default(now())
-  page      Page     @relation(fields: [pageId], references: [id], onDelete: Cascade)
+// Visits and link clicks are counted per day, not stored one by one, so the
+// tables stay small however busy a profile is.
+model PageViewDaily {
+  pageId String
+  day    DateTime @db.Date
+  count  Int      @default(0)
+  page   Page     @relation(fields: [pageId], references: [id], onDelete: Cascade)
 
-  @@index([pageId, createdAt])
+  @@id([pageId, day])
 }
 
-model BlockClick {
-  id        String   @id @default(uuid())
-  pageId    String
-  blockId   String
-  createdAt DateTime @default(now())
-  page      Page     @relation(fields: [pageId], references: [id], onDelete: Cascade)
+// A click's block is not a foreign key: saving a page replaces its blocks, so
+// the count is kept by block id and dropped when the block is gone for good.
+model BlockClickDaily {
+  pageId  String
+  blockId String
+  day     DateTime @db.Date
+  count   Int      @default(0)
+  page    Page     @relation(fields: [pageId], references: [id], onDelete: Cascade)
 
-  @@index([pageId, createdAt])
+  @@id([pageId, blockId, day])
+  @@index([pageId])
 }

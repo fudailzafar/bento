@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest';
-import { contactLink, isWebHref, linkHref } from '@/lib/contact-link';
+import { contactLink } from '@/lib/contact-link';
+import { isWebHref, linkHref, parseWebUrl, withProtocol } from '@/lib/url';
 import { asUrl, fetchLinkPreview } from '@/lib/media';
 import { findPlatform, hostOf } from '@/lib/platforms';
 import { embedFor } from '@/lib/embeds';

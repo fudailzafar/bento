@@ -37,3 +37,21 @@ jobs:
 
       - name: Test
         run: pnpm test
+
+      - name: Validate the Prisma schema
+        run: pnpm exec prisma validate
+
+      - name: Build
+        run: pnpm build
+        env:
+          # Placeholders: the build reads no data, but the app checks that
+          # its settings exist.
+          DATABASE_URL: postgresql://ci:ci@localhost:5432/ci
+          DIRECT_URL: postgresql://ci:ci@localhost:5432/ci
+          BETTER_AUTH_SECRET: ci-placeholder-secret-0123456789
+          BETTER_AUTH_URL: http://localhost:3000
+          R2_ACCOUNT_ID: ci
+          R2_ACCESS_KEY_ID: ci
+          R2_SECRET_ACCESS_KEY: ci
+          R2_BUCKET_NAME: ci
+          NEXT_PUBLIC_R2_PUBLIC_URL: https://example.com

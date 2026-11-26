@@ -1,40 +1,41 @@
 import { NextResponse } from 'next/server';
+import { z } from 'zod';
 import { fail, withUser } from '@/lib/server/api';
+import { rateLimit } from '@/lib/server/rate-limit';
+import { readJson } from '@/lib/server/request';
 import { getR2PresignedUploadUrl } from '@/lib/server/r2';
+import { extensionFor, maxBytesFor, mediaKind } from '@/lib/media-types';
 
-const VIDEO_TYPES = ['video/mp4', 'video/webm', 'video/quicktime'];
-const MAX_IMAGE_BYTES = 5 * 1024 * 1024;
-const MAX_VIDEO_BYTES = 25 * 1024 * 1024;
+const UploadRequest = z.object({
+  contentType: z.string().max(100),
+  size: z.number().int().positive(),
+});
 
+// Signs a one-off upload address for an image or video. The file's type and
+// exact size are part of the signature, the name is ours, and the extension
+// comes from the type.
 export const POST = withUser(
   async (user, request) => {
-    const { filename, contentType, size } = await request.json();
+    rateLimit('upload-url', user.id, { limit: 60, windowMs: 60 * 60_000 });
+    const { contentType, size } = await readJson(request, UploadRequest);
 
-    if (!filename || !contentType) {
-      fail(400, 'Filename and contentType are required');
+    const kind = mediaKind(contentType);
+    if (!kind) fail(400, 'Only JPG, PNG, GIF, WebP, MP4, WebM and MOV files');
+    if (size > maxBytesFor(kind)) {
+      fail(
+        400,
+        kind === 'video'
+          ? 'Video size must be less than 25MB'
+          : 'Image size must be less than 5MB'
+      );
     }
 
-    const isVideo = VIDEO_TYPES.includes(contentType);
-    const isImage = contentType.startsWith('image/');
-
-    if (!isVideo && !isImage)
-      fail(400, 'Only image and video files are allowed');
-    if (isVideo && size > MAX_VIDEO_BYTES) {
-      fail(400, 'Video size must be less than 25MB');
-    }
-    if (isImage && size > MAX_IMAGE_BYTES) {
-      fail(400, 'Image size must be less than 5MB');
-    }
-
-    const ext =
-      filename.split('.').pop()?.toLowerCase() || (isVideo ? 'mp4' : 'jpg');
-    const key = `block-images/${user.id}-${Date.now()}.${ext}`;
-
+    const key = `block-images/${user.id}-${crypto.randomUUID()}.${extensionFor(contentType)}`;
     const { uploadUrl, publicUrl } = await getR2PresignedUploadUrl({
       key,
       contentType,
+      contentLength: size,
     });
-
     return NextResponse.json({ uploadUrl, publicUrl, key });
   },
   {

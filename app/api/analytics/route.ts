@@ -1,49 +1,11 @@
 import { NextResponse } from 'next/server';
-import { prisma } from '@/lib/server/db';
 import { withUser } from '@/lib/server/api';
+import { getAnalytics, type Analytics } from '@/lib/server/analytics';
 
-export type AnalyticsResponse = {
-  viewsYesterday: number;
-  views: number;
-  clicks: Record<string, number>;
-};
+export type AnalyticsResponse = Analytics;
 
 // The signed-in user's profile stats: yesterday's views (bento's footer
 // counter), all-time views, and link clicks per block.
-export const GET = withUser(async (user) => {
-  const page = await prisma.page.findUnique({
-    where: { userId: user.id },
-    select: { id: true },
-  });
-  if (!page) {
-    return NextResponse.json<AnalyticsResponse>({
-      viewsYesterday: 0,
-      views: 0,
-      clicks: {},
-    });
-  }
-
-  const today = new Date();
-  today.setUTCHours(0, 0, 0, 0);
-  const yesterday = new Date(today.getTime() - 24 * 60 * 60 * 1000);
-
-  const [viewsYesterday, views, clicks] = await Promise.all([
-    prisma.pageView.count({
-      where: { pageId: page.id, createdAt: { gte: yesterday, lt: today } },
-    }),
-    prisma.pageView.count({ where: { pageId: page.id } }),
-    prisma.blockClick.groupBy({
-      by: ['blockId'],
-      where: { pageId: page.id },
-      _count: { _all: true },
-    }),
-  ]);
-
-  return NextResponse.json<AnalyticsResponse>({
-    viewsYesterday,
-    views,
-    clicks: Object.fromEntries(
-      clicks.map((row) => [row.blockId, row._count._all])
-    ),
-  });
-});
+export const GET = withUser(async (user) =>
+  NextResponse.json<AnalyticsResponse>(await getAnalytics(user.id))
+);

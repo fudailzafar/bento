@@ -1,15 +1,10 @@
-import { prisma } from '@/lib/server/db';
-import { withUser } from '@/lib/server/api';
 import { NextResponse } from 'next/server';
+import { withUser } from '@/lib/server/api';
+import { getAuthInfo } from '@/lib/server/accounts';
 
 export const GET = withUser(
   async (user) => {
-    const account = await prisma.account.findFirst({
-      where: { userId: user.id },
-    });
-    const provider =
-      account?.providerId === 'credential' ? 'credentials' : 'google';
-
+    const { provider } = await getAuthInfo(user.id);
     return NextResponse.json({
       email: user.email,
       provider,

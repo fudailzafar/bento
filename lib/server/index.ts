@@ -11,6 +11,7 @@ export {
   getUserIdByUsername,
   checkUsernameAvailability,
   updateUsername,
+  getViewerCard,
   type PageData,
   type UserProfile,
 } from './db-actions';

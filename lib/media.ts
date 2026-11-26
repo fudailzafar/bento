@@ -1,11 +1,11 @@
 // Client helpers for widget media: uploads (images and bento's looping
 // videos) and the link preview lookup.
 
+import { apiFetch } from './api-client';
 import { contactLink } from './contact-link';
-
-const VIDEO_TYPES = ['video/mp4', 'video/webm', 'video/quicktime'];
-const MAX_IMAGE_BYTES = 5 * 1024 * 1024;
-const MAX_VIDEO_BYTES = 25 * 1024 * 1024;
+import { findPlatform } from './platforms';
+import { withProtocol } from './url';
+import { maxBytesFor, mediaKind } from './media-types';
 
 export function isVideoUrl(url?: string) {
   return !!url && /\.(mp4|webm|mov)(\?|#|$)/i.test(url);
@@ -44,22 +44,20 @@ export function mediaSize(src: string, video: boolean) {
 }
 
 export function isVideoFile(file: Blob) {
-  return VIDEO_TYPES.includes(file.type);
+  return mediaKind(file.type) === 'video';
 }
 
 // Checks type and size before uploading; returns an error message or null.
 export function checkMediaFile(file: Blob): string | null {
-  if (isVideoFile(file)) {
-    return file.size > MAX_VIDEO_BYTES
+  const kind = mediaKind(file.type);
+  if (!kind)
+    return 'Please upload a JPG, PNG, GIF, WebP, MP4, WebM or MOV file';
+  if (file.size > maxBytesFor(kind)) {
+    return kind === 'video'
       ? 'Video size must be less than 25MB'
-      : null;
+      : 'Image size must be less than 5MB';
   }
-  if (!file.type.startsWith('image/')) {
-    return 'Please upload an image or video file';
-  }
-  return file.size > MAX_IMAGE_BYTES
-    ? 'Image size must be less than 5MB'
-    : null;
+  return null;
 }
 
 // Uploads directly to Cloudflare R2 using presigned URLs.
@@ -75,22 +73,17 @@ export async function uploadBlockMedia(
   const fileName = file instanceof File ? file.name : name;
 
   // 1. Request presigned URL from backend
-  const res = await fetch('/api/media/upload-url', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      filename: fileName,
-      contentType: file.type,
-      size: file.size,
-    }),
-  });
-
-  if (!res.ok) {
-    const errorData = await res.json().catch(() => ({}));
-    throw new Error(errorData.error || 'Failed to request upload URL');
-  }
-
-  const { uploadUrl, publicUrl } = await res.json();
+  const { uploadUrl, publicUrl } = await apiFetch<{
+    uploadUrl: string;
+    publicUrl: string;
+  }>(
+    '/api/media/upload-url',
+    {
+      method: 'POST',
+      json: { filename: fileName, contentType: file.type, size: file.size },
+    },
+    'Failed to request upload URL'
+  );
 
   // 2. Upload file directly to Cloudflare R2
   await putDirectToR2(uploadUrl, file, onProgress);
@@ -145,6 +138,24 @@ export async function fetchLinkPreview(url: string): Promise<LinkPreview> {
   }
 }
 
+// What a link tile takes from its page once fetched: the picture, the
+// description, the site's icon ('' when it has none), and its title unless
+// the link is a known platform or the owner already named it.
+export async function fetchLinkPatch(
+  url: string,
+  { keepTitle = false }: { keepTitle?: boolean } = {}
+) {
+  const preview = await fetchLinkPreview(url);
+  return {
+    image: preview.image,
+    description: preview.description,
+    favicon: preview.icon ?? '',
+    ...(!keepTitle && preview.title && !findPlatform(url)
+      ? { title: preview.title }
+      : {}),
+  };
+}
+
 // A pasted string that looks like a web address (no spaces, has a dot).
 export function asUrl(text: string): string | null {
   const contact = contactLink(text);
@@ -154,5 +165,5 @@ export function asUrl(text: string): string | null {
   if (!/^(https?:\/\/)?[\w-]+(\.[\w-]+)+(:\d+)?(\/\S*)?$/i.test(value)) {
     return null;
   }
-  return value.startsWith('http') ? value : `https://${value}`;
+  return withProtocol(value);
 }

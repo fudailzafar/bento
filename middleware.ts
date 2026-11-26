@@ -1,4 +1,8 @@
-import { PRIVATE_ROUTES } from './lib';
+import {
+  PRIVATE_ROUTES,
+  isReservedUsername,
+  isValidUsername,
+} from './lib/routes';
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 
@@ -30,9 +34,24 @@ export async function middleware(req: NextRequest) {
     }
   }
 
+  // /username: anyone without a session gets the cached public page. A
+  // signed-in visitor is shown /self/username instead, rendered per request,
+  // where the owner gets the editor. The address in the browser stays put.
+  const [, segment, ...rest] = pathname.split('/');
+  if (
+    sessionToken &&
+    segment &&
+    rest.length === 0 &&
+    isValidUsername(segment) &&
+    !isReservedUsername(segment) &&
+    !PRIVATE_ROUTES.includes(segment)
+  ) {
+    return NextResponse.rewrite(new URL(`/self/${segment}`, req.url));
+  }
+
   return NextResponse.next();
 }
 
 export const config = {
-  matcher: ['/preview/:path*', '/api/:path*'],
+  matcher: ['/preview/:path*', '/api/:path*', '/:username'],
 };

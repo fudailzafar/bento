@@ -1,6 +1,8 @@
 import { getEditablePage, savePage, PageConflictError } from '@/lib/server';
 import { PageData, SavePageSchema } from '@/lib';
 import { withUser } from '@/lib/server/api';
+import { rateLimit } from '@/lib/server/rate-limit';
+import { readJson } from '@/lib/server/request';
 import { NextResponse } from 'next/server';
 import { z } from 'zod';
 
@@ -17,7 +19,12 @@ export const GET = withUser(
 
 export const POST = withUser(
   async (user, request) => {
-    const { page, version } = SavePageSchema.parse(await request.json());
+    rateLimit('save-page', user.id, { limit: 120, windowMs: 60_000 });
+    const { page, version } = await readJson(
+      request,
+      SavePageSchema,
+      1_000_000
+    );
     return NextResponse.json({
       success: true,
       version: await savePage(user.id, page, version),

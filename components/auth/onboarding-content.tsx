@@ -19,16 +19,13 @@ import {
   BlockContent,
   type BlockEditing,
 } from '@/components/bento/block-content';
-import {
-  searchPlaces,
-  type Place,
-} from '@/components/bento/editing/options';
+import { searchPlaces, type Place } from '@/components/bento/editing/options';
 import { LinkIcon } from '@/components/icons';
 import { findPlatform } from '@/lib/platforms';
 import { PLATFORM_ICONS } from '@/lib/platform-icons';
 import {
   checkMediaFile,
-  fetchLinkPreview,
+  fetchLinkPatch,
   isVideoFile,
   uploadBlockMedia,
 } from '@/lib/media';
@@ -453,19 +450,8 @@ function Slot({
       onUpdate((b) => ({ ...b, data: { ...b.data, ...patch } })),
     onSetUrl: async (url) => {
       onUpdate((b) => ({ ...b, data: { ...b.data, url, title: 'New link' } }));
-      const preview = await fetchLinkPreview(url);
-      onUpdate((b) => ({
-        ...b,
-        data: {
-          ...b.data,
-          image: preview.image,
-          description: preview.description,
-          favicon: preview.icon ?? '',
-          ...(preview.title && !findPlatform(url)
-            ? { title: preview.title }
-            : {}),
-        },
-      }));
+      const patch = await fetchLinkPatch(url);
+      onUpdate((b) => ({ ...b, data: { ...b.data, ...patch } }));
     },
     onUpload: () => {},
   };

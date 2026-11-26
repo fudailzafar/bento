@@ -1,12 +1,27 @@
 import { MetadataRoute } from 'next';
-import { prisma } from '@/lib/server/db';
+import { listPublicProfiles, sitemapChunkCount } from '@/lib/server/sitemap';
 import { SITE_URL } from '@/lib/site';
 
-export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
+// One sitemap per chunk of profiles (/sitemap/0.xml, /sitemap/1.xml, ...),
+// so the list never outgrows the 50,000-URL limit or one big query.
+export async function generateSitemaps() {
+  const chunks = await sitemapChunkCount().catch(() => 1);
+  return Array.from({ length: chunks }, (_, id) => ({ id }));
+}
+
+export default async function sitemap({
+  id,
+}: {
+  id: number | Promise<number>;
+}): Promise<MetadataRoute.Sitemap> {
   const baseUrl = SITE_URL;
+  const chunk = Number(await id);
 
   // Every claimed username has a public profile.
-  const portfolios = await getAllPublicPortfolios();
+  const portfolios = await listPublicProfiles(chunk).catch((error) => {
+    console.error('Error fetching portfolios from database:', error);
+    return [];
+  });
 
   // Static pages (high priority)
   const staticPages: MetadataRoute.Sitemap = [
@@ -78,28 +93,10 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: 0.8,
   }));
 
-  return [...staticPages, ...legalPages, ...portfolioPages];
-}
-
-async function getAllPublicPortfolios(): Promise<
-  Array<{ username: string; lastModified: Date }>
-> {
-  try {
-    const users = await prisma.user.findMany({
-      where: { username: { not: null } },
-      select: { username: true, page: { select: { updatedAt: true } } },
-    });
-
-    return users
-      .filter((u): u is typeof u & { username: string } => !!u.username)
-      .map((u) => ({
-        username: u.username,
-        lastModified: u.page?.updatedAt ?? new Date(),
-      }));
-  } catch (error) {
-    console.error('Error fetching portfolios from database:', error);
-    return [];
-  }
+  // The site's own pages go in the first sitemap only.
+  return chunk === 0
+    ? [...staticPages, ...legalPages, ...portfolioPages]
+    : portfolioPages;
 }
 
 // Revalidate sitemap every hour

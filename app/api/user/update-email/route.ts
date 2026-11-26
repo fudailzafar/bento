@@ -1,30 +1,30 @@
-import { prisma } from '@/lib/server/db';
-import { fail, withUser } from '@/lib/server/api';
 import { NextResponse } from 'next/server';
+import { z } from 'zod';
+import { fail, withUser } from '@/lib/server/api';
+import { EmailInUseError, changeEmail } from '@/lib/server/accounts';
+import { rateLimit } from '@/lib/server/rate-limit';
+import { readJson } from '@/lib/server/request';
+
+const UpdateEmail = z.object({
+  newEmail: z.string().trim().email('Invalid email address').max(320),
+});
 
 export const POST = withUser(
   async (user, request) => {
-    const { newEmail } = await request.json();
+    rateLimit('update-email', user.id, { limit: 5, windowMs: 60 * 60_000 });
+    const { newEmail } = await readJson(request, UpdateEmail, 2 * 1024);
 
-    if (!newEmail || !newEmail.includes('@')) {
-      fail(400, 'Invalid email address');
+    try {
+      const email = await changeEmail(user.id, newEmail);
+      return NextResponse.json({
+        success: true,
+        newEmail: email,
+        pendingConfirmation: false,
+      });
+    } catch (error) {
+      if (error instanceof EmailInUseError) fail(400, error.message);
+      throw error;
     }
-
-    const existing = await prisma.user.findUnique({
-      where: { email: newEmail },
-    });
-    if (existing) fail(400, 'Email already in use');
-
-    await prisma.user.update({
-      where: { id: user.id },
-      data: { email: newEmail },
-    });
-
-    return NextResponse.json({
-      success: true,
-      newEmail,
-      pendingConfirmation: false,
-    });
   },
   { failure: 'Failed to update email', log: 'Error updating email:' }
 );

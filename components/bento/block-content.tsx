@@ -10,7 +10,7 @@ import { NO_DRAG } from './editing/no-drag';
 import { embedFor, youtubeVideoId } from '@/lib/embeds';
 import { MarqueeText } from '@/components/common/marquee-text';
 import { asUrl, isVideoMedia } from '@/lib/media';
-import { isWebHref, linkHref } from '@/lib/contact-link';
+import { isWebHref, linkHref } from '@/lib/url';
 import { cn } from '@/lib/utils';
 import { UploadRing } from './upload-ring';
 import { ImagePlus, LoaderCircle, MapPin } from 'lucide-react';

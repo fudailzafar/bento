@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import { ApiError, fail, withUser } from '@/lib/server/api';
 import { isShortMapsLink, parseMapsUrl, unwrapEmbed } from '@/lib/maps';
 import { placeAt, searchPlaces } from '@/lib/server/places';
+import { rateLimit } from '@/lib/server/rate-limit';
 
 // Turns a pasted map link (Google Maps, a share link, embed code, Apple Maps
 // or OpenStreetMap) into a place for a map widget. Signed-in users only.
@@ -28,7 +29,8 @@ async function resolveShortLink(start: string) {
   return url;
 }
 
-export const GET = withUser(async (_user, request) => {
+export const GET = withUser(async (user, request) => {
+  rateLimit('map-link', user.id, { limit: 60, windowMs: 60_000 });
   let url = unwrapEmbed(request.nextUrl.searchParams.get('url') ?? '');
   if (url.length > 2000) fail(400, 'Not a map');
   try {

@@ -35,14 +35,3 @@ export function contactLink(text: string): ContactLink | null {
   }
   return null;
 }
-
-// The address an <a> should open: email and phone links as they are, web
-// addresses with https:// when they have no scheme.
-export function linkHref(url: string): string {
-  const contact = contactLink(url);
-  if (contact) return contact.href;
-  return url.startsWith('http') ? url : `https://${url}`;
-}
-
-// Email and phone links open the mail or phone app: no new tab.
-export const isWebHref = (href: string) => /^https?:/i.test(href);

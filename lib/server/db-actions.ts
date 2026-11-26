@@ -2,6 +2,8 @@ import { prisma } from '@/lib/server/db';
 import { PageDataSchema, parseBlockData, type PageData } from '@/lib/blocks';
 import { z } from 'zod';
 import { PRIVATE_ROUTES, RESERVED_USERNAMES, isValidUsername } from '../routes';
+import { invalidateProfile } from './profile-cache';
+import { dropClicksOfRemovedBlocks } from './analytics';
 
 const FORBIDDEN_USERNAMES = [...PRIVATE_ROUTES, ...RESERVED_USERNAMES];
 const isForbidden = (username: string) =>
@@ -80,6 +82,17 @@ export async function getEditablePage(userId: string) {
 // Replaces the page with `pageData`, but only if it is still at
 // `expectedVersion`; otherwise another tab or device saved first and this
 // throws PageConflictError. Returns the new version.
+// A saved page replaces what the public sees and forgets the clicks of
+// blocks that were deleted.
+async function afterPageSaved(userId: string, blockIds: string[]) {
+  const user = await prisma.user.findUnique({
+    where: { id: userId },
+    select: { username: true, page: { select: { id: true } } },
+  });
+  invalidateProfile(user?.username);
+  if (user?.page) await dropClicksOfRemovedBlocks(user.page.id, blockIds);
+}
+
 export async function savePage(
   userId: string,
   pageData: PageData,
@@ -140,6 +153,10 @@ export async function savePage(
         });
       }
     });
+    await afterPageSaved(
+      userId,
+      blocks.map((block) => block.id)
+    );
     return version;
   } catch (error) {
     if (error instanceof z.ZodError || error instanceof PageConflictError) {
@@ -171,6 +188,7 @@ export async function storeUserProfile(
         image: profileData.image,
       },
     });
+    invalidateProfile(await getUsernameById(userId));
   } catch (error) {
     console.error('Error storing user profile:', error);
     throw new Error('Failed to store user profile');
@@ -225,6 +243,7 @@ export const createUsernameLookup = async ({
       where: { id: userId },
       data: { username },
     });
+    invalidateProfile(username);
 
     return true;
   } catch (error) {
@@ -280,9 +299,21 @@ export const updateUsername = async (
       where: { id: userId },
       data: { username: newUsername },
     });
+    invalidateProfile(current.username, newUsername);
     return true;
   } catch (error) {
     console.error('Username update failed:', error);
     return false;
   }
+};
+
+// The signed-in visitor's own name and picture, for the corner of a profile.
+export const getViewerCard = async (
+  userId: string
+): Promise<{ username: string; image: string | null } | null> => {
+  const row = await prisma.user.findUnique({
+    where: { id: userId },
+    select: { username: true, image: true },
+  });
+  return row?.username ? { username: row.username, image: row.image } : null;
 };
