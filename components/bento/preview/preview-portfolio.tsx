@@ -4,7 +4,6 @@ import { Header } from './header';
 import { PageData, Block } from '@/lib';
 import { Settings } from '@/components/common';
 import { BentoGrid, type UploadState } from '../grid';
-import { useAnalytics } from '@/hooks';
 
 interface PreviewPortfolioProps {
   page?: PageData | null;
@@ -33,7 +32,6 @@ export const PreviewPortfolio = ({
   fetchingIds,
   anchorRef,
 }: PreviewPortfolioProps) => {
-  const analytics = useAnalytics(isEditMode);
   if (!page) {
     return null;
   }
@@ -80,7 +78,6 @@ export const PreviewPortfolio = ({
               isEditMode={isEditMode}
               blocks={page.blocks || []}
               onBlocksChange={handleBlocksChange}
-              clicks={analytics.data?.clicks}
               forceMobile={viewMode === 'mobile'}
               uploads={uploads}
               fetchingIds={fetchingIds}

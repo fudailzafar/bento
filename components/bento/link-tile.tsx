@@ -1,7 +1,8 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
-import { ImagePlus, Mail, Phone, X } from 'lucide-react';
+import { Mail, Phone, X } from 'lucide-react';
+import { ImageIcon } from '@/components/icons';
 import { cn } from '@/lib/utils';
 import { contactLink } from '@/lib/contact-link';
 import {
@@ -321,7 +322,7 @@ function PostCell({
     );
   }
   const cell = cn(
-    'flex items-center justify-center rounded-[8px] bg-black/[.04] text-black/40 shadow-[inset_0_0_0_1px_rgba(0,0,0,.04)]',
+    'flex items-center justify-center rounded-[8px] bg-black/[.04] text-black/50 shadow-[inset_0_0_0_1px_rgba(0,0,0,.04)]',
     shape
   );
   // Visitors see grey boxes where pictures aren't yet.
@@ -333,7 +334,7 @@ function PostCell({
       onClick={() => input.current?.click()}
       className={cn(NO_DRAG, cell, 'transition-colors hover:bg-black/[.07]')}
     >
-      <ImagePlus className="size-4" />
+      <ImageIcon />
       <input
         ref={input}
         type="file"

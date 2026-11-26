@@ -9,6 +9,7 @@ export * from './github-icon';
 export * from './laptop-icon';
 export * from './link-icon';
 export * from './linkedin-icon';
+export * from './image-icon';
 export * from './loader-icon';
 export * from './mobile-icon';
 export * from './pen-icon';

@@ -5,7 +5,6 @@ import { motion } from 'framer-motion';
 import { Responsive, Layout } from 'react-grid-layout';
 import 'react-grid-layout/css/styles.css';
 import { Block, BlockType, defaultBlockData } from '@/lib';
-import { MousePointerClick } from 'lucide-react';
 import { MoveAbleIcon, PenIcon, TrashIcon } from '@/components/icons';
 import { toast } from 'sonner';
 import {
@@ -51,8 +50,6 @@ interface BentoGridProps {
   isEditMode?: boolean;
   blocks?: Block[];
   onBlocksChange?: (newBlocks: Block[]) => void;
-  // Link clicks per block, shown on hover in the editor.
-  clicks?: Record<string, number>;
   // The editor's phone view: the phone layout whatever the window's width.
   forceMobile?: boolean;
   // Uploads started outside the grid (a new widget made from a chosen file).
@@ -69,7 +66,6 @@ export function BentoGrid({
   isEditMode = false,
   blocks = [],
   onBlocksChange,
-  clicks,
   forceMobile = false,
   uploads: externalUploads,
   fetchingIds = [],
@@ -772,16 +768,6 @@ export function BentoGrid({
                       />
                     </div>
                   )}
-
-                  {clicks?.[block.id] &&
-                  block.type !== 'IMAGE' &&
-                  !mobileEdit ? (
-                    <div className="pointer-events-none absolute right-3 top-3 z-40 flex items-center gap-1 rounded-full bg-black/80 px-2 py-1 text-[11px] font-semibold text-white opacity-0 backdrop-blur transition-opacity group-hover:opacity-100">
-                      <MousePointerClick size={12} />
-                      {clicks[block.id]}{' '}
-                      {clicks[block.id] === 1 ? 'click' : 'clicks'}
-                    </div>
-                  ) : null}
                 </>
               )}
             </div>
